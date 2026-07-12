@@ -1,0 +1,274 @@
+{
+  "regimes": {
+    "8k_smoke": {
+      "1_vs_2_floor": {
+        "diagnostics": {
+          "tokens": 256,
+          "dropped_nan": 0,
+          "ids": [
+            "smoke_8k"
+          ]
+        },
+        "metrics": {
+          "tokens": 256,
+          "mean_abs": 2.4415996880966517e-06,
+          "rms": 1.3362674218449357e-05,
+          "max_abs": 0.00013999134534969926,
+          "k3": 8.927678301490216e-11,
+          "ess_over_n": 0.9999999998235004,
+          "clip_fraction": 0.0,
+          "mean_log_ratio": 1.4432448049994662e-06,
+          "sum_log_ratio": 0.00036947067007986334,
+          "weight_min": 0.9999843839924003,
+          "weight_max": 1.0001400011445953
+        }
+      },
+      "2_vs_4_quant_vllm": {
+        "diagnostics": {
+          "tokens": 256,
+          "dropped_nan": 0,
+          "ids": [
+            "smoke_8k"
+          ]
+        },
+        "metrics": {
+          "tokens": 256,
+          "mean_abs": 2.0776911703573875e-05,
+          "rms": 6.854334789946475e-05,
+          "max_abs": 0.00043373118387535214,
+          "k3": 2.3493591551349002e-09,
+          "ess_over_n": 0.9999999956993075,
+          "clip_fraction": 0.0,
+          "mean_log_ratio": -1.9904269298570698e-05,
+          "sum_log_ratio": -0.005095492940434099,
+          "weight_min": 0.9995663628638969,
+          "weight_max": 1.0000227688956342
+        }
+      },
+      "4_vs_3_engine_bf16": {
+        "diagnostics": {
+          "tokens": 256,
+          "dropped_nan": 0,
+          "ids": [
+            "smoke_8k"
+          ]
+        },
+        "metrics": {
+          "tokens": 256,
+          "mean_abs": 1.9663229828492668e-05,
+          "rms": 0.00011859990394263969,
+          "max_abs": 0.0017323562497040257,
+          "k3": 7.036427508363974e-09,
+          "ess_over_n": 0.9999999860821812,
+          "clip_fraction": 0.0,
+          "mean_log_ratio": -1.1307866590537508e-05,
+          "sum_log_ratio": -0.002894813847177602,
+          "weight_min": 0.9982691434132754,
+          "weight_max": 1.0001764098147956
+        }
+      },
+      "1_vs_3_production": {
+        "diagnostics": {
+          "tokens": 256,
+          "dropped_nan": 0,
+          "ids": [
+            "smoke_8k"
+          ]
+        },
+        "metrics": {
+          "tokens": 256,
+          "mean_abs": 3.032768208074965e-05,
+          "rms": 0.00014698867941027286,
+          "max_abs": 0.0018889842435783066,
+          "k3": 1.0807839029985944e-08,
+          "ess_over_n": 0.9999999793086168,
+          "clip_fraction": 0.0,
+          "mean_log_ratio": -2.976889108410874e-05,
+          "sum_log_ratio": -0.007620836117531837,
+          "weight_min": 0.9981127987642899,
+          "weight_max": 1.0000113248527276
+        }
+      }
+    },
+    "long_prompt_short_response": {
+      "1_vs_2_floor": {
+        "diagnostics": {
+          "tokens": 512,
+          "dropped_nan": 0,
+          "ids": [
+            "long_prompt_short_response"
+          ]
+        },
+        "metrics": {
+          "tokens": 512,
+          "mean_abs": 3.2149913944401476e-06,
+          "rms": 1.2488288122529766e-05,
+          "max_abs": 0.00012679240899160504,
+          "k3": 7.797924762506514e-11,
+          "ess_over_n": 0.9999999998442161,
+          "clip_fraction": 0.0,
+          "mean_log_ratio": -4.1267988271087575e-07,
+          "sum_log_ratio": -0.00021129209994796838,
+          "weight_min": 0.9998732156288261,
+          "weight_max": 1.0001038028887987
+        }
+      },
+      "2_vs_4_quant_vllm": {
+        "diagnostics": {
+          "tokens": 512,
+          "dropped_nan": 0,
+          "ids": [
+            "long_prompt_short_response"
+          ]
+        },
+        "metrics": {
+          "tokens": 512,
+          "mean_abs": 7.833542883139977e-06,
+          "rms": 1.8104582632122467e-05,
+          "max_abs": 0.00010510315769352019,
+          "k3": 1.6388960284371978e-10,
+          "ess_over_n": 0.9999999996858004,
+          "clip_fraction": 0.0,
+          "mean_log_ratio": -3.683750533167718e-06,
+          "sum_log_ratio": -0.0018860802729818715,
+          "weight_min": 0.9999082423645925,
+          "weight_max": 1.0001051086812238
+        }
+      },
+      "4_vs_3_engine_bf16": {
+        "diagnostics": {
+          "tokens": 512,
+          "dropped_nan": 0,
+          "ids": [
+            "long_prompt_short_response"
+          ]
+        },
+        "metrics": {
+          "tokens": 512,
+          "mean_abs": 2.7813279677157965e-06,
+          "rms": 7.64789041804699e-06,
+          "max_abs": 5.0288974307477474e-05,
+          "k3": 2.9245197409599744e-11,
+          "ess_over_n": 0.999999999941765,
+          "clip_fraction": 0.0,
+          "mean_log_ratio": -5.049396138989692e-07,
+          "sum_log_ratio": -0.00025852908231627225,
+          "weight_min": 0.9999497122901618,
+          "weight_max": 1.0000480409833115
+        }
+      },
+      "1_vs_3_production": {
+        "diagnostics": {
+          "tokens": 512,
+          "dropped_nan": 0,
+          "ids": [
+            "long_prompt_short_response"
+          ]
+        },
+        "metrics": {
+          "tokens": 512,
+          "mean_abs": 7.678630040808265e-06,
+          "rms": 1.8329383969069685e-05,
+          "max_abs": 0.00010906708121183328,
+          "k3": 1.6798704094433958e-10,
+          "ess_over_n": 0.9999999996852251,
+          "clip_fraction": 0.0,
+          "mean_log_ratio": -4.601370029777563e-06,
+          "sum_log_ratio": -0.002355901455246112,
+          "weight_min": 0.999890938866386,
+          "weight_max": 1.0000585101024428
+        }
+      }
+    },
+    "short_prompt_long_response": {
+      "1_vs_2_floor": {
+        "diagnostics": {
+          "tokens": 16384,
+          "dropped_nan": 0,
+          "ids": [
+            "short_prompt_long_response"
+          ]
+        },
+        "metrics": {
+          "tokens": 16384,
+          "mean_abs": 0.011318722051622784,
+          "rms": 0.11746070147204139,
+          "max_abs": 6.791820168495178,
+          "k3": 0.07024668717976378,
+          "ess_over_n": 0.994075269265858,
+          "clip_fraction": 0.01275634765625,
+          "mean_log_ratio": -0.005286138598331014,
+          "sum_log_ratio": -86.60809479505534,
+          "weight_min": 0.0011229230038421842,
+          "weight_max": 5.199193937492252
+        }
+      },
+      "2_vs_4_quant_vllm": {
+        "diagnostics": {
+          "tokens": 16384,
+          "dropped_nan": 0,
+          "ids": [
+            "short_prompt_long_response"
+          ]
+        },
+        "metrics": {
+          "tokens": 16384,
+          "mean_abs": 0.010079139368840901,
+          "rms": 0.07773426576217494,
+          "max_abs": 2.857553005218506,
+          "k3": 0.0036727465102235476,
+          "ess_over_n": 0.9761265579418403,
+          "clip_fraction": 0.01446533203125,
+          "mean_log_ratio": -0.0009443380347100142,
+          "sum_log_ratio": -15.472034360688873,
+          "weight_min": 0.08240980679419124,
+          "weight_max": 17.41885090659516
+        }
+      },
+      "4_vs_3_engine_bf16": {
+        "diagnostics": {
+          "tokens": 16384,
+          "dropped_nan": 0,
+          "ids": [
+            "short_prompt_long_response"
+          ]
+        },
+        "metrics": {
+          "tokens": 16384,
+          "mean_abs": 0.0025700631431156058,
+          "rms": 0.020543994477402714,
+          "max_abs": 0.5966582298278809,
+          "k3": 0.0002180525854999446,
+          "ess_over_n": 0.9995828601093553,
+          "clip_fraction": 0.00250244140625,
+          "mean_log_ratio": -0.0001468622777931728,
+          "sum_log_ratio": -2.406191559363343,
+          "weight_min": 0.5808993092462829,
+          "weight_max": 1.816039860999649
+        }
+      },
+      "1_vs_3_production": {
+        "diagnostics": {
+          "tokens": 16384,
+          "dropped_nan": 0,
+          "ids": [
+            "short_prompt_long_response"
+          ]
+        },
+        "metrics": {
+          "tokens": 16384,
+          "mean_abs": 0.012959901997118543,
+          "rms": 0.1170832957888601,
+          "max_abs": 4.061888352036476,
+          "k3": 0.020316700626808078,
+          "ess_over_n": 0.9944139911037563,
+          "clip_fraction": 0.01519775390625,
+          "mean_log_ratio": -0.006377338910834201,
+          "sum_log_ratio": -104.48632071510755,
+          "weight_min": 0.017216477629532996,
+          "weight_max": 3.3656488978259222
+        }
+      }
+    }
+  }
+}

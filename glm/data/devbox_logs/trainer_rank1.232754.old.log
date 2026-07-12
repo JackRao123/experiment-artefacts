@@ -1,0 +1,20 @@
+[run_trainer_node] rank=1 nnodes=4 leader=10.233.87.95 config=/root/.cache/user_artifacts/glm_prof/configs/active.json src=/root/.cache/user_artifacts/trainers_glm
+[run_trainer_node] config contents:
+{
+  "base_model": "zai-org/GLM-5.2-FP8",
+  "max_seq_len": 131072,
+  "tensor_parallel_size": 1,
+  "pipeline_parallel_size": 16,
+  "context_parallel_size": 1,
+  "expert_parallel_size": 2,
+  "expert_tensor_parallel_size": 1,
+  "trust_remote_code": true,
+  "lora_rank": 16,
+  "weight_sync": {"type": "disabled"}
+}
+/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/torch/cuda/__init__.py:61: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+W0708 06:18:04.504000 70163 .venv/lib/python3.12/site-packages/torch/distributed/run.py:851] 
+W0708 06:18:04.504000 70163 .venv/lib/python3.12/site-packages/torch/distributed/run.py:851] *****************************************
+W0708 06:18:04.504000 70163 .venv/lib/python3.12/site-packages/torch/distributed/run.py:851] Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+W0708 06:18:04.504000 70163 .venv/lib/python3.12/site-packages/torch/distributed/run.py:851] *****************************************

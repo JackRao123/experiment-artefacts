@@ -1,0 +1,185 @@
+[run_trainer_node] NCCL_IB_HCA=mlx5_0,mlx5_1,mlx5_3,mlx5_4,mlx5_5,mlx5_6,mlx5_7,mlx5_8,mlx5_9,mlx5_10,mlx5_12,mlx5_13
+[run_trainer_node] rank=0 nnodes=4 leader=10.233.87.95 config=/root/.cache/user_artifacts/glm_prof/configs/active.json src=/root/.cache/user_artifacts/trainers_glm
+[run_trainer_node] config contents:
+{
+  "base_model": "zai-org/GLM-5.2-FP8",
+  "max_seq_len": 131072,
+  "tensor_parallel_size": 1,
+  "pipeline_parallel_size": 16,
+  "context_parallel_size": 1,
+  "expert_parallel_size": 2,
+  "expert_tensor_parallel_size": 1,
+  "trust_remote_code": true,
+  "lora_rank": 16,
+  "weight_sync": {"type": "disabled"}
+}
+/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/torch/cuda/__init__.py:61: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/torch/cuda/__init__.py:61: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/torch/cuda/__init__.py:61: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/backends.py:34: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/gpt/gpt_layer_specs.py:77: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/backends.py:34: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/gpt/gpt_layer_specs.py:77: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/torch/cuda/__init__.py:61: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/torch/cuda/__init__.py:61: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/torch/cuda/__init__.py:61: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/torch/cuda/__init__.py:61: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/torch/cuda/__init__.py:61: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/torch/cuda/__init__.py:61: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/backends.py:34: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/gpt/gpt_layer_specs.py:77: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/backends.py:34: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/gpt/gpt_layer_specs.py:77: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/backends.py:34: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/gpt/gpt_layer_specs.py:77: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/backends.py:34: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/gpt/gpt_layer_specs.py:77: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/backends.py:34: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/gpt/gpt_layer_specs.py:77: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/modelopt/torch/__init__.py:53: UserWarning: transformers>=5.0 support is experimental. Unified Hugging Face checkpoint export for quantized checkpoints may not work for some models yet.
+  _warnings.warn(
+/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/gpt/heterogeneous/heterogeneous_layer_specs.py:68: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/vision/vit_layer_specs.py:31: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/mimo/config/base_configs.py:12: UserWarning: MimoModelConfig is experimental and still under active development. The API may change without notice in future releases.
+  class MimoModelConfig:
+WARNING:megatron.bridge.models.conversion.auto_bridge:Loading a model with trust_remote_code=True allows arbitrary code execution from the model repository. Only use this with models you trust.
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+INFO:trainers_server.dp_worker.api.megatron_controller:LoRA config: rank=16 alpha=32 (default 2*rank) -> forward scale=2
+/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/transformer/transformer_config.py:2674: UserWarning: full scope is deprecated. Use empty cuda_graph_modules to capture the whole layer.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/modelopt/torch/__init__.py:53: UserWarning: transformers>=5.0 support is experimental. Unified Hugging Face checkpoint export for quantized checkpoints may not work for some models yet.
+  _warnings.warn(
+/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/gpt/heterogeneous/heterogeneous_layer_specs.py:68: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/vision/vit_layer_specs.py:31: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/mimo/config/base_configs.py:12: UserWarning: MimoModelConfig is experimental and still under active development. The API may change without notice in future releases.
+  class MimoModelConfig:
+WARNING:megatron.bridge.models.conversion.auto_bridge:Loading a model with trust_remote_code=True allows arbitrary code execution from the model repository. Only use this with models you trust.
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+INFO:trainers_server.dp_worker.api.megatron_controller:LoRA config: rank=16 alpha=32 (default 2*rank) -> forward scale=2
+/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/transformer/transformer_config.py:2674: UserWarning: full scope is deprecated. Use empty cuda_graph_modules to capture the whole layer.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/backends.py:34: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/gpt/gpt_layer_specs.py:77: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/modelopt/torch/__init__.py:53: UserWarning: transformers>=5.0 support is experimental. Unified Hugging Face checkpoint export for quantized checkpoints may not work for some models yet.
+  _warnings.warn(
+/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/gpt/heterogeneous/heterogeneous_layer_specs.py:68: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/modelopt/torch/__init__.py:53: UserWarning: transformers>=5.0 support is experimental. Unified Hugging Face checkpoint export for quantized checkpoints may not work for some models yet.
+  _warnings.warn(
+/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/vision/vit_layer_specs.py:31: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/gpt/heterogeneous/heterogeneous_layer_specs.py:68: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/modelopt/torch/__init__.py:53: UserWarning: transformers>=5.0 support is experimental. Unified Hugging Face checkpoint export for quantized checkpoints may not work for some models yet.
+  _warnings.warn(
+/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/gpt/heterogeneous/heterogeneous_layer_specs.py:68: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/vision/vit_layer_specs.py:31: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/vision/vit_layer_specs.py:31: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/mimo/config/base_configs.py:12: UserWarning: MimoModelConfig is experimental and still under active development. The API may change without notice in future releases.
+  class MimoModelConfig:
+/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/mimo/config/base_configs.py:12: UserWarning: MimoModelConfig is experimental and still under active development. The API may change without notice in future releases.
+  class MimoModelConfig:
+/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/mimo/config/base_configs.py:12: UserWarning: MimoModelConfig is experimental and still under active development. The API may change without notice in future releases.
+  class MimoModelConfig:
+WARNING:megatron.bridge.models.conversion.auto_bridge:Loading a model with trust_remote_code=True allows arbitrary code execution from the model repository. Only use this with models you trust.
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+INFO:trainers_server.dp_worker.api.megatron_controller:LoRA config: rank=16 alpha=32 (default 2*rank) -> forward scale=2
+/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/transformer/transformer_config.py:2674: UserWarning: full scope is deprecated. Use empty cuda_graph_modules to capture the whole layer.
+  warnings.warn(
+WARNING:megatron.core.rerun_state_machine:RerunStateMachine initialized in mode RerunMode.DISABLED
+> initializing torch distributed ...
+WARNING:megatron.bridge.models.conversion.auto_bridge:Loading a model with trust_remote_code=True allows arbitrary code execution from the model repository. Only use this with models you trust.
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+INFO:trainers_server.dp_worker.api.megatron_controller:LoRA config: rank=16 alpha=32 (default 2*rank) -> forward scale=2
+/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/transformer/transformer_config.py:2674: UserWarning: full scope is deprecated. Use empty cuda_graph_modules to capture the whole layer.
+  warnings.warn(
+WARNING:megatron.bridge.models.conversion.auto_bridge:Loading a model with trust_remote_code=True allows arbitrary code execution from the model repository. Only use this with models you trust.
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+INFO:trainers_server.dp_worker.api.megatron_controller:LoRA config: rank=16 alpha=32 (default 2*rank) -> forward scale=2
+/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/transformer/transformer_config.py:2674: UserWarning: full scope is deprecated. Use empty cuda_graph_modules to capture the whole layer.
+  warnings.warn(
+NCCL version 2.28.9+cuda12.9
+/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/modelopt/torch/__init__.py:53: UserWarning: transformers>=5.0 support is experimental. Unified Hugging Face checkpoint export for quantized checkpoints may not work for some models yet.
+  _warnings.warn(
+/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/gpt/heterogeneous/heterogeneous_layer_specs.py:68: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/vision/vit_layer_specs.py:31: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/modelopt/torch/__init__.py:53: UserWarning: transformers>=5.0 support is experimental. Unified Hugging Face checkpoint export for quantized checkpoints may not work for some models yet.
+  _warnings.warn(
+/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/gpt/heterogeneous/heterogeneous_layer_specs.py:68: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/vision/vit_layer_specs.py:31: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/mimo/config/base_configs.py:12: UserWarning: MimoModelConfig is experimental and still under active development. The API may change without notice in future releases.
+  class MimoModelConfig:
+/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/mimo/config/base_configs.py:12: UserWarning: MimoModelConfig is experimental and still under active development. The API may change without notice in future releases.
+  class MimoModelConfig:
+WARNING:megatron.bridge.models.conversion.auto_bridge:Loading a model with trust_remote_code=True allows arbitrary code execution from the model repository. Only use this with models you trust.
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+INFO:trainers_server.dp_worker.api.megatron_controller:LoRA config: rank=16 alpha=32 (default 2*rank) -> forward scale=2
+/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/transformer/transformer_config.py:2674: UserWarning: full scope is deprecated. Use empty cuda_graph_modules to capture the whole layer.
+  warnings.warn(
+WARNING:megatron.bridge.models.conversion.auto_bridge:Loading a model with trust_remote_code=True allows arbitrary code execution from the model repository. Only use this with models you trust.
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+INFO:trainers_server.dp_worker.api.megatron_controller:LoRA config: rank=16 alpha=32 (default 2*rank) -> forward scale=2
+/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/transformer/transformer_config.py:2674: UserWarning: full scope is deprecated. Use empty cuda_graph_modules to capture the whole layer.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/modelopt/torch/__init__.py:53: UserWarning: transformers>=5.0 support is experimental. Unified Hugging Face checkpoint export for quantized checkpoints may not work for some models yet.
+  _warnings.warn(
+/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/gpt/heterogeneous/heterogeneous_layer_specs.py:68: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/vision/vit_layer_specs.py:31: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/mimo/config/base_configs.py:12: UserWarning: MimoModelConfig is experimental and still under active development. The API may change without notice in future releases.
+  class MimoModelConfig:
+WARNING:megatron.bridge.models.conversion.auto_bridge:Loading a model with trust_remote_code=True allows arbitrary code execution from the model repository. Only use this with models you trust.
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+INFO:trainers_server.dp_worker.api.megatron_controller:LoRA config: rank=16 alpha=32 (default 2*rank) -> forward scale=2
+/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/transformer/transformer_config.py:2674: UserWarning: full scope is deprecated. Use empty cuda_graph_modules to capture the whole layer.
+  warnings.warn(
+> initialized tensor model parallel with size 1
+> initialized pipeline model parallel with size 16
+> setting random seeds to 1234 ...
+> compiling dataset index builder ...
+make: Entering directory '/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/datasets'
+make: python3-config: No such file or directory
+make: python3-config: No such file or directory
+make: Nothing to be done for 'default'.
+make: Leaving directory '/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/datasets'
+>>> done with dataset index builder. Compilation time: 0.005 seconds
+/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/torch/distributed/c10d_logger.py:83: UserWarning: barrier(): using the device under current context. You can specify `device_id` in `init_process_group` to mute this warning.
+  return func(*args, **kwargs)
+NCCL version 2.28.9+cuda12.9

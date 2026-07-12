@@ -1,0 +1,1794 @@
+[run_trainer_node] NCCL_IB_HCA=mlx5_0,mlx5_1,mlx5_3,mlx5_4,mlx5_5,mlx5_6,mlx5_7,mlx5_8,mlx5_9,mlx5_10,mlx5_12,mlx5_13
+[run_trainer_node] rank=0 nnodes=4 leader=10.233.87.95 config=/root/.cache/user_artifacts/glm_prof/configs/active_cp.json src=/root/.cache/user_artifacts/trainers_glm_cp
+[run_trainer_node] config contents:
+{
+  "base_model": "/root/.cache/team_artifacts/huggingface/hub/models--zai-org--GLM-5.2-FP8/snapshots/70311cfa0158cce7dd2cf5d2e04f68e3fdc3efc1",
+  "max_seq_len": 131072,
+  "tensor_parallel_size": 1,
+  "pipeline_parallel_size": 1,
+  "context_parallel_size": 32,
+  "expert_parallel_size": 32,
+  "expert_tensor_parallel_size": 1,
+  "trust_remote_code": true,
+  "lora_rank": 16,
+  "weight_sync": {"type": "disabled"}
+}
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/torch/cuda/__init__.py:61: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/torch/cuda/__init__.py:61: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/torch/cuda/__init__.py:61: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/torch/cuda/__init__.py:61: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/root/.cache/user_artifacts/trainers_glm_cp/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/backends.py:34: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm_cp/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/gpt/gpt_layer_specs.py:77: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm_cp/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/backends.py:34: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm_cp/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/gpt/gpt_layer_specs.py:77: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/torch/cuda/__init__.py:61: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/torch/cuda/__init__.py:61: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/torch/cuda/__init__.py:61: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/root/.cache/user_artifacts/trainers_glm_cp/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/backends.py:34: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm_cp/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/gpt/gpt_layer_specs.py:77: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm_cp/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/backends.py:34: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm_cp/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/gpt/gpt_layer_specs.py:77: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm_cp/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/backends.py:34: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm_cp/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/gpt/gpt_layer_specs.py:77: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm_cp/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/backends.py:34: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm_cp/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/gpt/gpt_layer_specs.py:77: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/modelopt/torch/__init__.py:53: UserWarning: transformers>=5.0 support is experimental. Unified Hugging Face checkpoint export for quantized checkpoints may not work for some models yet.
+  _warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/gpt/heterogeneous/heterogeneous_layer_specs.py:68: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm_cp/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/vision/vit_layer_specs.py:31: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm_cp/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/mimo/config/base_configs.py:12: UserWarning: MimoModelConfig is experimental and still under active development. The API may change without notice in future releases.
+  class MimoModelConfig:
+WARNING:megatron.bridge.models.conversion.auto_bridge:Loading a model with trust_remote_code=True allows arbitrary code execution from the model repository. Only use this with models you trust.
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+INFO:trainers_server.dp_worker.api.megatron_controller:LoRA config: rank=16 alpha=32 (default 2*rank) -> forward scale=2
+/root/.cache/user_artifacts/trainers_glm_cp/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/transformer/transformer_config.py:2810: UserWarning: full scope is deprecated. Use empty cuda_graph_modules to capture the whole layer.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/modelopt/torch/__init__.py:53: UserWarning: transformers>=5.0 support is experimental. Unified Hugging Face checkpoint export for quantized checkpoints may not work for some models yet.
+  _warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/gpt/heterogeneous/heterogeneous_layer_specs.py:68: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm_cp/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/vision/vit_layer_specs.py:31: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm_cp/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/mimo/config/base_configs.py:12: UserWarning: MimoModelConfig is experimental and still under active development. The API may change without notice in future releases.
+  class MimoModelConfig:
+WARNING:megatron.bridge.models.conversion.auto_bridge:Loading a model with trust_remote_code=True allows arbitrary code execution from the model repository. Only use this with models you trust.
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+INFO:trainers_server.dp_worker.api.megatron_controller:LoRA config: rank=16 alpha=32 (default 2*rank) -> forward scale=2
+/root/.cache/user_artifacts/trainers_glm_cp/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/transformer/transformer_config.py:2810: UserWarning: full scope is deprecated. Use empty cuda_graph_modules to capture the whole layer.
+  warnings.warn(
+WARNING:megatron.core.rerun_state_machine:RerunStateMachine initialized in mode RerunMode.DISABLED
+> initializing torch distributed ...
+NCCL version 2.28.9+cuda12.9
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/modelopt/torch/__init__.py:53: UserWarning: transformers>=5.0 support is experimental. Unified Hugging Face checkpoint export for quantized checkpoints may not work for some models yet.
+  _warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/gpt/heterogeneous/heterogeneous_layer_specs.py:68: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm_cp/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/vision/vit_layer_specs.py:31: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/modelopt/torch/__init__.py:53: UserWarning: transformers>=5.0 support is experimental. Unified Hugging Face checkpoint export for quantized checkpoints may not work for some models yet.
+  _warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/gpt/heterogeneous/heterogeneous_layer_specs.py:68: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm_cp/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/vision/vit_layer_specs.py:31: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm_cp/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/mimo/config/base_configs.py:12: UserWarning: MimoModelConfig is experimental and still under active development. The API may change without notice in future releases.
+  class MimoModelConfig:
+WARNING:megatron.bridge.models.conversion.auto_bridge:Loading a model with trust_remote_code=True allows arbitrary code execution from the model repository. Only use this with models you trust.
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+INFO:trainers_server.dp_worker.api.megatron_controller:LoRA config: rank=16 alpha=32 (default 2*rank) -> forward scale=2
+/root/.cache/user_artifacts/trainers_glm_cp/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/transformer/transformer_config.py:2810: UserWarning: full scope is deprecated. Use empty cuda_graph_modules to capture the whole layer.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/mimo/config/base_configs.py:12: UserWarning: MimoModelConfig is experimental and still under active development. The API may change without notice in future releases.
+  class MimoModelConfig:
+WARNING:megatron.bridge.models.conversion.auto_bridge:Loading a model with trust_remote_code=True allows arbitrary code execution from the model repository. Only use this with models you trust.
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+INFO:trainers_server.dp_worker.api.megatron_controller:LoRA config: rank=16 alpha=32 (default 2*rank) -> forward scale=2
+/root/.cache/user_artifacts/trainers_glm_cp/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/transformer/transformer_config.py:2810: UserWarning: full scope is deprecated. Use empty cuda_graph_modules to capture the whole layer.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/torch/cuda/__init__.py:61: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/torch/cuda/__init__.py:61: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/modelopt/torch/__init__.py:53: UserWarning: transformers>=5.0 support is experimental. Unified Hugging Face checkpoint export for quantized checkpoints may not work for some models yet.
+  _warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/gpt/heterogeneous/heterogeneous_layer_specs.py:68: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm_cp/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/vision/vit_layer_specs.py:31: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm_cp/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/mimo/config/base_configs.py:12: UserWarning: MimoModelConfig is experimental and still under active development. The API may change without notice in future releases.
+  class MimoModelConfig:
+WARNING:megatron.bridge.models.conversion.auto_bridge:Loading a model with trust_remote_code=True allows arbitrary code execution from the model repository. Only use this with models you trust.
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+INFO:trainers_server.dp_worker.api.megatron_controller:LoRA config: rank=16 alpha=32 (default 2*rank) -> forward scale=2
+/root/.cache/user_artifacts/trainers_glm_cp/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/transformer/transformer_config.py:2810: UserWarning: full scope is deprecated. Use empty cuda_graph_modules to capture the whole layer.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/modelopt/torch/__init__.py:53: UserWarning: transformers>=5.0 support is experimental. Unified Hugging Face checkpoint export for quantized checkpoints may not work for some models yet.
+  _warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/gpt/heterogeneous/heterogeneous_layer_specs.py:68: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm_cp/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/vision/vit_layer_specs.py:31: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm_cp/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/mimo/config/base_configs.py:12: UserWarning: MimoModelConfig is experimental and still under active development. The API may change without notice in future releases.
+  class MimoModelConfig:
+WARNING:megatron.bridge.models.conversion.auto_bridge:Loading a model with trust_remote_code=True allows arbitrary code execution from the model repository. Only use this with models you trust.
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+INFO:trainers_server.dp_worker.api.megatron_controller:LoRA config: rank=16 alpha=32 (default 2*rank) -> forward scale=2
+/root/.cache/user_artifacts/trainers_glm_cp/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/transformer/transformer_config.py:2810: UserWarning: full scope is deprecated. Use empty cuda_graph_modules to capture the whole layer.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/backends.py:34: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm_cp/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/gpt/gpt_layer_specs.py:77: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm_cp/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/backends.py:34: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm_cp/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/gpt/gpt_layer_specs.py:77: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/modelopt/torch/__init__.py:53: UserWarning: transformers>=5.0 support is experimental. Unified Hugging Face checkpoint export for quantized checkpoints may not work for some models yet.
+  _warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/gpt/heterogeneous/heterogeneous_layer_specs.py:68: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm_cp/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/vision/vit_layer_specs.py:31: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm_cp/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/mimo/config/base_configs.py:12: UserWarning: MimoModelConfig is experimental and still under active development. The API may change without notice in future releases.
+  class MimoModelConfig:
+WARNING:megatron.bridge.models.conversion.auto_bridge:Loading a model with trust_remote_code=True allows arbitrary code execution from the model repository. Only use this with models you trust.
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+INFO:trainers_server.dp_worker.api.megatron_controller:LoRA config: rank=16 alpha=32 (default 2*rank) -> forward scale=2
+/root/.cache/user_artifacts/trainers_glm_cp/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/transformer/transformer_config.py:2810: UserWarning: full scope is deprecated. Use empty cuda_graph_modules to capture the whole layer.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/modelopt/torch/__init__.py:53: UserWarning: transformers>=5.0 support is experimental. Unified Hugging Face checkpoint export for quantized checkpoints may not work for some models yet.
+  _warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/gpt/heterogeneous/heterogeneous_layer_specs.py:68: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm_cp/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/vision/vit_layer_specs.py:31: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm_cp/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/mimo/config/base_configs.py:12: UserWarning: MimoModelConfig is experimental and still under active development. The API may change without notice in future releases.
+  class MimoModelConfig:
+WARNING:megatron.bridge.models.conversion.auto_bridge:Loading a model with trust_remote_code=True allows arbitrary code execution from the model repository. Only use this with models you trust.
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+INFO:trainers_server.dp_worker.api.megatron_controller:LoRA config: rank=16 alpha=32 (default 2*rank) -> forward scale=2
+/root/.cache/user_artifacts/trainers_glm_cp/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/transformer/transformer_config.py:2810: UserWarning: full scope is deprecated. Use empty cuda_graph_modules to capture the whole layer.
+  warnings.warn(
+> initialized tensor model parallel with size 1
+> initialized pipeline model parallel with size 1
+> setting random seeds to 1234 ...
+> compiling dataset index builder ...
+make: Entering directory '/root/.cache/user_artifacts/trainers_glm_cp/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/datasets'
+make: python3-config: No such file or directory
+make: python3-config: No such file or directory
+make: Nothing to be done for 'default'.
+make: Leaving directory '/root/.cache/user_artifacts/trainers_glm_cp/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/datasets'
+>>> done with dataset index builder. Compilation time: 0.004 seconds
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/torch/distributed/c10d_logger.py:83: UserWarning: barrier(): using the device under current context. You can specify `device_id` in `init_process_group` to mute this warning.
+  return func(*args, **kwargs)
+NCCL version 2.28.9+cuda12.9
+NCCL version 2.28.9+cuda12.9
+NCCL version 2.28.9+cuda12.9
+NCCL version 2.28.9+cuda12.9
+NCCL version 2.28.9+cuda12.9
+NCCL version 2.28.9+cuda12.9
+NCCL version 2.28.9+cuda12.9
+Loading from /root/.cache/team_artifacts/huggingface/hub/models--zai-or… (2… GL…
+[PEFT+Recompute] Patched TransformerBlock.forward to enable grad on hidden_states input. This ensures checkpoint backward is called when only adapters are trainable (PP=1 with frozen base model).
+ > number of parameters on (tensor, pipeline) model parallel rank (0, 0): 41378779392
+INFO:trainers_server.dp_worker.api.megatron_controller:LoRA training: disabled dynamic MoE router expert-bias updates
+INFO:trainers_server.dp_worker.api.megatron_controller:LoRA training: froze 75 MoE router expert-bias updates
+
+INFO:trainers_server.dp_worker.api.megatron_controller:LoRA training: disabled dynamic MoE router expert-bias updates
+INFO:trainers_server.dp_worker.api.megatron_controller:LoRA training: froze 75 MoE router expert-bias updates
+
+
+INFO:trainers_server.dp_worker.api.megatron_controller:LoRA training: disabled dynamic MoE router expert-bias updates
+INFO:trainers_server.dp_worker.api.megatron_controller:LoRA training: froze 75 MoE router expert-bias updates
+INFO:trainers_server.dp_worker.api.megatron_controller:LoRA training: disabled dynamic MoE router expert-bias updates
+INFO:trainers_server.dp_worker.api.megatron_controller:LoRA training: froze 75 MoE router expert-bias updates
+
+INFO:trainers_server.dp_worker.api.megatron_controller:LoRA training: disabled dynamic MoE router expert-bias updates
+INFO:trainers_server.dp_worker.api.megatron_controller:LoRA training: froze 75 MoE router expert-bias updates
+
+INFO:trainers_server.dp_worker.api.megatron_controller:LoRA training: disabled dynamic MoE router expert-bias updates
+INFO:trainers_server.dp_worker.api.megatron_controller:LoRA training: froze 75 MoE router expert-bias updates
+
+INFO:trainers_server.dp_worker.api.megatron_controller:LoRA training: disabled dynamic MoE router expert-bias updates
+INFO:trainers_server.dp_worker.api.megatron_controller:LoRA training: froze 75 MoE router expert-bias updates
+
+INFO:trainers_server.dp_worker.api.megatron_controller:LoRA training: disabled dynamic MoE router expert-bias updates
+INFO:trainers_server.dp_worker.api.megatron_controller:LoRA training: froze 75 MoE router expert-bias updates
+INFO:trainers_server.dp_worker.api.megatron_controller:weight_sync disabled
+INFO:trainers_server.dp_worker.api.megatron_controller:weight_sync disabled
+INFO:trainers_server.dp_worker.api.megatron_controller:weight_sync disabled
+INFO:trainers_server.dp_worker.api.megatron_controller:weight_sync disabled
+INFO:trainers_server.dp_worker.api.megatron_controller:weight_sync disabled
+INFO:trainers_server.dp_worker.api.megatron_controller:weight_sync disabled
+INFO:trainers_server.dp_worker.api.megatron_controller:weight_sync disabled
+INFO:trainers_server.dp_worker.api.megatron_controller:weight_sync disabled
+INFO:trainers_server.dp_worker.api.megatron_controller:MegatronBridgeController ready
+INFO:trainers_server.dp_worker.api.megatron_controller:MegatronBridgeController ready
+INFO:trainers_server.dp_worker.api.megatron_controller:MegatronBridgeController ready
+INFO:trainers_server.dp_worker.api.megatron_controller:MegatronBridgeController ready
+INFO:trainers_server.dp_worker.api.megatron_controller:MegatronBridgeController ready
+INFO:trainers_server.dp_worker.api.megatron_controller:MegatronBridgeController ready
+INFO:trainers_server.dp_worker.api.megatron_controller:MegatronBridgeController ready
+INFO:trainers_server.dp_worker.api.megatron_controller:MegatronBridgeController ready
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/torch/distributed/c10d_logger.py:83: UserWarning: barrier(): using the device under current context. You can specify `device_id` in `init_process_group` to mute this warning.
+  return func(*args, **kwargs)
+[trainers-warmup] starting — forward+backward seq=64 across PP=1 (establishing pipeline p2p connections + compiling DSA/Triton/cuDNN forward and backward kernels)...
+INFO:trainers_server.dp_worker.api.megatron_controller:starting — forward+backward seq=64 across PP=1 (establishing pipeline p2p connections + compiling DSA/Triton/cuDNN forward and backward kernels)...
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/torch/autograd/graph.py:869: UserWarning: The AccumulateGrad node's stream does not match the stream of the node that produced the incoming gradient. This may incur unnecessary synchronization and break CUDA graph capture if the AccumulateGrad node's stream is the default stream. This mismatch is caused by an AccumulateGrad node created prior to the current iteration being kept alive. This can happen if the autograd graph is still being kept alive by tensors such as the loss, or if you are using DDP, which will stash a reference to the node. To resolve the mismatch, delete all references to the autograd graph or ensure that DDP initialization is performed under the same stream as subsequent forwards. If the mismatch is intentional, you can use torch.autograd.graph.set_warn_on_accumulate_grad_stream_mismatch(False) to suppress this warning. (Triggered internally at /pytorch/torch/csrc/autograd/input_buffer.cpp:240.)
+  return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/torch/autograd/graph.py:869: UserWarning: The AccumulateGrad node's stream does not match the stream of the node that produced the incoming gradient. This may incur unnecessary synchronization and break CUDA graph capture if the AccumulateGrad node's stream is the default stream. This mismatch is caused by an AccumulateGrad node created prior to the current iteration being kept alive. This can happen if the autograd graph is still being kept alive by tensors such as the loss, or if you are using DDP, which will stash a reference to the node. To resolve the mismatch, delete all references to the autograd graph or ensure that DDP initialization is performed under the same stream as subsequent forwards. If the mismatch is intentional, you can use torch.autograd.graph.set_warn_on_accumulate_grad_stream_mismatch(False) to suppress this warning. (Triggered internally at /pytorch/torch/csrc/autograd/input_buffer.cpp:240.)
+  return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/torch/autograd/graph.py:869: UserWarning: The AccumulateGrad node's stream does not match the stream of the node that produced the incoming gradient. This may incur unnecessary synchronization and break CUDA graph capture if the AccumulateGrad node's stream is the default stream. This mismatch is caused by an AccumulateGrad node created prior to the current iteration being kept alive. This can happen if the autograd graph is still being kept alive by tensors such as the loss, or if you are using DDP, which will stash a reference to the node. To resolve the mismatch, delete all references to the autograd graph or ensure that DDP initialization is performed under the same stream as subsequent forwards. If the mismatch is intentional, you can use torch.autograd.graph.set_warn_on_accumulate_grad_stream_mismatch(False) to suppress this warning. (Triggered internally at /pytorch/torch/csrc/autograd/input_buffer.cpp:240.)
+  return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/torch/autograd/graph.py:869: UserWarning: The AccumulateGrad node's stream does not match the stream of the node that produced the incoming gradient. This may incur unnecessary synchronization and break CUDA graph capture if the AccumulateGrad node's stream is the default stream. This mismatch is caused by an AccumulateGrad node created prior to the current iteration being kept alive. This can happen if the autograd graph is still being kept alive by tensors such as the loss, or if you are using DDP, which will stash a reference to the node. To resolve the mismatch, delete all references to the autograd graph or ensure that DDP initialization is performed under the same stream as subsequent forwards. If the mismatch is intentional, you can use torch.autograd.graph.set_warn_on_accumulate_grad_stream_mismatch(False) to suppress this warning. (Triggered internally at /pytorch/torch/csrc/autograd/input_buffer.cpp:240.)
+  return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/torch/autograd/graph.py:869: UserWarning: The AccumulateGrad node's stream does not match the stream of the node that produced the incoming gradient. This may incur unnecessary synchronization and break CUDA graph capture if the AccumulateGrad node's stream is the default stream. This mismatch is caused by an AccumulateGrad node created prior to the current iteration being kept alive. This can happen if the autograd graph is still being kept alive by tensors such as the loss, or if you are using DDP, which will stash a reference to the node. To resolve the mismatch, delete all references to the autograd graph or ensure that DDP initialization is performed under the same stream as subsequent forwards. If the mismatch is intentional, you can use torch.autograd.graph.set_warn_on_accumulate_grad_stream_mismatch(False) to suppress this warning. (Triggered internally at /pytorch/torch/csrc/autograd/input_buffer.cpp:240.)
+  return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/torch/autograd/graph.py:869: UserWarning: The AccumulateGrad node's stream does not match the stream of the node that produced the incoming gradient. This may incur unnecessary synchronization and break CUDA graph capture if the AccumulateGrad node's stream is the default stream. This mismatch is caused by an AccumulateGrad node created prior to the current iteration being kept alive. This can happen if the autograd graph is still being kept alive by tensors such as the loss, or if you are using DDP, which will stash a reference to the node. To resolve the mismatch, delete all references to the autograd graph or ensure that DDP initialization is performed under the same stream as subsequent forwards. If the mismatch is intentional, you can use torch.autograd.graph.set_warn_on_accumulate_grad_stream_mismatch(False) to suppress this warning. (Triggered internally at /pytorch/torch/csrc/autograd/input_buffer.cpp:240.)
+  return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/torch/autograd/graph.py:869: UserWarning: The AccumulateGrad node's stream does not match the stream of the node that produced the incoming gradient. This may incur unnecessary synchronization and break CUDA graph capture if the AccumulateGrad node's stream is the default stream. This mismatch is caused by an AccumulateGrad node created prior to the current iteration being kept alive. This can happen if the autograd graph is still being kept alive by tensors such as the loss, or if you are using DDP, which will stash a reference to the node. To resolve the mismatch, delete all references to the autograd graph or ensure that DDP initialization is performed under the same stream as subsequent forwards. If the mismatch is intentional, you can use torch.autograd.graph.set_warn_on_accumulate_grad_stream_mismatch(False) to suppress this warning. (Triggered internally at /pytorch/torch/csrc/autograd/input_buffer.cpp:240.)
+  return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/torch/autograd/graph.py:869: UserWarning: The AccumulateGrad node's stream does not match the stream of the node that produced the incoming gradient. This may incur unnecessary synchronization and break CUDA graph capture if the AccumulateGrad node's stream is the default stream. This mismatch is caused by an AccumulateGrad node created prior to the current iteration being kept alive. This can happen if the autograd graph is still being kept alive by tensors such as the loss, or if you are using DDP, which will stash a reference to the node. To resolve the mismatch, delete all references to the autograd graph or ensure that DDP initialization is performed under the same stream as subsequent forwards. If the mismatch is intentional, you can use torch.autograd.graph.set_warn_on_accumulate_grad_stream_mismatch(False) to suppress this warning. (Triggered internally at /pytorch/torch/csrc/autograd/input_buffer.cpp:240.)
+  return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 71.82s seq_len=128 loss=8.8267
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 71.82s seq_len=128 loss=8.8267
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 71.82s seq_len=128 loss=8.8267
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 71.82s seq_len=128 loss=8.8267
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 71.82s seq_len=128 loss=8.8267
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 71.82s seq_len=128 loss=8.8267
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 71.82s seq_len=128 loss=8.8267
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/torch/distributed/c10d_logger.py:83: UserWarning: barrier(): using the device under current context. You can specify `device_id` in `init_process_group` to mute this warning.
+  return func(*args, **kwargs)
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 71.82s seq_len=128 loss=8.8267
+[trainers-warmup] READY — pipeline connected (1 PP stage(s)), kernels warm (71.8s). Server will now accept ops.
+INFO:trainers_server.dp_worker.api.megatron_controller:READY — pipeline connected (1 PP stage(s)), kernels warm (71.8s). Server will now accept ops.
+INFO:     Started server process [377084]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:     127.0.0.1:43150 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56926 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56926 - "GET /status HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56926 - "POST /reset_peak_memory HTTP/1.1" 200 OK
+INFO:trainers_server.dp_worker.api.server:submit: op=forward_backward operation_id=22a03990fb454a1ba68747098ba0ee5c enqueued (qsize=1)
+INFO:     127.0.0.1:56926 - "POST /forward_backward HTTP/1.1" 202 Accepted
+ERROR:opentelemetry.sdk.trace.export:Exception while exporting Span batch.
+Traceback (most recent call last):
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/connection.py", line 204, in _new_conn
+    sock = connection.create_connection(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/util/connection.py", line 85, in create_connection
+    raise err
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/util/connection.py", line 73, in create_connection
+    sock.connect(sa)
+ConnectionRefusedError: [Errno 111] Connection refused
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+               ^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/connectionpool.py", line 493, in _make_request
+    conn.request(
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/connection.py", line 500, in request
+    self.endheaders()
+  File "/usr/lib/python3.12/http/client.py", line 1360, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.12/http/client.py", line 1120, in _send_output
+    self.send(msg)
+  File "/usr/lib/python3.12/http/client.py", line 1064, in send
+    self.connect()
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/connection.py", line 331, in connect
+    self.sock = self._new_conn()
+                ^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/connection.py", line 219, in _new_conn
+    raise NewConnectionError(
+urllib3.exceptions.NewConnectionError: HTTPConnection(host='localhost', port=4318): Failed to establish a new connection: [Errno 111] Connection refused
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/requests/adapters.py", line 644, in send
+    resp = conn.urlopen(
+           ^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+              ^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/util/retry.py", line 535, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='localhost', port=4318): Max retries exceeded with url: /v1/traces (Caused by NewConnectionError("HTTPConnection(host='localhost', port=4318): Failed to establish a new connection: [Errno 111] Connection refused"))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/opentelemetry/sdk/trace/export/__init__.py", line 362, in _export_batch
+    self.span_exporter.export(self.spans_list[:idx])  # type: ignore
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/opentelemetry/exporter/otlp/proto/http/trace_exporter/__init__.py", line 139, in export
+    resp = self._export(serialized_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/opentelemetry/exporter/otlp/proto/http/trace_exporter/__init__.py", line 110, in _export
+    return self._session.post(
+           ^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/requests/sessions.py", line 637, in post
+    return self.request("POST", url, data=data, json=json, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/requests/sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/requests/sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/requests/adapters.py", line 677, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPConnectionPool(host='localhost', port=4318): Max retries exceeded with url: /v1/traces (Caused by NewConnectionError("HTTPConnection(host='localhost', port=4318): Failed to establish a new connection: [Errno 111] Connection refused"))
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 24.18s seq_len=8192 loss=12.8954
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 24.18s seq_len=8192 loss=12.8954
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 24.18s seq_len=8192 loss=12.8954
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 24.18s seq_len=8192 loss=12.8954
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 24.18s seq_len=8192 loss=12.8954
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 24.18s seq_len=8192 loss=12.8954
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 24.18s seq_len=8192 loss=12.8954
+INFO:trainers_server.dp_worker.api.dispatcher_worker:dispatcher_worker: op=forward_backward operation_id=22a03990fb454a1ba68747098ba0ee5c done in 24.18s
+INFO:trainers_server.dp_worker.api.dispatcher_worker:metric op_duration_seconds op=forward_backward outcome=ok duration=24.1815 operation_id=22a03990fb454a1ba68747098ba0ee5c
+INFO:trainers_server.dp_worker.api.server:retrieve: operation_id=22a03990fb454a1ba68747098ba0ee5c done after 24.18s
+INFO:     127.0.0.1:56926 - "GET /operations/22a03990fb454a1ba68747098ba0ee5c HTTP/1.1" 200 OK
+INFO:trainers_server.dp_worker.api.server:submit: op=forward_backward operation_id=bc7a8f26cc3f46c49e2e694cc8c19dd3 enqueued (qsize=1)
+INFO:     127.0.0.1:56926 - "POST /forward_backward HTTP/1.1" 202 Accepted
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 24.19s seq_len=8192 loss=12.8954
+ERROR:opentelemetry.sdk.trace.export:Exception while exporting Span batch.
+Traceback (most recent call last):
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/connection.py", line 204, in _new_conn
+    sock = connection.create_connection(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/util/connection.py", line 85, in create_connection
+    raise err
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/util/connection.py", line 73, in create_connection
+    sock.connect(sa)
+ConnectionRefusedError: [Errno 111] Connection refused
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+               ^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/connectionpool.py", line 493, in _make_request
+    conn.request(
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/connection.py", line 500, in request
+    self.endheaders()
+  File "/usr/lib/python3.12/http/client.py", line 1360, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.12/http/client.py", line 1120, in _send_output
+    self.send(msg)
+  File "/usr/lib/python3.12/http/client.py", line 1064, in send
+    self.connect()
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/connection.py", line 331, in connect
+    self.sock = self._new_conn()
+                ^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/connection.py", line 219, in _new_conn
+    raise NewConnectionError(
+urllib3.exceptions.NewConnectionError: HTTPConnection(host='localhost', port=4318): Failed to establish a new connection: [Errno 111] Connection refused
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/requests/adapters.py", line 644, in send
+    resp = conn.urlopen(
+           ^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+              ^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/util/retry.py", line 535, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='localhost', port=4318): Max retries exceeded with url: /v1/traces (Caused by NewConnectionError("HTTPConnection(host='localhost', port=4318): Failed to establish a new connection: [Errno 111] Connection refused"))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/opentelemetry/sdk/trace/export/__init__.py", line 362, in _export_batch
+    self.span_exporter.export(self.spans_list[:idx])  # type: ignore
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/opentelemetry/exporter/otlp/proto/http/trace_exporter/__init__.py", line 139, in export
+    resp = self._export(serialized_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/opentelemetry/exporter/otlp/proto/http/trace_exporter/__init__.py", line 110, in _export
+    return self._session.post(
+           ^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/requests/sessions.py", line 637, in post
+    return self.request("POST", url, data=data, json=json, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/requests/sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/requests/sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/requests/adapters.py", line 677, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPConnectionPool(host='localhost', port=4318): Max retries exceeded with url: /v1/traces (Caused by NewConnectionError("HTTPConnection(host='localhost', port=4318): Failed to establish a new connection: [Errno 111] Connection refused"))
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 15.15s seq_len=8192 loss=12.8908
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 15.15s seq_len=8192 loss=12.8908
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 15.15s seq_len=8192 loss=12.8908
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 15.15s seq_len=8192 loss=12.8908
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 15.15s seq_len=8192 loss=12.8908
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 15.15s seq_len=8192 loss=12.8908
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 15.15s seq_len=8192 loss=12.8908
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 15.15s seq_len=8192 loss=12.8908
+INFO:trainers_server.dp_worker.api.dispatcher_worker:dispatcher_worker: op=forward_backward operation_id=bc7a8f26cc3f46c49e2e694cc8c19dd3 done in 15.16s
+INFO:trainers_server.dp_worker.api.dispatcher_worker:metric op_duration_seconds op=forward_backward outcome=ok duration=15.1567 operation_id=bc7a8f26cc3f46c49e2e694cc8c19dd3
+INFO:trainers_server.dp_worker.api.server:retrieve: operation_id=bc7a8f26cc3f46c49e2e694cc8c19dd3 done after 15.16s
+INFO:     127.0.0.1:56926 - "GET /operations/bc7a8f26cc3f46c49e2e694cc8c19dd3 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56926 - "GET /status HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49054 - "GET /status HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49064 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49064 - "GET /status HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49064 - "POST /reset_peak_memory HTTP/1.1" 200 OK
+INFO:trainers_server.dp_worker.api.server:submit: op=forward_backward operation_id=199bfb851e454f76b4587c936e005fa0 enqueued (qsize=1)
+INFO:     127.0.0.1:49064 - "POST /forward_backward HTTP/1.1" 202 Accepted
+ERROR:opentelemetry.sdk.trace.export:Exception while exporting Span batch.
+Traceback (most recent call last):
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/connection.py", line 204, in _new_conn
+    sock = connection.create_connection(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/util/connection.py", line 85, in create_connection
+    raise err
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/util/connection.py", line 73, in create_connection
+    sock.connect(sa)
+ConnectionRefusedError: [Errno 111] Connection refused
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+               ^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/connectionpool.py", line 493, in _make_request
+    conn.request(
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/connection.py", line 500, in request
+    self.endheaders()
+  File "/usr/lib/python3.12/http/client.py", line 1360, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.12/http/client.py", line 1120, in _send_output
+    self.send(msg)
+  File "/usr/lib/python3.12/http/client.py", line 1064, in send
+    self.connect()
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/connection.py", line 331, in connect
+    self.sock = self._new_conn()
+                ^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/connection.py", line 219, in _new_conn
+    raise NewConnectionError(
+urllib3.exceptions.NewConnectionError: HTTPConnection(host='localhost', port=4318): Failed to establish a new connection: [Errno 111] Connection refused
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/requests/adapters.py", line 644, in send
+    resp = conn.urlopen(
+           ^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+              ^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/util/retry.py", line 535, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='localhost', port=4318): Max retries exceeded with url: /v1/traces (Caused by NewConnectionError("HTTPConnection(host='localhost', port=4318): Failed to establish a new connection: [Errno 111] Connection refused"))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/opentelemetry/sdk/trace/export/__init__.py", line 362, in _export_batch
+    self.span_exporter.export(self.spans_list[:idx])  # type: ignore
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/opentelemetry/exporter/otlp/proto/http/trace_exporter/__init__.py", line 139, in export
+    resp = self._export(serialized_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/opentelemetry/exporter/otlp/proto/http/trace_exporter/__init__.py", line 110, in _export
+    return self._session.post(
+           ^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/requests/sessions.py", line 637, in post
+    return self.request("POST", url, data=data, json=json, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/requests/sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/requests/sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/requests/adapters.py", line 677, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPConnectionPool(host='localhost', port=4318): Max retries exceeded with url: /v1/traces (Caused by NewConnectionError("HTTPConnection(host='localhost', port=4318): Failed to establish a new connection: [Errno 111] Connection refused"))
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 22.21s seq_len=16384 loss=13.6045
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 22.21s seq_len=16384 loss=13.6045
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 22.21s seq_len=16384 loss=13.6045
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 22.21s seq_len=16384 loss=13.6045
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 22.21s seq_len=16384 loss=13.6045
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 22.21s seq_len=16384 loss=13.6045
+INFO:trainers_server.dp_worker.api.dispatcher_worker:dispatcher_worker: op=forward_backward operation_id=199bfb851e454f76b4587c936e005fa0 done in 22.21s
+INFO:trainers_server.dp_worker.api.dispatcher_worker:metric op_duration_seconds op=forward_backward outcome=ok duration=22.2120 operation_id=199bfb851e454f76b4587c936e005fa0
+INFO:trainers_server.dp_worker.api.server:retrieve: operation_id=199bfb851e454f76b4587c936e005fa0 done after 22.21s
+INFO:     127.0.0.1:49064 - "GET /operations/199bfb851e454f76b4587c936e005fa0 HTTP/1.1" 200 OK
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 22.21s seq_len=16384 loss=13.6045
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 22.22s seq_len=16384 loss=13.6045
+INFO:trainers_server.dp_worker.api.server:submit: op=forward_backward operation_id=a548ecafb81a40eba290dc2ebd54f2c6 enqueued (qsize=1)
+INFO:     127.0.0.1:49064 - "POST /forward_backward HTTP/1.1" 202 Accepted
+ERROR:opentelemetry.sdk.trace.export:Exception while exporting Span batch.
+Traceback (most recent call last):
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/connection.py", line 204, in _new_conn
+    sock = connection.create_connection(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/util/connection.py", line 85, in create_connection
+    raise err
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/util/connection.py", line 73, in create_connection
+    sock.connect(sa)
+ConnectionRefusedError: [Errno 111] Connection refused
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+               ^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/connectionpool.py", line 493, in _make_request
+    conn.request(
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/connection.py", line 500, in request
+    self.endheaders()
+  File "/usr/lib/python3.12/http/client.py", line 1360, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.12/http/client.py", line 1120, in _send_output
+    self.send(msg)
+  File "/usr/lib/python3.12/http/client.py", line 1064, in send
+    self.connect()
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/connection.py", line 331, in connect
+    self.sock = self._new_conn()
+                ^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/connection.py", line 219, in _new_conn
+    raise NewConnectionError(
+urllib3.exceptions.NewConnectionError: HTTPConnection(host='localhost', port=4318): Failed to establish a new connection: [Errno 111] Connection refused
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/requests/adapters.py", line 644, in send
+    resp = conn.urlopen(
+           ^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+              ^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/util/retry.py", line 535, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='localhost', port=4318): Max retries exceeded with url: /v1/traces (Caused by NewConnectionError("HTTPConnection(host='localhost', port=4318): Failed to establish a new connection: [Errno 111] Connection refused"))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/opentelemetry/sdk/trace/export/__init__.py", line 362, in _export_batch
+    self.span_exporter.export(self.spans_list[:idx])  # type: ignore
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/opentelemetry/exporter/otlp/proto/http/trace_exporter/__init__.py", line 139, in export
+    resp = self._export(serialized_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/opentelemetry/exporter/otlp/proto/http/trace_exporter/__init__.py", line 110, in _export
+    return self._session.post(
+           ^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/requests/sessions.py", line 637, in post
+    return self.request("POST", url, data=data, json=json, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/requests/sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/requests/sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/requests/adapters.py", line 677, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPConnectionPool(host='localhost', port=4318): Max retries exceeded with url: /v1/traces (Caused by NewConnectionError("HTTPConnection(host='localhost', port=4318): Failed to establish a new connection: [Errno 111] Connection refused"))
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 19.48s seq_len=16384 loss=13.6231
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 19.48s seq_len=16384 loss=13.6231
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 19.48s seq_len=16384 loss=13.6231
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 19.49s seq_len=16384 loss=13.6231
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 19.48s seq_len=16384 loss=13.6231
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 19.48s seq_len=16384 loss=13.6231
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 19.48s seq_len=16384 loss=13.6231
+INFO:trainers_server.dp_worker.api.dispatcher_worker:dispatcher_worker: op=forward_backward operation_id=a548ecafb81a40eba290dc2ebd54f2c6 done in 19.49s
+INFO:trainers_server.dp_worker.api.dispatcher_worker:metric op_duration_seconds op=forward_backward outcome=ok duration=19.4884 operation_id=a548ecafb81a40eba290dc2ebd54f2c6
+INFO:trainers_server.dp_worker.api.server:retrieve: operation_id=a548ecafb81a40eba290dc2ebd54f2c6 done after 19.49s
+INFO:     127.0.0.1:49064 - "GET /operations/a548ecafb81a40eba290dc2ebd54f2c6 HTTP/1.1" 200 OK
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 19.49s seq_len=16384 loss=13.6231
+INFO:     127.0.0.1:49064 - "GET /status HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57954 - "GET /status HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57962 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57962 - "GET /status HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57962 - "POST /reset_peak_memory HTTP/1.1" 200 OK
+INFO:trainers_server.dp_worker.api.server:submit: op=forward_backward operation_id=f031076f39b544c58bf9220648bf8d2e enqueued (qsize=1)
+INFO:     127.0.0.1:57962 - "POST /forward_backward HTTP/1.1" 202 Accepted
+ERROR:opentelemetry.sdk.trace.export:Exception while exporting Span batch.
+Traceback (most recent call last):
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/connection.py", line 204, in _new_conn
+    sock = connection.create_connection(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/util/connection.py", line 85, in create_connection
+    raise err
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/util/connection.py", line 73, in create_connection
+    sock.connect(sa)
+ConnectionRefusedError: [Errno 111] Connection refused
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+               ^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/connectionpool.py", line 493, in _make_request
+    conn.request(
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/connection.py", line 500, in request
+    self.endheaders()
+  File "/usr/lib/python3.12/http/client.py", line 1360, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.12/http/client.py", line 1120, in _send_output
+    self.send(msg)
+  File "/usr/lib/python3.12/http/client.py", line 1064, in send
+    self.connect()
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/connection.py", line 331, in connect
+    self.sock = self._new_conn()
+                ^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/connection.py", line 219, in _new_conn
+    raise NewConnectionError(
+urllib3.exceptions.NewConnectionError: HTTPConnection(host='localhost', port=4318): Failed to establish a new connection: [Errno 111] Connection refused
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/requests/adapters.py", line 644, in send
+    resp = conn.urlopen(
+           ^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+              ^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/util/retry.py", line 535, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='localhost', port=4318): Max retries exceeded with url: /v1/traces (Caused by NewConnectionError("HTTPConnection(host='localhost', port=4318): Failed to establish a new connection: [Errno 111] Connection refused"))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/opentelemetry/sdk/trace/export/__init__.py", line 362, in _export_batch
+    self.span_exporter.export(self.spans_list[:idx])  # type: ignore
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/opentelemetry/exporter/otlp/proto/http/trace_exporter/__init__.py", line 139, in export
+    resp = self._export(serialized_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/opentelemetry/exporter/otlp/proto/http/trace_exporter/__init__.py", line 110, in _export
+    return self._session.post(
+           ^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/requests/sessions.py", line 637, in post
+    return self.request("POST", url, data=data, json=json, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/requests/sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/requests/sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/requests/adapters.py", line 677, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPConnectionPool(host='localhost', port=4318): Max retries exceeded with url: /v1/traces (Caused by NewConnectionError("HTTPConnection(host='localhost', port=4318): Failed to establish a new connection: [Errno 111] Connection refused"))
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 26.33s seq_len=32768 loss=13.7639
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 26.33s seq_len=32768 loss=13.7639
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 26.33s seq_len=32768 loss=13.7639
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 26.33s seq_len=32768 loss=13.7639
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 26.33s seq_len=32768 loss=13.7639
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 26.33s seq_len=32768 loss=13.7639
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 26.33s seq_len=32768 loss=13.7639
+INFO:trainers_server.dp_worker.api.dispatcher_worker:dispatcher_worker: op=forward_backward operation_id=f031076f39b544c58bf9220648bf8d2e done in 26.33s
+INFO:trainers_server.dp_worker.api.dispatcher_worker:metric op_duration_seconds op=forward_backward outcome=ok duration=26.3331 operation_id=f031076f39b544c58bf9220648bf8d2e
+INFO:trainers_server.dp_worker.api.server:retrieve: operation_id=f031076f39b544c58bf9220648bf8d2e done after 26.33s
+INFO:     127.0.0.1:57962 - "GET /operations/f031076f39b544c58bf9220648bf8d2e HTTP/1.1" 200 OK
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 26.33s seq_len=32768 loss=13.7639
+INFO:trainers_server.dp_worker.api.server:submit: op=forward_backward operation_id=19f22ba4fdbd46c493b171ba38126997 enqueued (qsize=1)
+INFO:     127.0.0.1:57962 - "POST /forward_backward HTTP/1.1" 202 Accepted
+ERROR:opentelemetry.sdk.trace.export:Exception while exporting Span batch.
+Traceback (most recent call last):
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/connection.py", line 204, in _new_conn
+    sock = connection.create_connection(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/util/connection.py", line 85, in create_connection
+    raise err
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/util/connection.py", line 73, in create_connection
+    sock.connect(sa)
+ConnectionRefusedError: [Errno 111] Connection refused
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+               ^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/connectionpool.py", line 493, in _make_request
+    conn.request(
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/connection.py", line 500, in request
+    self.endheaders()
+  File "/usr/lib/python3.12/http/client.py", line 1360, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.12/http/client.py", line 1120, in _send_output
+    self.send(msg)
+  File "/usr/lib/python3.12/http/client.py", line 1064, in send
+    self.connect()
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/connection.py", line 331, in connect
+    self.sock = self._new_conn()
+                ^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/connection.py", line 219, in _new_conn
+    raise NewConnectionError(
+urllib3.exceptions.NewConnectionError: HTTPConnection(host='localhost', port=4318): Failed to establish a new connection: [Errno 111] Connection refused
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/requests/adapters.py", line 644, in send
+    resp = conn.urlopen(
+           ^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+              ^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/util/retry.py", line 535, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='localhost', port=4318): Max retries exceeded with url: /v1/traces (Caused by NewConnectionError("HTTPConnection(host='localhost', port=4318): Failed to establish a new connection: [Errno 111] Connection refused"))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/opentelemetry/sdk/trace/export/__init__.py", line 362, in _export_batch
+    self.span_exporter.export(self.spans_list[:idx])  # type: ignore
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/opentelemetry/exporter/otlp/proto/http/trace_exporter/__init__.py", line 139, in export
+    resp = self._export(serialized_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/opentelemetry/exporter/otlp/proto/http/trace_exporter/__init__.py", line 110, in _export
+    return self._session.post(
+           ^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/requests/sessions.py", line 637, in post
+    return self.request("POST", url, data=data, json=json, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/requests/sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/requests/sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/requests/adapters.py", line 677, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPConnectionPool(host='localhost', port=4318): Max retries exceeded with url: /v1/traces (Caused by NewConnectionError("HTTPConnection(host='localhost', port=4318): Failed to establish a new connection: [Errno 111] Connection refused"))
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 24.99s seq_len=32768 loss=13.7539
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 24.99s seq_len=32768 loss=13.7539
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 24.99s seq_len=32768 loss=13.7539
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 24.99s seq_len=32768 loss=13.7539
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 24.99s seq_len=32768 loss=13.7539
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 24.99s seq_len=32768 loss=13.7539
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 24.99s seq_len=32768 loss=13.7539
+INFO:trainers_server.dp_worker.api.dispatcher_worker:dispatcher_worker: op=forward_backward operation_id=19f22ba4fdbd46c493b171ba38126997 done in 24.99s
+INFO:trainers_server.dp_worker.api.dispatcher_worker:metric op_duration_seconds op=forward_backward outcome=ok duration=24.9937 operation_id=19f22ba4fdbd46c493b171ba38126997
+INFO:trainers_server.dp_worker.api.server:retrieve: operation_id=19f22ba4fdbd46c493b171ba38126997 done after 24.99s
+INFO:     127.0.0.1:57962 - "GET /operations/19f22ba4fdbd46c493b171ba38126997 HTTP/1.1" 200 OK
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 24.99s seq_len=32768 loss=13.7539
+INFO:     127.0.0.1:57962 - "GET /status HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46272 - "GET /status HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46282 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46282 - "GET /status HTTP/1.1" 200 OK
+INFO:     127.0.0.1:46282 - "POST /reset_peak_memory HTTP/1.1" 200 OK
+INFO:trainers_server.dp_worker.api.server:submit: op=forward_backward operation_id=012af11adb804257aa14ca59b705e837 enqueued (qsize=1)
+INFO:     127.0.0.1:46282 - "POST /forward_backward HTTP/1.1" 202 Accepted
+ERROR:opentelemetry.sdk.trace.export:Exception while exporting Span batch.
+Traceback (most recent call last):
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/connection.py", line 204, in _new_conn
+    sock = connection.create_connection(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/util/connection.py", line 85, in create_connection
+    raise err
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/util/connection.py", line 73, in create_connection
+    sock.connect(sa)
+ConnectionRefusedError: [Errno 111] Connection refused
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+               ^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/connectionpool.py", line 493, in _make_request
+    conn.request(
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/connection.py", line 500, in request
+    self.endheaders()
+  File "/usr/lib/python3.12/http/client.py", line 1360, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.12/http/client.py", line 1120, in _send_output
+    self.send(msg)
+  File "/usr/lib/python3.12/http/client.py", line 1064, in send
+    self.connect()
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/connection.py", line 331, in connect
+    self.sock = self._new_conn()
+                ^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/connection.py", line 219, in _new_conn
+    raise NewConnectionError(
+urllib3.exceptions.NewConnectionError: HTTPConnection(host='localhost', port=4318): Failed to establish a new connection: [Errno 111] Connection refused
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/requests/adapters.py", line 644, in send
+    resp = conn.urlopen(
+           ^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+              ^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/util/retry.py", line 535, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='localhost', port=4318): Max retries exceeded with url: /v1/traces (Caused by NewConnectionError("HTTPConnection(host='localhost', port=4318): Failed to establish a new connection: [Errno 111] Connection refused"))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/opentelemetry/sdk/trace/export/__init__.py", line 362, in _export_batch
+    self.span_exporter.export(self.spans_list[:idx])  # type: ignore
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/opentelemetry/exporter/otlp/proto/http/trace_exporter/__init__.py", line 139, in export
+    resp = self._export(serialized_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/opentelemetry/exporter/otlp/proto/http/trace_exporter/__init__.py", line 110, in _export
+    return self._session.post(
+           ^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/requests/sessions.py", line 637, in post
+    return self.request("POST", url, data=data, json=json, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/requests/sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/requests/sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/requests/adapters.py", line 677, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPConnectionPool(host='localhost', port=4318): Max retries exceeded with url: /v1/traces (Caused by NewConnectionError("HTTPConnection(host='localhost', port=4318): Failed to establish a new connection: [Errno 111] Connection refused"))
+INFO:     127.0.0.1:46282 - "GET /operations/012af11adb804257aa14ca59b705e837 HTTP/1.1" 408 Request Timeout
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 37.04s seq_len=65536 loss=13.2890
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 37.05s seq_len=65536 loss=13.2890
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 37.06s seq_len=65536 loss=13.2890
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 37.05s seq_len=65536 loss=13.2890
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 37.05s seq_len=65536 loss=13.2890
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 37.06s seq_len=65536 loss=13.2890
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 37.04s seq_len=65536 loss=13.2890
+INFO:trainers_server.dp_worker.api.dispatcher_worker:dispatcher_worker: op=forward_backward operation_id=012af11adb804257aa14ca59b705e837 done in 37.07s
+INFO:trainers_server.dp_worker.api.dispatcher_worker:metric op_duration_seconds op=forward_backward outcome=ok duration=37.0687 operation_id=012af11adb804257aa14ca59b705e837
+INFO:trainers_server.dp_worker.api.server:retrieve: operation_id=012af11adb804257aa14ca59b705e837 done after 7.06s
+INFO:     127.0.0.1:46282 - "GET /operations/012af11adb804257aa14ca59b705e837 HTTP/1.1" 200 OK
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 37.06s seq_len=65536 loss=13.2890
+INFO:trainers_server.dp_worker.api.server:submit: op=forward_backward operation_id=ac239a3cb6c54794bd27b0d7d7ad1aad enqueued (qsize=1)
+INFO:     127.0.0.1:46282 - "POST /forward_backward HTTP/1.1" 202 Accepted
+ERROR:opentelemetry.sdk.trace.export:Exception while exporting Span batch.
+Traceback (most recent call last):
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/connection.py", line 204, in _new_conn
+    sock = connection.create_connection(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/util/connection.py", line 85, in create_connection
+    raise err
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/util/connection.py", line 73, in create_connection
+    sock.connect(sa)
+ConnectionRefusedError: [Errno 111] Connection refused
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+               ^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/connectionpool.py", line 493, in _make_request
+    conn.request(
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/connection.py", line 500, in request
+    self.endheaders()
+  File "/usr/lib/python3.12/http/client.py", line 1360, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.12/http/client.py", line 1120, in _send_output
+    self.send(msg)
+  File "/usr/lib/python3.12/http/client.py", line 1064, in send
+    self.connect()
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/connection.py", line 331, in connect
+    self.sock = self._new_conn()
+                ^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/connection.py", line 219, in _new_conn
+    raise NewConnectionError(
+urllib3.exceptions.NewConnectionError: HTTPConnection(host='localhost', port=4318): Failed to establish a new connection: [Errno 111] Connection refused
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/requests/adapters.py", line 644, in send
+    resp = conn.urlopen(
+           ^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+              ^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/util/retry.py", line 535, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='localhost', port=4318): Max retries exceeded with url: /v1/traces (Caused by NewConnectionError("HTTPConnection(host='localhost', port=4318): Failed to establish a new connection: [Errno 111] Connection refused"))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/opentelemetry/sdk/trace/export/__init__.py", line 362, in _export_batch
+    self.span_exporter.export(self.spans_list[:idx])  # type: ignore
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/opentelemetry/exporter/otlp/proto/http/trace_exporter/__init__.py", line 139, in export
+    resp = self._export(serialized_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/opentelemetry/exporter/otlp/proto/http/trace_exporter/__init__.py", line 110, in _export
+    return self._session.post(
+           ^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/requests/sessions.py", line 637, in post
+    return self.request("POST", url, data=data, json=json, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/requests/sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/requests/sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/requests/adapters.py", line 677, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPConnectionPool(host='localhost', port=4318): Max retries exceeded with url: /v1/traces (Caused by NewConnectionError("HTTPConnection(host='localhost', port=4318): Failed to establish a new connection: [Errno 111] Connection refused"))
+INFO:     127.0.0.1:46282 - "GET /operations/ac239a3cb6c54794bd27b0d7d7ad1aad HTTP/1.1" 408 Request Timeout
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 33.75s seq_len=65536 loss=13.3051
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 33.73s seq_len=65536 loss=13.3051
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 33.72s seq_len=65536 loss=13.3051
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 33.72s seq_len=65536 loss=13.3051
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 33.73s seq_len=65536 loss=13.3051
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 33.72s seq_len=65536 loss=13.3051
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 33.72s seq_len=65536 loss=13.3051
+INFO:trainers_server.dp_worker.api.dispatcher_worker:dispatcher_worker: op=forward_backward operation_id=ac239a3cb6c54794bd27b0d7d7ad1aad done in 33.76s
+INFO:trainers_server.dp_worker.api.dispatcher_worker:metric op_duration_seconds op=forward_backward outcome=ok duration=33.7570 operation_id=ac239a3cb6c54794bd27b0d7d7ad1aad
+INFO:trainers_server.dp_worker.api.server:retrieve: operation_id=ac239a3cb6c54794bd27b0d7d7ad1aad done after 3.75s
+INFO:     127.0.0.1:46282 - "GET /operations/ac239a3cb6c54794bd27b0d7d7ad1aad HTTP/1.1" 200 OK
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 33.73s seq_len=65536 loss=13.3051
+INFO:     127.0.0.1:46282 - "GET /status HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53832 - "GET /status HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53836 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53836 - "GET /status HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53836 - "POST /reset_peak_memory HTTP/1.1" 200 OK
+INFO:trainers_server.dp_worker.api.server:submit: op=forward_backward operation_id=23d2eceff38846488ef756688b390816 enqueued (qsize=1)
+INFO:     127.0.0.1:53836 - "POST /forward_backward HTTP/1.1" 202 Accepted
+ERROR:opentelemetry.sdk.trace.export:Exception while exporting Span batch.
+Traceback (most recent call last):
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/connection.py", line 204, in _new_conn
+    sock = connection.create_connection(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/util/connection.py", line 85, in create_connection
+    raise err
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/util/connection.py", line 73, in create_connection
+    sock.connect(sa)
+ConnectionRefusedError: [Errno 111] Connection refused
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+               ^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/connectionpool.py", line 493, in _make_request
+    conn.request(
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/connection.py", line 500, in request
+    self.endheaders()
+  File "/usr/lib/python3.12/http/client.py", line 1360, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.12/http/client.py", line 1120, in _send_output
+    self.send(msg)
+  File "/usr/lib/python3.12/http/client.py", line 1064, in send
+    self.connect()
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/connection.py", line 331, in connect
+    self.sock = self._new_conn()
+                ^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/connection.py", line 219, in _new_conn
+    raise NewConnectionError(
+urllib3.exceptions.NewConnectionError: HTTPConnection(host='localhost', port=4318): Failed to establish a new connection: [Errno 111] Connection refused
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/requests/adapters.py", line 644, in send
+    resp = conn.urlopen(
+           ^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+              ^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/util/retry.py", line 535, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='localhost', port=4318): Max retries exceeded with url: /v1/traces (Caused by NewConnectionError("HTTPConnection(host='localhost', port=4318): Failed to establish a new connection: [Errno 111] Connection refused"))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/opentelemetry/sdk/trace/export/__init__.py", line 362, in _export_batch
+    self.span_exporter.export(self.spans_list[:idx])  # type: ignore
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/opentelemetry/exporter/otlp/proto/http/trace_exporter/__init__.py", line 139, in export
+    resp = self._export(serialized_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/opentelemetry/exporter/otlp/proto/http/trace_exporter/__init__.py", line 110, in _export
+    return self._session.post(
+           ^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/requests/sessions.py", line 637, in post
+    return self.request("POST", url, data=data, json=json, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/requests/sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/requests/sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/requests/adapters.py", line 677, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPConnectionPool(host='localhost', port=4318): Max retries exceeded with url: /v1/traces (Caused by NewConnectionError("HTTPConnection(host='localhost', port=4318): Failed to establish a new connection: [Errno 111] Connection refused"))
+INFO:     127.0.0.1:53836 - "GET /operations/23d2eceff38846488ef756688b390816 HTTP/1.1" 408 Request Timeout
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 45.35s seq_len=98304 loss=13.4216
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 45.32s seq_len=98304 loss=13.4216
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 45.34s seq_len=98304 loss=13.4216
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 45.32s seq_len=98304 loss=13.4216
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 45.35s seq_len=98304 loss=13.4216
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 45.35s seq_len=98304 loss=13.4216
+INFO:trainers_server.dp_worker.api.dispatcher_worker:dispatcher_worker: op=forward_backward operation_id=23d2eceff38846488ef756688b390816 done in 45.35s
+INFO:trainers_server.dp_worker.api.dispatcher_worker:metric op_duration_seconds op=forward_backward outcome=ok duration=45.3552 operation_id=23d2eceff38846488ef756688b390816
+INFO:trainers_server.dp_worker.api.server:retrieve: operation_id=23d2eceff38846488ef756688b390816 done after 15.35s
+INFO:     127.0.0.1:53836 - "GET /operations/23d2eceff38846488ef756688b390816 HTTP/1.1" 200 OK
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 45.33s seq_len=98304 loss=13.4216
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 45.33s seq_len=98304 loss=13.4216
+INFO:trainers_server.dp_worker.api.server:submit: op=forward_backward operation_id=320418e88e0543a88af173b8c7aaf532 enqueued (qsize=1)
+INFO:     127.0.0.1:53836 - "POST /forward_backward HTTP/1.1" 202 Accepted
+ERROR:opentelemetry.sdk.trace.export:Exception while exporting Span batch.
+Traceback (most recent call last):
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/connection.py", line 204, in _new_conn
+    sock = connection.create_connection(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/util/connection.py", line 85, in create_connection
+    raise err
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/util/connection.py", line 73, in create_connection
+    sock.connect(sa)
+ConnectionRefusedError: [Errno 111] Connection refused
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+               ^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/connectionpool.py", line 493, in _make_request
+    conn.request(
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/connection.py", line 500, in request
+    self.endheaders()
+  File "/usr/lib/python3.12/http/client.py", line 1360, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.12/http/client.py", line 1120, in _send_output
+    self.send(msg)
+  File "/usr/lib/python3.12/http/client.py", line 1064, in send
+    self.connect()
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/connection.py", line 331, in connect
+    self.sock = self._new_conn()
+                ^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/connection.py", line 219, in _new_conn
+    raise NewConnectionError(
+urllib3.exceptions.NewConnectionError: HTTPConnection(host='localhost', port=4318): Failed to establish a new connection: [Errno 111] Connection refused
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/requests/adapters.py", line 644, in send
+    resp = conn.urlopen(
+           ^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+              ^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/util/retry.py", line 535, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='localhost', port=4318): Max retries exceeded with url: /v1/traces (Caused by NewConnectionError("HTTPConnection(host='localhost', port=4318): Failed to establish a new connection: [Errno 111] Connection refused"))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/opentelemetry/sdk/trace/export/__init__.py", line 362, in _export_batch
+    self.span_exporter.export(self.spans_list[:idx])  # type: ignore
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/opentelemetry/exporter/otlp/proto/http/trace_exporter/__init__.py", line 139, in export
+    resp = self._export(serialized_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/opentelemetry/exporter/otlp/proto/http/trace_exporter/__init__.py", line 110, in _export
+    return self._session.post(
+           ^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/requests/sessions.py", line 637, in post
+    return self.request("POST", url, data=data, json=json, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/requests/sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/requests/sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/requests/adapters.py", line 677, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPConnectionPool(host='localhost', port=4318): Max retries exceeded with url: /v1/traces (Caused by NewConnectionError("HTTPConnection(host='localhost', port=4318): Failed to establish a new connection: [Errno 111] Connection refused"))
+INFO:     127.0.0.1:53836 - "GET /operations/320418e88e0543a88af173b8c7aaf532 HTTP/1.1" 408 Request Timeout
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 43.87s seq_len=98304 loss=13.3965
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 43.86s seq_len=98304 loss=13.3965
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 43.87s seq_len=98304 loss=13.3965
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 43.87s seq_len=98304 loss=13.3965
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 43.86s seq_len=98304 loss=13.3965
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 43.86s seq_len=98304 loss=13.3965
+INFO:trainers_server.dp_worker.api.dispatcher_worker:dispatcher_worker: op=forward_backward operation_id=320418e88e0543a88af173b8c7aaf532 done in 43.87s
+INFO:trainers_server.dp_worker.api.dispatcher_worker:metric op_duration_seconds op=forward_backward outcome=ok duration=43.8745 operation_id=320418e88e0543a88af173b8c7aaf532
+INFO:trainers_server.dp_worker.api.server:retrieve: operation_id=320418e88e0543a88af173b8c7aaf532 done after 13.87s
+INFO:     127.0.0.1:53836 - "GET /operations/320418e88e0543a88af173b8c7aaf532 HTTP/1.1" 200 OK
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 43.87s seq_len=98304 loss=13.3965
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 43.88s seq_len=98304 loss=13.3965
+INFO:     127.0.0.1:53836 - "GET /status HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34092 - "GET /status HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34096 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34096 - "GET /status HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34096 - "POST /reset_peak_memory HTTP/1.1" 200 OK
+INFO:trainers_server.dp_worker.api.server:submit: op=forward_backward operation_id=9814246630ad48a0a4979ba8d941864c enqueued (qsize=1)
+INFO:     127.0.0.1:34096 - "POST /forward_backward HTTP/1.1" 202 Accepted
+ERROR:opentelemetry.sdk.trace.export:Exception while exporting Span batch.
+Traceback (most recent call last):
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/connection.py", line 204, in _new_conn
+    sock = connection.create_connection(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/util/connection.py", line 85, in create_connection
+    raise err
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/util/connection.py", line 73, in create_connection
+    sock.connect(sa)
+ConnectionRefusedError: [Errno 111] Connection refused
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+               ^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/connectionpool.py", line 493, in _make_request
+    conn.request(
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/connection.py", line 500, in request
+    self.endheaders()
+  File "/usr/lib/python3.12/http/client.py", line 1360, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.12/http/client.py", line 1120, in _send_output
+    self.send(msg)
+  File "/usr/lib/python3.12/http/client.py", line 1064, in send
+    self.connect()
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/connection.py", line 331, in connect
+    self.sock = self._new_conn()
+                ^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/connection.py", line 219, in _new_conn
+    raise NewConnectionError(
+urllib3.exceptions.NewConnectionError: HTTPConnection(host='localhost', port=4318): Failed to establish a new connection: [Errno 111] Connection refused
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/requests/adapters.py", line 644, in send
+    resp = conn.urlopen(
+           ^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+              ^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/util/retry.py", line 535, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='localhost', port=4318): Max retries exceeded with url: /v1/traces (Caused by NewConnectionError("HTTPConnection(host='localhost', port=4318): Failed to establish a new connection: [Errno 111] Connection refused"))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/opentelemetry/sdk/trace/export/__init__.py", line 362, in _export_batch
+    self.span_exporter.export(self.spans_list[:idx])  # type: ignore
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/opentelemetry/exporter/otlp/proto/http/trace_exporter/__init__.py", line 139, in export
+    resp = self._export(serialized_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/opentelemetry/exporter/otlp/proto/http/trace_exporter/__init__.py", line 110, in _export
+    return self._session.post(
+           ^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/requests/sessions.py", line 637, in post
+    return self.request("POST", url, data=data, json=json, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/requests/sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/requests/sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/requests/adapters.py", line 677, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPConnectionPool(host='localhost', port=4318): Max retries exceeded with url: /v1/traces (Caused by NewConnectionError("HTTPConnection(host='localhost', port=4318): Failed to establish a new connection: [Errno 111] Connection refused"))
+INFO:     127.0.0.1:34096 - "GET /operations/9814246630ad48a0a4979ba8d941864c HTTP/1.1" 408 Request Timeout
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 56.58s seq_len=131072 loss=13.5222
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 56.58s seq_len=131072 loss=13.5222
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 56.58s seq_len=131072 loss=13.5222
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 56.60s seq_len=131072 loss=13.5222
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 56.58s seq_len=131072 loss=13.5222
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 56.59s seq_len=131072 loss=13.5222
+INFO:trainers_server.dp_worker.api.dispatcher_worker:dispatcher_worker: op=forward_backward operation_id=9814246630ad48a0a4979ba8d941864c done in 56.60s
+INFO:trainers_server.dp_worker.api.dispatcher_worker:metric op_duration_seconds op=forward_backward outcome=ok duration=56.6046 operation_id=9814246630ad48a0a4979ba8d941864c
+INFO:trainers_server.dp_worker.api.server:retrieve: operation_id=9814246630ad48a0a4979ba8d941864c done after 26.60s
+INFO:     127.0.0.1:34096 - "GET /operations/9814246630ad48a0a4979ba8d941864c HTTP/1.1" 200 OK
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 56.59s seq_len=131072 loss=13.5222
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 56.59s seq_len=131072 loss=13.5222
+INFO:trainers_server.dp_worker.api.server:submit: op=forward_backward operation_id=e5ef8437710f4557bbd0ed228a134aa8 enqueued (qsize=1)
+INFO:     127.0.0.1:34096 - "POST /forward_backward HTTP/1.1" 202 Accepted
+ERROR:opentelemetry.sdk.trace.export:Exception while exporting Span batch.
+Traceback (most recent call last):
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/connection.py", line 204, in _new_conn
+    sock = connection.create_connection(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/util/connection.py", line 85, in create_connection
+    raise err
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/util/connection.py", line 73, in create_connection
+    sock.connect(sa)
+ConnectionRefusedError: [Errno 111] Connection refused
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+               ^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/connectionpool.py", line 493, in _make_request
+    conn.request(
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/connection.py", line 500, in request
+    self.endheaders()
+  File "/usr/lib/python3.12/http/client.py", line 1360, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.12/http/client.py", line 1120, in _send_output
+    self.send(msg)
+  File "/usr/lib/python3.12/http/client.py", line 1064, in send
+    self.connect()
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/connection.py", line 331, in connect
+    self.sock = self._new_conn()
+                ^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/connection.py", line 219, in _new_conn
+    raise NewConnectionError(
+urllib3.exceptions.NewConnectionError: HTTPConnection(host='localhost', port=4318): Failed to establish a new connection: [Errno 111] Connection refused
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/requests/adapters.py", line 644, in send
+    resp = conn.urlopen(
+           ^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+              ^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/util/retry.py", line 535, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='localhost', port=4318): Max retries exceeded with url: /v1/traces (Caused by NewConnectionError("HTTPConnection(host='localhost', port=4318): Failed to establish a new connection: [Errno 111] Connection refused"))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/opentelemetry/sdk/trace/export/__init__.py", line 362, in _export_batch
+    self.span_exporter.export(self.spans_list[:idx])  # type: ignore
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/opentelemetry/exporter/otlp/proto/http/trace_exporter/__init__.py", line 139, in export
+    resp = self._export(serialized_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/opentelemetry/exporter/otlp/proto/http/trace_exporter/__init__.py", line 110, in _export
+    return self._session.post(
+           ^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/requests/sessions.py", line 637, in post
+    return self.request("POST", url, data=data, json=json, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/requests/sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/requests/sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/requests/adapters.py", line 677, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPConnectionPool(host='localhost', port=4318): Max retries exceeded with url: /v1/traces (Caused by NewConnectionError("HTTPConnection(host='localhost', port=4318): Failed to establish a new connection: [Errno 111] Connection refused"))
+INFO:     127.0.0.1:34096 - "GET /operations/e5ef8437710f4557bbd0ed228a134aa8 HTTP/1.1" 408 Request Timeout
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 56.17s seq_len=131072 loss=13.5388
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 56.17s seq_len=131072 loss=13.5388
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 56.17s seq_len=131072 loss=13.5388
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 56.17s seq_len=131072 loss=13.5388
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 56.17s seq_len=131072 loss=13.5388
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 56.17s seq_len=131072 loss=13.5388
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 56.18s seq_len=131072 loss=13.5388
+INFO:trainers_server.dp_worker.api.dispatcher_worker:dispatcher_worker: op=forward_backward operation_id=e5ef8437710f4557bbd0ed228a134aa8 done in 56.19s
+INFO:trainers_server.dp_worker.api.dispatcher_worker:metric op_duration_seconds op=forward_backward outcome=ok duration=56.1860 operation_id=e5ef8437710f4557bbd0ed228a134aa8
+INFO:trainers_server.dp_worker.api.server:retrieve: operation_id=e5ef8437710f4557bbd0ed228a134aa8 done after 26.18s
+INFO:     127.0.0.1:34096 - "GET /operations/e5ef8437710f4557bbd0ed228a134aa8 HTTP/1.1" 200 OK
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 56.19s seq_len=131072 loss=13.5388
+INFO:     127.0.0.1:34096 - "GET /status HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60932 - "GET /status HTTP/1.1" 200 OK
+ERROR:opentelemetry.sdk.trace.export:Exception while exporting Span batch.
+Traceback (most recent call last):
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/connection.py", line 204, in _new_conn
+    sock = connection.create_connection(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/util/connection.py", line 85, in create_connection
+    raise err
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/util/connection.py", line 73, in create_connection
+    sock.connect(sa)
+ConnectionRefusedError: [Errno 111] Connection refused
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+               ^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/connectionpool.py", line 493, in _make_request
+    conn.request(
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/connection.py", line 500, in request
+    self.endheaders()
+  File "/usr/lib/python3.12/http/client.py", line 1360, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.12/http/client.py", line 1120, in _send_output
+    self.send(msg)
+  File "/usr/lib/python3.12/http/client.py", line 1064, in send
+    self.connect()
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/connection.py", line 331, in connect
+    self.sock = self._new_conn()
+                ^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/connection.py", line 219, in _new_conn
+    raise NewConnectionError(
+urllib3.exceptions.NewConnectionError: HTTPConnection(host='localhost', port=4318): Failed to establish a new connection: [Errno 111] Connection refused
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/requests/adapters.py", line 644, in send
+    resp = conn.urlopen(
+           ^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+              ^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/urllib3/util/retry.py", line 535, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='localhost', port=4318): Max retries exceeded with url: /v1/traces (Caused by NewConnectionError("HTTPConnection(host='localhost', port=4318): Failed to establish a new connection: [Errno 111] Connection refused"))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/opentelemetry/sdk/trace/export/__init__.py", line 362, in _export_batch
+    self.span_exporter.export(self.spans_list[:idx])  # type: ignore
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/opentelemetry/exporter/otlp/proto/http/trace_exporter/__init__.py", line 139, in export
+    resp = self._export(serialized_data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/opentelemetry/exporter/otlp/proto/http/trace_exporter/__init__.py", line 110, in _export
+    return self._session.post(
+           ^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/requests/sessions.py", line 637, in post
+    return self.request("POST", url, data=data, json=json, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/requests/sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/requests/sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/requests/adapters.py", line 677, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPConnectionPool(host='localhost', port=4318): Max retries exceeded with url: /v1/traces (Caused by NewConnectionError("HTTPConnection(host='localhost', port=4318): Failed to establish a new connection: [Errno 111] Connection refused"))

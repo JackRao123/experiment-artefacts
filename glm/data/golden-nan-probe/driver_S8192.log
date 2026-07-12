@@ -1,0 +1,32 @@
+
+[status:before] step=1 last_loss=13.038429105616606
+  parallel: TP=1 PP=16 EP=2 ETP=1 CP=1 DP=2 world=32 max_seq_len=131072
+  reserved:  cuda:0=39.76GiB, rank0=39.76GiB, rank0:max_reserved=39.76GiB, rank1=39.35GiB, rank1:max_reserved=39.35GiB, rank2=44.25GiB, rank2:max_reserved=44.25GiB, rank3=44.86GiB, rank3:max_reserved=44.86GiB, rank4=45.50GiB, rank4:max_reserved=45.50GiB, rank5=44.29GiB, rank5:max_reserved=44.29GiB, rank6=45.25GiB, rank6:max_reserved=45.25GiB, rank7=44.72GiB, rank7:max_reserved=44.72GiB, rank8=45.04GiB, rank8:max_reserved=45.04GiB, rank9=45.04GiB, rank9:max_reserved=45.04GiB, rank10=45.25GiB, rank10:max_reserved=45.25GiB, rank11=45.72GiB, rank11:max_reserved=45.72GiB, rank12=45.93GiB, rank12:max_reserved=45.93GiB, rank13=44.66GiB, rank13:max_reserved=44.66GiB, rank14=45.37GiB, rank14:max_reserved=45.37GiB, rank15=45.33GiB, rank15:max_reserved=45.33GiB, rank16=45.17GiB, rank16:max_reserved=45.17GiB, rank17=44.61GiB, rank17:max_reserved=44.61GiB, rank18=45.62GiB, rank18:max_reserved=45.62GiB, rank19=45.45GiB, rank19:max_reserved=45.45GiB, rank20=45.60GiB, rank20:max_reserved=45.60GiB, rank21=44.55GiB, rank21:max_reserved=44.55GiB, rank22=44.76GiB, rank22:max_reserved=44.76GiB, rank23=45.82GiB, rank23:max_reserved=45.82GiB, rank24=45.89GiB, rank24:max_reserved=45.89GiB, rank25=45.05GiB, rank25:max_reserved=45.05GiB, rank26=82.64GiB, rank26:max_reserved=82.64GiB, rank27=84.19GiB, rank27:max_reserved=84.19GiB, rank28=83.52GiB, rank28:max_reserved=83.52GiB, rank29=83.25GiB, rank29:max_reserved=83.25GiB, rank30=84.58GiB, rank30:max_reserved=84.58GiB, rank31=84.68GiB, rank31:max_reserved=84.68GiB
+  allocated: cuda:0=32.74GiB, rank0=32.74GiB, rank1=32.73GiB, rank2=38.12GiB, rank3=38.12GiB, rank4=38.12GiB, rank5=38.12GiB, rank6=38.12GiB, rank7=38.12GiB, rank8=38.12GiB, rank9=38.12GiB, rank10=38.12GiB, rank11=38.12GiB, rank12=38.12GiB, rank13=38.12GiB, rank14=38.12GiB, rank15=38.12GiB, rank16=38.12GiB, rank17=38.12GiB, rank18=38.12GiB, rank19=38.12GiB, rank20=38.12GiB, rank21=38.12GiB, rank22=38.12GiB, rank23=38.12GiB, rank24=38.12GiB, rank25=38.12GiB, rank26=75.86GiB, rank27=75.86GiB, rank28=75.86GiB, rank29=75.86GiB, rank30=77.63GiB, rank31=77.63GiB
+  peak_alloc:cuda:0=39.03GiB, rank0=39.03GiB, rank1=38.80GiB, rank2=43.79GiB, rank3=44.21GiB, rank4=44.98GiB, rank5=43.83GiB, rank6=44.62GiB, rank7=43.92GiB, rank8=44.55GiB, rank9=44.25GiB, rank10=44.85GiB, rank11=45.06GiB, rank12=45.48GiB, rank13=44.10GiB, rank14=44.47GiB, rank15=44.84GiB, rank16=44.70GiB, rank17=44.05GiB, rank18=45.15GiB, rank19=44.74GiB, rank20=44.86GiB, rank21=44.07GiB, rank22=43.95GiB, rank23=45.17GiB, rank24=45.17GiB, rank25=44.59GiB, rank26=81.89GiB, rank27=83.23GiB, rank28=82.79GiB, rank29=82.70GiB, rank30=83.94GiB, rank31=84.12GiB
+[driver] reset CUDA peak-alloc counters (per-run profiling)
+[driver] STEP FAILED: /optim_step op error: ValidationError: 1 validation error for OptimStepMetrics
+grad_norm
+  Input should be greater than or equal to 0 [type=greater_than_equal, input_value=nan, input_type=float]
+    For further information visit https://errors.pydantic.dev/2.12/v/greater_than_equal
+Traceback (most recent call last):
+  File "/root/.cache/user_artifacts/glm_prof/sft_driver.py", line 442, in <module>
+    main()
+  File "/root/.cache/user_artifacts/glm_prof/sft_driver.py", line 427, in main
+    final = report_status(client, "after")
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/glm_prof/sft_driver.py", line 267, in report_status
+    s = client.get("/status", timeout=30.0).json()
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/httpx/_models.py", line 832, in json
+    return jsonlib.loads(self.content, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/json/decoder.py", line 337, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/json/decoder.py", line 355, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)

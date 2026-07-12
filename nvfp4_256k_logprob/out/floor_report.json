@@ -1,0 +1,76 @@
+{
+  "regimes": {
+    "8k_smoke": {
+      "1_vs_2_floor": {
+        "diagnostics": {
+          "tokens": 256,
+          "dropped_nan": 0,
+          "ids": [
+            "smoke_8k"
+          ]
+        },
+        "metrics": {
+          "tokens": 256,
+          "mean_abs": 2.4415996880966517e-06,
+          "rms": 1.3362674218449357e-05,
+          "max_abs": 0.00013999134534969926,
+          "k3": 8.927678301490216e-11,
+          "ess_over_n": 0.9999999998235004,
+          "clip_fraction": 0.0,
+          "mean_log_ratio": 1.4432448049994662e-06,
+          "sum_log_ratio": 0.00036947067007986334,
+          "weight_min": 0.9999843839924003,
+          "weight_max": 1.0001400011445953
+        }
+      }
+    },
+    "long_prompt_short_response": {
+      "1_vs_2_floor": {
+        "diagnostics": {
+          "tokens": 512,
+          "dropped_nan": 0,
+          "ids": [
+            "long_prompt_short_response"
+          ]
+        },
+        "metrics": {
+          "tokens": 512,
+          "mean_abs": 3.2149913944401476e-06,
+          "rms": 1.2488288122529766e-05,
+          "max_abs": 0.00012679240899160504,
+          "k3": 7.797924762506514e-11,
+          "ess_over_n": 0.9999999998442161,
+          "clip_fraction": 0.0,
+          "mean_log_ratio": -4.1267988271087575e-07,
+          "sum_log_ratio": -0.00021129209994796838,
+          "weight_min": 0.9998732156288261,
+          "weight_max": 1.0001038028887987
+        }
+      }
+    },
+    "short_prompt_long_response": {
+      "1_vs_2_floor": {
+        "diagnostics": {
+          "tokens": 16384,
+          "dropped_nan": 0,
+          "ids": [
+            "short_prompt_long_response"
+          ]
+        },
+        "metrics": {
+          "tokens": 16384,
+          "mean_abs": 0.011318722051622784,
+          "rms": 0.11746070147204139,
+          "max_abs": 6.791820168495178,
+          "k3": 0.07024668717976378,
+          "ess_over_n": 0.994075269265858,
+          "clip_fraction": 0.01275634765625,
+          "mean_log_ratio": -0.005286138598331014,
+          "sum_log_ratio": -86.60809479505534,
+          "weight_min": 0.0011229230038421842,
+          "weight_max": 5.199193937492252
+        }
+      }
+    }
+  }
+}

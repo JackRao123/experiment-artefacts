@@ -1,0 +1,12 @@
+{
+  "base_model": "nvidia/NVIDIA-Nemotron-3-Ultra-550B-A55B-BF16",
+  "max_seq_len": 262144,
+  "tensor_parallel_size": 8,
+  "pipeline_parallel_size": 4,
+  "context_parallel_size": 1,
+  "expert_parallel_size": 4,
+  "expert_tensor_parallel_size": 2,
+  "trust_remote_code": true,
+  "lora_rank": 16,
+  "weight_sync": {"type": "disabled"}
+}

@@ -1,0 +1,55 @@
+{
+  "log": {
+    "available_kv_gib_per_gpu": 61.52,
+    "buckets": [],
+    "cudagraph_pool_gib": 1.32,
+    "cutlass_moe_selected": false,
+    "kv_pool_tokens": 2675963,
+    "loading_weights_s": 115.97,
+    "max_concurrency": 10.21,
+    "max_concurrency_ctx_tokens": 262144,
+    "model_loading_s": 118.039872,
+    "nemotron_patches_applied": false,
+    "oom": false,
+    "preemption_lines": 0,
+    "weights_gib_per_gpu": 91.23
+  },
+  "result": {
+    "adapter": "/root/.cache/user_artifacts/nemotron_lora_test/sampler_weights/pirate-v1",
+    "boot_wall_s": 606.1,
+    "capacity": {
+      "kv_pool_tokens_logged": 2675963,
+      "max_concurrency_logged": 10.21,
+      "max_model_len": 262144
+    },
+    "engine_kwargs": {
+      "cudagraph_capture_sizes": "[1, 2, 4, 8, 16, 32, 64, 128, 192, 256, 384, 512, 640, 768, 896, 1000]",
+      "enable_lora": "True",
+      "enable_prefix_caching": "True",
+      "gpu_memory_utilization": "0.9",
+      "load_format": "fastsafetensors",
+      "max_lora_rank": "64",
+      "max_loras": "4",
+      "max_model_len": "262144",
+      "max_num_seqs": "1000",
+      "model": "/root/.cache/user_artifacts/huggingface/hub/models--nvidia--NVIDIA-Nemotron-3-Super-120B-A12B-BF16/snapshots/d51eab0d1f979ebc26b546e634a04f450d99158e",
+      "tensor_parallel_size": "4",
+      "trust_remote_code": "True"
+    },
+    "max_model_len": 262144,
+    "tp": 4
+  },
+  "smi": {
+    "hottest_gpu_gib": 162.5,
+    "per_gpu_peak_gib": {
+      "0": 162.5,
+      "1": 162.5,
+      "2": 162.5,
+      "3": 162.5,
+      "4": 0.0,
+      "5": 0.0,
+      "6": 0.0,
+      "7": 0.0
+    }
+  }
+}

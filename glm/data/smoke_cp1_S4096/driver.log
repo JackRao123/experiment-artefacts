@@ -1,0 +1,17 @@
+
+[status:before] step=0 last_loss=7.784777444506449
+  parallel: TP=1 PP=1 EP=2 ETP=1 CP=1 DP=2 world=2 max_seq_len=8192
+  reserved:  cuda:0=0.97GiB, rank0=0.97GiB, rank0:max_reserved=1.23GiB, rank1=0.97GiB, rank1:max_reserved=1.23GiB
+  allocated: cuda:0=0.94GiB, rank0=0.94GiB, rank1=0.94GiB
+  peak_alloc:cuda:0=1.20GiB, rank0=1.20GiB, rank1=1.20GiB
+[driver] reset CUDA peak-alloc counters (per-run profiling)
+[step 1/2] loss=7.7833 batch=1 tokens=4096 0.9s
+[step 2/2] loss=7.7833 batch=1 tokens=4096 0.5s
+
+[status:after] step=0 last_loss=7.783262281692721
+  parallel: TP=1 PP=1 EP=2 ETP=1 CP=1 DP=2 world=2 max_seq_len=8192
+  reserved:  cuda:0=1.06GiB, rank0=1.06GiB, rank0:max_reserved=2.89GiB, rank1=1.04GiB, rank1:max_reserved=2.85GiB
+  allocated: cuda:0=0.98GiB, rank0=0.98GiB, rank1=0.96GiB
+  peak_alloc:cuda:0=2.33GiB, rank0=2.33GiB, rank1=2.31GiB
+
+[RESULT] source=synthetic seq_len=4096 microbatch=1 ok=True peak_alloc_max=2.33GiB (this-run)

@@ -1,0 +1,51 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[B] dataset ready: 768 train, 0 eval (shuffle seed 999)
+Step  0 | phase=save_weights 1.9s
+Step  0 | phase=sample 51.6s | 335200 tok = 6494 tok/s | comp mean/p95: 655/2048
+KL step=0 k3=0.001382 mean_abs=0.014710 max_abs=1.7930 ess=0.9972 clip=0.0159 tokens=335200 gate_0.015=PASS (108.3s)
+Step  0 | reward: 0.688 | loss: 0.0497 | degenerate: 88% | datums: 64 | fb: 68.1s | optim: 0.01s | step: 231s
+Step  1 | phase=save_weights 5.6s
+Step  1 | phase=sample 70.5s | 345960 tok = 4906 tok/s | comp mean/p95: 676/2048
+KL step=1 k3=0.001923 mean_abs=0.016327 max_abs=2.2748 ess=0.9963 clip=0.0186 tokens=345960 gate_0.015=PASS (97.1s)
+Step  1 | reward: 0.701 | loss: 0.0721 | degenerate: 86% | datums: 72 | fb: 56.4s | optim: 0.00s | step: 231s
+Step  2 | phase=save_weights 2.1s
+Step  2 | phase=sample 73.9s | 382052 tok = 5168 tok/s | comp mean/p95: 746/2048
+KL step=2 k3=0.001481 mean_abs=0.014597 max_abs=3.1018 ess=0.9970 clip=0.0156 tokens=382052 gate_0.015=PASS (102.2s)
+Step  2 | reward: 0.713 | loss: 0.0953 | degenerate: 81% | datums: 96 | fb: 72.4s | optim: 0.01s | step: 252s
+Step  3 | phase=save_weights 1.9s
+Step  3 | phase=sample 60.4s | 301570 tok = 4990 tok/s | comp mean/p95: 589/2048
+KL step=3 k3=0.006649 mean_abs=0.014374 max_abs=7.1737 ess=0.9971 clip=0.0155 tokens=301570 gate_0.015=PASS (89.9s)
+Step  3 | reward: 0.676 | loss: 0.0613 | degenerate: 83% | datums: 88 | fb: 67.7s | optim: 0.00s | step: 221s
+Step  4 | phase=save_weights 2.7s
+Step  4 | phase=sample 61.9s | 311785 tok = 5039 tok/s | comp mean/p95: 609/2048
+KL step=4 k3=0.001328 mean_abs=0.013427 max_abs=1.9424 ess=0.9973 clip=0.0147 tokens=311785 gate_0.015=PASS (81.3s)
+Step  4 | reward: 0.654 | loss: 0.0539 | degenerate: 86% | datums: 72 | fb: 55.8s | optim: 0.00s | step: 202s
+Step  5 | phase=save_weights 2.0s
+Step  5 | phase=sample 64.8s | 326946 tok = 5049 tok/s | comp mean/p95: 639/2048
+KL step=5 k3=0.016318 mean_abs=0.013594 max_abs=8.4949 ess=0.9973 clip=0.0148 tokens=326946 gate_0.015=FAIL (91.9s)
+Step  5 | reward: 0.580 | loss: 0.0657 | degenerate: 89% | datums: 56 | fb: 42.5s | optim: 0.00s | step: 202s
+Step  6 | phase=save_weights 2.0s
+Step  6 | phase=sample 64.7s | 326980 tok = 5057 tok/s | comp mean/p95: 639/2048
+KL step=6 k3=0.001367 mean_abs=0.014254 max_abs=1.7437 ess=0.9972 clip=0.0155 tokens=326980 gate_0.015=PASS (83.1s)
+Step  6 | reward: 0.717 | loss: 0.0376 | degenerate: 89% | datums: 56 | fb: 41.2s | optim: 0.00s | step: 192s
+Step  7 | phase=save_weights 2.1s
+Step  7 | phase=sample 64.0s | 335279 tok = 5239 tok/s | comp mean/p95: 655/2048
+KL step=7 k3=0.001580 mean_abs=0.014080 max_abs=2.7334 ess=0.9968 clip=0.0161 tokens=335279 gate_0.015=PASS (91.9s)
+Step  7 | reward: 0.719 | loss: 0.0767 | degenerate: 88% | datums: 64 | fb: 48.6s | optim: 0.00s | step: 207s
+Step  8 | phase=save_weights 2.1s
+Step  8 | phase=sample 67.9s | 357540 tok = 5266 tok/s | comp mean/p95: 698/2048
+KL step=8 k3=0.001537 mean_abs=0.014874 max_abs=1.8176 ess=0.9968 clip=0.0161 tokens=357540 gate_0.015=PASS (88.1s)
+Step  8 | reward: 0.736 | loss: 0.0521 | degenerate: 83% | datums: 88 | fb: 64.9s | optim: 0.00s | step: 224s
+Step  9 | phase=save_weights 2.0s
+Step  9 | phase=sample 64.0s | 280523 tok = 4386 tok/s | comp mean/p95: 548/2048
+KL step=9 k3=0.001453 mean_abs=0.014102 max_abs=1.9478 ess=0.9971 clip=0.0159 tokens=280523 gate_0.015=PASS (93.0s)
+Step  9 | reward: 0.742 | loss: 0.1165 | degenerate: 78% | datums: 112 | fb: 84.0s | optim: 0.00s | step: 244s
+Step 10 | phase=save_weights 2.0s
+Step 10 | phase=sample 57.4s | 246527 tok = 4293 tok/s | comp mean/p95: 481/1796
+KL step=10 k3=0.001590 mean_abs=0.012888 max_abs=4.2719 ess=0.9975 clip=0.0143 tokens=246527 gate_0.015=PASS (77.8s)
+Step 10 | reward: 0.717 | loss: 0.0817 | degenerate: 95% | datums: 24 | fb: 18.6s | optim: 0.00s | step: 156s
+Step 11 | phase=save_weights 1.9s
+Step 11 | phase=sample 66.6s | 324580 tok = 4872 tok/s | comp mean/p95: 634/2048
+KL step=11 k3=0.001599 mean_abs=0.015301 max_abs=2.2281 ess=0.9968 clip=0.0173 tokens=324580 gate_0.015=PASS (91.5s)
+Step 11 | reward: 0.619 | loss: 0.0205 | degenerate: 86% | datums: 72 | fb: 57.0s | optim: 0.00s | step: 218s
+[B] RUN_COMPLETE

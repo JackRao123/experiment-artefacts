@@ -1,0 +1,13 @@
+{
+  "base_model": "nvidia/NVIDIA-Nemotron-3-Super-120B-A12B-BF16",
+  "max_seq_len": 131072,
+  "tensor_parallel_size": 8,
+  "pipeline_parallel_size": 4,
+  "context_parallel_size": 1,
+  "expert_parallel_size": 8,
+  "expert_tensor_parallel_size": 1,
+  "trust_remote_code": true,
+  "lora_rank": 16,
+  "recompute": {"granularity": "selective", "modules": ["core_attn", "moe", "moe_act", "layernorm"]},
+  "weight_sync": {"type": "disabled"}
+}

@@ -1,0 +1,77 @@
+
+[status:before] step=0 last_loss=13.092642750328073
+  parallel: TP=1 PP=16 EP=2 ETP=1 CP=1 DP=2 world=32 max_seq_len=131072
+  reserved:  cuda:0=113.28GiB, rank0=113.28GiB, rank0:max_reserved=113.28GiB, rank1=112.12GiB, rank1:max_reserved=112.12GiB, rank2=115.52GiB, rank2:max_reserved=115.52GiB, rank3=113.86GiB, rank3:max_reserved=113.86GiB, rank4=113.98GiB, rank4:max_reserved=113.98GiB, rank5=114.53GiB, rank5:max_reserved=114.53GiB, rank6=114.19GiB, rank6:max_reserved=114.19GiB, rank7=113.69GiB, rank7:max_reserved=113.69GiB, rank8=115.89GiB, rank8:max_reserved=115.89GiB, rank9=114.29GiB, rank9:max_reserved=114.29GiB, rank10=113.74GiB, rank10:max_reserved=113.74GiB, rank11=113.35GiB, rank11:max_reserved=113.35GiB, rank12=114.53GiB, rank12:max_reserved=114.53GiB, rank13=115.81GiB, rank13:max_reserved=115.81GiB, rank14=115.07GiB, rank14:max_reserved=115.07GiB, rank15=114.90GiB, rank15:max_reserved=114.90GiB, rank16=115.64GiB, rank16:max_reserved=115.64GiB, rank17=114.17GiB, rank17:max_reserved=114.17GiB, rank18=115.23GiB, rank18:max_reserved=115.23GiB, rank19=117.46GiB, rank19:max_reserved=117.46GiB, rank20=115.05GiB, rank20:max_reserved=115.05GiB, rank21=116.85GiB, rank21:max_reserved=116.85GiB, rank22=116.34GiB, rank22:max_reserved=116.34GiB, rank23=115.35GiB, rank23:max_reserved=115.35GiB, rank24=114.72GiB, rank24:max_reserved=114.72GiB, rank25=116.44GiB, rank25:max_reserved=116.44GiB, rank26=158.10GiB, rank26:max_reserved=158.10GiB, rank27=158.60GiB, rank27:max_reserved=158.60GiB, rank28=158.08GiB, rank28:max_reserved=158.08GiB, rank29=160.56GiB, rank29:max_reserved=160.56GiB, rank30=160.69GiB, rank30:max_reserved=160.69GiB, rank31=158.47GiB, rank31:max_reserved=158.47GiB
+  allocated: cuda:0=34.19GiB, rank0=34.19GiB, rank1=34.17GiB, rank2=39.93GiB, rank3=39.93GiB, rank4=39.93GiB, rank5=39.93GiB, rank6=39.93GiB, rank7=39.93GiB, rank8=39.93GiB, rank9=39.93GiB, rank10=39.93GiB, rank11=39.93GiB, rank12=39.93GiB, rank13=39.93GiB, rank14=39.93GiB, rank15=39.93GiB, rank16=39.93GiB, rank17=39.93GiB, rank18=39.93GiB, rank19=39.93GiB, rank20=39.93GiB, rank21=39.93GiB, rank22=39.93GiB, rank23=39.93GiB, rank24=39.93GiB, rank25=39.93GiB, rank26=78.15GiB, rank27=78.15GiB, rank28=78.15GiB, rank29=78.15GiB, rank30=79.93GiB, rank31=79.93GiB
+  peak_alloc:cuda:0=97.94GiB, rank0=97.94GiB, rank1=97.93GiB, rank2=100.68GiB, rank3=100.68GiB, rank4=100.68GiB, rank5=100.68GiB, rank6=100.68GiB, rank7=100.68GiB, rank8=100.68GiB, rank9=100.68GiB, rank10=100.68GiB, rank11=100.68GiB, rank12=100.68GiB, rank13=100.68GiB, rank14=100.68GiB, rank15=100.68GiB, rank16=100.68GiB, rank17=100.68GiB, rank18=100.68GiB, rank19=100.68GiB, rank20=100.68GiB, rank21=100.68GiB, rank22=100.68GiB, rank23=100.68GiB, rank24=100.68GiB, rank25=100.68GiB, rank26=141.91GiB, rank27=141.91GiB, rank28=143.71GiB, rank29=141.91GiB, rank30=142.18GiB, rank31=142.18GiB
+[driver] reset CUDA peak-alloc counters (per-run profiling)
+[driver] STEP FAILED: /forward_backward never finished within 1800.0s
+Traceback (most recent call last):
+  File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/httpx/_transports/default.py", line 101, in map_httpcore_exceptions
+    yield
+  File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/httpx/_transports/default.py", line 250, in handle_request
+    resp = self._pool.handle_request(req)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/httpcore/_sync/connection_pool.py", line 256, in handle_request
+    raise exc from None
+  File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/httpcore/_sync/connection_pool.py", line 236, in handle_request
+    response = connection.handle_request(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/httpcore/_sync/connection.py", line 103, in handle_request
+    return self._connection.handle_request(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/httpcore/_sync/http11.py", line 136, in handle_request
+    raise exc
+  File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/httpcore/_sync/http11.py", line 106, in handle_request
+    ) = self._receive_response_headers(**kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/httpcore/_sync/http11.py", line 177, in _receive_response_headers
+    event = self._receive_event(timeout=timeout)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/httpcore/_sync/http11.py", line 217, in _receive_event
+    data = self._network_stream.read(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/httpcore/_backends/sync.py", line 126, in read
+    with map_exceptions(exc_map):
+  File "/usr/lib/python3.12/contextlib.py", line 158, in __exit__
+    self.gen.throw(value)
+  File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/httpcore/_exceptions.py", line 14, in map_exceptions
+    raise to_exc(exc) from exc
+httpcore.ReadTimeout: timed out
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/root/.cache/user_artifacts/glm_prof/sft_driver.py", line 464, in <module>
+    main()
+  File "/root/.cache/user_artifacts/glm_prof/sft_driver.py", line 449, in main
+    final = report_status(client, "after")
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/glm_prof/sft_driver.py", line 267, in report_status
+    s = client.get("/status", timeout=30.0).json()
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/httpx/_client.py", line 1053, in get
+    return self.request(
+           ^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/httpx/_client.py", line 825, in request
+    return self.send(request, auth=auth, follow_redirects=follow_redirects)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/httpx/_client.py", line 914, in send
+    response = self._send_handling_auth(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/httpx/_client.py", line 942, in _send_handling_auth
+    response = self._send_handling_redirects(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/httpx/_client.py", line 979, in _send_handling_redirects
+    response = self._send_single_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/httpx/_client.py", line 1014, in _send_single_request
+    response = transport.handle_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/httpx/_transports/default.py", line 249, in handle_request
+    with map_httpcore_exceptions():
+  File "/usr/lib/python3.12/contextlib.py", line 158, in __exit__
+    self.gen.throw(value)
+  File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/httpx/_transports/default.py", line 118, in map_httpcore_exceptions
+    raise mapped_exc(message) from exc
+httpx.ReadTimeout: timed out

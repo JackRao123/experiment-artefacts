@@ -1,0 +1,54 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[B] dataset ready: 1280 train, 64 eval (shuffle seed 999)
+[B] BEFORE pass@1: 0.656 (n=64, 26s)
+Step  0 | phase=save_weights 2.0s
+Step  0 | phase=sample 50.2s | 327957 tok = 6536 tok/s | comp mean/p95: 641/2048
+KL step=0 k3=0.001465 mean_abs=0.014815 max_abs=2.4655 ess=0.9971 clip=0.0160 tokens=327957 gate_0.015=PASS (103.6s)
+Step  0 | reward: 0.699 | loss: 0.0544 | degenerate: 84% | datums: 80 | fb: 81.1s | optim: 0.01s | step: 238s
+Step  1 | phase=save_weights 5.9s
+Step  1 | phase=sample 69.9s | 342753 tok = 4905 tok/s | comp mean/p95: 669/2048
+KL step=1 k3=0.002212 mean_abs=0.016392 max_abs=4.9306 ess=0.9962 clip=0.0184 tokens=342753 gate_0.015=PASS (104.0s)
+Step  1 | reward: 0.691 | loss: 0.0690 | degenerate: 78% | datums: 112 | fb: 84.4s | optim: 0.00s | step: 265s
+Step  2 | phase=save_weights 2.0s
+Step  2 | phase=sample 72.0s | 377549 tok = 5242 tok/s | comp mean/p95: 737/2048
+KL step=2 k3=0.071038 mean_abs=0.014880 max_abs=10.1754 ess=0.9966 clip=0.0156 tokens=377549 gate_0.015=FAIL (104.3s)
+Step  2 | reward: 0.709 | loss: 0.0738 | degenerate: 81% | datums: 96 | fb: 71.9s | optim: 0.00s | step: 252s
+Step  3 | phase=save_weights 2.0s
+Step  3 | phase=sample 62.5s | 313266 tok = 5013 tok/s | comp mean/p95: 612/2048
+KL step=3 k3=0.001437 mean_abs=0.014513 max_abs=2.0004 ess=0.9969 clip=0.0157 tokens=313266 gate_0.015=PASS (92.8s)
+Step  3 | reward: 0.680 | loss: 0.0737 | degenerate: 84% | datums: 80 | fb: 63.3s | optim: 0.00s | step: 222s
+Step  4 | phase=save_weights 1.9s
+Step  4 | phase=sample 62.4s | 319404 tok = 5115 tok/s | comp mean/p95: 624/2048
+KL step=4 k3=1.225555 mean_abs=0.013373 max_abs=12.8766 ess=0.9974 clip=0.0148 tokens=319404 gate_0.015=FAIL (90.9s)
+Step  4 | reward: 0.662 | loss: 0.0664 | degenerate: 88% | datums: 64 | fb: 48.5s | optim: 0.00s | step: 207s
+Step  5 | phase=save_weights 1.9s
+Step  5 | phase=sample 62.3s | 320131 tok = 5141 tok/s | comp mean/p95: 625/2048
+KL step=5 k3=0.001369 mean_abs=0.013776 max_abs=2.2600 ess=0.9973 clip=0.0149 tokens=320131 gate_0.015=PASS (87.1s)
+Step  5 | reward: 0.602 | loss: 0.0417 | degenerate: 92% | datums: 40 | fb: 30.8s | optim: 0.00s | step: 183s
+Step  6 | phase=save_weights 1.8s
+Step  6 | phase=sample 67.7s | 323155 tok = 4773 tok/s | comp mean/p95: 631/2048
+KL step=6 k3=0.001328 mean_abs=0.013976 max_abs=1.6824 ess=0.9973 clip=0.0148 tokens=323155 gate_0.015=PASS (87.5s)
+Step  6 | reward: 0.721 | loss: 0.0320 | degenerate: 83% | datums: 88 | fb: 66.2s | optim: 0.00s | step: 224s
+Step  7 | phase=save_weights 2.1s
+Step  7 | phase=sample 64.6s | 330807 tok = 5124 tok/s | comp mean/p95: 646/2048
+KL step=7 k3=0.001577 mean_abs=0.014085 max_abs=2.1271 ess=0.9970 clip=0.0162 tokens=330807 gate_0.015=PASS (91.9s)
+Step  7 | reward: 0.725 | loss: 0.0685 | degenerate: 88% | datums: 64 | fb: 48.8s | optim: 0.00s | step: 208s
+Step  8 | phase=save_weights 1.8s
+Step  8 | phase=sample 67.7s | 357438 tok = 5277 tok/s | comp mean/p95: 698/2048
+KL step=8 k3=0.001514 mean_abs=0.015078 max_abs=2.2730 ess=0.9969 clip=0.0164 tokens=357438 gate_0.015=PASS (86.6s)
+Step  8 | reward: 0.736 | loss: 0.0426 | degenerate: 83% | datums: 88 | fb: 68.5s | optim: 0.00s | step: 226s
+Step  9 | phase=save_weights 2.6s
+Step  9 | phase=sample 61.4s | 282764 tok = 4604 tok/s | comp mean/p95: 552/2048
+KL step=9 k3=0.001403 mean_abs=0.014154 max_abs=1.4145 ess=0.9971 clip=0.0157 tokens=282764 gate_0.015=PASS (91.1s)
+Step  9 | reward: 0.754 | loss: 0.0721 | degenerate: 86% | datums: 72 | fb: 57.2s | optim: 0.00s | step: 213s
+Step 10 | phase=save_weights 1.9s
+Step 10 | phase=sample 57.3s | 250116 tok = 4361 tok/s | comp mean/p95: 489/2048
+KL step=10 k3=0.651102 mean_abs=0.012354 max_abs=11.9989 ess=0.9976 clip=0.0136 tokens=250116 gate_0.015=FAIL (88.8s)
+Step 10 | reward: 0.717 | loss: 0.0590 | degenerate: 97% | datums: 16 | fb: 12.9s | optim: 0.00s | step: 162s
+Step 11 | phase=save_weights 1.9s
+Step 11 | phase=sample 66.8s | 331317 tok = 4957 tok/s | comp mean/p95: 647/2048
+KL step=11 k3=0.002825 mean_abs=0.015453 max_abs=6.1185 ess=0.9969 clip=0.0165 tokens=331317 gate_0.015=PASS (89.0s)
+Step 11 | reward: 0.629 | loss: 0.0131 | degenerate: 92% | datums: 40 | fb: 52.0s | optim: 0.01s | step: 211s
+Step 12 | phase=save_weights 2.2s
+/root/.local/share/uv/python/cpython-3.14.6-linux-x86_64-gnu/lib/python3.14/multiprocessing/resource_tracker.py:475: UserWarning: resource_tracker: There appear to be 1 leaked semaphore objects to clean up at shutdown: {'/mp-b2a694q_'}
+  warnings.warn(

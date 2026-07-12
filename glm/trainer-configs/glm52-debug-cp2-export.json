@@ -1,0 +1,15 @@
+{
+  "base_model": "/root/.cache/team_artifacts/glm-52-debug-clean",
+  "max_seq_len": 8192,
+  "tensor_parallel_size": 1,
+  "pipeline_parallel_size": 1,
+  "context_parallel_size": 2,
+  "expert_parallel_size": 2,
+  "expert_tensor_parallel_size": 1,
+  "trust_remote_code": true,
+  "lora_rank": 16,
+  "weight_sync": {
+    "type": "local",
+    "path": "/root/.cache/user_artifacts/glm_prof/export_test/cp2"
+  }
+}

@@ -1,0 +1,744 @@
+[run_trainer_node] NCCL_IB_HCA=mlx5_0,mlx5_1,mlx5_3,mlx5_4,mlx5_5,mlx5_6,mlx5_7,mlx5_8,mlx5_9,mlx5_10,mlx5_12,mlx5_13
+[run_trainer_node] rank=2 nnodes=4 leader=10.233.87.95 config=/root/.cache/user_artifacts/glm_prof/configs/active.json src=/root/.cache/user_artifacts/trainers_glm
+[run_trainer_node] config contents:
+{
+  "base_model": "zai-org/GLM-5.2-FP8",
+  "max_seq_len": 131072,
+  "tensor_parallel_size": 1,
+  "pipeline_parallel_size": 16,
+  "context_parallel_size": 1,
+  "expert_parallel_size": 2,
+  "expert_tensor_parallel_size": 1,
+  "trust_remote_code": true,
+  "lora_rank": 16,
+  "weight_sync": {"type": "disabled"}
+}
+/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/torch/cuda/__init__.py:61: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/torch/cuda/__init__.py:61: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/torch/cuda/__init__.py:61: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/torch/cuda/__init__.py:61: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/backends.py:34: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/gpt/gpt_layer_specs.py:77: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/backends.py:34: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/gpt/gpt_layer_specs.py:77: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/torch/cuda/__init__.py:61: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/backends.py:34: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/gpt/gpt_layer_specs.py:77: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/backends.py:34: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/gpt/gpt_layer_specs.py:77: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/tmp/tmpxxsm75k7/cuda_utils.c:7:10: fatal error: Python.h: No such file or directory
+    7 | #include <Python.h>
+      |          ^~~~~~~~~~
+compilation terminated.
+/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/fla/utils.py:420: UserWarning: Triton is not supported on current platform, roll back to CPU.
+  warnings.warn(('Triton is not supported on current platform, roll back to CPU.'), stacklevel=1)
+/tmp/tmp040tsis7/cuda_utils.c:7:10: fatal error: Python.h: No such file or directory
+    7 | #include <Python.h>
+      |          ^~~~~~~~~~
+compilation terminated.
+/tmp/tmp2oqhlt2c/cuda_utils.c:7:10: fatal error: Python.h: No such file or directory
+    7 | #include <Python.h>
+      |          ^~~~~~~~~~
+compilation terminated.
+/tmp/tmpvgulbwga/cuda_utils.c:7:10: fatal error: Python.h: No such file or directory
+    7 | #include <Python.h>
+      |          ^~~~~~~~~~
+compilation terminated.
+/tmp/tmp8jh0g0ph/cuda_utils.c:7:10: fatal error: Python.h: No such file or directory
+    7 | #include <Python.h>
+      |          ^~~~~~~~~~
+compilation terminated.
+/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/modelopt/torch/__init__.py:53: UserWarning: transformers>=5.0 support is experimental. Unified Hugging Face checkpoint export for quantized checkpoints may not work for some models yet.
+  _warnings.warn(
+/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/gpt/heterogeneous/heterogeneous_layer_specs.py:68: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/tmp/tmp4tujqg0r/cuda_utils.c:7:10: fatal error: Python.h: No such file or directory
+    7 | #include <Python.h>
+      |          ^~~~~~~~~~
+compilation terminated.
+/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/fla/utils.py:420: UserWarning: Triton is not supported on current platform, roll back to CPU.
+  warnings.warn(('Triton is not supported on current platform, roll back to CPU.'), stacklevel=1)
+/tmp/tmpo8a4bo5h/cuda_utils.c:7:10: fatal error: Python.h: No such file or directory
+    7 | #include <Python.h>
+      |          ^~~~~~~~~~
+compilation terminated.
+/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/vision/vit_layer_specs.py:31: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/tmp/tmp6z11d56n/cuda_utils.c:7:10: fatal error: Python.h: No such file or directory
+    7 | #include <Python.h>
+      |          ^~~~~~~~~~
+compilation terminated.
+/tmp/tmpilzy8dwu/cuda_utils.c:7:10: fatal error: Python.h: No such file or directory
+    7 | #include <Python.h>
+      |          ^~~~~~~~~~
+compilation terminated.
+/tmp/tmpz67cpfc0/cuda_utils.c:7:10: fatal error: Python.h: No such file or directory
+    7 | #include <Python.h>
+      |          ^~~~~~~~~~
+compilation terminated.
+/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/mimo/config/base_configs.py:12: UserWarning: MimoModelConfig is experimental and still under active development. The API may change without notice in future releases.
+  class MimoModelConfig:
+/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/modelopt/torch/__init__.py:53: UserWarning: transformers>=5.0 support is experimental. Unified Hugging Face checkpoint export for quantized checkpoints may not work for some models yet.
+  _warnings.warn(
+/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/gpt/heterogeneous/heterogeneous_layer_specs.py:68: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/vision/vit_layer_specs.py:31: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+WARNING:megatron.bridge.models.conversion.auto_bridge:Loading a model with trust_remote_code=True allows arbitrary code execution from the model repository. Only use this with models you trust.
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+INFO:trainers_server.dp_worker.api.megatron_controller:LoRA config: rank=16 alpha=32 (default 2*rank) -> forward scale=2
+/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/transformer/transformer_config.py:2674: UserWarning: full scope is deprecated. Use empty cuda_graph_modules to capture the whole layer.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/mimo/config/base_configs.py:12: UserWarning: MimoModelConfig is experimental and still under active development. The API may change without notice in future releases.
+  class MimoModelConfig:
+WARNING:megatron.bridge.models.conversion.auto_bridge:Loading a model with trust_remote_code=True allows arbitrary code execution from the model repository. Only use this with models you trust.
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+INFO:trainers_server.dp_worker.api.megatron_controller:LoRA config: rank=16 alpha=32 (default 2*rank) -> forward scale=2
+/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/transformer/transformer_config.py:2674: UserWarning: full scope is deprecated. Use empty cuda_graph_modules to capture the whole layer.
+  warnings.warn(
+/tmp/tmpx90abslj/cuda_utils.c:7:10: fatal error: Python.h: No such file or directory
+    7 | #include <Python.h>
+      |          ^~~~~~~~~~
+compilation terminated.
+/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/fla/utils.py:420: UserWarning: Triton is not supported on current platform, roll back to CPU.
+  warnings.warn(('Triton is not supported on current platform, roll back to CPU.'), stacklevel=1)
+/tmp/tmpworh78pu/cuda_utils.c:7:10: fatal error: Python.h: No such file or directory
+    7 | #include <Python.h>
+      |          ^~~~~~~~~~
+compilation terminated.
+/tmp/tmpcnk42h5d/cuda_utils.c:7:10: fatal error: Python.h: No such file or directory
+    7 | #include <Python.h>
+      |          ^~~~~~~~~~
+compilation terminated.
+/tmp/tmppd59g_av/cuda_utils.c:7:10: fatal error: Python.h: No such file or directory
+    7 | #include <Python.h>
+      |          ^~~~~~~~~~
+compilation terminated.
+/tmp/tmp3pseimbl/cuda_utils.c:7:10: fatal error: Python.h: No such file or directory
+    7 | #include <Python.h>
+      |          ^~~~~~~~~~
+compilation terminated.
+/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/torch/cuda/__init__.py:61: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/torch/cuda/__init__.py:61: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/torch/cuda/__init__.py:61: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/modelopt/torch/__init__.py:53: UserWarning: transformers>=5.0 support is experimental. Unified Hugging Face checkpoint export for quantized checkpoints may not work for some models yet.
+  _warnings.warn(
+/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/gpt/heterogeneous/heterogeneous_layer_specs.py:68: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/vision/vit_layer_specs.py:31: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/mimo/config/base_configs.py:12: UserWarning: MimoModelConfig is experimental and still under active development. The API may change without notice in future releases.
+  class MimoModelConfig:
+WARNING:megatron.bridge.models.conversion.auto_bridge:Loading a model with trust_remote_code=True allows arbitrary code execution from the model repository. Only use this with models you trust.
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+INFO:trainers_server.dp_worker.api.megatron_controller:LoRA config: rank=16 alpha=32 (default 2*rank) -> forward scale=2
+/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/transformer/transformer_config.py:2674: UserWarning: full scope is deprecated. Use empty cuda_graph_modules to capture the whole layer.
+  warnings.warn(
+/tmp/tmp7njq769f/cuda_utils.c:7:10: fatal error: Python.h: No such file or directory
+    7 | #include <Python.h>
+      |          ^~~~~~~~~~
+compilation terminated.
+/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/fla/utils.py:420: UserWarning: Triton is not supported on current platform, roll back to CPU.
+  warnings.warn(('Triton is not supported on current platform, roll back to CPU.'), stacklevel=1)
+/tmp/tmpkqn9ogg8/cuda_utils.c:7:10: fatal error: Python.h: No such file or directory
+    7 | #include <Python.h>
+      |          ^~~~~~~~~~
+compilation terminated.
+/tmp/tmpseb43ad_/cuda_utils.c:7:10: fatal error: Python.h: No such file or directory
+    7 | #include <Python.h>
+      |          ^~~~~~~~~~
+compilation terminated.
+/tmp/tmpuc3frk2i/cuda_utils.c:7:10: fatal error: Python.h: No such file or directory
+    7 | #include <Python.h>
+      |          ^~~~~~~~~~
+compilation terminated.
+/tmp/tmpjyver1wv/cuda_utils.c:7:10: fatal error: Python.h: No such file or directory
+    7 | #include <Python.h>
+      |          ^~~~~~~~~~
+compilation terminated.
+/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/torch/cuda/__init__.py:61: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/modelopt/torch/__init__.py:53: UserWarning: transformers>=5.0 support is experimental. Unified Hugging Face checkpoint export for quantized checkpoints may not work for some models yet.
+  _warnings.warn(
+/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/gpt/heterogeneous/heterogeneous_layer_specs.py:68: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/vision/vit_layer_specs.py:31: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/mimo/config/base_configs.py:12: UserWarning: MimoModelConfig is experimental and still under active development. The API may change without notice in future releases.
+  class MimoModelConfig:
+WARNING:megatron.bridge.models.conversion.auto_bridge:Loading a model with trust_remote_code=True allows arbitrary code execution from the model repository. Only use this with models you trust.
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+INFO:trainers_server.dp_worker.api.megatron_controller:LoRA config: rank=16 alpha=32 (default 2*rank) -> forward scale=2
+/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/transformer/transformer_config.py:2674: UserWarning: full scope is deprecated. Use empty cuda_graph_modules to capture the whole layer.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/backends.py:34: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/backends.py:34: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/gpt/gpt_layer_specs.py:77: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/gpt/gpt_layer_specs.py:77: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/backends.py:34: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/gpt/gpt_layer_specs.py:77: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/backends.py:34: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/gpt/gpt_layer_specs.py:77: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/tmp/tmphtt5dwfv/cuda_utils.c:7:10: fatal error: Python.h: No such file or directory
+    7 | #include <Python.h>
+      |          ^~~~~~~~~~
+compilation terminated.
+/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/fla/utils.py:420: UserWarning: Triton is not supported on current platform, roll back to CPU.
+  warnings.warn(('Triton is not supported on current platform, roll back to CPU.'), stacklevel=1)
+/tmp/tmp1gexbwua/cuda_utils.c:7:10: fatal error: Python.h: No such file or directory
+    7 | #include <Python.h>
+      |          ^~~~~~~~~~
+compilation terminated.
+/tmp/tmpkp7a7me7/cuda_utils.c:7:10: fatal error: Python.h: No such file or directory
+    7 | #include <Python.h>
+      |          ^~~~~~~~~~
+compilation terminated.
+/tmp/tmp4scr2n08/cuda_utils.c:7:10: fatal error: Python.h: No such file or directory
+    7 | #include <Python.h>
+      |          ^~~~~~~~~~
+compilation terminated.
+/tmp/tmp0nv50b2q/cuda_utils.c:7:10: fatal error: Python.h: No such file or directory
+    7 | #include <Python.h>
+      |          ^~~~~~~~~~
+compilation terminated.
+/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/modelopt/torch/__init__.py:53: UserWarning: transformers>=5.0 support is experimental. Unified Hugging Face checkpoint export for quantized checkpoints may not work for some models yet.
+  _warnings.warn(
+/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/gpt/heterogeneous/heterogeneous_layer_specs.py:68: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/vision/vit_layer_specs.py:31: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/mimo/config/base_configs.py:12: UserWarning: MimoModelConfig is experimental and still under active development. The API may change without notice in future releases.
+  class MimoModelConfig:
+WARNING:megatron.bridge.models.conversion.auto_bridge:Loading a model with trust_remote_code=True allows arbitrary code execution from the model repository. Only use this with models you trust.
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+INFO:trainers_server.dp_worker.api.megatron_controller:LoRA config: rank=16 alpha=32 (default 2*rank) -> forward scale=2
+/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/transformer/transformer_config.py:2674: UserWarning: full scope is deprecated. Use empty cuda_graph_modules to capture the whole layer.
+  warnings.warn(
+/tmp/tmp4dvwxxvk/cuda_utils.c:7:10: fatal error: Python.h: No such file or directory
+    7 | #include <Python.h>
+      |          ^~~~~~~~~~
+compilation terminated.
+/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/fla/utils.py:420: UserWarning: Triton is not supported on current platform, roll back to CPU.
+  warnings.warn(('Triton is not supported on current platform, roll back to CPU.'), stacklevel=1)
+/tmp/tmp9hpcq3na/cuda_utils.c:7:10: fatal error: Python.h: No such file or directory
+    7 | #include <Python.h>
+      |          ^~~~~~~~~~
+compilation terminated.
+/tmp/tmpin1u53tf/cuda_utils.c:7:10: fatal error: Python.h: No such file or directory
+    7 | #include <Python.h>
+      |          ^~~~~~~~~~
+compilation terminated.
+/tmp/tmp1v9owtyd/cuda_utils.c:7:10: fatal error: Python.h: No such file or directory
+    7 | #include <Python.h>
+      |          ^~~~~~~~~~
+compilation terminated.
+/tmp/tmp0i_prl62/cuda_utils.c:7:10: fatal error: Python.h: No such file or directory
+    7 | #include <Python.h>
+      |          ^~~~~~~~~~
+compilation terminated.
+/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/fla/utils.py:420: UserWarning: Triton is not supported on current platform, roll back to CPU.
+  warnings.warn(('Triton is not supported on current platform, roll back to CPU.'), stacklevel=1)
+/tmp/tmpjt6z9pnc/cuda_utils.c:7:10: fatal error: Python.h: No such file or directory
+    7 | #include <Python.h>
+      |          ^~~~~~~~~~
+compilation terminated.
+/tmp/tmpposgih1e/cuda_utils.c:7:10: fatal error: Python.h: No such file or directory
+    7 | #include <Python.h>
+      |          ^~~~~~~~~~
+compilation terminated.
+/tmp/tmpabsv4ywm/cuda_utils.c:7:10: fatal error: Python.h: No such file or directory
+    7 | #include <Python.h>
+      |          ^~~~~~~~~~
+compilation terminated.
+/tmp/tmp_c_t0ion/cuda_utils.c:7:10: fatal error: Python.h: No such file or directory
+    7 | #include <Python.h>
+      |          ^~~~~~~~~~
+compilation terminated.
+/tmp/tmpeiq_7ivo/cuda_utils.c:7:10: fatal error: Python.h: No such file or directory
+    7 | #include <Python.h>
+      |          ^~~~~~~~~~
+compilation terminated.
+/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/modelopt/torch/__init__.py:53: UserWarning: transformers>=5.0 support is experimental. Unified Hugging Face checkpoint export for quantized checkpoints may not work for some models yet.
+  _warnings.warn(
+/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/gpt/heterogeneous/heterogeneous_layer_specs.py:68: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/modelopt/torch/__init__.py:53: UserWarning: transformers>=5.0 support is experimental. Unified Hugging Face checkpoint export for quantized checkpoints may not work for some models yet.
+  _warnings.warn(
+/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/vision/vit_layer_specs.py:31: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/gpt/heterogeneous/heterogeneous_layer_specs.py:68: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/vision/vit_layer_specs.py:31: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/mimo/config/base_configs.py:12: UserWarning: MimoModelConfig is experimental and still under active development. The API may change without notice in future releases.
+  class MimoModelConfig:
+/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/mimo/config/base_configs.py:12: UserWarning: MimoModelConfig is experimental and still under active development. The API may change without notice in future releases.
+  class MimoModelConfig:
+WARNING:megatron.bridge.models.conversion.auto_bridge:Loading a model with trust_remote_code=True allows arbitrary code execution from the model repository. Only use this with models you trust.
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+INFO:trainers_server.dp_worker.api.megatron_controller:LoRA config: rank=16 alpha=32 (default 2*rank) -> forward scale=2
+/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/transformer/transformer_config.py:2674: UserWarning: full scope is deprecated. Use empty cuda_graph_modules to capture the whole layer.
+  warnings.warn(
+WARNING:megatron.bridge.models.conversion.auto_bridge:Loading a model with trust_remote_code=True allows arbitrary code execution from the model repository. Only use this with models you trust.
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+INFO:trainers_server.dp_worker.api.megatron_controller:LoRA config: rank=16 alpha=32 (default 2*rank) -> forward scale=2
+/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/transformer/transformer_config.py:2674: UserWarning: full scope is deprecated. Use empty cuda_graph_modules to capture the whole layer.
+  warnings.warn(
+/tmp/tmphqwmx7v5/cuda_utils.c:7:10: fatal error: Python.h: No such file or directory
+    7 | #include <Python.h>
+      |          ^~~~~~~~~~
+compilation terminated.
+/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/fla/utils.py:420: UserWarning: Triton is not supported on current platform, roll back to CPU.
+  warnings.warn(('Triton is not supported on current platform, roll back to CPU.'), stacklevel=1)
+/tmp/tmp09__j_qg/cuda_utils.c:7:10: fatal error: Python.h: No such file or directory
+    7 | #include <Python.h>
+      |          ^~~~~~~~~~
+compilation terminated.
+/tmp/tmp2yvt1y1i/cuda_utils.c:7:10: fatal error: Python.h: No such file or directory
+    7 | #include <Python.h>
+      |          ^~~~~~~~~~
+compilation terminated.
+/tmp/tmpr1wnunct/cuda_utils.c:7:10: fatal error: Python.h: No such file or directory
+    7 | #include <Python.h>
+      |          ^~~~~~~~~~
+compilation terminated.
+/tmp/tmp_ea7z2h9/cuda_utils.c:7:10: fatal error: Python.h: No such file or directory
+    7 | #include <Python.h>
+      |          ^~~~~~~~~~
+compilation terminated.
+/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/modelopt/torch/__init__.py:53: UserWarning: transformers>=5.0 support is experimental. Unified Hugging Face checkpoint export for quantized checkpoints may not work for some models yet.
+  _warnings.warn(
+/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/gpt/heterogeneous/heterogeneous_layer_specs.py:68: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/vision/vit_layer_specs.py:31: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/mimo/config/base_configs.py:12: UserWarning: MimoModelConfig is experimental and still under active development. The API may change without notice in future releases.
+  class MimoModelConfig:
+WARNING:megatron.bridge.models.conversion.auto_bridge:Loading a model with trust_remote_code=True allows arbitrary code execution from the model repository. Only use this with models you trust.
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+INFO:trainers_server.dp_worker.api.megatron_controller:LoRA config: rank=16 alpha=32 (default 2*rank) -> forward scale=2
+/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/transformer/transformer_config.py:2674: UserWarning: full scope is deprecated. Use empty cuda_graph_modules to capture the whole layer.
+  warnings.warn(
+> compiling dataset index builder ...
+make: Entering directory '/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/datasets'
+make: python3-config: No such file or directory
+make: python3-config: No such file or directory
+make: Nothing to be done for 'default'.
+make: Leaving directory '/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/datasets'
+>>> done with dataset index builder. Compilation time: 0.004 seconds
+/tmp/tmpj9fpba2b/cuda_utils.c:7:10: fatal error: Python.h: No such file or directory
+    7 | #include <Python.h>
+      |          ^~~~~~~~~~
+compilation terminated.
+[rank22]: Traceback (most recent call last):
+[rank22]:   File "<frozen runpy>", line 198, in _run_module_as_main
+[rank22]:   File "<frozen runpy>", line 88, in _run_code
+[rank22]:   File "/root/.cache/user_artifacts/trainers_glm/server/src/trainers_server/dp_worker/main.py", line 243, in <module>
+[rank22]:     main()
+[rank22]:   File "/root/.cache/user_artifacts/trainers_glm/server/src/trainers_server/dp_worker/main.py", line 239, in main
+[rank22]:     run_rank(config)
+[rank22]:   File "/root/.cache/user_artifacts/trainers_glm/server/src/trainers_server/dp_worker/worker.py", line 249, in run_rank
+[rank22]:     controller = MegatronBridgeController(config)
+[rank22]:                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank22]:   File "/root/.cache/user_artifacts/trainers_glm/server/src/trainers_server/dp_worker/api/megatron_controller.py", line 1218, in __init__
+[rank22]:     self._init_training_stack(initialize_runtime=True)
+[rank22]:   File "/root/.cache/user_artifacts/trainers_glm/server/src/trainers_server/dp_worker/api/megatron_controller.py", line 1333, in _init_training_stack
+[rank22]:     set_jit_fusion_options(model_provider, micro_batch_size)
+[rank22]:   File "/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/src/megatron/bridge/training/initialize.py", line 311, in set_jit_fusion_options
+[rank22]:     _warmup_jit_function(
+[rank22]:   File "/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/src/megatron/bridge/training/initialize.py", line 912, in _warmup_jit_function
+[rank22]:     output = bias_swiglu(input, bias)
+[rank22]:              ^^^^^^^^^^^^^^^^^^^^^^^^
+[rank22]:   File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/torch/_dynamo/eval_frame.py", line 1038, in compile_wrapper
+[rank22]:     raise e.remove_dynamo_frames() from None  # see TORCHDYNAMO_VERBOSE=1
+[rank22]:     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank22]:   File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/torch/_inductor/compile_fx.py", line 1053, in _compile_fx_inner
+[rank22]:     raise InductorError(e, currentframe()).with_traceback(
+[rank22]:   File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/torch/_inductor/compile_fx.py", line 1037, in _compile_fx_inner
+[rank22]:     mb_compiled_graph = fx_codegen_and_compile(
+[rank22]:                         ^^^^^^^^^^^^^^^^^^^^^^^
+[rank22]:   File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/torch/_inductor/compile_fx.py", line 1798, in fx_codegen_and_compile
+[rank22]:     return scheme.codegen_and_compile(gm, example_inputs, inputs_to_check, graph_kwargs)
+[rank22]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank22]:   File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/torch/_inductor/compile_fx.py", line 1570, in codegen_and_compile
+[rank22]:     compiled_module = graph.compile_to_module()
+[rank22]:                       ^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank22]:   File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/torch/_inductor/graph.py", line 2499, in compile_to_module
+[rank22]:     return self._compile_to_module()
+[rank22]:            ^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank22]:   File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/torch/_inductor/graph.py", line 2505, in _compile_to_module
+[rank22]:     self.codegen_with_cpp_wrapper() if self.cpp_wrapper else self.codegen()
+[rank22]:                                                              ^^^^^^^^^^^^^^
+[rank22]:   File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/torch/_inductor/graph.py", line 2441, in codegen
+[rank22]:     self.scheduler.codegen()
+[rank22]:   File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/torch/_inductor/scheduler.py", line 6592, in codegen
+[rank22]:     self._codegen_partitions()
+[rank22]:   File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/torch/_inductor/scheduler.py", line 6732, in _codegen_partitions
+[rank22]:     self._codegen(partition)
+[rank22]:   File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/torch/_inductor/scheduler.py", line 6838, in _codegen
+[rank22]:     self.get_backend(device).codegen_node(node)
+[rank22]:   File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/torch/_inductor/codegen/cuda_combined_scheduling.py", line 152, in codegen_node
+[rank22]:     return self._triton_scheduling.codegen_node(node)
+[rank22]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank22]:   File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/torch/_inductor/codegen/simd.py", line 1841, in codegen_node
+[rank22]:     return self._codegen_nodes(nodes, coalesce_analysis)  # type: ignore[arg-type]
+[rank22]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank22]:   File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/torch/_inductor/codegen/simd.py", line 1814, in _codegen_nodes
+[rank22]:     return self.codegen_node_schedule(
+[rank22]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank22]:   File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/torch/_inductor/codegen/simd.py", line 1921, in codegen_node_schedule
+[rank22]:     src_code = kernel.codegen_kernel()
+[rank22]:                ^^^^^^^^^^^^^^^^^^^^^^^
+[rank22]:   File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/torch/_inductor/codegen/triton.py", line 5492, in codegen_kernel
+[rank22]:     **self.inductor_meta_common(),
+[rank22]:       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank22]:   File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/torch/_inductor/codegen/triton.py", line 5286, in inductor_meta_common
+[rank22]:     "backend_hash": torch.utils._triton.triton_hash_with_backend(),
+[rank22]:                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank22]:   File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/torch/utils/_triton.py", line 200, in triton_hash_with_backend
+[rank22]:     backend = triton_backend()
+[rank22]:               ^^^^^^^^^^^^^^^^
+[rank22]:   File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/torch/utils/_triton.py", line 192, in triton_backend
+[rank22]:     target = driver.active.get_current_target()
+[rank22]:              ^^^^^^^^^^^^^
+[rank22]:   File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/triton/runtime/driver.py", line 28, in active
+[rank22]:     self._active = self.default
+[rank22]:                    ^^^^^^^^^^^^
+[rank22]:   File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/triton/runtime/driver.py", line 22, in default
+[rank22]:     self._default = _create_driver()
+[rank22]:                     ^^^^^^^^^^^^^^^^
+[rank22]:   File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/triton/runtime/driver.py", line 10, in _create_driver
+[rank22]:     return active_drivers[0]()
+[rank22]:            ^^^^^^^^^^^^^^^^^^^
+[rank22]:   File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/triton/backends/nvidia/driver.py", line 720, in __init__
+[rank22]:     self.utils = CudaUtils()  # TODO: make static
+[rank22]:                  ^^^^^^^^^^^
+[rank22]:   File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/triton/backends/nvidia/driver.py", line 62, in __init__
+[rank22]:     mod = compile_module_from_src(
+[rank22]:           ^^^^^^^^^^^^^^^^^^^^^^^^
+[rank22]:   File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/triton/runtime/build.py", line 93, in compile_module_from_src
+[rank22]:     so = _build(name, src_path, tmpdir, library_dirs or [], include_dirs or [], libraries or [], ccflags or [])
+[rank22]:          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank22]:   File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/triton/runtime/build.py", line 48, in _build
+[rank22]:     subprocess.check_call(cc_cmd, stdout=subprocess.DEVNULL)
+[rank22]:   File "/usr/lib/python3.12/subprocess.py", line 413, in check_call
+[rank22]:     raise CalledProcessError(retcode, cmd)
+[rank22]: torch._inductor.exc.InductorError: CalledProcessError: Command '['/usr/bin/gcc', '/tmp/tmpj9fpba2b/cuda_utils.c', '-O3', '-shared', '-fPIC', '-Wno-psabi', '-o', '/tmp/tmpj9fpba2b/cuda_utils.cpython-312-x86_64-linux-gnu.so', '-l:libcuda.so.1', '-L/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/triton/backends/nvidia/lib', '-L/usr/lib/x86_64-linux-gnu', '-I/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/triton/backends/nvidia/include', '-I/tmp/tmpj9fpba2b', '-I/usr/include/python3.12']' returned non-zero exit status 1.
+
+[rank22]: Set TORCHDYNAMO_VERBOSE=1 for the internal stack trace (please do this especially if you're reporting a bug to PyTorch). For even more developer context, set TORCH_LOGS="+dynamo"
+
+/tmp/tmpejzsqs9s/cuda_utils.c:7:10: fatal error: Python.h: No such file or directory
+    7 | #include <Python.h>
+      |          ^~~~~~~~~~
+compilation terminated.
+[rank23]: Traceback (most recent call last):
+[rank23]:   File "<frozen runpy>", line 198, in _run_module_as_main
+[rank23]:   File "<frozen runpy>", line 88, in _run_code
+[rank23]:   File "/root/.cache/user_artifacts/trainers_glm/server/src/trainers_server/dp_worker/main.py", line 243, in <module>
+[rank23]:     main()
+[rank23]:   File "/root/.cache/user_artifacts/trainers_glm/server/src/trainers_server/dp_worker/main.py", line 239, in main
+[rank23]:     run_rank(config)
+[rank23]:   File "/root/.cache/user_artifacts/trainers_glm/server/src/trainers_server/dp_worker/worker.py", line 249, in run_rank
+[rank23]:     controller = MegatronBridgeController(config)
+[rank23]:                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank23]:   File "/root/.cache/user_artifacts/trainers_glm/server/src/trainers_server/dp_worker/api/megatron_controller.py", line 1218, in __init__
+[rank23]:     self._init_training_stack(initialize_runtime=True)
+[rank23]:   File "/root/.cache/user_artifacts/trainers_glm/server/src/trainers_server/dp_worker/api/megatron_controller.py", line 1333, in _init_training_stack
+[rank23]:     set_jit_fusion_options(model_provider, micro_batch_size)
+[rank23]:   File "/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/src/megatron/bridge/training/initialize.py", line 311, in set_jit_fusion_options
+[rank23]:     _warmup_jit_function(
+[rank23]:   File "/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/src/megatron/bridge/training/initialize.py", line 912, in _warmup_jit_function
+[rank23]:     output = bias_swiglu(input, bias)
+[rank23]:              ^^^^^^^^^^^^^^^^^^^^^^^^
+[rank23]:   File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/torch/_dynamo/eval_frame.py", line 1038, in compile_wrapper
+[rank23]:     raise e.remove_dynamo_frames() from None  # see TORCHDYNAMO_VERBOSE=1
+[rank23]:     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank23]:   File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/torch/_inductor/compile_fx.py", line 1053, in _compile_fx_inner
+[rank23]:     raise InductorError(e, currentframe()).with_traceback(
+[rank23]:   File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/torch/_inductor/compile_fx.py", line 1037, in _compile_fx_inner
+[rank23]:     mb_compiled_graph = fx_codegen_and_compile(
+[rank23]:                         ^^^^^^^^^^^^^^^^^^^^^^^
+[rank23]:   File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/torch/_inductor/compile_fx.py", line 1798, in fx_codegen_and_compile
+[rank23]:     return scheme.codegen_and_compile(gm, example_inputs, inputs_to_check, graph_kwargs)
+[rank23]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank23]:   File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/torch/_inductor/compile_fx.py", line 1570, in codegen_and_compile
+[rank23]:     compiled_module = graph.compile_to_module()
+[rank23]:                       ^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank23]:   File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/torch/_inductor/graph.py", line 2499, in compile_to_module
+[rank23]:     return self._compile_to_module()
+[rank23]:            ^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank23]:   File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/torch/_inductor/graph.py", line 2505, in _compile_to_module
+[rank23]:     self.codegen_with_cpp_wrapper() if self.cpp_wrapper else self.codegen()
+[rank23]:                                                              ^^^^^^^^^^^^^^
+[rank23]:   File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/torch/_inductor/graph.py", line 2441, in codegen
+[rank23]:     self.scheduler.codegen()
+[rank23]:   File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/torch/_inductor/scheduler.py", line 6592, in codegen
+[rank23]:     self._codegen_partitions()
+[rank23]:   File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/torch/_inductor/scheduler.py", line 6732, in _codegen_partitions
+[rank23]:     self._codegen(partition)
+[rank23]:   File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/torch/_inductor/scheduler.py", line 6838, in _codegen
+[rank23]:     self.get_backend(device).codegen_node(node)
+[rank23]:   File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/torch/_inductor/codegen/cuda_combined_scheduling.py", line 152, in codegen_node
+[rank23]:     return self._triton_scheduling.codegen_node(node)
+[rank23]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank23]:   File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/torch/_inductor/codegen/simd.py", line 1841, in codegen_node
+[rank23]:     return self._codegen_nodes(nodes, coalesce_analysis)  # type: ignore[arg-type]
+[rank23]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank23]:   File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/torch/_inductor/codegen/simd.py", line 1814, in _codegen_nodes
+[rank23]:     return self.codegen_node_schedule(
+[rank23]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank23]:   File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/torch/_inductor/codegen/simd.py", line 1921, in codegen_node_schedule
+[rank23]:     src_code = kernel.codegen_kernel()
+[rank23]:                ^^^^^^^^^^^^^^^^^^^^^^^
+[rank23]:   File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/torch/_inductor/codegen/triton.py", line 5492, in codegen_kernel
+[rank23]:     **self.inductor_meta_common(),
+[rank23]:       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank23]:   File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/torch/_inductor/codegen/triton.py", line 5286, in inductor_meta_common
+[rank23]:     "backend_hash": torch.utils._triton.triton_hash_with_backend(),
+[rank23]:                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank23]:   File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/torch/utils/_triton.py", line 200, in triton_hash_with_backend
+[rank23]:     backend = triton_backend()
+[rank23]:               ^^^^^^^^^^^^^^^^
+[rank23]:   File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/torch/utils/_triton.py", line 192, in triton_backend
+[rank23]:     target = driver.active.get_current_target()
+[rank23]:              ^^^^^^^^^^^^^
+[rank23]:   File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/triton/runtime/driver.py", line 28, in active
+[rank23]:     self._active = self.default
+[rank23]:                    ^^^^^^^^^^^^
+[rank23]:   File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/triton/runtime/driver.py", line 22, in default
+[rank23]:     self._default = _create_driver()
+[rank23]:                     ^^^^^^^^^^^^^^^^
+[rank23]:   File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/triton/runtime/driver.py", line 10, in _create_driver
+[rank23]:     return active_drivers[0]()
+[rank23]:            ^^^^^^^^^^^^^^^^^^^
+[rank23]:   File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/triton/backends/nvidia/driver.py", line 720, in __init__
+[rank23]:     self.utils = CudaUtils()  # TODO: make static
+[rank23]:                  ^^^^^^^^^^^
+[rank23]:   File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/triton/backends/nvidia/driver.py", line 62, in __init__
+[rank23]:     mod = compile_module_from_src(
+[rank23]:           ^^^^^^^^^^^^^^^^^^^^^^^^
+[rank23]:   File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/triton/runtime/build.py", line 93, in compile_module_from_src
+[rank23]:     so = _build(name, src_path, tmpdir, library_dirs or [], include_dirs or [], libraries or [], ccflags or [])
+[rank23]:          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank23]:   File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/triton/runtime/build.py", line 48, in _build
+[rank23]:     subprocess.check_call(cc_cmd, stdout=subprocess.DEVNULL)
+[rank23]:   File "/usr/lib/python3.12/subprocess.py", line 413, in check_call
+[rank23]:     raise CalledProcessError(retcode, cmd)
+[rank23]: torch._inductor.exc.InductorError: CalledProcessError: Command '['/usr/bin/gcc', '/tmp/tmpejzsqs9s/cuda_utils.c', '-O3', '-shared', '-fPIC', '-Wno-psabi', '-o', '/tmp/tmpejzsqs9s/cuda_utils.cpython-312-x86_64-linux-gnu.so', '-l:libcuda.so.1', '-L/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/triton/backends/nvidia/lib', '-L/usr/lib/x86_64-linux-gnu', '-I/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/triton/backends/nvidia/include', '-I/tmp/tmpejzsqs9s', '-I/usr/include/python3.12']' returned non-zero exit status 1.
+
+[rank23]: Set TORCHDYNAMO_VERBOSE=1 for the internal stack trace (please do this especially if you're reporting a bug to PyTorch). For even more developer context, set TORCH_LOGS="+dynamo"
+
+/tmp/tmpyxjjnd6u/cuda_utils.c:7:10: fatal error: Python.h: No such file or directory
+    7 | #include <Python.h>
+      |          ^~~~~~~~~~
+compilation terminated.
+[rank16]: Traceback (most recent call last):
+[rank16]:   File "<frozen runpy>", line 198, in _run_module_as_main
+[rank16]:   File "<frozen runpy>", line 88, in _run_code
+[rank16]:   File "/root/.cache/user_artifacts/trainers_glm/server/src/trainers_server/dp_worker/main.py", line 243, in <module>
+[rank16]:     main()
+[rank16]:   File "/root/.cache/user_artifacts/trainers_glm/server/src/trainers_server/dp_worker/main.py", line 239, in main
+[rank16]:     run_rank(config)
+[rank16]:   File "/root/.cache/user_artifacts/trainers_glm/server/src/trainers_server/dp_worker/worker.py", line 249, in run_rank
+[rank16]:     controller = MegatronBridgeController(config)
+[rank16]:                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank16]:   File "/root/.cache/user_artifacts/trainers_glm/server/src/trainers_server/dp_worker/api/megatron_controller.py", line 1218, in __init__
+[rank16]:     self._init_training_stack(initialize_runtime=True)
+[rank16]:   File "/root/.cache/user_artifacts/trainers_glm/server/src/trainers_server/dp_worker/api/megatron_controller.py", line 1333, in _init_training_stack
+[rank16]:     set_jit_fusion_options(model_provider, micro_batch_size)
+[rank16]:   File "/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/src/megatron/bridge/training/initialize.py", line 311, in set_jit_fusion_options
+[rank16]:     _warmup_jit_function(
+[rank16]:   File "/root/.cache/user_artifacts/trainers_glm/server/vendor/megatron-bridge/src/megatron/bridge/training/initialize.py", line 912, in _warmup_jit_function
+[rank16]:     output = bias_swiglu(input, bias)
+[rank16]:              ^^^^^^^^^^^^^^^^^^^^^^^^
+[rank16]:   File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/torch/_dynamo/eval_frame.py", line 1038, in compile_wrapper
+[rank16]:     raise e.remove_dynamo_frames() from None  # see TORCHDYNAMO_VERBOSE=1
+[rank16]:     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank16]:   File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/torch/_inductor/compile_fx.py", line 1053, in _compile_fx_inner
+[rank16]:     raise InductorError(e, currentframe()).with_traceback(
+[rank16]:   File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/torch/_inductor/compile_fx.py", line 1037, in _compile_fx_inner
+[rank16]:     mb_compiled_graph = fx_codegen_and_compile(
+[rank16]:                         ^^^^^^^^^^^^^^^^^^^^^^^
+[rank16]:   File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/torch/_inductor/compile_fx.py", line 1798, in fx_codegen_and_compile
+[rank16]:     return scheme.codegen_and_compile(gm, example_inputs, inputs_to_check, graph_kwargs)
+[rank16]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank16]:   File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/torch/_inductor/compile_fx.py", line 1570, in codegen_and_compile
+[rank16]:     compiled_module = graph.compile_to_module()
+[rank16]:                       ^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank16]:   File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/torch/_inductor/graph.py", line 2499, in compile_to_module
+[rank16]:     return self._compile_to_module()
+[rank16]:            ^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank16]:   File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/torch/_inductor/graph.py", line 2505, in _compile_to_module
+[rank16]:     self.codegen_with_cpp_wrapper() if self.cpp_wrapper else self.codegen()
+[rank16]:                                                              ^^^^^^^^^^^^^^
+[rank16]:   File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/torch/_inductor/graph.py", line 2441, in codegen
+[rank16]:     self.scheduler.codegen()
+[rank16]:   File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/torch/_inductor/scheduler.py", line 6592, in codegen
+[rank16]:     self._codegen_partitions()
+[rank16]:   File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/torch/_inductor/scheduler.py", line 6732, in _codegen_partitions
+[rank16]:     self._codegen(partition)
+[rank16]:   File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/torch/_inductor/scheduler.py", line 6838, in _codegen
+[rank16]:     self.get_backend(device).codegen_node(node)
+[rank16]:   File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/torch/_inductor/codegen/cuda_combined_scheduling.py", line 152, in codegen_node
+[rank16]:     return self._triton_scheduling.codegen_node(node)
+[rank16]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank16]:   File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/torch/_inductor/codegen/simd.py", line 1841, in codegen_node
+[rank16]:     return self._codegen_nodes(nodes, coalesce_analysis)  # type: ignore[arg-type]
+[rank16]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank16]:   File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/torch/_inductor/codegen/simd.py", line 1814, in _codegen_nodes
+[rank16]:     return self.codegen_node_schedule(
+[rank16]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank16]:   File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/torch/_inductor/codegen/simd.py", line 1921, in codegen_node_schedule
+[rank16]:     src_code = kernel.codegen_kernel()
+[rank16]:                ^^^^^^^^^^^^^^^^^^^^^^^
+[rank16]:   File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/torch/_inductor/codegen/triton.py", line 5492, in codegen_kernel
+[rank16]:     **self.inductor_meta_common(),
+[rank16]:       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank16]:   File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/torch/_inductor/codegen/triton.py", line 5286, in inductor_meta_common
+[rank16]:     "backend_hash": torch.utils._triton.triton_hash_with_backend(),
+[rank16]:                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank16]:   File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/torch/utils/_triton.py", line 200, in triton_hash_with_backend
+[rank16]:     backend = triton_backend()
+[rank16]:               ^^^^^^^^^^^^^^^^
+[rank16]:   File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/torch/utils/_triton.py", line 192, in triton_backend
+[rank16]:     target = driver.active.get_current_target()
+[rank16]:              ^^^^^^^^^^^^^
+[rank16]:   File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/triton/runtime/driver.py", line 28, in active
+[rank16]:     self._active = self.default
+[rank16]:                    ^^^^^^^^^^^^
+[rank16]:   File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/triton/runtime/driver.py", line 22, in default
+[rank16]:     self._default = _create_driver()
+[rank16]:                     ^^^^^^^^^^^^^^^^
+[rank16]:   File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/triton/runtime/driver.py", line 10, in _create_driver
+[rank16]:     return active_drivers[0]()
+[rank16]:            ^^^^^^^^^^^^^^^^^^^
+[rank16]:   File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/triton/backends/nvidia/driver.py", line 720, in __init__
+[rank16]:     self.utils = CudaUtils()  # TODO: make static
+[rank16]:                  ^^^^^^^^^^^
+[rank16]:   File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/triton/backends/nvidia/driver.py", line 62, in __init__
+[rank16]:     mod = compile_module_from_src(
+[rank16]:           ^^^^^^^^^^^^^^^^^^^^^^^^
+[rank16]:   File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/triton/runtime/build.py", line 93, in compile_module_from_src
+[rank16]:     so = _build(name, src_path, tmpdir, library_dirs or [], include_dirs or [], libraries or [], ccflags or [])
+[rank16]:          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank16]:   File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/triton/runtime/build.py", line 48, in _build
+[rank16]:     subprocess.check_call(cc_cmd, stdout=subprocess.DEVNULL)
+[rank16]:   File "/usr/lib/python3.12/subprocess.py", line 413, in check_call
+[rank16]:     raise CalledProcessError(retcode, cmd)
+[rank16]: torch._inductor.exc.InductorError: CalledProcessError: Command '['/usr/bin/gcc', '/tmp/tmpyxjjnd6u/cuda_utils.c', '-O3', '-shared', '-fPIC', '-Wno-psabi', '-o', '/tmp/tmpyxjjnd6u/cuda_utils.cpython-312-x86_64-linux-gnu.so', '-l:libcuda.so.1', '-L/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/triton/backends/nvidia/lib', '-L/usr/lib/x86_64-linux-gnu', '-I/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/triton/backends/nvidia/include', '-I/tmp/tmpyxjjnd6u', '-I/usr/include/python3.12']' returned non-zero exit status 1.
+
+[rank16]: Set TORCHDYNAMO_VERBOSE=1 for the internal stack trace (please do this especially if you're reporting a bug to PyTorch). For even more developer context, set TORCH_LOGS="+dynamo"
+
+[rank22]:[W708 06:51:43.589668102 ProcessGroupNCCL.cpp:1575] Warning: WARNING: destroy_process_group() was not called before program exit, which can leak resources. For more info, please see https://pytorch.org/docs/stable/distributed.html#shutdown (function operator())
+W0708 06:51:45.418000 95099 .venv/lib/python3.12/site-packages/torch/distributed/elastic/multiprocessing/api.py:1012] Sending process 95185 closing signal SIGTERM
+W0708 06:51:45.419000 95099 .venv/lib/python3.12/site-packages/torch/distributed/elastic/multiprocessing/api.py:1012] Sending process 95186 closing signal SIGTERM
+W0708 06:51:45.420000 95099 .venv/lib/python3.12/site-packages/torch/distributed/elastic/multiprocessing/api.py:1012] Sending process 95187 closing signal SIGTERM
+W0708 06:51:45.423000 95099 .venv/lib/python3.12/site-packages/torch/distributed/elastic/multiprocessing/api.py:1012] Sending process 95188 closing signal SIGTERM
+W0708 06:51:45.424000 95099 .venv/lib/python3.12/site-packages/torch/distributed/elastic/multiprocessing/api.py:1012] Sending process 95189 closing signal SIGTERM
+W0708 06:51:45.426000 95099 .venv/lib/python3.12/site-packages/torch/distributed/elastic/multiprocessing/api.py:1012] Sending process 95190 closing signal SIGTERM
+W0708 06:51:45.426000 95099 .venv/lib/python3.12/site-packages/torch/distributed/elastic/multiprocessing/api.py:1012] Sending process 95192 closing signal SIGTERM
+E0708 06:51:46.707000 95099 .venv/lib/python3.12/site-packages/torch/distributed/elastic/multiprocessing/api.py:986] failed (exitcode: 1) local_rank: 6 (pid: 95191) of binary: /root/.cache/user_artifacts/trainers_glm/server/.venv/bin/python
+Traceback (most recent call last):
+  File "/root/.cache/user_artifacts/trainers_glm/server/.venv/bin/torchrun", line 10, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py", line 362, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/torch/distributed/run.py", line 990, in main
+    run(args)
+  File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/torch/distributed/run.py", line 981, in run
+    elastic_launch(
+  File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/torch/distributed/launcher/api.py", line 170, in __call__
+    return launch_agent(self._config, self._entrypoint, list(args))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_glm/server/.venv/lib/python3.12/site-packages/torch/distributed/launcher/api.py", line 317, in launch_agent
+    raise ChildFailedError(
+torch.distributed.elastic.multiprocessing.errors.ChildFailedError: 
+============================================================
+trainers_server.dp_worker.main FAILED
+------------------------------------------------------------
+Failures:
+[1]:
+  time      : 2026-07-08_06:51:46
+  host      : baseten-training-job-qr9oevq-multinode-0-2.baseten-training-job-qr9oevq-multinode.org-99340d71961343c28c5c567d705ab0c0.svc.cluster.local
+  rank      : 16 (local_rank: 0)
+  exitcode  : -15 (pid: 95185)
+  error_file: <N/A>
+  traceback : Signal 15 (SIGTERM) received by PID 95185
+[2]:
+  time      : 2026-07-08_06:51:46
+  host      : baseten-training-job-qr9oevq-multinode-0-2.baseten-training-job-qr9oevq-multinode.org-99340d71961343c28c5c567d705ab0c0.svc.cluster.local
+  rank      : 17 (local_rank: 1)
+  exitcode  : -15 (pid: 95186)
+  error_file: <N/A>
+  traceback : Signal 15 (SIGTERM) received by PID 95186
+[3]:
+  time      : 2026-07-08_06:51:46
+  host      : baseten-training-job-qr9oevq-multinode-0-2.baseten-training-job-qr9oevq-multinode.org-99340d71961343c28c5c567d705ab0c0.svc.cluster.local
+  rank      : 18 (local_rank: 2)
+  exitcode  : -15 (pid: 95187)
+  error_file: <N/A>
+  traceback : Signal 15 (SIGTERM) received by PID 95187
+[4]:
+  time      : 2026-07-08_06:51:46
+  host      : baseten-training-job-qr9oevq-multinode-0-2.baseten-training-job-qr9oevq-multinode.org-99340d71961343c28c5c567d705ab0c0.svc.cluster.local
+  rank      : 19 (local_rank: 3)
+  exitcode  : -15 (pid: 95188)
+  error_file: <N/A>
+  traceback : Signal 15 (SIGTERM) received by PID 95188
+[5]:
+  time      : 2026-07-08_06:51:46
+  host      : baseten-training-job-qr9oevq-multinode-0-2.baseten-training-job-qr9oevq-multinode.org-99340d71961343c28c5c567d705ab0c0.svc.cluster.local
+  rank      : 20 (local_rank: 4)
+  exitcode  : -15 (pid: 95189)
+  error_file: <N/A>
+  traceback : Signal 15 (SIGTERM) received by PID 95189
+[6]:
+  time      : 2026-07-08_06:51:46
+  host      : baseten-training-job-qr9oevq-multinode-0-2.baseten-training-job-qr9oevq-multinode.org-99340d71961343c28c5c567d705ab0c0.svc.cluster.local
+  rank      : 21 (local_rank: 5)
+  exitcode  : -15 (pid: 95190)
+  error_file: <N/A>
+  traceback : Signal 15 (SIGTERM) received by PID 95190
+[7]:
+  time      : 2026-07-08_06:51:46
+  host      : baseten-training-job-qr9oevq-multinode-0-2.baseten-training-job-qr9oevq-multinode.org-99340d71961343c28c5c567d705ab0c0.svc.cluster.local
+  rank      : 23 (local_rank: 7)
+  exitcode  : -15 (pid: 95192)
+  error_file: <N/A>
+  traceback : Signal 15 (SIGTERM) received by PID 95192
+------------------------------------------------------------
+Root Cause (first observed failure):
+[0]:
+  time      : 2026-07-08_06:51:45
+  host      : baseten-training-job-qr9oevq-multinode-0-2.baseten-training-job-qr9oevq-multinode.org-99340d71961343c28c5c567d705ab0c0.svc.cluster.local
+  rank      : 22 (local_rank: 6)
+  exitcode  : 1 (pid: 95191)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+============================================================

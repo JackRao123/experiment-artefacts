@@ -1,0 +1,134 @@
+{
+  "log": {
+    "available_kv_gib_per_gpu": 65.54,
+    "buckets": [
+      {
+        "ctx": 8192,
+        "num_requests": 580,
+        "preemption_lines": 0
+      },
+      {
+        "ctx": 32768,
+        "num_requests": 146,
+        "preemption_lines": 0
+      },
+      {
+        "ctx": 131072,
+        "num_requests": 38,
+        "preemption_lines": 0
+      },
+      {
+        "ctx": 262144,
+        "num_requests": 20,
+        "preemption_lines": 0
+      }
+    ],
+    "cudagraph_pool_gib": 2.66,
+    "cutlass_moe_selected": true,
+    "kv_pool_tokens": 4510515,
+    "loading_weights_s": 99.54,
+    "max_concurrency": 17.21,
+    "max_concurrency_ctx_tokens": 262144,
+    "model_loading_s": 101.369704,
+    "nemotron_patches_applied": true,
+    "oom": false,
+    "preemption_lines": 0,
+    "weights_gib_per_gpu": 82.23
+  },
+  "result": {
+    "adapter": "/root/.cache/user_artifacts/rl/gsm8k-ultra-weights/sampler_weights/step-199",
+    "boot_wall_s": 370.1,
+    "buckets": [
+      {
+        "ctx": 8192,
+        "finished": 580,
+        "gen_tok_per_s": 1562.5,
+        "gen_tokens": 593920,
+        "gen_wall_s": 380.1,
+        "max_new_tokens": 1024,
+        "num_requests": 580,
+        "prompt_len": 7152,
+        "prompt_tokens": 4148160,
+        "total_tok_per_s": 12475.3,
+        "total_tok_per_s_per_gpu": 3118.8
+      },
+      {
+        "ctx": 32768,
+        "finished": 146,
+        "gen_tok_per_s": 426.2,
+        "gen_tokens": 149504,
+        "gen_wall_s": 350.8,
+        "max_new_tokens": 1024,
+        "num_requests": 146,
+        "prompt_len": 31728,
+        "prompt_tokens": 4632288,
+        "total_tok_per_s": 13630.8,
+        "total_tok_per_s_per_gpu": 3407.7
+      },
+      {
+        "ctx": 131072,
+        "finished": 38,
+        "gen_tok_per_s": 104.0,
+        "gen_tokens": 38912,
+        "gen_wall_s": 374.1,
+        "max_new_tokens": 1024,
+        "num_requests": 38,
+        "prompt_len": 130032,
+        "prompt_tokens": 4941216,
+        "total_tok_per_s": 13311.1,
+        "total_tok_per_s_per_gpu": 3327.8
+      },
+      {
+        "ctx": 262144,
+        "finished": 20,
+        "gen_tok_per_s": 50.1,
+        "gen_tokens": 20480,
+        "gen_wall_s": 408.6,
+        "max_new_tokens": 1024,
+        "num_requests": 20,
+        "prompt_len": 261104,
+        "prompt_tokens": 5222080,
+        "total_tok_per_s": 12830.1,
+        "total_tok_per_s_per_gpu": 3207.5
+      }
+    ],
+    "capacity": {
+      "kv_pool_tokens_logged": 4510515,
+      "max_concurrency_logged": 17.21,
+      "max_model_len": 262144
+    },
+    "engine_kwargs": {
+      "cudagraph_capture_sizes": "[1, 2, 4, 8, 16, 32, 64, 128, 192, 256, 384, 512, 640, 768, 896, 1000]",
+      "disable_custom_all_reduce": "True",
+      "enable_flashinfer_autotune": "False",
+      "enable_lora": "True",
+      "enable_prefix_caching": "True",
+      "gpu_memory_utilization": "0.9",
+      "kv_cache_dtype": "fp8",
+      "load_format": "fastsafetensors",
+      "max_lora_rank": "64",
+      "max_loras": "4",
+      "max_model_len": "262144",
+      "max_num_seqs": "1000",
+      "model": "/root/.cache/user_artifacts/huggingface/hub/models--nvidia--NVIDIA-Nemotron-3-Ultra-550B-A55B-NVFP4/snapshots/183968f87ae4cedce3039313cac1fd43d112c578",
+      "moe_backend": "cutlass",
+      "tensor_parallel_size": "4",
+      "trust_remote_code": "True"
+    },
+    "max_model_len": 262144,
+    "tp": 4
+  },
+  "smi": {
+    "hottest_gpu_gib": 165.7,
+    "per_gpu_peak_gib": {
+      "0": 165.7,
+      "1": 165.7,
+      "2": 165.7,
+      "3": 165.7,
+      "4": 0.4,
+      "5": 62.6,
+      "6": 1.4,
+      "7": 0.2
+    }
+  }
+}

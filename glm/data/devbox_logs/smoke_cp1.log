@@ -1,0 +1,210 @@
+[run_trainer_node] NCCL_IB_HCA=mlx5_0,mlx5_1,mlx5_3,mlx5_4,mlx5_5,mlx5_6,mlx5_7,mlx5_8,mlx5_9,mlx5_10,mlx5_12,mlx5_13
+[run_trainer_node] rank=0 nnodes=1 leader=127.0.0.1 config=/root/.cache/user_artifacts/glm_prof/configs/glm52-debug-cp1-8k.json src=/root/.cache/user_artifacts/trainers_glm_cp
+[run_trainer_node] config contents:
+{
+  "base_model": "/root/.cache/team_artifacts/glm-52-debug-clean",
+  "max_seq_len": 8192,
+  "tensor_parallel_size": 1,
+  "pipeline_parallel_size": 1,
+  "context_parallel_size": 1,
+  "expert_parallel_size": 2,
+  "expert_tensor_parallel_size": 1,
+  "trust_remote_code": true,
+  "lora_rank": 16,
+  "weight_sync": {"type": "disabled"}
+}
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/torch/cuda/__init__.py:61: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/torch/cuda/__init__.py:61: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/root/.cache/user_artifacts/trainers_glm_cp/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/backends.py:34: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm_cp/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/gpt/gpt_layer_specs.py:77: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/torch/cuda/__init__.py:61: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/root/.cache/user_artifacts/trainers_glm_cp/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/backends.py:34: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm_cp/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/gpt/gpt_layer_specs.py:77: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/modelopt/torch/__init__.py:53: UserWarning: transformers>=5.0 support is experimental. Unified Hugging Face checkpoint export for quantized checkpoints may not work for some models yet.
+  _warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/gpt/heterogeneous/heterogeneous_layer_specs.py:68: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm_cp/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/vision/vit_layer_specs.py:31: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm_cp/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/mimo/config/base_configs.py:12: UserWarning: MimoModelConfig is experimental and still under active development. The API may change without notice in future releases.
+  class MimoModelConfig:
+WARNING:megatron.bridge.models.conversion.auto_bridge:Loading a model with trust_remote_code=True allows arbitrary code execution from the model repository. Only use this with models you trust.
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+INFO:trainers_server.dp_worker.api.megatron_controller:LoRA config: rank=16 alpha=32 (default 2*rank) -> forward scale=2
+/root/.cache/user_artifacts/trainers_glm_cp/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/transformer/transformer_config.py:2810: UserWarning: full scope is deprecated. Use empty cuda_graph_modules to capture the whole layer.
+  warnings.warn(
+WARNING:megatron.core.rerun_state_machine:RerunStateMachine initialized in mode RerunMode.DISABLED
+> initializing torch distributed ...
+NCCL version 2.28.9+cuda12.9
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/modelopt/torch/__init__.py:53: UserWarning: transformers>=5.0 support is experimental. Unified Hugging Face checkpoint export for quantized checkpoints may not work for some models yet.
+  _warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/gpt/heterogeneous/heterogeneous_layer_specs.py:68: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm_cp/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/vision/vit_layer_specs.py:31: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_glm_cp/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/mimo/config/base_configs.py:12: UserWarning: MimoModelConfig is experimental and still under active development. The API may change without notice in future releases.
+  class MimoModelConfig:
+WARNING:megatron.bridge.models.conversion.auto_bridge:Loading a model with trust_remote_code=True allows arbitrary code execution from the model repository. Only use this with models you trust.
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+INFO:trainers_server.dp_worker.api.megatron_controller:LoRA config: rank=16 alpha=32 (default 2*rank) -> forward scale=2
+/root/.cache/user_artifacts/trainers_glm_cp/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/transformer/transformer_config.py:2810: UserWarning: full scope is deprecated. Use empty cuda_graph_modules to capture the whole layer.
+  warnings.warn(
+> initialized tensor model parallel with size 1
+> initialized pipeline model parallel with size 1
+> setting random seeds to 1234 ...
+> compiling dataset index builder ...
+make: Entering directory '/root/.cache/user_artifacts/trainers_glm_cp/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/datasets'
+make: python3-config: No such file or directory
+make: python3-config: No such file or directory
+make: Nothing to be done for 'default'.
+make: Leaving directory '/root/.cache/user_artifacts/trainers_glm_cp/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/datasets'
+>>> done with dataset index builder. Compilation time: 0.004 seconds
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/torch/distributed/c10d_logger.py:83: UserWarning: barrier(): using the device under current context. You can specify `device_id` in `init_process_group` to mute this warning.
+  return func(*args, **kwargs)
+Loading from /root/.cache/team_artifacts/glm-52-debug-cle… 10… (153/1… GLM5Brid…
+[PEFT+Recompute] Patched TransformerBlock.forward to enable grad on hidden_states input. This ensures checkpoint backward is called when only adapters are trainable (PP=1 with frozen base model).
+ > number of parameters on (tensor, pipeline) model parallel rank (0, 0): 361265664
+INFO:trainers_server.dp_worker.api.megatron_controller:LoRA training: disabled dynamic MoE router expert-bias updates
+INFO:trainers_server.dp_worker.api.megatron_controller:LoRA training: froze 7 MoE router expert-bias updates
+NCCL version 2.28.9+cuda12.9
+
+INFO:trainers_server.dp_worker.api.megatron_controller:LoRA training: disabled dynamic MoE router expert-bias updates
+INFO:trainers_server.dp_worker.api.megatron_controller:LoRA training: froze 7 MoE router expert-bias updates
+INFO:trainers_server.dp_worker.api.megatron_controller:weight_sync disabled
+INFO:trainers_server.dp_worker.api.megatron_controller:weight_sync disabled
+INFO:trainers_server.dp_worker.api.megatron_controller:MegatronBridgeController ready
+INFO:trainers_server.dp_worker.api.megatron_controller:MegatronBridgeController ready
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/torch/distributed/c10d_logger.py:83: UserWarning: barrier(): using the device under current context. You can specify `device_id` in `init_process_group` to mute this warning.
+  return func(*args, **kwargs)
+[trainers-warmup] starting — forward+backward seq=64 across PP=1 (establishing pipeline p2p connections + compiling DSA/Triton/cuDNN forward and backward kernels)...
+INFO:trainers_server.dp_worker.api.megatron_controller:starting — forward+backward seq=64 across PP=1 (establishing pipeline p2p connections + compiling DSA/Triton/cuDNN forward and backward kernels)...
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/torch/autograd/graph.py:869: UserWarning: The AccumulateGrad node's stream does not match the stream of the node that produced the incoming gradient. This may incur unnecessary synchronization and break CUDA graph capture if the AccumulateGrad node's stream is the default stream. This mismatch is caused by an AccumulateGrad node created prior to the current iteration being kept alive. This can happen if the autograd graph is still being kept alive by tensors such as the loss, or if you are using DDP, which will stash a reference to the node. To resolve the mismatch, delete all references to the autograd graph or ensure that DDP initialization is performed under the same stream as subsequent forwards. If the mismatch is intentional, you can use torch.autograd.graph.set_warn_on_accumulate_grad_stream_mismatch(False) to suppress this warning. (Triggered internally at /pytorch/torch/csrc/autograd/input_buffer.cpp:240.)
+  return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/torch/autograd/graph.py:869: UserWarning: The AccumulateGrad node's stream does not match the stream of the node that produced the incoming gradient. This may incur unnecessary synchronization and break CUDA graph capture if the AccumulateGrad node's stream is the default stream. This mismatch is caused by an AccumulateGrad node created prior to the current iteration being kept alive. This can happen if the autograd graph is still being kept alive by tensors such as the loss, or if you are using DDP, which will stash a reference to the node. To resolve the mismatch, delete all references to the autograd graph or ensure that DDP initialization is performed under the same stream as subsequent forwards. If the mismatch is intentional, you can use torch.autograd.graph.set_warn_on_accumulate_grad_stream_mismatch(False) to suppress this warning. (Triggered internally at /pytorch/torch/csrc/autograd/input_buffer.cpp:240.)
+  return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 14.73s seq_len=128 loss=7.7848
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 14.73s seq_len=128 loss=7.7848
+/root/.cache/user_artifacts/trainers_glm_cp/server/.venv/lib/python3.12/site-packages/torch/distributed/c10d_logger.py:83: UserWarning: barrier(): using the device under current context. You can specify `device_id` in `init_process_group` to mute this warning.
+  return func(*args, **kwargs)
+[trainers-warmup] READY — pipeline connected (1 PP stage(s)), kernels warm (14.7s). Server will now accept ops.
+INFO:trainers_server.dp_worker.api.megatron_controller:READY — pipeline connected (1 PP stage(s)), kernels warm (14.7s). Server will now accept ops.
+INFO:     Started server process [321074]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:     127.0.0.1:44436 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44450 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44450 - "GET /status HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44450 - "POST /reset_peak_memory HTTP/1.1" 200 OK
+INFO:trainers_server.dp_worker.api.server:submit: op=forward_backward operation_id=5ce5e69da1734f5b8fcad089d9221b6f enqueued (qsize=1)
+INFO:     127.0.0.1:44450 - "POST /forward_backward HTTP/1.1" 202 Accepted
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 0.87s seq_len=4096 loss=7.7833
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 0.87s seq_len=4096 loss=7.7833
+INFO:trainers_server.dp_worker.api.dispatcher_worker:dispatcher_worker: op=forward_backward operation_id=5ce5e69da1734f5b8fcad089d9221b6f done in 0.87s
+INFO:trainers_server.dp_worker.api.dispatcher_worker:metric op_duration_seconds op=forward_backward outcome=ok duration=0.8683 operation_id=5ce5e69da1734f5b8fcad089d9221b6f
+INFO:trainers_server.dp_worker.api.server:retrieve: operation_id=5ce5e69da1734f5b8fcad089d9221b6f done after 0.87s
+INFO:     127.0.0.1:44450 - "GET /operations/5ce5e69da1734f5b8fcad089d9221b6f HTTP/1.1" 200 OK
+INFO:trainers_server.dp_worker.api.server:submit: op=forward_backward operation_id=db012f7c6c634401b40c0684a8ccab95 enqueued (qsize=1)
+INFO:     127.0.0.1:44450 - "POST /forward_backward HTTP/1.1" 202 Accepted
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 0.53s seq_len=4096 loss=7.7833
+INFO:trainers_server.dp_worker.api.megatron_controller:forward_backward: 0.53s seq_len=4096 loss=7.7833
+INFO:trainers_server.dp_worker.api.dispatcher_worker:dispatcher_worker: op=forward_backward operation_id=db012f7c6c634401b40c0684a8ccab95 done in 0.54s
+INFO:trainers_server.dp_worker.api.dispatcher_worker:metric op_duration_seconds op=forward_backward outcome=ok duration=0.5361 operation_id=db012f7c6c634401b40c0684a8ccab95
+INFO:trainers_server.dp_worker.api.server:retrieve: operation_id=db012f7c6c634401b40c0684a8ccab95 done after 0.54s
+INFO:     127.0.0.1:44450 - "GET /operations/db012f7c6c634401b40c0684a8ccab95 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:44450 - "GET /status HTTP/1.1" 200 OK
