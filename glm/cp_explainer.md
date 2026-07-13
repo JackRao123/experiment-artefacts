@@ -72,7 +72,7 @@ scores `hidden[:-1]` against `labels[1:]` — i.e. the shift happens **at loss
 time**, and the last position is dropped because it has no next token.
 
 - Recall that we are in the TRAINER right now. The LM head produces the logits which we can softmax to get a probability distribution of the next token - but if we are training, we don't need the distributino for the last token as we don't need to include it in the loss. So we don't have to pass hidden[-1] to the LM head. We only score hidden[:-1], with labels[1:] as the actual next token, so we score prediction vs actual. We do the shift and then we can calculate CE loss.
-- This shift only happens at loss time. 
+- This shift only happens at loss time.
 
 Under CP that convention breaks: the token that position `i` must predict can
 live **on a different rank** (whenever `i` is the last position of a zigzag
@@ -112,9 +112,10 @@ was attached to A's position before the split.
 
 - CP ranks hold **disjoint** token sets of the same row → SUM is correct
 (an average would double-normalize).
+  - this one is pretty straightforward. `_loss_report()` is meant to just take the loss sum and num active tokens over the group so we just do the same thing.
 - The result is the exact same global `(Σ loss, Σ tokens)` you'd get at cp=1 —
 bit-for-bit the same *definition* of the loss.
-- Non-last PP stages don't compute loss, so `loss_tokens` is **broadcast**
+- Non-last PP stages don't compute loss, so `loss_tokens` is **broadcast**  
 along PP; without it their gradient scaling would silently no-op.
 
 
@@ -149,21 +150,56 @@ was *derived*, not guessed.
 is frozen and selects top-k keys over the *global* sequence, so every rank
 needs the full KV (asserted upstream, `dsa.py:1807`). Ring/P2P CP variants
 don't apply.
+  - DSA indexer is the LightningIndexer. Recall that this finds the top k relevant tokens so then we can then do actual attention over them. The lightningindexer doesn't compute the topk per rank, so we have to allgather all the KVs so the lightningindexer can index over them and find the topk.
+  - Theoretically we could just do a online-topk, like just iterate through each rank's KV and maintain the topk via something like a pq. That way we avoid the allgather and thus the `S*sizeof(KV)` spike and instead just have `S/cp_size * sizeof(KV)` .However this isn't implemented. 
+  - The downside is that we have a temporary spike when we do the allgather, but we can discard this after calcluating attention and just keep only the `S/cp_size` attention activations.
 - `variable_seq_lengths=True` because THD rows differ in length per microbatch.
-- LoRA on the absorbed MLA KV up-projection is TP=1 only (upstream
+  - we are using THD instead of BSHD so we don't have to do padding.
+- LoRA on the absorbed MLA KV up-projection is TP=1 only (upstream  
 `038760cd8`) — consistent with the TP1 golden config.
 
 
 
 ## 8. What v1 deliberately does NOT do (say it before they ask)
 
-- **No per-token logprobs to the client under CP** (`emit_logprobs=False`):
-each rank's logprobs cover only its zigzag slice; stitching them is future
-work. SFT gets loss only; RL/DPO are hard-rejected at request time.
+> **UPDATE 2026-07-13 (branch `jackrao/glm-131k-cp-rl`):** the first two
+> items below are DONE.
+>
+> - **Per-token logprobs under CP**: the loss fn all-gathers each rank's
+>   zigzag slice over the CP group and inverts the permutation
+>   (`_stitch_thd_cp_logprobs` + `packing.unshard_thd_cp_rows`, a pure-torch
+>   mirror of `tex.thd_get_partitioned_indices` — 200/200 GPU fuzz-equal);
+>   `thd_logprobs_to_loss_fn_outputs` then carves per-datum wire rows out of
+>   the stitched `(1, S_global)` row via the global cu_seqlens. Same wire
+>   alignment as bshd (`wire[k] = logπ(T[k])`, masked → 0.0).
+> - **RL under CP**: dppo / importance_sampling / ppo / cispo / dro are all
+>   *token-separable*, so the §4–§6 argument transfers verbatim:
+>   logprobs/advantages/temperatures are position-aligned with target_tokens,
+>   packed + zigzag-sharded exactly like the pre-shifted labels; per-rank
+>   token-sums reduce identically (schedule ×cp, DDP ÷(dp·cp), optim
+>   ÷n_tokens). **DPO stays rejected** — pairwise sequence-level
+>   nonlinearity needs a CP-aware per-sequence logprob reduction.
+> - Debug-model CP1(DP2)-vs-CP2(DP1) parity, all 6 loss fns: loss rel ≤
+>   2.8e-3; stitched logprobs aligned mean|Δ| ≈ 5e-3 nats vs off-by-one
+>   floor 0.62–0.77 (any misalignment would be ~130× louder); grad_norm
+>   cp-ratio identical across losses (4.000, tracks CE to 0.2% — the 4× is
+>   pre-existing bshd num_microbatches×DP normalization semantics, absent at
+>   the CP32/DP1 production config).
+> - Full-scale CP32 131k (devbox 3mlmgkq, real GLM-5.2): CE 0.0412 /
+>   ppo −0.4708 / cispo 0.0243, finite grad norms through optim, 19–28 s/step,
+>   peak 102.8 GiB (stitch+RL fields add nothing measurable). Wire proof: the
+>   131,072-length logprob row reproduces the scalar loss to **1.03e-9 rel**
+>   (65,535 supervised positions). 16.8% of supervised logprobs are exactly
+>   0.0 — REAL (ramp memorized to p≈1, fp32 rounding), don't flag them as
+>   masked. PR: trainers#642.
+
 - **No MTP**, weight-sync under CP>1 validated for export only.
 - Per-request semantic nit: a `target_tokens` row whose *final* position has a
 real target is scored under CP but dropped at cp=1 (bshd path drops position
-S−1 unconditionally). Known, tiny, documented.
+S−1 unconditionally). Known, tiny, documented. Corollary now that CP returns
+logprobs: that final position's wire logprob is a real value under CP, 0.0 at
+cp=1.
+- **DPO under CP** — the one loss still hard-rejected (see update above).
 
 
 
