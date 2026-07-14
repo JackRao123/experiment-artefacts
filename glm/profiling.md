@@ -245,7 +245,8 @@ per-rank slice fattens (72.9 @131k, where each CP rank holds 4 096 tokens).
    the NaN-grad-on-optim finding (repros on golden PP16 with synthetic data;
    unresolved whether data-, layout- or main-regression-caused — **Paras is
    fixing this**), CP CE-only v1
-   limits (no per-datum logprobs / DPO / MTP; weight-sync under CP untested),
+   limits (per-datum logprobs were added later in trainers#592; DPO / MTP
+   remain unsupported, and weight-sync under CP was untested in this profile),
    and a real-data loss-parity + convergence run vs CP1.
 
 ## Reproduction
@@ -270,6 +271,7 @@ per-rank slice fattens (72.9 @131k, where each CP rank holds 4 096 tokens).
 - Memory-representative fwd-bwd + CE loss; jerry's 1/cp grad normalization is in
   (0.15–0.32% loss parity on DSv4 at cp2–16). CP smoke gate for GLM: CP1-vs-CP2
   loss parity ≲0.5% on the debug checkpoint + per-rank activation sharding.
-- CE-only v1: no per-datum logprobs under CP, no DPO, no MTP; weight-sync/export
-  under CP untested.
+- CE-only v1 at profile time had no per-datum logprobs; trainers#592 adds them.
+  DPO and MTP remain unsupported; weight-sync/export under CP was untested in
+  this profile.
 - IndexShare under CP: holders store (topk, layout) per computing layer per rank.

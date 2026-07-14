@@ -1,24 +1,35 @@
 # GLM-5.2 131k LoRA SFT (CP32) — productionization checklist
 
-## Open PRs + image (2026-07-10)
+## Open PRs + image (2026-07-13; refreshed after trainers#592 rebase)
 
 
-| What                                                                                                        | Link                                                                         | State                                                                          |
-| ----------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
-| Trainer: CP zigzag port + router fix + registry row + wheels/lock                                           | [trainers#592](https://github.com/basetenlabs/trainers/pull/592)             | OPEN, rebased onto main 2026-07-10, head `7c8c093d` (12 commits)               |
-| Bridge: hub-id raw-config fix + vectorized FP8 dequant + LM repin                                           | [Megatron-Bridge#17](https://github.com/basetenlabs/Megatron-Bridge/pull/17) | OPEN (head `fa04a142`; supersedes Bridge#12)                                   |
-| Megatron-LM: packed-CP indexer `q_causal_offsets` fix                                                       | [Megatron-LM#14](https://github.com/basetenlabs/Megatron-LM/pull/14)         | OPEN (the CP-correctness fix; report upstream to NVIDIA too)                   |
-| **Trainer image (builds green from the branch)**                                                            | `baseten/trainers-server:jackrao-glm-131k-cp-7c8c093`                        | published via `build-trainer-server-image.yml` workflow_dispatch on the branch |
-| billip: GLM-5.2 `deploy_checkpoints` fix (image override v0.24.0 + `--max-model-len 262144` + glm47 parser) | [baseten#23109](https://github.com/basetenlabs/baseten/pull/23109)           | OPEN 2026-07-10 — see `sampler_deploy_repro.md`                                |
+| What                                                                                                        | Link                                                                         | State                                                                                         |
+| ----------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| Trainer: THD CP path, logprob reconstruction, router fix, and stack lock                                   | [trainers#592](https://github.com/basetenlabs/trainers/pull/592)             | OPEN; head `98e11451` (4 commits); PR tests green, but GitHub reports `BEHIND` + review required |
+| Bridge: hub-id raw-config fix + vectorized FP8 dequant + LM repin                                           | [Megatron-Bridge#19](https://github.com/basetenlabs/Megatron-Bridge/pull/19) | OPEN, head `32d432cc`, targets `trainers-main`; replaces closed #17                          |
+| Megatron-LM: packed-CP indexer `q_causal_offsets` fix                                                       | [Megatron-LM#16](https://github.com/basetenlabs/Megatron-LM/pull/16)         | OPEN, head `a1fab1bb`, targets `trainers-main`; replaces closed #14                          |
+| **Trainer image (current #592 head)**                                                                       | `baseten/trainers-server:jackrao-glm-131k-cp-98e1145`                        | Built green from `98e11451`; digest `sha256:aa36f62ee6251d6597fa9d23f123b83a58bb4509baf97247ff217dd95165e2e9` |
+| billip: GLM-5.2 `deploy_checkpoints` fix (image override v0.24.0 + `--max-model-len 262144` + glm47 parser) | [baseten#23109](https://github.com/basetenlabs/baseten/pull/23109)           | OPEN 2026-07-10 — see `sampler_deploy_repro.md`                                               |
 
+The #592 rebase passed the repository pre-push `make check` suite (Ruff
+lint/format plus type checks). The full 4×8 B200 runtime smoke passed on
+`98e11451` on 2026-07-13: two 131k THD CP32 fwd-bwd + optim steps returned
+finite per-datum logprobs that reproduced scalar CE, the short text example
+overfit from 10.44 to 0.10 in eight steps, and both checkpoint endpoints
+completed.
 
-Merge order: LM#14 → Bridge#17 (repin its LM gitlink if LM commits get
-rebased on merge) → trainers#592 bridge-pin bump. #592 is self-contained today
-via SHA pins (all fetchable) — so do NOT delete the `jackrao/*` work branches
-on the LM/Bridge forks until the post-merge repins land, or the pinned SHAs
-can become unfetchable and submodule init / image builds break. Review flag: main rolled its bridge pin BACK to
-`d93bb5bc` (#590/#597) for stability; this branch deliberately moves forward.
-Registry S131K row intentionally NOT image-pinned yet (Jack's call, 2026-07-10).
+The replacement PRs can be reviewed in parallel but must merge in dependency
+order: LM#16 → Bridge#19 (repin its LM gitlink to the landed LM
+`trainers-main` SHA if LM is squash- or rebase-merged) → a Trainers `main`
+bridge-pin bump. #592 currently pins Bridge#19 `32d432cc`, which in turn pins
+LM#16 `a1fab1bb`; do not delete the `jackrao/*` work branches until the
+post-merge repins land, or the pinned SHAs can become unfetchable for
+submodule init and image builds.
+
+The S131K registry row and its then-current image pin are already on `main`
+via trainers#616 and trainers#624. They are no longer part of the #592 diff;
+after the stack chain lands, rebuild the image from the rebased #592 head and
+repin the row to that artifact.
 
 Target config: **TP1 / PP1 / EP32 / CP32 (DP=1)** on 4×8 B200 — the only
 profiled config that fits 131 072 tokens. Re-measured on the upstream stack
@@ -27,21 +38,28 @@ profiled config that fits 131 072 tokens. Re-measured on the upstream stack
 `profiling.md`.
 
 **STACK PIVOT 2026-07-09 → upstream GLM-5.2.** NVIDIA merged GLM-5.2 DSA + CP
-into main; Paras rebased the fork onto it as `trainers-main-20260907` on both
-[Megatron-LM](https://github.com/basetenlabs/Megatron-LM/tree/trainers-main-20260907)
-(`038760cd8`) and [Megatron-Bridge](https://github.com/basetenlabs/Megatron-Bridge/tree/trainers-main-20260907)
-(`66d5cefc`, pins that LM). This obsoletes the old fork PRs:
+into main; the curated bases now live under `trainers-main` on both
+[Megatron-LM](https://github.com/basetenlabs/Megatron-LM/tree/trainers-main)
+(`038760cd8`) and [Megatron-Bridge](https://github.com/basetenlabs/Megatron-Bridge/tree/trainers-main)
+(`8e2d2db5`, pins that LM). The dated `trainers-main-20260907` aliases were
+deleted, which automatically closed their dependent PRs. This obsoletes the
+old fork PRs:
 
 - **Megatron-LM#9** (dev sync) — **CLOSED** (superseded by the upstream rebase).
 - **Megatron-LM#7** (GLM contiguous-CP) — **CLOSED** (upstream fused DSA+CP #5099/#5246
 replaces it; its mHC fix was DSv4-hybrid-only; its 131k memory hardening is mostly
 upstream — MoE-dispatcher-clear = `922ebcbdb` — leaving only chunked-indexer-scorer +
 GLU-offset-skip as a parked memory follow-up **if CP32 131k OOMs**).
-- **Megatron-Bridge#12** — SUPERSEDED by Bridge#17, which carries its two surviving
-commits (vectorized FP8 dequant; hub-id raw-config resolution) rebased onto
-`trainers-main-20260907`. Close #12 once #17 lands.
+- **Megatron-LM#14** — CLOSED when its dated base was deleted; replaced by
+  [LM#16](https://github.com/basetenlabs/Megatron-LM/pull/16) on
+  `trainers-main`.
+- **Megatron-Bridge#17** — CLOSED for the same reason; replaced by
+  [Bridge#19](https://github.com/basetenlabs/Megatron-Bridge/pull/19) on
+  `trainers-main`.
+- **Megatron-Bridge#12** — superseded by Bridge#19, which carries its two
+  surviving commits (vectorized FP8 dequant; hub-id raw-config resolution).
 
-"Megatron-LM = zero fork commits" is DEAD: LM#14 (q_causal_offsets) is a hard
+"Megatron-LM = zero fork commits" is DEAD: LM#16 (q_causal_offsets) is a hard
 correctness requirement for CP>1 until NVIDIA takes it upstream.
 
 Devbox `tj-wp8y89q` KILLED 2026-07-10 (validation complete; everything is in
@@ -201,56 +219,62 @@ feared cascade did not materialize; CI-image-proven).
   debug-model CP2-vs-CP1 step-0 exports are **bit-identical** (122/122
   tensors, lora_B all zero, adapter_config identical — init weights are
   CP-invariant so this is an exact-equality gate on the CP gather path), and
-  a **real CP32 export from the 800B trainer succeeded** (1230 tensors, all
-  78 layers, r16, `base_model_name_or_path` stamped with the HF id for loops
-  pairing; target set = attention + shared experts, routed experts excluded —
-  by design per `_lora_targets.py`). Export path is CP-safe by construction:
+  a **real CP32 export from the 800B trainer succeeded**. The exact
+  `98e11451` smoke wrote a 15.4 GB PEFT adapter with 116,448 HF tensors across
+  all 78 layers, r16, and `base_model_name_or_path` stamped with the HF id.
+  Of those, 115,200 are routed-expert tensors: the generic MLA
+  `linear_fc1`/`linear_fc2` targets include routed as well as shared experts.
+  The earlier note that routed experts were excluded was incorrect. Export is
+  CP-safe by construction:
   all ranks gather (collectives matched), global rank 0 publishes. Harness:
   `glm_prof/scripts/export_smoke.sh` + `compare_exports.py` on the devbox.
   Remaining sub-items:
-  - [ ] `save_state`/resume under CP untested.
+  - [x] `save_state`/resume under CP — validated on `98e11451` 2026-07-13.
+    `/save_state` wrote an 81.8 GB, 32-rank DCP checkpoint at step 10 and
+    `/load_state_with_optimizer` restored it successfully at step 10.
   - [x] sampler-side load of a CP-exported adapter — VALIDATED 2026-07-10 via
     the standalone-deploy repro: `VBnwM20` (pirate SFT exported by the CP
     trainer image) loads + serves through vLLM 0.24 LoRA on 8xB200, pirate
     behavior confirmed. Standalone `deploy_checkpoints` of GLM was broken
     (vLLM 0.22 image, no sparse-MLA backend on B200 + uncapped 1M seq len) —
     fix in [baseten#23109](https://github.com/basetenlabs/baseten/pull/23109);
-    details in `sampler_deploy_repro.md`. (Loops weight-sync pairing smoke in
-    a live session still untested.)
+    details in `sampler_deploy_repro.md`. The exact `98e11451` 15.4 GB adapter
+    has not yet been loaded by the sampler; Loops weight-sync pairing in a live
+    session is also still untested.
 
 
 
 ## P1 — needed to call it a golden config
 
-- [x] **HF-id loading fix.** Fixed in Bridge#12 `c578c95f` (+ unit tests):
+- [x] **HF-id loading fix.** Carried by Bridge#19 `32d432cc` (+ unit tests):
   glm5_bridge resolves the raw `config.json` via `hf_hub_download` when
   `base_model` is a hub id (offline-safe — transformers has already cached
   it), loud warning when unresolvable. Verified on `q8onmd3` 2026-07-08:
   offline hub-cache resolution returns the true dims (qk_nope=192,
   qk_rope=64; transformers reports head_dim=192), and a full 4-node CP32
   boot with `base_model="zai-org/GLM-5.2-FP8"` loaded the 800B checkpoint
-  to healthy in 631 s. trainers#592 repinned to the fixed bridge
-  (`6548f05a`; the old pin `216bb411` was a local-only SHA — unfetchable).
-- [x] **Registry + config plumbing.** Done in trainers#592 `d664c934`
-  (2026-07-08): `cp` field (`ge=1`) existed from the CP stack; added the
+  to healthy in 631 s. The rebased trainers#592 pins Bridge#19 directly;
+  the old `6548f05a` / `216bb411` pins are superseded.
+- [x] **Registry + config plumbing.** Landed on `main` in trainers#616 and
+  trainers#624: `cp` field (`ge=1`) existed from the CP stack; added the
   `Model.GLM_5_2_FP8 / B200:8 / SeqLen.S131K` row (TP1/PP1/EP32/ETP1/CP32,
   4 nodes), `load_registry` validation that `max_seq_length` splits into cp
   equal 64-token-aligned rank slices (lockstep with the server's
-  `THD_CP_LOCAL_PAD_MULTIPLE`), payload/round-trip/markdown tests. CAVEAT:
-  the row inherits `DEFAULT_TRAINER_IMAGE`, which predates the CP stack —
-  blocked on the trainer-image item below before the row is publishable.
-- [ ] **Land the branches** — all authored + pushed 2026-07-10 (see PR table at
-  top): LM#14 (q_causal_offsets, the CP-correctness gate) + LM#15 (nvrx gate,
-  stacked) → Bridge#17 (hub-id fix + vectorized dequant + LM repin; supersedes
-  #12) → trainers#592 (rebased onto main, head `7c8c093d`). Remaining: reviews
-  - merges (jerry review of the #592 CE/recompute merge resolutions still
-  applies; also flag the deliberate bridge-pin forward vs main's #590 rollback),
-  post-merge gitlink repins if commits are rebased on merge, and reporting the
-  q_causal_offsets bug upstream to NVIDIA/Megatron-LM.
-- [x] **Trainer image build — DONE 2026-07-10:
-  `baseten/trainers-server:jackrao-glm-131k-cp-7c8c093`** (built green from the
-  #592 branch via `build-trainer-server-image.yml` workflow_dispatch; also
-  pre-rebase `…-53572b2`). What it took beyond the pin chain: vendor the
+  `THD_CP_LOCAL_PAD_MULTIPLE`), payload/round-trip/markdown tests. The row is
+  image-pinned today; it needs a follow-up repin after rebuilding the image
+  from rebased trainers#592.
+- [ ] **Land the branches** — replacement PRs opened 2026-07-13 against the
+  live `trainers-main` bases (see PR table): LM#16 (`q_causal_offsets`, the
+  CP-correctness gate) → Bridge#19 (hub-id fix + vectorized dequant + LM
+  repin; supersedes #12) → a Trainers `main` bridge-pin bump. Review can happen
+  in parallel; merges cannot. Remaining: post-merge gitlink repins if commits
+  are rebased on merge, the Trainers pin bump, and reporting the
+  `q_causal_offsets` bug upstream to NVIDIA/Megatron-LM.
+- [x] **Rebuild trainer image from rebased #592.** The current-head image is
+  `baseten/trainers-server:jackrao-glm-131k-cp-98e1145`, built from
+  `98e11451`; digest
+  `sha256:aa36f62ee6251d6597fa9d23f123b83a58bb4509baf97247ff217dd95165e2e9`.
+  Its packaging work remains required: vendor the
   `fast_hadamard_transform` cp312/cu128 wheel (its git sdist can't metadata-build
   in the CI's isolated env — legacy setup.py needs setuptools/torch/nvcc) with an
   `override-dependencies` pin to neutralize megatron-core's git source, and
@@ -261,10 +285,9 @@ feared cascade did not materialize; CI-image-proven).
   CI-proven), so no nvrx git pin and no `.base_version` hack needed in-image.
   Relock gotcha for next time: repo-root `uv.toml` sets `exclude-newer = "14 days"` (relative → full re-resolution on every lock), and `uv lock` needs the
   vendored bridge submodule present (editable dep) — regenerate on a box with
-  the submodule checked out. NOT done: pinning the S131K registry row to this
-  image (deliberately deferred — the row still inherits `DEFAULT_TRAINER_IMAGE`,
-  so a loops run through the row won't get the CP stack until pinned or a
-  per-user image override is set).
+  the submodule checked out. The S131K row is currently image-pinned by
+  trainers#624; replace that pin with the rebuilt #592 image rather than
+  relying on `DEFAULT_TRAINER_IMAGE`.
 - [ ] **CI/benchmark wiring.** Benchmark harness auto-generates from
   `TRAINER_CONFIGS` → add a `baseline.json` entry; turn the debug-model
   CP1-vs-CP2 smoke (`scripts/smoke_cp.sh`) and the export bit-identity smoke
@@ -286,9 +309,10 @@ feared cascade did not materialize; CI-image-proven).
   than golden), and accumulation is sequential ⇒ memory-flat (~56 s per 131k
   sequence ⇒ ~N·56 s per optim step). Optionally sweep CP16/DP2, CP8/DP4 for
   the wall-clock/batch tradeoff.
-- [ ] **CP scope limits (CE-only v1).** No per-datum logprobs under CP (blocks
-  RL/loops-style consumers later, fine for SFT), no DPO, MTP off. Document;
-  widen when needed.
+- [ ] **CP scope limits (CE-only v1).** Per-datum logprobs are implemented and
+  full-scale validated at CP32/131k on trainers#592. DPO/RL,
+  image inputs, CP+DP, and MTP remain unsupported; document those remaining
+  limits.
 - [ ] **Perf polish.** 72.9 TPS/GPU @131k is workable. Levers: recompute
   tuning (full vs selective), check whether jerry's NCCL 1-channel pin (a
   DP×MoE alltoall deadlock workaround) is needed at DP=1 or just throttles,
