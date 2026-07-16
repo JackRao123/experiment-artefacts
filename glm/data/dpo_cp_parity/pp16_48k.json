@@ -1,0 +1,76 @@
+{
+  "config": {
+    "path": "glm52-b200-golden-pp16-64k.json",
+    "sha256": "9dd19d9cb220b1427d2208a1619bc95bbcb40a687bcc960888786a9fb90f8187"
+  },
+  "dpo": {
+    "active_finite_counts": [
+      24001,
+      24001
+    ],
+    "dpo_logit": 0.003436559820335242,
+    "duration_seconds": 104.91081254696473,
+    "loss": 0.6914306879043579,
+    "policy_sequence_logps": [
+      -71327.39233991563,
+      -71357.68793811898
+    ],
+    "reconstructed_loss": 0.6914303768919761,
+    "reconstruction_abs_delta": 3.1101238184838564e-07,
+    "reference_sequence_logps": [
+      -132007.72,
+      -132003.65
+    ],
+    "row_shapes": [
+      [
+        48001
+      ],
+      [
+        48001
+      ]
+    ]
+  },
+  "mode": "forward",
+  "payload": {
+    "beta": 0.0001,
+    "datum_lengths": [
+      48001,
+      48001
+    ],
+    "sha256": "cd0728f3499138cc623a5d23128e4979a8fc6f66d6312707c15cce4cf201efcf"
+  },
+  "status": {
+    "context_parallel_size": 1,
+    "data_parallel_size": 2,
+    "device": "cuda:0",
+    "expert_parallel_size": 2,
+    "expert_tensor_parallel_size": 1,
+    "gpu_memory": {
+      "cuda:0": 35318136832
+    },
+    "grad_norm": null,
+    "last_loss": null,
+    "max_seq_len": 65536,
+    "mode": "training",
+    "model_id": "/root/.cache/team_artifacts/huggingface/hub/models--zai-org--GLM-5.2-FP8/snapshots/70311cfa0158cce7dd2cf5d2e04f68e3fdc3efc1",
+    "pipeline_parallel_size": 16,
+    "step": 0,
+    "tensor_parallel_size": 1,
+    "world_size": 32
+  },
+  "topology": "pp16_ep2_cp1_dp2_64k",
+  "trainer": {
+    "diff_sha256": "5bd9b86025c809d13a2b0481774612102fbb04ca6334fbe28e757acec3c2a629",
+    "dirty": true,
+    "modified_paths": [
+      "server/src/trainers_server/dp_worker/api/megatron_controller.py",
+      "server/src/trainers_server/dp_worker/api/packing.py",
+      "server/tests/unit/dp_worker/api/test_ce_loss.py",
+      "server/tests/unit/dp_worker/api/test_cp_thd_dispatch.py",
+      "server/tests/unit/dp_worker/api/test_cp_thd_slicing.py",
+      "server/tests/unit/dp_worker/api/test_dpo_dispatch.py",
+      "server/.venv"
+    ],
+    "sha": "353f7c8d6e8b4c236ab023303e2eb12a1812d076"
+  }
+}

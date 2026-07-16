@@ -1,0 +1,89 @@
+{
+  "config": {
+    "path": "glm52-b200-pp1-ep32-cp32-131k.json",
+    "sha256": "a9b6ae361c7acfe7b9d935916564d6ba0b2158146be2b036eed885e9aacdc91a"
+  },
+  "dpo": {
+    "active_finite_counts": [
+      24001,
+      24001
+    ],
+    "dpo_logit": 0.014059048672174687,
+    "duration_seconds": 47.32733836770058,
+    "loss": 0.6861422061920166,
+    "policy_sequence_logps": [
+      -71279.21122309337,
+      -71415.73170981511
+    ],
+    "reconstructed_loss": 0.6861423631265761,
+    "reconstruction_abs_delta": 1.5693455945875456e-07,
+    "reference_sequence_logps": [
+      -132007.72,
+      -132003.65
+    ],
+    "row_shapes": [
+      [
+        48001
+      ],
+      [
+        48001
+      ]
+    ]
+  },
+  "mode": "forward_backward",
+  "optim_step": {
+    "metrics": {
+      "grad_norm": 0.673794466366667,
+      "learning_rate": 1e-10,
+      "lr": 1e-10,
+      "num_loss_tokens": 1.0,
+      "num_tokens": 96002.0,
+      "step": 1.0,
+      "step_seconds": 52.76804447406903,
+      "tps": 1819.320783190606,
+      "train_mean_nll": 0.6861422061920166
+    }
+  },
+  "payload": {
+    "beta": 0.0001,
+    "datum_lengths": [
+      48001,
+      48001
+    ],
+    "sha256": "cd0728f3499138cc623a5d23128e4979a8fc6f66d6312707c15cce4cf201efcf"
+  },
+  "status": {
+    "context_parallel_size": 32,
+    "data_parallel_size": 1,
+    "device": "cuda:0",
+    "expert_parallel_size": 32,
+    "expert_tensor_parallel_size": 1,
+    "gpu_memory": {
+      "cuda:0": 84458602496
+    },
+    "grad_norm": null,
+    "last_loss": null,
+    "max_seq_len": 131072,
+    "mode": "training",
+    "model_id": "/root/.cache/team_artifacts/huggingface/hub/models--zai-org--GLM-5.2-FP8/snapshots/70311cfa0158cce7dd2cf5d2e04f68e3fdc3efc1",
+    "pipeline_parallel_size": 1,
+    "step": 0,
+    "tensor_parallel_size": 1,
+    "world_size": 32
+  },
+  "topology": "pp1_ep32_cp32_dp1_131k",
+  "trainer": {
+    "diff_sha256": "5bd9b86025c809d13a2b0481774612102fbb04ca6334fbe28e757acec3c2a629",
+    "dirty": true,
+    "modified_paths": [
+      "server/src/trainers_server/dp_worker/api/megatron_controller.py",
+      "server/src/trainers_server/dp_worker/api/packing.py",
+      "server/tests/unit/dp_worker/api/test_ce_loss.py",
+      "server/tests/unit/dp_worker/api/test_cp_thd_dispatch.py",
+      "server/tests/unit/dp_worker/api/test_cp_thd_slicing.py",
+      "server/tests/unit/dp_worker/api/test_dpo_dispatch.py",
+      "server/.venv"
+    ],
+    "sha": "353f7c8d6e8b4c236ab023303e2eb12a1812d076"
+  }
+}
