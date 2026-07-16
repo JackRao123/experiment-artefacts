@@ -1,0 +1,143 @@
+{
+  "config": {
+    "path": "glm52-b200-pp1-ep32-cp32-131k.json",
+    "sha256": "a9b6ae361c7acfe7b9d935916564d6ba0b2158146be2b036eed885e9aacdc91a"
+  },
+  "losses": {
+    "cispo": {
+      "config": {
+        "clip_high_threshold": 1.2,
+        "clip_low_threshold": 0.8
+      },
+      "duration_seconds": 6.298041384201497,
+      "loss": 2.1854776810613727,
+      "row_shapes": [
+        [
+          65521
+        ],
+        [
+          32779
+        ],
+        [
+          8197
+        ]
+      ]
+    },
+    "dppo": {
+      "config": {
+        "adv_tau": 1.0,
+        "dppo_mask_high": 0.2,
+        "dppo_mask_low": 0.2,
+        "kl_tau": 0.001
+      },
+      "duration_seconds": 42.11123047489673,
+      "loss": 0.305427532199591,
+      "row_shapes": [
+        [
+          65521
+        ],
+        [
+          32779
+        ],
+        [
+          8197
+        ]
+      ]
+    },
+    "dro": {
+      "config": {
+        "beta": 0.05
+      },
+      "duration_seconds": 6.090897020883858,
+      "loss": 3.682731710529034,
+      "row_shapes": [
+        [
+          65521
+        ],
+        [
+          32779
+        ],
+        [
+          8197
+        ]
+      ]
+    },
+    "importance_sampling": {
+      "config": {},
+      "duration_seconds": 7.504663113038987,
+      "loss": -2.2301155583156023,
+      "row_shapes": [
+        [
+          65521
+        ],
+        [
+          32779
+        ],
+        [
+          8197
+        ]
+      ]
+    },
+    "ppo": {
+      "config": {
+        "clip_high_threshold": 1.2,
+        "clip_low_threshold": 0.8
+      },
+      "duration_seconds": 6.28066680021584,
+      "loss": -0.2871782461680679,
+      "row_shapes": [
+        [
+          65521
+        ],
+        [
+          32779
+        ],
+        [
+          8197
+        ]
+      ]
+    }
+  },
+  "payload": {
+    "datum_lengths": [
+      65521,
+      32779,
+      8197
+    ],
+    "sha256": "c57d10a565f34eae3eb9fd76f25d116b4bd779be1650ed935fee9a251d7520f2",
+    "temperatures": [
+      0.7,
+      1.0,
+      1.3
+    ]
+  },
+  "status": {
+    "context_parallel_size": 32,
+    "data_parallel_size": 1,
+    "device": "cuda:0",
+    "expert_parallel_size": 32,
+    "expert_tensor_parallel_size": 1,
+    "gpu_memory": {
+      "cuda:0": 84458602496
+    },
+    "grad_norm": null,
+    "last_loss": 8.85030498201885,
+    "max_seq_len": 131072,
+    "mode": "training",
+    "model_id": "/root/.cache/team_artifacts/huggingface/hub/models--zai-org--GLM-5.2-FP8/snapshots/70311cfa0158cce7dd2cf5d2e04f68e3fdc3efc1",
+    "pipeline_parallel_size": 1,
+    "step": 0,
+    "tensor_parallel_size": 1,
+    "world_size": 32
+  },
+  "topology": "cp32_131k",
+  "trainer": {
+    "diff_sha256": "95e9983b81a4fc54b11b130b54d509766f6006f7bca34ad039a922522533a575",
+    "dirty": true,
+    "modified_paths": [
+      "server/src/trainers_server/dp_worker/api/megatron_controller.py",
+      "server/tests/unit/dp_worker/api/test_ce_loss.py"
+    ],
+    "sha": "6d47915dec6b898f09979faa577def4feb69c54b"
+  }
+}

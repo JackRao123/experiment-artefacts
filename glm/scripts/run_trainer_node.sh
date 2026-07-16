@@ -10,6 +10,8 @@
 #   LEADER_ADDR    rank-0 reachable addr    (default $BT_LEADER_ADDR)
 #   MASTER_PORT    torchrun rendezvous port (default 29500)
 #   HF_HOME        HF cache root            (default /root/.cache/team_artifacts/huggingface)
+#   BT_TRAINER_SERVER_CONFIG_PATH
+#                  process wiring config     (default glm_prof parity config)
 set -uo pipefail
 
 NODE_RANK="${1:?usage: run_trainer_node.sh <node_rank>}"
@@ -52,6 +54,7 @@ fi
 # venv interpreter (has pybind11), not system python3.
 export PATH="$TRAINERS_SRC/server/.venv/bin:$PATH"
 export BT_TRAINER_CONFIG_PATH="$CONFIG"
+export BT_TRAINER_SERVER_CONFIG_PATH="${BT_TRAINER_SERVER_CONFIG_PATH:-/root/.cache/user_artifacts/glm_prof/configs/parity-server-config.json}"
 
 cd "$TRAINERS_SRC/server"
 echo "[run_trainer_node] rank=$BT_NODE_RANK nnodes=$NUM_NODES leader=$BT_LEADER_ADDR config=$CONFIG src=$TRAINERS_SRC"

@@ -41,7 +41,7 @@ cmd_status() {
 cmd_stop() {
   for n in "${NODES[@]}"; do
     echo "stopping rank$n ..."
-    rssh "$n" 'pkill -9 -f dp_worker.main; pkill -9 -f "distributed.run"; pkill -9 -f torchrun; true' || true
+    rssh "$n" "pkill -9 -f '[d]p_worker.main' || true; pkill -9 -f 'torch[.]distributed[.]run' || true; pkill -9 -f '[t]orchrun' || true" || true
   done
   echo "waiting for GPU drain ..."
   sleep 25
@@ -77,7 +77,7 @@ cmd_start() {
 cmd_wait_health() {
   rssh 0 'start=$(date +%s); until curl -sf -m5 http://127.0.0.1:8000/health >/dev/null; do
     sleep 10;
-    if ! pgrep -f dp_worker.main >/dev/null; then echo "TRAINER PROCESS DIED — tail of leader log:"; tail -30 /root/.cache/user_artifacts/glm_prof/logs/trainer_rank0.log; exit 1; fi
+    if ! pgrep -f "[d]p_worker.main" >/dev/null; then echo "TRAINER PROCESS DIED — tail of leader log:"; tail -30 /root/.cache/user_artifacts/glm_prof/logs/trainer_rank0.log; exit 1; fi
   done; echo "healthy after $(( $(date +%s) - start ))s (since wait start)"'
 }
 

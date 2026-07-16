@@ -169,3 +169,54 @@ boot, healthy in ~8 min.
 - CPU-side: `server/tests/unit/dp_worker/api/test_cp_thd_slicing.py` (19
   tests — packing invariants, zigzag reference, shard→unshard round-trip,
   wire carving, phantom shard, end-to-end pack→shard→stitch→wire).
+
+## Experiment R3 — production PP16/64k vs CP32/131k forward-loss parity
+
+Run 2026-07-15 on devbox `tj-wlerpv3` (nodes 0–3, 4×8 B200). The same
+deterministic three-datum payload and explicit loss configs were submitted
+through `/forward` once per loss, first to the native PP16/EP2/CP1/DP2 layout
+and then to the PP1/EP32/CP32/DP1 layout. No backward or optimizer step ran.
+
+**PARITY: PASS — all five scalar losses satisfy
+`math.isclose(pp16, cp32, rel_tol=1e-2, abs_tol=1e-5)`.**
+
+| loss_fn | PP16/64k loss | CP32/131k loss | absolute Δ | relative Δ | verdict |
+|---|---:|---:|---:|---:|---|
+| dppo | 0.3050678649 | 0.3054275322 | 3.5966727e-4 | 1.1775863e-3 | PASS |
+| importance_sampling | -2.2303958442 | -2.2301155583 | 2.8028588e-4 | 1.2566643e-4 | PASS |
+| ppo | -0.2872851425 | -0.2871782462 | 1.0689631e-4 | 3.7209134e-4 | PASS |
+| cispo | 2.1867433048 | 2.1854776811 | 1.2656237e-3 | 5.7877105e-4 | PASS |
+| dro | 3.6830295471 | 3.6827317105 | 2.9783653e-4 | 8.0867267e-5 | PASS |
+
+Evidence and provenance:
+
+- Base checkout: `6d47915dec6b898f09979faa577def4feb69c54b`.
+  Both runs used the same local patch, recorded in each artifact as binary-diff
+  SHA-256 `95e9983b81a4fc54b11b130b54d509766f6006f7bca34ad039a922522533a575`.
+- The patch is required: the raw branch head deterministically crashes the
+  PP16 startup warmup on the phantom-only DP shard. `PackedMicrobatches.real_rows`
+  includes the shape-alignment phantom, while `_run_forward_backward` receives
+  lengths only for real local datums; the last stage therefore tried to convert
+  one logprob row with zero `datum_lengths`. The fix trims wire outputs using
+  `len(datum_lengths)`. Its regression failed before the fix, passed after it,
+  and the surrounding controller/packing suites passed 66/66.
+- The historical launcher also needed the branch's now-required
+  `BT_TRAINER_SERVER_CONFIG_PATH`; this was experiment harness compatibility,
+  separate from the phantom-row server bug.
+- Config SHA-256: PP16
+  `9dd19d9cb220b1427d2208a1619bc95bbcb40a687bcc960888786a9fb90f8187`;
+  CP32 `a9b6ae361c7acfe7b9d935916564d6ba0b2158146be2b036eed885e9aacdc91a`.
+- Canonical payload SHA-256:
+  `c57d10a565f34eae3eb9fd76f25d116b4bd779be1650ed935fee9a251d7520f2`.
+  Datum lengths were 65,521 / 32,779 / 8,197, temperatures 0.7 / 1.0 / 1.3,
+  with explicit position-aligned terminal targets. Every loss returned exactly
+  those three row shapes in both layouts; the large arrays were discarded.
+- Compact artifacts:
+  `experiment_artefacts/glm/data/pp16_cp32_parity/pp16_64k.json` and
+  `experiment_artefacts/glm/data/pp16_cp32_parity/cp32_131k.json`.
+
+This pass validates scalar forward-loss equivalence across these two complete
+production layouts, not isolated context-parallel equivalence: PP, EP, DP, CP,
+maximum sequence length, and kernels all change together. Conversely, a failed
+gate would not identify CP as the cause; it would need localization across those
+dimensions.
