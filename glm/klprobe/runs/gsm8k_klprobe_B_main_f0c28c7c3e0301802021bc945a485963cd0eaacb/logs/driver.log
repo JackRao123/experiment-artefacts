@@ -1,0 +1,16 @@
+POLICY_BOOTSTRAP PASS | version=0->1 grad_norm=0.0e+00
+PREFLIGHT PASS | policy=[1] tokens=128 k3=0.007292
+BEFORE pass@1=nan n=0
+step 00: k3=0.004005 mean_abs=0.019769 max_abs=2.5162 ESS/N=0.9942 clip=0.0253 tokens=14978 tails=8/2/0/0 gate=PASS reload=[1] step_s=77
+step 01: k3=0.005628 mean_abs=0.031282 max_abs=2.2470 ESS/N=0.9899 clip=0.0410 tokens=27727 tails=27/3/0/0 gate=PASS reload=[1] step_s=149
+step 02: k3=0.005221 mean_abs=0.025283 max_abs=2.5596 ESS/N=0.9921 clip=0.0347 tokens=17618 tails=19/1/0/0 gate=PASS reload=[2] step_s=87
+step 03: k3=0.007407 mean_abs=0.027451 max_abs=2.7499 ESS/N=0.9890 clip=0.0359 tokens=24737 tails=45/3/0/0 gate=PASS reload=[2] step_s=120
+step 04: k3=0.008919 mean_abs=0.035515 max_abs=4.1906 ESS/N=0.9907 clip=0.0464 tokens=24608 tails=24/3/0/0 gate=PASS reload=[3] step_s=98
+step 05: k3=0.004348 mean_abs=0.029258 max_abs=2.4322 ESS/N=0.9913 clip=0.0341 tokens=28126 tails=20/2/0/0 gate=PASS reload=[3] step_s=122
+step 06: k3=0.005565 mean_abs=0.022399 max_abs=2.8484 ESS/N=0.9907 clip=0.0290 tokens=17215 tails=25/1/0/0 gate=PASS reload=[4] step_s=84
+step 07: k3=0.008785 mean_abs=0.032067 max_abs=4.0016 ESS/N=0.9887 clip=0.0422 tokens=22739 tails=28/2/0/0 gate=PASS reload=[5] step_s=101
+step 08: k3=0.005911 mean_abs=0.037771 max_abs=2.1512 ESS/N=0.9874 clip=0.0486 tokens=34566 tails=35/2/0/0 gate=PASS reload=[5] step_s=140
+step 09: k3=0.005272 mean_abs=0.027708 max_abs=2.3520 ESS/N=0.9904 clip=0.0359 tokens=22170 tails=18/2/0/0 gate=PASS reload=[6] step_s=119
+step 10: k3=0.005907 mean_abs=0.024337 max_abs=2.9994 ESS/N=0.9875 clip=0.0324 tokens=18125 tails=24/1/0/0 gate=PASS reload=[7] step_s=87
+step 11: k3=0.007353 mean_abs=0.027909 max_abs=3.4422 ESS/N=0.9877 clip=0.0378 tokens=17068 tails=27/1/0/0 gate=PASS reload=[7] step_s=83
+RUN_COMPLETE gate=12/12 pass1=nan->nan

@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import importlib.util
 import json
+import math
 import subprocess
 import sys
 from pathlib import Path
@@ -39,6 +40,19 @@ def test_dataset_specs_cover_seeded_gsm8k_and_filtered_math() -> None:
     assert math.answer_key == "solution"
     assert math.shuffle_seed == 16
     assert math.math_levels == ("Level 4", "Level 5")
+
+
+def test_k3_uses_trainer_minus_sampler_sign_convention() -> None:
+    config = _load_config_module()
+
+    assert config.k3_from_log_ratio(0.0) == 0.0
+    assert math.isclose(
+        config.k3_from_log_ratio(2.0), math.exp(2.0) - 3.0
+    )
+    assert math.isclose(
+        config.k3_from_log_ratio(-2.0), math.exp(-2.0) + 1.0
+    )
+    assert config.k3_from_log_ratio(2.0) > config.k3_from_log_ratio(-2.0)
 
 
 def test_summarizer_renders_alpha_metadata_long_probe_and_comparison_row(
@@ -146,6 +160,7 @@ def test_summarizer_renders_alpha_metadata_long_probe_and_comparison_row(
     assert "EleutherAI/hendrycks_math" in report
     assert "Level 4, Level 5" in report
     assert "thinking: OFF" in report
-    assert "step 00" in report and "EXCLUDED" in report
+    assert "| step | k3 | mean_abs | max_abs | ESS/N | clip | tokens |" in report
+    assert "| 00 | 0.020000 |" in report and "EXCLUDED" in report
     assert "35,000 + 15,000" in report
     assert "| Alpha | 0.015000 | 0.010000 | 0.010000 | 0/1 |" in report

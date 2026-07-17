@@ -81,9 +81,17 @@ def render_report(records: list[dict], args) -> str:
         f"- adapter policy version: required {preflight['required_policy_version']}; "
         f"observed {preflight['observed_policy_versions']}",
         f"- teacher-forced aligned tokens: {preflight['tokens']}",
-        f"- preflight k3: {preflight['k3']:.6f}",
+        (
+            "- preflight k3: not recomputable with the trainer formula "
+            f"(legacy reverse-sign value was {preflight['k3']:.6f}; per-token "
+            "preflight capture was not retained)"
+            if preflight.get("k3_definition") == "legacy_reverse_sign"
+            else f"- preflight k3: {preflight['k3']:.6f}"
+        ),
         "",
         "Per-step parity",
+        "| step | k3 | mean_abs | max_abs | ESS/N | clip | tokens | tails (\\|r\\|>1/2/5/10) | gate | step_s |",
+        "|---:|---:|---:|---:|---:|---:|---:|---:|---|---:|",
     ]
     for step in steps:
         tails = step["tail_counts"]
@@ -93,13 +101,12 @@ def render_report(records: list[dict], args) -> str:
             else ("PASS" if step["gate_pass"] else "FAIL")
         )
         lines.append(
-            f"- step {step['step']:02d}: k3={step['k3']:.6f}  "
-            f"mean_abs={step['mean_abs']:.6f}  max_abs={step['max_abs']:.4f}  "
-            f"ESS/N={step['ess_over_n']:.4f}  clip={step['clip_fraction']:.4f}  "
-            f"tokens={step['tokens']}  tails(|r|>1/2/5/10)="
-            f"{tails['abs_r_gt_1']}/{tails['abs_r_gt_2']}/"
-            f"{tails['abs_r_gt_5']}/{tails['abs_r_gt_10']}  "
-            f"gate={gate_label}  step_s={step.get('timings', {}).get('step_s', float('nan')):.0f}"
+            f"| {step['step']:02d} | {step['k3']:.6f} | "
+            f"{step['mean_abs']:.6f} | {step['max_abs']:.4f} | "
+            f"{step['ess_over_n']:.4f} | {step['clip_fraction']:.4f} | "
+            f"{step['tokens']} | {tails['abs_r_gt_1']}/{tails['abs_r_gt_2']}/"
+            f"{tails['abs_r_gt_5']}/{tails['abs_r_gt_10']} | {gate_label} | "
+            f"{step.get('timings', {}).get('step_s', float('nan')):.0f} |"
         )
 
     gated_mean = sum(step["k3"] for step in gated_steps) / len(gated_steps)

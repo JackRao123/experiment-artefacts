@@ -30,7 +30,11 @@ from baseten.loops import (
 from baseten.loops.models import EncodedTextChunk
 from baseten.loops.sampling_client import LocalDeployment
 
-from glm_klprobe_config import dataset_spec, load_dataset_from_spec
+from glm_klprobe_config import (
+    dataset_spec,
+    k3_from_log_ratio,
+    load_dataset_from_spec,
+)
 
 SYSTEM_MSG = (
     "You are a math tutor. Reason step by step and give the final answer "
@@ -170,7 +174,7 @@ def kl_metrics(behavior: list[float], target: list[float]) -> dict:
     return {
         "tokens": n,
         "dropped": dropped,
-        "k3": sum(math.exp(-ratio) + ratio - 1.0 for ratio in ratios) / n,
+        "k3": sum(k3_from_log_ratio(ratio) for ratio in ratios) / n,
         "mean_abs": sum(absolute_ratios) / n,
         "rms": math.sqrt(sum(value * value for value in absolute_ratios) / n),
         "max_abs": max(absolute_ratios),
@@ -322,7 +326,7 @@ async def kl_probe(
         log_ratio_by_position[sequence_index, : len(sequence_ratios)] = sequence_ratios
         with np.errstate(over="ignore", invalid="ignore"):
             k3_by_position[sequence_index, : len(sequence_ratios)] = (
-                np.exp(-sequence_ratios.astype(np.float64)) + sequence_ratios - 1.0
+                np.exp(sequence_ratios.astype(np.float64)) - sequence_ratios - 1.0
             )
     np.savez_compressed(
         capture_dir / f"step{step:02d}_logprobs.npz",

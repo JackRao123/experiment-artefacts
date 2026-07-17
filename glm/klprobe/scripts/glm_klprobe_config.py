@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import math
 from typing import NamedTuple
 
 
@@ -14,6 +15,11 @@ MATH_SUBJECTS = (
     "prealgebra",
     "precalculus",
 )
+
+
+def k3_from_log_ratio(log_ratio: float) -> float:
+    """Trainer mismatch K3 for ``log(p_trainer) - log(p_sampler)``."""
+    return math.exp(log_ratio) - log_ratio - 1.0
 
 
 class DatasetSpec(NamedTuple):

@@ -1,0 +1,11 @@
+Filter:   0%|          | 0/7500 [00:00<?, ? examples/s]Filter: 100%|██████████| 7500/7500 [00:00<00:00, 197885.60 examples/s]
+POLICY_BOOTSTRAP PASS | version=0->1 grad_norm=0.0e+00
+PREFLIGHT PASS | policy=[1] tokens=128 k3=0.000312
+BEFORE pass@1=nan n=0
+step 00: k3=0.005176 mean_abs=0.021892 max_abs=2.7644 ESS/N=0.9904 clip=0.0308 tokens=33529 tails=44/2/0/0 gate=EXCLUDED reload=[1] step_s=179
+step 01: k3=0.025616 mean_abs=0.033235 max_abs=4.4861 ESS/N=0.9819 clip=0.0446 tokens=20334 tails=95/16/0/0 gate=FAIL reload=[2] step_s=127
+step 02: k3=0.047265 mean_abs=0.028030 max_abs=6.9603 ESS/N=0.9821 clip=0.0396 tokens=27056 tails=65/7/1/0 gate=FAIL reload=[3] step_s=111
+step 03: k3=0.631781 mean_abs=0.042644 max_abs=9.5568 ESS/N=0.9664 clip=0.0570 tokens=25263 tails=144/27/3/0 gate=FAIL reload=[3] step_s=128
+step 04: k3=0.030261 mean_abs=0.042873 max_abs=3.5944 ESS/N=0.8736 clip=0.0584 tokens=17084 tails=131/21/0/0 gate=FAIL reload=[4] step_s=94
+LONG_PROBE prefix=34875 decode=15000 k3=52.631041 tokens=14994 decode_s=370
+RUN_COMPLETE gate=0/4 pass1=nan->nan
