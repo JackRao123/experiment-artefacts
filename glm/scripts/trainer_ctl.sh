@@ -75,7 +75,25 @@ cmd_start() {
 }
 
 cmd_wait_health() {
-  rssh 0 'start=$(date +%s); until curl -sf -m5 http://127.0.0.1:8000/health >/dev/null; do
+  # 5 min checkpoint, not a full-boot budget. Cold GLM-5.2 boots often take
+  # ~10–20 min; real launch failures (dead rank, bad config, rendezvous drop)
+  # usually show up in the first 5. Timeout exits non-zero so the caller
+  # (often an agent) inspects status/logs early instead of waiting the whole boot.
+  local timeout_s="${WAIT_HEALTH_TIMEOUT_S:-300}"
+  rssh 0 'start=$(date +%s); timeout_s='"$timeout_s"'; until curl -sf -m5 http://127.0.0.1:8000/health >/dev/null; do
+    elapsed=$(( $(date +%s) - start ));
+    if [ "$elapsed" -ge "$timeout_s" ]; then
+      echo "TIMEOUT: /health not up after ${timeout_s}s."
+      echo "This may still be a slow boot (cold weight load / autotune) rather than a hang."
+      echo "Do NOT assume failure — check before stop/relaunch:"
+      echo "  1) trainer_ctl.sh status   # every rank: procs>0 and GPU memory climbing?"
+      echo "  2) tail -n 80 /root/.cache/user_artifacts/glm_prof/logs/trainer_rank{0..3}.log"
+      echo "  3) if ranks are alive and logs still progressing, re-run: trainer_ctl.sh wait-health"
+      echo "  4) if a rank has procs=0 or logs stalled on NCCL/rendezvous errors, then stop + relaunch"
+      echo "--- leader log (last 40 lines) ---"
+      tail -n 40 /root/.cache/user_artifacts/glm_prof/logs/trainer_rank0.log || true
+      exit 1
+    fi
     sleep 10;
     if ! pgrep -f "[d]p_worker.main" >/dev/null; then echo "TRAINER PROCESS DIED — tail of leader log:"; tail -30 /root/.cache/user_artifacts/glm_prof/logs/trainer_rank0.log; exit 1; fi
   done; echo "healthy after $(( $(date +%s) - start ))s (since wait start)"'

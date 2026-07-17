@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Slimmed five-step GLM-5.2 CP32 trainer/sampler parity probe.
+"""Rich GLM-5.2 CP32 trainer/sampler parity probe.
 
 Each step publishes the current rank-16 adapter, waits for the TP8 sampler to
-serve that policy version, samples four Hendrycks MATH problems eight times,
+serve that policy version, samples GSM8K or filtered MATH problems,
 teacher-forces every completion through the trainer, captures aligned per-token
 logprobs, and only then performs the importance-sampling update.
 """
@@ -14,6 +14,7 @@ import asyncio
 import json
 import math
 import os
+import re
 import time
 from pathlib import Path
 
@@ -29,23 +30,27 @@ from baseten.loops import (
 from baseten.loops.models import EncodedTextChunk
 from baseten.loops.sampling_client import LocalDeployment
 
+from glm_klprobe_config import dataset_spec, load_dataset_from_spec
+
 SYSTEM_MSG = (
-    "You are a math competition expert. Solve the problem step by step and "
-    "give the final answer in \\boxed{...}."
+    "You are a math tutor. Reason step by step and give the final answer "
+    "in \\boxed{...}."
 )
 QUESTION_SUFFIX = "\n\nReason step by step and put your final answer in \\boxed{...}."
 OUTLIER_ABS_R = 5.0
+_BOXED_RE = re.compile(r"\\boxed\{([^}]+)\}")
 
 
 class Renderer:
-    def __init__(self, tokenizer):
+    def __init__(self, tokenizer, *, enable_thinking: bool):
         self._tokenizer = tokenizer
+        self._enable_thinking = enable_thinking
 
     def build_generation_prompt(self, conversation: list[dict]) -> ModelInput:
         kwargs = {"tokenize": True, "add_generation_prompt": True}
         try:
             ids = self._tokenizer.apply_chat_template(
-                conversation, enable_thinking=False, **kwargs
+                conversation, enable_thinking=self._enable_thinking, **kwargs
             )
         except TypeError:
             ids = self._tokenizer.apply_chat_template(conversation, **kwargs)
@@ -66,13 +71,76 @@ def make_conversation(question: str) -> list[dict]:
     ]
 
 
-def grade(response_text: str, ground_truth: str) -> float:
-    from math_verify import parse, verify
+def last_boxed(text: str) -> str | None:
+    index = text.rfind("\\boxed")
+    if index < 0:
+        return None
+    open_brace = text.find("{", index)
+    if open_brace < 0:
+        return None
+    depth = 0
+    for cursor in range(open_brace, len(text)):
+        if text[cursor] == "{":
+            depth += 1
+        elif text[cursor] == "}":
+            depth -= 1
+            if depth == 0:
+                return text[open_brace + 1 : cursor]
+    return None
 
-    try:
-        return 1.0 if verify(parse(ground_truth), parse(response_text)) else 0.0
-    except Exception:
+
+def normalize_math(value: str | None) -> str:
+    if not value:
+        return ""
+    for old, new in (
+        ("\\left", ""),
+        ("\\right", ""),
+        ("\\!", ""),
+        ("\\,", ""),
+        ("\\ ", ""),
+        ("\\$", ""),
+        ("$", ""),
+        ("\\%", ""),
+        ("%", ""),
+        ("\\text{", ""),
+        ("\\dfrac", "\\frac"),
+        ("\\tfrac", "\\frac"),
+        ("^{\\circ}", ""),
+        ("^\\circ", ""),
+        (" ", ""),
+    ):
+        value = value.replace(old, new)
+    return value.strip().rstrip(".").rstrip("}")
+
+
+def ground_truth(answer: str, dataset: str) -> str:
+    if dataset == "math":
+        return last_boxed(answer) or ""
+    return answer.rpartition("####")[2].strip().replace(",", "")
+
+
+def grade(response_text: str, answer: str, dataset: str) -> float:
+    expected = ground_truth(answer, dataset)
+    if dataset == "gsm8k":
+        matches = _BOXED_RE.findall(response_text)
+        if not matches:
+            return 0.0
+        return float(matches[-1].replace(",", "").strip() == expected)
+
+    prediction = last_boxed(response_text)
+    if prediction is None:
+        matches = _BOXED_RE.findall(response_text)
+        prediction = matches[-1] if matches else None
+    if prediction is None:
         return 0.0
+    try:
+        from math_verify import parse, verify
+
+        if verify(parse(expected), parse(prediction)):
+            return 1.0
+    except Exception:
+        pass
+    return float(normalize_math(prediction) == normalize_math(expected))
 
 
 def kl_metrics(behavior: list[float], target: list[float]) -> dict:
@@ -361,6 +429,7 @@ async def evaluate(
     rows: list[dict],
     *,
     max_tokens: int,
+    dataset: str,
 ) -> float:
     params = SamplingParams(max_tokens=max_tokens, temperature=0.0, top_p=1.0)
     results = await asyncio.gather(
@@ -376,10 +445,166 @@ async def evaluate(
         ]
     )
     correct = sum(
-        grade(renderer.decode(result.sequences[0].tokens), row["answer"])
+        grade(
+            renderer.decode(result.sequences[0].tokens),
+            row["answer"],
+            dataset,
+        )
         for result, row in zip(results, rows)
     )
     return correct / len(rows)
+
+
+def build_long_prefix(
+    tokenizer,
+    renderer: Renderer,
+    rows,
+    *,
+    question_key: str,
+    answer_key: str,
+    budget: int,
+) -> ModelInput:
+    parts: list[str] = []
+    total = 0
+    for question, answer in zip(rows[question_key], rows[answer_key]):
+        piece = f"Problem: {question}\n\nSolution: {answer}\n\n"
+        total += len(tokenizer.encode(piece, add_special_tokens=False))
+        parts.append(piece)
+        if total >= budget - 512:
+            break
+    content = "".join(parts) + (
+        "Study the worked examples above, then continue writing new problems "
+        "with fully worked solutions in the same style. Do not stop."
+    )
+    return renderer.build_generation_prompt(
+        [
+            {"role": "system", "content": SYSTEM_MSG},
+            {"role": "user", "content": content},
+        ]
+    )
+
+
+async def decode_long(
+    sampling_client,
+    tokenizer,
+    prefix: ModelInput,
+    target: int,
+    *,
+    required_version: int,
+    chunk: int = 2048,
+) -> tuple[list[int], list[float]]:
+    sampled: list[int] = []
+    logprobs: list[float] = []
+    nudge = (tokenizer.encode("\n", add_special_tokens=False) or [0])[0]
+    rounds = 0
+    timeouts = 0
+    while len(sampled) < target and rounds < 96:
+        rounds += 1
+        prompt = prefix.append(EncodedTextChunk(tokens=sampled)) if sampled else prefix
+        try:
+            result = await sampling_client.sample_async(
+                prompt=prompt,
+                num_samples=1,
+                sampling_params=SamplingParams(
+                    max_tokens=min(chunk, target - len(sampled)),
+                    temperature=1.0,
+                    top_p=1.0,
+                ),
+            )
+        except Exception as exc:
+            if "timeout" in type(exc).__name__.lower() and chunk > 256:
+                timeouts += 1
+                if timeouts > 8:
+                    raise
+                chunk = max(256, chunk // 2)
+                print(f"long probe timeout; retrying with chunk={chunk}", flush=True)
+                continue
+            raise
+        verify_sampler_reload([result], required_version)
+        sequence = result.sequences[0]
+        if sequence.tokens:
+            if sequence.logprobs is None or len(sequence.logprobs) != len(
+                sequence.tokens
+            ):
+                raise RuntimeError("long probe response omitted aligned logprobs")
+            sampled.extend(sequence.tokens)
+            logprobs.extend(float(value) for value in sequence.logprobs)
+        if len(sampled) >= target:
+            break
+        if sequence.stop_reason != "length" or not sequence.tokens:
+            sampled.append(nudge)
+            # The forced continuation token was not sampled. NaN excludes it
+            # from parity metrics while preserving the exact next-round prefix.
+            logprobs.append(float("nan"))
+    return sampled, logprobs
+
+
+async def run_long_probe(
+    *,
+    training_client: TrainingClient,
+    tokenizer,
+    renderer: Renderer,
+    dataset,
+    spec,
+    args,
+    metrics_path: Path,
+    capture_dir: Path,
+) -> None:
+    used = args.steps * args.batch_size
+    rows = dataset.select(range(used, min(used + 4000, len(dataset))))
+    prefix = build_long_prefix(
+        tokenizer,
+        renderer,
+        rows,
+        question_key=spec.question_key,
+        answer_key=spec.answer_key,
+        budget=args.long_probe_tokens - args.long_probe_decode_tokens,
+    )
+    sampling_client = await training_client.save_weights_and_get_sampling_client_async(
+        name="long-probe"
+    )
+    required_version = training_client.policy_version
+    decode_start = time.perf_counter()
+    tokens, logprobs = await decode_long(
+        sampling_client,
+        tokenizer,
+        prefix,
+        args.long_probe_decode_tokens,
+        required_version=required_version,
+    )
+    decode_seconds = time.perf_counter() - decode_start
+    parity = await kl_probe(
+        training_client,
+        [
+            {
+                "prompt_ids": prefix.to_ints(),
+                "tokens": tokens,
+                "logprobs": logprobs,
+                "prompt_index": 0,
+                "sample_index": 0,
+            }
+        ],
+        chunk_size=1,
+        capture_dir=capture_dir,
+        step=args.steps,
+        tokenizer=tokenizer,
+    )
+    record = {
+        "event": "long_probe",
+        "prefix_tokens": prefix.length,
+        "decode_tokens": len(tokens),
+        "target_decode_tokens": args.long_probe_decode_tokens,
+        "required_policy_version": required_version,
+        "decode_s": decode_seconds,
+        **parity,
+    }
+    append_jsonl(metrics_path, record)
+    print(
+        f"LONG_PROBE prefix={prefix.length} decode={len(tokens)} "
+        f"k3={parity['k3']:.6f} tokens={parity['tokens']} "
+        f"decode_s={decode_seconds:.0f}",
+        flush=True,
+    )
 
 
 async def bootstrap_policy_version(
@@ -498,21 +723,25 @@ async def run(args) -> None:
             "--allow-existing-output"
         )
 
-    from datasets import load_dataset
     from transformers import AutoTokenizer
 
     tokenizer = AutoTokenizer.from_pretrained(args.model, trust_remote_code=True)
-    renderer = Renderer(tokenizer)
-    dataset = load_dataset(
-        "PrimeIntellect/Hendrycks-Math", "default", split="train"
-    ).shuffle(seed=args.data_seed)
+    renderer = Renderer(tokenizer, enable_thinking=not args.disable_thinking)
+    spec = dataset_spec(args.dataset, args.math_levels, data_seed=args.data_seed)
+    dataset = load_dataset_from_spec(spec)
     training_count = args.steps * args.batch_size
     train_rows = [
-        {"question": dataset[index]["question"], "answer": dataset[index]["answer"]}
+        {
+            "question": dataset[index][spec.question_key],
+            "answer": dataset[index][spec.answer_key],
+        }
         for index in range(training_count)
     ]
     eval_rows = [
-        {"question": dataset[index]["question"], "answer": dataset[index]["answer"]}
+        {
+            "question": dataset[index][spec.question_key],
+            "answer": dataset[index][spec.answer_key],
+        }
         for index in range(training_count, training_count + args.eval_problems)
     ]
 
@@ -529,12 +758,14 @@ async def run(args) -> None:
     baseline_sampling_client = SamplingClient(
         base_model=args.model, deployment=deployment
     )
-    sampling_params = SamplingParams(
-        max_tokens=args.max_tokens,
-        temperature=1.0,
-        top_p=1.0,
-        seed=args.sample_seed,
-    )
+    sampling_kwargs = {
+        "max_tokens": args.max_tokens,
+        "temperature": 1.0,
+        "top_p": 1.0,
+    }
+    if args.sample_seed is not None:
+        sampling_kwargs["seed"] = args.sample_seed
+    sampling_params = SamplingParams(**sampling_kwargs)
     adam_params = AdamParams(learning_rate=args.learning_rate)
 
     try:
@@ -544,6 +775,11 @@ async def run(args) -> None:
                 "event": "run_metadata",
                 "run_id": args.run_id,
                 "model": args.model,
+                "dataset": spec.key,
+                "dataset_name": spec.dataset_name,
+                "dataset_config": spec.dataset_config,
+                "math_levels": list(spec.math_levels),
+                "enable_thinking": not args.disable_thinking,
                 "steps": args.steps,
                 "batch_size": args.batch_size,
                 "group_size": args.group_size,
@@ -552,6 +788,8 @@ async def run(args) -> None:
                 "data_seed": args.data_seed,
                 "sample_seed": args.sample_seed,
                 "gate": args.gate,
+                "warmup_steps": args.warmup_steps,
+                "learning_rate": args.learning_rate,
             },
         )
 
@@ -588,11 +826,16 @@ async def run(args) -> None:
             print("PREFLIGHT_COMPLETE", flush=True)
             return
 
-        before = await evaluate(
-            baseline_sampling_client,
-            renderer,
-            eval_rows,
-            max_tokens=args.max_tokens,
+        before = (
+            await evaluate(
+                baseline_sampling_client,
+                renderer,
+                eval_rows,
+                max_tokens=args.max_tokens,
+                dataset=spec.key,
+            )
+            if eval_rows
+            else float("nan")
         )
         append_jsonl(metrics_path, {"event": "eval_before", "pass1": before})
         print(f"BEFORE pass@1={before:.3f} n={len(eval_rows)}", flush=True)
@@ -658,7 +901,8 @@ async def run(args) -> None:
                 tokenizer=tokenizer,
             )
             probe_seconds = time.perf_counter() - phase_start
-            gate_pass = parity["k3"] < args.gate
+            gated = step >= args.warmup_steps
+            gate_pass = gated and parity["k3"] < args.gate
             gate_passes += int(gate_pass)
 
             datums: list[Datum] = []
@@ -666,7 +910,11 @@ async def run(args) -> None:
             degenerate_groups = 0
             for prompt, result, row in zip(prompts, results, batch):
                 rewards = [
-                    grade(renderer.decode(sequence.tokens), row["answer"])
+                    grade(
+                        renderer.decode(sequence.tokens),
+                        row["answer"],
+                        spec.key,
+                    )
                     for sequence in result.sequences
                 ]
                 mean_reward = sum(rewards) / len(rewards)
@@ -737,6 +985,7 @@ async def run(args) -> None:
                 "step": step,
                 **parity,
                 "gate_pass": gate_pass,
+                "gated": gated,
                 "required_policy_version": required_version,
                 "observed_policy_versions": policy_versions,
                 "sampler_reload_verified": True,
@@ -768,31 +1017,51 @@ async def run(args) -> None:
                 "tails="
                 f"{tails['abs_r_gt_1']}/{tails['abs_r_gt_2']}/"
                 f"{tails['abs_r_gt_5']}/{tails['abs_r_gt_10']} "
-                f"gate={'PASS' if gate_pass else 'FAIL'} "
+                f"gate={('PASS' if gate_pass else 'FAIL') if gated else 'EXCLUDED'} "
                 f"reload={policy_versions} step_s={step_seconds:.0f}",
                 flush=True,
             )
 
         if last_sampling_client is None:
             raise RuntimeError("no training steps completed")
-        after = await evaluate(
-            last_sampling_client,
-            renderer,
-            eval_rows,
-            max_tokens=args.max_tokens,
-        )
+        if args.long_probe_tokens > 0:
+            await run_long_probe(
+                training_client=training_client,
+                tokenizer=tokenizer,
+                renderer=renderer,
+                dataset=dataset,
+                spec=spec,
+                args=args,
+                metrics_path=metrics_path,
+                capture_dir=capture_dir,
+            )
+        if eval_rows:
+            final_sampling_client = (
+                await training_client.save_weights_and_get_sampling_client_async(
+                    name="final-eval"
+                )
+            )
+            after = await evaluate(
+                final_sampling_client,
+                renderer,
+                eval_rows,
+                max_tokens=args.max_tokens,
+                dataset=spec.key,
+            )
+        else:
+            after = float("nan")
         append_jsonl(metrics_path, {"event": "eval_after", "pass1": after})
         append_jsonl(
             metrics_path,
             {
                 "event": "run_complete",
                 "steps_below_gate": gate_passes,
-                "steps": args.steps,
-                "overall_gate_pass": gate_passes == args.steps,
+                "steps": args.steps - args.warmup_steps,
+                "overall_gate_pass": gate_passes == args.steps - args.warmup_steps,
             },
         )
         print(
-            f"RUN_COMPLETE gate={gate_passes}/{args.steps} "
+            f"RUN_COMPLETE gate={gate_passes}/{args.steps - args.warmup_steps} "
             f"pass1={before:.3f}->{after:.3f}",
             flush=True,
         )
@@ -812,9 +1081,12 @@ def main() -> None:
             "70311cfa0158cce7dd2cf5d2e04f68e3fdc3efc1"
         ),
     )
-    parser.add_argument("--run-id", default="glm52-cp32-klprobe-c23d3fa5")
+    parser.add_argument("--run-id", default="glm52-cp32-klprobe")
     parser.add_argument("--metrics-out", required=True)
     parser.add_argument("--capture-dir", required=True)
+    parser.add_argument("--dataset", choices=("gsm8k", "math"), default="math")
+    parser.add_argument("--math-levels", default="Level 4,Level 5")
+    parser.add_argument("--disable-thinking", action="store_true")
     # Slim probe: 4 prompts x 8 completions = 32 active sequences, matching the
     # GLM golden sampler's max_num_seqs=32 without scheduler-level queuing.
     parser.add_argument("--steps", type=int, default=5)
@@ -824,11 +1096,14 @@ def main() -> None:
     parser.add_argument("--rank", type=int, default=16)
     parser.add_argument("--learning-rate", type=float, default=4e-5)
     parser.add_argument("--data-seed", type=int, default=999)
-    parser.add_argument("--sample-seed", type=int, default=1234)
-    parser.add_argument("--eval-problems", type=int, default=64)
+    parser.add_argument("--sample-seed", type=int)
+    parser.add_argument("--eval-problems", type=int, default=0)
     parser.add_argument("--probe-chunk", type=int, default=64)
     parser.add_argument("--micro-batch-size", type=int, default=32)
     parser.add_argument("--gate", type=float, default=0.015)
+    parser.add_argument("--warmup-steps", type=int, default=0)
+    parser.add_argument("--long-probe-tokens", type=int, default=0)
+    parser.add_argument("--long-probe-decode-tokens", type=int, default=15_000)
     parser.add_argument("--preflight-only", action="store_true")
     parser.add_argument("--allow-existing-output", action="store_true")
     asyncio.run(run(parser.parse_args()))
