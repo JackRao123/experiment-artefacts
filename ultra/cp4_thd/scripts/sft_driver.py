@@ -155,6 +155,7 @@ def main() -> None:
         memory_stats(client, args.url, reset_peaks=True)
 
         for step in range(args.steps):
+            wall_start = time.time()
             t0 = time.monotonic()
             fb = submit_and_wait(
                 client, args.url, "/forward_backward", payload, args.op_timeout
@@ -197,6 +198,7 @@ def main() -> None:
             mem = memory_stats(client, args.url, reset_peaks=False)
             step_row["memory"] = summarize_memory(mem)
             step_row["memory_raw"] = mem
+            step_row["wall_window"] = [wall_start, time.time()]
             result["steps"].append(step_row)
             print(
                 f"step {step}: loss={step_row['loss']:.6f} "

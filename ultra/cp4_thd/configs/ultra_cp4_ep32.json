@@ -1,0 +1,12 @@
+{
+  "base_model": "/root/.cache/user_artifacts/nemotron3-ultra-550b-nvfp4-dequant-bf16",
+  "max_seq_len": 262144,
+  "tensor_parallel_size": 8,
+  "pipeline_parallel_size": 1,
+  "context_parallel_size": 4,
+  "expert_parallel_size": 32,
+  "expert_tensor_parallel_size": 1,
+  "trust_remote_code": true,
+  "lora_rank": 16,
+  "weight_sync": {"type": "disabled"}
+}

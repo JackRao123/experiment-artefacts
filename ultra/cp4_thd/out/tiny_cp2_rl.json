@@ -1,0 +1,102 @@
+{
+  "label": "tiny_cp2_rl",
+  "url": "http://127.0.0.1:8001",
+  "doc_lens": [
+    1500,
+    900,
+    2001
+  ],
+  "loss_fn": "importance_sampling",
+  "seed": 1234,
+  "vocab": 1000,
+  "lr": 0.0,
+  "steps": [
+    {
+      "step": 0,
+      "loss": 1.2849902219490346e-07,
+      "metrics": {
+        "loss": 1.2849902219490346e-07,
+        "mismatch_kl": 9.776236022072336
+      },
+      "fb_seconds": 0.383602958638221,
+      "logprob_rows": 3,
+      "logprob_lens": [
+        1500,
+        900,
+        2001
+      ],
+      "logprob_prefix": [
+        [
+          0.0,
+          -11.783503,
+          -11.783503,
+          -11.783503,
+          -11.783503,
+          0.0,
+          -11.783503,
+          -11.783503
+        ],
+        [
+          0.0,
+          0.0,
+          -11.783503,
+          0.0,
+          -11.783503,
+          0.0,
+          -11.783503,
+          -11.783503
+        ],
+        [
+          -11.783503,
+          -11.783503,
+          0.0,
+          0.0,
+          -11.783503,
+          -11.783503,
+          -11.783503,
+          -11.783503
+        ]
+      ],
+      "logprob_sums": [
+        -12054.5231,
+        -7081.885,
+        -16131.615
+      ],
+      "optim_seconds": 0.00651060976088047,
+      "optim_metrics": {
+        "step": 3.0,
+        "learning_rate": 0.0,
+        "lr": 0.0,
+        "grad_norm": 0.0,
+        "tps": 11798.117660447448,
+        "train_mean_nll": 1.2849902219490346e-07,
+        "num_tokens": 4401.0,
+        "num_loss_tokens": 2993.0,
+        "step_seconds": 0.3730256068520248
+      },
+      "memory": null,
+      "memory_raw": {
+        "error": "Client error '404 Not Found' for url 'http://127.0.0.1:8001/memory_stats'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404"
+      }
+    }
+  ],
+  "trainer_status": {
+    "mode": "training",
+    "step": 2,
+    "model_id": "/root/.cache/user_artifacts/ultra_cp4/tiny_nemotron_h",
+    "device": "cuda:0",
+    "last_loss": null,
+    "grad_norm": null,
+    "gpu_memory": {
+      "cuda:0": 520093696
+    },
+    "world_size": 8,
+    "tensor_parallel_size": 4,
+    "pipeline_parallel_size": 1,
+    "expert_parallel_size": 2,
+    "context_parallel_size": 2,
+    "expert_tensor_parallel_size": 1,
+    "data_parallel_size": 1,
+    "max_seq_len": 4096
+  }
+}

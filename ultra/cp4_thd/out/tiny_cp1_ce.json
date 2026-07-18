@@ -1,0 +1,314 @@
+{
+  "label": "tiny_cp1_ce",
+  "url": "http://127.0.0.1:8001",
+  "doc_lens": [
+    1500,
+    900,
+    2001
+  ],
+  "loss_fn": "cross_entropy",
+  "seed": 1234,
+  "vocab": 1000,
+  "lr": 0.0,
+  "steps": [
+    {
+      "step": 0,
+      "loss": 11.78350216334007,
+      "metrics": {
+        "loss": 11.78350216334007
+      },
+      "fb_seconds": 14.370266198180616,
+      "logprob_rows": 3,
+      "logprob_lens": [
+        1500,
+        900,
+        2001
+      ],
+      "logprob_prefix": [
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "logprob_sums": [
+        -15895.945,
+        -9532.8536,
+        -21210.3046
+      ],
+      "optim_seconds": 2.4584638732485473,
+      "optim_metrics": {
+        "step": 1.0,
+        "learning_rate": 0.0,
+        "lr": 0.0,
+        "grad_norm": 0.0,
+        "tps": 35.1022898790387,
+        "train_mean_nll": 11.783502168425338,
+        "num_tokens": 4465.0,
+        "num_loss_tokens": 4021.0,
+        "step_seconds": 127.19967886386439
+      },
+      "memory": {
+        "num_ranks": 8,
+        "max_allocated_gib": 0.35265159606933594,
+        "max_allocated_rank": 0,
+        "max_reserved_gib": 0.484375,
+        "max_reserved_rank": 0,
+        "min_max_allocated_gib": 0.3374319076538086
+      },
+      "memory_raw": {
+        "ranks": [
+          {
+            "rank": 0,
+            "device": "cuda:0",
+            "allocated_bytes": 230153728,
+            "max_allocated_bytes": 378656768,
+            "reserved_bytes": 520093696,
+            "max_reserved_bytes": 520093696
+          },
+          {
+            "rank": 1,
+            "device": "cuda:1",
+            "allocated_bytes": 221634048,
+            "max_allocated_bytes": 370137088,
+            "reserved_bytes": 520093696,
+            "max_reserved_bytes": 520093696
+          },
+          {
+            "rank": 2,
+            "device": "cuda:2",
+            "allocated_bytes": 221634048,
+            "max_allocated_bytes": 370137088,
+            "reserved_bytes": 520093696,
+            "max_reserved_bytes": 520093696
+          },
+          {
+            "rank": 3,
+            "device": "cuda:3",
+            "allocated_bytes": 221634048,
+            "max_allocated_bytes": 370137088,
+            "reserved_bytes": 520093696,
+            "max_reserved_bytes": 520093696
+          },
+          {
+            "rank": 4,
+            "device": "cuda:4",
+            "allocated_bytes": 221634048,
+            "max_allocated_bytes": 362314752,
+            "reserved_bytes": 520093696,
+            "max_reserved_bytes": 520093696
+          },
+          {
+            "rank": 5,
+            "device": "cuda:5",
+            "allocated_bytes": 221634048,
+            "max_allocated_bytes": 362314752,
+            "reserved_bytes": 520093696,
+            "max_reserved_bytes": 520093696
+          },
+          {
+            "rank": 6,
+            "device": "cuda:6",
+            "allocated_bytes": 221634048,
+            "max_allocated_bytes": 362314752,
+            "reserved_bytes": 520093696,
+            "max_reserved_bytes": 520093696
+          },
+          {
+            "rank": 7,
+            "device": "cuda:7",
+            "allocated_bytes": 221634048,
+            "max_allocated_bytes": 362314752,
+            "reserved_bytes": 520093696,
+            "max_reserved_bytes": 520093696
+          }
+        ],
+        "peaks_reset": false
+      }
+    },
+    {
+      "step": 1,
+      "loss": 11.78350216334007,
+      "metrics": {
+        "loss": 11.78350216334007
+      },
+      "fb_seconds": 0.14016271801665425,
+      "logprob_rows": 3,
+      "logprob_lens": [
+        1500,
+        900,
+        2001
+      ],
+      "logprob_prefix": [
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "logprob_sums": [
+        -15895.945,
+        -9532.8536,
+        -21210.3046
+      ],
+      "optim_seconds": 0.006508209276944399,
+      "optim_metrics": {
+        "step": 2.0,
+        "learning_rate": 0.0,
+        "lr": 0.0,
+        "grad_norm": 0.0,
+        "tps": 33221.205256073605,
+        "train_mean_nll": 11.78350216334007,
+        "num_tokens": 4401.0,
+        "num_loss_tokens": 3958.0,
+        "step_seconds": 0.13247562712058425
+      },
+      "memory": {
+        "num_ranks": 8,
+        "max_allocated_gib": 0.35321521759033203,
+        "max_allocated_rank": 0,
+        "max_reserved_gib": 0.486328125,
+        "max_reserved_rank": 0,
+        "min_max_allocated_gib": 0.3374319076538086
+      },
+      "memory_raw": {
+        "ranks": [
+          {
+            "rank": 0,
+            "device": "cuda:0",
+            "allocated_bytes": 230153728,
+            "max_allocated_bytes": 379261952,
+            "reserved_bytes": 522190848,
+            "max_reserved_bytes": 522190848
+          },
+          {
+            "rank": 1,
+            "device": "cuda:1",
+            "allocated_bytes": 221634048,
+            "max_allocated_bytes": 370742272,
+            "reserved_bytes": 520093696,
+            "max_reserved_bytes": 520093696
+          },
+          {
+            "rank": 2,
+            "device": "cuda:2",
+            "allocated_bytes": 221634048,
+            "max_allocated_bytes": 370742272,
+            "reserved_bytes": 522190848,
+            "max_reserved_bytes": 522190848
+          },
+          {
+            "rank": 3,
+            "device": "cuda:3",
+            "allocated_bytes": 221634048,
+            "max_allocated_bytes": 370742272,
+            "reserved_bytes": 520093696,
+            "max_reserved_bytes": 520093696
+          },
+          {
+            "rank": 4,
+            "device": "cuda:4",
+            "allocated_bytes": 221634048,
+            "max_allocated_bytes": 362314752,
+            "reserved_bytes": 522190848,
+            "max_reserved_bytes": 522190848
+          },
+          {
+            "rank": 5,
+            "device": "cuda:5",
+            "allocated_bytes": 221634048,
+            "max_allocated_bytes": 362314752,
+            "reserved_bytes": 520093696,
+            "max_reserved_bytes": 520093696
+          },
+          {
+            "rank": 6,
+            "device": "cuda:6",
+            "allocated_bytes": 221634048,
+            "max_allocated_bytes": 362314752,
+            "reserved_bytes": 522190848,
+            "max_reserved_bytes": 522190848
+          },
+          {
+            "rank": 7,
+            "device": "cuda:7",
+            "allocated_bytes": 221634048,
+            "max_allocated_bytes": 362314752,
+            "reserved_bytes": 520093696,
+            "max_reserved_bytes": 520093696
+          }
+        ],
+        "peaks_reset": false
+      }
+    }
+  ],
+  "trainer_status": {
+    "mode": "training",
+    "step": 0,
+    "model_id": "/root/.cache/user_artifacts/ultra_cp4/tiny_nemotron_h",
+    "device": "cuda:0",
+    "last_loss": 11.783502487909226,
+    "grad_norm": null,
+    "gpu_memory": {
+      "cuda:0": 511705088
+    },
+    "world_size": 8,
+    "tensor_parallel_size": 4,
+    "pipeline_parallel_size": 1,
+    "expert_parallel_size": 2,
+    "context_parallel_size": 1,
+    "expert_tensor_parallel_size": 1,
+    "data_parallel_size": 2,
+    "max_seq_len": 4096
+  }
+}

@@ -1,0 +1,168 @@
+{
+  "label": "tiny_cp2_ce",
+  "url": "http://127.0.0.1:8001",
+  "doc_lens": [
+    1500,
+    900,
+    2001
+  ],
+  "loss_fn": "cross_entropy",
+  "seed": 1234,
+  "vocab": 1000,
+  "lr": 0.0,
+  "steps": [
+    {
+      "step": 0,
+      "loss": 11.783502656802678,
+      "metrics": {
+        "loss": 11.783502656802678
+      },
+      "fb_seconds": 24.664170841686428,
+      "logprob_rows": 3,
+      "logprob_lens": [
+        1500,
+        900,
+        2001
+      ],
+      "logprob_prefix": [
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "logprob_sums": [
+        -15895.945,
+        -9532.8536,
+        -21210.3046
+      ],
+      "optim_seconds": 2.4782077139243484,
+      "optim_metrics": {
+        "step": 1.0,
+        "learning_rate": 0.0,
+        "lr": 0.0,
+        "grad_norm": 0.0,
+        "tps": 31.80153393394453,
+        "train_mean_nll": 11.783502654156498,
+        "num_tokens": 4465.0,
+        "num_loss_tokens": 4021.0,
+        "step_seconds": 140.4020324703306
+      },
+      "memory": null,
+      "memory_raw": {
+        "error": "Client error '404 Not Found' for url 'http://127.0.0.1:8001/memory_stats'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404"
+      }
+    },
+    {
+      "step": 1,
+      "loss": 11.783502656802678,
+      "metrics": {
+        "loss": 11.783502656802678
+      },
+      "fb_seconds": 0.2754299691878259,
+      "logprob_rows": 3,
+      "logprob_lens": [
+        1500,
+        900,
+        2001
+      ],
+      "logprob_prefix": [
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "logprob_sums": [
+        -15895.945,
+        -9532.8536,
+        -21210.3046
+      ],
+      "optim_seconds": 0.008264291100203991,
+      "optim_metrics": {
+        "step": 2.0,
+        "learning_rate": 0.0,
+        "lr": 0.0,
+        "grad_norm": 0.0,
+        "tps": 16485.042552581708,
+        "train_mean_nll": 11.783502656802678,
+        "num_tokens": 4401.0,
+        "num_loss_tokens": 3958.0,
+        "step_seconds": 0.26696928357705474
+      },
+      "memory": null,
+      "memory_raw": {
+        "error": "Client error '404 Not Found' for url 'http://127.0.0.1:8001/memory_stats'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404"
+      }
+    }
+  ],
+  "trainer_status": {
+    "mode": "training",
+    "step": 0,
+    "model_id": "/root/.cache/user_artifacts/ultra_cp4/tiny_nemotron_h",
+    "device": "cuda:0",
+    "last_loss": 11.783502487909226,
+    "grad_norm": null,
+    "gpu_memory": {
+      "cuda:0": 513802240
+    },
+    "world_size": 8,
+    "tensor_parallel_size": 4,
+    "pipeline_parallel_size": 1,
+    "expert_parallel_size": 2,
+    "context_parallel_size": 2,
+    "expert_tensor_parallel_size": 1,
+    "data_parallel_size": 1,
+    "max_seq_len": 4096
+  }
+}

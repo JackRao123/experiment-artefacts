@@ -1,0 +1,656 @@
+{
+  "label": "ultra_cp4_prof_65536",
+  "url": "http://127.0.0.1:8001",
+  "doc_lens": [
+    65536
+  ],
+  "loss_fn": "cross_entropy",
+  "seed": 777,
+  "vocab": 1000,
+  "lr": 0.0,
+  "steps": [
+    {
+      "step": 0,
+      "loss": 16.947237080804314,
+      "metrics": {
+        "loss": 16.947237080804314
+      },
+      "fb_seconds": 6.908841022755951,
+      "logprob_rows": 1,
+      "logprob_lens": [
+        65536
+      ],
+      "logprob_prefix": [
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "logprob_sums": [
+        -999581.9198
+      ],
+      "optim_seconds": 0.03496699873358011,
+      "optim_metrics": {
+        "step": 7.0,
+        "learning_rate": 0.0,
+        "lr": 0.0,
+        "grad_norm": 155.91778564453125,
+        "tps": 9549.529644992212,
+        "train_mean_nll": 16.947237080804314,
+        "num_tokens": 65536.0,
+        "num_loss_tokens": 58982.0,
+        "step_seconds": 6.862746379803866
+      },
+      "memory": {
+        "num_ranks": 32,
+        "max_allocated_gib": 63.317237854003906,
+        "max_allocated_rank": 19,
+        "max_reserved_gib": 66.021484375,
+        "max_reserved_rank": 19,
+        "min_max_allocated_gib": 52.310482025146484
+      },
+      "memory_raw": {
+        "ranks": [
+          {
+            "rank": 0,
+            "device": "cuda:0",
+            "allocated_bytes": 45130689024,
+            "max_allocated_bytes": 59658432512,
+            "reserved_bytes": 60926459904,
+            "max_reserved_bytes": 60926459904
+          },
+          {
+            "rank": 1,
+            "device": "cuda:1",
+            "allocated_bytes": 45122169344,
+            "max_allocated_bytes": 58041054208,
+            "reserved_bytes": 59689140224,
+            "max_reserved_bytes": 59689140224
+          },
+          {
+            "rank": 2,
+            "device": "cuda:2",
+            "allocated_bytes": 45122169344,
+            "max_allocated_bytes": 60177871872,
+            "reserved_bytes": 61975035904,
+            "max_reserved_bytes": 61975035904
+          },
+          {
+            "rank": 3,
+            "device": "cuda:3",
+            "allocated_bytes": 45122169344,
+            "max_allocated_bytes": 61498530816,
+            "reserved_bytes": 63799558144,
+            "max_reserved_bytes": 63799558144
+          },
+          {
+            "rank": 4,
+            "device": "cuda:4",
+            "allocated_bytes": 45122169344,
+            "max_allocated_bytes": 60717997056,
+            "reserved_bytes": 62876811264,
+            "max_reserved_bytes": 62876811264
+          },
+          {
+            "rank": 5,
+            "device": "cuda:5",
+            "allocated_bytes": 45122169344,
+            "max_allocated_bytes": 60048675840,
+            "reserved_bytes": 61870178304,
+            "max_reserved_bytes": 61870178304
+          },
+          {
+            "rank": 6,
+            "device": "cuda:6",
+            "allocated_bytes": 45122169344,
+            "max_allocated_bytes": 58823117824,
+            "reserved_bytes": 60653830144,
+            "max_reserved_bytes": 60653830144
+          },
+          {
+            "rank": 7,
+            "device": "cuda:7",
+            "allocated_bytes": 45122169344,
+            "max_allocated_bytes": 56167952384,
+            "reserved_bytes": 57319358464,
+            "max_reserved_bytes": 57319358464
+          },
+          {
+            "rank": 8,
+            "device": "cuda:0",
+            "allocated_bytes": 45122169344,
+            "max_allocated_bytes": 59393869824,
+            "reserved_bytes": 61180215296,
+            "max_reserved_bytes": 61180215296
+          },
+          {
+            "rank": 9,
+            "device": "cuda:1",
+            "allocated_bytes": 45122169344,
+            "max_allocated_bytes": 59387912192,
+            "reserved_bytes": 61389930496,
+            "max_reserved_bytes": 61389930496
+          },
+          {
+            "rank": 10,
+            "device": "cuda:2",
+            "allocated_bytes": 45122169344,
+            "max_allocated_bytes": 60663700480,
+            "reserved_bytes": 62585307136,
+            "max_reserved_bytes": 62585307136
+          },
+          {
+            "rank": 11,
+            "device": "cuda:3",
+            "allocated_bytes": 45122169344,
+            "max_allocated_bytes": 63429948416,
+            "reserved_bytes": 65752006656,
+            "max_reserved_bytes": 65752006656
+          },
+          {
+            "rank": 12,
+            "device": "cuda:4",
+            "allocated_bytes": 45122169344,
+            "max_allocated_bytes": 61222701056,
+            "reserved_bytes": 63466110976,
+            "max_reserved_bytes": 63466110976
+          },
+          {
+            "rank": 13,
+            "device": "cuda:5",
+            "allocated_bytes": 45122169344,
+            "max_allocated_bytes": 60362051584,
+            "reserved_bytes": 62627250176,
+            "max_reserved_bytes": 62627250176
+          },
+          {
+            "rank": 14,
+            "device": "cuda:6",
+            "allocated_bytes": 45122169344,
+            "max_allocated_bytes": 62046453760,
+            "reserved_bytes": 64346914816,
+            "max_reserved_bytes": 64346914816
+          },
+          {
+            "rank": 15,
+            "device": "cuda:7",
+            "allocated_bytes": 45122169344,
+            "max_allocated_bytes": 57428492288,
+            "reserved_bytes": 59187920896,
+            "max_reserved_bytes": 59187920896
+          },
+          {
+            "rank": 16,
+            "device": "cuda:0",
+            "allocated_bytes": 45122169344,
+            "max_allocated_bytes": 64596232192,
+            "reserved_bytes": 67052240896,
+            "max_reserved_bytes": 67052240896
+          },
+          {
+            "rank": 17,
+            "device": "cuda:1",
+            "allocated_bytes": 45122169344,
+            "max_allocated_bytes": 57591090176,
+            "reserved_bytes": 59271806976,
+            "max_reserved_bytes": 59271806976
+          },
+          {
+            "rank": 18,
+            "device": "cuda:2",
+            "allocated_bytes": 45122169344,
+            "max_allocated_bytes": 60085586944,
+            "reserved_bytes": 62207819776,
+            "max_reserved_bytes": 62207819776
+          },
+          {
+            "rank": 19,
+            "device": "cuda:3",
+            "allocated_bytes": 45122169344,
+            "max_allocated_bytes": 67986366464,
+            "reserved_bytes": 70890029056,
+            "max_reserved_bytes": 70890029056
+          },
+          {
+            "rank": 20,
+            "device": "cuda:4",
+            "allocated_bytes": 45122169344,
+            "max_allocated_bytes": 59569607680,
+            "reserved_bytes": 61410902016,
+            "max_reserved_bytes": 61410902016
+          },
+          {
+            "rank": 21,
+            "device": "cuda:5",
+            "allocated_bytes": 45122169344,
+            "max_allocated_bytes": 62876172288,
+            "reserved_bytes": 65122861056,
+            "max_reserved_bytes": 65122861056
+          },
+          {
+            "rank": 22,
+            "device": "cuda:6",
+            "allocated_bytes": 45122169344,
+            "max_allocated_bytes": 57564503040,
+            "reserved_bytes": 59439579136,
+            "max_reserved_bytes": 59439579136
+          },
+          {
+            "rank": 23,
+            "device": "cuda:7",
+            "allocated_bytes": 45122169344,
+            "max_allocated_bytes": 59521671168,
+            "reserved_bytes": 61746446336,
+            "max_reserved_bytes": 61746446336
+          },
+          {
+            "rank": 24,
+            "device": "cuda:0",
+            "allocated_bytes": 45122169344,
+            "max_allocated_bytes": 61272298496,
+            "reserved_bytes": 63361253376,
+            "max_reserved_bytes": 63361253376
+          },
+          {
+            "rank": 25,
+            "device": "cuda:1",
+            "allocated_bytes": 45122169344,
+            "max_allocated_bytes": 56511215616,
+            "reserved_bytes": 57992544256,
+            "max_reserved_bytes": 57992544256
+          },
+          {
+            "rank": 26,
+            "device": "cuda:2",
+            "allocated_bytes": 45122169344,
+            "max_allocated_bytes": 58744943616,
+            "reserved_bytes": 60509126656,
+            "max_reserved_bytes": 60509126656
+          },
+          {
+            "rank": 27,
+            "device": "cuda:3",
+            "allocated_bytes": 45122169344,
+            "max_allocated_bytes": 60697867264,
+            "reserved_bytes": 62815993856,
+            "max_reserved_bytes": 62815993856
+          },
+          {
+            "rank": 28,
+            "device": "cuda:4",
+            "allocated_bytes": 45122169344,
+            "max_allocated_bytes": 61028856832,
+            "reserved_bytes": 63130566656,
+            "max_reserved_bytes": 63130566656
+          },
+          {
+            "rank": 29,
+            "device": "cuda:5",
+            "allocated_bytes": 45122169344,
+            "max_allocated_bytes": 58819302400,
+            "reserved_bytes": 60613984256,
+            "max_reserved_bytes": 60613984256
+          },
+          {
+            "rank": 30,
+            "device": "cuda:6",
+            "allocated_bytes": 45122169344,
+            "max_allocated_bytes": 58114540544,
+            "reserved_bytes": 59397636096,
+            "max_reserved_bytes": 59397636096
+          },
+          {
+            "rank": 31,
+            "device": "cuda:7",
+            "allocated_bytes": 45122169344,
+            "max_allocated_bytes": 59370535936,
+            "reserved_bytes": 61180215296,
+            "max_reserved_bytes": 61180215296
+          }
+        ],
+        "peaks_reset": false
+      },
+      "wall_window": [
+        1784359165.27136,
+        1784359172.229327
+      ]
+    },
+    {
+      "step": 1,
+      "loss": 16.947237080804314,
+      "metrics": {
+        "loss": 16.947237080804314
+      },
+      "fb_seconds": 5.697030151262879,
+      "logprob_rows": 1,
+      "logprob_lens": [
+        65536
+      ],
+      "logprob_prefix": [
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "logprob_sums": [
+        -999581.9198
+      ],
+      "optim_seconds": 0.03392110578715801,
+      "optim_metrics": {
+        "step": 8.0,
+        "learning_rate": 0.0,
+        "lr": 0.0,
+        "grad_norm": 155.57273864746094,
+        "tps": 11595.175524012982,
+        "train_mean_nll": 16.947237080804314,
+        "num_tokens": 65536.0,
+        "num_loss_tokens": 58982.0,
+        "step_seconds": 5.65200585918501
+      },
+      "memory": {
+        "num_ranks": 32,
+        "max_allocated_gib": 63.317237854003906,
+        "max_allocated_rank": 19,
+        "max_reserved_gib": 66.080078125,
+        "max_reserved_rank": 19,
+        "min_max_allocated_gib": 52.310482025146484
+      },
+      "memory_raw": {
+        "ranks": [
+          {
+            "rank": 0,
+            "device": "cuda:0",
+            "allocated_bytes": 45130689024,
+            "max_allocated_bytes": 59658432512,
+            "reserved_bytes": 60926459904,
+            "max_reserved_bytes": 60926459904
+          },
+          {
+            "rank": 1,
+            "device": "cuda:1",
+            "allocated_bytes": 45122169344,
+            "max_allocated_bytes": 58041054208,
+            "reserved_bytes": 59689140224,
+            "max_reserved_bytes": 59689140224
+          },
+          {
+            "rank": 2,
+            "device": "cuda:2",
+            "allocated_bytes": 45122169344,
+            "max_allocated_bytes": 60177871872,
+            "reserved_bytes": 61975035904,
+            "max_reserved_bytes": 61975035904
+          },
+          {
+            "rank": 3,
+            "device": "cuda:3",
+            "allocated_bytes": 45122169344,
+            "max_allocated_bytes": 61498530816,
+            "reserved_bytes": 63799558144,
+            "max_reserved_bytes": 63799558144
+          },
+          {
+            "rank": 4,
+            "device": "cuda:4",
+            "allocated_bytes": 45122169344,
+            "max_allocated_bytes": 60717997056,
+            "reserved_bytes": 62876811264,
+            "max_reserved_bytes": 62876811264
+          },
+          {
+            "rank": 5,
+            "device": "cuda:5",
+            "allocated_bytes": 45122169344,
+            "max_allocated_bytes": 60048675840,
+            "reserved_bytes": 61870178304,
+            "max_reserved_bytes": 61870178304
+          },
+          {
+            "rank": 6,
+            "device": "cuda:6",
+            "allocated_bytes": 45122169344,
+            "max_allocated_bytes": 58823117824,
+            "reserved_bytes": 60653830144,
+            "max_reserved_bytes": 60653830144
+          },
+          {
+            "rank": 7,
+            "device": "cuda:7",
+            "allocated_bytes": 45122169344,
+            "max_allocated_bytes": 56167952384,
+            "reserved_bytes": 57319358464,
+            "max_reserved_bytes": 57319358464
+          },
+          {
+            "rank": 8,
+            "device": "cuda:0",
+            "allocated_bytes": 45122169344,
+            "max_allocated_bytes": 59393869824,
+            "reserved_bytes": 61201186816,
+            "max_reserved_bytes": 61201186816
+          },
+          {
+            "rank": 9,
+            "device": "cuda:1",
+            "allocated_bytes": 45122169344,
+            "max_allocated_bytes": 59387912192,
+            "reserved_bytes": 61389930496,
+            "max_reserved_bytes": 61389930496
+          },
+          {
+            "rank": 10,
+            "device": "cuda:2",
+            "allocated_bytes": 45122169344,
+            "max_allocated_bytes": 60663700480,
+            "reserved_bytes": 62585307136,
+            "max_reserved_bytes": 62585307136
+          },
+          {
+            "rank": 11,
+            "device": "cuda:3",
+            "allocated_bytes": 45122169344,
+            "max_allocated_bytes": 63429948416,
+            "reserved_bytes": 65793949696,
+            "max_reserved_bytes": 65793949696
+          },
+          {
+            "rank": 12,
+            "device": "cuda:4",
+            "allocated_bytes": 45122169344,
+            "max_allocated_bytes": 61222701056,
+            "reserved_bytes": 63466110976,
+            "max_reserved_bytes": 63466110976
+          },
+          {
+            "rank": 13,
+            "device": "cuda:5",
+            "allocated_bytes": 45122169344,
+            "max_allocated_bytes": 60362051584,
+            "reserved_bytes": 62627250176,
+            "max_reserved_bytes": 62627250176
+          },
+          {
+            "rank": 14,
+            "device": "cuda:6",
+            "allocated_bytes": 45122169344,
+            "max_allocated_bytes": 62046453760,
+            "reserved_bytes": 64346914816,
+            "max_reserved_bytes": 64346914816
+          },
+          {
+            "rank": 15,
+            "device": "cuda:7",
+            "allocated_bytes": 45122169344,
+            "max_allocated_bytes": 57428492288,
+            "reserved_bytes": 59187920896,
+            "max_reserved_bytes": 59187920896
+          },
+          {
+            "rank": 16,
+            "device": "cuda:0",
+            "allocated_bytes": 45122169344,
+            "max_allocated_bytes": 64596232192,
+            "reserved_bytes": 67052240896,
+            "max_reserved_bytes": 67052240896
+          },
+          {
+            "rank": 17,
+            "device": "cuda:1",
+            "allocated_bytes": 45122169344,
+            "max_allocated_bytes": 57591090176,
+            "reserved_bytes": 59271806976,
+            "max_reserved_bytes": 59271806976
+          },
+          {
+            "rank": 18,
+            "device": "cuda:2",
+            "allocated_bytes": 45122169344,
+            "max_allocated_bytes": 60085586944,
+            "reserved_bytes": 62207819776,
+            "max_reserved_bytes": 62207819776
+          },
+          {
+            "rank": 19,
+            "device": "cuda:3",
+            "allocated_bytes": 45122169344,
+            "max_allocated_bytes": 67986366464,
+            "reserved_bytes": 70952943616,
+            "max_reserved_bytes": 70952943616
+          },
+          {
+            "rank": 20,
+            "device": "cuda:4",
+            "allocated_bytes": 45122169344,
+            "max_allocated_bytes": 59569607680,
+            "reserved_bytes": 61410902016,
+            "max_reserved_bytes": 61410902016
+          },
+          {
+            "rank": 21,
+            "device": "cuda:5",
+            "allocated_bytes": 45122169344,
+            "max_allocated_bytes": 62876172288,
+            "reserved_bytes": 65122861056,
+            "max_reserved_bytes": 65122861056
+          },
+          {
+            "rank": 22,
+            "device": "cuda:6",
+            "allocated_bytes": 45122169344,
+            "max_allocated_bytes": 57564503040,
+            "reserved_bytes": 59439579136,
+            "max_reserved_bytes": 59439579136
+          },
+          {
+            "rank": 23,
+            "device": "cuda:7",
+            "allocated_bytes": 45122169344,
+            "max_allocated_bytes": 59521671168,
+            "reserved_bytes": 61746446336,
+            "max_reserved_bytes": 61746446336
+          },
+          {
+            "rank": 24,
+            "device": "cuda:0",
+            "allocated_bytes": 45122169344,
+            "max_allocated_bytes": 61272298496,
+            "reserved_bytes": 63361253376,
+            "max_reserved_bytes": 63361253376
+          },
+          {
+            "rank": 25,
+            "device": "cuda:1",
+            "allocated_bytes": 45122169344,
+            "max_allocated_bytes": 56511215616,
+            "reserved_bytes": 57992544256,
+            "max_reserved_bytes": 57992544256
+          },
+          {
+            "rank": 26,
+            "device": "cuda:2",
+            "allocated_bytes": 45122169344,
+            "max_allocated_bytes": 58744943616,
+            "reserved_bytes": 60509126656,
+            "max_reserved_bytes": 60509126656
+          },
+          {
+            "rank": 27,
+            "device": "cuda:3",
+            "allocated_bytes": 45122169344,
+            "max_allocated_bytes": 60697867264,
+            "reserved_bytes": 62815993856,
+            "max_reserved_bytes": 62815993856
+          },
+          {
+            "rank": 28,
+            "device": "cuda:4",
+            "allocated_bytes": 45122169344,
+            "max_allocated_bytes": 61028856832,
+            "reserved_bytes": 63130566656,
+            "max_reserved_bytes": 63130566656
+          },
+          {
+            "rank": 29,
+            "device": "cuda:5",
+            "allocated_bytes": 45122169344,
+            "max_allocated_bytes": 58819302400,
+            "reserved_bytes": 60613984256,
+            "max_reserved_bytes": 60613984256
+          },
+          {
+            "rank": 30,
+            "device": "cuda:6",
+            "allocated_bytes": 45122169344,
+            "max_allocated_bytes": 58114540544,
+            "reserved_bytes": 59397636096,
+            "max_reserved_bytes": 59397636096
+          },
+          {
+            "rank": 31,
+            "device": "cuda:7",
+            "allocated_bytes": 45122169344,
+            "max_allocated_bytes": 59370535936,
+            "reserved_bytes": 61180215296,
+            "max_reserved_bytes": 61180215296
+          }
+        ],
+        "peaks_reset": false
+      },
+      "wall_window": [
+        1784359172.2293968,
+        1784359177.9721673
+      ]
+    }
+  ],
+  "trainer_status": {
+    "mode": "training",
+    "step": 6,
+    "model_id": "/root/.cache/user_artifacts/nemotron3-ultra-550b-nvfp4-dequant-bf16",
+    "device": "cuda:0",
+    "last_loss": null,
+    "grad_norm": null,
+    "gpu_memory": {
+      "cuda:0": 53838086144
+    },
+    "world_size": 32,
+    "tensor_parallel_size": 8,
+    "pipeline_parallel_size": 1,
+    "expert_parallel_size": 32,
+    "context_parallel_size": 4,
+    "expert_tensor_parallel_size": 1,
+    "data_parallel_size": 1,
+    "max_seq_len": 262144
+  }
+}

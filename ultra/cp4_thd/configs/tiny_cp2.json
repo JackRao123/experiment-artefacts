@@ -1,0 +1,12 @@
+{
+  "base_model": "/root/.cache/user_artifacts/ultra_cp4/tiny_nemotron_h",
+  "max_seq_len": 4096,
+  "tensor_parallel_size": 4,
+  "pipeline_parallel_size": 1,
+  "context_parallel_size": 2,
+  "expert_parallel_size": 2,
+  "expert_tensor_parallel_size": 1,
+  "trust_remote_code": true,
+  "lora_rank": 16,
+  "weight_sync": {"type": "disabled"}
+}

@@ -1,0 +1,178 @@
+{
+  "label": "tiny_cp1_etp2_ce",
+  "url": "http://127.0.0.1:8001",
+  "doc_lens": [
+    1500,
+    900,
+    2001
+  ],
+  "loss_fn": "cross_entropy",
+  "seed": 1234,
+  "vocab": 1000,
+  "lr": 0.0,
+  "steps": [
+    {
+      "step": 0,
+      "loss": 11.941924385737746,
+      "metrics": {
+        "loss": 11.941924385737746
+      },
+      "fb_seconds": 6.166571696288884,
+      "logprob_rows": 3,
+      "logprob_lens": [
+        1500,
+        900,
+        2001
+      ],
+      "logprob_prefix": [
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "logprob_sums": [
+        -16116.4798,
+        -9673.7532,
+        -21475.902
+      ],
+      "optim_seconds": 2.765425707679242,
+      "optim_metrics": {
+        "step": 1.0,
+        "learning_rate": 0.0,
+        "lr": 0.0,
+        "grad_norm": 1.2901771068572998,
+        "tps": 64.35297984481254,
+        "train_mean_nll": 11.941548432618402,
+        "num_tokens": 4465.0,
+        "num_loss_tokens": 4021.0,
+        "step_seconds": 69.38295648107305
+      },
+      "memory": {
+        "num_ranks": 8,
+        "max_allocated_gib": 0.35228538513183594,
+        "max_allocated_rank": 0,
+        "max_reserved_gib": 0.48828125,
+        "max_reserved_rank": 4,
+        "min_max_allocated_gib": 0.32230615615844727
+      },
+      "memory_raw": {
+        "ranks": [
+          {
+            "rank": 0,
+            "device": "cuda:0",
+            "allocated_bytes": 229760512,
+            "max_allocated_bytes": 378263552,
+            "reserved_bytes": 522190848,
+            "max_reserved_bytes": 522190848
+          },
+          {
+            "rank": 1,
+            "device": "cuda:1",
+            "allocated_bytes": 221240832,
+            "max_allocated_bytes": 369743872,
+            "reserved_bytes": 522190848,
+            "max_reserved_bytes": 522190848
+          },
+          {
+            "rank": 2,
+            "device": "cuda:2",
+            "allocated_bytes": 221240832,
+            "max_allocated_bytes": 369743872,
+            "reserved_bytes": 522190848,
+            "max_reserved_bytes": 522190848
+          },
+          {
+            "rank": 3,
+            "device": "cuda:3",
+            "allocated_bytes": 221240832,
+            "max_allocated_bytes": 369743872,
+            "reserved_bytes": 522190848,
+            "max_reserved_bytes": 522190848
+          },
+          {
+            "rank": 4,
+            "device": "cuda:4",
+            "allocated_bytes": 221240832,
+            "max_allocated_bytes": 346073600,
+            "reserved_bytes": 524288000,
+            "max_reserved_bytes": 524288000
+          },
+          {
+            "rank": 5,
+            "device": "cuda:5",
+            "allocated_bytes": 221240832,
+            "max_allocated_bytes": 346073600,
+            "reserved_bytes": 524288000,
+            "max_reserved_bytes": 524288000
+          },
+          {
+            "rank": 6,
+            "device": "cuda:6",
+            "allocated_bytes": 221240832,
+            "max_allocated_bytes": 346073600,
+            "reserved_bytes": 522190848,
+            "max_reserved_bytes": 522190848
+          },
+          {
+            "rank": 7,
+            "device": "cuda:7",
+            "allocated_bytes": 221240832,
+            "max_allocated_bytes": 346073600,
+            "reserved_bytes": 522190848,
+            "max_reserved_bytes": 522190848
+          }
+        ],
+        "peaks_reset": false
+      },
+      "wall_window": [
+        1784359859.5859554,
+        1784359868.5269225
+      ]
+    }
+  ],
+  "trainer_status": {
+    "mode": "training",
+    "step": 0,
+    "model_id": "/root/.cache/user_artifacts/ultra_cp4/tiny_nemotron_h",
+    "device": "cuda:0",
+    "last_loss": 11.917929028707837,
+    "grad_norm": null,
+    "gpu_memory": {
+      "cuda:0": 509607936
+    },
+    "world_size": 8,
+    "tensor_parallel_size": 4,
+    "pipeline_parallel_size": 1,
+    "expert_parallel_size": 2,
+    "context_parallel_size": 1,
+    "expert_tensor_parallel_size": 2,
+    "data_parallel_size": 2,
+    "max_seq_len": 4096
+  }
+}
