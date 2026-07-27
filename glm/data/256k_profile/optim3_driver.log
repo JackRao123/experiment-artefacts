@@ -1,0 +1,13 @@
+
+[status:before] step=2 last_loss=None
+  parallel: TP=1 PP=1 EP=32 ETP=1 CP=32 DP=1 world=32 max_seq_len=262144
+  reserved:  cuda:0=141.27GiB
+  allocated: 
+  peak_alloc:
+[step 1/1] loss=0.0181 batch=1 tokens=262144 26.2s
+
+[status:after] step=3 last_loss=None
+  parallel: TP=1 PP=1 EP=32 ETP=1 CP=32 DP=1 world=32 max_seq_len=262144
+  reserved:  cuda:0=141.27GiB
+  allocated: 
+  peak_alloc:

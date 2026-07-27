@@ -1,0 +1,139 @@
+{
+  "trace_event_count": 500000,
+  "trace_truncated": true,
+  "trace_duration_s": 17.409364,
+  "categories": {
+    "dsa_cp_allgather": {
+      "allocation_count": 102,
+      "allocated_total_gib": 18.0703125,
+      "max_single_allocation_gib": 0.2109375,
+      "peak_live_from_observed_allocations_gib": 0.2109375
+    },
+    "dsa_indexer_topk": {
+      "allocation_count": 1281,
+      "allocated_total_gib": 168.12016327679157,
+      "max_single_allocation_gib": 1.5,
+      "peak_live_from_observed_allocations_gib": 3.236423496156931
+    },
+    "dsa_other": {
+      "allocation_count": 149200,
+      "allocated_total_gib": 631.381575692445,
+      "max_single_allocation_gib": 0.42194366455078125,
+      "peak_live_from_observed_allocations_gib": 6.32737448066473
+    },
+    "moe_dispatch_and_experts": {
+      "allocation_count": 1941,
+      "allocated_total_gib": 371.5325655154884,
+      "max_single_allocation_gib": 2.422039031982422,
+      "peak_live_from_observed_allocations_gib": 13.821976557374
+    },
+    "other": {
+      "allocation_count": 14030,
+      "allocated_total_gib": 789.1689842706546,
+      "max_single_allocation_gib": 2.422039031982422,
+      "peak_live_from_observed_allocations_gib": 6.045375842601061
+    }
+  },
+  "largest_leaf_totals": [
+    {
+      "category": "other",
+      "leaf": "_engine_run_backward",
+      "allocated_total_gib": 336.49553341045976
+    },
+    {
+      "category": "dsa_other",
+      "leaf": "_run_sparse_attention_backward",
+      "allocated_total_gib": 223.3192026950419
+    },
+    {
+      "category": "moe_dispatch_and_experts",
+      "leaf": "sort_chunks_by_map",
+      "allocated_total_gib": 161.30534073337913
+    },
+    {
+      "category": "other",
+      "leaf": "forward",
+      "allocated_total_gib": 148.77262303233147
+    },
+    {
+      "category": "moe_dispatch_and_experts",
+      "leaf": "forward",
+      "allocated_total_gib": 120.64863918721676
+    },
+    {
+      "category": "other",
+      "leaf": "backward",
+      "allocated_total_gib": 105.03703497350216
+    },
+    {
+      "category": "dsa_indexer_topk",
+      "leaf": "cute_dsl_topk_wrapper",
+      "allocated_total_gib": 96.46875
+    },
+    {
+      "category": "dsa_other",
+      "leaf": "forward",
+      "allocated_total_gib": 88.67205810546875
+    },
+    {
+      "category": "other",
+      "leaf": "permute_with_mask_map",
+      "allocated_total_gib": 86.0767822265625
+    },
+    {
+      "category": "dsa_other",
+      "leaf": "flash_attn_bwd_sm100",
+      "allocated_total_gib": 82.49981260299683
+    },
+    {
+      "category": "dsa_other",
+      "leaf": "qkv_up_proj_and_rope_apply",
+      "allocated_total_gib": 64.27734375
+    },
+    {
+      "category": "other",
+      "leaf": "general_gemm",
+      "allocated_total_gib": 53.068359375
+    },
+    {
+      "category": "dsa_indexer_topk",
+      "leaf": "indexer_fwd",
+      "allocated_total_gib": 47.7421875
+    },
+    {
+      "category": "dsa_other",
+      "leaf": "einsum",
+      "allocated_total_gib": 45.1875
+    },
+    {
+      "category": "moe_dispatch_and_experts",
+      "leaf": "bias_act_func",
+      "allocated_total_gib": 41.11958312988281
+    },
+    {
+      "category": "dsa_other",
+      "leaf": "flash_mla_sparse_fwd",
+      "allocated_total_gib": 30.6123046875
+    },
+    {
+      "category": "moe_dispatch_and_experts",
+      "leaf": "glu",
+      "allocated_total_gib": 29.241180419921875
+    },
+    {
+      "category": "dsa_other",
+      "leaf": "general_gemm",
+      "allocated_total_gib": 24.1204833984375
+    },
+    {
+      "category": "dsa_other",
+      "leaf": "_apply_rotary_pos_emb_bshd",
+      "allocated_total_gib": 23.060302734375
+    },
+    {
+      "category": "dsa_cp_allgather",
+      "leaf": "_gather_along_first_dim",
+      "allocated_total_gib": 18.0703125
+    }
+  ]
+}
