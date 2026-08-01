@@ -1,0 +1,61 @@
+alloc_conf=expandable_segments:True sentinel=200003
+
+cols=32768 rows=1024 k=2048 window=32768 pattern=relu_flood n_pos=64
+  wheel sizing: candidate_capacity=32768 gmem_spill=False tie_candidates~32704 -> no drop possible
+  rep0: ctrl=1.0000 unwritten_slots=0 rows=0 row0_written=2048/2048 neg=0 oor=0 dup=0
+  rep1: ctrl=1.0000 unwritten_slots=0 rows=0 row0_written=2048/2048 neg=0 oor=0 dup=0
+
+cols=32768 rows=1024 k=2048 window=32768 pattern=all_tied n_pos=0
+  wheel sizing: candidate_capacity=32768 gmem_spill=False tie_candidates~32768 -> no drop possible
+  rep0: ctrl=1.0000 unwritten_slots=0 rows=0 row0_written=2048/2048 neg=0 oor=0 dup=0
+  rep1: ctrl=1.0000 unwritten_slots=0 rows=0 row0_written=2048/2048 neg=0 oor=0 dup=0
+
+cols=40960 rows=1024 k=2048 window=40960 pattern=relu_flood n_pos=64
+  wheel sizing: candidate_capacity=32768 gmem_spill=True tie_candidates~40896 -> DROP EXPECTED
+  rep0: ctrl=1.0000 unwritten_slots=0 rows=0 row0_written=2048/2048 neg=0 oor=0 dup=0
+  rep1: ctrl=1.0000 unwritten_slots=0 rows=0 row0_written=2048/2048 neg=0 oor=0 dup=0
+
+cols=40960 rows=1024 k=2048 window=40960 pattern=all_tied n_pos=0
+  wheel sizing: candidate_capacity=32768 gmem_spill=True tie_candidates~40960 -> DROP EXPECTED
+  rep0: ctrl=1.0000 unwritten_slots=0 rows=0 row0_written=2048/2048 neg=0 oor=0 dup=0
+  rep1: ctrl=1.0000 unwritten_slots=0 rows=0 row0_written=2048/2048 neg=0 oor=0 dup=0
+
+cols=49152 rows=1024 k=2048 window=49152 pattern=relu_flood n_pos=64
+  wheel sizing: candidate_capacity=32768 gmem_spill=True tie_candidates~49088 -> DROP EXPECTED
+  rep0: ctrl=1.0000 unwritten_slots=0 rows=0 row0_written=2048/2048 neg=0 oor=0 dup=0
+  rep1: ctrl=1.0000 unwritten_slots=0 rows=0 row0_written=2048/2048 neg=0 oor=0 dup=0
+
+cols=49152 rows=1024 k=2048 window=49152 pattern=all_tied n_pos=0
+  wheel sizing: candidate_capacity=32768 gmem_spill=True tie_candidates~49152 -> DROP EXPECTED
+  rep0: ctrl=1.0000 unwritten_slots=0 rows=0 row0_written=2048/2048 neg=0 oor=0 dup=0
+  rep1: ctrl=1.0000 unwritten_slots=0 rows=0 row0_written=2048/2048 neg=0 oor=0 dup=0
+
+cols=60192 rows=1024 k=2048 window=60192 pattern=relu_flood n_pos=64
+  wheel sizing: candidate_capacity=32768 gmem_spill=True tie_candidates~60128 -> DROP EXPECTED
+  rep0: ctrl=1.0000 unwritten_slots=0 rows=0 row0_written=2048/2048 neg=0 oor=0 dup=0
+  rep1: ctrl=1.0000 unwritten_slots=0 rows=0 row0_written=2048/2048 neg=0 oor=0 dup=0
+
+cols=60192 rows=1024 k=2048 window=60192 pattern=all_tied n_pos=0
+  wheel sizing: candidate_capacity=32768 gmem_spill=True tie_candidates~60192 -> DROP EXPECTED
+  rep0: ctrl=1.0000 unwritten_slots=0 rows=0 row0_written=2048/2048 neg=0 oor=0 dup=0
+  rep1: ctrl=1.0000 unwritten_slots=0 rows=0 row0_written=2048/2048 neg=0 oor=0 dup=0
+
+cols=65536 rows=1024 k=2048 window=65536 pattern=relu_flood n_pos=64
+  wheel sizing: candidate_capacity=32768 gmem_spill=True tie_candidates~65472 -> DROP EXPECTED
+  rep0: ctrl=1.0000 unwritten_slots=0 rows=0 row0_written=2048/2048 neg=0 oor=0 dup=0
+  rep1: ctrl=1.0000 unwritten_slots=0 rows=0 row0_written=2048/2048 neg=0 oor=0 dup=0
+
+cols=65536 rows=1024 k=2048 window=65536 pattern=all_tied n_pos=0
+  wheel sizing: candidate_capacity=32768 gmem_spill=True tie_candidates~65536 -> DROP EXPECTED
+  rep0: ctrl=1.0000 unwritten_slots=0 rows=0 row0_written=2048/2048 neg=0 oor=0 dup=0
+  rep1: ctrl=1.0000 unwritten_slots=0 rows=0 row0_written=2048/2048 neg=0 oor=0 dup=0
+
+cols=98304 rows=1024 k=2048 window=98304 pattern=relu_flood n_pos=64
+  wheel sizing: candidate_capacity=16384 gmem_spill=True tie_candidates~98240 -> DROP EXPECTED
+  rep0: ctrl=1.0000 unwritten_slots=0 rows=0 row0_written=2048/2048 neg=0 oor=0 dup=0
+  rep1: ctrl=1.0000 unwritten_slots=0 rows=0 row0_written=2048/2048 neg=0 oor=0 dup=0
+
+cols=98304 rows=1024 k=2048 window=98304 pattern=all_tied n_pos=0
+  wheel sizing: candidate_capacity=16384 gmem_spill=True tie_candidates~98304 -> DROP EXPECTED
+  rep0: ctrl=1.0000 unwritten_slots=0 rows=0 row0_written=2048/2048 neg=0 oor=0 dup=0
+  rep1: ctrl=1.0000 unwritten_slots=0 rows=0 row0_written=2048/2048 neg=0 oor=0 dup=0

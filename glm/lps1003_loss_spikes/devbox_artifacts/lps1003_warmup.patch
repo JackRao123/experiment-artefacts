@@ -1,0 +1,65 @@
+diff --git a/server/src/trainers_server/dp_worker/api/megatron_controller.py b/server/src/trainers_server/dp_worker/api/megatron_controller.py
+index b5024b4d1..be291bee7 100644
+--- a/server/src/trainers_server/dp_worker/api/megatron_controller.py
++++ b/server/src/trainers_server/dp_worker/api/megatron_controller.py
+@@ -1967,6 +1967,13 @@ class MegatronBridgeController:
+         self._init_training_stack(
+             initialize_runtime=not self._megatron_runtime_initialized
+         )
++        # A rebuild reallocates the training stack, which (unlike startup) used
++        # to hand the very next customer op freshly allocated buffers. On fresh
++        # deployments those first post-rebuild ops have produced corrupted
++        # forwards for partition-tail documents (LPS-1003). Run the same warmup
++        # startup gets — including the full-footprint THD pass — so the window
++        # is burned on synthetic data before the server serves real ops.
++        self.run_startup_warmup()
+ 
+         logger.debug(
+             "init_trainer_server: reset complete in %.2fs (lora_rank=%d)",
+@@ -2415,6 +2422,46 @@ class MegatronBridgeController:
+             self.execute_forward_backward(
+                 ForwardBackwardDetails(data=[datum]), forward_only=False
+             )
++            # Second pass at real-op footprint (THD path only). The minimal datum
++            # above packs into a tiny THD partition, so it never touches the
++            # buffer range a production-sized partition occupies. Ops executed in
++            # the first steps after a (re)build have produced corrupted forwards
++            # for the documents at the tail of full-sized partitions on fresh
++            # deployments (LPS-1003: post-boot/rebuild windows, corruption
++            # anchored to partition tails, healing once real-shaped work has run).
++            # Filling a max_seq_len-sized partition with synthetic documents
++            # burns that window here instead of on customer data.
++            if (
++                self.config.context_parallel_size > 1
++                and not os.environ.get("BT_SKIP_FULL_WARMUP")
++            ):
++                full_total = int(
++                    os.environ.get("BT_WARMUP_FULL_TOKENS", self.config.max_seq_len)
++                )
++                doc_len = min(32768, full_total)
++                docs = []
++                remaining = full_total
++                while remaining >= 2048:
++                    n = min(doc_len, remaining)
++                    toks = [(i % 128) + 1 for i in range(n)]
++                    docs.append(
++                        Datum(
++                            model_input=ModelInput.from_ints(toks),
++                            loss_fn_inputs={
++                                "target_tokens": TensorData(
++                                    data=toks[1:] + [-100], dtype="int64", shape=[n]
++                                )
++                            },
++                        )
++                    )
++                    remaining -= n
++                banner(
++                    f"warmup pass 2 — full-footprint THD partition "
++                    f"({len(docs)} synthetic docs, ~{full_total} tokens)..."
++                )
++                self.execute_forward_backward(
++                    ForwardBackwardDetails(data=docs), forward_only=False
++                )
+         except Exception as exc:
+             banner(
+                 f"FAILED after {time.perf_counter() - t0:.1f}s — {type(exc).__name__}: {exc}"

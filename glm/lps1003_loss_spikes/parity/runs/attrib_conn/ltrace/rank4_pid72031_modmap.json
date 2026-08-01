@@ -1,0 +1,1598 @@
+{
+ "0": {
+  "path": "embedding",
+  "cls": "LanguageModelEmbedding"
+ },
+ "1": {
+  "path": "decoder.layers.0",
+  "cls": "TransformerLayer"
+ },
+ "2": {
+  "path": "decoder.layers.0.self_attention",
+  "cls": "GlmAbsorbedMLASelfAttention"
+ },
+ "3": {
+  "path": "decoder.layers.0.self_attention.core_attention",
+  "cls": "DSAttention"
+ },
+ "4": {
+  "path": "decoder.layers.0.self_attention.core_attention.indexer",
+  "cls": "DSAIndexer"
+ },
+ "5": {
+  "path": "decoder.layers.0.self_attention.core_attention.indexer.linear_wq_b",
+  "cls": "TELinear"
+ },
+ "6": {
+  "path": "decoder.layers.0.self_attention.core_attention.indexer.linear_wk",
+  "cls": "TELinear"
+ },
+ "7": {
+  "path": "decoder.layers.0.self_attention.core_attention.indexer.linear_weights_proj",
+  "cls": "TELinear"
+ },
+ "8": {
+  "path": "decoder.layers.0.mlp",
+  "cls": "MLP"
+ },
+ "9": {
+  "path": "decoder.layers.1",
+  "cls": "TransformerLayer"
+ },
+ "10": {
+  "path": "decoder.layers.1.self_attention",
+  "cls": "GlmAbsorbedMLASelfAttention"
+ },
+ "11": {
+  "path": "decoder.layers.1.self_attention.core_attention",
+  "cls": "DSAttention"
+ },
+ "12": {
+  "path": "decoder.layers.1.self_attention.core_attention.indexer",
+  "cls": "DSAIndexer"
+ },
+ "13": {
+  "path": "decoder.layers.1.self_attention.core_attention.indexer.linear_wq_b",
+  "cls": "TELinear"
+ },
+ "14": {
+  "path": "decoder.layers.1.self_attention.core_attention.indexer.linear_wk",
+  "cls": "TELinear"
+ },
+ "15": {
+  "path": "decoder.layers.1.self_attention.core_attention.indexer.linear_weights_proj",
+  "cls": "TELinear"
+ },
+ "16": {
+  "path": "decoder.layers.1.mlp",
+  "cls": "MLP"
+ },
+ "17": {
+  "path": "decoder.layers.2",
+  "cls": "TransformerLayer"
+ },
+ "18": {
+  "path": "decoder.layers.2.self_attention",
+  "cls": "GlmAbsorbedMLASelfAttention"
+ },
+ "19": {
+  "path": "decoder.layers.2.self_attention.core_attention",
+  "cls": "DSAttention"
+ },
+ "20": {
+  "path": "decoder.layers.2.self_attention.core_attention.indexer",
+  "cls": "DSAIndexer"
+ },
+ "21": {
+  "path": "decoder.layers.2.self_attention.core_attention.indexer.linear_wq_b",
+  "cls": "TELinear"
+ },
+ "22": {
+  "path": "decoder.layers.2.self_attention.core_attention.indexer.linear_wk",
+  "cls": "TELinear"
+ },
+ "23": {
+  "path": "decoder.layers.2.self_attention.core_attention.indexer.linear_weights_proj",
+  "cls": "TELinear"
+ },
+ "24": {
+  "path": "decoder.layers.2.mlp",
+  "cls": "MLP"
+ },
+ "25": {
+  "path": "decoder.layers.3",
+  "cls": "TransformerLayer"
+ },
+ "26": {
+  "path": "decoder.layers.3.self_attention",
+  "cls": "GlmAbsorbedMLASelfAttention"
+ },
+ "27": {
+  "path": "decoder.layers.3.self_attention.core_attention",
+  "cls": "DSAttention"
+ },
+ "28": {
+  "path": "decoder.layers.3.mlp",
+  "cls": "MoELayer"
+ },
+ "29": {
+  "path": "decoder.layers.4",
+  "cls": "TransformerLayer"
+ },
+ "30": {
+  "path": "decoder.layers.4.self_attention",
+  "cls": "GlmAbsorbedMLASelfAttention"
+ },
+ "31": {
+  "path": "decoder.layers.4.self_attention.core_attention",
+  "cls": "DSAttention"
+ },
+ "32": {
+  "path": "decoder.layers.4.mlp",
+  "cls": "MoELayer"
+ },
+ "33": {
+  "path": "decoder.layers.5",
+  "cls": "TransformerLayer"
+ },
+ "34": {
+  "path": "decoder.layers.5.self_attention",
+  "cls": "GlmAbsorbedMLASelfAttention"
+ },
+ "35": {
+  "path": "decoder.layers.5.self_attention.core_attention",
+  "cls": "DSAttention"
+ },
+ "36": {
+  "path": "decoder.layers.5.mlp",
+  "cls": "MoELayer"
+ },
+ "37": {
+  "path": "decoder.layers.6",
+  "cls": "TransformerLayer"
+ },
+ "38": {
+  "path": "decoder.layers.6.self_attention",
+  "cls": "GlmAbsorbedMLASelfAttention"
+ },
+ "39": {
+  "path": "decoder.layers.6.self_attention.core_attention",
+  "cls": "DSAttention"
+ },
+ "40": {
+  "path": "decoder.layers.6.self_attention.core_attention.indexer",
+  "cls": "DSAIndexer"
+ },
+ "41": {
+  "path": "decoder.layers.6.self_attention.core_attention.indexer.linear_wq_b",
+  "cls": "TELinear"
+ },
+ "42": {
+  "path": "decoder.layers.6.self_attention.core_attention.indexer.linear_wk",
+  "cls": "TELinear"
+ },
+ "43": {
+  "path": "decoder.layers.6.self_attention.core_attention.indexer.linear_weights_proj",
+  "cls": "TELinear"
+ },
+ "44": {
+  "path": "decoder.layers.6.mlp",
+  "cls": "MoELayer"
+ },
+ "45": {
+  "path": "decoder.layers.7",
+  "cls": "TransformerLayer"
+ },
+ "46": {
+  "path": "decoder.layers.7.self_attention",
+  "cls": "GlmAbsorbedMLASelfAttention"
+ },
+ "47": {
+  "path": "decoder.layers.7.self_attention.core_attention",
+  "cls": "DSAttention"
+ },
+ "48": {
+  "path": "decoder.layers.7.mlp",
+  "cls": "MoELayer"
+ },
+ "49": {
+  "path": "decoder.layers.8",
+  "cls": "TransformerLayer"
+ },
+ "50": {
+  "path": "decoder.layers.8.self_attention",
+  "cls": "GlmAbsorbedMLASelfAttention"
+ },
+ "51": {
+  "path": "decoder.layers.8.self_attention.core_attention",
+  "cls": "DSAttention"
+ },
+ "52": {
+  "path": "decoder.layers.8.mlp",
+  "cls": "MoELayer"
+ },
+ "53": {
+  "path": "decoder.layers.9",
+  "cls": "TransformerLayer"
+ },
+ "54": {
+  "path": "decoder.layers.9.self_attention",
+  "cls": "GlmAbsorbedMLASelfAttention"
+ },
+ "55": {
+  "path": "decoder.layers.9.self_attention.core_attention",
+  "cls": "DSAttention"
+ },
+ "56": {
+  "path": "decoder.layers.9.mlp",
+  "cls": "MoELayer"
+ },
+ "57": {
+  "path": "decoder.layers.10",
+  "cls": "TransformerLayer"
+ },
+ "58": {
+  "path": "decoder.layers.10.self_attention",
+  "cls": "GlmAbsorbedMLASelfAttention"
+ },
+ "59": {
+  "path": "decoder.layers.10.self_attention.core_attention",
+  "cls": "DSAttention"
+ },
+ "60": {
+  "path": "decoder.layers.10.self_attention.core_attention.indexer",
+  "cls": "DSAIndexer"
+ },
+ "61": {
+  "path": "decoder.layers.10.self_attention.core_attention.indexer.linear_wq_b",
+  "cls": "TELinear"
+ },
+ "62": {
+  "path": "decoder.layers.10.self_attention.core_attention.indexer.linear_wk",
+  "cls": "TELinear"
+ },
+ "63": {
+  "path": "decoder.layers.10.self_attention.core_attention.indexer.linear_weights_proj",
+  "cls": "TELinear"
+ },
+ "64": {
+  "path": "decoder.layers.10.mlp",
+  "cls": "MoELayer"
+ },
+ "65": {
+  "path": "decoder.layers.11",
+  "cls": "TransformerLayer"
+ },
+ "66": {
+  "path": "decoder.layers.11.self_attention",
+  "cls": "GlmAbsorbedMLASelfAttention"
+ },
+ "67": {
+  "path": "decoder.layers.11.self_attention.core_attention",
+  "cls": "DSAttention"
+ },
+ "68": {
+  "path": "decoder.layers.11.mlp",
+  "cls": "MoELayer"
+ },
+ "69": {
+  "path": "decoder.layers.12",
+  "cls": "TransformerLayer"
+ },
+ "70": {
+  "path": "decoder.layers.12.self_attention",
+  "cls": "GlmAbsorbedMLASelfAttention"
+ },
+ "71": {
+  "path": "decoder.layers.12.self_attention.core_attention",
+  "cls": "DSAttention"
+ },
+ "72": {
+  "path": "decoder.layers.12.mlp",
+  "cls": "MoELayer"
+ },
+ "73": {
+  "path": "decoder.layers.13",
+  "cls": "TransformerLayer"
+ },
+ "74": {
+  "path": "decoder.layers.13.self_attention",
+  "cls": "GlmAbsorbedMLASelfAttention"
+ },
+ "75": {
+  "path": "decoder.layers.13.self_attention.core_attention",
+  "cls": "DSAttention"
+ },
+ "76": {
+  "path": "decoder.layers.13.mlp",
+  "cls": "MoELayer"
+ },
+ "77": {
+  "path": "decoder.layers.14",
+  "cls": "TransformerLayer"
+ },
+ "78": {
+  "path": "decoder.layers.14.self_attention",
+  "cls": "GlmAbsorbedMLASelfAttention"
+ },
+ "79": {
+  "path": "decoder.layers.14.self_attention.core_attention",
+  "cls": "DSAttention"
+ },
+ "80": {
+  "path": "decoder.layers.14.self_attention.core_attention.indexer",
+  "cls": "DSAIndexer"
+ },
+ "81": {
+  "path": "decoder.layers.14.self_attention.core_attention.indexer.linear_wq_b",
+  "cls": "TELinear"
+ },
+ "82": {
+  "path": "decoder.layers.14.self_attention.core_attention.indexer.linear_wk",
+  "cls": "TELinear"
+ },
+ "83": {
+  "path": "decoder.layers.14.self_attention.core_attention.indexer.linear_weights_proj",
+  "cls": "TELinear"
+ },
+ "84": {
+  "path": "decoder.layers.14.mlp",
+  "cls": "MoELayer"
+ },
+ "85": {
+  "path": "decoder.layers.15",
+  "cls": "TransformerLayer"
+ },
+ "86": {
+  "path": "decoder.layers.15.self_attention",
+  "cls": "GlmAbsorbedMLASelfAttention"
+ },
+ "87": {
+  "path": "decoder.layers.15.self_attention.core_attention",
+  "cls": "DSAttention"
+ },
+ "88": {
+  "path": "decoder.layers.15.mlp",
+  "cls": "MoELayer"
+ },
+ "89": {
+  "path": "decoder.layers.16",
+  "cls": "TransformerLayer"
+ },
+ "90": {
+  "path": "decoder.layers.16.self_attention",
+  "cls": "GlmAbsorbedMLASelfAttention"
+ },
+ "91": {
+  "path": "decoder.layers.16.self_attention.core_attention",
+  "cls": "DSAttention"
+ },
+ "92": {
+  "path": "decoder.layers.16.mlp",
+  "cls": "MoELayer"
+ },
+ "93": {
+  "path": "decoder.layers.17",
+  "cls": "TransformerLayer"
+ },
+ "94": {
+  "path": "decoder.layers.17.self_attention",
+  "cls": "GlmAbsorbedMLASelfAttention"
+ },
+ "95": {
+  "path": "decoder.layers.17.self_attention.core_attention",
+  "cls": "DSAttention"
+ },
+ "96": {
+  "path": "decoder.layers.17.mlp",
+  "cls": "MoELayer"
+ },
+ "97": {
+  "path": "decoder.layers.18",
+  "cls": "TransformerLayer"
+ },
+ "98": {
+  "path": "decoder.layers.18.self_attention",
+  "cls": "GlmAbsorbedMLASelfAttention"
+ },
+ "99": {
+  "path": "decoder.layers.18.self_attention.core_attention",
+  "cls": "DSAttention"
+ },
+ "100": {
+  "path": "decoder.layers.18.self_attention.core_attention.indexer",
+  "cls": "DSAIndexer"
+ },
+ "101": {
+  "path": "decoder.layers.18.self_attention.core_attention.indexer.linear_wq_b",
+  "cls": "TELinear"
+ },
+ "102": {
+  "path": "decoder.layers.18.self_attention.core_attention.indexer.linear_wk",
+  "cls": "TELinear"
+ },
+ "103": {
+  "path": "decoder.layers.18.self_attention.core_attention.indexer.linear_weights_proj",
+  "cls": "TELinear"
+ },
+ "104": {
+  "path": "decoder.layers.18.mlp",
+  "cls": "MoELayer"
+ },
+ "105": {
+  "path": "decoder.layers.19",
+  "cls": "TransformerLayer"
+ },
+ "106": {
+  "path": "decoder.layers.19.self_attention",
+  "cls": "GlmAbsorbedMLASelfAttention"
+ },
+ "107": {
+  "path": "decoder.layers.19.self_attention.core_attention",
+  "cls": "DSAttention"
+ },
+ "108": {
+  "path": "decoder.layers.19.mlp",
+  "cls": "MoELayer"
+ },
+ "109": {
+  "path": "decoder.layers.20",
+  "cls": "TransformerLayer"
+ },
+ "110": {
+  "path": "decoder.layers.20.self_attention",
+  "cls": "GlmAbsorbedMLASelfAttention"
+ },
+ "111": {
+  "path": "decoder.layers.20.self_attention.core_attention",
+  "cls": "DSAttention"
+ },
+ "112": {
+  "path": "decoder.layers.20.mlp",
+  "cls": "MoELayer"
+ },
+ "113": {
+  "path": "decoder.layers.21",
+  "cls": "TransformerLayer"
+ },
+ "114": {
+  "path": "decoder.layers.21.self_attention",
+  "cls": "GlmAbsorbedMLASelfAttention"
+ },
+ "115": {
+  "path": "decoder.layers.21.self_attention.core_attention",
+  "cls": "DSAttention"
+ },
+ "116": {
+  "path": "decoder.layers.21.mlp",
+  "cls": "MoELayer"
+ },
+ "117": {
+  "path": "decoder.layers.22",
+  "cls": "TransformerLayer"
+ },
+ "118": {
+  "path": "decoder.layers.22.self_attention",
+  "cls": "GlmAbsorbedMLASelfAttention"
+ },
+ "119": {
+  "path": "decoder.layers.22.self_attention.core_attention",
+  "cls": "DSAttention"
+ },
+ "120": {
+  "path": "decoder.layers.22.self_attention.core_attention.indexer",
+  "cls": "DSAIndexer"
+ },
+ "121": {
+  "path": "decoder.layers.22.self_attention.core_attention.indexer.linear_wq_b",
+  "cls": "TELinear"
+ },
+ "122": {
+  "path": "decoder.layers.22.self_attention.core_attention.indexer.linear_wk",
+  "cls": "TELinear"
+ },
+ "123": {
+  "path": "decoder.layers.22.self_attention.core_attention.indexer.linear_weights_proj",
+  "cls": "TELinear"
+ },
+ "124": {
+  "path": "decoder.layers.22.mlp",
+  "cls": "MoELayer"
+ },
+ "125": {
+  "path": "decoder.layers.23",
+  "cls": "TransformerLayer"
+ },
+ "126": {
+  "path": "decoder.layers.23.self_attention",
+  "cls": "GlmAbsorbedMLASelfAttention"
+ },
+ "127": {
+  "path": "decoder.layers.23.self_attention.core_attention",
+  "cls": "DSAttention"
+ },
+ "128": {
+  "path": "decoder.layers.23.mlp",
+  "cls": "MoELayer"
+ },
+ "129": {
+  "path": "decoder.layers.24",
+  "cls": "TransformerLayer"
+ },
+ "130": {
+  "path": "decoder.layers.24.self_attention",
+  "cls": "GlmAbsorbedMLASelfAttention"
+ },
+ "131": {
+  "path": "decoder.layers.24.self_attention.core_attention",
+  "cls": "DSAttention"
+ },
+ "132": {
+  "path": "decoder.layers.24.mlp",
+  "cls": "MoELayer"
+ },
+ "133": {
+  "path": "decoder.layers.25",
+  "cls": "TransformerLayer"
+ },
+ "134": {
+  "path": "decoder.layers.25.self_attention",
+  "cls": "GlmAbsorbedMLASelfAttention"
+ },
+ "135": {
+  "path": "decoder.layers.25.self_attention.core_attention",
+  "cls": "DSAttention"
+ },
+ "136": {
+  "path": "decoder.layers.25.mlp",
+  "cls": "MoELayer"
+ },
+ "137": {
+  "path": "decoder.layers.26",
+  "cls": "TransformerLayer"
+ },
+ "138": {
+  "path": "decoder.layers.26.self_attention",
+  "cls": "GlmAbsorbedMLASelfAttention"
+ },
+ "139": {
+  "path": "decoder.layers.26.self_attention.core_attention",
+  "cls": "DSAttention"
+ },
+ "140": {
+  "path": "decoder.layers.26.self_attention.core_attention.indexer",
+  "cls": "DSAIndexer"
+ },
+ "141": {
+  "path": "decoder.layers.26.self_attention.core_attention.indexer.linear_wq_b",
+  "cls": "TELinear"
+ },
+ "142": {
+  "path": "decoder.layers.26.self_attention.core_attention.indexer.linear_wk",
+  "cls": "TELinear"
+ },
+ "143": {
+  "path": "decoder.layers.26.self_attention.core_attention.indexer.linear_weights_proj",
+  "cls": "TELinear"
+ },
+ "144": {
+  "path": "decoder.layers.26.mlp",
+  "cls": "MoELayer"
+ },
+ "145": {
+  "path": "decoder.layers.27",
+  "cls": "TransformerLayer"
+ },
+ "146": {
+  "path": "decoder.layers.27.self_attention",
+  "cls": "GlmAbsorbedMLASelfAttention"
+ },
+ "147": {
+  "path": "decoder.layers.27.self_attention.core_attention",
+  "cls": "DSAttention"
+ },
+ "148": {
+  "path": "decoder.layers.27.mlp",
+  "cls": "MoELayer"
+ },
+ "149": {
+  "path": "decoder.layers.28",
+  "cls": "TransformerLayer"
+ },
+ "150": {
+  "path": "decoder.layers.28.self_attention",
+  "cls": "GlmAbsorbedMLASelfAttention"
+ },
+ "151": {
+  "path": "decoder.layers.28.self_attention.core_attention",
+  "cls": "DSAttention"
+ },
+ "152": {
+  "path": "decoder.layers.28.mlp",
+  "cls": "MoELayer"
+ },
+ "153": {
+  "path": "decoder.layers.29",
+  "cls": "TransformerLayer"
+ },
+ "154": {
+  "path": "decoder.layers.29.self_attention",
+  "cls": "GlmAbsorbedMLASelfAttention"
+ },
+ "155": {
+  "path": "decoder.layers.29.self_attention.core_attention",
+  "cls": "DSAttention"
+ },
+ "156": {
+  "path": "decoder.layers.29.mlp",
+  "cls": "MoELayer"
+ },
+ "157": {
+  "path": "decoder.layers.30",
+  "cls": "TransformerLayer"
+ },
+ "158": {
+  "path": "decoder.layers.30.self_attention",
+  "cls": "GlmAbsorbedMLASelfAttention"
+ },
+ "159": {
+  "path": "decoder.layers.30.self_attention.core_attention",
+  "cls": "DSAttention"
+ },
+ "160": {
+  "path": "decoder.layers.30.self_attention.core_attention.indexer",
+  "cls": "DSAIndexer"
+ },
+ "161": {
+  "path": "decoder.layers.30.self_attention.core_attention.indexer.linear_wq_b",
+  "cls": "TELinear"
+ },
+ "162": {
+  "path": "decoder.layers.30.self_attention.core_attention.indexer.linear_wk",
+  "cls": "TELinear"
+ },
+ "163": {
+  "path": "decoder.layers.30.self_attention.core_attention.indexer.linear_weights_proj",
+  "cls": "TELinear"
+ },
+ "164": {
+  "path": "decoder.layers.30.mlp",
+  "cls": "MoELayer"
+ },
+ "165": {
+  "path": "decoder.layers.31",
+  "cls": "TransformerLayer"
+ },
+ "166": {
+  "path": "decoder.layers.31.self_attention",
+  "cls": "GlmAbsorbedMLASelfAttention"
+ },
+ "167": {
+  "path": "decoder.layers.31.self_attention.core_attention",
+  "cls": "DSAttention"
+ },
+ "168": {
+  "path": "decoder.layers.31.mlp",
+  "cls": "MoELayer"
+ },
+ "169": {
+  "path": "decoder.layers.32",
+  "cls": "TransformerLayer"
+ },
+ "170": {
+  "path": "decoder.layers.32.self_attention",
+  "cls": "GlmAbsorbedMLASelfAttention"
+ },
+ "171": {
+  "path": "decoder.layers.32.self_attention.core_attention",
+  "cls": "DSAttention"
+ },
+ "172": {
+  "path": "decoder.layers.32.mlp",
+  "cls": "MoELayer"
+ },
+ "173": {
+  "path": "decoder.layers.33",
+  "cls": "TransformerLayer"
+ },
+ "174": {
+  "path": "decoder.layers.33.self_attention",
+  "cls": "GlmAbsorbedMLASelfAttention"
+ },
+ "175": {
+  "path": "decoder.layers.33.self_attention.core_attention",
+  "cls": "DSAttention"
+ },
+ "176": {
+  "path": "decoder.layers.33.mlp",
+  "cls": "MoELayer"
+ },
+ "177": {
+  "path": "decoder.layers.34",
+  "cls": "TransformerLayer"
+ },
+ "178": {
+  "path": "decoder.layers.34.self_attention",
+  "cls": "GlmAbsorbedMLASelfAttention"
+ },
+ "179": {
+  "path": "decoder.layers.34.self_attention.core_attention",
+  "cls": "DSAttention"
+ },
+ "180": {
+  "path": "decoder.layers.34.self_attention.core_attention.indexer",
+  "cls": "DSAIndexer"
+ },
+ "181": {
+  "path": "decoder.layers.34.self_attention.core_attention.indexer.linear_wq_b",
+  "cls": "TELinear"
+ },
+ "182": {
+  "path": "decoder.layers.34.self_attention.core_attention.indexer.linear_wk",
+  "cls": "TELinear"
+ },
+ "183": {
+  "path": "decoder.layers.34.self_attention.core_attention.indexer.linear_weights_proj",
+  "cls": "TELinear"
+ },
+ "184": {
+  "path": "decoder.layers.34.mlp",
+  "cls": "MoELayer"
+ },
+ "185": {
+  "path": "decoder.layers.35",
+  "cls": "TransformerLayer"
+ },
+ "186": {
+  "path": "decoder.layers.35.self_attention",
+  "cls": "GlmAbsorbedMLASelfAttention"
+ },
+ "187": {
+  "path": "decoder.layers.35.self_attention.core_attention",
+  "cls": "DSAttention"
+ },
+ "188": {
+  "path": "decoder.layers.35.mlp",
+  "cls": "MoELayer"
+ },
+ "189": {
+  "path": "decoder.layers.36",
+  "cls": "TransformerLayer"
+ },
+ "190": {
+  "path": "decoder.layers.36.self_attention",
+  "cls": "GlmAbsorbedMLASelfAttention"
+ },
+ "191": {
+  "path": "decoder.layers.36.self_attention.core_attention",
+  "cls": "DSAttention"
+ },
+ "192": {
+  "path": "decoder.layers.36.mlp",
+  "cls": "MoELayer"
+ },
+ "193": {
+  "path": "decoder.layers.37",
+  "cls": "TransformerLayer"
+ },
+ "194": {
+  "path": "decoder.layers.37.self_attention",
+  "cls": "GlmAbsorbedMLASelfAttention"
+ },
+ "195": {
+  "path": "decoder.layers.37.self_attention.core_attention",
+  "cls": "DSAttention"
+ },
+ "196": {
+  "path": "decoder.layers.37.mlp",
+  "cls": "MoELayer"
+ },
+ "197": {
+  "path": "decoder.layers.38",
+  "cls": "TransformerLayer"
+ },
+ "198": {
+  "path": "decoder.layers.38.self_attention",
+  "cls": "GlmAbsorbedMLASelfAttention"
+ },
+ "199": {
+  "path": "decoder.layers.38.self_attention.core_attention",
+  "cls": "DSAttention"
+ },
+ "200": {
+  "path": "decoder.layers.38.self_attention.core_attention.indexer",
+  "cls": "DSAIndexer"
+ },
+ "201": {
+  "path": "decoder.layers.38.self_attention.core_attention.indexer.linear_wq_b",
+  "cls": "TELinear"
+ },
+ "202": {
+  "path": "decoder.layers.38.self_attention.core_attention.indexer.linear_wk",
+  "cls": "TELinear"
+ },
+ "203": {
+  "path": "decoder.layers.38.self_attention.core_attention.indexer.linear_weights_proj",
+  "cls": "TELinear"
+ },
+ "204": {
+  "path": "decoder.layers.38.mlp",
+  "cls": "MoELayer"
+ },
+ "205": {
+  "path": "decoder.layers.39",
+  "cls": "TransformerLayer"
+ },
+ "206": {
+  "path": "decoder.layers.39.self_attention",
+  "cls": "GlmAbsorbedMLASelfAttention"
+ },
+ "207": {
+  "path": "decoder.layers.39.self_attention.core_attention",
+  "cls": "DSAttention"
+ },
+ "208": {
+  "path": "decoder.layers.39.mlp",
+  "cls": "MoELayer"
+ },
+ "209": {
+  "path": "decoder.layers.40",
+  "cls": "TransformerLayer"
+ },
+ "210": {
+  "path": "decoder.layers.40.self_attention",
+  "cls": "GlmAbsorbedMLASelfAttention"
+ },
+ "211": {
+  "path": "decoder.layers.40.self_attention.core_attention",
+  "cls": "DSAttention"
+ },
+ "212": {
+  "path": "decoder.layers.40.mlp",
+  "cls": "MoELayer"
+ },
+ "213": {
+  "path": "decoder.layers.41",
+  "cls": "TransformerLayer"
+ },
+ "214": {
+  "path": "decoder.layers.41.self_attention",
+  "cls": "GlmAbsorbedMLASelfAttention"
+ },
+ "215": {
+  "path": "decoder.layers.41.self_attention.core_attention",
+  "cls": "DSAttention"
+ },
+ "216": {
+  "path": "decoder.layers.41.mlp",
+  "cls": "MoELayer"
+ },
+ "217": {
+  "path": "decoder.layers.42",
+  "cls": "TransformerLayer"
+ },
+ "218": {
+  "path": "decoder.layers.42.self_attention",
+  "cls": "GlmAbsorbedMLASelfAttention"
+ },
+ "219": {
+  "path": "decoder.layers.42.self_attention.core_attention",
+  "cls": "DSAttention"
+ },
+ "220": {
+  "path": "decoder.layers.42.self_attention.core_attention.indexer",
+  "cls": "DSAIndexer"
+ },
+ "221": {
+  "path": "decoder.layers.42.self_attention.core_attention.indexer.linear_wq_b",
+  "cls": "TELinear"
+ },
+ "222": {
+  "path": "decoder.layers.42.self_attention.core_attention.indexer.linear_wk",
+  "cls": "TELinear"
+ },
+ "223": {
+  "path": "decoder.layers.42.self_attention.core_attention.indexer.linear_weights_proj",
+  "cls": "TELinear"
+ },
+ "224": {
+  "path": "decoder.layers.42.mlp",
+  "cls": "MoELayer"
+ },
+ "225": {
+  "path": "decoder.layers.43",
+  "cls": "TransformerLayer"
+ },
+ "226": {
+  "path": "decoder.layers.43.self_attention",
+  "cls": "GlmAbsorbedMLASelfAttention"
+ },
+ "227": {
+  "path": "decoder.layers.43.self_attention.core_attention",
+  "cls": "DSAttention"
+ },
+ "228": {
+  "path": "decoder.layers.43.mlp",
+  "cls": "MoELayer"
+ },
+ "229": {
+  "path": "decoder.layers.44",
+  "cls": "TransformerLayer"
+ },
+ "230": {
+  "path": "decoder.layers.44.self_attention",
+  "cls": "GlmAbsorbedMLASelfAttention"
+ },
+ "231": {
+  "path": "decoder.layers.44.self_attention.core_attention",
+  "cls": "DSAttention"
+ },
+ "232": {
+  "path": "decoder.layers.44.mlp",
+  "cls": "MoELayer"
+ },
+ "233": {
+  "path": "decoder.layers.45",
+  "cls": "TransformerLayer"
+ },
+ "234": {
+  "path": "decoder.layers.45.self_attention",
+  "cls": "GlmAbsorbedMLASelfAttention"
+ },
+ "235": {
+  "path": "decoder.layers.45.self_attention.core_attention",
+  "cls": "DSAttention"
+ },
+ "236": {
+  "path": "decoder.layers.45.mlp",
+  "cls": "MoELayer"
+ },
+ "237": {
+  "path": "decoder.layers.46",
+  "cls": "TransformerLayer"
+ },
+ "238": {
+  "path": "decoder.layers.46.self_attention",
+  "cls": "GlmAbsorbedMLASelfAttention"
+ },
+ "239": {
+  "path": "decoder.layers.46.self_attention.core_attention",
+  "cls": "DSAttention"
+ },
+ "240": {
+  "path": "decoder.layers.46.self_attention.core_attention.indexer",
+  "cls": "DSAIndexer"
+ },
+ "241": {
+  "path": "decoder.layers.46.self_attention.core_attention.indexer.linear_wq_b",
+  "cls": "TELinear"
+ },
+ "242": {
+  "path": "decoder.layers.46.self_attention.core_attention.indexer.linear_wk",
+  "cls": "TELinear"
+ },
+ "243": {
+  "path": "decoder.layers.46.self_attention.core_attention.indexer.linear_weights_proj",
+  "cls": "TELinear"
+ },
+ "244": {
+  "path": "decoder.layers.46.mlp",
+  "cls": "MoELayer"
+ },
+ "245": {
+  "path": "decoder.layers.47",
+  "cls": "TransformerLayer"
+ },
+ "246": {
+  "path": "decoder.layers.47.self_attention",
+  "cls": "GlmAbsorbedMLASelfAttention"
+ },
+ "247": {
+  "path": "decoder.layers.47.self_attention.core_attention",
+  "cls": "DSAttention"
+ },
+ "248": {
+  "path": "decoder.layers.47.mlp",
+  "cls": "MoELayer"
+ },
+ "249": {
+  "path": "decoder.layers.48",
+  "cls": "TransformerLayer"
+ },
+ "250": {
+  "path": "decoder.layers.48.self_attention",
+  "cls": "GlmAbsorbedMLASelfAttention"
+ },
+ "251": {
+  "path": "decoder.layers.48.self_attention.core_attention",
+  "cls": "DSAttention"
+ },
+ "252": {
+  "path": "decoder.layers.48.mlp",
+  "cls": "MoELayer"
+ },
+ "253": {
+  "path": "decoder.layers.49",
+  "cls": "TransformerLayer"
+ },
+ "254": {
+  "path": "decoder.layers.49.self_attention",
+  "cls": "GlmAbsorbedMLASelfAttention"
+ },
+ "255": {
+  "path": "decoder.layers.49.self_attention.core_attention",
+  "cls": "DSAttention"
+ },
+ "256": {
+  "path": "decoder.layers.49.mlp",
+  "cls": "MoELayer"
+ },
+ "257": {
+  "path": "decoder.layers.50",
+  "cls": "TransformerLayer"
+ },
+ "258": {
+  "path": "decoder.layers.50.self_attention",
+  "cls": "GlmAbsorbedMLASelfAttention"
+ },
+ "259": {
+  "path": "decoder.layers.50.self_attention.core_attention",
+  "cls": "DSAttention"
+ },
+ "260": {
+  "path": "decoder.layers.50.self_attention.core_attention.indexer",
+  "cls": "DSAIndexer"
+ },
+ "261": {
+  "path": "decoder.layers.50.self_attention.core_attention.indexer.linear_wq_b",
+  "cls": "TELinear"
+ },
+ "262": {
+  "path": "decoder.layers.50.self_attention.core_attention.indexer.linear_wk",
+  "cls": "TELinear"
+ },
+ "263": {
+  "path": "decoder.layers.50.self_attention.core_attention.indexer.linear_weights_proj",
+  "cls": "TELinear"
+ },
+ "264": {
+  "path": "decoder.layers.50.mlp",
+  "cls": "MoELayer"
+ },
+ "265": {
+  "path": "decoder.layers.51",
+  "cls": "TransformerLayer"
+ },
+ "266": {
+  "path": "decoder.layers.51.self_attention",
+  "cls": "GlmAbsorbedMLASelfAttention"
+ },
+ "267": {
+  "path": "decoder.layers.51.self_attention.core_attention",
+  "cls": "DSAttention"
+ },
+ "268": {
+  "path": "decoder.layers.51.mlp",
+  "cls": "MoELayer"
+ },
+ "269": {
+  "path": "decoder.layers.52",
+  "cls": "TransformerLayer"
+ },
+ "270": {
+  "path": "decoder.layers.52.self_attention",
+  "cls": "GlmAbsorbedMLASelfAttention"
+ },
+ "271": {
+  "path": "decoder.layers.52.self_attention.core_attention",
+  "cls": "DSAttention"
+ },
+ "272": {
+  "path": "decoder.layers.52.mlp",
+  "cls": "MoELayer"
+ },
+ "273": {
+  "path": "decoder.layers.53",
+  "cls": "TransformerLayer"
+ },
+ "274": {
+  "path": "decoder.layers.53.self_attention",
+  "cls": "GlmAbsorbedMLASelfAttention"
+ },
+ "275": {
+  "path": "decoder.layers.53.self_attention.core_attention",
+  "cls": "DSAttention"
+ },
+ "276": {
+  "path": "decoder.layers.53.mlp",
+  "cls": "MoELayer"
+ },
+ "277": {
+  "path": "decoder.layers.54",
+  "cls": "TransformerLayer"
+ },
+ "278": {
+  "path": "decoder.layers.54.self_attention",
+  "cls": "GlmAbsorbedMLASelfAttention"
+ },
+ "279": {
+  "path": "decoder.layers.54.self_attention.core_attention",
+  "cls": "DSAttention"
+ },
+ "280": {
+  "path": "decoder.layers.54.self_attention.core_attention.indexer",
+  "cls": "DSAIndexer"
+ },
+ "281": {
+  "path": "decoder.layers.54.self_attention.core_attention.indexer.linear_wq_b",
+  "cls": "TELinear"
+ },
+ "282": {
+  "path": "decoder.layers.54.self_attention.core_attention.indexer.linear_wk",
+  "cls": "TELinear"
+ },
+ "283": {
+  "path": "decoder.layers.54.self_attention.core_attention.indexer.linear_weights_proj",
+  "cls": "TELinear"
+ },
+ "284": {
+  "path": "decoder.layers.54.mlp",
+  "cls": "MoELayer"
+ },
+ "285": {
+  "path": "decoder.layers.55",
+  "cls": "TransformerLayer"
+ },
+ "286": {
+  "path": "decoder.layers.55.self_attention",
+  "cls": "GlmAbsorbedMLASelfAttention"
+ },
+ "287": {
+  "path": "decoder.layers.55.self_attention.core_attention",
+  "cls": "DSAttention"
+ },
+ "288": {
+  "path": "decoder.layers.55.mlp",
+  "cls": "MoELayer"
+ },
+ "289": {
+  "path": "decoder.layers.56",
+  "cls": "TransformerLayer"
+ },
+ "290": {
+  "path": "decoder.layers.56.self_attention",
+  "cls": "GlmAbsorbedMLASelfAttention"
+ },
+ "291": {
+  "path": "decoder.layers.56.self_attention.core_attention",
+  "cls": "DSAttention"
+ },
+ "292": {
+  "path": "decoder.layers.56.mlp",
+  "cls": "MoELayer"
+ },
+ "293": {
+  "path": "decoder.layers.57",
+  "cls": "TransformerLayer"
+ },
+ "294": {
+  "path": "decoder.layers.57.self_attention",
+  "cls": "GlmAbsorbedMLASelfAttention"
+ },
+ "295": {
+  "path": "decoder.layers.57.self_attention.core_attention",
+  "cls": "DSAttention"
+ },
+ "296": {
+  "path": "decoder.layers.57.mlp",
+  "cls": "MoELayer"
+ },
+ "297": {
+  "path": "decoder.layers.58",
+  "cls": "TransformerLayer"
+ },
+ "298": {
+  "path": "decoder.layers.58.self_attention",
+  "cls": "GlmAbsorbedMLASelfAttention"
+ },
+ "299": {
+  "path": "decoder.layers.58.self_attention.core_attention",
+  "cls": "DSAttention"
+ },
+ "300": {
+  "path": "decoder.layers.58.self_attention.core_attention.indexer",
+  "cls": "DSAIndexer"
+ },
+ "301": {
+  "path": "decoder.layers.58.self_attention.core_attention.indexer.linear_wq_b",
+  "cls": "TELinear"
+ },
+ "302": {
+  "path": "decoder.layers.58.self_attention.core_attention.indexer.linear_wk",
+  "cls": "TELinear"
+ },
+ "303": {
+  "path": "decoder.layers.58.self_attention.core_attention.indexer.linear_weights_proj",
+  "cls": "TELinear"
+ },
+ "304": {
+  "path": "decoder.layers.58.mlp",
+  "cls": "MoELayer"
+ },
+ "305": {
+  "path": "decoder.layers.59",
+  "cls": "TransformerLayer"
+ },
+ "306": {
+  "path": "decoder.layers.59.self_attention",
+  "cls": "GlmAbsorbedMLASelfAttention"
+ },
+ "307": {
+  "path": "decoder.layers.59.self_attention.core_attention",
+  "cls": "DSAttention"
+ },
+ "308": {
+  "path": "decoder.layers.59.mlp",
+  "cls": "MoELayer"
+ },
+ "309": {
+  "path": "decoder.layers.60",
+  "cls": "TransformerLayer"
+ },
+ "310": {
+  "path": "decoder.layers.60.self_attention",
+  "cls": "GlmAbsorbedMLASelfAttention"
+ },
+ "311": {
+  "path": "decoder.layers.60.self_attention.core_attention",
+  "cls": "DSAttention"
+ },
+ "312": {
+  "path": "decoder.layers.60.mlp",
+  "cls": "MoELayer"
+ },
+ "313": {
+  "path": "decoder.layers.61",
+  "cls": "TransformerLayer"
+ },
+ "314": {
+  "path": "decoder.layers.61.self_attention",
+  "cls": "GlmAbsorbedMLASelfAttention"
+ },
+ "315": {
+  "path": "decoder.layers.61.self_attention.core_attention",
+  "cls": "DSAttention"
+ },
+ "316": {
+  "path": "decoder.layers.61.mlp",
+  "cls": "MoELayer"
+ },
+ "317": {
+  "path": "decoder.layers.62",
+  "cls": "TransformerLayer"
+ },
+ "318": {
+  "path": "decoder.layers.62.self_attention",
+  "cls": "GlmAbsorbedMLASelfAttention"
+ },
+ "319": {
+  "path": "decoder.layers.62.self_attention.core_attention",
+  "cls": "DSAttention"
+ },
+ "320": {
+  "path": "decoder.layers.62.self_attention.core_attention.indexer",
+  "cls": "DSAIndexer"
+ },
+ "321": {
+  "path": "decoder.layers.62.self_attention.core_attention.indexer.linear_wq_b",
+  "cls": "TELinear"
+ },
+ "322": {
+  "path": "decoder.layers.62.self_attention.core_attention.indexer.linear_wk",
+  "cls": "TELinear"
+ },
+ "323": {
+  "path": "decoder.layers.62.self_attention.core_attention.indexer.linear_weights_proj",
+  "cls": "TELinear"
+ },
+ "324": {
+  "path": "decoder.layers.62.mlp",
+  "cls": "MoELayer"
+ },
+ "325": {
+  "path": "decoder.layers.63",
+  "cls": "TransformerLayer"
+ },
+ "326": {
+  "path": "decoder.layers.63.self_attention",
+  "cls": "GlmAbsorbedMLASelfAttention"
+ },
+ "327": {
+  "path": "decoder.layers.63.self_attention.core_attention",
+  "cls": "DSAttention"
+ },
+ "328": {
+  "path": "decoder.layers.63.mlp",
+  "cls": "MoELayer"
+ },
+ "329": {
+  "path": "decoder.layers.64",
+  "cls": "TransformerLayer"
+ },
+ "330": {
+  "path": "decoder.layers.64.self_attention",
+  "cls": "GlmAbsorbedMLASelfAttention"
+ },
+ "331": {
+  "path": "decoder.layers.64.self_attention.core_attention",
+  "cls": "DSAttention"
+ },
+ "332": {
+  "path": "decoder.layers.64.mlp",
+  "cls": "MoELayer"
+ },
+ "333": {
+  "path": "decoder.layers.65",
+  "cls": "TransformerLayer"
+ },
+ "334": {
+  "path": "decoder.layers.65.self_attention",
+  "cls": "GlmAbsorbedMLASelfAttention"
+ },
+ "335": {
+  "path": "decoder.layers.65.self_attention.core_attention",
+  "cls": "DSAttention"
+ },
+ "336": {
+  "path": "decoder.layers.65.mlp",
+  "cls": "MoELayer"
+ },
+ "337": {
+  "path": "decoder.layers.66",
+  "cls": "TransformerLayer"
+ },
+ "338": {
+  "path": "decoder.layers.66.self_attention",
+  "cls": "GlmAbsorbedMLASelfAttention"
+ },
+ "339": {
+  "path": "decoder.layers.66.self_attention.core_attention",
+  "cls": "DSAttention"
+ },
+ "340": {
+  "path": "decoder.layers.66.self_attention.core_attention.indexer",
+  "cls": "DSAIndexer"
+ },
+ "341": {
+  "path": "decoder.layers.66.self_attention.core_attention.indexer.linear_wq_b",
+  "cls": "TELinear"
+ },
+ "342": {
+  "path": "decoder.layers.66.self_attention.core_attention.indexer.linear_wk",
+  "cls": "TELinear"
+ },
+ "343": {
+  "path": "decoder.layers.66.self_attention.core_attention.indexer.linear_weights_proj",
+  "cls": "TELinear"
+ },
+ "344": {
+  "path": "decoder.layers.66.mlp",
+  "cls": "MoELayer"
+ },
+ "345": {
+  "path": "decoder.layers.67",
+  "cls": "TransformerLayer"
+ },
+ "346": {
+  "path": "decoder.layers.67.self_attention",
+  "cls": "GlmAbsorbedMLASelfAttention"
+ },
+ "347": {
+  "path": "decoder.layers.67.self_attention.core_attention",
+  "cls": "DSAttention"
+ },
+ "348": {
+  "path": "decoder.layers.67.mlp",
+  "cls": "MoELayer"
+ },
+ "349": {
+  "path": "decoder.layers.68",
+  "cls": "TransformerLayer"
+ },
+ "350": {
+  "path": "decoder.layers.68.self_attention",
+  "cls": "GlmAbsorbedMLASelfAttention"
+ },
+ "351": {
+  "path": "decoder.layers.68.self_attention.core_attention",
+  "cls": "DSAttention"
+ },
+ "352": {
+  "path": "decoder.layers.68.mlp",
+  "cls": "MoELayer"
+ },
+ "353": {
+  "path": "decoder.layers.69",
+  "cls": "TransformerLayer"
+ },
+ "354": {
+  "path": "decoder.layers.69.self_attention",
+  "cls": "GlmAbsorbedMLASelfAttention"
+ },
+ "355": {
+  "path": "decoder.layers.69.self_attention.core_attention",
+  "cls": "DSAttention"
+ },
+ "356": {
+  "path": "decoder.layers.69.mlp",
+  "cls": "MoELayer"
+ },
+ "357": {
+  "path": "decoder.layers.70",
+  "cls": "TransformerLayer"
+ },
+ "358": {
+  "path": "decoder.layers.70.self_attention",
+  "cls": "GlmAbsorbedMLASelfAttention"
+ },
+ "359": {
+  "path": "decoder.layers.70.self_attention.core_attention",
+  "cls": "DSAttention"
+ },
+ "360": {
+  "path": "decoder.layers.70.self_attention.core_attention.indexer",
+  "cls": "DSAIndexer"
+ },
+ "361": {
+  "path": "decoder.layers.70.self_attention.core_attention.indexer.linear_wq_b",
+  "cls": "TELinear"
+ },
+ "362": {
+  "path": "decoder.layers.70.self_attention.core_attention.indexer.linear_wk",
+  "cls": "TELinear"
+ },
+ "363": {
+  "path": "decoder.layers.70.self_attention.core_attention.indexer.linear_weights_proj",
+  "cls": "TELinear"
+ },
+ "364": {
+  "path": "decoder.layers.70.mlp",
+  "cls": "MoELayer"
+ },
+ "365": {
+  "path": "decoder.layers.71",
+  "cls": "TransformerLayer"
+ },
+ "366": {
+  "path": "decoder.layers.71.self_attention",
+  "cls": "GlmAbsorbedMLASelfAttention"
+ },
+ "367": {
+  "path": "decoder.layers.71.self_attention.core_attention",
+  "cls": "DSAttention"
+ },
+ "368": {
+  "path": "decoder.layers.71.mlp",
+  "cls": "MoELayer"
+ },
+ "369": {
+  "path": "decoder.layers.72",
+  "cls": "TransformerLayer"
+ },
+ "370": {
+  "path": "decoder.layers.72.self_attention",
+  "cls": "GlmAbsorbedMLASelfAttention"
+ },
+ "371": {
+  "path": "decoder.layers.72.self_attention.core_attention",
+  "cls": "DSAttention"
+ },
+ "372": {
+  "path": "decoder.layers.72.mlp",
+  "cls": "MoELayer"
+ },
+ "373": {
+  "path": "decoder.layers.73",
+  "cls": "TransformerLayer"
+ },
+ "374": {
+  "path": "decoder.layers.73.self_attention",
+  "cls": "GlmAbsorbedMLASelfAttention"
+ },
+ "375": {
+  "path": "decoder.layers.73.self_attention.core_attention",
+  "cls": "DSAttention"
+ },
+ "376": {
+  "path": "decoder.layers.73.mlp",
+  "cls": "MoELayer"
+ },
+ "377": {
+  "path": "decoder.layers.74",
+  "cls": "TransformerLayer"
+ },
+ "378": {
+  "path": "decoder.layers.74.self_attention",
+  "cls": "GlmAbsorbedMLASelfAttention"
+ },
+ "379": {
+  "path": "decoder.layers.74.self_attention.core_attention",
+  "cls": "DSAttention"
+ },
+ "380": {
+  "path": "decoder.layers.74.self_attention.core_attention.indexer",
+  "cls": "DSAIndexer"
+ },
+ "381": {
+  "path": "decoder.layers.74.self_attention.core_attention.indexer.linear_wq_b",
+  "cls": "TELinear"
+ },
+ "382": {
+  "path": "decoder.layers.74.self_attention.core_attention.indexer.linear_wk",
+  "cls": "TELinear"
+ },
+ "383": {
+  "path": "decoder.layers.74.self_attention.core_attention.indexer.linear_weights_proj",
+  "cls": "TELinear"
+ },
+ "384": {
+  "path": "decoder.layers.74.mlp",
+  "cls": "MoELayer"
+ },
+ "385": {
+  "path": "decoder.layers.75",
+  "cls": "TransformerLayer"
+ },
+ "386": {
+  "path": "decoder.layers.75.self_attention",
+  "cls": "GlmAbsorbedMLASelfAttention"
+ },
+ "387": {
+  "path": "decoder.layers.75.self_attention.core_attention",
+  "cls": "DSAttention"
+ },
+ "388": {
+  "path": "decoder.layers.75.mlp",
+  "cls": "MoELayer"
+ },
+ "389": {
+  "path": "decoder.layers.76",
+  "cls": "TransformerLayer"
+ },
+ "390": {
+  "path": "decoder.layers.76.self_attention",
+  "cls": "GlmAbsorbedMLASelfAttention"
+ },
+ "391": {
+  "path": "decoder.layers.76.self_attention.core_attention",
+  "cls": "DSAttention"
+ },
+ "392": {
+  "path": "decoder.layers.76.mlp",
+  "cls": "MoELayer"
+ },
+ "393": {
+  "path": "decoder.layers.77",
+  "cls": "TransformerLayer"
+ },
+ "394": {
+  "path": "decoder.layers.77.self_attention",
+  "cls": "GlmAbsorbedMLASelfAttention"
+ },
+ "395": {
+  "path": "decoder.layers.77.self_attention.core_attention",
+  "cls": "DSAttention"
+ },
+ "396": {
+  "path": "decoder.layers.77.mlp",
+  "cls": "MoELayer"
+ },
+ "397": {
+  "path": "decoder.final_layernorm",
+  "cls": "RMSNorm"
+ },
+ "398": {
+  "path": "output_layer",
+  "cls": "LoRALinear"
+ }
+}

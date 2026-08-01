@@ -1,0 +1,32 @@
+utc	arm	artifact	sha256	run	cold	rc	verdict	note
+2026-07-29T11:30:04Z	pristine	topk_call_41	8aaa196939c70d9c	1	0	1	IMA	torch.AcceleratorError: CUDA error: an illegal memory access was encountered
+2026-07-29T11:30:21Z	pristine	topk_call_41	8aaa196939c70d9c	2	0	1	IMA	torch.AcceleratorError: CUDA error: an illegal memory access was encountered
+2026-07-29T11:30:53Z	pristine	topk_call_41	8aaa196939c70d9c	3	1	1	IMA	torch.AcceleratorError: CUDA error: an illegal memory access was encountered
+2026-07-29T11:31:09Z	pristine	synthetic_oob	8aaa196939c70d9c	1	0	1	IMA	torch.AcceleratorError: CUDA error: an illegal memory access was encountered
+2026-07-29T11:31:25Z	pristine	synthetic_oob	8aaa196939c70d9c	2	0	1	IMA	torch.AcceleratorError: CUDA error: an illegal memory access was encountered
+2026-07-29T11:31:35Z	tmem-war	topk_call_41	8aaa196939c70d9c	1	0	1	IMA	torch.AcceleratorError: CUDA error: an illegal memory access was encountered
+2026-07-29T11:31:47Z	tmem-war	topk_call_41	8aaa196939c70d9c	2	0	1	IMA	torch.AcceleratorError: CUDA error: an illegal memory access was encountered
+2026-07-29T11:32:00Z	tmem-war	synthetic_oob	8aaa196939c70d9c	1	0	1	IMA	torch.AcceleratorError: CUDA error: an illegal memory access was encountered
+2026-07-29T11:32:09Z	empty-row	topk_call_41	8aaa196939c70d9c	1	0	1	IMA	torch.AcceleratorError: CUDA error: an illegal memory access was encountered
+2026-07-29T11:32:19Z	empty-row	topk_call_41	8aaa196939c70d9c	2	0	1	IMA	torch.AcceleratorError: CUDA error: an illegal memory access was encountered
+2026-07-29T11:32:32Z	empty-row	synthetic_oob	8aaa196939c70d9c	1	0	1	IMA	torch.AcceleratorError: CUDA error: an illegal memory access was encountered
+2026-07-29T11:32:43Z	bounds	topk_call_41	8aaa196939c70d9c	1	0	1	IMA	torch.AcceleratorError: CUDA error: an illegal memory access was encountered
+2026-07-29T11:32:51Z	bounds	topk_call_41	8aaa196939c70d9c	2	0	1	IMA	torch.AcceleratorError: CUDA error: an illegal memory access was encountered
+2026-07-29T11:32:59Z	bounds	synthetic_oob	8aaa196939c70d9c	1	0	1	IMA	torch.AcceleratorError: CUDA error: an illegal memory access was encountered
+2026-07-29T11:33:12Z	topk-oob	synthetic_oob	8aaa196939c70d9c	0	0	0	PASS	
+2026-07-29T11:33:29Z	topk-oob	topk_call_41	8aaa196939c70d9c	1	0	0	PASS	
+2026-07-29T11:33:55Z	topk-oob	topk_call_41	8aaa196939c70d9c	2	0	0	PASS	
+2026-07-29T11:34:05Z	topk-oob	topk_call_41	8aaa196939c70d9c	3	0	0	PASS	
+2026-07-29T11:34:17Z	topk-oob	topk_call_41	8aaa196939c70d9c	4	0	0	PASS	
+2026-07-29T11:34:31Z	topk-oob	topk_call_41	8aaa196939c70d9c	5	1	0	PASS	
+2026-07-29T11:34:40Z	topk-oob	topk_call_41	8aaa196939c70d9c	6	0	0	PASS	
+2026-07-29T11:34:52Z	topk-oob	topk_call_41	8aaa196939c70d9c	7	0	0	PASS	
+2026-07-29T11:35:04Z	topk-oob	topk_call_41	8aaa196939c70d9c	8	0	0	PASS	
+2026-07-29T11:35:13Z	topk-oob	topk_call_41	8aaa196939c70d9c	9	0	0	PASS	
+2026-07-29T11:35:26Z	topk-oob	topk_call_41	8aaa196939c70d9c	10	1	0	PASS	
+
+bounds: 389a64636ca7ac4f454be8aa21909bb9
+empty-row: 2d12b4cb0d333057aa4f9aceaf9ab983
+pristine: a29ad49dbfc6383de7271e657d031daf
+tmem-war: d3e7581cd3276faf75f5c316f15ecb3c
+topk-oob: 21d2ca4fb34e5a79a75023d14080a5f6

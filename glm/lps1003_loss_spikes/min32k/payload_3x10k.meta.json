@@ -1,0 +1,19 @@
+{
+ "supervision": "uniform over all positions, no prefix masking",
+ "datum0": {
+  "kind": "palindrome-ABCDEFEDCBA",
+  "len": 10000
+ },
+ "datum1": {
+  "kind": "random-tile",
+  "seed": 1003200,
+  "chunk": 256,
+  "len": 10000
+ },
+ "datum2": {
+  "kind": "mudith-b0-i0-first10k",
+  "orig_len": 41381,
+  "label": "train_replay",
+  "len": 10000
+ }
+}

@@ -1,0 +1,29 @@
+=== min64k driver start 2026-07-31T23:44:42Z out=/root/.cache/user_artifacts/lps1003/min64k/runs/min64k_0731_234442
+trainer dispatched (srun pid 278768, master_port 30057)
+rank0_host=b300-1-4wprtzyj-0003 url=http://10.1.77.31:8001
+[23:45:02] waiting for http://10.1.77.31:8001/health (0/2400.0s)
+[23:46:02] waiting for http://10.1.77.31:8001/health (60/2400.0s)
+[23:47:02] waiting for http://10.1.77.31:8001/health (120/2400.0s)
+[23:48:02] waiting for http://10.1.77.31:8001/health (180/2400.0s)
+[23:49:02] waiting for http://10.1.77.31:8001/health (240/2400.0s)
+[23:50:02] waiting for http://10.1.77.31:8001/health (300/2400.0s)
+[23:51:02] waiting for http://10.1.77.31:8001/health (360/2400.0s)
+[23:52:02] waiting for http://10.1.77.31:8001/health (420/2400.0s)
+[23:53:02] waiting for http://10.1.77.31:8001/health (480/2400.0s)
+[23:54:02] waiting for http://10.1.77.31:8001/health (540/2400.0s)
+[23:55:02] waiting for http://10.1.77.31:8001/health (600/2400.0s)
+[23:56:02] waiting for http://10.1.77.31:8001/health (660/2400.0s)
+[23:57:02] waiting for http://10.1.77.31:8001/health (720/2400.0s)
+[23:57:59] HEALTHY after 777s
+[00:00:22] REP 0 tag=min64k_window datum_mean=0.0838 destroyed={} wall=142s
+  per-datum: 0.000 0.167
+[00:01:58] REP 1 tag=min64k_window datum_mean=0.0838 destroyed={} wall=96s
+  per-datum: 0.000 0.167
+[00:03:34] REP 2 tag=min64k_window datum_mean=0.0822 destroyed={} wall=97s
+  per-datum: 0.000 0.164
+[00:05:11] REP 3 tag=min64k_window datum_mean=0.0814 destroyed={} wall=97s
+  per-datum: 0.000 0.163
+[00:06:47] REP 4 tag=min64k_window datum_mean=0.0810 destroyed={} wall=96s
+  per-datum: 0.000 0.162
+[00:06:47] DONE tag=min64k_window
+=== min64k driver DONE 2026-08-01T00:06:47Z

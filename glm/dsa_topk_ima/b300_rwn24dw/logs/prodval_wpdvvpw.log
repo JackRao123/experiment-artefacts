@@ -1,0 +1,909 @@
+Warning: safe-chain is not available. python3 will run without it.
+{
+  "log_count": 125,
+  "logs": [
+    {
+      "level": "INFO",
+      "message": "Creating the training job.",
+      "replica": null,
+      "request_id": null,
+      "timestamp": "1785325376161733667"
+    },
+    {
+      "level": "INFO",
+      "message": "Training job created successfully.",
+      "replica": null,
+      "request_id": null,
+      "timestamp": "1785325384251311312"
+    },
+    {
+      "level": "INFO",
+      "message": "Training job status updated to TRAINING_JOB_DEPLOYING: scheduling training job.",
+      "replica": null,
+      "request_id": null,
+      "timestamp": "1785325384437697530"
+    },
+    {
+      "level": "INFO",
+      "message": "Image pulled successfully for g00r0",
+      "replica": null,
+      "request_id": null,
+      "timestamp": "1785325476463209022"
+    },
+    {
+      "level": "INFO",
+      "message": "g00r0 has been created",
+      "replica": null,
+      "request_id": null,
+      "timestamp": "1785325476785109576"
+    },
+    {
+      "level": null,
+      "message": "Copying artifacts to (/b10/workspace)",
+      "replica": "g00r0",
+      "request_id": null,
+      "timestamp": "1785325477068912381"
+    },
+    {
+      "level": null,
+      "message": "Installing InfiniBand packages...",
+      "replica": "g00r0",
+      "request_id": null,
+      "timestamp": "1785325477069820986"
+    },
+    {
+      "level": null,
+      "message": "Get:1 http://security.ubuntu.com/ubuntu noble-security InRelease [126 kB]",
+      "replica": "g00r0",
+      "request_id": null,
+      "timestamp": "1785325477741640818"
+    },
+    {
+      "level": null,
+      "message": "Get:2 http://archive.ubuntu.com/ubuntu noble InRelease [256 kB]",
+      "replica": "g00r0",
+      "request_id": null,
+      "timestamp": "1785325477787612946"
+    },
+    {
+      "level": "INFO",
+      "message": "g00r0 has started running",
+      "replica": null,
+      "request_id": null,
+      "timestamp": "1785325477856226896"
+    },
+    {
+      "level": "INFO",
+      "message": "Training job status updated to TRAINING_JOB_RUNNING",
+      "replica": null,
+      "request_id": null,
+      "timestamp": "1785325478264130158"
+    },
+    {
+      "level": null,
+      "message": "Get:3 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64  InRelease [1581 B]",
+      "replica": "g00r0",
+      "request_id": null,
+      "timestamp": "1785325478751159719"
+    },
+    {
+      "level": null,
+      "message": "Get:4 http://security.ubuntu.com/ubuntu noble-security/restricted amd64 Packages [1587 kB]",
+      "replica": "g00r0",
+      "request_id": null,
+      "timestamp": "1785325478994876800"
+    },
+    {
+      "level": null,
+      "message": "Get:5 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64  Packages [1689 kB]",
+      "replica": "g00r0",
+      "request_id": null,
+      "timestamp": "1785325480211035194"
+    },
+    {
+      "level": null,
+      "message": "Get:6 http://archive.ubuntu.com/ubuntu noble-updates InRelease [126 kB]",
+      "replica": "g00r0",
+      "request_id": null,
+      "timestamp": "1785325480265402617"
+    },
+    {
+      "level": null,
+      "message": "Get:7 http://security.ubuntu.com/ubuntu noble-security/main amd64 Packages [1110 kB]",
+      "replica": "g00r0",
+      "request_id": null,
+      "timestamp": "1785325480819385313"
+    },
+    {
+      "level": null,
+      "message": "Get:8 http://security.ubuntu.com/ubuntu noble-security/universe amd64 Packages [1522 kB]",
+      "replica": "g00r0",
+      "request_id": null,
+      "timestamp": "1785325481158558460"
+    },
+    {
+      "level": null,
+      "message": "Get:9 http://security.ubuntu.com/ubuntu noble-security/multiverse amd64 Packages [50.0 kB]",
+      "replica": "g00r0",
+      "request_id": null,
+      "timestamp": "1785325481490725898"
+    },
+    {
+      "level": null,
+      "message": "Get:10 http://archive.ubuntu.com/ubuntu noble-backports InRelease [126 kB]",
+      "replica": "g00r0",
+      "request_id": null,
+      "timestamp": "1785325481528352137"
+    },
+    {
+      "level": null,
+      "message": "Get:11 http://archive.ubuntu.com/ubuntu noble/main amd64 Packages [1808 kB]",
+      "replica": "g00r0",
+      "request_id": null,
+      "timestamp": "1785325481816097629"
+    },
+    {
+      "level": null,
+      "message": "Get:12 http://archive.ubuntu.com/ubuntu noble/restricted amd64 Packages [117 kB]",
+      "replica": "g00r0",
+      "request_id": null,
+      "timestamp": "1785325481951352635"
+    },
+    {
+      "level": null,
+      "message": "Get:13 http://archive.ubuntu.com/ubuntu noble/universe amd64 Packages [19.3 MB]",
+      "replica": "g00r0",
+      "request_id": null,
+      "timestamp": "1785325481964239302"
+    },
+    {
+      "level": null,
+      "message": "Get:14 http://archive.ubuntu.com/ubuntu noble/multiverse amd64 Packages [331 kB]",
+      "replica": "g00r0",
+      "request_id": null,
+      "timestamp": "1785325482105963348"
+    },
+    {
+      "level": null,
+      "message": "Get:15 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 Packages [1433 kB]",
+      "replica": "g00r0",
+      "request_id": null,
+      "timestamp": "1785325482120780918"
+    },
+    {
+      "level": null,
+      "message": "Get:16 http://archive.ubuntu.com/ubuntu noble-updates/multiverse amd64 Packages [55.8 kB]",
+      "replica": "g00r0",
+      "request_id": null,
+      "timestamp": "1785325482139929828"
+    },
+    {
+      "level": null,
+      "message": "Get:17 http://archive.ubuntu.com/ubuntu noble-updates/restricted amd64 Packages [1700 kB]",
+      "replica": "g00r0",
+      "request_id": null,
+      "timestamp": "1785325482152035597"
+    },
+    {
+      "level": null,
+      "message": "Get:18 http://archive.ubuntu.com/ubuntu noble-updates/universe amd64 Packages [2135 kB]",
+      "replica": "g00r0",
+      "request_id": null,
+      "timestamp": "1785325482177820377"
+    },
+    {
+      "level": null,
+      "message": "Get:19 http://archive.ubuntu.com/ubuntu noble-backports/universe amd64 Packages [37.7 kB]",
+      "replica": "g00r0",
+      "request_id": null,
+      "timestamp": "1785325482197438127"
+    },
+    {
+      "level": null,
+      "message": "Get:20 http://archive.ubuntu.com/ubuntu noble-backports/multiverse amd64 Packages [671 B]",
+      "replica": "g00r0",
+      "request_id": null,
+      "timestamp": "1785325482206322885"
+    },
+    {
+      "level": null,
+      "message": "Get:21 http://archive.ubuntu.com/ubuntu noble-backports/main amd64 Packages [48.9 kB]",
+      "replica": "g00r0",
+      "request_id": null,
+      "timestamp": "1785325482216730764"
+    },
+    {
+      "level": null,
+      "message": "Fetched 33.6 MB in 6s (5840 kB/s)",
+      "replica": "g00r0",
+      "request_id": null,
+      "timestamp": "1785325482837462538"
+    },
+    {
+      "level": null,
+      "message": "Reading package lists...",
+      "replica": "g00r0",
+      "request_id": null,
+      "timestamp": "1785325483441295048"
+    },
+    {
+      "level": null,
+      "message": "Reading package lists...",
+      "replica": "g00r0",
+      "request_id": null,
+      "timestamp": "1785325484055752361"
+    },
+    {
+      "level": null,
+      "message": "Building dependency tree...",
+      "replica": "g00r0",
+      "request_id": null,
+      "timestamp": "1785325484177114808"
+    },
+    {
+      "level": null,
+      "message": "Reading state information...",
+      "replica": "g00r0",
+      "request_id": null,
+      "timestamp": "1785325484177191999"
+    },
+    {
+      "level": null,
+      "message": "infiniband-diags is already the newest version (50.0-2ubuntu0.2).",
+      "replica": "g00r0",
+      "request_id": null,
+      "timestamp": "1785325484345857403"
+    },
+    {
+      "level": null,
+      "message": "libibverbs1 is already the newest version (50.0-2ubuntu0.2).",
+      "replica": "g00r0",
+      "request_id": null,
+      "timestamp": "1785325484345869278"
+    },
+    {
+      "level": null,
+      "message": "libibverbs-dev is already the newest version (50.0-2ubuntu0.2).",
+      "replica": "g00r0",
+      "request_id": null,
+      "timestamp": "1785325484345871488"
+    },
+    {
+      "level": null,
+      "message": "librdmacm1t64 is already the newest version (50.0-2ubuntu0.2).",
+      "replica": "g00r0",
+      "request_id": null,
+      "timestamp": "1785325484345872937"
+    },
+    {
+      "level": null,
+      "message": "librdmacm-dev is already the newest version (50.0-2ubuntu0.2).",
+      "replica": "g00r0",
+      "request_id": null,
+      "timestamp": "1785325484345874906"
+    },
+    {
+      "level": null,
+      "message": "ibverbs-providers is already the newest version (50.0-2ubuntu0.2).",
+      "replica": "g00r0",
+      "request_id": null,
+      "timestamp": "1785325484345876695"
+    },
+    {
+      "level": null,
+      "message": "ibverbs-utils is already the newest version (50.0-2ubuntu0.2).",
+      "replica": "g00r0",
+      "request_id": null,
+      "timestamp": "1785325484345885899"
+    },
+    {
+      "level": null,
+      "message": "rdmacm-utils is already the newest version (50.0-2ubuntu0.2).",
+      "replica": "g00r0",
+      "request_id": null,
+      "timestamp": "1785325484345887019"
+    },
+    {
+      "level": null,
+      "message": "0 upgraded, 0 newly installed, 0 to remove and 38 not upgraded.",
+      "replica": "g00r0",
+      "request_id": null,
+      "timestamp": "1785325484345898239"
+    },
+    {
+      "level": null,
+      "message": "Using resolved leader address from init container: baseten-training-job-wpdvvpw-multinode-0.baseten-training-job-wpdvvpw-multinode.org-99340d71961343c28c5c567d705ab0c0",
+      "replica": "g00r0",
+      "request_id": null,
+      "timestamp": "1785325484347310380"
+    },
+    {
+      "level": null,
+      "message": "8aaa196939c70d9ce36879d25b1c0a88a011692d090b28a3c65785ba206668f9  /root/.cache/team_artifacts/dsa_ab_validation/topk_call_41.pt",
+      "replica": "g00r0",
+      "request_id": null,
+      "timestamp": "1785325484608498091"
+    },
+    {
+      "level": null,
+      "message": "WHEEL_VERSION rank0: 1.26.0+dsatopk1",
+      "replica": "g00r0",
+      "request_id": null,
+      "timestamp": "1785325484692429961"
+    },
+    {
+      "level": null,
+      "message": "--- phase 1: frozen kernel artifacts on fresh GPU 0 ---",
+      "replica": "g00r0",
+      "request_id": null,
+      "timestamp": "1785325484692460252"
+    },
+    {
+      "level": null,
+      "message": "/app/.venv/lib/python3.12/site-packages/torch/cuda/__init__.py:61: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.",
+      "replica": "g00r0",
+      "request_id": null,
+      "timestamp": "1785325485182397920"
+    },
+    {
+      "level": null,
+      "message": "  import pynvml  # type: ignore[import]",
+      "replica": "g00r0",
+      "request_id": null,
+      "timestamp": "1785325485182433763"
+    },
+    {
+      "level": null,
+      "message": "{'scores_flat': (862, 4310), 'dtype': 'torch.float32', 'seq_lens': (862,), 'seq_lens_min': 3449, 'seq_lens_max': 4310, 'topk_k': 2048, 'call_index': 41, 'scores_min': -inf, 'scores_max': 192616.546875, 'scores_neginf_frac': 0.09988398849964142, 'scores_nan': 0}",
+      "replica": "g00r0",
+      "request_id": null,
+      "timestamp": "1785325485836461980"
+    },
+    {
+      "level": null,
+      "message": "OK indices=(862, 2048) idx_min=0 idx_max=4309",
+      "replica": "g00r0",
+      "request_id": null,
+      "timestamp": "1785325491326704706"
+    },
+    {
+      "level": null,
+      "message": "PASS_replay_topk",
+      "replica": "g00r0",
+      "request_id": null,
+      "timestamp": "1785325492145416415"
+    },
+    {
+      "level": null,
+      "message": "Copying artifacts to (/b10/workspace)",
+      "replica": "g00r1",
+      "request_id": null,
+      "timestamp": "1785325492169868291"
+    },
+    {
+      "level": null,
+      "message": "Installing InfiniBand packages...",
+      "replica": "g00r1",
+      "request_id": null,
+      "timestamp": "1785325492170966951"
+    },
+    {
+      "level": null,
+      "message": "Get:1 http://archive.ubuntu.com/ubuntu noble InRelease [256 kB]",
+      "replica": "g00r1",
+      "request_id": null,
+      "timestamp": "1785325492622814894"
+    },
+    {
+      "level": null,
+      "message": "/app/.venv/lib/python3.12/site-packages/torch/cuda/__init__.py:61: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.",
+      "replica": "g00r0",
+      "request_id": null,
+      "timestamp": "1785325492624715058"
+    },
+    {
+      "level": null,
+      "message": "  import pynvml  # type: ignore[import]",
+      "replica": "g00r0",
+      "request_id": null,
+      "timestamp": "1785325492624744033"
+    },
+    {
+      "level": null,
+      "message": "Get:2 http://security.ubuntu.com/ubuntu noble-security InRelease [126 kB]",
+      "replica": "g00r1",
+      "request_id": null,
+      "timestamp": "1785325492751194206"
+    },
+    {
+      "level": null,
+      "message": "Get:3 http://archive.ubuntu.com/ubuntu noble-updates InRelease [126 kB]",
+      "replica": "g00r1",
+      "request_id": null,
+      "timestamp": "1785325493620768459"
+    },
+    {
+      "level": null,
+      "message": "Get:4 http://archive.ubuntu.com/ubuntu noble-backports InRelease [126 kB]",
+      "replica": "g00r1",
+      "request_id": null,
+      "timestamp": "1785325493863349244"
+    },
+    {
+      "level": null,
+      "message": "Get:5 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64  InRelease [1581 B]",
+      "replica": "g00r1",
+      "request_id": null,
+      "timestamp": "1785325493882232395"
+    },
+    {
+      "level": null,
+      "message": "Get:6 http://security.ubuntu.com/ubuntu noble-security/universe amd64 Packages [1522 kB]",
+      "replica": "g00r1",
+      "request_id": null,
+      "timestamp": "1785325494022297625"
+    },
+    {
+      "level": null,
+      "message": "Get:7 http://archive.ubuntu.com/ubuntu noble/main amd64 Packages [1808 kB]",
+      "replica": "g00r1",
+      "request_id": null,
+      "timestamp": "1785325494106815715"
+    },
+    {
+      "level": null,
+      "message": "Get:8 http://archive.ubuntu.com/ubuntu noble/universe amd64 Packages [19.3 MB]",
+      "replica": "g00r1",
+      "request_id": null,
+      "timestamp": "1785325494676927482"
+    },
+    {
+      "level": null,
+      "message": "Get:9 http://archive.ubuntu.com/ubuntu noble/restricted amd64 Packages [117 kB]",
+      "replica": "g00r1",
+      "request_id": null,
+      "timestamp": "1785325495291811330"
+    },
+    {
+      "level": null,
+      "message": "Get:10 http://archive.ubuntu.com/ubuntu noble/multiverse amd64 Packages [331 kB]",
+      "replica": "g00r1",
+      "request_id": null,
+      "timestamp": "1785325495292259916"
+    },
+    {
+      "level": null,
+      "message": "Get:11 http://archive.ubuntu.com/ubuntu noble-updates/multiverse amd64 Packages [55.8 kB]",
+      "replica": "g00r1",
+      "request_id": null,
+      "timestamp": "1785325495293589608"
+    },
+    {
+      "level": null,
+      "message": "Get:12 http://archive.ubuntu.com/ubuntu noble-updates/restricted amd64 Packages [1700 kB]",
+      "replica": "g00r1",
+      "request_id": null,
+      "timestamp": "1785325495293831347"
+    },
+    {
+      "level": null,
+      "message": "Get:13 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 Packages [1433 kB]",
+      "replica": "g00r1",
+      "request_id": null,
+      "timestamp": "1785325495327621426"
+    },
+    {
+      "level": null,
+      "message": "Get:14 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64  Packages [1689 kB]",
+      "replica": "g00r1",
+      "request_id": null,
+      "timestamp": "1785325495346208463"
+    },
+    {
+      "level": null,
+      "message": "Get:15 http://archive.ubuntu.com/ubuntu noble-updates/universe amd64 Packages [2135 kB]",
+      "replica": "g00r1",
+      "request_id": null,
+      "timestamp": "1785325495355521244"
+    },
+    {
+      "level": null,
+      "message": "Get:16 http://archive.ubuntu.com/ubuntu noble-backports/multiverse amd64 Packages [671 B]",
+      "replica": "g00r1",
+      "request_id": null,
+      "timestamp": "1785325495390934667"
+    },
+    {
+      "level": null,
+      "message": "Get:17 http://archive.ubuntu.com/ubuntu noble-backports/universe amd64 Packages [37.7 kB]",
+      "replica": "g00r1",
+      "request_id": null,
+      "timestamp": "1785325495391715713"
+    },
+    {
+      "level": null,
+      "message": "Get:18 http://archive.ubuntu.com/ubuntu noble-backports/main amd64 Packages [48.9 kB]",
+      "replica": "g00r1",
+      "request_id": null,
+      "timestamp": "1785325495391890325"
+    },
+    {
+      "level": null,
+      "message": "Get:19 http://security.ubuntu.com/ubuntu noble-security/restricted amd64 Packages [1587 kB]",
+      "replica": "g00r1",
+      "request_id": null,
+      "timestamp": "1785325495986791944"
+    },
+    {
+      "level": null,
+      "message": "PASS: top-k results match reference",
+      "replica": "g00r0",
+      "request_id": null,
+      "timestamp": "1785325496528619265"
+    },
+    {
+      "level": null,
+      "message": "Get:20 http://security.ubuntu.com/ubuntu noble-security/multiverse amd64 Packages [50.0 kB]",
+      "replica": "g00r1",
+      "request_id": null,
+      "timestamp": "1785325496534670812"
+    },
+    {
+      "level": null,
+      "message": "Get:21 http://security.ubuntu.com/ubuntu noble-security/main amd64 Packages [1110 kB]",
+      "replica": "g00r1",
+      "request_id": null,
+      "timestamp": "1785325496534868247"
+    },
+    {
+      "level": null,
+      "message": "Fetched 33.6 MB in 5s (7378 kB/s)",
+      "replica": "g00r1",
+      "request_id": null,
+      "timestamp": "1785325496743715236"
+    },
+    {
+      "level": null,
+      "message": "PASS_synthetic",
+      "replica": "g00r0",
+      "request_id": null,
+      "timestamp": "1785325497222933434"
+    },
+    {
+      "level": null,
+      "message": "--- phase 2: trainer boot (rank 0) ---",
+      "replica": "g00r0",
+      "request_id": null,
+      "timestamp": "1785325497222957578"
+    },
+    {
+      "level": null,
+      "message": "Reading package lists...",
+      "replica": "g00r1",
+      "request_id": null,
+      "timestamp": "1785325497370668096"
+    },
+    {
+      "level": null,
+      "message": "Reading package lists...",
+      "replica": "g00r1",
+      "request_id": null,
+      "timestamp": "1785325498000144792"
+    },
+    {
+      "level": null,
+      "message": "Building dependency tree...",
+      "replica": "g00r1",
+      "request_id": null,
+      "timestamp": "1785325498122664753"
+    },
+    {
+      "level": null,
+      "message": "Reading state information...",
+      "replica": "g00r1",
+      "request_id": null,
+      "timestamp": "1785325498122752772"
+    },
+    {
+      "level": null,
+      "message": "infiniband-diags is already the newest version (50.0-2ubuntu0.2).",
+      "replica": "g00r1",
+      "request_id": null,
+      "timestamp": "1785325498290119251"
+    },
+    {
+      "level": null,
+      "message": "libibverbs1 is already the newest version (50.0-2ubuntu0.2).",
+      "replica": "g00r1",
+      "request_id": null,
+      "timestamp": "1785325498290127044"
+    },
+    {
+      "level": null,
+      "message": "libibverbs-dev is already the newest version (50.0-2ubuntu0.2).",
+      "replica": "g00r1",
+      "request_id": null,
+      "timestamp": "1785325498290129397"
+    },
+    {
+      "level": null,
+      "message": "librdmacm1t64 is already the newest version (50.0-2ubuntu0.2).",
+      "replica": "g00r1",
+      "request_id": null,
+      "timestamp": "1785325498290131497"
+    },
+    {
+      "level": null,
+      "message": "librdmacm-dev is already the newest version (50.0-2ubuntu0.2).",
+      "replica": "g00r1",
+      "request_id": null,
+      "timestamp": "1785325498290133000"
+    },
+    {
+      "level": null,
+      "message": "ibverbs-providers is already the newest version (50.0-2ubuntu0.2).",
+      "replica": "g00r1",
+      "request_id": null,
+      "timestamp": "1785325498290135718"
+    },
+    {
+      "level": null,
+      "message": "ibverbs-utils is already the newest version (50.0-2ubuntu0.2).",
+      "replica": "g00r1",
+      "request_id": null,
+      "timestamp": "1785325498290144418"
+    },
+    {
+      "level": null,
+      "message": "rdmacm-utils is already the newest version (50.0-2ubuntu0.2).",
+      "replica": "g00r1",
+      "request_id": null,
+      "timestamp": "1785325498290146095"
+    },
+    {
+      "level": null,
+      "message": "0 upgraded, 0 newly installed, 0 to remove and 38 not upgraded.",
+      "replica": "g00r1",
+      "request_id": null,
+      "timestamp": "1785325498290167978"
+    },
+    {
+      "level": null,
+      "message": "Using resolved leader address from init container: baseten-training-job-wpdvvpw-multinode-0.baseten-training-job-wpdvvpw-multinode.org-99340d71961343c28c5c567d705ab0c0",
+      "replica": "g00r1",
+      "request_id": null,
+      "timestamp": "1785325498291936372"
+    },
+    {
+      "level": null,
+      "message": "8aaa196939c70d9ce36879d25b1c0a88a011692d090b28a3c65785ba206668f9  /root/.cache/team_artifacts/dsa_ab_validation/topk_call_41.pt",
+      "replica": "g00r1",
+      "request_id": null,
+      "timestamp": "1785325498518105201"
+    },
+    {
+      "level": null,
+      "message": "WHEEL_VERSION rank1: 1.26.0+dsatopk1",
+      "replica": "g00r1",
+      "request_id": null,
+      "timestamp": "1785325498599631634"
+    },
+    {
+      "level": null,
+      "message": "--- phase 2: trainer boot (rank 1) ---",
+      "replica": "g00r1",
+      "request_id": null,
+      "timestamp": "1785325498599649843"
+    },
+    {
+      "level": null,
+      "message": "trainer healthy; status:",
+      "replica": "g00r0",
+      "request_id": null,
+      "timestamp": "1785326217461616049"
+    },
+    {
+      "level": null,
+      "message": "{\"mode\":\"training\",\"step\":0,\"model_id\":\"zai-org/GLM-5.2-FP8\",\"device\":\"cuda:0\",\"last_loss\":null,\"grad_norm\":null,\"gpu_memory\":{\"cuda:0\":133548736512},\"world_size\":16,\"tensor_parallel_size\":1,\"pipeline_parallel_size\":1,\"expert_parallel_size\":16,\"context_parallel_size\":16,\"expert_tensor_parallel_size\":1,\"data_parallel_size\":1,\"max_seq_len\":262144}",
+      "replica": "g00r0",
+      "request_id": null,
+      "timestamp": "1785326217472232422"
+    },
+    {
+      "level": null,
+      "message": "[11:56:57] trainer status: step=0 world=16 CP=16 EP=16",
+      "replica": "g00r0",
+      "request_id": null,
+      "timestamp": "1785326217678456522"
+    },
+    {
+      "level": null,
+      "message": "[11:56:57] === cycle 0 data-mode=agent data-seed=99 shape-seed=99 ===",
+      "replica": "g00r0",
+      "request_id": null,
+      "timestamp": "1785326217678477606"
+    },
+    {
+      "level": null,
+      "message": "[11:56:57] --- crash step (6d85/08ce/a369 shapes) ---",
+      "replica": "g00r0",
+      "request_id": null,
+      "timestamp": "1785326217678489522"
+    },
+    {
+      "level": null,
+      "message": "[11:56:57] frozen 6d8548d7: n=11 total=508992 sha256=db9b8c1e6ff3324f...",
+      "replica": "g00r0",
+      "request_id": null,
+      "timestamp": "1785326217747087401"
+    },
+    {
+      "level": null,
+      "message": "[11:56:57] frozen 08cee77a: n=26 total=1248558 sha256=cc02c1aa95eb721a...",
+      "replica": "g00r0",
+      "request_id": null,
+      "timestamp": "1785326217909662391"
+    },
+    {
+      "level": null,
+      "message": "[11:56:58] frozen a369ffe9: n=39 total=1329907 sha256=fb0d12cc4fd74338...",
+      "replica": "g00r0",
+      "request_id": null,
+      "timestamp": "1785326218097115650"
+    },
+    {
+      "level": null,
+      "message": "[11:56:58] submitted 6d8548d7 op=ca5a4f2769814bdfb08fc4ad0ad1e71d",
+      "replica": "g00r0",
+      "request_id": null,
+      "timestamp": "1785326218206570945"
+    },
+    {
+      "level": null,
+      "message": "[11:56:59] submitted 08cee77a op=0b0fd5d2db9b433eb8d42f2996fe07ba",
+      "replica": "g00r0",
+      "request_id": null,
+      "timestamp": "1785326219494837836"
+    },
+    {
+      "level": null,
+      "message": "[11:57:02] submitted a369ffe9 op=d05837e17e994dcdbd90e20e4d8c8cc1",
+      "replica": "g00r0",
+      "request_id": null,
+      "timestamp": "1785326222103772778"
+    },
+    {
+      "level": null,
+      "message": "[11:58:41] done 6d8548d7: loss=8.247044 (103.6s)",
+      "replica": "g00r0",
+      "request_id": null,
+      "timestamp": "1785326321843786450"
+    },
+    {
+      "level": null,
+      "message": "[12:01:13] done 08cee77a: loss=1.731324 (253.8s)",
+      "replica": "g00r0",
+      "request_id": null,
+      "timestamp": "1785326473335325650"
+    },
+    {
+      "level": null,
+      "message": "[12:03:58] done a369ffe9: loss=2.852149 (416.2s)",
+      "replica": "g00r0",
+      "request_id": null,
+      "timestamp": "1785326638340174228"
+    },
+    {
+      "level": null,
+      "message": "[12:04:05] optim_step done (6.9s)",
+      "replica": "g00r0",
+      "request_id": null,
+      "timestamp": "1785326645304362424"
+    },
+    {
+      "level": null,
+      "message": "[12:04:05] --- post step (339c shape) ---",
+      "replica": "g00r0",
+      "request_id": null,
+      "timestamp": "1785326645343872193"
+    },
+    {
+      "level": null,
+      "message": "[12:04:05] frozen 339c67dd: n=26 total=843999 sha256=d5070add0d590869...",
+      "replica": "g00r0",
+      "request_id": null,
+      "timestamp": "1785326645448927615"
+    },
+    {
+      "level": null,
+      "message": "[12:04:05] submitted 339c67dd op=43978a1f013b4995941057efe8251c38",
+      "replica": "g00r0",
+      "request_id": null,
+      "timestamp": "1785326645606990759"
+    },
+    {
+      "level": null,
+      "message": "[12:07:12] done 339c67dd: loss=2.720488 (187.1s)",
+      "replica": "g00r0",
+      "request_id": null,
+      "timestamp": "1785326832678172691"
+    },
+    {
+      "level": null,
+      "message": "[12:07:12] optim_step done (0.1s)",
+      "replica": "g00r0",
+      "request_id": null,
+      "timestamp": "1785326832740923514"
+    },
+    {
+      "level": null,
+      "message": "[12:07:12] === cycle 0 COMPLETED CLEAN ===",
+      "replica": "g00r0",
+      "request_id": null,
+      "timestamp": "1785326832750669074"
+    },
+    {
+      "level": null,
+      "message": "[12:07:12] all cycles completed without crash",
+      "replica": "g00r0",
+      "request_id": null,
+      "timestamp": "1785326832750761433"
+    },
+    {
+      "level": null,
+      "message": "BEGIN_VALIDATION_JSON",
+      "replica": "g00r0",
+      "request_id": null,
+      "timestamp": "1785326832799915820"
+    },
+    {
+      "level": null,
+      "message": "{\"validation\": \"PASS\", \"wheel\": \"1.26.0+dsatopk1\", \"artifact_sha256\": \"8aaa196939c70d9ce36879d25b1c0a88a011692d090b28a3c65785ba206668f9\"}",
+      "replica": "g00r0",
+      "request_id": null,
+      "timestamp": "1785326832816641761"
+    },
+    {
+      "level": null,
+      "message": "END_VALIDATION_JSON",
+      "replica": "g00r0",
+      "request_id": null,
+      "timestamp": "1785326832816650526"
+    },
+    {
+      "level": null,
+      "message": "VALIDATION_PASS",
+      "replica": "g00r0",
+      "request_id": null,
+      "timestamp": "1785326832816653036"
+    }
+  ],
+  "training_job": {
+    "availability_model": "dedicated",
+    "checkpoint_sync_status": null,
+    "created_at": "2026-07-29T11:42:49.936Z",
+    "current_status": "TRAINING_JOB_COMPLETED",
+    "error_message": null,
+    "id": "wpdvvpw",
+    "instance_type": {
+      "gpu_count": 8,
+      "gpu_memory_limit_mib": 2200320,
+      "gpu_type": "B300",
+      "id": "N:B300",
+      "memory_limit_mib": 3670016,
+      "millicpu_limit": 224000,
+      "name": "N:B300 - Variable Node B300 (8 GPUs per node)"
+    },
+    "name": "job-1",
+    "priority": 0,
+    "training_project": {
+      "id": "zq857dq",
+      "name": "glm52-dsa-fixed-image-validation-2026-07-29"
+    },
+    "training_project_id": "zq857dq",
+    "updated_at": "2026-07-29T11:42:56.040Z",
+    "user": {
+      "email": "jack.rao+parsed@baseten.co"
+    }
+  }
+}

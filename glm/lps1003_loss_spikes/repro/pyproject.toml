@@ -1,0 +1,18 @@
+[project]
+name = "oe-repro"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = [
+    "baseten-loops[tinker]>=0.13.0",
+    "tinker-cookbook>=0.5.2",
+    "transformers>=5.5.4",
+    "wandb>=0.28.1",
+]
+
+# CRITICAL: tinker-cookbook depends on the UPSTREAM `tinker` package, which would install
+# on top of Baseten's compat overlay and win. `import tinker` would then resolve to
+# tinker.thinkingmachines.dev and — if TINKER_API_KEY is in the environment — silently
+# authenticate and train on Thinking Machines instead of Baseten. The impossible marker
+# below drops upstream tinker entirely. Declare this BEFORE the first `uv sync`.
+[tool.uv]
+override-dependencies = ["tinker ; python_version < '0'"]

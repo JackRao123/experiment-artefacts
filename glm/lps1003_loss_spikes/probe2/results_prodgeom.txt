@@ -1,0 +1,146 @@
+Warning: safe-chain is not available. python3 will run without it.
+alloc_conf=expandable_segments:True sentinel=200003
+
+rows=6656 sk=39501 k=2048 windows=arange[4192,27174] pattern=relu_flood sk_odd=True short_rows=0 radix_rows=6656
+  rep0: ctrl=1.0000 unwritten=0 short_rows_deficit=0 oor=0 dup=0 neg=0
+  rep1: ctrl=1.0000 unwritten=0 short_rows_deficit=0 oor=0 dup=0 neg=0
+
+rows=6656 sk=39501 k=2048 windows=arange[4192,27174] pattern=all_tied sk_odd=True short_rows=0 radix_rows=6656
+  rep0: ctrl=1.0000 unwritten=0 short_rows_deficit=0 oor=0 dup=0 neg=0
+  rep1: ctrl=1.0000 unwritten=0 short_rows_deficit=0 oor=0 dup=0 neg=0
+
+rows=6656 sk=39501 k=2048 windows=interleaved[4192,27174] pattern=relu_flood sk_odd=True short_rows=0 radix_rows=6656
+  rep0: ctrl=1.0000 unwritten=0 short_rows_deficit=0 oor=0 dup=0 neg=0
+  rep1: ctrl=1.0000 unwritten=0 short_rows_deficit=0 oor=0 dup=0 neg=0
+
+rows=6656 sk=39501 k=2048 windows=interleaved[4192,27174] pattern=all_tied sk_odd=True short_rows=0 radix_rows=6656
+  rep0: ctrl=1.0000 unwritten=0 short_rows_deficit=0 oor=0 dup=0 neg=0
+  rep1: ctrl=1.0000 unwritten=0 short_rows_deficit=0 oor=0 dup=0 neg=0
+
+rows=6656 sk=39501 k=2048 windows=arange[11914,39501] pattern=relu_flood sk_odd=True short_rows=0 radix_rows=6656
+  rep0: ctrl=1.0000 unwritten=0 short_rows_deficit=0 oor=0 dup=0 neg=0
+  rep1: ctrl=1.0000 unwritten=0 short_rows_deficit=0 oor=0 dup=0 neg=0
+
+rows=6656 sk=39501 k=2048 windows=arange[11914,39501] pattern=all_tied sk_odd=True short_rows=0 radix_rows=6656
+  rep0: ctrl=1.0000 unwritten=0 short_rows_deficit=0 oor=0 dup=0 neg=0
+  rep1: ctrl=1.0000 unwritten=0 short_rows_deficit=0 oor=0 dup=0 neg=0
+
+rows=6656 sk=39501 k=2048 windows=interleaved[11914,39501] pattern=relu_flood sk_odd=True short_rows=0 radix_rows=6656
+  rep0: ctrl=1.0000 unwritten=0 short_rows_deficit=0 oor=0 dup=0 neg=0
+  rep1: ctrl=1.0000 unwritten=0 short_rows_deficit=0 oor=0 dup=0 neg=0
+
+rows=6656 sk=39501 k=2048 windows=interleaved[11914,39501] pattern=all_tied sk_odd=True short_rows=0 radix_rows=6656
+  rep0: ctrl=1.0000 unwritten=0 short_rows_deficit=0 oor=0 dup=0 neg=0
+  rep1: ctrl=1.0000 unwritten=0 short_rows_deficit=0 oor=0 dup=0 neg=0
+
+rows=2602 sk=39501 k=2048 windows=arange[19824,36225] pattern=relu_flood sk_odd=True short_rows=0 radix_rows=2602
+  rep0: ctrl=1.0000 unwritten=0 short_rows_deficit=0 oor=0 dup=0 neg=0
+  rep1: ctrl=1.0000 unwritten=0 short_rows_deficit=0 oor=0 dup=0 neg=0
+
+rows=2602 sk=39501 k=2048 windows=arange[19824,36225] pattern=all_tied sk_odd=True short_rows=0 radix_rows=2602
+  rep0: ctrl=1.0000 unwritten=0 short_rows_deficit=0 oor=0 dup=0 neg=0
+  rep1: ctrl=1.0000 unwritten=0 short_rows_deficit=0 oor=0 dup=0 neg=0
+
+rows=2602 sk=39501 k=2048 windows=interleaved[19824,36225] pattern=relu_flood sk_odd=True short_rows=0 radix_rows=2602
+  rep0: ctrl=1.0000 unwritten=0 short_rows_deficit=0 oor=0 dup=0 neg=0
+  rep1: ctrl=1.0000 unwritten=0 short_rows_deficit=0 oor=0 dup=0 neg=0
+
+rows=2602 sk=39501 k=2048 windows=interleaved[19824,36225] pattern=all_tied sk_odd=True short_rows=0 radix_rows=2602
+  rep0: ctrl=1.0000 unwritten=0 short_rows_deficit=0 oor=0 dup=0 neg=0
+  rep1: ctrl=1.0000 unwritten=0 short_rows_deficit=0 oor=0 dup=0 neg=0
+
+rows=4096 sk=58311 k=2048 windows=arange[1,58311] pattern=relu_flood sk_odd=True short_rows=144 radix_rows=3952
+  rep0: ctrl=1.0000 unwritten=0 short_rows_deficit=0 oor=0 dup=0 neg=148160
+  rep1: ctrl=1.0000 unwritten=0 short_rows_deficit=0 oor=0 dup=0 neg=148160
+
+rows=4096 sk=58311 k=2048 windows=arange[1,58311] pattern=all_tied sk_odd=True short_rows=144 radix_rows=3952
+  rep0: ctrl=1.0000 unwritten=0 short_rows_deficit=0 oor=0 dup=0 neg=148160
+  rep1: ctrl=1.0000 unwritten=0 short_rows_deficit=0 oor=0 dup=0 neg=148160
+
+rows=4096 sk=58311 k=2048 windows=interleaved[1,58311] pattern=relu_flood sk_odd=True short_rows=144 radix_rows=3952
+  rep0: ctrl=1.0000 unwritten=0 short_rows_deficit=0 oor=0 dup=0 neg=151128
+  rep1: ctrl=1.0000 unwritten=0 short_rows_deficit=0 oor=0 dup=0 neg=151128
+
+rows=4096 sk=58311 k=2048 windows=interleaved[1,58311] pattern=all_tied sk_odd=True short_rows=144 radix_rows=3952
+  rep0: ctrl=1.0000 unwritten=0 short_rows_deficit=0 oor=0 dup=0 neg=151128
+  rep1: ctrl=1.0000 unwritten=0 short_rows_deficit=0 oor=0 dup=0 neg=151128
+
+rows=5120 sk=48906 k=2048 windows=arange[1,48906] pattern=relu_flood sk_odd=True short_rows=215 radix_rows=4905
+  rep0: ctrl=1.0000 unwritten=0 short_rows_deficit=0 oor=0 dup=0 neg=220323
+  rep1: ctrl=1.0000 unwritten=0 short_rows_deficit=0 oor=0 dup=0 neg=220323
+
+rows=5120 sk=48906 k=2048 windows=arange[1,48906] pattern=all_tied sk_odd=True short_rows=215 radix_rows=4905
+  rep0: ctrl=1.0000 unwritten=0 short_rows_deficit=0 oor=0 dup=0 neg=220323
+  rep1: ctrl=1.0000 unwritten=0 short_rows_deficit=0 oor=0 dup=0 neg=220323
+
+rows=5120 sk=48906 k=2048 windows=interleaved[1,48906] pattern=relu_flood sk_odd=True short_rows=216 radix_rows=4904
+  rep0: ctrl=1.0000 unwritten=0 short_rows_deficit=0 oor=0 dup=0 neg=223284
+  rep1: ctrl=1.0000 unwritten=0 short_rows_deficit=0 oor=0 dup=0 neg=223284
+
+rows=5120 sk=48906 k=2048 windows=interleaved[1,48906] pattern=all_tied sk_odd=True short_rows=216 radix_rows=4904
+  rep0: ctrl=1.0000 unwritten=0 short_rows_deficit=0 oor=0 dup=0 neg=223284
+  rep1: ctrl=1.0000 unwritten=0 short_rows_deficit=0 oor=0 dup=0 neg=223284
+
+rows=4608 sk=52668 k=2048 windows=arange[26000,52668] pattern=relu_flood sk_odd=True short_rows=0 radix_rows=4608
+  rep0: ctrl=1.0000 unwritten=0 short_rows_deficit=0 oor=0 dup=0 neg=0
+  rep1: ctrl=1.0000 unwritten=0 short_rows_deficit=0 oor=0 dup=0 neg=0
+
+rows=4608 sk=52668 k=2048 windows=arange[26000,52668] pattern=all_tied sk_odd=True short_rows=0 radix_rows=4608
+  rep0: ctrl=1.0000 unwritten=0 short_rows_deficit=0 oor=0 dup=0 neg=0
+  rep1: ctrl=1.0000 unwritten=0 short_rows_deficit=0 oor=0 dup=0 neg=0
+
+rows=4608 sk=52668 k=2048 windows=interleaved[26000,52668] pattern=relu_flood sk_odd=True short_rows=0 radix_rows=4608
+  rep0: ctrl=1.0000 unwritten=0 short_rows_deficit=0 oor=0 dup=0 neg=0
+  rep1: ctrl=1.0000 unwritten=0 short_rows_deficit=0 oor=0 dup=0 neg=0
+
+rows=4608 sk=52668 k=2048 windows=interleaved[26000,52668] pattern=all_tied sk_odd=True short_rows=0 radix_rows=4608
+  rep0: ctrl=1.0000 unwritten=0 short_rows_deficit=0 oor=0 dup=0 neg=0
+  rep1: ctrl=1.0000 unwritten=0 short_rows_deficit=0 oor=0 dup=0 neg=0
+
+rows=8192 sk=32768 k=2048 windows=arange[1,32768] pattern=relu_flood sk_odd=False short_rows=512 radix_rows=7680
+  rep0: ctrl=1.0000 unwritten=0 short_rows_deficit=0 oor=0 dup=0 neg=524800
+  rep1: ctrl=1.0000 unwritten=0 short_rows_deficit=0 oor=0 dup=0 neg=524800
+
+rows=8192 sk=32768 k=2048 windows=arange[1,32768] pattern=all_tied sk_odd=False short_rows=512 radix_rows=7680
+  rep0: ctrl=1.0000 unwritten=0 short_rows_deficit=0 oor=0 dup=0 neg=524800
+  rep1: ctrl=1.0000 unwritten=0 short_rows_deficit=0 oor=0 dup=0 neg=524800
+
+rows=8192 sk=32768 k=2048 windows=interleaved[1,32768] pattern=relu_flood sk_odd=False short_rows=512 radix_rows=7680
+  rep0: ctrl=1.0000 unwritten=0 short_rows_deficit=0 oor=0 dup=0 neg=527636
+  rep1: ctrl=1.0000 unwritten=0 short_rows_deficit=0 oor=0 dup=0 neg=527636
+
+rows=8192 sk=32768 k=2048 windows=interleaved[1,32768] pattern=all_tied sk_odd=False short_rows=512 radix_rows=7680
+  rep0: ctrl=1.0000 unwritten=0 short_rows_deficit=0 oor=0 dup=0 neg=527636
+  rep1: ctrl=1.0000 unwritten=0 short_rows_deficit=0 oor=0 dup=0 neg=527636
+
+rows=15360 sk=17408 k=2048 windows=arange[15361,17408] pattern=relu_flood sk_odd=False short_rows=0 radix_rows=15360
+  rep0: ctrl=1.0000 unwritten=0 short_rows_deficit=0 oor=0 dup=0 neg=0
+  rep1: ctrl=1.0000 unwritten=0 short_rows_deficit=0 oor=0 dup=0 neg=0
+
+rows=15360 sk=17408 k=2048 windows=arange[15361,17408] pattern=all_tied sk_odd=False short_rows=0 radix_rows=15360
+  rep0: ctrl=1.0000 unwritten=0 short_rows_deficit=0 oor=0 dup=0 neg=0
+  rep1: ctrl=1.0000 unwritten=0 short_rows_deficit=0 oor=0 dup=0 neg=0
+
+rows=15360 sk=17408 k=2048 windows=interleaved[15361,17408] pattern=relu_flood sk_odd=False short_rows=0 radix_rows=15360
+  rep0: ctrl=1.0000 unwritten=0 short_rows_deficit=0 oor=0 dup=0 neg=0
+  rep1: ctrl=1.0000 unwritten=0 short_rows_deficit=0 oor=0 dup=0 neg=0
+
+rows=15360 sk=17408 k=2048 windows=interleaved[15361,17408] pattern=all_tied sk_odd=False short_rows=0 radix_rows=15360
+  rep0: ctrl=1.0000 unwritten=0 short_rows_deficit=0 oor=0 dup=0 neg=0
+  rep1: ctrl=1.0000 unwritten=0 short_rows_deficit=0 oor=0 dup=0 neg=0
+
+rows=4608 sk=20488 k=2048 windows=arange[1,2048] pattern=relu_flood sk_odd=False short_rows=4608 radix_rows=0
+  rep0: ctrl=1.0000 unwritten=0 short_rows_deficit=0 oor=0 dup=0 neg=4716288
+  rep1: ctrl=1.0000 unwritten=0 short_rows_deficit=0 oor=0 dup=0 neg=4716288
+
+rows=4608 sk=20488 k=2048 windows=arange[1,2048] pattern=all_tied sk_odd=False short_rows=4608 radix_rows=0
+  rep0: ctrl=1.0000 unwritten=0 short_rows_deficit=0 oor=0 dup=0 neg=4716288
+  rep1: ctrl=1.0000 unwritten=0 short_rows_deficit=0 oor=0 dup=0 neg=4716288
+
+rows=4608 sk=20488 k=2048 windows=interleaved[1,2048] pattern=relu_flood sk_odd=False short_rows=4608 radix_rows=0
+  rep0: ctrl=1.0000 unwritten=0 short_rows_deficit=0 oor=0 dup=0 neg=4716288
+  rep1: ctrl=1.0000 unwritten=0 short_rows_deficit=0 oor=0 dup=0 neg=4716288
+
+rows=4608 sk=20488 k=2048 windows=interleaved[1,2048] pattern=all_tied sk_odd=False short_rows=4608 radix_rows=0
+  rep0: ctrl=1.0000 unwritten=0 short_rows_deficit=0 oor=0 dup=0 neg=4716288
+  rep1: ctrl=1.0000 unwritten=0 short_rows_deficit=0 oor=0 dup=0 neg=4716288

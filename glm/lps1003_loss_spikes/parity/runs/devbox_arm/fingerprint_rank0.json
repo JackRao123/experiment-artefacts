@@ -1,0 +1,718 @@
+{
+ "hostname": "b300-1-4wprtzyj-0003",
+ "uname": "Linux b300-1-4wprtzyj-0003 6.6.102-5.200.al8.x86_64 #1 SMP PREEMPT_DYNAMIC Mon Dec 29 14:24:07 CST 2025 x86_64 x86_64 x86_64 GNU/Linux",
+ "os_release": "PRETTY_NAME=\"Ubuntu 24.04.1 LTS\"\nNAME=\"Ubuntu\"\nVERSION_ID=\"24.04\"",
+ "nvidia": "NVIDIA L20D, 580.105.08, 97.10.64.00.0C",
+ "nvidia_smi_version": "NVIDIA-SMI version  : 580.105.08\nNVML version        : 580.105\nDRIVER version      : 580.105.08\nCUDA Version        : 13.0",
+ "ldconfig_cuda": "libnccl.so.2 (libc6,x86-64) => /lib/x86_64-linux-gnu/libnccl.so.2\n\tlibnccl.so (libc6,x86-64) => /lib/x86_64-linux-gnu/libnccl.so\n\tlibcufftw.so.11 (libc6,x86-64) => /usr/local/cuda/targets/x86_64-linux/lib/libcufftw.so.11\n\tlibcufftw.so (libc6,x86-64) => /usr/local/cuda/targets/x86_64-linux/lib/libcufftw.so\n\tlibcufft.so.11 (libc6,x86-64) => /usr/local/cuda/targets/x86_64-linux/lib/libcufft.so.11\n\tlibcufft.so (libc6,x86-64) => /usr/local/cuda/targets/x86_64-linux/lib/libcufft.so\n\tlibcudart.so.12 (libc6,x86-64) => /usr/local/cuda/targets/x86_64-linux/lib/libcudart.so.12\n\tlibcudart.so (libc6,x86-64) => /usr/local/cuda/targets/x86_64-linux/lib/libcudart.so\n\tlibcublasLt.so.12 (libc6,x86-64) => /usr/local/cuda/targets/x86_64-linux/lib/libcublasLt.so.12\n\tlibcublasLt.so (libc6,x86-64) => /usr/local/cuda/targets/x86_64-linux/lib/libcublasLt.so\n\tlibcublas.so.12 (libc6,x86-64) => /usr/local/cuda/targets/x86_64-linux/lib/libcublas.so.12\n\tlibcublas.so (libc6,x86-64) => /usr/local/cuda/targets/x86_64-linux/lib/libcublas.so",
+ "trainer_pids": [
+  {
+   "pid": 57233,
+   "cmd": "/root/.cache/user_artifacts/trainers_main/server/.venv/bin/python3 /root/.cache/user_artifacts/trainers_main/server/.venv/bin/torchrun --nnodes=2 --nproc_per_node=8 --node_rank=0 --master_addr=10.1.77.31 --master_port=29644 -m trainers_server.dp_worker.main "
+  },
+  {
+   "pid": 57305,
+   "cmd": "/root/.cache/user_artifacts/trainers_main/server/.venv/bin/python3 -u -m trainers_server.dp_worker.main "
+  },
+  {
+   "pid": 57306,
+   "cmd": "/root/.cache/user_artifacts/trainers_main/server/.venv/bin/python3 -u -m trainers_server.dp_worker.main "
+  },
+  {
+   "pid": 57307,
+   "cmd": "/root/.cache/user_artifacts/trainers_main/server/.venv/bin/python3 -u -m trainers_server.dp_worker.main "
+  },
+  {
+   "pid": 57308,
+   "cmd": "/root/.cache/user_artifacts/trainers_main/server/.venv/bin/python3 -u -m trainers_server.dp_worker.main "
+  },
+  {
+   "pid": 57309,
+   "cmd": "/root/.cache/user_artifacts/trainers_main/server/.venv/bin/python3 -u -m trainers_server.dp_worker.main "
+  },
+  {
+   "pid": 57310,
+   "cmd": "/root/.cache/user_artifacts/trainers_main/server/.venv/bin/python3 -u -m trainers_server.dp_worker.main "
+  },
+  {
+   "pid": 57311,
+   "cmd": "/root/.cache/user_artifacts/trainers_main/server/.venv/bin/python3 -u -m trainers_server.dp_worker.main "
+  },
+  {
+   "pid": 57312,
+   "cmd": "/root/.cache/user_artifacts/trainers_main/server/.venv/bin/python3 -u -m trainers_server.dp_worker.main "
+  },
+  {
+   "pid": 60096,
+   "cmd": "/root/.cache/user_artifacts/trainers_main/server/.venv/bin/python3 -u -m trainers_server.dp_worker.main "
+  },
+  {
+   "pid": 60097,
+   "cmd": "/root/.cache/user_artifacts/trainers_main/server/.venv/bin/python3 -u -m trainers_server.dp_worker.main "
+  },
+  {
+   "pid": 60098,
+   "cmd": "/root/.cache/user_artifacts/trainers_main/server/.venv/bin/python3 -u -m trainers_server.dp_worker.main "
+  },
+  {
+   "pid": 60099,
+   "cmd": "/root/.cache/user_artifacts/trainers_main/server/.venv/bin/python3 -u -m trainers_server.dp_worker.main "
+  },
+  {
+   "pid": 60100,
+   "cmd": "/root/.cache/user_artifacts/trainers_main/server/.venv/bin/python3 -u -m trainers_server.dp_worker.main "
+  },
+  {
+   "pid": 60101,
+   "cmd": "/root/.cache/user_artifacts/trainers_main/server/.venv/bin/python3 -u -m trainers_server.dp_worker.main "
+  },
+  {
+   "pid": 60102,
+   "cmd": "/root/.cache/user_artifacts/trainers_main/server/.venv/bin/python3 -u -m trainers_server.dp_worker.main "
+  },
+  {
+   "pid": 60103,
+   "cmd": "/root/.cache/user_artifacts/trainers_main/server/.venv/bin/python3 -u -m trainers_server.dp_worker.main "
+  }
+ ],
+ "environ": [
+  "BDN_PROXY=http://mdn-csi-proxy.kube-system.svc.cluster.local.:13128",
+  "BT_GROUP_SIZE=2",
+  "BT_ISESSION_LOG_PATH=/bt_state/isession.log",
+  "BT_ISESSION_STATE_PATH=/bt_state",
+  "BT_ISESSION_TUNNEL_START_EVENT=BASETEN_EVENT:TUNNEL_START",
+  "BT_LEADER_ADDR=10.1.77.31",
+  "BT_NODE_RANK=0",
+  "BT_NUM_GPUS=8",
+  "BT_PROJECT_CACHE_DIR=/root/.cache/user_artifacts",
+  "BT_RETRY_COUNT=1",
+  "BT_RW_CACHE_DIR=/root/.cache/user_artifacts",
+  "BT_SCRATCH_DIR=/b10/workspace",
+  "BT_SKIP_FULL_WARMUP=1",
+  "BT_SSH_CA_KEY_PATH=/etc/ssh-ca/ca.pub",
+  "BT_SSH_DIR=/run/baseten-ssh",
+  "BT_SSH_PORT=2222",
+  "BT_TEAM_CACHE_DIR=/root/.cache/team_artifacts",
+  "BT_TRAINER_CONFIG_PATH=/root/.cache/user_artifacts/lps1003/trainer-config.flash.json",
+  "BT_TRAINER_SERVER_CONFIG_PATH=/root/.cache/user_artifacts/lps1003/trainer-server-config.json",
+  "BT_TRAINING_JOB_ID=3y0gjkq",
+  "BT_TRAINING_JOB_NAME=job-9",
+  "BT_TRAINING_PROJECT_ID=dq47r1q",
+  "BT_TRAINING_PROJECT_NAME=jrao123-ali",
+  "BT_WORKING_DIR=/b10/workspace",
+  "CUDA_DEVICE_MAX_CONNECTIONS=1",
+  "CUDA_VERSION=12.8.1",
+  "CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7",
+  "CURL_CA_BUNDLE=/etc/mdn-proxy-certs/combined.crt",
+  "GLOO_SOCKET_IFNAME=eth0",
+  "GPU_DEVICE_ORDINAL=0,1,2,3,4,5,6,7",
+  "HF_HOME=/root/.cache/team_artifacts/huggingface",
+  "HF_HUB_DISABLE_XET=1",
+  "HF_HUB_OFFLINE=1",
+  "HF_TOKEN=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",
+  "HOME=/root",
+  "HOSTNAME=b300-1-h673xc6t-0010",
+  "HYDRA_BOOTSTRAP=slurm",
+  "HYDRA_LAUNCHER_EXTRA_ARGS=--external-launcher",
+  "I_MPI_HYDRA_BOOTSTRAP=slurm",
+  "I_MPI_HYDRA_BOOTSTRAP_EXEC_EXTRA_ARGS=--external-launcher",
+  "KUBERNETES_PORT=tcp://172.16.0.1:443",
+  "KUBERNETES_PORT_443_TCP=tcp://172.16.0.1:443",
+  "KUBERNETES_PORT_443_TCP_ADDR=172.16.0.1",
+  "KUBERNETES_PORT_443_TCP_PORT=443",
+  "KUBERNETES_PORT_443_TCP_PROTO=tcp",
+  "KUBERNETES_SERVICE_HOST=172.16.0.1",
+  "KUBERNETES_SERVICE_PORT=443",
+  "KUBERNETES_SERVICE_PORT_HTTPS=443",
+  "LANG=C.UTF-8",
+  "LD_LIBRARY_PATH=",
+  "LIBRARY_PATH=/usr/local/cuda/lib64/stubs",
+  "LOGNAME=baseten",
+  "LWS_GROUP_SIZE=2",
+  "LWS_LEADER_ADDRESS=baseten-training-job-3y0gjkq-multinode-0.baseten-training-job-3y0gjkq-multinode.org-99340d71961343c28c5c567d705ab0c0",
+  "LWS_WORKER_INDEX=0",
+  "MASTER_PORT=29644",
+  "MEGATRON_SKIP_GLOO_GROUPS=1",
+  "NCCL_COLLNET_ENABLE=0",
+  "NCCL_DEBUG=WARN",
+  "NCCL_IB_GID_INDEX=3",
+  "NCCL_IB_HCA=mlx5_bond",
+  "NCCL_IB_MERGE_VFS=0",
+  "NCCL_NET_PLUGIN=none",
+  "NCCL_SHARP_DISABLE=1",
+  "NCCL_SOCKET_IFNAME=eth0",
+  "NCCL_VERSION=2.25.1-1",
+  "NUM_GPUS=8",
+  "NUM_NODES=2",
+  "NVARCH=x86_64",
+  "NVIDIA_DRIVER_CAPABILITIES=compute,utility",
+  "NVIDIA_GDRCOPY=enabled",
+  "NVIDIA_GDS=enabled",
+  "NVIDIA_MOFED=enabled",
+  "NVIDIA_PRODUCT_NAME=CUDA",
+  "NVIDIA_REQUIRE_CUDA=cuda>=12.8 brand=unknown,driver>=470,driver<471 brand=grid,driver>=470,driver<471 brand=tesla,driver>=470,driver<471 brand=nvidia,driver>=470,driver<471 brand=quadro,driver>=470,driver<471 brand=quadrortx,driver>=470,driver<471 brand=nvidiartx,driver>=470,driver<471 brand=vapps,driver>=470,driver<471 brand=vpc,driver>=470,driver<471 brand=vcs,driver>=470,driver<471 brand=vws,driver>=470,driver<471 brand=cloudgaming,driver>=470,driver<471 brand=unknown,driver>=535,driver<536 brand=grid,driver>=535,driver<536 brand=tesla,driver>=535,driver<536 brand=nvidia,driver>=535,driver<536 brand=quadro,driver>=535,driver<536 brand=quadrortx,driver>=535,driver<536 brand=nvidiartx,driver>=535,driver<536 brand=vapps,driver>=535,driver<536 brand=vpc,driver>=535,driver<536 brand=vcs,driver>=535,driver<536 brand=vws,driver>=535,driver<536 brand=cloudgaming,driver>=535,driver<536 brand=unknown,driver>=550,driver<551 brand=grid,driver>=550,driver<551 brand=tesla,driver>=550,driver<551 brand=nvidia,driver>=550,driver<551 brand=quadro,driver>=550,driver<551 brand=quadrortx,driver>=550,driver<551 brand=nvidiartx,driver>=550,driver<551 brand=vapps,driver>=550,driver<551 brand=vpc,driver>=550,driver<551 brand=vcs,driver>=550,driver<551 brand=vws,driver>=550,driver<551 brand=cloudgaming,driver>=550,driver<551 brand=unknown,driver>=560,driver<561 brand=grid,driver>=560,driver<561 brand=tesla,driver>=560,driver<561 brand=nvidia,driver>=560,driver<561 brand=quadro,driver>=560,driver<561 brand=quadrortx,driver>=560,driver<561 brand=nvidiartx,driver>=560,driver<561 brand=vapps,driver>=560,driver<561 brand=vpc,driver>=560,driver<561 brand=vcs,driver>=560,driver<561 brand=vws,driver>=560,driver<561 brand=cloudgaming,driver>=560,driver<561 brand=unknown,driver>=565,driver<566 brand=grid,driver>=565,driver<566 brand=tesla,driver>=565,driver<566 brand=nvidia,driver>=565,driver<566 brand=quadro,driver>=565,driver<566 brand=quadrortx,driver>=565,driver<566 brand=nvidiartx,driver>=565,driver<566 brand=vapps,driver>=565,driver<566 brand=vpc,driver>=565,driver<566 brand=vcs,driver>=565,driver<566 brand=vws,driver>=565,driver<566 brand=cloudgaming,driver>=565,driver<566",
+  "NVIDIA_VISIBLE_DEVICES=5,6,7,0,1,2,3,4",
+  "NVTE_FRAMEWORK=pytorch",
+  "NV_CUDA_CUDART_DEV_VERSION=12.8.90-1",
+  "NV_CUDA_CUDART_VERSION=12.8.90-1",
+  "NV_CUDA_LIB_VERSION=12.8.1-1",
+  "NV_CUDA_NSIGHT_COMPUTE_DEV_PACKAGE=cuda-nsight-compute-12-8=12.8.1-1",
+  "NV_CUDA_NSIGHT_COMPUTE_VERSION=12.8.1-1",
+  "NV_LIBCUBLAS_DEV_PACKAGE=libcublas-dev-12-8=12.8.4.1-1",
+  "NV_LIBCUBLAS_DEV_PACKAGE_NAME=libcublas-dev-12-8",
+  "NV_LIBCUBLAS_DEV_VERSION=12.8.4.1-1",
+  "NV_LIBCUBLAS_PACKAGE=libcublas-12-8=12.8.4.1-1",
+  "NV_LIBCUBLAS_PACKAGE_NAME=libcublas-12-8",
+  "NV_LIBCUBLAS_VERSION=12.8.4.1-1",
+  "NV_LIBCUSPARSE_DEV_VERSION=12.5.8.93-1",
+  "NV_LIBCUSPARSE_VERSION=12.5.8.93-1",
+  "NV_LIBNCCL_DEV_PACKAGE=libnccl-dev=2.25.1-1+cuda12.8",
+  "NV_LIBNCCL_DEV_PACKAGE_NAME=libnccl-dev",
+  "NV_LIBNCCL_DEV_PACKAGE_VERSION=2.25.1-1",
+  "NV_LIBNCCL_PACKAGE=libnccl2=2.25.1-1+cuda12.8",
+  "NV_LIBNCCL_PACKAGE_NAME=libnccl2",
+  "NV_LIBNCCL_PACKAGE_VERSION=2.25.1-1",
+  "NV_LIBNPP_DEV_PACKAGE=libnpp-dev-12-8=12.3.3.100-1",
+  "NV_LIBNPP_DEV_VERSION=12.3.3.100-1",
+  "NV_LIBNPP_PACKAGE=libnpp-12-8=12.3.3.100-1",
+  "NV_LIBNPP_VERSION=12.3.3.100-1",
+  "NV_NVML_DEV_VERSION=12.8.90-1",
+  "NV_NVPROF_DEV_PACKAGE=cuda-nvprof-12-8=12.8.90-1",
+  "NV_NVPROF_VERSION=12.8.90-1",
+  "NV_NVTX_VERSION=12.8.90-1",
+  "OLDPWD=/root",
+  "OMPI_MCA_plm_slurm_args=--external-launcher",
+  "OMP_NUM_THREADS=1",
+  "PATH=/root/.cache/user_artifacts/trainers_main/server/.venv/bin:/root/.cache/user_artifacts/bin:/root/.cache/user_artifacts/bin:/usr/local/cuda/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+  "PIP_CERT=/etc/mdn-proxy-certs/combined.crt",
+  "PORT=8001",
+  "PRTE_MCA_plm_slurm_args=--external-launcher",
+  "PWD=/root/.cache/user_artifacts/trainers_main/server",
+  "PYTHONPATH=/mnt/baseten-pystartup",
+  "PYTHONUNBUFFERED=1",
+  "PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True",
+  "REQUESTS_CA_BUNDLE=/etc/mdn-proxy-certs/combined.crt",
+  "ROCR_VISIBLE_DEVICES=0,1,2,3,4,5,6,7",
+  "SHELL=/bin/bash",
+  "SHLVL=1",
+  "SLURMD_DEBUG=2",
+  "SLURMD_NODENAME=b300-1-4wprtzyj-0003",
+  "SLURM_CLUSTER_NAME=workstation",
+  "SLURM_CONF=/etc/slurm/slurm.conf",
+  "SLURM_CPUS_ON_NODE=248",
+  "SLURM_CPUS_PER_TASK=248",
+  "SLURM_GPUS_ON_NODE=8",
+  "SLURM_GTIDS=0",
+  "SLURM_JOBID=31",
+  "SLURM_JOB_CPUS_PER_NODE=248(x2)",
+  "SLURM_JOB_END_TIME=1817015836",
+  "SLURM_JOB_GID=0",
+  "SLURM_JOB_GROUP=root",
+  "SLURM_JOB_ID=31",
+  "SLURM_JOB_NAME=devbox_trainer",
+  "SLURM_JOB_NODELIST=b300-1-4wprtzyj-0003,b300-1-h673xc6t-0010",
+  "SLURM_JOB_NUM_NODES=2",
+  "SLURM_JOB_PARTITION=gpu",
+  "SLURM_JOB_START_TIME=1785479836",
+  "SLURM_JOB_UID=0",
+  "SLURM_JOB_USER=root",
+  "SLURM_LAUNCH_NODE_IPADDR=10.1.77.44",
+  "SLURM_LOCALID=0",
+  "SLURM_NNODES=2",
+  "SLURM_NODEID=0",
+  "SLURM_NODELIST=b300-1-4wprtzyj-0003,b300-1-h673xc6t-0010",
+  "SLURM_NPROCS=2",
+  "SLURM_NTASKS=2",
+  "SLURM_NTASKS_PER_NODE=1",
+  "SLURM_PRIO_PROCESS=0",
+  "SLURM_PROCID=0",
+  "SLURM_SRUN_COMM_HOST=10.1.77.44",
+  "SLURM_SRUN_COMM_PORT=46405",
+  "SLURM_STEPID=0",
+  "SLURM_STEP_GPUS=0,1,2,3,4,5,6,7",
+  "SLURM_STEP_ID=0",
+  "SLURM_STEP_LAUNCHER_PORT=46405",
+  "SLURM_STEP_NODELIST=b300-1-4wprtzyj-0003,b300-1-h673xc6t-0010",
+  "SLURM_STEP_NUM_NODES=2",
+  "SLURM_STEP_NUM_TASKS=2",
+  "SLURM_STEP_TASKS_PER_NODE=1(x2)",
+  "SLURM_SUBMIT_DIR=/root",
+  "SLURM_SUBMIT_HOST=b300-1-h673xc6t-0010",
+  "SLURM_TASKS_PER_NODE=1(x2)",
+  "SLURM_TASK_PID=57233",
+  "SLURM_TOPOLOGY_ADDR=b300-1-4wprtzyj-0003",
+  "SLURM_TOPOLOGY_ADDR_PATTERN=node",
+  "SLURM_TRES_PER_TASK=cpu:248",
+  "SLURM_UMASK=0022",
+  "SRUN_DEBUG=3",
+  "SSH_AUTH_SOCK=/tmp/ssh-5OrrquX2UE/agent.58165",
+  "SSH_CLIENT=10.1.77.25 58990 2222",
+  "SSH_CONNECTION=10.1.77.25 58990 10.1.77.44 2222",
+  "SSL_CERT_FILE=/etc/mdn-proxy-certs/combined.crt",
+  "TMPDIR=/tmp",
+  "TORCHRUN=/root/.cache/user_artifacts/trainers_main/server/.venv/bin/torchrun",
+  "TORCH_NCCL_HEARTBEAT_TIMEOUT_SEC=3600",
+  "TRAINERS=/root/.cache/user_artifacts/trainers_main",
+  "TRANSFORMERS_CACHE=/root/.cache/team_artifacts/huggingface",
+  "TRANSFORMERS_OFFLINE=1",
+  "UCX_RNDV_SCHEME=get_zcopy",
+  "UCX_TLS=self,sm,cuda_copy",
+  "USER=baseten",
+  "USE_HF=1",
+  "WEIGHT_SYNC_AWS_CREDENTIALS_DIR=/aws-secrets",
+  "ZE_AFFINITY_MASK=0,1,2,3,4,5,6,7"
+ ],
+ "mapped_so": [
+  {
+   "path": "/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/numpy.libs/libgfortran-040039e1.so.5.0.0",
+   "realpath": null,
+   "size": 2686065,
+   "sha256": "14afb3129b1a8b50bc40a3b0820c7f1152ea9bc10121aab152943f7057472886"
+  },
+  {
+   "path": "/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/numpy.libs/libopenblas64_p-r0-0cf96a72.3.23.dev.so",
+   "realpath": null,
+   "size": 35123345,
+   "sha256": "9254d0854dd7615e11de28d771ae408878ca8123a7ac204f21e4cc7a376cc2e5"
+  },
+  {
+   "path": "/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/numpy.libs/libquadmath-96973f99.so.0.0.0",
+   "realpath": null,
+   "size": 247609,
+   "sha256": "934c22ded0e7d169c4d4678876c96051adf3d94545da962f60b41659b075da3b"
+  },
+  {
+   "path": "/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/numpy/core/_multiarray_tests.cpython-312-x86_64-linux-gnu.so",
+   "realpath": null,
+   "size": 175912,
+   "sha256": "0b2cbb7419ffc2f712987aabaf518a3b1d9de8406093f79dcb1d712a34ab6057"
+  },
+  {
+   "path": "/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/numpy/core/_multiarray_umath.cpython-312-x86_64-linux-gnu.so",
+   "realpath": null,
+   "size": 7463681,
+   "sha256": "6a650810a8735cbdb988f74729973740a337645dd1585fef696e73e2dbc65beb"
+  },
+  {
+   "path": "/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/numpy/fft/_pocketfft_internal.cpython-312-x86_64-linux-gnu.so",
+   "realpath": null,
+   "size": 97008,
+   "sha256": "38d22249f351b1d50e9269c596889ffc638639ebc150c1e75fc9f55a0f331ab5"
+  },
+  {
+   "path": "/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/numpy/linalg/_umath_linalg.cpython-312-x86_64-linux-gnu.so",
+   "realpath": null,
+   "size": 216793,
+   "sha256": "8822e772d743d405983f1b9c6b34b704dd297780890dc245454f1081adf50a4c"
+  },
+  {
+   "path": "/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/numpy/random/_bounded_integers.cpython-312-x86_64-linux-gnu.so",
+   "realpath": null,
+   "size": 348704,
+   "sha256": "b39f7e2b4ccfd6904ae60fe1517f6bda8be7835b5bf69d54dec0d693c5e8b793"
+  },
+  {
+   "path": "/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/numpy/random/_common.cpython-312-x86_64-linux-gnu.so",
+   "realpath": null,
+   "size": 258888,
+   "sha256": "abd88ca8f447f22c4f51f226734d34732966bae61edd2aa25f74bfec954bee28"
+  },
+  {
+   "path": "/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/numpy/random/_generator.cpython-312-x86_64-linux-gnu.so",
+   "realpath": null,
+   "size": 946872,
+   "sha256": "5b3ef2ac8b78aa83bc869b70e30e2a70fbd3ab373c5253ed6eba9982a55fd7e2"
+  },
+  {
+   "path": "/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/numpy/random/_mt19937.cpython-312-x86_64-linux-gnu.so",
+   "realpath": null,
+   "size": 119488,
+   "sha256": "3619f7f91b9ee7197c2902c0e197e69b2e5dd45fb11cd22e572e9b0b886514a9"
+  },
+  {
+   "path": "/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/numpy/random/_pcg64.cpython-312-x86_64-linux-gnu.so",
+   "realpath": null,
+   "size": 125040,
+   "sha256": "577c1468f4fb40bb23184343e2c1b645a17d1d493641ea92c052f286dc6eb556"
+  },
+  {
+   "path": "/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/numpy/random/_philox.cpython-312-x86_64-linux-gnu.so",
+   "realpath": null,
+   "size": 106712,
+   "sha256": "2c9b1fe53ef119e3ed2acb73c802cf2996502b0fd51d4926d4047576cea57514"
+  },
+  {
+   "path": "/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/numpy/random/_sfc64.cpython-312-x86_64-linux-gnu.so",
+   "realpath": null,
+   "size": 76224,
+   "sha256": "5883302ce33afd54db6631adbf5e000297b8eb42c0ec894bbec318b5e6b14268"
+  },
+  {
+   "path": "/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/numpy/random/bit_generator.cpython-312-x86_64-linux-gnu.so",
+   "realpath": null,
+   "size": 234016,
+   "sha256": "87c5c730887943c603b16c53cf213398336ee410ef46595518093977afd5b0cb"
+  },
+  {
+   "path": "/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/numpy/random/mtrand.cpython-312-x86_64-linux-gnu.so",
+   "realpath": null,
+   "size": 749040,
+   "sha256": "8d866b4b6107401ab9546044564208e0a5899c3903da09277d1c4875d98bcf0f"
+  },
+  {
+   "path": "/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia/cu13/lib/libcublas.so.13",
+   "realpath": null,
+   "size": 55354008,
+   "sha256": "c13e3af56f07357b3419f01f183013577274709637b8a35aec008c3fe6ab6102"
+  },
+  {
+   "path": "/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia/cu13/lib/libcublasLt.so.13",
+   "realpath": null,
+   "size": 516598272,
+   "sha256": "362e239322fd0989f2657db065615262add7e7a3b6f222070be2a05ecc8d586b"
+  },
+  {
+   "path": "/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia/cu13/lib/libcudart.so.13",
+   "realpath": null,
+   "size": 704288,
+   "sha256": "96c42e418cec19054186b9429c321603cc190bf26a18104e19408117a2a817b0"
+  },
+  {
+   "path": "/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia/cu13/lib/libcufft.so.12",
+   "realpath": null,
+   "size": 286542352,
+   "sha256": "0933f68bb7e3bf90f86d70bc87cd2f69027f7757e89e5de5e19ec33a53fd8d3a"
+  },
+  {
+   "path": "/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia/cu13/lib/libcufile.so.0",
+   "realpath": null,
+   "size": 3170800,
+   "sha256": "1ecaf17d38957a41473a7fc8f29d569579e2a9079a26c4d9b89d8da330051483"
+  },
+  {
+   "path": "/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia/cu13/lib/libcupti.so.13",
+   "realpath": null,
+   "size": 4152208,
+   "sha256": "e2f9ed861fe27c492b8bb52b5e3220ef5120f3edcda36312e96b7fd8a186be3e"
+  },
+  {
+   "path": "/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia/cu13/lib/libcurand.so.10",
+   "realpath": null,
+   "size": 132698328,
+   "sha256": "b53732a66b302b11926e00f762e2c2ba67058347ff93cf4ae709de45e93e06da"
+  },
+  {
+   "path": "/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia/cu13/lib/libcusolver.so.12",
+   "realpath": null,
+   "size": 141152872,
+   "sha256": "c571d524fc5571e6c8a5784d51f75fbe8cf17590463c397a06e48428cb926c48"
+  },
+  {
+   "path": "/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia/cu13/lib/libcusparse.so.12",
+   "realpath": null,
+   "size": 162565256,
+   "sha256": "09339f848f60bb1111a61ee0fe91ed0c25132b7ff63298244d7ac14e61b58466"
+  },
+  {
+   "path": "/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia/cu13/lib/libnvJitLink.so.13",
+   "realpath": null,
+   "size": 98806736,
+   "sha256": "931347fa77d9fd5511059e04627f122b1ee33e409f22c3273ddddbe065713a3a"
+  },
+  {
+   "path": "/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia/cu13/lib/libnvrtc-builtins.so.13.0",
+   "realpath": null,
+   "size": 4380616,
+   "sha256": "91dcd944d01da9c0f08fff5d779db136a47f6d62bdb63bae900d2f481e92c3a2"
+  },
+  {
+   "path": "/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia/cu13/lib/libnvrtc.so.13",
+   "realpath": null,
+   "size": 109338064,
+   "sha256": "a49e67e8e74590f1e98de55c39c6287efd3f59e3c3797464d7bbe0fe01349b11"
+  },
+  {
+   "path": "/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia/cudnn/lib/libcudnn.so.9",
+   "realpath": null,
+   "size": 129240,
+   "sha256": "94f44e2e8fb2d4bca8c534b14f03ef84e095376dad72a257fd854377ef0b3427"
+  },
+  {
+   "path": "/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia/cusparselt/lib/libcusparseLt.so.0",
+   "realpath": null,
+   "size": 233613145,
+   "sha256": "31d5cecfeca7e52228779a5b2ba3e42f01b24319a8c4e14f6cfc44b4302625eb"
+  },
+  {
+   "path": "/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia/nccl/lib/libnccl.so.2",
+   "realpath": null,
+   "size": 217995896,
+   "sha256": "1c8618b866734cbdd5401715d6178be763ece283b7f808ecf86dedab211162c1"
+  },
+  {
+   "path": "/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia/nvshmem/lib/libnvshmem_host.so.3",
+   "realpath": null,
+   "size": 41241312,
+   "sha256": "c43004bb93053aa70603a204fe0c9052bdd29f38822d3048599183f8d5930d8f"
+  },
+  {
+   "path": "/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/torch/_C.cpython-312-x86_64-linux-gnu.so",
+   "realpath": null,
+   "size": 25185,
+   "sha256": "fd8a4ca54d6ec19807edea5d92aa3340a179d8fef853a58788aa2a10c427ca13"
+  },
+  {
+   "path": "/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/torch/lib/libc10.so",
+   "realpath": null,
+   "size": 1498969,
+   "sha256": "be5e17cd7752a6af003978706379384c3108f6b68916bb1949e610f6397bb640"
+  },
+  {
+   "path": "/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/torch/lib/libc10_cuda.so",
+   "realpath": null,
+   "size": 598297,
+   "sha256": "962b69f3dec6cacf6e7d5f9d4c79becd34ca379d7abd2571b2eb4c1c153d168b"
+  },
+  {
+   "path": "/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/torch/lib/libgomp.so.1",
+   "realpath": null,
+   "size": 254009,
+   "sha256": "e28fb2896a3d612b46a27d7f8ef840d34c9efbc29b70a044c42095fb94856890"
+  },
+  {
+   "path": "/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/torch/lib/libshm.so",
+   "realpath": null,
+   "size": 57633,
+   "sha256": "13ad406b87fee3e4f88dea200531e39e67b223cbe9c7279da05d885c7da9dbb5"
+  },
+  {
+   "path": "/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/torch/lib/libtorch.so",
+   "realpath": null,
+   "size": 343121,
+   "sha256": "c1840a555e30043ef02c02ee22b21d0687342a3ce82bc971ef2280520c20cd22"
+  },
+  {
+   "path": "/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/torch/lib/libtorch_cpu.so",
+   "realpath": null,
+   "size": 451209129,
+   "sha256": "2e1034d418c1c881c86f67fc357b8723efc3f22bdb266f06aace8e6ca9c170b3"
+  },
+  {
+   "path": "/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/torch/lib/libtorch_cuda.so",
+   "realpath": null,
+   "size": 456142457,
+   "sha256": "fd13a41b54fe3d8af91075962d9fe155a16616ca09c7b79b7251869ff6230d32"
+  },
+  {
+   "path": "/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/torch/lib/libtorch_global_deps.so",
+   "realpath": null,
+   "size": 17017,
+   "sha256": "22e580920a618c7c45e2aae16752f0bdfb23ae9a31150ae8f4066bbe8020e104"
+  },
+  {
+   "path": "/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/torch/lib/libtorch_nvshmem.so",
+   "realpath": null,
+   "size": 4039577,
+   "sha256": "096daa47d586ca3f5ded1c89fbd5a6ab970be0b3c2bd0c28c0f9a424aec673ce"
+  },
+  {
+   "path": "/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/torch/lib/libtorch_python.so",
+   "realpath": null,
+   "size": 32656193,
+   "sha256": "d905337ae7a62784d6c7501b678651dbe25f9e2e86bcae250aa8dc2cddba59bf"
+  },
+  {
+   "path": "/usr/lib/python3.12/lib-dynload/_asyncio.cpython-312-x86_64-linux-gnu.so",
+   "realpath": null,
+   "size": 82184,
+   "sha256": "9521460a7b864c2977b4c7e56fba9e08cc8a515eb9aee4372f2432f44a6e760a"
+  },
+  {
+   "path": "/usr/lib/python3.12/lib-dynload/_bz2.cpython-312-x86_64-linux-gnu.so",
+   "realpath": null,
+   "size": 32112,
+   "sha256": "aed7fa42188b300ba9dc47dfc9a9ff1498a2aad14d23793a2452b3f5c6b5e9e0"
+  },
+  {
+   "path": "/usr/lib/python3.12/lib-dynload/_contextvars.cpython-312-x86_64-linux-gnu.so",
+   "realpath": null,
+   "size": 14560,
+   "sha256": "154a3a11d19d8916f93361db7313a46be837dada75972478a2768fdb88e003bc"
+  },
+  {
+   "path": "/usr/lib/python3.12/lib-dynload/_ctypes.cpython-312-x86_64-linux-gnu.so",
+   "realpath": null,
+   "size": 137968,
+   "sha256": "601d80267fe061efa2232f07041b5a3e6f5bbb1e97e59e751bd90410d9b4f21c"
+  },
+  {
+   "path": "/usr/lib/python3.12/lib-dynload/_hashlib.cpython-312-x86_64-linux-gnu.so",
+   "realpath": null,
+   "size": 64368,
+   "sha256": "a3b9c456e723e5bad3161a1da96d50f3c65788dd6aff425ab0dfef90100e2bdb"
+  },
+  {
+   "path": "/usr/lib/python3.12/lib-dynload/_json.cpython-312-x86_64-linux-gnu.so",
+   "realpath": null,
+   "size": 48952,
+   "sha256": "5ef11bc03073175da51ee5cdbeabdede76490820787c6344a9775977c4499b7f"
+  },
+  {
+   "path": "/usr/lib/python3.12/lib-dynload/_lzma.cpython-312-x86_64-linux-gnu.so",
+   "realpath": null,
+   "size": 49256,
+   "sha256": "1c75c403d3bd66d61052458957207c9776112de5b84b2a3eaddfb387e549c3b4"
+  },
+  {
+   "path": "/usr/lib/python3.12/lib-dynload/_multiprocessing.cpython-312-x86_64-linux-gnu.so",
+   "realpath": null,
+   "size": 24280,
+   "sha256": "dbd82f811f75107216934b584867193fb419f6aa0b3159e4db0e6529be398a22"
+  },
+  {
+   "path": "/usr/lib/python3.12/lib-dynload/_posixshmem.cpython-312-x86_64-linux-gnu.so",
+   "realpath": null,
+   "size": 15080,
+   "sha256": "cbf358522ff08a9f4a6320ddc9c479d00065392b83f3b537e4fccab4f6296fcb"
+  },
+  {
+   "path": "/usr/lib/python3.12/lib-dynload/_queue.cpython-312-x86_64-linux-gnu.so",
+   "realpath": null,
+   "size": 23816,
+   "sha256": "ef5f206e780ce144e3be08ce19ffc98e96a6f46c769327eeccf28d471138cd73"
+  },
+  {
+   "path": "/usr/lib/python3.12/lib-dynload/_ssl.cpython-312-x86_64-linux-gnu.so",
+   "realpath": null,
+   "size": 225488,
+   "sha256": "598683c51ef42a49b4fc5931bb4eda00cc7927c960121569cce22de4c941a6f2"
+  },
+  {
+   "path": "/usr/lib/python3.12/lib-dynload/mmap.cpython-312-x86_64-linux-gnu.so",
+   "realpath": null,
+   "size": 32600,
+   "sha256": "4f01d09120d480cb16a5172f9e887fd356eeaf8d3919934843757e3142e7a3de"
+  },
+  {
+   "path": "/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2",
+   "realpath": null,
+   "size": 236616,
+   "sha256": "6c5e1b4528b704dc7081aa45b5037bda4ea9cad78ca562b4fb6b0dbdbfc7e7e7"
+  },
+  {
+   "path": "/usr/lib/x86_64-linux-gnu/libbz2.so.1.0.4",
+   "realpath": null,
+   "size": 78944,
+   "sha256": "218c4abdabce31161f3c2778762986d1fe06633705c7eb004a740946a5ccdfff"
+  },
+  {
+   "path": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+   "realpath": null,
+   "size": 2125328,
+   "sha256": "e7a914a33fd4f6d25057b8d48c7c5f3d55ab870ec4ee27693d6c5f3a532e6226"
+  },
+  {
+   "path": "/usr/lib/x86_64-linux-gnu/libcrypto.so.3",
+   "realpath": null,
+   "size": 5305304,
+   "sha256": "fca80f7e62d9507f4385f2febcf4b1a1507273e6d4445bf58961078d8af9acec"
+  },
+  {
+   "path": "/usr/lib/x86_64-linux-gnu/libcuda.so.580.105.08",
+   "realpath": null,
+   "size": 96276264,
+   "sha256": "df9183549feb062f4195e6cf130e0ef372de4a59e59dbe51554ad8c3c5b167db"
+  },
+  {
+   "path": "/usr/lib/x86_64-linux-gnu/libdl.so.2",
+   "realpath": null,
+   "size": 14408,
+   "sha256": "efb09ce48f6ecdf4803547ef500bc371f9485e8c34b80913313c4a7cdb109664"
+  },
+  {
+   "path": "/usr/lib/x86_64-linux-gnu/libexpat.so.1.9.1",
+   "realpath": null,
+   "size": 174336,
+   "sha256": "c42ff317838b4b4639e2ea801905f0317177c6df7e31b2f0d0240e3c3ac0cfde"
+  },
+  {
+   "path": "/usr/lib/x86_64-linux-gnu/libffi.so.8.1.4",
+   "realpath": null,
+   "size": 47672,
+   "sha256": "00f593fe192f2851b8ce23b25cec2488d769beb5a8f63e8c9e563071e1075153"
+  },
+  {
+   "path": "/usr/lib/x86_64-linux-gnu/libgcc_s.so.1",
+   "realpath": null,
+   "size": 183024,
+   "sha256": "02f3f192bf5f79b811f1e34a650fea443d407408703448906585232383957f60"
+  },
+  {
+   "path": "/usr/lib/x86_64-linux-gnu/liblzma.so.5.4.5",
+   "realpath": null,
+   "size": 202904,
+   "sha256": "5f41e9df11310aeb8506b2ef675300f1a6cb260f4cf1bd635acda227c4acf914"
+  },
+  {
+   "path": "/usr/lib/x86_64-linux-gnu/libm.so.6",
+   "realpath": null,
+   "size": 952616,
+   "sha256": "c09178edd7fbc58aa8415f4bbe54dd76c5ff6c6398ba3e56e5a4743fd7e9adfc"
+  },
+  {
+   "path": "/usr/lib/x86_64-linux-gnu/libnvidia-ml.so.580.105.08",
+   "realpath": null,
+   "size": 2283608,
+   "sha256": "bee24a7507366126cdf7441c7fec4705e85c3a61c9669e08d70d7d86a8ed6f99"
+  },
+  {
+   "path": "/usr/lib/x86_64-linux-gnu/libpthread.so.0",
+   "realpath": null,
+   "size": 14408,
+   "sha256": "8886af025eed1782e4b4675918250bf902206dab45151b6bc7f22b9c7249f6ae"
+  },
+  {
+   "path": "/usr/lib/x86_64-linux-gnu/librt.so.1",
+   "realpath": null,
+   "size": 14624,
+   "sha256": "5c070d1a8ff908c799bce07f86dadef98512a8aa0643fed917598f96fc1256e1"
+  },
+  {
+   "path": "/usr/lib/x86_64-linux-gnu/libssl.so.3",
+   "realpath": null,
+   "size": 696512,
+   "sha256": "e50e007bb0a4bbf1383b250ef34fb4c695b9f3a799decb321efeafa83799587e"
+  },
+  {
+   "path": "/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.33",
+   "realpath": null,
+   "size": 2592224,
+   "sha256": "a68762c86d371e6041f03f03a33a78fa235809ae7d81c90185940c93c3535aed"
+  },
+  {
+   "path": "/usr/lib/x86_64-linux-gnu/libutil.so.1",
+   "realpath": null,
+   "size": 14408,
+   "sha256": "17a4fca0e7fece307d2bfda63efd3be2051a6d83981be0c3481d63ac6f2a0e96"
+  },
+  {
+   "path": "/usr/lib/x86_64-linux-gnu/libz.so.1.3",
+   "realpath": null,
+   "size": 113000,
+   "sha256": "9b64150b28505a33d6bc3ecf709c279f6de97a1c184dbda65d06ee4537f6d286"
+  }
+ ],
+ "packages": {
+  "python": "3.12.3 (main, Jun 19 2026, 12:46:00) [GCC 13.3.0]",
+  "torch": "2.11.0+cu130",
+  "nvidia-cudnn-frontend": "1.26.0+dsatopk1",
+  "transformer-engine": "2.16.0",
+  "triton": "3.6.0",
+  "nvidia-cudnn-cu13": "9.19.0.56",
+  "nvidia-cublas": "13.6.0.2",
+  "transformers": "5.8.1",
+  "nvidia-cutlass-dsl": "4.5.2",
+  "megatron-core": "0.19.0+d3932e757",
+  "numpy": "1.26.4"
+ }
+}

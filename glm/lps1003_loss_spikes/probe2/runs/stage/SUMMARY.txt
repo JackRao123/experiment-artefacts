@@ -1,0 +1,18 @@
+ranks=16 topk_calls=42336 rows_total=190506624 rows_per_call=2..15360 k=[2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40, 42, 44, 46, 48, 50, 52, 54, 56, 58, 60, 62, 64, 1576, 2048] sk_max=60192
+output branch mix: rows with window<=k (trivial full-write)=11700864  window>k (radix, the suspect)=178805760
+prod-shaped launches (rows>148 -> large_occupancy variant): YES
+
+--- E2/E4 under-write detection ---
+staged calls=42336  shapes controlled=91  shapes FAILING control=0
+UNWRITTEN SLOTS = 0 in 0 rows across 0 calls
+  -> no unwritten slots, and staging control passed on every shape: the radix branch full-wrote every row at these shapes
+
+--- E1 output-index audit ---
+duplicates within a row: 0 slots in 0 rows (0 calls); negative sentinels=11848113984
+selected out of window: 0 (0 calls)
+
+--- E0 branch audit ---
+tfsc kwargs (starts, ends, score_seq_lens, bottom_right_set) -> count:
+   (False, False, False, True) 6720
+counters (16 ranks): cudnn_fw=17883 torch_scores=0 tfsc=6459 topk=42075
+scores regression watch: sampled 841 calls, invalid-region-finite calls=0 (expect 0 — region is -inf by wheel pre-fill)

@@ -1,0 +1,8 @@
+[Mon Jul 20 04:33:32 2026] NVRM: loading NVIDIA UNIX Open Kernel Module for x86_64  580.105.08  Release Build  (dvs-builder@U22-I3-B10-02-5)  Wed Oct 29 22:29:53 UTC 2025
+[Thu Jul 23 18:13:36 2026] NVRM: nvCheckOkFailedNoLog: Check failed: Requested object not found [NV_ERR_OBJECT_NOT_FOUND] (0x00000057) returned from serverutilGetResourceRef(hSrcClient, hSrcObject, &pSrcResourceRef) @ rmobjexportimport.c:346
+[Tue Jul 28 22:00:30 2026] NVRM: GPU at PCI:0000:1a:00: GPU-31309463-eda5-ebad-8e9a-dd7f45a88df0
+[Tue Jul 28 22:00:30 2026] NVRM: GPU Board Serial Number: 1320926833397
+[Tue Jul 28 22:00:30 2026] NVRM: Xid (PCI:0000:1a:00): 13, Graphics SM Warp Exception on (GPC 3, TPC 2, SM 1): Out Of Range Address
+[Tue Jul 28 22:00:30 2026] NVRM: Xid (PCI:0000:1a:00): 13, Graphics SM Global Exception on (GPC 3, TPC 2, SM 1): Multiple Warp Errors
+[Tue Jul 28 22:00:30 2026] NVRM: Xid (PCI:0000:1a:00): 13, Graphics Exception: ESR 0x5377b0=0xc00000e 0x5377b4=0x24 0x5377a8=0x1f81fb60 0x5377ac=0x1174
+[Tue Jul 28 22:00:30 2026] NVRM: Xid (PCI:0000:1a:00): 43, pid=3638041, name=python, channel 0x00000002

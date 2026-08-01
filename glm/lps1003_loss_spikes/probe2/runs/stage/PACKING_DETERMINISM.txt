@@ -1,0 +1,17 @@
+
+rank0:
+  group of 1428 calls, span=157.5s: smallest period=357 -> 4 identical repetitions PERIODIC
+  group of 1428 calls, span=135.4s: smallest period=357 -> 4 identical repetitions PERIODIC
+  the two groups have identical sequences: True
+
+rank5:
+  group of 1176 calls, span=157.5s: smallest period=294 -> 4 identical repetitions PERIODIC
+  group of 1176 calls, span=135.4s: smallest period=294 -> 4 identical repetitions PERIODIC
+  the two groups have identical sequences: True
+
+rank15:
+  group of 838 calls, span=156.1s: smallest period=838 -> 1 identical repetitions NOT periodic
+  group of 840 calls, span=135.4s: smallest period=210 -> 4 identical repetitions PERIODIC
+  the two groups have identical sequences: False
+
+VERDICT: shapes are NOT exactly repeating -> packing may vary; investigate.
