@@ -1,0 +1,12 @@
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/torch/cuda/__init__.py:61: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+{"header": true, "mode": "ec", "reps": 4, "warmup_small": false, "prelaunch_streams": 0, "interface": "/root/arming/unfixed/cudnn/deepseek_sparse_attention/indexer_forward/_interface.py", "interface_sha256": "5d0e429ecd2bb926b5525fefab73b56a13da90ec93803ea6e1241a25952564c3", "torch": "2.11.0+cu130", "device": "NVIDIA L20D", "capability": [10, 3], "conn": "1", "alloc_conf": "expandable_segments:True", "module_loading": null, "visible": "0", "pid": 19946}
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5791: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+{"rep": 0, "process_fresh": true, "mode": "ec", "exec1": {"erased": 0, "lo": -1, "hi": -1, "partial": 0}, "exec2": {"erased": 0, "lo": -1, "hi": -1, "partial": 0}, "bitwise_equal": true, "fired": false, "lever_s": 0.0, "wall_s": 5.863}
+{"rep": 1, "process_fresh": false, "mode": "ec", "exec1": {"erased": 0, "lo": -1, "hi": -1, "partial": 0}, "exec2": {"erased": 0, "lo": -1, "hi": -1, "partial": 0}, "bitwise_equal": true, "fired": false, "lever_s": 0.157, "wall_s": 0.246}
+{"rep": 2, "process_fresh": false, "mode": "ec", "exec1": {"erased": 0, "lo": -1, "hi": -1, "partial": 0}, "exec2": {"erased": 0, "lo": -1, "hi": -1, "partial": 0}, "bitwise_equal": true, "fired": false, "lever_s": 0.078, "wall_s": 0.137}
+{"rep": 3, "process_fresh": false, "mode": "ec", "exec1": {"erased": 0, "lo": -1, "hi": -1, "partial": 0}, "exec2": {"erased": 0, "lo": -1, "hi": -1, "partial": 0}, "bitwise_equal": true, "fired": false, "lever_s": 0.071, "wall_s": 0.163}
+DONE mode=ec reps=4

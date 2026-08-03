@@ -1,5 +1,15 @@
 # LPS-1003 Issue 2 investigation log (session 2026-07-29/30)
 
+> **RESOLVED 2026-08-01 ~12:30Z — this document's conclusion is SUPERSEDED.**
+> The kernel was innocent: the corruption is the -inf output PREFILL racing
+> the tvm-ffi kernel launch (default stream + conn unset) and ERASING the
+> kernel's stores — erased-rows masks are byte-identical to "clamped
+> cu_seqlens" masks, which is what this document chased. Fix = dedicated
+> launch stream in the wheel (+dsatopk5 after the 08-02 review),
+> PR https://github.com/basetenlabs/trainers/pull/875, full verification
+> protocol passed. Authoritative write-up: rearm/NIGHT_0801_FINDINGS.md.
+
+
 Devbox: tj-3y0n54q (2×8 B300 ali, ex-prod GLM nodes). Stack: trainers_main @
 0e0b65a (= patched prod image trainer-cuda13-sm103-0e0b65a), server venv cu130,
 cudnn-frontend 1.26.0+dsatopk1. Trainer: golden GLM-5.2-FP8 B300 leaf
@@ -769,3 +779,31 @@ correct state (and if it sits at 2.16 for doc5, prod GLM training loss on
 row-tail docs has been systematically inflated on EVERY step, not just
 boot windows — gradients included). Artifacts: ctrl/soak_0801_015956/
 (soak.jsonl all reps, 17 exemplar full-position dumps), ctrl/soak.py.
+
+## 2026-08-02 — FIX VALIDATED END-TO-END: 0 spikes / 100 steps of Mudith's recipe
+
+Full-recipe validation of the +dsatopk4 launch-stream fix (PR #875) on a
+fresh prod-faithful boot (devbox q8x5ky3, 2×8 B300; conn verified UNSET in
+the live process; installed `_interface.py` sha256-verified byte-exact vs
+`rearm/fix_candidate/interface_dedicated_stream.py`). `train_replay.py`
+drove 100 steps of `repro/loops_sft.py`'s exact recipe (lr 5e-4 cosine/1528,
+batch 32, LoRA r32) over byte-exact prod batches 0–99.
+
+**0 loss spikes / 100 steps at both the calibrated (1.6× local median,
+reproduces the documented 26/147 baseline) and strict (2.0×) thresholds.**
+Expected at baseline rate: ~17.7. Poisson P(0) = 2.1e-8; Fisher exact vs
+26/147 = 6.5e-7. Loss 0.7641 → 0.4086, max == step 0 (curve never exceeded
+its starting value); grad_norm 7.3e-4…4.2e-3. Historical 30-step dsatopk1
+run in `loss_histories.json` still spiked at 13.3%/step — the older topk-OOB
+patch alone never fixed this; the launch stream did.
+
+Caveats: driver hits the trainer API directly (Loops stack not exercised);
+first 6.5% of the cosine schedule only; largest grad_norm excursion 3.28×
+local median with no accompanying NLL excursion (below the documented
+3–45× + NLL co-occurrence signature).
+
+Write-up: `FIX_VALIDATION_100STEP.md`. Raw: `fix_validation_100step/`
+(replay100.jsonl.gz, replay100.log). Detector: `analyze_replay_spikes.py`
+(`--baseline` self-check). The session also root-caused and unblocked an
+org-wide CPFS 1M-inode-cap outage that was blocking all devbox provisioning
+(`CPFS_QUOTA_ESCALATION.md`).

@@ -91,6 +91,12 @@ fails, but run the validator first — it exits non-zero when a model is unsafe.
 
 ## Known behaviour of this run
 
+> **2026-08-02 update: the spikes described below are FIXED by the +dsatopk4
+> launch-stream patch (PR #875).** A 100-step replay of this exact recipe on
+> the fixed wheel produced **0 spikes** (vs 26/147 baseline, Fisher p=6.5e-7)
+> — see `../FIX_VALIDATION_100STEP.md`. The paragraph below describes
+> pre-fix behaviour and stays for historical context.
+
 GLM-5.2 is **FP8** and throws isolated loss spikes — ~2–4× the local median, recovering in one
 step, with `grad_norm` spiking 3–45× alongside. They are not a bug in this script: three BF16
 models trained on identical data with this same script produced **0 spikes in 745 steps**, versus

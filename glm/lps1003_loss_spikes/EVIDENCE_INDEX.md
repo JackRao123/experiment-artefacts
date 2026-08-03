@@ -1,8 +1,49 @@
 # LPS-1003 evidence index (for fresh-context pickup)
 
-Read order: HANDOFF.md (unified entry point) → INVESTIGATION.md (chronological
-findings log, all key numbers) → VERDICT.md (conclusion + fixes) → this file
-(claim → raw artifact map).
+> **PR #875 REVIEW CYCLE CLOSED 2026-08-03 — PR875_REVIEW_0803.md.**
+> Wheel revised to +dsatopk5 (try/except removed, fails loudly; shas
+> inside). NEW: minimal single-GPU repro (prefill > 2^31 bytes => two fill
+> launches, second races: 2.25 GiB 6/6 unfixed vs 2.0 GiB 0/6) now a CI
+> test with a real fails-without/passes-with A/B (unfixed FAILS rep0;
+> fixed 15/15). Caller-side A/B (pstefa1707): only handle 0 is poisoned
+> (ambient/explicit non-default stream 0/6 on the pristine wheel) —
+> caller-side helper adopted for the six-entry-point family audit
+> (FOLLOWUP #11). conn=1 framing corrected: 5wolkzw was a TEST deployment,
+> conn=1 was never prod-rolled; live GLM trainers on 5a4ae4d remain
+> exposed until recycled onto the sm103-tip image.
+>
+> **ARMING QUESTION RESOLVED 2026-08-02 late PM — rearm/ARMING_MECHANISM.md.**
+> Why rep0 fired and rep1 healed: the unfixed wheel's stream glue put the
+> -inf prefill on a fresh torch POOL stream every call
+> (`torch.cuda.ExternalStream(0)` ≠ default stream — returns pool streams,
+> 32 cycling), unordered vs the tvm-ffi kernel launch on the legacy
+> stream; corruption manifests iff the legacy stream is shallow enough at
+> submission for the kernel to start before the second fill half
+> finishes (cold windows), and is hidden behind pipeline depth when warm.
+> No driver anomaly; NVIDIA driver report withdrawn. Standalone lab +
+> witness traces: rearm/arming/ (PREDICTIONS.md scorecard, results/,
+> traces/). Fix PR #875 unaffected.
+>
+> **VALIDATED 2026-08-02: 0 spikes / 100 steps of Mudith's recipe on the
+> fixed wheel (baseline 26/147; Fisher p = 6.5e-7) — see
+> FIX_VALIDATION_100STEP.md + fix_validation_100step/.**
+>
+> **RESOLVED 2026-08-01: prefill/launch stream race, fixed in the
+> dedicated-launch-stream wheel patch (PR
+> https://github.com/basetenlabs/trainers/pull/875; +dsatopk4, revised to
+> +dsatopk5 in the 08-02 review — PR875_REVIEW_0803.md); see
+> rearm/NIGHT_0801_FINDINGS.md.** The note below predates the resolution
+> and its "defect = CuTe kernel" framing is superseded.
+>
+> **2026-08-01 (earlier): this index predates the breakthrough.** Defect = CuTe
+> indexer forward whole-segment skip; trigger = empty allocator pool
+> (empty_cache lever, 80s repro). Current evidence + mission:
+> **HANDOFF.md (rewritten) → rearm/README.md.** The map below remains
+> valid for the pre-08-01 claims it covers.
+
+Read order: HANDOFF.md (unified entry point) → rearm/README.md (08-01
+breakthrough evidence) → INVESTIGATION.md (chronological findings log) →
+VERDICT.md (historical) → this file (claim → raw artifact map).
 
 ## Claim → artifact map
 

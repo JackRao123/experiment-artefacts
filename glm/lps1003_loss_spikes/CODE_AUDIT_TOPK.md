@@ -1,5 +1,8 @@
 # LPS-1003 code audit: the actual defect (branch session, 2026-07-30 afternoon)
 
+> **RESOLVED 2026-08-01: prefill/launch stream race, fixed (PR basetenlabs/trainers#875; wheel now +dsatopk5 after the 08-02 review — PR875_REVIEW_0803.md). See rearm/NIGHT_0801_FINDINGS.md.**
+
+
 Read-only audit of the CP/THD/DSA forward path, cross-checked against every
 empirical constraint from INVESTIGATION.md. Bottom line: **the CP
 implementation is clean; the defect is in the cuDNN-frontend DSA indexer

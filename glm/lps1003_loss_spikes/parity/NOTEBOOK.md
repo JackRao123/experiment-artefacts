@@ -510,3 +510,15 @@ lore was conn=1. DECISIVE NEXT: conn=1 boot + same payload → its level
 names the correct state. Exemplar dump pairs + full series:
 ctrl/soak_0801_015956/. Note the detection threshold irony: at 30k rows
 the same-family effect may exist below our 2-nat/mean radar.
+
+# ── 2026-08-01 ~05:30Z — INVESTIGATION CLOSED AT KERNEL LEVEL; this notebook is now historical ──
+
+Arm H ran (after fixing a fatal out=None bug in harness6 that would have
+compared nothing): the cuDNN CuTe indexer forward self-disagrees bitwise
+(39% of calls on destroyed reps, 0% healed, ~1% steady); FlashMLA clean
+0/12k. Consumed run is the outlier; 203/203 whole-segment skips = the
+entire 2nd THD segment left at -inf prefill. Cold start bisected: the
+rep0 trigger is the EMPTY ALLOCATOR POOL — torch.cuda.empty_cache() before
+a /forward re-arms full destruction 14/14 (~80s, no reboot; rebuild also
+re-arms; compile/NCCL/python state exonerated). Current mission + rig:
+HANDOFF.md (rewritten) and rearm/README.md.

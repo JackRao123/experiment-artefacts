@@ -1,5 +1,8 @@
 # LPS-1003 Issue 2 — experiment handoff (DSA top-k OUTPUT-INDICES verification)
 
+> **RESOLVED 2026-08-01: prefill/launch stream race, fixed (PR basetenlabs/trainers#875; wheel now +dsatopk5 after the 08-02 review — PR875_REVIEW_0803.md). See rearm/NIGHT_0801_FINDINGS.md.**
+
+
 > **REWRITTEN 2026-07-30 evening.** The original version of this file (written
 > 14:42 by a parallel analysis session) specced experiments for the
 > "top-k *reads scores* past `seq_lens` → garbage scores win" mechanism

@@ -1,0 +1,96 @@
+diff -ruN a/cudnn/deepseek_sparse_attention/indexer_forward/_interface.py b/cudnn/deepseek_sparse_attention/indexer_forward/_interface.py
+--- a/cudnn/deepseek_sparse_attention/indexer_forward/_interface.py	2026-08-01 02:26:51
++++ b/cudnn/deepseek_sparse_attention/indexer_forward/_interface.py	2026-08-01 02:40:39
+@@ -10,6 +10,7 @@
+ from typing import Optional
+ 
+ import torch
++import cuda.bindings.driver as cuda
+ 
+ import cutlass
+ import cutlass.cute as cute
+@@ -28,7 +29,27 @@
+ # Module-level compile cache
+ _compile_cache: dict = {}
+ 
++# Dedicated per-device launch streams (LPS-1003). The compiled kernel and its
++# -inf prefill must not run on the legacy default stream: with
++# CUDA_DEVICE_MAX_CONNECTIONS unset, default-stream work around the DSL
++# launch loses inter-op ordering with it, and the prefill can land AFTER the
++# kernel's stores, erasing freshly-written scores (whole packed-row halves
++# read back as -inf; downstream top-k then selects garbage KV). Running the
++# prefill + launch on an explicit stream, event-chained to the caller's
++# stream, restores ordering without any serialization. Verified A/B on
++# GLM-5.2-FP8 cp16 262k, B300: default-stream arrangement corrupts 8/8
++# cold-start reps; this arrangement 0/8, bitwise-stable outputs.
++_kernel_streams: dict = {}
+ 
++
++def _get_kernel_stream(device) -> "torch.cuda.Stream":
++    s = _kernel_streams.get(device)
++    if s is None:
++        s = torch.cuda.Stream(device=device)
++        _kernel_streams[device] = s
++    return s
++
++
+ def indexer_fwd(
+     q: torch.Tensor,
+     k: torch.Tensor,
+@@ -204,27 +225,38 @@
+             options=compile_options(),
+         )
+ 
+-    # Init to -inf: skipped causal n-blocks and masked positions stay -inf
+-    with _torch_stream_context(current_stream):
+-        out.fill_(float("-inf"))
+     scale_arg = cutlass.Float32(sm_scale)
+     max_q_arg = cutlass.Int32(seqlen_q_dim)
+     max_k_arg = cutlass.Int32(seqlen_k_dim)
+-    with torch.cuda.nvtx.range("indexer_fwd_kernel"):
+-        _compile_cache[compile_key](
+-            q,
+-            k,
+-            w,
+-            out,
+-            n_heads_kv,
+-            max_q_arg,
+-            max_k_arg,
+-            scale_arg,
+-            cu_seqlens_q if is_varlen else None,
+-            cu_seqlens_k if is_varlen else None,
+-            q_causal_offsets,
+-            current_stream,
+-        )
++    # Run the -inf prefill and the kernel launch on a dedicated stream,
++    # event-chained to the caller's stream (see _get_kernel_stream above).
++    launch_stream = _get_kernel_stream(device)
++    caller_stream = torch.cuda.current_stream()
++    try:
++        if int(current_stream) != caller_stream.cuda_stream:
++            caller_stream = torch.cuda.ExternalStream(int(current_stream))
++    except Exception:
++        pass
++    launch_stream.wait_stream(caller_stream)
++    with torch.cuda.stream(launch_stream):
++        # Init to -inf: skipped causal n-blocks and masked positions stay -inf
++        out.fill_(float("-inf"))
++        with torch.cuda.nvtx.range("indexer_fwd_kernel"):
++            _compile_cache[compile_key](
++                q,
++                k,
++                w,
++                out,
++                n_heads_kv,
++                max_q_arg,
++                max_k_arg,
++                scale_arg,
++                cu_seqlens_q if is_varlen else None,
++                cu_seqlens_k if is_varlen else None,
++                q_causal_offsets,
++                cuda.CUstream(launch_stream.cuda_stream),
++            )
++    caller_stream.wait_stream(launch_stream)
+ 
+     if out_orig is not None and out.data_ptr() != out_orig.data_ptr():
+         with _torch_stream_context(current_stream):

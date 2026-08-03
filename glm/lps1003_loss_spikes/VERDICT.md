@@ -1,5 +1,8 @@
 # LPS-1003 Issue 2 — verdict: GLM-5.2-FP8 loss bumps
 
+> **RESOLVED 2026-08-01: prefill/launch stream race, fixed (PR basetenlabs/trainers#875; wheel now +dsatopk5 after the 08-02 review — PR875_REVIEW_0803.md). See rearm/NIGHT_0801_FINDINGS.md.**
+
+
 > **2026-07-31 evening: this file is historical.** Current status — trigger
 > (`CUDA_DEVICE_MAX_CONNECTIONS` unset) + mask (=1) proven, all
 > consumption-path stream-race and buffer-underwrite mechanisms falsified,
