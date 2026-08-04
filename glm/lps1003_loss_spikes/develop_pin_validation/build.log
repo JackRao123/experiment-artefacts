@@ -1,0 +1,1664 @@
+Building wheel...
+/root/.cache/uv/builds-v0/.tmpF3Rn8Q/lib/python3.12/site-packages/setuptools/config/_apply_pyprojecttoml.py:82: SetuptoolsDeprecationWarning: `project.license` as a TOML table is deprecated
+!!
+
+        ********************************************************************************
+        Please use a simple string containing a SPDX expression for `project.license`. You can also use `project.license-files`. (Both options available on setuptools>=77.0.0).
+
+        By 2027-Feb-18, you need to update your project and remove deprecated calls
+        or your builds will no longer be supported.
+
+        See https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#license for details.
+        ********************************************************************************
+
+!!
+  corresp(dist, value, root_dir)
+/root/.cache/uv/builds-v0/.tmpF3Rn8Q/lib/python3.12/site-packages/setuptools/config/_apply_pyprojecttoml.py:61: SetuptoolsDeprecationWarning: License classifiers are deprecated.
+!!
+
+        ********************************************************************************
+        Please consider removing the following classifiers in favor of a SPDX license expression:
+
+        License :: OSI Approved :: Apache Software License
+        License :: OSI Approved :: MIT License
+
+        See https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#license for details.
+        ********************************************************************************
+
+!!
+  dist._finalize_license_expression()
+/root/.cache/uv/builds-v0/.tmpF3Rn8Q/lib/python3.12/site-packages/setuptools/dist.py:765: SetuptoolsDeprecationWarning: License classifiers are deprecated.
+!!
+
+        ********************************************************************************
+        Please consider removing the following classifiers in favor of a SPDX license expression:
+
+        License :: OSI Approved :: Apache Software License
+        License :: OSI Approved :: MIT License
+
+        See https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#license for details.
+        ********************************************************************************
+
+!!
+  self._finalize_license_expression()
+running egg_info
+creating python/nvidia_cudnn_frontend.egg-info
+writing python/nvidia_cudnn_frontend.egg-info/PKG-INFO
+writing dependency_links to python/nvidia_cudnn_frontend.egg-info/dependency_links.txt
+writing requirements to python/nvidia_cudnn_frontend.egg-info/requires.txt
+writing top-level names to python/nvidia_cudnn_frontend.egg-info/top_level.txt
+writing manifest file 'python/nvidia_cudnn_frontend.egg-info/SOURCES.txt'
+reading manifest file 'python/nvidia_cudnn_frontend.egg-info/SOURCES.txt'
+adding license file 'LICENSE-MIT.txt'
+adding license file 'LICENSE.txt'
+adding license file 'NOTICE'
+writing manifest file 'python/nvidia_cudnn_frontend.egg-info/SOURCES.txt'
+/root/.cache/uv/builds-v0/.tmpF3Rn8Q/lib/python3.12/site-packages/setuptools/config/_apply_pyprojecttoml.py:82: SetuptoolsDeprecationWarning: `project.license` as a TOML table is deprecated
+!!
+
+        ********************************************************************************
+        Please use a simple string containing a SPDX expression for `project.license`. You can also use `project.license-files`. (Both options available on setuptools>=77.0.0).
+
+        By 2027-Feb-18, you need to update your project and remove deprecated calls
+        or your builds will no longer be supported.
+
+        See https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#license for details.
+        ********************************************************************************
+
+!!
+  corresp(dist, value, root_dir)
+/root/.cache/uv/builds-v0/.tmpF3Rn8Q/lib/python3.12/site-packages/setuptools/config/_apply_pyprojecttoml.py:61: SetuptoolsDeprecationWarning: License classifiers are deprecated.
+!!
+
+        ********************************************************************************
+        Please consider removing the following classifiers in favor of a SPDX license expression:
+
+        License :: OSI Approved :: Apache Software License
+        License :: OSI Approved :: MIT License
+
+        See https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#license for details.
+        ********************************************************************************
+
+!!
+  dist._finalize_license_expression()
+/root/.cache/uv/builds-v0/.tmpF3Rn8Q/lib/python3.12/site-packages/setuptools/dist.py:765: SetuptoolsDeprecationWarning: License classifiers are deprecated.
+!!
+
+        ********************************************************************************
+        Please consider removing the following classifiers in favor of a SPDX license expression:
+
+        License :: OSI Approved :: Apache Software License
+        License :: OSI Approved :: MIT License
+
+        See https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#license for details.
+        ********************************************************************************
+
+!!
+  self._finalize_license_expression()
+running bdist_wheel
+running build
+running build_py
+creating build/lib.linux-x86_64-cpython-312/cudnn
+copying python/cudnn/datatypes.py -> build/lib.linux-x86_64-cpython-312/cudnn
+copying python/cudnn/graph.py -> build/lib.linux-x86_64-cpython-312/cudnn
+copying python/cudnn/__init__.py -> build/lib.linux-x86_64-cpython-312/cudnn
+copying python/cudnn/yarn.py -> build/lib.linux-x86_64-cpython-312/cudnn
+copying python/cudnn/collect_env.py -> build/lib.linux-x86_64-cpython-312/cudnn
+copying python/cudnn/_experimental_warnings.py -> build/lib.linux-x86_64-cpython-312/cudnn
+copying python/cudnn/_pygraph.py -> build/lib.linux-x86_64-cpython-312/cudnn
+copying python/cudnn/wrapper.py -> build/lib.linux-x86_64-cpython-312/cudnn
+copying python/cudnn/api_base.py -> build/lib.linux-x86_64-cpython-312/cudnn
+copying python/cudnn/nodes.py -> build/lib.linux-x86_64-cpython-312/cudnn
+copying python/cudnn/graph_types.py -> build/lib.linux-x86_64-cpython-312/cudnn
+creating build/lib.linux-x86_64-cpython-312/cudnn/experimental
+copying python/cudnn/experimental/__init__.py -> build/lib.linux-x86_64-cpython-312/cudnn/experimental
+creating build/lib.linux-x86_64-cpython-312/cudnn/csa
+copying python/cudnn/csa/__init__.py -> build/lib.linux-x86_64-cpython-312/cudnn/csa
+creating build/lib.linux-x86_64-cpython-312/cudnn/engines
+copying python/cudnn/engines/__init__.py -> build/lib.linux-x86_64-cpython-312/cudnn/engines
+copying python/cudnn/engines/base.py -> build/lib.linux-x86_64-cpython-312/cudnn/engines
+copying python/cudnn/engines/engine_ids.py -> build/lib.linux-x86_64-cpython-312/cudnn/engines
+copying python/cudnn/engines/router.py -> build/lib.linux-x86_64-cpython-312/cudnn/engines
+creating build/lib.linux-x86_64-cpython-312/cudnn/gemm
+copying python/cudnn/gemm/__init__.py -> build/lib.linux-x86_64-cpython-312/cudnn/gemm
+creating build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention
+copying python/cudnn/deepseek_sparse_attention/__init__.py -> build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention
+creating build/lib.linux-x86_64-cpython-312/cudnn/sdpa
+copying python/cudnn/sdpa/__init__.py -> build/lib.linux-x86_64-cpython-312/cudnn/sdpa
+copying python/cudnn/sdpa/utils.py -> build/lib.linux-x86_64-cpython-312/cudnn/sdpa
+copying python/cudnn/sdpa/fmha_utils.py -> build/lib.linux-x86_64-cpython-312/cudnn/sdpa
+creating build/lib.linux-x86_64-cpython-312/cudnn/native_sparse_attention
+copying python/cudnn/native_sparse_attention/__init__.py -> build/lib.linux-x86_64-cpython-312/cudnn/native_sparse_attention
+copying python/cudnn/native_sparse_attention/utils.py -> build/lib.linux-x86_64-cpython-312/cudnn/native_sparse_attention
+creating build/lib.linux-x86_64-cpython-312/cudnn/block_sparse_attention
+copying python/cudnn/block_sparse_attention/__init__.py -> build/lib.linux-x86_64-cpython-312/cudnn/block_sparse_attention
+copying python/cudnn/block_sparse_attention/_interface.py -> build/lib.linux-x86_64-cpython-312/cudnn/block_sparse_attention
+copying python/cudnn/block_sparse_attention/api.py -> build/lib.linux-x86_64-cpython-312/cudnn/block_sparse_attention
+creating build/lib.linux-x86_64-cpython-312/cudnn/ops
+copying python/cudnn/ops/__init__.py -> build/lib.linux-x86_64-cpython-312/cudnn/ops
+copying python/cudnn/ops/causal_conv1d.py -> build/lib.linux-x86_64-cpython-312/cudnn/ops
+creating build/lib.linux-x86_64-cpython-312/cudnn/rmsnorm_rht_amax
+copying python/cudnn/rmsnorm_rht_amax/__init__.py -> build/lib.linux-x86_64-cpython-312/cudnn/rmsnorm_rht_amax
+copying python/cudnn/rmsnorm_rht_amax/api.py -> build/lib.linux-x86_64-cpython-312/cudnn/rmsnorm_rht_amax
+copying python/cudnn/rmsnorm_rht_amax/kernel.py -> build/lib.linux-x86_64-cpython-312/cudnn/rmsnorm_rht_amax
+creating build/lib.linux-x86_64-cpython-312/cudnn/experimental/ops
+copying python/cudnn/experimental/ops/sdpa.py -> build/lib.linux-x86_64-cpython-312/cudnn/experimental/ops
+copying python/cudnn/experimental/ops/__init__.py -> build/lib.linux-x86_64-cpython-312/cudnn/experimental/ops
+creating build/lib.linux-x86_64-cpython-312/cudnn/csa/compressor
+copying python/cudnn/csa/compressor/__init__.py -> build/lib.linux-x86_64-cpython-312/cudnn/csa/compressor
+copying python/cudnn/csa/compressor/compressor_sm100_r128.py -> build/lib.linux-x86_64-cpython-312/cudnn/csa/compressor
+copying python/cudnn/csa/compressor/api.py -> build/lib.linux-x86_64-cpython-312/cudnn/csa/compressor
+copying python/cudnn/csa/compressor/compressor_sm100.py -> build/lib.linux-x86_64-cpython-312/cudnn/csa/compressor
+creating build/lib.linux-x86_64-cpython-312/cudnn/gemm/reference
+copying python/cudnn/gemm/reference/__init__.py -> build/lib.linux-x86_64-cpython-312/cudnn/gemm/reference
+copying python/cudnn/gemm/reference/reference_matmul_engine.py -> build/lib.linux-x86_64-cpython-312/cudnn/gemm/reference
+creating build/lib.linux-x86_64-cpython-312/cudnn/gemm/ops
+copying python/cudnn/gemm/ops/moe_grouped_matmul.py -> build/lib.linux-x86_64-cpython-312/cudnn/gemm/ops
+copying python/cudnn/gemm/ops/__init__.py -> build/lib.linux-x86_64-cpython-312/cudnn/gemm/ops
+creating build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl
+copying python/cudnn/gemm/cutedsl/__init__.py -> build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl
+creating build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/discrete_grouped
+copying python/cudnn/gemm/cutedsl/discrete_grouped/__init__.py -> build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/discrete_grouped
+copying python/cudnn/gemm/cutedsl/discrete_grouped/discrete_kernel_utils.py -> build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/discrete_grouped
+copying python/cudnn/gemm/cutedsl/discrete_grouped/moe_persistent_scheduler.py -> build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/discrete_grouped
+copying python/cudnn/gemm/cutedsl/discrete_grouped/moe_utils.py -> build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/discrete_grouped
+copying python/cudnn/gemm/cutedsl/discrete_grouped/moe_sched_extension.py -> build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/discrete_grouped
+creating build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped
+copying python/cudnn/gemm/cutedsl/grouped/__init__.py -> build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped
+copying python/cudnn/gemm/cutedsl/grouped/moe_persistent_scheduler.py -> build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped
+copying python/cudnn/gemm/cutedsl/grouped/moe_utils.py -> build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped
+copying python/cudnn/gemm/cutedsl/grouped/utils.py -> build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped
+copying python/cudnn/gemm/cutedsl/grouped/backend_utils.py -> build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped
+copying python/cudnn/gemm/cutedsl/grouped/moe_sched_extension.py -> build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped
+copying python/cudnn/gemm/cutedsl/grouped/moe_kernel_helpers.py -> build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped
+creating build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/dense
+copying python/cudnn/gemm/cutedsl/dense/__init__.py -> build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/dense
+creating build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/discrete_grouped/swiglu
+copying python/cudnn/gemm/cutedsl/discrete_grouped/swiglu/__init__.py -> build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/discrete_grouped/swiglu
+copying python/cudnn/gemm/cutedsl/discrete_grouped/swiglu/api.py -> build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/discrete_grouped/swiglu
+copying python/cudnn/gemm/cutedsl/discrete_grouped/swiglu/discrete_B_blockscaled_grouped_gemm_glu_bias.py -> build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/discrete_grouped/swiglu
+creating build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/discrete_grouped/dswiglu
+copying python/cudnn/gemm/cutedsl/discrete_grouped/dswiglu/__init__.py -> build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/discrete_grouped/dswiglu
+copying python/cudnn/gemm/cutedsl/discrete_grouped/dswiglu/api.py -> build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/discrete_grouped/dswiglu
+copying python/cudnn/gemm/cutedsl/discrete_grouped/dswiglu/discrete_B_blockscaled_grouped_gemm_dglu_dbias.py -> build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/discrete_grouped/dswiglu
+creating build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/glu
+copying python/cudnn/gemm/cutedsl/grouped/glu/moe_blockscaled_grouped_gemm_glu_bias.py -> build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/glu
+copying python/cudnn/gemm/cutedsl/grouped/glu/__init__.py -> build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/glu
+copying python/cudnn/gemm/cutedsl/grouped/glu/api.py -> build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/glu
+copying python/cudnn/gemm/cutedsl/grouped/glu/moe_grouped_gemm_glu_bias.py -> build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/glu
+copying python/cudnn/gemm/cutedsl/grouped/glu/moe_blockscaled_grouped_gemm_glu_rubin.py -> build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/glu
+copying python/cudnn/gemm/cutedsl/grouped/glu/_blockscaled_api.py -> build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/glu
+copying python/cudnn/gemm/cutedsl/grouped/glu/_bf16_api.py -> build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/glu
+creating build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/dsrelu
+copying python/cudnn/gemm/cutedsl/grouped/dsrelu/__init__.py -> build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/dsrelu
+copying python/cudnn/gemm/cutedsl/grouped/dsrelu/api.py -> build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/dsrelu
+copying python/cudnn/gemm/cutedsl/grouped/dsrelu/moe_blockscaled_grouped_gemm_dsrelu_quant.py -> build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/dsrelu
+creating build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/glu_hadamard
+copying python/cudnn/gemm/cutedsl/grouped/glu_hadamard/moe_blockscaled_grouped_gemm_glu_hadamard.py -> build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/glu_hadamard
+copying python/cudnn/gemm/cutedsl/grouped/glu_hadamard/__init__.py -> build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/glu_hadamard
+copying python/cudnn/gemm/cutedsl/grouped/glu_hadamard/api.py -> build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/glu_hadamard
+copying python/cudnn/gemm/cutedsl/grouped/glu_hadamard/hadamard_utils.py -> build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/glu_hadamard
+creating build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/wgrad
+copying python/cudnn/gemm/cutedsl/grouped/wgrad/__init__.py -> build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/wgrad
+copying python/cudnn/gemm/cutedsl/grouped/wgrad/moe_blockscaled_grouped_gemm_wgrad.py -> build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/wgrad
+copying python/cudnn/gemm/cutedsl/grouped/wgrad/moe_grouped_gemm_wgrad.py -> build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/wgrad
+copying python/cudnn/gemm/cutedsl/grouped/wgrad/moe_blockscaled_grouped_gemm_wgrad_rubin.py -> build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/wgrad
+copying python/cudnn/gemm/cutedsl/grouped/wgrad/api.py -> build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/wgrad
+copying python/cudnn/gemm/cutedsl/grouped/wgrad/_blockscaled_api.py -> build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/wgrad
+copying python/cudnn/gemm/cutedsl/grouped/wgrad/_bf16_api.py -> build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/wgrad
+creating build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/quant
+copying python/cudnn/gemm/cutedsl/grouped/quant/__init__.py -> build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/quant
+copying python/cudnn/gemm/cutedsl/grouped/quant/api.py -> build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/quant
+copying python/cudnn/gemm/cutedsl/grouped/quant/grouped_gemm_quant.py -> build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/quant
+copying python/cudnn/gemm/cutedsl/grouped/quant/moe_blockscaled_grouped_gemm_quant_rubin.py -> build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/quant
+creating build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/swiglu
+copying python/cudnn/gemm/cutedsl/grouped/swiglu/__init__.py -> build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/swiglu
+copying python/cudnn/gemm/cutedsl/grouped/swiglu/grouped_gemm_swiglu_quant.py -> build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/swiglu
+copying python/cudnn/gemm/cutedsl/grouped/swiglu/api.py -> build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/swiglu
+creating build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/srelu
+copying python/cudnn/gemm/cutedsl/grouped/srelu/__init__.py -> build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/srelu
+copying python/cudnn/gemm/cutedsl/grouped/srelu/moe_blockscaled_grouped_gemm_srelu_quant.py -> build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/srelu
+copying python/cudnn/gemm/cutedsl/grouped/srelu/api.py -> build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/srelu
+creating build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/dglu
+copying python/cudnn/gemm/cutedsl/grouped/dglu/__init__.py -> build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/dglu
+copying python/cudnn/gemm/cutedsl/grouped/dglu/moe_blockscaled_grouped_gemm_dglu_dbias.py -> build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/dglu
+copying python/cudnn/gemm/cutedsl/grouped/dglu/api.py -> build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/dglu
+copying python/cudnn/gemm/cutedsl/grouped/dglu/moe_grouped_gemm_dglu_dbias.py -> build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/dglu
+copying python/cudnn/gemm/cutedsl/grouped/dglu/moe_blockscaled_grouped_gemm_dglu_rubin.py -> build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/dglu
+copying python/cudnn/gemm/cutedsl/grouped/dglu/_blockscaled_api.py -> build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/dglu
+copying python/cudnn/gemm/cutedsl/grouped/dglu/_bf16_api.py -> build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/dglu
+creating build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/unfused
+copying python/cudnn/gemm/cutedsl/grouped/unfused/__init__.py -> build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/unfused
+copying python/cudnn/gemm/cutedsl/grouped/unfused/api.py -> build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/unfused
+copying python/cudnn/gemm/cutedsl/grouped/unfused/moe_grouped_gemm.py -> build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/unfused
+copying python/cudnn/gemm/cutedsl/grouped/unfused/_bf16_api.py -> build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/unfused
+creating build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/dswiglu
+copying python/cudnn/gemm/cutedsl/grouped/dswiglu/__init__.py -> build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/dswiglu
+copying python/cudnn/gemm/cutedsl/grouped/dswiglu/api.py -> build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/dswiglu
+copying python/cudnn/gemm/cutedsl/grouped/dswiglu/grouped_gemm_dswiglu_quant.py -> build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/dswiglu
+creating build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/dense/dsrelu
+copying python/cudnn/gemm/cutedsl/dense/dsrelu/__init__.py -> build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/dense/dsrelu
+copying python/cudnn/gemm/cutedsl/dense/dsrelu/dense_blockscaled_gemm_persistent_dsrelu_quant.py -> build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/dense/dsrelu
+copying python/cudnn/gemm/cutedsl/dense/dsrelu/api.py -> build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/dense/dsrelu
+creating build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/dense/swiglu
+copying python/cudnn/gemm/cutedsl/dense/swiglu/dense_blockscaled_gemm_persistent_swiglu_interleaved_quant.py -> build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/dense/swiglu
+copying python/cudnn/gemm/cutedsl/dense/swiglu/__init__.py -> build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/dense/swiglu
+copying python/cudnn/gemm/cutedsl/dense/swiglu/dense_gemm_persistent_swiglu.py -> build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/dense/swiglu
+copying python/cudnn/gemm/cutedsl/dense/swiglu/api.py -> build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/dense/swiglu
+creating build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/dense/amax
+copying python/cudnn/gemm/cutedsl/dense/amax/__init__.py -> build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/dense/amax
+copying python/cudnn/gemm/cutedsl/dense/amax/api.py -> build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/dense/amax
+copying python/cudnn/gemm/cutedsl/dense/amax/dense_blockscaled_gemm_persistent_amax.py -> build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/dense/amax
+creating build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/dense/srelu
+copying python/cudnn/gemm/cutedsl/dense/srelu/dense_blockscaled_gemm_persistent_srelu_quant.py -> build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/dense/srelu
+copying python/cudnn/gemm/cutedsl/dense/srelu/__init__.py -> build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/dense/srelu
+copying python/cudnn/gemm/cutedsl/dense/srelu/api.py -> build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/dense/srelu
+creating build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/dense/proj_rope_mxfp8
+copying python/cudnn/gemm/cutedsl/dense/proj_rope_mxfp8/__init__.py -> build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/dense/proj_rope_mxfp8
+copying python/cudnn/gemm/cutedsl/dense/proj_rope_mxfp8/api.py -> build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/dense/proj_rope_mxfp8
+copying python/cudnn/gemm/cutedsl/dense/proj_rope_mxfp8/gemm_proj_rope_mxfp8_mxfp8in.py -> build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/dense/proj_rope_mxfp8
+copying python/cudnn/gemm/cutedsl/dense/proj_rope_mxfp8/gemm_proj_rope_mxfp8_bf16in.py -> build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/dense/proj_rope_mxfp8
+creating build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/sparse_attention_backward
+copying python/cudnn/deepseek_sparse_attention/sparse_attention_backward/dsa_bwd_sm100.py -> build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/sparse_attention_backward
+copying python/cudnn/deepseek_sparse_attention/sparse_attention_backward/__init__.py -> build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/sparse_attention_backward
+copying python/cudnn/deepseek_sparse_attention/sparse_attention_backward/dsa_bwd_sm90.py -> build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/sparse_attention_backward
+copying python/cudnn/deepseek_sparse_attention/sparse_attention_backward/api.py -> build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/sparse_attention_backward
+copying python/cudnn/deepseek_sparse_attention/sparse_attention_backward/_interface_sm100.py -> build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/sparse_attention_backward
+copying python/cudnn/deepseek_sparse_attention/sparse_attention_backward/_interface_sm90.py -> build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/sparse_attention_backward
+creating build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/utils
+copying python/cudnn/deepseek_sparse_attention/utils/__init__.py -> build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/utils
+copying python/cudnn/deepseek_sparse_attention/utils/compiler.py -> build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/utils
+copying python/cudnn/deepseek_sparse_attention/utils/seqlen.py -> build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/utils
+copying python/cudnn/deepseek_sparse_attention/utils/tensor_conversion.py -> build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/utils
+copying python/cudnn/deepseek_sparse_attention/utils/runtime.py -> build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/utils
+copying python/cudnn/deepseek_sparse_attention/utils/copy.py -> build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/utils
+creating build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/indexer_backward
+copying python/cudnn/deepseek_sparse_attention/indexer_backward/__init__.py -> build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/indexer_backward
+copying python/cudnn/deepseek_sparse_attention/indexer_backward/api.py -> build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/indexer_backward
+copying python/cudnn/deepseek_sparse_attention/indexer_backward/indexer_backward_sm100.py -> build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/indexer_backward
+copying python/cudnn/deepseek_sparse_attention/indexer_backward/dense_indexer_backward_sm90.py -> build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/indexer_backward
+copying python/cudnn/deepseek_sparse_attention/indexer_backward/dense_indexer_backward_sm100.py -> build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/indexer_backward
+copying python/cudnn/deepseek_sparse_attention/indexer_backward/indexer_backward_sm90.py -> build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/indexer_backward
+creating build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/score_recompute
+copying python/cudnn/deepseek_sparse_attention/score_recompute/__init__.py -> build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/score_recompute
+copying python/cudnn/deepseek_sparse_attention/score_recompute/sparse_score_recompute_sm90.py -> build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/score_recompute
+copying python/cudnn/deepseek_sparse_attention/score_recompute/sparse_score_recompute_sm100.py -> build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/score_recompute
+copying python/cudnn/deepseek_sparse_attention/score_recompute/dense_score_recompute_sm100.py -> build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/score_recompute
+copying python/cudnn/deepseek_sparse_attention/score_recompute/api.py -> build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/score_recompute
+copying python/cudnn/deepseek_sparse_attention/score_recompute/_interface_sm100.py -> build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/score_recompute
+copying python/cudnn/deepseek_sparse_attention/score_recompute/pack_gqa.py -> build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/score_recompute
+copying python/cudnn/deepseek_sparse_attention/score_recompute/_interface_sm90.py -> build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/score_recompute
+copying python/cudnn/deepseek_sparse_attention/score_recompute/dense_score_recompute_sm90.py -> build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/score_recompute
+creating build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/indexer_top_k
+copying python/cudnn/deepseek_sparse_attention/indexer_top_k/indexer_top_k_varlen_util.py -> build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/indexer_top_k
+copying python/cudnn/deepseek_sparse_attention/indexer_top_k/__init__.py -> build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/indexer_top_k
+copying python/cudnn/deepseek_sparse_attention/indexer_top_k/api.py -> build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/indexer_top_k
+copying python/cudnn/deepseek_sparse_attention/indexer_top_k/local_to_global_dsl.py -> build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/indexer_top_k
+copying python/cudnn/deepseek_sparse_attention/indexer_top_k/block_scan.py -> build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/indexer_top_k
+copying python/cudnn/deepseek_sparse_attention/indexer_top_k/compactify.py -> build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/indexer_top_k
+copying python/cudnn/deepseek_sparse_attention/indexer_top_k/indexer_top_k_decode_varlen.py -> build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/indexer_top_k
+creating build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/indexer_forward
+copying python/cudnn/deepseek_sparse_attention/indexer_forward/__init__.py -> build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/indexer_forward
+copying python/cudnn/deepseek_sparse_attention/indexer_forward/_interface.py -> build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/indexer_forward
+copying python/cudnn/deepseek_sparse_attention/indexer_forward/api.py -> build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/indexer_forward
+copying python/cudnn/deepseek_sparse_attention/indexer_forward/indexer_fwd_sm100.py -> build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/indexer_forward
+copying python/cudnn/deepseek_sparse_attention/indexer_forward/_interface_sm90.py -> build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/indexer_forward
+copying python/cudnn/deepseek_sparse_attention/indexer_forward/indexer_fwd_sm90.py -> build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/indexer_forward
+creating build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/utils/sm100
+copying python/cudnn/deepseek_sparse_attention/utils/sm100/__init__.py -> build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/utils/sm100
+copying python/cudnn/deepseek_sparse_attention/utils/sm100/mma_desc.py -> build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/utils/sm100
+copying python/cudnn/deepseek_sparse_attention/utils/sm100/gemm.py -> build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/utils/sm100
+creating build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/utils/sm90
+copying python/cudnn/deepseek_sparse_attention/utils/sm90/bwd_tile_scheduler.py -> build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/utils/sm90
+copying python/cudnn/deepseek_sparse_attention/utils/sm90/__init__.py -> build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/utils/sm90
+copying python/cudnn/deepseek_sparse_attention/utils/sm90/bwd_barriers.py -> build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/utils/sm90
+copying python/cudnn/deepseek_sparse_attention/utils/sm90/mma.py -> build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/utils/sm90
+copying python/cudnn/deepseek_sparse_attention/utils/sm90/primitives.py -> build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/utils/sm90
+creating build/lib.linux-x86_64-cpython-312/cudnn/sdpa/bwd
+copying python/cudnn/sdpa/bwd/__init__.py -> build/lib.linux-x86_64-cpython-312/cudnn/sdpa/bwd
+copying python/cudnn/sdpa/bwd/api.py -> build/lib.linux-x86_64-cpython-312/cudnn/sdpa/bwd
+copying python/cudnn/sdpa/bwd/fmha_backward_sm100_2kernel.py -> build/lib.linux-x86_64-cpython-312/cudnn/sdpa/bwd
+copying python/cudnn/sdpa/bwd/fmha_dkdv_d256_sm100.py -> build/lib.linux-x86_64-cpython-312/cudnn/sdpa/bwd
+copying python/cudnn/sdpa/bwd/fmha_dq_d256_sm100.py -> build/lib.linux-x86_64-cpython-312/cudnn/sdpa/bwd
+creating build/lib.linux-x86_64-cpython-312/cudnn/sdpa/fwd
+copying python/cudnn/sdpa/fwd/__init__.py -> build/lib.linux-x86_64-cpython-312/cudnn/sdpa/fwd
+copying python/cudnn/sdpa/fwd/api.py -> build/lib.linux-x86_64-cpython-312/cudnn/sdpa/fwd
+copying python/cudnn/sdpa/fwd/fmha_forward_sm100_d256.py -> build/lib.linux-x86_64-cpython-312/cudnn/sdpa/fwd
+creating build/lib.linux-x86_64-cpython-312/cudnn/native_sparse_attention/compression
+copying python/cudnn/native_sparse_attention/compression/__init__.py -> build/lib.linux-x86_64-cpython-312/cudnn/native_sparse_attention/compression
+copying python/cudnn/native_sparse_attention/compression/fmha_helpers.py -> build/lib.linux-x86_64-cpython-312/cudnn/native_sparse_attention/compression
+copying python/cudnn/native_sparse_attention/compression/api.py -> build/lib.linux-x86_64-cpython-312/cudnn/native_sparse_attention/compression
+copying python/cudnn/native_sparse_attention/compression/fmha.py -> build/lib.linux-x86_64-cpython-312/cudnn/native_sparse_attention/compression
+creating build/lib.linux-x86_64-cpython-312/cudnn/native_sparse_attention/selection
+copying python/cudnn/native_sparse_attention/selection/__init__.py -> build/lib.linux-x86_64-cpython-312/cudnn/native_sparse_attention/selection
+copying python/cudnn/native_sparse_attention/selection/NSA_select_attn_fwd_hmma.py -> build/lib.linux-x86_64-cpython-312/cudnn/native_sparse_attention/selection
+copying python/cudnn/native_sparse_attention/selection/api.py -> build/lib.linux-x86_64-cpython-312/cudnn/native_sparse_attention/selection
+creating build/lib.linux-x86_64-cpython-312/cudnn/native_sparse_attention/top_k
+copying python/cudnn/native_sparse_attention/top_k/__init__.py -> build/lib.linux-x86_64-cpython-312/cudnn/native_sparse_attention/top_k
+copying python/cudnn/native_sparse_attention/top_k/api.py -> build/lib.linux-x86_64-cpython-312/cudnn/native_sparse_attention/top_k
+copying python/cudnn/native_sparse_attention/top_k/nsa_top_k_reduction_fwd.py -> build/lib.linux-x86_64-cpython-312/cudnn/native_sparse_attention/top_k
+creating build/lib.linux-x86_64-cpython-312/cudnn/native_sparse_attention/sliding_window_attention
+copying python/cudnn/native_sparse_attention/sliding_window_attention/__init__.py -> build/lib.linux-x86_64-cpython-312/cudnn/native_sparse_attention/sliding_window_attention
+copying python/cudnn/native_sparse_attention/sliding_window_attention/api.py -> build/lib.linux-x86_64-cpython-312/cudnn/native_sparse_attention/sliding_window_attention
+creating build/lib.linux-x86_64-cpython-312/cudnn/block_sparse_attention/csrc
+copying python/cudnn/block_sparse_attention/csrc/__init__.py -> build/lib.linux-x86_64-cpython-312/cudnn/block_sparse_attention/csrc
+creating build/lib.linux-x86_64-cpython-312/cudnn/block_sparse_attention/csrc/bwd
+copying python/cudnn/block_sparse_attention/csrc/bwd/__init__.py -> build/lib.linux-x86_64-cpython-312/cudnn/block_sparse_attention/csrc/bwd
+copying python/cudnn/block_sparse_attention/csrc/bwd/bsa_bwd_preprocess.py -> build/lib.linux-x86_64-cpython-312/cudnn/block_sparse_attention/csrc/bwd
+copying python/cudnn/block_sparse_attention/csrc/bwd/bsa_bwd_postprocess.py -> build/lib.linux-x86_64-cpython-312/cudnn/block_sparse_attention/csrc/bwd
+copying python/cudnn/block_sparse_attention/csrc/bwd/bsa_bwd_prepost.py -> build/lib.linux-x86_64-cpython-312/cudnn/block_sparse_attention/csrc/bwd
+copying python/cudnn/block_sparse_attention/csrc/bwd/bucketed_k2q_csr.py -> build/lib.linux-x86_64-cpython-312/cudnn/block_sparse_attention/csrc/bwd
+creating build/lib.linux-x86_64-cpython-312/cudnn/block_sparse_attention/csrc/utils
+copying python/cudnn/block_sparse_attention/csrc/utils/tcgen05_mma_helpers.py -> build/lib.linux-x86_64-cpython-312/cudnn/block_sparse_attention/csrc/utils
+copying python/cudnn/block_sparse_attention/csrc/utils/__init__.py -> build/lib.linux-x86_64-cpython-312/cudnn/block_sparse_attention/csrc/utils
+copying python/cudnn/block_sparse_attention/csrc/utils/seqlen_info.py -> build/lib.linux-x86_64-cpython-312/cudnn/block_sparse_attention/csrc/utils
+copying python/cudnn/block_sparse_attention/csrc/utils/kernel_utils.py -> build/lib.linux-x86_64-cpython-312/cudnn/block_sparse_attention/csrc/utils
+copying python/cudnn/block_sparse_attention/csrc/utils/mma_sm100_desc.py -> build/lib.linux-x86_64-cpython-312/cudnn/block_sparse_attention/csrc/utils
+copying python/cudnn/block_sparse_attention/csrc/utils/named_barrier.py -> build/lib.linux-x86_64-cpython-312/cudnn/block_sparse_attention/csrc/utils
+copying python/cudnn/block_sparse_attention/csrc/utils/layout_utils.py -> build/lib.linux-x86_64-cpython-312/cudnn/block_sparse_attention/csrc/utils
+copying python/cudnn/block_sparse_attention/csrc/utils/cute_dsl_utils.py -> build/lib.linux-x86_64-cpython-312/cudnn/block_sparse_attention/csrc/utils
+copying python/cudnn/block_sparse_attention/csrc/utils/block_info.py -> build/lib.linux-x86_64-cpython-312/cudnn/block_sparse_attention/csrc/utils
+copying python/cudnn/block_sparse_attention/csrc/utils/copy_utils.py -> build/lib.linux-x86_64-cpython-312/cudnn/block_sparse_attention/csrc/utils
+copying python/cudnn/block_sparse_attention/csrc/utils/softmax.py -> build/lib.linux-x86_64-cpython-312/cudnn/block_sparse_attention/csrc/utils
+copying python/cudnn/block_sparse_attention/csrc/utils/tile_scheduler.py -> build/lib.linux-x86_64-cpython-312/cudnn/block_sparse_attention/csrc/utils
+copying python/cudnn/block_sparse_attention/csrc/utils/pack_gqa.py -> build/lib.linux-x86_64-cpython-312/cudnn/block_sparse_attention/csrc/utils
+copying python/cudnn/block_sparse_attention/csrc/utils/pipeline.py -> build/lib.linux-x86_64-cpython-312/cudnn/block_sparse_attention/csrc/utils
+copying python/cudnn/block_sparse_attention/csrc/utils/batched_static_scheduler.py -> build/lib.linux-x86_64-cpython-312/cudnn/block_sparse_attention/csrc/utils
+copying python/cudnn/block_sparse_attention/csrc/utils/sm90_utils.py -> build/lib.linux-x86_64-cpython-312/cudnn/block_sparse_attention/csrc/utils
+copying python/cudnn/block_sparse_attention/csrc/utils/block_sparse_tile_scheduler.py -> build/lib.linux-x86_64-cpython-312/cudnn/block_sparse_attention/csrc/utils
+creating build/lib.linux-x86_64-cpython-312/cudnn/block_sparse_attention/csrc/fwd
+copying python/cudnn/block_sparse_attention/csrc/fwd/__init__.py -> build/lib.linux-x86_64-cpython-312/cudnn/block_sparse_attention/csrc/fwd
+creating build/lib.linux-x86_64-cpython-312/cudnn/block_sparse_attention/csrc/bwd/sm90_blk64
+copying python/cudnn/block_sparse_attention/csrc/bwd/sm90_blk64/bsa_bwd_sm90.py -> build/lib.linux-x86_64-cpython-312/cudnn/block_sparse_attention/csrc/bwd/sm90_blk64
+creating build/lib.linux-x86_64-cpython-312/cudnn/block_sparse_attention/csrc/bwd/sm100_blk128
+copying python/cudnn/block_sparse_attention/csrc/bwd/sm100_blk128/__init__.py -> build/lib.linux-x86_64-cpython-312/cudnn/block_sparse_attention/csrc/bwd/sm100_blk128
+copying python/cudnn/block_sparse_attention/csrc/bwd/sm100_blk128/bsa_bwd_sm100.py -> build/lib.linux-x86_64-cpython-312/cudnn/block_sparse_attention/csrc/bwd/sm100_blk128
+creating build/lib.linux-x86_64-cpython-312/cudnn/block_sparse_attention/csrc/bwd/sm100_blk64
+copying python/cudnn/block_sparse_attention/csrc/bwd/sm100_blk64/__init__.py -> build/lib.linux-x86_64-cpython-312/cudnn/block_sparse_attention/csrc/bwd/sm100_blk64
+copying python/cudnn/block_sparse_attention/csrc/bwd/sm100_blk64/bsa_bwd_sm100.py -> build/lib.linux-x86_64-cpython-312/cudnn/block_sparse_attention/csrc/bwd/sm100_blk64
+creating build/lib.linux-x86_64-cpython-312/cudnn/block_sparse_attention/csrc/fwd/sm90_blk64
+copying python/cudnn/block_sparse_attention/csrc/fwd/sm90_blk64/bsa_fwd_sm90.py -> build/lib.linux-x86_64-cpython-312/cudnn/block_sparse_attention/csrc/fwd/sm90_blk64
+creating build/lib.linux-x86_64-cpython-312/cudnn/block_sparse_attention/csrc/fwd/sm100_blk128
+copying python/cudnn/block_sparse_attention/csrc/fwd/sm100_blk128/__init__.py -> build/lib.linux-x86_64-cpython-312/cudnn/block_sparse_attention/csrc/fwd/sm100_blk128
+copying python/cudnn/block_sparse_attention/csrc/fwd/sm100_blk128/bsa_fwd_sm100.py -> build/lib.linux-x86_64-cpython-312/cudnn/block_sparse_attention/csrc/fwd/sm100_blk128
+creating build/lib.linux-x86_64-cpython-312/cudnn/block_sparse_attention/csrc/fwd/sm100_blk64
+copying python/cudnn/block_sparse_attention/csrc/fwd/sm100_blk64/bsa_fwd_combine.py -> build/lib.linux-x86_64-cpython-312/cudnn/block_sparse_attention/csrc/fwd/sm100_blk64
+copying python/cudnn/block_sparse_attention/csrc/fwd/sm100_blk64/bsa_fwd_helpers.py -> build/lib.linux-x86_64-cpython-312/cudnn/block_sparse_attention/csrc/fwd/sm100_blk64
+copying python/cudnn/block_sparse_attention/csrc/fwd/sm100_blk64/bsa_fwd_sm100.py -> build/lib.linux-x86_64-cpython-312/cudnn/block_sparse_attention/csrc/fwd/sm100_blk64
+creating build/lib.linux-x86_64-cpython-312/cudnn/block_sparse_attention/csrc/fwd/sm120_blk64
+copying python/cudnn/block_sparse_attention/csrc/fwd/sm120_blk64/bsa_fwd_sm120.py -> build/lib.linux-x86_64-cpython-312/cudnn/block_sparse_attention/csrc/fwd/sm120_blk64
+running egg_info
+writing python/nvidia_cudnn_frontend.egg-info/PKG-INFO
+writing dependency_links to python/nvidia_cudnn_frontend.egg-info/dependency_links.txt
+writing requirements to python/nvidia_cudnn_frontend.egg-info/requires.txt
+writing top-level names to python/nvidia_cudnn_frontend.egg-info/top_level.txt
+reading manifest file 'python/nvidia_cudnn_frontend.egg-info/SOURCES.txt'
+adding license file 'LICENSE-MIT.txt'
+adding license file 'LICENSE.txt'
+adding license file 'NOTICE'
+writing manifest file 'python/nvidia_cudnn_frontend.egg-info/SOURCES.txt'
+/root/.cache/uv/builds-v0/.tmpF3Rn8Q/lib/python3.12/site-packages/setuptools/command/build_py.py:215: _Warning: Package 'include.cudnn_frontend' is absent from the `packages` configuration.
+!!
+
+        ********************************************************************************
+        ############################
+        # Package would be ignored #
+        ############################
+        Python recognizes 'include.cudnn_frontend' as an importable package[^1],
+        but it is absent from setuptools' `packages` configuration.
+
+        This leads to an ambiguous overall configuration. If you want to distribute this
+        package, please make sure that 'include.cudnn_frontend' is explicitly added
+        to the `packages` configuration field.
+
+        Alternatively, you can also rely on setuptools' discovery methods
+        (for example by using `find_namespace_packages(...)`/`find_namespace:`
+        instead of `find_packages(...)`/`find:`).
+
+        You can read more about "package discovery" on setuptools documentation page:
+
+        - https://setuptools.pypa.io/en/latest/userguide/package_discovery.html
+
+        If you don't want 'include.cudnn_frontend' to be distributed and are
+        already explicitly excluding 'include.cudnn_frontend' via
+        `find_namespace_packages(...)/find_namespace` or `find_packages(...)/find`,
+        you can try to use `exclude_package_data`, or `include-package-data=False` in
+        combination with a more fine grained `package-data` configuration.
+
+        You can read more about "package data files" on setuptools documentation page:
+
+        - https://setuptools.pypa.io/en/latest/userguide/datafiles.html
+
+
+        [^1]: For Python, any directory (with suitable naming) can be imported,
+              even if it does not contain any `.py` files.
+              On the other hand, currently there is no concept of package data
+              directory, all directories are treated like packages.
+        ********************************************************************************
+
+!!
+  check.warn(importable)
+/root/.cache/uv/builds-v0/.tmpF3Rn8Q/lib/python3.12/site-packages/setuptools/command/build_py.py:215: _Warning: Package 'include.cudnn_frontend.backend' is absent from the `packages` configuration.
+!!
+
+        ********************************************************************************
+        ############################
+        # Package would be ignored #
+        ############################
+        Python recognizes 'include.cudnn_frontend.backend' as an importable package[^1],
+        but it is absent from setuptools' `packages` configuration.
+
+        This leads to an ambiguous overall configuration. If you want to distribute this
+        package, please make sure that 'include.cudnn_frontend.backend' is explicitly added
+        to the `packages` configuration field.
+
+        Alternatively, you can also rely on setuptools' discovery methods
+        (for example by using `find_namespace_packages(...)`/`find_namespace:`
+        instead of `find_packages(...)`/`find:`).
+
+        You can read more about "package discovery" on setuptools documentation page:
+
+        - https://setuptools.pypa.io/en/latest/userguide/package_discovery.html
+
+        If you don't want 'include.cudnn_frontend.backend' to be distributed and are
+        already explicitly excluding 'include.cudnn_frontend.backend' via
+        `find_namespace_packages(...)/find_namespace` or `find_packages(...)/find`,
+        you can try to use `exclude_package_data`, or `include-package-data=False` in
+        combination with a more fine grained `package-data` configuration.
+
+        You can read more about "package data files" on setuptools documentation page:
+
+        - https://setuptools.pypa.io/en/latest/userguide/datafiles.html
+
+
+        [^1]: For Python, any directory (with suitable naming) can be imported,
+              even if it does not contain any `.py` files.
+              On the other hand, currently there is no concept of package data
+              directory, all directories are treated like packages.
+        ********************************************************************************
+
+!!
+  check.warn(importable)
+/root/.cache/uv/builds-v0/.tmpF3Rn8Q/lib/python3.12/site-packages/setuptools/command/build_py.py:215: _Warning: Package 'include.cudnn_frontend.experimental' is absent from the `packages` configuration.
+!!
+
+        ********************************************************************************
+        ############################
+        # Package would be ignored #
+        ############################
+        Python recognizes 'include.cudnn_frontend.experimental' as an importable package[^1],
+        but it is absent from setuptools' `packages` configuration.
+
+        This leads to an ambiguous overall configuration. If you want to distribute this
+        package, please make sure that 'include.cudnn_frontend.experimental' is explicitly added
+        to the `packages` configuration field.
+
+        Alternatively, you can also rely on setuptools' discovery methods
+        (for example by using `find_namespace_packages(...)`/`find_namespace:`
+        instead of `find_packages(...)`/`find:`).
+
+        You can read more about "package discovery" on setuptools documentation page:
+
+        - https://setuptools.pypa.io/en/latest/userguide/package_discovery.html
+
+        If you don't want 'include.cudnn_frontend.experimental' to be distributed and are
+        already explicitly excluding 'include.cudnn_frontend.experimental' via
+        `find_namespace_packages(...)/find_namespace` or `find_packages(...)/find`,
+        you can try to use `exclude_package_data`, or `include-package-data=False` in
+        combination with a more fine grained `package-data` configuration.
+
+        You can read more about "package data files" on setuptools documentation page:
+
+        - https://setuptools.pypa.io/en/latest/userguide/datafiles.html
+
+
+        [^1]: For Python, any directory (with suitable naming) can be imported,
+              even if it does not contain any `.py` files.
+              On the other hand, currently there is no concept of package data
+              directory, all directories are treated like packages.
+        ********************************************************************************
+
+!!
+  check.warn(importable)
+/root/.cache/uv/builds-v0/.tmpF3Rn8Q/lib/python3.12/site-packages/setuptools/command/build_py.py:215: _Warning: Package 'include.cudnn_frontend.generated.rms_norm_silu.sm100' is absent from the `packages` configuration.
+!!
+
+        ********************************************************************************
+        ############################
+        # Package would be ignored #
+        ############################
+        Python recognizes 'include.cudnn_frontend.generated.rms_norm_silu.sm100' as an importable package[^1],
+        but it is absent from setuptools' `packages` configuration.
+
+        This leads to an ambiguous overall configuration. If you want to distribute this
+        package, please make sure that 'include.cudnn_frontend.generated.rms_norm_silu.sm100' is explicitly added
+        to the `packages` configuration field.
+
+        Alternatively, you can also rely on setuptools' discovery methods
+        (for example by using `find_namespace_packages(...)`/`find_namespace:`
+        instead of `find_packages(...)`/`find:`).
+
+        You can read more about "package discovery" on setuptools documentation page:
+
+        - https://setuptools.pypa.io/en/latest/userguide/package_discovery.html
+
+        If you don't want 'include.cudnn_frontend.generated.rms_norm_silu.sm100' to be distributed and are
+        already explicitly excluding 'include.cudnn_frontend.generated.rms_norm_silu.sm100' via
+        `find_namespace_packages(...)/find_namespace` or `find_packages(...)/find`,
+        you can try to use `exclude_package_data`, or `include-package-data=False` in
+        combination with a more fine grained `package-data` configuration.
+
+        You can read more about "package data files" on setuptools documentation page:
+
+        - https://setuptools.pypa.io/en/latest/userguide/datafiles.html
+
+
+        [^1]: For Python, any directory (with suitable naming) can be imported,
+              even if it does not contain any `.py` files.
+              On the other hand, currently there is no concept of package data
+              directory, all directories are treated like packages.
+        ********************************************************************************
+
+!!
+  check.warn(importable)
+/root/.cache/uv/builds-v0/.tmpF3Rn8Q/lib/python3.12/site-packages/setuptools/command/build_py.py:215: _Warning: Package 'include.cudnn_frontend.generated.sdpa.sm100.prefill.full_seqlens' is absent from the `packages` configuration.
+!!
+
+        ********************************************************************************
+        ############################
+        # Package would be ignored #
+        ############################
+        Python recognizes 'include.cudnn_frontend.generated.sdpa.sm100.prefill.full_seqlens' as an importable package[^1],
+        but it is absent from setuptools' `packages` configuration.
+
+        This leads to an ambiguous overall configuration. If you want to distribute this
+        package, please make sure that 'include.cudnn_frontend.generated.sdpa.sm100.prefill.full_seqlens' is explicitly added
+        to the `packages` configuration field.
+
+        Alternatively, you can also rely on setuptools' discovery methods
+        (for example by using `find_namespace_packages(...)`/`find_namespace:`
+        instead of `find_packages(...)`/`find:`).
+
+        You can read more about "package discovery" on setuptools documentation page:
+
+        - https://setuptools.pypa.io/en/latest/userguide/package_discovery.html
+
+        If you don't want 'include.cudnn_frontend.generated.sdpa.sm100.prefill.full_seqlens' to be distributed and are
+        already explicitly excluding 'include.cudnn_frontend.generated.sdpa.sm100.prefill.full_seqlens' via
+        `find_namespace_packages(...)/find_namespace` or `find_packages(...)/find`,
+        you can try to use `exclude_package_data`, or `include-package-data=False` in
+        combination with a more fine grained `package-data` configuration.
+
+        You can read more about "package data files" on setuptools documentation page:
+
+        - https://setuptools.pypa.io/en/latest/userguide/datafiles.html
+
+
+        [^1]: For Python, any directory (with suitable naming) can be imported,
+              even if it does not contain any `.py` files.
+              On the other hand, currently there is no concept of package data
+              directory, all directories are treated like packages.
+        ********************************************************************************
+
+!!
+  check.warn(importable)
+/root/.cache/uv/builds-v0/.tmpF3Rn8Q/lib/python3.12/site-packages/setuptools/command/build_py.py:215: _Warning: Package 'include.cudnn_frontend.generated.sdpa.sm90.prefill.full_seqlens' is absent from the `packages` configuration.
+!!
+
+        ********************************************************************************
+        ############################
+        # Package would be ignored #
+        ############################
+        Python recognizes 'include.cudnn_frontend.generated.sdpa.sm90.prefill.full_seqlens' as an importable package[^1],
+        but it is absent from setuptools' `packages` configuration.
+
+        This leads to an ambiguous overall configuration. If you want to distribute this
+        package, please make sure that 'include.cudnn_frontend.generated.sdpa.sm90.prefill.full_seqlens' is explicitly added
+        to the `packages` configuration field.
+
+        Alternatively, you can also rely on setuptools' discovery methods
+        (for example by using `find_namespace_packages(...)`/`find_namespace:`
+        instead of `find_packages(...)`/`find:`).
+
+        You can read more about "package discovery" on setuptools documentation page:
+
+        - https://setuptools.pypa.io/en/latest/userguide/package_discovery.html
+
+        If you don't want 'include.cudnn_frontend.generated.sdpa.sm90.prefill.full_seqlens' to be distributed and are
+        already explicitly excluding 'include.cudnn_frontend.generated.sdpa.sm90.prefill.full_seqlens' via
+        `find_namespace_packages(...)/find_namespace` or `find_packages(...)/find`,
+        you can try to use `exclude_package_data`, or `include-package-data=False` in
+        combination with a more fine grained `package-data` configuration.
+
+        You can read more about "package data files" on setuptools documentation page:
+
+        - https://setuptools.pypa.io/en/latest/userguide/datafiles.html
+
+
+        [^1]: For Python, any directory (with suitable naming) can be imported,
+              even if it does not contain any `.py` files.
+              On the other hand, currently there is no concept of package data
+              directory, all directories are treated like packages.
+        ********************************************************************************
+
+!!
+  check.warn(importable)
+/root/.cache/uv/builds-v0/.tmpF3Rn8Q/lib/python3.12/site-packages/setuptools/command/build_py.py:215: _Warning: Package 'include.cudnn_frontend.node' is absent from the `packages` configuration.
+!!
+
+        ********************************************************************************
+        ############################
+        # Package would be ignored #
+        ############################
+        Python recognizes 'include.cudnn_frontend.node' as an importable package[^1],
+        but it is absent from setuptools' `packages` configuration.
+
+        This leads to an ambiguous overall configuration. If you want to distribute this
+        package, please make sure that 'include.cudnn_frontend.node' is explicitly added
+        to the `packages` configuration field.
+
+        Alternatively, you can also rely on setuptools' discovery methods
+        (for example by using `find_namespace_packages(...)`/`find_namespace:`
+        instead of `find_packages(...)`/`find:`).
+
+        You can read more about "package discovery" on setuptools documentation page:
+
+        - https://setuptools.pypa.io/en/latest/userguide/package_discovery.html
+
+        If you don't want 'include.cudnn_frontend.node' to be distributed and are
+        already explicitly excluding 'include.cudnn_frontend.node' via
+        `find_namespace_packages(...)/find_namespace` or `find_packages(...)/find`,
+        you can try to use `exclude_package_data`, or `include-package-data=False` in
+        combination with a more fine grained `package-data` configuration.
+
+        You can read more about "package data files" on setuptools documentation page:
+
+        - https://setuptools.pypa.io/en/latest/userguide/datafiles.html
+
+
+        [^1]: For Python, any directory (with suitable naming) can be imported,
+              even if it does not contain any `.py` files.
+              On the other hand, currently there is no concept of package data
+              directory, all directories are treated like packages.
+        ********************************************************************************
+
+!!
+  check.warn(importable)
+/root/.cache/uv/builds-v0/.tmpF3Rn8Q/lib/python3.12/site-packages/setuptools/command/build_py.py:215: _Warning: Package 'include.cudnn_frontend.thirdparty.nlohmann' is absent from the `packages` configuration.
+!!
+
+        ********************************************************************************
+        ############################
+        # Package would be ignored #
+        ############################
+        Python recognizes 'include.cudnn_frontend.thirdparty.nlohmann' as an importable package[^1],
+        but it is absent from setuptools' `packages` configuration.
+
+        This leads to an ambiguous overall configuration. If you want to distribute this
+        package, please make sure that 'include.cudnn_frontend.thirdparty.nlohmann' is explicitly added
+        to the `packages` configuration field.
+
+        Alternatively, you can also rely on setuptools' discovery methods
+        (for example by using `find_namespace_packages(...)`/`find_namespace:`
+        instead of `find_packages(...)`/`find:`).
+
+        You can read more about "package discovery" on setuptools documentation page:
+
+        - https://setuptools.pypa.io/en/latest/userguide/package_discovery.html
+
+        If you don't want 'include.cudnn_frontend.thirdparty.nlohmann' to be distributed and are
+        already explicitly excluding 'include.cudnn_frontend.thirdparty.nlohmann' via
+        `find_namespace_packages(...)/find_namespace` or `find_packages(...)/find`,
+        you can try to use `exclude_package_data`, or `include-package-data=False` in
+        combination with a more fine grained `package-data` configuration.
+
+        You can read more about "package data files" on setuptools documentation page:
+
+        - https://setuptools.pypa.io/en/latest/userguide/datafiles.html
+
+
+        [^1]: For Python, any directory (with suitable naming) can be imported,
+              even if it does not contain any `.py` files.
+              On the other hand, currently there is no concept of package data
+              directory, all directories are treated like packages.
+        ********************************************************************************
+
+!!
+  check.warn(importable)
+/root/.cache/uv/builds-v0/.tmpF3Rn8Q/lib/python3.12/site-packages/setuptools/command/build_py.py:215: _Warning: Package 'include.cudnn_frontend.utils' is absent from the `packages` configuration.
+!!
+
+        ********************************************************************************
+        ############################
+        # Package would be ignored #
+        ############################
+        Python recognizes 'include.cudnn_frontend.utils' as an importable package[^1],
+        but it is absent from setuptools' `packages` configuration.
+
+        This leads to an ambiguous overall configuration. If you want to distribute this
+        package, please make sure that 'include.cudnn_frontend.utils' is explicitly added
+        to the `packages` configuration field.
+
+        Alternatively, you can also rely on setuptools' discovery methods
+        (for example by using `find_namespace_packages(...)`/`find_namespace:`
+        instead of `find_packages(...)`/`find:`).
+
+        You can read more about "package discovery" on setuptools documentation page:
+
+        - https://setuptools.pypa.io/en/latest/userguide/package_discovery.html
+
+        If you don't want 'include.cudnn_frontend.utils' to be distributed and are
+        already explicitly excluding 'include.cudnn_frontend.utils' via
+        `find_namespace_packages(...)/find_namespace` or `find_packages(...)/find`,
+        you can try to use `exclude_package_data`, or `include-package-data=False` in
+        combination with a more fine grained `package-data` configuration.
+
+        You can read more about "package data files" on setuptools documentation page:
+
+        - https://setuptools.pypa.io/en/latest/userguide/datafiles.html
+
+
+        [^1]: For Python, any directory (with suitable naming) can be imported,
+              even if it does not contain any `.py` files.
+              On the other hand, currently there is no concept of package data
+              directory, all directories are treated like packages.
+        ********************************************************************************
+
+!!
+  check.warn(importable)
+creating build/lib.linux-x86_64-cpython-312/include
+copying include/cudnn_backend_base.h -> build/lib.linux-x86_64-cpython-312/include
+copying include/cudnn_frontend.h -> build/lib.linux-x86_64-cpython-312/include
+copying include/cudnn_frontend_ConvDesc.h -> build/lib.linux-x86_64-cpython-312/include
+copying include/cudnn_frontend_Engine.h -> build/lib.linux-x86_64-cpython-312/include
+copying include/cudnn_frontend_EngineConfig.h -> build/lib.linux-x86_64-cpython-312/include
+copying include/cudnn_frontend_EngineConfigGenerator.h -> build/lib.linux-x86_64-cpython-312/include
+copying include/cudnn_frontend_EngineFallbackList.h -> build/lib.linux-x86_64-cpython-312/include
+copying include/cudnn_frontend_Errata.h -> build/lib.linux-x86_64-cpython-312/include
+copying include/cudnn_frontend_ExecutionPlan.h -> build/lib.linux-x86_64-cpython-312/include
+copying include/cudnn_frontend_ExecutionPlanCache.h -> build/lib.linux-x86_64-cpython-312/include
+copying include/cudnn_frontend_Filters.h -> build/lib.linux-x86_64-cpython-312/include
+copying include/cudnn_frontend_Heuristics.h -> build/lib.linux-x86_64-cpython-312/include
+copying include/cudnn_frontend_Logging.h -> build/lib.linux-x86_64-cpython-312/include
+copying include/cudnn_frontend_MatMulDesc.h -> build/lib.linux-x86_64-cpython-312/include
+copying include/cudnn_frontend_Operation.h -> build/lib.linux-x86_64-cpython-312/include
+copying include/cudnn_frontend_OperationGraph.h -> build/lib.linux-x86_64-cpython-312/include
+copying include/cudnn_frontend_PointWiseDesc.h -> build/lib.linux-x86_64-cpython-312/include
+copying include/cudnn_frontend_ReductionDesc.h -> build/lib.linux-x86_64-cpython-312/include
+copying include/cudnn_frontend_Reorder_Tensor.h -> build/lib.linux-x86_64-cpython-312/include
+copying include/cudnn_frontend_Resample.h -> build/lib.linux-x86_64-cpython-312/include
+copying include/cudnn_frontend_Rng.h -> build/lib.linux-x86_64-cpython-312/include
+copying include/cudnn_frontend_Tensor.h -> build/lib.linux-x86_64-cpython-312/include
+copying include/cudnn_frontend_VariantPack.h -> build/lib.linux-x86_64-cpython-312/include
+copying include/cudnn_frontend_find_plan.h -> build/lib.linux-x86_64-cpython-312/include
+copying include/cudnn_frontend_get_plan.h -> build/lib.linux-x86_64-cpython-312/include
+copying include/cudnn_frontend_shim.h -> build/lib.linux-x86_64-cpython-312/include
+copying include/cudnn_frontend_utils.h -> build/lib.linux-x86_64-cpython-312/include
+copying include/cudnn_frontend_version.h -> build/lib.linux-x86_64-cpython-312/include
+creating build/lib.linux-x86_64-cpython-312/include/cudnn_frontend
+copying include/cudnn_frontend/AGENTS.md -> build/lib.linux-x86_64-cpython-312/include/cudnn_frontend
+copying include/cudnn_frontend/context.h -> build/lib.linux-x86_64-cpython-312/include/cudnn_frontend
+copying include/cudnn_frontend/cudnn_interface.h -> build/lib.linux-x86_64-cpython-312/include/cudnn_frontend
+copying include/cudnn_frontend/graph_helpers.h -> build/lib.linux-x86_64-cpython-312/include/cudnn_frontend
+copying include/cudnn_frontend/graph_interface.h -> build/lib.linux-x86_64-cpython-312/include/cudnn_frontend
+copying include/cudnn_frontend/graph_properties.h -> build/lib.linux-x86_64-cpython-312/include/cudnn_frontend
+copying include/cudnn_frontend/knobs.h -> build/lib.linux-x86_64-cpython-312/include/cudnn_frontend
+copying include/cudnn_frontend/node_interface.h -> build/lib.linux-x86_64-cpython-312/include/cudnn_frontend
+copying include/cudnn_frontend/plans.h -> build/lib.linux-x86_64-cpython-312/include/cudnn_frontend
+creating build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/backend
+copying include/cudnn_frontend/backend/backend_descriptor.h -> build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/backend
+copying include/cudnn_frontend/backend/device_properties.h -> build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/backend
+copying include/cudnn_frontend/backend/execution_helpers.h -> build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/backend
+copying include/cudnn_frontend/backend/kernel_cache.h -> build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/backend
+copying include/cudnn_frontend/backend/plan_helpers.h -> build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/backend
+creating build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/experimental
+copying include/cudnn_frontend/experimental/attention_utils.h -> build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/experimental
+copying include/cudnn_frontend/experimental/nvrtc_shim.h -> build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/experimental
+copying include/cudnn_frontend/experimental/oss_engine_interface.h -> build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/experimental
+copying include/cudnn_frontend/experimental/sm100_rms_norm_silu_engine.h -> build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/experimental
+copying include/cudnn_frontend/experimental/sm100_rms_norm_silu_knobs.h -> build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/experimental
+copying include/cudnn_frontend/experimental/sm100_sdpa_prefill_engine.h -> build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/experimental
+copying include/cudnn_frontend/experimental/sm90_sdpa_prefill_engine.h -> build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/experimental
+creating build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/generated/rms_norm_silu/sm100
+copying include/cudnn_frontend/generated/rms_norm_silu/sm100/ln_fwd_silu_kernel.h -> build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/generated/rms_norm_silu/sm100
+copying include/cudnn_frontend/generated/rms_norm_silu/sm100/ln_headers.h -> build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/generated/rms_norm_silu/sm100
+creating build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/generated/sdpa/sm100/prefill/full_seqlens
+copying include/cudnn_frontend/generated/sdpa/sm100/prefill/full_seqlens/d128_fprop_kernel.h -> build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/generated/sdpa/sm100/prefill/full_seqlens
+copying include/cudnn_frontend/generated/sdpa/sm100/prefill/full_seqlens/d64_fprop_kernel.h -> build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/generated/sdpa/sm100/prefill/full_seqlens
+creating build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/generated/sdpa/sm90/prefill/full_seqlens
+copying include/cudnn_frontend/generated/sdpa/sm90/prefill/full_seqlens/d128_fprop_kernel.h -> build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/generated/sdpa/sm90/prefill/full_seqlens
+copying include/cudnn_frontend/generated/sdpa/sm90/prefill/full_seqlens/d64_fprop_kernel.h -> build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/generated/sdpa/sm90/prefill/full_seqlens
+creating build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/node
+copying include/cudnn_frontend/node/adaptive_layernorm.h -> build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/node
+copying include/cudnn_frontend/node/batchnorm.h -> build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/node
+copying include/cudnn_frontend/node/batchnorm_inference.h -> build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/node
+copying include/cudnn_frontend/node/block_scale_dequantize.h -> build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/node
+copying include/cudnn_frontend/node/block_scale_quantize.h -> build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/node
+copying include/cudnn_frontend/node/bn_finalize.h -> build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/node
+copying include/cudnn_frontend/node/concatenate.h -> build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/node
+copying include/cudnn_frontend/node/conv_dgrad.h -> build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/node
+copying include/cudnn_frontend/node/conv_fprop.h -> build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/node
+copying include/cudnn_frontend/node/conv_wgrad.h -> build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/node
+copying include/cudnn_frontend/node/dbn.h -> build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/node
+copying include/cudnn_frontend/node/dbn_weight.h -> build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/node
+copying include/cudnn_frontend/node/diagonal_band_mask.h -> build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/node
+copying include/cudnn_frontend/node/dln.h -> build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/node
+copying include/cudnn_frontend/node/genstats.h -> build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/node
+copying include/cudnn_frontend/node/instancenorm.h -> build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/node
+copying include/cudnn_frontend/node/layernorm.h -> build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/node
+copying include/cudnn_frontend/node/matmul.h -> build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/node
+copying include/cudnn_frontend/node/matmul_fp8.h -> build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/node
+copying include/cudnn_frontend/node/moe_grouped_matmul.h -> build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/node
+copying include/cudnn_frontend/node/moe_grouped_matmul_bwd.h -> build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/node
+copying include/cudnn_frontend/node/paged_cache_load.h -> build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/node
+copying include/cudnn_frontend/node/pointwise.h -> build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/node
+copying include/cudnn_frontend/node/reduction.h -> build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/node
+copying include/cudnn_frontend/node/resample.h -> build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/node
+copying include/cudnn_frontend/node/reshape.h -> build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/node
+copying include/cudnn_frontend/node/rmsnorm.h -> build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/node
+copying include/cudnn_frontend/node/rng.h -> build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/node
+copying include/cudnn_frontend/node/rope.h -> build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/node
+copying include/cudnn_frontend/node/rope_backward.h -> build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/node
+copying include/cudnn_frontend/node/scaled_dot_product_flash_attention.h -> build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/node
+copying include/cudnn_frontend/node/sdpa_fp8_bwd.h -> build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/node
+copying include/cudnn_frontend/node/sdpa_support_surface.h -> build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/node
+copying include/cudnn_frontend/node/slice.h -> build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/node
+copying include/cudnn_frontend/node/softmax.h -> build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/node
+copying include/cudnn_frontend/node/transpose.h -> build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/node
+creating build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/thirdparty/nlohmann
+copying include/cudnn_frontend/thirdparty/nlohmann/LICENSE.MIT -> build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/thirdparty/nlohmann
+copying include/cudnn_frontend/thirdparty/nlohmann/json.hpp -> build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/thirdparty/nlohmann
+creating build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/utils
+copying include/cudnn_frontend/utils/attn_score_modifiers.h -> build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/utils
+copying include/cudnn_frontend/utils/serialize.h -> build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/utils
+running build_ext
+-DPython_EXECUTABLE=/root/.cache/uv/builds-v0/.tmpF3Rn8Q/bin/python -DPYBIND11_FINDPYTHON=ON -DCMAKE_BUILD_TYPE=Release -DCUDNN_FRONTEND_BUILD_PYTHON_BINDINGS=ON -DCUDNN_FRONTEND_BUILD_SAMPLES=OFF -DCUDNN_FRONTEND_BUILD_TESTS=OFF -DCMAKE_LIBRARY_OUTPUT_DIRECTORY=/root/cfe_migration/cudnn-frontend/build/lib.linux-x86_64-cpython-312/cudnn/ -DCUDNN_FRONTEND_KEEP_PYBINDS_IN_BINARY_DIR=OFF -DCUDNN_FRONTEND_FETCH_PYBINDS_IN_CMAKE=OFF -DCUDNN_PATH=/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia/cudnn -GNinja -DCMAKE_MAKE_PROGRAM:FILEPATH=/root/.cache/uv/builds-v0/.tmpF3Rn8Q/lib/python3.12/site-packages/ninja/data/bin/ninja
+-- The C compiler identification is GNU 13.3.0
+-- The CXX compiler identification is GNU 13.3.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Found CUDAToolkit: /usr/local/cuda/targets/x86_64-linux/include (found version "12.8.93")
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+-- Found Threads: TRUE
+-- C++11 support has been enabled by default.
+-- Found Python: /root/.cache/uv/builds-v0/.tmpF3Rn8Q/bin/python (found suitable version "3.12.3", minimum required is "3.8") found components: Interpreter Development.Module
+-- cuDNN: Searching for pre-built libraries
+-- cudnn found at /root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia/cudnn/lib/libcudnn.so.9.
+-- Found LIBRARY: /root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia/cudnn/include
+-- cuDNN: /root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia/cudnn/lib/libcudnn.so.9
+-- cuDNN: /root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia/cudnn/include
+-- cudnn_graph found at /root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia/cudnn/lib/libcudnn_graph.so.9.
+-- cudnn_engines_runtime_compiled found at /root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia/cudnn/lib/libcudnn_engines_runtime_compiled.so.9.
+-- cudnn_ops found at /root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia/cudnn/lib/libcudnn_ops.so.9.
+-- cudnn_cnn found at /root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia/cudnn/lib/libcudnn_cnn.so.9.
+-- cudnn_adv found at /root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia/cudnn/lib/libcudnn_adv.so.9.
+-- cudnn_engines_precompiled found at /root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia/cudnn/lib/libcudnn_engines_precompiled.so.9.
+-- cudnn_heuristic found at /root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia/cudnn/lib/libcudnn_heuristic.so.9.
+-- cudnn_ext not found.
+-- Performing Test HAS_FLTO
+-- Performing Test HAS_FLTO - Success
+-- Found pybind11: /root/.cache/uv/builds-v0/.tmpF3Rn8Q/include (found version "2.13.6")
+-- Configuring done (2.6s)
+-- Generating done (0.0s)
+-- Build files have been written to: /root/cfe_migration/cudnn-frontend/build/temp.linux-x86_64-cpython-312/cudnn._compiled_module
+[1/7] Building CXX object python/CMakeFiles/_compiled_module.dir/pycudnn.cpp.o
+[2/7] Building CXX object python/CMakeFiles/_compiled_module.dir/properties.cpp.o
+[3/7] Building CXX object python/CMakeFiles/_compiled_module.dir/pygraph/pointwise.cpp.o
+[4/7] Building CXX object python/CMakeFiles/_compiled_module.dir/pygraph/norm.cpp.o
+[5/7] Building CXX object python/CMakeFiles/_compiled_module.dir/pygraph/sdpa.cpp.o
+[6/7] Building CXX object python/CMakeFiles/_compiled_module.dir/pygraph/pygraph.cpp.o
+[7/7] Linking CXX shared module /root/cfe_migration/cudnn-frontend/build/lib.linux-x86_64-cpython-312/cudnn/_compiled_module.cpython-312-x86_64-linux-gnu.so
+installing to build/bdist.linux-x86_64/wheel
+running install
+running install_lib
+creating build/bdist.linux-x86_64/wheel
+creating build/bdist.linux-x86_64/wheel/include
+copying build/lib.linux-x86_64-cpython-312/include/cudnn_frontend_Logging.h -> build/bdist.linux-x86_64/wheel/./include
+copying build/lib.linux-x86_64-cpython-312/include/cudnn_frontend_ConvDesc.h -> build/bdist.linux-x86_64/wheel/./include
+copying build/lib.linux-x86_64-cpython-312/include/cudnn_frontend_version.h -> build/bdist.linux-x86_64/wheel/./include
+copying build/lib.linux-x86_64-cpython-312/include/cudnn_frontend_get_plan.h -> build/bdist.linux-x86_64/wheel/./include
+copying build/lib.linux-x86_64-cpython-312/include/cudnn_frontend_Resample.h -> build/bdist.linux-x86_64/wheel/./include
+copying build/lib.linux-x86_64-cpython-312/include/cudnn_frontend_EngineConfig.h -> build/bdist.linux-x86_64/wheel/./include
+copying build/lib.linux-x86_64-cpython-312/include/cudnn_frontend_Heuristics.h -> build/bdist.linux-x86_64/wheel/./include
+copying build/lib.linux-x86_64-cpython-312/include/cudnn_backend_base.h -> build/bdist.linux-x86_64/wheel/./include
+copying build/lib.linux-x86_64-cpython-312/include/cudnn_frontend_MatMulDesc.h -> build/bdist.linux-x86_64/wheel/./include
+copying build/lib.linux-x86_64-cpython-312/include/cudnn_frontend_ExecutionPlanCache.h -> build/bdist.linux-x86_64/wheel/./include
+creating build/bdist.linux-x86_64/wheel/include/cudnn_frontend
+copying build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/plans.h -> build/bdist.linux-x86_64/wheel/./include/cudnn_frontend
+creating build/bdist.linux-x86_64/wheel/include/cudnn_frontend/node
+copying build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/node/dbn_weight.h -> build/bdist.linux-x86_64/wheel/./include/cudnn_frontend/node
+copying build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/node/genstats.h -> build/bdist.linux-x86_64/wheel/./include/cudnn_frontend/node
+copying build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/node/paged_cache_load.h -> build/bdist.linux-x86_64/wheel/./include/cudnn_frontend/node
+copying build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/node/rope_backward.h -> build/bdist.linux-x86_64/wheel/./include/cudnn_frontend/node
+copying build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/node/block_scale_dequantize.h -> build/bdist.linux-x86_64/wheel/./include/cudnn_frontend/node
+copying build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/node/rmsnorm.h -> build/bdist.linux-x86_64/wheel/./include/cudnn_frontend/node
+copying build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/node/diagonal_band_mask.h -> build/bdist.linux-x86_64/wheel/./include/cudnn_frontend/node
+copying build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/node/conv_wgrad.h -> build/bdist.linux-x86_64/wheel/./include/cudnn_frontend/node
+copying build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/node/instancenorm.h -> build/bdist.linux-x86_64/wheel/./include/cudnn_frontend/node
+copying build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/node/sdpa_fp8_bwd.h -> build/bdist.linux-x86_64/wheel/./include/cudnn_frontend/node
+copying build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/node/conv_fprop.h -> build/bdist.linux-x86_64/wheel/./include/cudnn_frontend/node
+copying build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/node/layernorm.h -> build/bdist.linux-x86_64/wheel/./include/cudnn_frontend/node
+copying build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/node/rope.h -> build/bdist.linux-x86_64/wheel/./include/cudnn_frontend/node
+copying build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/node/transpose.h -> build/bdist.linux-x86_64/wheel/./include/cudnn_frontend/node
+copying build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/node/pointwise.h -> build/bdist.linux-x86_64/wheel/./include/cudnn_frontend/node
+copying build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/node/matmul.h -> build/bdist.linux-x86_64/wheel/./include/cudnn_frontend/node
+copying build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/node/slice.h -> build/bdist.linux-x86_64/wheel/./include/cudnn_frontend/node
+copying build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/node/adaptive_layernorm.h -> build/bdist.linux-x86_64/wheel/./include/cudnn_frontend/node
+copying build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/node/sdpa_support_surface.h -> build/bdist.linux-x86_64/wheel/./include/cudnn_frontend/node
+copying build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/node/batchnorm_inference.h -> build/bdist.linux-x86_64/wheel/./include/cudnn_frontend/node
+copying build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/node/concatenate.h -> build/bdist.linux-x86_64/wheel/./include/cudnn_frontend/node
+copying build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/node/softmax.h -> build/bdist.linux-x86_64/wheel/./include/cudnn_frontend/node
+copying build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/node/reshape.h -> build/bdist.linux-x86_64/wheel/./include/cudnn_frontend/node
+copying build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/node/reduction.h -> build/bdist.linux-x86_64/wheel/./include/cudnn_frontend/node
+copying build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/node/dln.h -> build/bdist.linux-x86_64/wheel/./include/cudnn_frontend/node
+copying build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/node/scaled_dot_product_flash_attention.h -> build/bdist.linux-x86_64/wheel/./include/cudnn_frontend/node
+copying build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/node/rng.h -> build/bdist.linux-x86_64/wheel/./include/cudnn_frontend/node
+copying build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/node/conv_dgrad.h -> build/bdist.linux-x86_64/wheel/./include/cudnn_frontend/node
+copying build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/node/resample.h -> build/bdist.linux-x86_64/wheel/./include/cudnn_frontend/node
+copying build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/node/moe_grouped_matmul.h -> build/bdist.linux-x86_64/wheel/./include/cudnn_frontend/node
+copying build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/node/batchnorm.h -> build/bdist.linux-x86_64/wheel/./include/cudnn_frontend/node
+copying build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/node/dbn.h -> build/bdist.linux-x86_64/wheel/./include/cudnn_frontend/node
+copying build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/node/block_scale_quantize.h -> build/bdist.linux-x86_64/wheel/./include/cudnn_frontend/node
+copying build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/node/bn_finalize.h -> build/bdist.linux-x86_64/wheel/./include/cudnn_frontend/node
+copying build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/node/matmul_fp8.h -> build/bdist.linux-x86_64/wheel/./include/cudnn_frontend/node
+copying build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/node/moe_grouped_matmul_bwd.h -> build/bdist.linux-x86_64/wheel/./include/cudnn_frontend/node
+creating build/bdist.linux-x86_64/wheel/include/cudnn_frontend/thirdparty
+creating build/bdist.linux-x86_64/wheel/include/cudnn_frontend/thirdparty/nlohmann
+copying build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/thirdparty/nlohmann/json.hpp -> build/bdist.linux-x86_64/wheel/./include/cudnn_frontend/thirdparty/nlohmann
+copying build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/thirdparty/nlohmann/LICENSE.MIT -> build/bdist.linux-x86_64/wheel/./include/cudnn_frontend/thirdparty/nlohmann
+copying build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/graph_helpers.h -> build/bdist.linux-x86_64/wheel/./include/cudnn_frontend
+creating build/bdist.linux-x86_64/wheel/include/cudnn_frontend/experimental
+copying build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/experimental/oss_engine_interface.h -> build/bdist.linux-x86_64/wheel/./include/cudnn_frontend/experimental
+copying build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/experimental/sm100_rms_norm_silu_engine.h -> build/bdist.linux-x86_64/wheel/./include/cudnn_frontend/experimental
+copying build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/experimental/sm100_sdpa_prefill_engine.h -> build/bdist.linux-x86_64/wheel/./include/cudnn_frontend/experimental
+copying build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/experimental/nvrtc_shim.h -> build/bdist.linux-x86_64/wheel/./include/cudnn_frontend/experimental
+copying build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/experimental/sm100_rms_norm_silu_knobs.h -> build/bdist.linux-x86_64/wheel/./include/cudnn_frontend/experimental
+copying build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/experimental/sm90_sdpa_prefill_engine.h -> build/bdist.linux-x86_64/wheel/./include/cudnn_frontend/experimental
+copying build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/experimental/attention_utils.h -> build/bdist.linux-x86_64/wheel/./include/cudnn_frontend/experimental
+copying build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/node_interface.h -> build/bdist.linux-x86_64/wheel/./include/cudnn_frontend
+creating build/bdist.linux-x86_64/wheel/include/cudnn_frontend/generated
+creating build/bdist.linux-x86_64/wheel/include/cudnn_frontend/generated/sdpa
+creating build/bdist.linux-x86_64/wheel/include/cudnn_frontend/generated/sdpa/sm100
+creating build/bdist.linux-x86_64/wheel/include/cudnn_frontend/generated/sdpa/sm100/prefill
+creating build/bdist.linux-x86_64/wheel/include/cudnn_frontend/generated/sdpa/sm100/prefill/full_seqlens
+copying build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/generated/sdpa/sm100/prefill/full_seqlens/d64_fprop_kernel.h -> build/bdist.linux-x86_64/wheel/./include/cudnn_frontend/generated/sdpa/sm100/prefill/full_seqlens
+copying build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/generated/sdpa/sm100/prefill/full_seqlens/d128_fprop_kernel.h -> build/bdist.linux-x86_64/wheel/./include/cudnn_frontend/generated/sdpa/sm100/prefill/full_seqlens
+creating build/bdist.linux-x86_64/wheel/include/cudnn_frontend/generated/sdpa/sm90
+creating build/bdist.linux-x86_64/wheel/include/cudnn_frontend/generated/sdpa/sm90/prefill
+creating build/bdist.linux-x86_64/wheel/include/cudnn_frontend/generated/sdpa/sm90/prefill/full_seqlens
+copying build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/generated/sdpa/sm90/prefill/full_seqlens/d64_fprop_kernel.h -> build/bdist.linux-x86_64/wheel/./include/cudnn_frontend/generated/sdpa/sm90/prefill/full_seqlens
+copying build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/generated/sdpa/sm90/prefill/full_seqlens/d128_fprop_kernel.h -> build/bdist.linux-x86_64/wheel/./include/cudnn_frontend/generated/sdpa/sm90/prefill/full_seqlens
+creating build/bdist.linux-x86_64/wheel/include/cudnn_frontend/generated/rms_norm_silu
+creating build/bdist.linux-x86_64/wheel/include/cudnn_frontend/generated/rms_norm_silu/sm100
+copying build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/generated/rms_norm_silu/sm100/ln_fwd_silu_kernel.h -> build/bdist.linux-x86_64/wheel/./include/cudnn_frontend/generated/rms_norm_silu/sm100
+copying build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/generated/rms_norm_silu/sm100/ln_headers.h -> build/bdist.linux-x86_64/wheel/./include/cudnn_frontend/generated/rms_norm_silu/sm100
+creating build/bdist.linux-x86_64/wheel/include/cudnn_frontend/utils
+copying build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/utils/attn_score_modifiers.h -> build/bdist.linux-x86_64/wheel/./include/cudnn_frontend/utils
+copying build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/utils/serialize.h -> build/bdist.linux-x86_64/wheel/./include/cudnn_frontend/utils
+copying build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/graph_interface.h -> build/bdist.linux-x86_64/wheel/./include/cudnn_frontend
+copying build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/knobs.h -> build/bdist.linux-x86_64/wheel/./include/cudnn_frontend
+copying build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/cudnn_interface.h -> build/bdist.linux-x86_64/wheel/./include/cudnn_frontend
+creating build/bdist.linux-x86_64/wheel/include/cudnn_frontend/backend
+copying build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/backend/plan_helpers.h -> build/bdist.linux-x86_64/wheel/./include/cudnn_frontend/backend
+copying build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/backend/kernel_cache.h -> build/bdist.linux-x86_64/wheel/./include/cudnn_frontend/backend
+copying build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/backend/device_properties.h -> build/bdist.linux-x86_64/wheel/./include/cudnn_frontend/backend
+copying build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/backend/execution_helpers.h -> build/bdist.linux-x86_64/wheel/./include/cudnn_frontend/backend
+copying build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/backend/backend_descriptor.h -> build/bdist.linux-x86_64/wheel/./include/cudnn_frontend/backend
+copying build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/graph_properties.h -> build/bdist.linux-x86_64/wheel/./include/cudnn_frontend
+copying build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/context.h -> build/bdist.linux-x86_64/wheel/./include/cudnn_frontend
+copying build/lib.linux-x86_64-cpython-312/include/cudnn_frontend/AGENTS.md -> build/bdist.linux-x86_64/wheel/./include/cudnn_frontend
+copying build/lib.linux-x86_64-cpython-312/include/cudnn_frontend_EngineFallbackList.h -> build/bdist.linux-x86_64/wheel/./include
+copying build/lib.linux-x86_64-cpython-312/include/cudnn_frontend_Errata.h -> build/bdist.linux-x86_64/wheel/./include
+copying build/lib.linux-x86_64-cpython-312/include/cudnn_frontend_shim.h -> build/bdist.linux-x86_64/wheel/./include
+copying build/lib.linux-x86_64-cpython-312/include/cudnn_frontend_Rng.h -> build/bdist.linux-x86_64/wheel/./include
+copying build/lib.linux-x86_64-cpython-312/include/cudnn_frontend_Tensor.h -> build/bdist.linux-x86_64/wheel/./include
+copying build/lib.linux-x86_64-cpython-312/include/cudnn_frontend_find_plan.h -> build/bdist.linux-x86_64/wheel/./include
+copying build/lib.linux-x86_64-cpython-312/include/cudnn_frontend_ReductionDesc.h -> build/bdist.linux-x86_64/wheel/./include
+copying build/lib.linux-x86_64-cpython-312/include/cudnn_frontend_PointWiseDesc.h -> build/bdist.linux-x86_64/wheel/./include
+copying build/lib.linux-x86_64-cpython-312/include/cudnn_frontend_Engine.h -> build/bdist.linux-x86_64/wheel/./include
+copying build/lib.linux-x86_64-cpython-312/include/cudnn_frontend.h -> build/bdist.linux-x86_64/wheel/./include
+copying build/lib.linux-x86_64-cpython-312/include/cudnn_frontend_ExecutionPlan.h -> build/bdist.linux-x86_64/wheel/./include
+copying build/lib.linux-x86_64-cpython-312/include/cudnn_frontend_OperationGraph.h -> build/bdist.linux-x86_64/wheel/./include
+copying build/lib.linux-x86_64-cpython-312/include/cudnn_frontend_Operation.h -> build/bdist.linux-x86_64/wheel/./include
+copying build/lib.linux-x86_64-cpython-312/include/cudnn_frontend_Filters.h -> build/bdist.linux-x86_64/wheel/./include
+copying build/lib.linux-x86_64-cpython-312/include/cudnn_frontend_Reorder_Tensor.h -> build/bdist.linux-x86_64/wheel/./include
+copying build/lib.linux-x86_64-cpython-312/include/cudnn_frontend_VariantPack.h -> build/bdist.linux-x86_64/wheel/./include
+copying build/lib.linux-x86_64-cpython-312/include/cudnn_frontend_utils.h -> build/bdist.linux-x86_64/wheel/./include
+copying build/lib.linux-x86_64-cpython-312/include/cudnn_frontend_EngineConfigGenerator.h -> build/bdist.linux-x86_64/wheel/./include
+creating build/bdist.linux-x86_64/wheel/cudnn
+copying build/lib.linux-x86_64-cpython-312/cudnn/datatypes.py -> build/bdist.linux-x86_64/wheel/./cudnn
+copying build/lib.linux-x86_64-cpython-312/cudnn/graph.py -> build/bdist.linux-x86_64/wheel/./cudnn
+copying build/lib.linux-x86_64-cpython-312/cudnn/__init__.py -> build/bdist.linux-x86_64/wheel/./cudnn
+creating build/bdist.linux-x86_64/wheel/cudnn/experimental
+copying build/lib.linux-x86_64-cpython-312/cudnn/experimental/__init__.py -> build/bdist.linux-x86_64/wheel/./cudnn/experimental
+creating build/bdist.linux-x86_64/wheel/cudnn/experimental/ops
+copying build/lib.linux-x86_64-cpython-312/cudnn/experimental/ops/sdpa.py -> build/bdist.linux-x86_64/wheel/./cudnn/experimental/ops
+copying build/lib.linux-x86_64-cpython-312/cudnn/experimental/ops/__init__.py -> build/bdist.linux-x86_64/wheel/./cudnn/experimental/ops
+creating build/bdist.linux-x86_64/wheel/cudnn/csa
+copying build/lib.linux-x86_64-cpython-312/cudnn/csa/__init__.py -> build/bdist.linux-x86_64/wheel/./cudnn/csa
+creating build/bdist.linux-x86_64/wheel/cudnn/csa/compressor
+copying build/lib.linux-x86_64-cpython-312/cudnn/csa/compressor/__init__.py -> build/bdist.linux-x86_64/wheel/./cudnn/csa/compressor
+copying build/lib.linux-x86_64-cpython-312/cudnn/csa/compressor/compressor_sm100_r128.py -> build/bdist.linux-x86_64/wheel/./cudnn/csa/compressor
+copying build/lib.linux-x86_64-cpython-312/cudnn/csa/compressor/api.py -> build/bdist.linux-x86_64/wheel/./cudnn/csa/compressor
+copying build/lib.linux-x86_64-cpython-312/cudnn/csa/compressor/compressor_sm100.py -> build/bdist.linux-x86_64/wheel/./cudnn/csa/compressor
+copying build/lib.linux-x86_64-cpython-312/cudnn/yarn.py -> build/bdist.linux-x86_64/wheel/./cudnn
+copying build/lib.linux-x86_64-cpython-312/cudnn/collect_env.py -> build/bdist.linux-x86_64/wheel/./cudnn
+copying build/lib.linux-x86_64-cpython-312/cudnn/_experimental_warnings.py -> build/bdist.linux-x86_64/wheel/./cudnn
+creating build/bdist.linux-x86_64/wheel/cudnn/engines
+copying build/lib.linux-x86_64-cpython-312/cudnn/engines/__init__.py -> build/bdist.linux-x86_64/wheel/./cudnn/engines
+copying build/lib.linux-x86_64-cpython-312/cudnn/engines/base.py -> build/bdist.linux-x86_64/wheel/./cudnn/engines
+copying build/lib.linux-x86_64-cpython-312/cudnn/engines/engine_ids.py -> build/bdist.linux-x86_64/wheel/./cudnn/engines
+copying build/lib.linux-x86_64-cpython-312/cudnn/engines/router.py -> build/bdist.linux-x86_64/wheel/./cudnn/engines
+creating build/bdist.linux-x86_64/wheel/cudnn/gemm
+copying build/lib.linux-x86_64-cpython-312/cudnn/gemm/__init__.py -> build/bdist.linux-x86_64/wheel/./cudnn/gemm
+creating build/bdist.linux-x86_64/wheel/cudnn/gemm/reference
+copying build/lib.linux-x86_64-cpython-312/cudnn/gemm/reference/__init__.py -> build/bdist.linux-x86_64/wheel/./cudnn/gemm/reference
+copying build/lib.linux-x86_64-cpython-312/cudnn/gemm/reference/reference_matmul_engine.py -> build/bdist.linux-x86_64/wheel/./cudnn/gemm/reference
+creating build/bdist.linux-x86_64/wheel/cudnn/gemm/ops
+copying build/lib.linux-x86_64-cpython-312/cudnn/gemm/ops/moe_grouped_matmul.py -> build/bdist.linux-x86_64/wheel/./cudnn/gemm/ops
+copying build/lib.linux-x86_64-cpython-312/cudnn/gemm/ops/__init__.py -> build/bdist.linux-x86_64/wheel/./cudnn/gemm/ops
+creating build/bdist.linux-x86_64/wheel/cudnn/gemm/cutedsl
+copying build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/__init__.py -> build/bdist.linux-x86_64/wheel/./cudnn/gemm/cutedsl
+creating build/bdist.linux-x86_64/wheel/cudnn/gemm/cutedsl/discrete_grouped
+copying build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/discrete_grouped/__init__.py -> build/bdist.linux-x86_64/wheel/./cudnn/gemm/cutedsl/discrete_grouped
+copying build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/discrete_grouped/discrete_kernel_utils.py -> build/bdist.linux-x86_64/wheel/./cudnn/gemm/cutedsl/discrete_grouped
+copying build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/discrete_grouped/moe_persistent_scheduler.py -> build/bdist.linux-x86_64/wheel/./cudnn/gemm/cutedsl/discrete_grouped
+copying build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/discrete_grouped/moe_utils.py -> build/bdist.linux-x86_64/wheel/./cudnn/gemm/cutedsl/discrete_grouped
+copying build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/discrete_grouped/moe_sched_extension.py -> build/bdist.linux-x86_64/wheel/./cudnn/gemm/cutedsl/discrete_grouped
+creating build/bdist.linux-x86_64/wheel/cudnn/gemm/cutedsl/discrete_grouped/swiglu
+copying build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/discrete_grouped/swiglu/__init__.py -> build/bdist.linux-x86_64/wheel/./cudnn/gemm/cutedsl/discrete_grouped/swiglu
+copying build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/discrete_grouped/swiglu/api.py -> build/bdist.linux-x86_64/wheel/./cudnn/gemm/cutedsl/discrete_grouped/swiglu
+copying build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/discrete_grouped/swiglu/discrete_B_blockscaled_grouped_gemm_glu_bias.py -> build/bdist.linux-x86_64/wheel/./cudnn/gemm/cutedsl/discrete_grouped/swiglu
+creating build/bdist.linux-x86_64/wheel/cudnn/gemm/cutedsl/discrete_grouped/dswiglu
+copying build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/discrete_grouped/dswiglu/__init__.py -> build/bdist.linux-x86_64/wheel/./cudnn/gemm/cutedsl/discrete_grouped/dswiglu
+copying build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/discrete_grouped/dswiglu/api.py -> build/bdist.linux-x86_64/wheel/./cudnn/gemm/cutedsl/discrete_grouped/dswiglu
+copying build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/discrete_grouped/dswiglu/discrete_B_blockscaled_grouped_gemm_dglu_dbias.py -> build/bdist.linux-x86_64/wheel/./cudnn/gemm/cutedsl/discrete_grouped/dswiglu
+creating build/bdist.linux-x86_64/wheel/cudnn/gemm/cutedsl/grouped
+copying build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/__init__.py -> build/bdist.linux-x86_64/wheel/./cudnn/gemm/cutedsl/grouped
+creating build/bdist.linux-x86_64/wheel/cudnn/gemm/cutedsl/grouped/glu
+copying build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/glu/moe_blockscaled_grouped_gemm_glu_bias.py -> build/bdist.linux-x86_64/wheel/./cudnn/gemm/cutedsl/grouped/glu
+copying build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/glu/__init__.py -> build/bdist.linux-x86_64/wheel/./cudnn/gemm/cutedsl/grouped/glu
+copying build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/glu/api.py -> build/bdist.linux-x86_64/wheel/./cudnn/gemm/cutedsl/grouped/glu
+copying build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/glu/moe_grouped_gemm_glu_bias.py -> build/bdist.linux-x86_64/wheel/./cudnn/gemm/cutedsl/grouped/glu
+copying build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/glu/moe_blockscaled_grouped_gemm_glu_rubin.py -> build/bdist.linux-x86_64/wheel/./cudnn/gemm/cutedsl/grouped/glu
+copying build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/glu/_blockscaled_api.py -> build/bdist.linux-x86_64/wheel/./cudnn/gemm/cutedsl/grouped/glu
+copying build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/glu/_bf16_api.py -> build/bdist.linux-x86_64/wheel/./cudnn/gemm/cutedsl/grouped/glu
+copying build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/moe_persistent_scheduler.py -> build/bdist.linux-x86_64/wheel/./cudnn/gemm/cutedsl/grouped
+copying build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/moe_utils.py -> build/bdist.linux-x86_64/wheel/./cudnn/gemm/cutedsl/grouped
+copying build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/utils.py -> build/bdist.linux-x86_64/wheel/./cudnn/gemm/cutedsl/grouped
+copying build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/backend_utils.py -> build/bdist.linux-x86_64/wheel/./cudnn/gemm/cutedsl/grouped
+copying build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/moe_sched_extension.py -> build/bdist.linux-x86_64/wheel/./cudnn/gemm/cutedsl/grouped
+creating build/bdist.linux-x86_64/wheel/cudnn/gemm/cutedsl/grouped/dsrelu
+copying build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/dsrelu/__init__.py -> build/bdist.linux-x86_64/wheel/./cudnn/gemm/cutedsl/grouped/dsrelu
+copying build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/dsrelu/api.py -> build/bdist.linux-x86_64/wheel/./cudnn/gemm/cutedsl/grouped/dsrelu
+copying build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/dsrelu/moe_blockscaled_grouped_gemm_dsrelu_quant.py -> build/bdist.linux-x86_64/wheel/./cudnn/gemm/cutedsl/grouped/dsrelu
+creating build/bdist.linux-x86_64/wheel/cudnn/gemm/cutedsl/grouped/glu_hadamard
+copying build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/glu_hadamard/moe_blockscaled_grouped_gemm_glu_hadamard.py -> build/bdist.linux-x86_64/wheel/./cudnn/gemm/cutedsl/grouped/glu_hadamard
+copying build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/glu_hadamard/__init__.py -> build/bdist.linux-x86_64/wheel/./cudnn/gemm/cutedsl/grouped/glu_hadamard
+copying build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/glu_hadamard/api.py -> build/bdist.linux-x86_64/wheel/./cudnn/gemm/cutedsl/grouped/glu_hadamard
+copying build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/glu_hadamard/hadamard_utils.py -> build/bdist.linux-x86_64/wheel/./cudnn/gemm/cutedsl/grouped/glu_hadamard
+creating build/bdist.linux-x86_64/wheel/cudnn/gemm/cutedsl/grouped/wgrad
+copying build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/wgrad/__init__.py -> build/bdist.linux-x86_64/wheel/./cudnn/gemm/cutedsl/grouped/wgrad
+copying build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/wgrad/moe_blockscaled_grouped_gemm_wgrad.py -> build/bdist.linux-x86_64/wheel/./cudnn/gemm/cutedsl/grouped/wgrad
+copying build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/wgrad/moe_grouped_gemm_wgrad.py -> build/bdist.linux-x86_64/wheel/./cudnn/gemm/cutedsl/grouped/wgrad
+copying build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/wgrad/moe_blockscaled_grouped_gemm_wgrad_rubin.py -> build/bdist.linux-x86_64/wheel/./cudnn/gemm/cutedsl/grouped/wgrad
+copying build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/wgrad/api.py -> build/bdist.linux-x86_64/wheel/./cudnn/gemm/cutedsl/grouped/wgrad
+copying build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/wgrad/_blockscaled_api.py -> build/bdist.linux-x86_64/wheel/./cudnn/gemm/cutedsl/grouped/wgrad
+copying build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/wgrad/_bf16_api.py -> build/bdist.linux-x86_64/wheel/./cudnn/gemm/cutedsl/grouped/wgrad
+creating build/bdist.linux-x86_64/wheel/cudnn/gemm/cutedsl/grouped/quant
+copying build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/quant/__init__.py -> build/bdist.linux-x86_64/wheel/./cudnn/gemm/cutedsl/grouped/quant
+copying build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/quant/api.py -> build/bdist.linux-x86_64/wheel/./cudnn/gemm/cutedsl/grouped/quant
+copying build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/quant/grouped_gemm_quant.py -> build/bdist.linux-x86_64/wheel/./cudnn/gemm/cutedsl/grouped/quant
+copying build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/quant/moe_blockscaled_grouped_gemm_quant_rubin.py -> build/bdist.linux-x86_64/wheel/./cudnn/gemm/cutedsl/grouped/quant
+creating build/bdist.linux-x86_64/wheel/cudnn/gemm/cutedsl/grouped/swiglu
+copying build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/swiglu/__init__.py -> build/bdist.linux-x86_64/wheel/./cudnn/gemm/cutedsl/grouped/swiglu
+copying build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/swiglu/grouped_gemm_swiglu_quant.py -> build/bdist.linux-x86_64/wheel/./cudnn/gemm/cutedsl/grouped/swiglu
+copying build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/swiglu/api.py -> build/bdist.linux-x86_64/wheel/./cudnn/gemm/cutedsl/grouped/swiglu
+creating build/bdist.linux-x86_64/wheel/cudnn/gemm/cutedsl/grouped/srelu
+copying build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/srelu/__init__.py -> build/bdist.linux-x86_64/wheel/./cudnn/gemm/cutedsl/grouped/srelu
+copying build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/srelu/moe_blockscaled_grouped_gemm_srelu_quant.py -> build/bdist.linux-x86_64/wheel/./cudnn/gemm/cutedsl/grouped/srelu
+copying build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/srelu/api.py -> build/bdist.linux-x86_64/wheel/./cudnn/gemm/cutedsl/grouped/srelu
+creating build/bdist.linux-x86_64/wheel/cudnn/gemm/cutedsl/grouped/dglu
+copying build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/dglu/__init__.py -> build/bdist.linux-x86_64/wheel/./cudnn/gemm/cutedsl/grouped/dglu
+copying build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/dglu/moe_blockscaled_grouped_gemm_dglu_dbias.py -> build/bdist.linux-x86_64/wheel/./cudnn/gemm/cutedsl/grouped/dglu
+copying build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/dglu/api.py -> build/bdist.linux-x86_64/wheel/./cudnn/gemm/cutedsl/grouped/dglu
+copying build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/dglu/moe_grouped_gemm_dglu_dbias.py -> build/bdist.linux-x86_64/wheel/./cudnn/gemm/cutedsl/grouped/dglu
+copying build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/dglu/moe_blockscaled_grouped_gemm_dglu_rubin.py -> build/bdist.linux-x86_64/wheel/./cudnn/gemm/cutedsl/grouped/dglu
+copying build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/dglu/_blockscaled_api.py -> build/bdist.linux-x86_64/wheel/./cudnn/gemm/cutedsl/grouped/dglu
+copying build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/dglu/_bf16_api.py -> build/bdist.linux-x86_64/wheel/./cudnn/gemm/cutedsl/grouped/dglu
+copying build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/moe_kernel_helpers.py -> build/bdist.linux-x86_64/wheel/./cudnn/gemm/cutedsl/grouped
+creating build/bdist.linux-x86_64/wheel/cudnn/gemm/cutedsl/grouped/unfused
+copying build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/unfused/__init__.py -> build/bdist.linux-x86_64/wheel/./cudnn/gemm/cutedsl/grouped/unfused
+copying build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/unfused/api.py -> build/bdist.linux-x86_64/wheel/./cudnn/gemm/cutedsl/grouped/unfused
+copying build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/unfused/moe_grouped_gemm.py -> build/bdist.linux-x86_64/wheel/./cudnn/gemm/cutedsl/grouped/unfused
+copying build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/unfused/_bf16_api.py -> build/bdist.linux-x86_64/wheel/./cudnn/gemm/cutedsl/grouped/unfused
+creating build/bdist.linux-x86_64/wheel/cudnn/gemm/cutedsl/grouped/dswiglu
+copying build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/dswiglu/__init__.py -> build/bdist.linux-x86_64/wheel/./cudnn/gemm/cutedsl/grouped/dswiglu
+copying build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/dswiglu/api.py -> build/bdist.linux-x86_64/wheel/./cudnn/gemm/cutedsl/grouped/dswiglu
+copying build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/grouped/dswiglu/grouped_gemm_dswiglu_quant.py -> build/bdist.linux-x86_64/wheel/./cudnn/gemm/cutedsl/grouped/dswiglu
+creating build/bdist.linux-x86_64/wheel/cudnn/gemm/cutedsl/dense
+copying build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/dense/__init__.py -> build/bdist.linux-x86_64/wheel/./cudnn/gemm/cutedsl/dense
+creating build/bdist.linux-x86_64/wheel/cudnn/gemm/cutedsl/dense/dsrelu
+copying build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/dense/dsrelu/__init__.py -> build/bdist.linux-x86_64/wheel/./cudnn/gemm/cutedsl/dense/dsrelu
+copying build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/dense/dsrelu/dense_blockscaled_gemm_persistent_dsrelu_quant.py -> build/bdist.linux-x86_64/wheel/./cudnn/gemm/cutedsl/dense/dsrelu
+copying build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/dense/dsrelu/api.py -> build/bdist.linux-x86_64/wheel/./cudnn/gemm/cutedsl/dense/dsrelu
+creating build/bdist.linux-x86_64/wheel/cudnn/gemm/cutedsl/dense/swiglu
+copying build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/dense/swiglu/dense_blockscaled_gemm_persistent_swiglu_interleaved_quant.py -> build/bdist.linux-x86_64/wheel/./cudnn/gemm/cutedsl/dense/swiglu
+copying build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/dense/swiglu/__init__.py -> build/bdist.linux-x86_64/wheel/./cudnn/gemm/cutedsl/dense/swiglu
+copying build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/dense/swiglu/dense_gemm_persistent_swiglu.py -> build/bdist.linux-x86_64/wheel/./cudnn/gemm/cutedsl/dense/swiglu
+copying build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/dense/swiglu/api.py -> build/bdist.linux-x86_64/wheel/./cudnn/gemm/cutedsl/dense/swiglu
+creating build/bdist.linux-x86_64/wheel/cudnn/gemm/cutedsl/dense/amax
+copying build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/dense/amax/__init__.py -> build/bdist.linux-x86_64/wheel/./cudnn/gemm/cutedsl/dense/amax
+copying build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/dense/amax/api.py -> build/bdist.linux-x86_64/wheel/./cudnn/gemm/cutedsl/dense/amax
+copying build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/dense/amax/dense_blockscaled_gemm_persistent_amax.py -> build/bdist.linux-x86_64/wheel/./cudnn/gemm/cutedsl/dense/amax
+creating build/bdist.linux-x86_64/wheel/cudnn/gemm/cutedsl/dense/srelu
+copying build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/dense/srelu/dense_blockscaled_gemm_persistent_srelu_quant.py -> build/bdist.linux-x86_64/wheel/./cudnn/gemm/cutedsl/dense/srelu
+copying build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/dense/srelu/__init__.py -> build/bdist.linux-x86_64/wheel/./cudnn/gemm/cutedsl/dense/srelu
+copying build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/dense/srelu/api.py -> build/bdist.linux-x86_64/wheel/./cudnn/gemm/cutedsl/dense/srelu
+creating build/bdist.linux-x86_64/wheel/cudnn/gemm/cutedsl/dense/proj_rope_mxfp8
+copying build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/dense/proj_rope_mxfp8/__init__.py -> build/bdist.linux-x86_64/wheel/./cudnn/gemm/cutedsl/dense/proj_rope_mxfp8
+copying build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/dense/proj_rope_mxfp8/api.py -> build/bdist.linux-x86_64/wheel/./cudnn/gemm/cutedsl/dense/proj_rope_mxfp8
+copying build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/dense/proj_rope_mxfp8/gemm_proj_rope_mxfp8_mxfp8in.py -> build/bdist.linux-x86_64/wheel/./cudnn/gemm/cutedsl/dense/proj_rope_mxfp8
+copying build/lib.linux-x86_64-cpython-312/cudnn/gemm/cutedsl/dense/proj_rope_mxfp8/gemm_proj_rope_mxfp8_bf16in.py -> build/bdist.linux-x86_64/wheel/./cudnn/gemm/cutedsl/dense/proj_rope_mxfp8
+creating build/bdist.linux-x86_64/wheel/cudnn/deepseek_sparse_attention
+copying build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/__init__.py -> build/bdist.linux-x86_64/wheel/./cudnn/deepseek_sparse_attention
+creating build/bdist.linux-x86_64/wheel/cudnn/deepseek_sparse_attention/sparse_attention_backward
+copying build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/sparse_attention_backward/dsa_bwd_sm100.py -> build/bdist.linux-x86_64/wheel/./cudnn/deepseek_sparse_attention/sparse_attention_backward
+copying build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/sparse_attention_backward/__init__.py -> build/bdist.linux-x86_64/wheel/./cudnn/deepseek_sparse_attention/sparse_attention_backward
+copying build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/sparse_attention_backward/dsa_bwd_sm90.py -> build/bdist.linux-x86_64/wheel/./cudnn/deepseek_sparse_attention/sparse_attention_backward
+copying build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/sparse_attention_backward/api.py -> build/bdist.linux-x86_64/wheel/./cudnn/deepseek_sparse_attention/sparse_attention_backward
+copying build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/sparse_attention_backward/_interface_sm100.py -> build/bdist.linux-x86_64/wheel/./cudnn/deepseek_sparse_attention/sparse_attention_backward
+copying build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/sparse_attention_backward/_interface_sm90.py -> build/bdist.linux-x86_64/wheel/./cudnn/deepseek_sparse_attention/sparse_attention_backward
+creating build/bdist.linux-x86_64/wheel/cudnn/deepseek_sparse_attention/utils
+copying build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/utils/__init__.py -> build/bdist.linux-x86_64/wheel/./cudnn/deepseek_sparse_attention/utils
+creating build/bdist.linux-x86_64/wheel/cudnn/deepseek_sparse_attention/utils/sm100
+copying build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/utils/sm100/__init__.py -> build/bdist.linux-x86_64/wheel/./cudnn/deepseek_sparse_attention/utils/sm100
+copying build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/utils/sm100/mma_desc.py -> build/bdist.linux-x86_64/wheel/./cudnn/deepseek_sparse_attention/utils/sm100
+copying build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/utils/sm100/gemm.py -> build/bdist.linux-x86_64/wheel/./cudnn/deepseek_sparse_attention/utils/sm100
+copying build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/utils/compiler.py -> build/bdist.linux-x86_64/wheel/./cudnn/deepseek_sparse_attention/utils
+copying build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/utils/seqlen.py -> build/bdist.linux-x86_64/wheel/./cudnn/deepseek_sparse_attention/utils
+copying build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/utils/tensor_conversion.py -> build/bdist.linux-x86_64/wheel/./cudnn/deepseek_sparse_attention/utils
+copying build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/utils/runtime.py -> build/bdist.linux-x86_64/wheel/./cudnn/deepseek_sparse_attention/utils
+copying build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/utils/copy.py -> build/bdist.linux-x86_64/wheel/./cudnn/deepseek_sparse_attention/utils
+creating build/bdist.linux-x86_64/wheel/cudnn/deepseek_sparse_attention/utils/sm90
+copying build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/utils/sm90/bwd_tile_scheduler.py -> build/bdist.linux-x86_64/wheel/./cudnn/deepseek_sparse_attention/utils/sm90
+copying build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/utils/sm90/__init__.py -> build/bdist.linux-x86_64/wheel/./cudnn/deepseek_sparse_attention/utils/sm90
+copying build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/utils/sm90/bwd_barriers.py -> build/bdist.linux-x86_64/wheel/./cudnn/deepseek_sparse_attention/utils/sm90
+copying build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/utils/sm90/mma.py -> build/bdist.linux-x86_64/wheel/./cudnn/deepseek_sparse_attention/utils/sm90
+copying build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/utils/sm90/primitives.py -> build/bdist.linux-x86_64/wheel/./cudnn/deepseek_sparse_attention/utils/sm90
+creating build/bdist.linux-x86_64/wheel/cudnn/deepseek_sparse_attention/indexer_backward
+copying build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/indexer_backward/__init__.py -> build/bdist.linux-x86_64/wheel/./cudnn/deepseek_sparse_attention/indexer_backward
+copying build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/indexer_backward/api.py -> build/bdist.linux-x86_64/wheel/./cudnn/deepseek_sparse_attention/indexer_backward
+copying build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/indexer_backward/indexer_backward_sm100.py -> build/bdist.linux-x86_64/wheel/./cudnn/deepseek_sparse_attention/indexer_backward
+copying build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/indexer_backward/dense_indexer_backward_sm90.py -> build/bdist.linux-x86_64/wheel/./cudnn/deepseek_sparse_attention/indexer_backward
+copying build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/indexer_backward/dense_indexer_backward_sm100.py -> build/bdist.linux-x86_64/wheel/./cudnn/deepseek_sparse_attention/indexer_backward
+copying build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/indexer_backward/indexer_backward_sm90.py -> build/bdist.linux-x86_64/wheel/./cudnn/deepseek_sparse_attention/indexer_backward
+creating build/bdist.linux-x86_64/wheel/cudnn/deepseek_sparse_attention/score_recompute
+copying build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/score_recompute/__init__.py -> build/bdist.linux-x86_64/wheel/./cudnn/deepseek_sparse_attention/score_recompute
+copying build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/score_recompute/sparse_score_recompute_sm90.py -> build/bdist.linux-x86_64/wheel/./cudnn/deepseek_sparse_attention/score_recompute
+copying build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/score_recompute/sparse_score_recompute_sm100.py -> build/bdist.linux-x86_64/wheel/./cudnn/deepseek_sparse_attention/score_recompute
+copying build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/score_recompute/dense_score_recompute_sm100.py -> build/bdist.linux-x86_64/wheel/./cudnn/deepseek_sparse_attention/score_recompute
+copying build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/score_recompute/api.py -> build/bdist.linux-x86_64/wheel/./cudnn/deepseek_sparse_attention/score_recompute
+copying build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/score_recompute/_interface_sm100.py -> build/bdist.linux-x86_64/wheel/./cudnn/deepseek_sparse_attention/score_recompute
+copying build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/score_recompute/pack_gqa.py -> build/bdist.linux-x86_64/wheel/./cudnn/deepseek_sparse_attention/score_recompute
+copying build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/score_recompute/_interface_sm90.py -> build/bdist.linux-x86_64/wheel/./cudnn/deepseek_sparse_attention/score_recompute
+copying build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/score_recompute/dense_score_recompute_sm90.py -> build/bdist.linux-x86_64/wheel/./cudnn/deepseek_sparse_attention/score_recompute
+creating build/bdist.linux-x86_64/wheel/cudnn/deepseek_sparse_attention/indexer_top_k
+copying build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/indexer_top_k/indexer_top_k_varlen_util.py -> build/bdist.linux-x86_64/wheel/./cudnn/deepseek_sparse_attention/indexer_top_k
+copying build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/indexer_top_k/__init__.py -> build/bdist.linux-x86_64/wheel/./cudnn/deepseek_sparse_attention/indexer_top_k
+copying build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/indexer_top_k/api.py -> build/bdist.linux-x86_64/wheel/./cudnn/deepseek_sparse_attention/indexer_top_k
+copying build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/indexer_top_k/local_to_global_dsl.py -> build/bdist.linux-x86_64/wheel/./cudnn/deepseek_sparse_attention/indexer_top_k
+copying build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/indexer_top_k/block_scan.py -> build/bdist.linux-x86_64/wheel/./cudnn/deepseek_sparse_attention/indexer_top_k
+copying build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/indexer_top_k/compactify.py -> build/bdist.linux-x86_64/wheel/./cudnn/deepseek_sparse_attention/indexer_top_k
+copying build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/indexer_top_k/indexer_top_k_decode_varlen.py -> build/bdist.linux-x86_64/wheel/./cudnn/deepseek_sparse_attention/indexer_top_k
+creating build/bdist.linux-x86_64/wheel/cudnn/deepseek_sparse_attention/indexer_forward
+copying build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/indexer_forward/__init__.py -> build/bdist.linux-x86_64/wheel/./cudnn/deepseek_sparse_attention/indexer_forward
+copying build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/indexer_forward/_interface.py -> build/bdist.linux-x86_64/wheel/./cudnn/deepseek_sparse_attention/indexer_forward
+copying build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/indexer_forward/api.py -> build/bdist.linux-x86_64/wheel/./cudnn/deepseek_sparse_attention/indexer_forward
+copying build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/indexer_forward/indexer_fwd_sm100.py -> build/bdist.linux-x86_64/wheel/./cudnn/deepseek_sparse_attention/indexer_forward
+copying build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/indexer_forward/_interface_sm90.py -> build/bdist.linux-x86_64/wheel/./cudnn/deepseek_sparse_attention/indexer_forward
+copying build/lib.linux-x86_64-cpython-312/cudnn/deepseek_sparse_attention/indexer_forward/indexer_fwd_sm90.py -> build/bdist.linux-x86_64/wheel/./cudnn/deepseek_sparse_attention/indexer_forward
+creating build/bdist.linux-x86_64/wheel/cudnn/sdpa
+copying build/lib.linux-x86_64-cpython-312/cudnn/sdpa/__init__.py -> build/bdist.linux-x86_64/wheel/./cudnn/sdpa
+creating build/bdist.linux-x86_64/wheel/cudnn/sdpa/bwd
+copying build/lib.linux-x86_64-cpython-312/cudnn/sdpa/bwd/__init__.py -> build/bdist.linux-x86_64/wheel/./cudnn/sdpa/bwd
+copying build/lib.linux-x86_64-cpython-312/cudnn/sdpa/bwd/api.py -> build/bdist.linux-x86_64/wheel/./cudnn/sdpa/bwd
+copying build/lib.linux-x86_64-cpython-312/cudnn/sdpa/bwd/fmha_backward_sm100_2kernel.py -> build/bdist.linux-x86_64/wheel/./cudnn/sdpa/bwd
+copying build/lib.linux-x86_64-cpython-312/cudnn/sdpa/bwd/fmha_dkdv_d256_sm100.py -> build/bdist.linux-x86_64/wheel/./cudnn/sdpa/bwd
+copying build/lib.linux-x86_64-cpython-312/cudnn/sdpa/bwd/fmha_dq_d256_sm100.py -> build/bdist.linux-x86_64/wheel/./cudnn/sdpa/bwd
+copying build/lib.linux-x86_64-cpython-312/cudnn/sdpa/utils.py -> build/bdist.linux-x86_64/wheel/./cudnn/sdpa
+copying build/lib.linux-x86_64-cpython-312/cudnn/sdpa/fmha_utils.py -> build/bdist.linux-x86_64/wheel/./cudnn/sdpa
+creating build/bdist.linux-x86_64/wheel/cudnn/sdpa/fwd
+copying build/lib.linux-x86_64-cpython-312/cudnn/sdpa/fwd/__init__.py -> build/bdist.linux-x86_64/wheel/./cudnn/sdpa/fwd
+copying build/lib.linux-x86_64-cpython-312/cudnn/sdpa/fwd/api.py -> build/bdist.linux-x86_64/wheel/./cudnn/sdpa/fwd
+copying build/lib.linux-x86_64-cpython-312/cudnn/sdpa/fwd/fmha_forward_sm100_d256.py -> build/bdist.linux-x86_64/wheel/./cudnn/sdpa/fwd
+creating build/bdist.linux-x86_64/wheel/cudnn/native_sparse_attention
+copying build/lib.linux-x86_64-cpython-312/cudnn/native_sparse_attention/__init__.py -> build/bdist.linux-x86_64/wheel/./cudnn/native_sparse_attention
+copying build/lib.linux-x86_64-cpython-312/cudnn/native_sparse_attention/utils.py -> build/bdist.linux-x86_64/wheel/./cudnn/native_sparse_attention
+creating build/bdist.linux-x86_64/wheel/cudnn/native_sparse_attention/compression
+copying build/lib.linux-x86_64-cpython-312/cudnn/native_sparse_attention/compression/__init__.py -> build/bdist.linux-x86_64/wheel/./cudnn/native_sparse_attention/compression
+copying build/lib.linux-x86_64-cpython-312/cudnn/native_sparse_attention/compression/fmha_helpers.py -> build/bdist.linux-x86_64/wheel/./cudnn/native_sparse_attention/compression
+copying build/lib.linux-x86_64-cpython-312/cudnn/native_sparse_attention/compression/api.py -> build/bdist.linux-x86_64/wheel/./cudnn/native_sparse_attention/compression
+copying build/lib.linux-x86_64-cpython-312/cudnn/native_sparse_attention/compression/fmha.py -> build/bdist.linux-x86_64/wheel/./cudnn/native_sparse_attention/compression
+creating build/bdist.linux-x86_64/wheel/cudnn/native_sparse_attention/selection
+copying build/lib.linux-x86_64-cpython-312/cudnn/native_sparse_attention/selection/__init__.py -> build/bdist.linux-x86_64/wheel/./cudnn/native_sparse_attention/selection
+copying build/lib.linux-x86_64-cpython-312/cudnn/native_sparse_attention/selection/NSA_select_attn_fwd_hmma.py -> build/bdist.linux-x86_64/wheel/./cudnn/native_sparse_attention/selection
+copying build/lib.linux-x86_64-cpython-312/cudnn/native_sparse_attention/selection/api.py -> build/bdist.linux-x86_64/wheel/./cudnn/native_sparse_attention/selection
+creating build/bdist.linux-x86_64/wheel/cudnn/native_sparse_attention/top_k
+copying build/lib.linux-x86_64-cpython-312/cudnn/native_sparse_attention/top_k/__init__.py -> build/bdist.linux-x86_64/wheel/./cudnn/native_sparse_attention/top_k
+copying build/lib.linux-x86_64-cpython-312/cudnn/native_sparse_attention/top_k/api.py -> build/bdist.linux-x86_64/wheel/./cudnn/native_sparse_attention/top_k
+copying build/lib.linux-x86_64-cpython-312/cudnn/native_sparse_attention/top_k/nsa_top_k_reduction_fwd.py -> build/bdist.linux-x86_64/wheel/./cudnn/native_sparse_attention/top_k
+creating build/bdist.linux-x86_64/wheel/cudnn/native_sparse_attention/sliding_window_attention
+copying build/lib.linux-x86_64-cpython-312/cudnn/native_sparse_attention/sliding_window_attention/__init__.py -> build/bdist.linux-x86_64/wheel/./cudnn/native_sparse_attention/sliding_window_attention
+copying build/lib.linux-x86_64-cpython-312/cudnn/native_sparse_attention/sliding_window_attention/api.py -> build/bdist.linux-x86_64/wheel/./cudnn/native_sparse_attention/sliding_window_attention
+copying build/lib.linux-x86_64-cpython-312/cudnn/_pygraph.py -> build/bdist.linux-x86_64/wheel/./cudnn
+creating build/bdist.linux-x86_64/wheel/cudnn/block_sparse_attention
+copying build/lib.linux-x86_64-cpython-312/cudnn/block_sparse_attention/__init__.py -> build/bdist.linux-x86_64/wheel/./cudnn/block_sparse_attention
+copying build/lib.linux-x86_64-cpython-312/cudnn/block_sparse_attention/_interface.py -> build/bdist.linux-x86_64/wheel/./cudnn/block_sparse_attention
+copying build/lib.linux-x86_64-cpython-312/cudnn/block_sparse_attention/api.py -> build/bdist.linux-x86_64/wheel/./cudnn/block_sparse_attention
+creating build/bdist.linux-x86_64/wheel/cudnn/block_sparse_attention/csrc
+copying build/lib.linux-x86_64-cpython-312/cudnn/block_sparse_attention/csrc/__init__.py -> build/bdist.linux-x86_64/wheel/./cudnn/block_sparse_attention/csrc
+creating build/bdist.linux-x86_64/wheel/cudnn/block_sparse_attention/csrc/bwd
+copying build/lib.linux-x86_64-cpython-312/cudnn/block_sparse_attention/csrc/bwd/__init__.py -> build/bdist.linux-x86_64/wheel/./cudnn/block_sparse_attention/csrc/bwd
+creating build/bdist.linux-x86_64/wheel/cudnn/block_sparse_attention/csrc/bwd/sm90_blk64
+copying build/lib.linux-x86_64-cpython-312/cudnn/block_sparse_attention/csrc/bwd/sm90_blk64/bsa_bwd_sm90.py -> build/bdist.linux-x86_64/wheel/./cudnn/block_sparse_attention/csrc/bwd/sm90_blk64
+copying build/lib.linux-x86_64-cpython-312/cudnn/block_sparse_attention/csrc/bwd/bsa_bwd_preprocess.py -> build/bdist.linux-x86_64/wheel/./cudnn/block_sparse_attention/csrc/bwd
+copying build/lib.linux-x86_64-cpython-312/cudnn/block_sparse_attention/csrc/bwd/bsa_bwd_postprocess.py -> build/bdist.linux-x86_64/wheel/./cudnn/block_sparse_attention/csrc/bwd
+creating build/bdist.linux-x86_64/wheel/cudnn/block_sparse_attention/csrc/bwd/sm100_blk128
+copying build/lib.linux-x86_64-cpython-312/cudnn/block_sparse_attention/csrc/bwd/sm100_blk128/__init__.py -> build/bdist.linux-x86_64/wheel/./cudnn/block_sparse_attention/csrc/bwd/sm100_blk128
+copying build/lib.linux-x86_64-cpython-312/cudnn/block_sparse_attention/csrc/bwd/sm100_blk128/bsa_bwd_sm100.py -> build/bdist.linux-x86_64/wheel/./cudnn/block_sparse_attention/csrc/bwd/sm100_blk128
+creating build/bdist.linux-x86_64/wheel/cudnn/block_sparse_attention/csrc/bwd/sm100_blk64
+copying build/lib.linux-x86_64-cpython-312/cudnn/block_sparse_attention/csrc/bwd/sm100_blk64/__init__.py -> build/bdist.linux-x86_64/wheel/./cudnn/block_sparse_attention/csrc/bwd/sm100_blk64
+copying build/lib.linux-x86_64-cpython-312/cudnn/block_sparse_attention/csrc/bwd/sm100_blk64/bsa_bwd_sm100.py -> build/bdist.linux-x86_64/wheel/./cudnn/block_sparse_attention/csrc/bwd/sm100_blk64
+copying build/lib.linux-x86_64-cpython-312/cudnn/block_sparse_attention/csrc/bwd/bsa_bwd_prepost.py -> build/bdist.linux-x86_64/wheel/./cudnn/block_sparse_attention/csrc/bwd
+copying build/lib.linux-x86_64-cpython-312/cudnn/block_sparse_attention/csrc/bwd/bucketed_k2q_csr.py -> build/bdist.linux-x86_64/wheel/./cudnn/block_sparse_attention/csrc/bwd
+creating build/bdist.linux-x86_64/wheel/cudnn/block_sparse_attention/csrc/utils
+copying build/lib.linux-x86_64-cpython-312/cudnn/block_sparse_attention/csrc/utils/tcgen05_mma_helpers.py -> build/bdist.linux-x86_64/wheel/./cudnn/block_sparse_attention/csrc/utils
+copying build/lib.linux-x86_64-cpython-312/cudnn/block_sparse_attention/csrc/utils/__init__.py -> build/bdist.linux-x86_64/wheel/./cudnn/block_sparse_attention/csrc/utils
+copying build/lib.linux-x86_64-cpython-312/cudnn/block_sparse_attention/csrc/utils/seqlen_info.py -> build/bdist.linux-x86_64/wheel/./cudnn/block_sparse_attention/csrc/utils
+copying build/lib.linux-x86_64-cpython-312/cudnn/block_sparse_attention/csrc/utils/kernel_utils.py -> build/bdist.linux-x86_64/wheel/./cudnn/block_sparse_attention/csrc/utils
+copying build/lib.linux-x86_64-cpython-312/cudnn/block_sparse_attention/csrc/utils/mma_sm100_desc.py -> build/bdist.linux-x86_64/wheel/./cudnn/block_sparse_attention/csrc/utils
+copying build/lib.linux-x86_64-cpython-312/cudnn/block_sparse_attention/csrc/utils/named_barrier.py -> build/bdist.linux-x86_64/wheel/./cudnn/block_sparse_attention/csrc/utils
+copying build/lib.linux-x86_64-cpython-312/cudnn/block_sparse_attention/csrc/utils/layout_utils.py -> build/bdist.linux-x86_64/wheel/./cudnn/block_sparse_attention/csrc/utils
+copying build/lib.linux-x86_64-cpython-312/cudnn/block_sparse_attention/csrc/utils/cute_dsl_utils.py -> build/bdist.linux-x86_64/wheel/./cudnn/block_sparse_attention/csrc/utils
+copying build/lib.linux-x86_64-cpython-312/cudnn/block_sparse_attention/csrc/utils/block_info.py -> build/bdist.linux-x86_64/wheel/./cudnn/block_sparse_attention/csrc/utils
+copying build/lib.linux-x86_64-cpython-312/cudnn/block_sparse_attention/csrc/utils/copy_utils.py -> build/bdist.linux-x86_64/wheel/./cudnn/block_sparse_attention/csrc/utils
+copying build/lib.linux-x86_64-cpython-312/cudnn/block_sparse_attention/csrc/utils/softmax.py -> build/bdist.linux-x86_64/wheel/./cudnn/block_sparse_attention/csrc/utils
+copying build/lib.linux-x86_64-cpython-312/cudnn/block_sparse_attention/csrc/utils/tile_scheduler.py -> build/bdist.linux-x86_64/wheel/./cudnn/block_sparse_attention/csrc/utils
+copying build/lib.linux-x86_64-cpython-312/cudnn/block_sparse_attention/csrc/utils/pack_gqa.py -> build/bdist.linux-x86_64/wheel/./cudnn/block_sparse_attention/csrc/utils
+copying build/lib.linux-x86_64-cpython-312/cudnn/block_sparse_attention/csrc/utils/pipeline.py -> build/bdist.linux-x86_64/wheel/./cudnn/block_sparse_attention/csrc/utils
+copying build/lib.linux-x86_64-cpython-312/cudnn/block_sparse_attention/csrc/utils/batched_static_scheduler.py -> build/bdist.linux-x86_64/wheel/./cudnn/block_sparse_attention/csrc/utils
+copying build/lib.linux-x86_64-cpython-312/cudnn/block_sparse_attention/csrc/utils/sm90_utils.py -> build/bdist.linux-x86_64/wheel/./cudnn/block_sparse_attention/csrc/utils
+copying build/lib.linux-x86_64-cpython-312/cudnn/block_sparse_attention/csrc/utils/block_sparse_tile_scheduler.py -> build/bdist.linux-x86_64/wheel/./cudnn/block_sparse_attention/csrc/utils
+creating build/bdist.linux-x86_64/wheel/cudnn/block_sparse_attention/csrc/fwd
+copying build/lib.linux-x86_64-cpython-312/cudnn/block_sparse_attention/csrc/fwd/__init__.py -> build/bdist.linux-x86_64/wheel/./cudnn/block_sparse_attention/csrc/fwd
+creating build/bdist.linux-x86_64/wheel/cudnn/block_sparse_attention/csrc/fwd/sm90_blk64
+copying build/lib.linux-x86_64-cpython-312/cudnn/block_sparse_attention/csrc/fwd/sm90_blk64/bsa_fwd_sm90.py -> build/bdist.linux-x86_64/wheel/./cudnn/block_sparse_attention/csrc/fwd/sm90_blk64
+creating build/bdist.linux-x86_64/wheel/cudnn/block_sparse_attention/csrc/fwd/sm100_blk128
+copying build/lib.linux-x86_64-cpython-312/cudnn/block_sparse_attention/csrc/fwd/sm100_blk128/__init__.py -> build/bdist.linux-x86_64/wheel/./cudnn/block_sparse_attention/csrc/fwd/sm100_blk128
+copying build/lib.linux-x86_64-cpython-312/cudnn/block_sparse_attention/csrc/fwd/sm100_blk128/bsa_fwd_sm100.py -> build/bdist.linux-x86_64/wheel/./cudnn/block_sparse_attention/csrc/fwd/sm100_blk128
+creating build/bdist.linux-x86_64/wheel/cudnn/block_sparse_attention/csrc/fwd/sm100_blk64
+copying build/lib.linux-x86_64-cpython-312/cudnn/block_sparse_attention/csrc/fwd/sm100_blk64/bsa_fwd_combine.py -> build/bdist.linux-x86_64/wheel/./cudnn/block_sparse_attention/csrc/fwd/sm100_blk64
+copying build/lib.linux-x86_64-cpython-312/cudnn/block_sparse_attention/csrc/fwd/sm100_blk64/bsa_fwd_helpers.py -> build/bdist.linux-x86_64/wheel/./cudnn/block_sparse_attention/csrc/fwd/sm100_blk64
+copying build/lib.linux-x86_64-cpython-312/cudnn/block_sparse_attention/csrc/fwd/sm100_blk64/bsa_fwd_sm100.py -> build/bdist.linux-x86_64/wheel/./cudnn/block_sparse_attention/csrc/fwd/sm100_blk64
+creating build/bdist.linux-x86_64/wheel/cudnn/block_sparse_attention/csrc/fwd/sm120_blk64
+copying build/lib.linux-x86_64-cpython-312/cudnn/block_sparse_attention/csrc/fwd/sm120_blk64/bsa_fwd_sm120.py -> build/bdist.linux-x86_64/wheel/./cudnn/block_sparse_attention/csrc/fwd/sm120_blk64
+creating build/bdist.linux-x86_64/wheel/cudnn/ops
+copying build/lib.linux-x86_64-cpython-312/cudnn/ops/__init__.py -> build/bdist.linux-x86_64/wheel/./cudnn/ops
+copying build/lib.linux-x86_64-cpython-312/cudnn/ops/causal_conv1d.py -> build/bdist.linux-x86_64/wheel/./cudnn/ops
+copying build/lib.linux-x86_64-cpython-312/cudnn/wrapper.py -> build/bdist.linux-x86_64/wheel/./cudnn
+copying build/lib.linux-x86_64-cpython-312/cudnn/api_base.py -> build/bdist.linux-x86_64/wheel/./cudnn
+copying build/lib.linux-x86_64-cpython-312/cudnn/nodes.py -> build/bdist.linux-x86_64/wheel/./cudnn
+copying build/lib.linux-x86_64-cpython-312/cudnn/graph_types.py -> build/bdist.linux-x86_64/wheel/./cudnn
+creating build/bdist.linux-x86_64/wheel/cudnn/rmsnorm_rht_amax
+copying build/lib.linux-x86_64-cpython-312/cudnn/rmsnorm_rht_amax/__init__.py -> build/bdist.linux-x86_64/wheel/./cudnn/rmsnorm_rht_amax
+copying build/lib.linux-x86_64-cpython-312/cudnn/rmsnorm_rht_amax/api.py -> build/bdist.linux-x86_64/wheel/./cudnn/rmsnorm_rht_amax
+copying build/lib.linux-x86_64-cpython-312/cudnn/rmsnorm_rht_amax/kernel.py -> build/bdist.linux-x86_64/wheel/./cudnn/rmsnorm_rht_amax
+copying build/lib.linux-x86_64-cpython-312/cudnn/_compiled_module.cpython-312-x86_64-linux-gnu.so -> build/bdist.linux-x86_64/wheel/./cudnn
+running install_egg_info
+Copying python/nvidia_cudnn_frontend.egg-info to build/bdist.linux-x86_64/wheel/./nvidia_cudnn_frontend-1.27.0-py3.12.egg-info
+running install_scripts
+creating build/bdist.linux-x86_64/wheel/nvidia_cudnn_frontend-1.27.0.dist-info/WHEEL
+creating '/root/cfe_migration/wheels/.tmp-rj20v6_e/nvidia_cudnn_frontend-1.27.0-cp312-cp312-linux_x86_64.whl' and adding 'build/bdist.linux-x86_64/wheel' to it
+adding 'cudnn/__init__.py'
+adding 'cudnn/_compiled_module.cpython-312-x86_64-linux-gnu.so'
+adding 'cudnn/_experimental_warnings.py'
+adding 'cudnn/_pygraph.py'
+adding 'cudnn/api_base.py'
+adding 'cudnn/collect_env.py'
+adding 'cudnn/datatypes.py'
+adding 'cudnn/graph.py'
+adding 'cudnn/graph_types.py'
+adding 'cudnn/nodes.py'
+adding 'cudnn/wrapper.py'
+adding 'cudnn/yarn.py'
+adding 'cudnn/block_sparse_attention/__init__.py'
+adding 'cudnn/block_sparse_attention/_interface.py'
+adding 'cudnn/block_sparse_attention/api.py'
+adding 'cudnn/block_sparse_attention/csrc/__init__.py'
+adding 'cudnn/block_sparse_attention/csrc/bwd/__init__.py'
+adding 'cudnn/block_sparse_attention/csrc/bwd/bsa_bwd_postprocess.py'
+adding 'cudnn/block_sparse_attention/csrc/bwd/bsa_bwd_prepost.py'
+adding 'cudnn/block_sparse_attention/csrc/bwd/bsa_bwd_preprocess.py'
+adding 'cudnn/block_sparse_attention/csrc/bwd/bucketed_k2q_csr.py'
+adding 'cudnn/block_sparse_attention/csrc/bwd/sm100_blk128/__init__.py'
+adding 'cudnn/block_sparse_attention/csrc/bwd/sm100_blk128/bsa_bwd_sm100.py'
+adding 'cudnn/block_sparse_attention/csrc/bwd/sm100_blk64/__init__.py'
+adding 'cudnn/block_sparse_attention/csrc/bwd/sm100_blk64/bsa_bwd_sm100.py'
+adding 'cudnn/block_sparse_attention/csrc/bwd/sm90_blk64/bsa_bwd_sm90.py'
+adding 'cudnn/block_sparse_attention/csrc/fwd/__init__.py'
+adding 'cudnn/block_sparse_attention/csrc/fwd/sm100_blk128/__init__.py'
+adding 'cudnn/block_sparse_attention/csrc/fwd/sm100_blk128/bsa_fwd_sm100.py'
+adding 'cudnn/block_sparse_attention/csrc/fwd/sm100_blk64/bsa_fwd_combine.py'
+adding 'cudnn/block_sparse_attention/csrc/fwd/sm100_blk64/bsa_fwd_helpers.py'
+adding 'cudnn/block_sparse_attention/csrc/fwd/sm100_blk64/bsa_fwd_sm100.py'
+adding 'cudnn/block_sparse_attention/csrc/fwd/sm120_blk64/bsa_fwd_sm120.py'
+adding 'cudnn/block_sparse_attention/csrc/fwd/sm90_blk64/bsa_fwd_sm90.py'
+adding 'cudnn/block_sparse_attention/csrc/utils/__init__.py'
+adding 'cudnn/block_sparse_attention/csrc/utils/batched_static_scheduler.py'
+adding 'cudnn/block_sparse_attention/csrc/utils/block_info.py'
+adding 'cudnn/block_sparse_attention/csrc/utils/block_sparse_tile_scheduler.py'
+adding 'cudnn/block_sparse_attention/csrc/utils/copy_utils.py'
+adding 'cudnn/block_sparse_attention/csrc/utils/cute_dsl_utils.py'
+adding 'cudnn/block_sparse_attention/csrc/utils/kernel_utils.py'
+adding 'cudnn/block_sparse_attention/csrc/utils/layout_utils.py'
+adding 'cudnn/block_sparse_attention/csrc/utils/mma_sm100_desc.py'
+adding 'cudnn/block_sparse_attention/csrc/utils/named_barrier.py'
+adding 'cudnn/block_sparse_attention/csrc/utils/pack_gqa.py'
+adding 'cudnn/block_sparse_attention/csrc/utils/pipeline.py'
+adding 'cudnn/block_sparse_attention/csrc/utils/seqlen_info.py'
+adding 'cudnn/block_sparse_attention/csrc/utils/sm90_utils.py'
+adding 'cudnn/block_sparse_attention/csrc/utils/softmax.py'
+adding 'cudnn/block_sparse_attention/csrc/utils/tcgen05_mma_helpers.py'
+adding 'cudnn/block_sparse_attention/csrc/utils/tile_scheduler.py'
+adding 'cudnn/csa/__init__.py'
+adding 'cudnn/csa/compressor/__init__.py'
+adding 'cudnn/csa/compressor/api.py'
+adding 'cudnn/csa/compressor/compressor_sm100.py'
+adding 'cudnn/csa/compressor/compressor_sm100_r128.py'
+adding 'cudnn/deepseek_sparse_attention/__init__.py'
+adding 'cudnn/deepseek_sparse_attention/indexer_backward/__init__.py'
+adding 'cudnn/deepseek_sparse_attention/indexer_backward/api.py'
+adding 'cudnn/deepseek_sparse_attention/indexer_backward/dense_indexer_backward_sm100.py'
+adding 'cudnn/deepseek_sparse_attention/indexer_backward/dense_indexer_backward_sm90.py'
+adding 'cudnn/deepseek_sparse_attention/indexer_backward/indexer_backward_sm100.py'
+adding 'cudnn/deepseek_sparse_attention/indexer_backward/indexer_backward_sm90.py'
+adding 'cudnn/deepseek_sparse_attention/indexer_forward/__init__.py'
+adding 'cudnn/deepseek_sparse_attention/indexer_forward/_interface.py'
+adding 'cudnn/deepseek_sparse_attention/indexer_forward/_interface_sm90.py'
+adding 'cudnn/deepseek_sparse_attention/indexer_forward/api.py'
+adding 'cudnn/deepseek_sparse_attention/indexer_forward/indexer_fwd_sm100.py'
+adding 'cudnn/deepseek_sparse_attention/indexer_forward/indexer_fwd_sm90.py'
+adding 'cudnn/deepseek_sparse_attention/indexer_top_k/__init__.py'
+adding 'cudnn/deepseek_sparse_attention/indexer_top_k/api.py'
+adding 'cudnn/deepseek_sparse_attention/indexer_top_k/block_scan.py'
+adding 'cudnn/deepseek_sparse_attention/indexer_top_k/compactify.py'
+adding 'cudnn/deepseek_sparse_attention/indexer_top_k/indexer_top_k_decode_varlen.py'
+adding 'cudnn/deepseek_sparse_attention/indexer_top_k/indexer_top_k_varlen_util.py'
+adding 'cudnn/deepseek_sparse_attention/indexer_top_k/local_to_global_dsl.py'
+adding 'cudnn/deepseek_sparse_attention/score_recompute/__init__.py'
+adding 'cudnn/deepseek_sparse_attention/score_recompute/_interface_sm100.py'
+adding 'cudnn/deepseek_sparse_attention/score_recompute/_interface_sm90.py'
+adding 'cudnn/deepseek_sparse_attention/score_recompute/api.py'
+adding 'cudnn/deepseek_sparse_attention/score_recompute/dense_score_recompute_sm100.py'
+adding 'cudnn/deepseek_sparse_attention/score_recompute/dense_score_recompute_sm90.py'
+adding 'cudnn/deepseek_sparse_attention/score_recompute/pack_gqa.py'
+adding 'cudnn/deepseek_sparse_attention/score_recompute/sparse_score_recompute_sm100.py'
+adding 'cudnn/deepseek_sparse_attention/score_recompute/sparse_score_recompute_sm90.py'
+adding 'cudnn/deepseek_sparse_attention/sparse_attention_backward/__init__.py'
+adding 'cudnn/deepseek_sparse_attention/sparse_attention_backward/_interface_sm100.py'
+adding 'cudnn/deepseek_sparse_attention/sparse_attention_backward/_interface_sm90.py'
+adding 'cudnn/deepseek_sparse_attention/sparse_attention_backward/api.py'
+adding 'cudnn/deepseek_sparse_attention/sparse_attention_backward/dsa_bwd_sm100.py'
+adding 'cudnn/deepseek_sparse_attention/sparse_attention_backward/dsa_bwd_sm90.py'
+adding 'cudnn/deepseek_sparse_attention/utils/__init__.py'
+adding 'cudnn/deepseek_sparse_attention/utils/compiler.py'
+adding 'cudnn/deepseek_sparse_attention/utils/copy.py'
+adding 'cudnn/deepseek_sparse_attention/utils/runtime.py'
+adding 'cudnn/deepseek_sparse_attention/utils/seqlen.py'
+adding 'cudnn/deepseek_sparse_attention/utils/tensor_conversion.py'
+adding 'cudnn/deepseek_sparse_attention/utils/sm100/__init__.py'
+adding 'cudnn/deepseek_sparse_attention/utils/sm100/gemm.py'
+adding 'cudnn/deepseek_sparse_attention/utils/sm100/mma_desc.py'
+adding 'cudnn/deepseek_sparse_attention/utils/sm90/__init__.py'
+adding 'cudnn/deepseek_sparse_attention/utils/sm90/bwd_barriers.py'
+adding 'cudnn/deepseek_sparse_attention/utils/sm90/bwd_tile_scheduler.py'
+adding 'cudnn/deepseek_sparse_attention/utils/sm90/mma.py'
+adding 'cudnn/deepseek_sparse_attention/utils/sm90/primitives.py'
+adding 'cudnn/engines/__init__.py'
+adding 'cudnn/engines/base.py'
+adding 'cudnn/engines/engine_ids.py'
+adding 'cudnn/engines/router.py'
+adding 'cudnn/experimental/__init__.py'
+adding 'cudnn/experimental/ops/__init__.py'
+adding 'cudnn/experimental/ops/sdpa.py'
+adding 'cudnn/gemm/__init__.py'
+adding 'cudnn/gemm/cutedsl/__init__.py'
+adding 'cudnn/gemm/cutedsl/dense/__init__.py'
+adding 'cudnn/gemm/cutedsl/dense/amax/__init__.py'
+adding 'cudnn/gemm/cutedsl/dense/amax/api.py'
+adding 'cudnn/gemm/cutedsl/dense/amax/dense_blockscaled_gemm_persistent_amax.py'
+adding 'cudnn/gemm/cutedsl/dense/dsrelu/__init__.py'
+adding 'cudnn/gemm/cutedsl/dense/dsrelu/api.py'
+adding 'cudnn/gemm/cutedsl/dense/dsrelu/dense_blockscaled_gemm_persistent_dsrelu_quant.py'
+adding 'cudnn/gemm/cutedsl/dense/proj_rope_mxfp8/__init__.py'
+adding 'cudnn/gemm/cutedsl/dense/proj_rope_mxfp8/api.py'
+adding 'cudnn/gemm/cutedsl/dense/proj_rope_mxfp8/gemm_proj_rope_mxfp8_bf16in.py'
+adding 'cudnn/gemm/cutedsl/dense/proj_rope_mxfp8/gemm_proj_rope_mxfp8_mxfp8in.py'
+adding 'cudnn/gemm/cutedsl/dense/srelu/__init__.py'
+adding 'cudnn/gemm/cutedsl/dense/srelu/api.py'
+adding 'cudnn/gemm/cutedsl/dense/srelu/dense_blockscaled_gemm_persistent_srelu_quant.py'
+adding 'cudnn/gemm/cutedsl/dense/swiglu/__init__.py'
+adding 'cudnn/gemm/cutedsl/dense/swiglu/api.py'
+adding 'cudnn/gemm/cutedsl/dense/swiglu/dense_blockscaled_gemm_persistent_swiglu_interleaved_quant.py'
+adding 'cudnn/gemm/cutedsl/dense/swiglu/dense_gemm_persistent_swiglu.py'
+adding 'cudnn/gemm/cutedsl/discrete_grouped/__init__.py'
+adding 'cudnn/gemm/cutedsl/discrete_grouped/discrete_kernel_utils.py'
+adding 'cudnn/gemm/cutedsl/discrete_grouped/moe_persistent_scheduler.py'
+adding 'cudnn/gemm/cutedsl/discrete_grouped/moe_sched_extension.py'
+adding 'cudnn/gemm/cutedsl/discrete_grouped/moe_utils.py'
+adding 'cudnn/gemm/cutedsl/discrete_grouped/dswiglu/__init__.py'
+adding 'cudnn/gemm/cutedsl/discrete_grouped/dswiglu/api.py'
+adding 'cudnn/gemm/cutedsl/discrete_grouped/dswiglu/discrete_B_blockscaled_grouped_gemm_dglu_dbias.py'
+adding 'cudnn/gemm/cutedsl/discrete_grouped/swiglu/__init__.py'
+adding 'cudnn/gemm/cutedsl/discrete_grouped/swiglu/api.py'
+adding 'cudnn/gemm/cutedsl/discrete_grouped/swiglu/discrete_B_blockscaled_grouped_gemm_glu_bias.py'
+adding 'cudnn/gemm/cutedsl/grouped/__init__.py'
+adding 'cudnn/gemm/cutedsl/grouped/backend_utils.py'
+adding 'cudnn/gemm/cutedsl/grouped/moe_kernel_helpers.py'
+adding 'cudnn/gemm/cutedsl/grouped/moe_persistent_scheduler.py'
+adding 'cudnn/gemm/cutedsl/grouped/moe_sched_extension.py'
+adding 'cudnn/gemm/cutedsl/grouped/moe_utils.py'
+adding 'cudnn/gemm/cutedsl/grouped/utils.py'
+adding 'cudnn/gemm/cutedsl/grouped/dglu/__init__.py'
+adding 'cudnn/gemm/cutedsl/grouped/dglu/_bf16_api.py'
+adding 'cudnn/gemm/cutedsl/grouped/dglu/_blockscaled_api.py'
+adding 'cudnn/gemm/cutedsl/grouped/dglu/api.py'
+adding 'cudnn/gemm/cutedsl/grouped/dglu/moe_blockscaled_grouped_gemm_dglu_dbias.py'
+adding 'cudnn/gemm/cutedsl/grouped/dglu/moe_blockscaled_grouped_gemm_dglu_rubin.py'
+adding 'cudnn/gemm/cutedsl/grouped/dglu/moe_grouped_gemm_dglu_dbias.py'
+adding 'cudnn/gemm/cutedsl/grouped/dsrelu/__init__.py'
+adding 'cudnn/gemm/cutedsl/grouped/dsrelu/api.py'
+adding 'cudnn/gemm/cutedsl/grouped/dsrelu/moe_blockscaled_grouped_gemm_dsrelu_quant.py'
+adding 'cudnn/gemm/cutedsl/grouped/dswiglu/__init__.py'
+adding 'cudnn/gemm/cutedsl/grouped/dswiglu/api.py'
+adding 'cudnn/gemm/cutedsl/grouped/dswiglu/grouped_gemm_dswiglu_quant.py'
+adding 'cudnn/gemm/cutedsl/grouped/glu/__init__.py'
+adding 'cudnn/gemm/cutedsl/grouped/glu/_bf16_api.py'
+adding 'cudnn/gemm/cutedsl/grouped/glu/_blockscaled_api.py'
+adding 'cudnn/gemm/cutedsl/grouped/glu/api.py'
+adding 'cudnn/gemm/cutedsl/grouped/glu/moe_blockscaled_grouped_gemm_glu_bias.py'
+adding 'cudnn/gemm/cutedsl/grouped/glu/moe_blockscaled_grouped_gemm_glu_rubin.py'
+adding 'cudnn/gemm/cutedsl/grouped/glu/moe_grouped_gemm_glu_bias.py'
+adding 'cudnn/gemm/cutedsl/grouped/glu_hadamard/__init__.py'
+adding 'cudnn/gemm/cutedsl/grouped/glu_hadamard/api.py'
+adding 'cudnn/gemm/cutedsl/grouped/glu_hadamard/hadamard_utils.py'
+adding 'cudnn/gemm/cutedsl/grouped/glu_hadamard/moe_blockscaled_grouped_gemm_glu_hadamard.py'
+adding 'cudnn/gemm/cutedsl/grouped/quant/__init__.py'
+adding 'cudnn/gemm/cutedsl/grouped/quant/api.py'
+adding 'cudnn/gemm/cutedsl/grouped/quant/grouped_gemm_quant.py'
+adding 'cudnn/gemm/cutedsl/grouped/quant/moe_blockscaled_grouped_gemm_quant_rubin.py'
+adding 'cudnn/gemm/cutedsl/grouped/srelu/__init__.py'
+adding 'cudnn/gemm/cutedsl/grouped/srelu/api.py'
+adding 'cudnn/gemm/cutedsl/grouped/srelu/moe_blockscaled_grouped_gemm_srelu_quant.py'
+adding 'cudnn/gemm/cutedsl/grouped/swiglu/__init__.py'
+adding 'cudnn/gemm/cutedsl/grouped/swiglu/api.py'
+adding 'cudnn/gemm/cutedsl/grouped/swiglu/grouped_gemm_swiglu_quant.py'
+adding 'cudnn/gemm/cutedsl/grouped/unfused/__init__.py'
+adding 'cudnn/gemm/cutedsl/grouped/unfused/_bf16_api.py'
+adding 'cudnn/gemm/cutedsl/grouped/unfused/api.py'
+adding 'cudnn/gemm/cutedsl/grouped/unfused/moe_grouped_gemm.py'
+adding 'cudnn/gemm/cutedsl/grouped/wgrad/__init__.py'
+adding 'cudnn/gemm/cutedsl/grouped/wgrad/_bf16_api.py'
+adding 'cudnn/gemm/cutedsl/grouped/wgrad/_blockscaled_api.py'
+adding 'cudnn/gemm/cutedsl/grouped/wgrad/api.py'
+adding 'cudnn/gemm/cutedsl/grouped/wgrad/moe_blockscaled_grouped_gemm_wgrad.py'
+adding 'cudnn/gemm/cutedsl/grouped/wgrad/moe_blockscaled_grouped_gemm_wgrad_rubin.py'
+adding 'cudnn/gemm/cutedsl/grouped/wgrad/moe_grouped_gemm_wgrad.py'
+adding 'cudnn/gemm/ops/__init__.py'
+adding 'cudnn/gemm/ops/moe_grouped_matmul.py'
+adding 'cudnn/gemm/reference/__init__.py'
+adding 'cudnn/gemm/reference/reference_matmul_engine.py'
+adding 'cudnn/native_sparse_attention/__init__.py'
+adding 'cudnn/native_sparse_attention/utils.py'
+adding 'cudnn/native_sparse_attention/compression/__init__.py'
+adding 'cudnn/native_sparse_attention/compression/api.py'
+adding 'cudnn/native_sparse_attention/compression/fmha.py'
+adding 'cudnn/native_sparse_attention/compression/fmha_helpers.py'
+adding 'cudnn/native_sparse_attention/selection/NSA_select_attn_fwd_hmma.py'
+adding 'cudnn/native_sparse_attention/selection/__init__.py'
+adding 'cudnn/native_sparse_attention/selection/api.py'
+adding 'cudnn/native_sparse_attention/sliding_window_attention/__init__.py'
+adding 'cudnn/native_sparse_attention/sliding_window_attention/api.py'
+adding 'cudnn/native_sparse_attention/top_k/__init__.py'
+adding 'cudnn/native_sparse_attention/top_k/api.py'
+adding 'cudnn/native_sparse_attention/top_k/nsa_top_k_reduction_fwd.py'
+adding 'cudnn/ops/__init__.py'
+adding 'cudnn/ops/causal_conv1d.py'
+adding 'cudnn/rmsnorm_rht_amax/__init__.py'
+adding 'cudnn/rmsnorm_rht_amax/api.py'
+adding 'cudnn/rmsnorm_rht_amax/kernel.py'
+adding 'cudnn/sdpa/__init__.py'
+adding 'cudnn/sdpa/fmha_utils.py'
+adding 'cudnn/sdpa/utils.py'
+adding 'cudnn/sdpa/bwd/__init__.py'
+adding 'cudnn/sdpa/bwd/api.py'
+adding 'cudnn/sdpa/bwd/fmha_backward_sm100_2kernel.py'
+adding 'cudnn/sdpa/bwd/fmha_dkdv_d256_sm100.py'
+adding 'cudnn/sdpa/bwd/fmha_dq_d256_sm100.py'
+adding 'cudnn/sdpa/fwd/__init__.py'
+adding 'cudnn/sdpa/fwd/api.py'
+adding 'cudnn/sdpa/fwd/fmha_forward_sm100_d256.py'
+adding 'include/cudnn_backend_base.h'
+adding 'include/cudnn_frontend.h'
+adding 'include/cudnn_frontend_ConvDesc.h'
+adding 'include/cudnn_frontend_Engine.h'
+adding 'include/cudnn_frontend_EngineConfig.h'
+adding 'include/cudnn_frontend_EngineConfigGenerator.h'
+adding 'include/cudnn_frontend_EngineFallbackList.h'
+adding 'include/cudnn_frontend_Errata.h'
+adding 'include/cudnn_frontend_ExecutionPlan.h'
+adding 'include/cudnn_frontend_ExecutionPlanCache.h'
+adding 'include/cudnn_frontend_Filters.h'
+adding 'include/cudnn_frontend_Heuristics.h'
+adding 'include/cudnn_frontend_Logging.h'
+adding 'include/cudnn_frontend_MatMulDesc.h'
+adding 'include/cudnn_frontend_Operation.h'
+adding 'include/cudnn_frontend_OperationGraph.h'
+adding 'include/cudnn_frontend_PointWiseDesc.h'
+adding 'include/cudnn_frontend_ReductionDesc.h'
+adding 'include/cudnn_frontend_Reorder_Tensor.h'
+adding 'include/cudnn_frontend_Resample.h'
+adding 'include/cudnn_frontend_Rng.h'
+adding 'include/cudnn_frontend_Tensor.h'
+adding 'include/cudnn_frontend_VariantPack.h'
+adding 'include/cudnn_frontend_find_plan.h'
+adding 'include/cudnn_frontend_get_plan.h'
+adding 'include/cudnn_frontend_shim.h'
+adding 'include/cudnn_frontend_utils.h'
+adding 'include/cudnn_frontend_version.h'
+adding 'include/cudnn_frontend/AGENTS.md'
+adding 'include/cudnn_frontend/context.h'
+adding 'include/cudnn_frontend/cudnn_interface.h'
+adding 'include/cudnn_frontend/graph_helpers.h'
+adding 'include/cudnn_frontend/graph_interface.h'
+adding 'include/cudnn_frontend/graph_properties.h'
+adding 'include/cudnn_frontend/knobs.h'
+adding 'include/cudnn_frontend/node_interface.h'
+adding 'include/cudnn_frontend/plans.h'
+adding 'include/cudnn_frontend/backend/backend_descriptor.h'
+adding 'include/cudnn_frontend/backend/device_properties.h'
+adding 'include/cudnn_frontend/backend/execution_helpers.h'
+adding 'include/cudnn_frontend/backend/kernel_cache.h'
+adding 'include/cudnn_frontend/backend/plan_helpers.h'
+adding 'include/cudnn_frontend/experimental/attention_utils.h'
+adding 'include/cudnn_frontend/experimental/nvrtc_shim.h'
+adding 'include/cudnn_frontend/experimental/oss_engine_interface.h'
+adding 'include/cudnn_frontend/experimental/sm100_rms_norm_silu_engine.h'
+adding 'include/cudnn_frontend/experimental/sm100_rms_norm_silu_knobs.h'
+adding 'include/cudnn_frontend/experimental/sm100_sdpa_prefill_engine.h'
+adding 'include/cudnn_frontend/experimental/sm90_sdpa_prefill_engine.h'
+adding 'include/cudnn_frontend/generated/rms_norm_silu/sm100/ln_fwd_silu_kernel.h'
+adding 'include/cudnn_frontend/generated/rms_norm_silu/sm100/ln_headers.h'
+adding 'include/cudnn_frontend/generated/sdpa/sm100/prefill/full_seqlens/d128_fprop_kernel.h'
+adding 'include/cudnn_frontend/generated/sdpa/sm100/prefill/full_seqlens/d64_fprop_kernel.h'
+adding 'include/cudnn_frontend/generated/sdpa/sm90/prefill/full_seqlens/d128_fprop_kernel.h'
+adding 'include/cudnn_frontend/generated/sdpa/sm90/prefill/full_seqlens/d64_fprop_kernel.h'
+adding 'include/cudnn_frontend/node/adaptive_layernorm.h'
+adding 'include/cudnn_frontend/node/batchnorm.h'
+adding 'include/cudnn_frontend/node/batchnorm_inference.h'
+adding 'include/cudnn_frontend/node/block_scale_dequantize.h'
+adding 'include/cudnn_frontend/node/block_scale_quantize.h'
+adding 'include/cudnn_frontend/node/bn_finalize.h'
+adding 'include/cudnn_frontend/node/concatenate.h'
+adding 'include/cudnn_frontend/node/conv_dgrad.h'
+adding 'include/cudnn_frontend/node/conv_fprop.h'
+adding 'include/cudnn_frontend/node/conv_wgrad.h'
+adding 'include/cudnn_frontend/node/dbn.h'
+adding 'include/cudnn_frontend/node/dbn_weight.h'
+adding 'include/cudnn_frontend/node/diagonal_band_mask.h'
+adding 'include/cudnn_frontend/node/dln.h'
+adding 'include/cudnn_frontend/node/genstats.h'
+adding 'include/cudnn_frontend/node/instancenorm.h'
+adding 'include/cudnn_frontend/node/layernorm.h'
+adding 'include/cudnn_frontend/node/matmul.h'
+adding 'include/cudnn_frontend/node/matmul_fp8.h'
+adding 'include/cudnn_frontend/node/moe_grouped_matmul.h'
+adding 'include/cudnn_frontend/node/moe_grouped_matmul_bwd.h'
+adding 'include/cudnn_frontend/node/paged_cache_load.h'
+adding 'include/cudnn_frontend/node/pointwise.h'
+adding 'include/cudnn_frontend/node/reduction.h'
+adding 'include/cudnn_frontend/node/resample.h'
+adding 'include/cudnn_frontend/node/reshape.h'
+adding 'include/cudnn_frontend/node/rmsnorm.h'
+adding 'include/cudnn_frontend/node/rng.h'
+adding 'include/cudnn_frontend/node/rope.h'
+adding 'include/cudnn_frontend/node/rope_backward.h'
+adding 'include/cudnn_frontend/node/scaled_dot_product_flash_attention.h'
+adding 'include/cudnn_frontend/node/sdpa_fp8_bwd.h'
+adding 'include/cudnn_frontend/node/sdpa_support_surface.h'
+adding 'include/cudnn_frontend/node/slice.h'
+adding 'include/cudnn_frontend/node/softmax.h'
+adding 'include/cudnn_frontend/node/transpose.h'
+adding 'include/cudnn_frontend/thirdparty/nlohmann/LICENSE.MIT'
+adding 'include/cudnn_frontend/thirdparty/nlohmann/json.hpp'
+adding 'include/cudnn_frontend/utils/attn_score_modifiers.h'
+adding 'include/cudnn_frontend/utils/serialize.h'
+adding 'nvidia_cudnn_frontend-1.27.0.dist-info/licenses/LICENSE-MIT.txt'
+adding 'nvidia_cudnn_frontend-1.27.0.dist-info/licenses/LICENSE.txt'
+adding 'nvidia_cudnn_frontend-1.27.0.dist-info/licenses/NOTICE'
+adding 'nvidia_cudnn_frontend-1.27.0.dist-info/METADATA'
+adding 'nvidia_cudnn_frontend-1.27.0.dist-info/WHEEL'
+adding 'nvidia_cudnn_frontend-1.27.0.dist-info/top_level.txt'
+adding 'nvidia_cudnn_frontend-1.27.0.dist-info/RECORD'
+removing build/bdist.linux-x86_64/wheel
+Successfully built /root/cfe_migration/wheels/nvidia_cudnn_frontend-1.27.0-cp312-cp312-linux_x86_64.whl

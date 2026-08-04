@@ -128,3 +128,15 @@ Status updates to the items above:
     (probe scripts: devbox /root/lps1003_review/). Mind allocator
     stream-tagging if the wrap is ambient (multi-GiB outputs get tagged to
     the side stream → downstream consumers need lifetime discipline).
+
+## Added 2026-08-03 late PM (cudnn-frontend develop-pin migration)
+
+12. **Items 8/10/11 MOOT — upstream fixed it themselves.** cudnn-frontend
+    PR #354 (merged into develop 2026-07-09, three weeks before our
+    root-cause) switches torch_stream_context to get_stream_from_external —
+    the exact drop-in we planned to report. trainers PR #910 pins develop @
+    74785165 (1.27.0+git7478516), deletes both server/patches, and retires
+    +dsatopk5. Validated on tj-q8x5ky3 (/root/cfe_migration/): A/B pristine
+    12/12 fire @ 4GiB out vs develop 0/12; 100-rep identical-fwd soak clean
+    kernel+module; parity failure set identical to +dsatopk5 control.
+    Item 9 (patch narrative rewording) also moot — patches deleted.

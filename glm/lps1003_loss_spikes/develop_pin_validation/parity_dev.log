@@ -1,0 +1,383 @@
+LANG_RL Log directory: None
+Test data not found at /opt/data. Downloading...
+ERROR:tests.test_utils.python_scripts.download_unit_tests_dataset:  Error downloading/extracting datasets.zip: [Errno 2] No such file or directory: '/opt/data/datasets.zip'
+ERROR:tests.test_utils.python_scripts.download_unit_tests_dataset:  Error downloading/extracting tokenizers.zip: [Errno 2] No such file or directory: '/opt/data/tokenizers.zip'
+Test data downloaded successfully.
+Initializing torch.distributed with rank: 0, world_size: 1
+[rank0]:[W804 00:40:43.252997740 ProcessGroupNCCL.cpp:5188] Guessing device ID based on global rank. This can cause a hang if rank to GPU mapping is heterogeneous. You can specify device_id in init_process_group()
+.s.s.s.s.s.s.s.s.......................F
+=================================== FAILURES ===================================
+__________ test_cudnn_indexer_topk_multi_packed_cp_uses_segmented_thd __________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f786d518ef0>
+
+    def test_cudnn_indexer_topk_multi_packed_cp_uses_segmented_thd(monkeypatch):
+        seen = {}
+    
+        class FakeDSA:
+            @staticmethod
+            def indexer_forward_wrapper(
+                q, k, weights, ratio, sm_scale, cu_seqlens_q, cu_seqlens_k, max_seqlen_q, max_seqlen_k
+            ):
+                del weights, ratio, sm_scale
+                seen["q_shape"] = q.shape
+                seen["k_shape"] = k.shape
+                seen["cu_q"] = cu_seqlens_q.clone()
+                seen["cu_k"] = cu_seqlens_k.clone()
+                seen["max_q"] = max_seqlen_q
+                seen["max_k"] = max_seqlen_k
+                scores = torch.full((q.size(0), max_seqlen_k), float("-inf"))
+                for segment in range(cu_seqlens_q.numel() - 1):
+                    q_start = int(cu_seqlens_q[segment])
+                    q_end = int(cu_seqlens_q[segment + 1])
+                    k_length = int(cu_seqlens_k[segment + 1] - cu_seqlens_k[segment])
+                    q_length = q_end - q_start
+                    for row in range(q_length):
+                        valid_k = k_length - q_length + row + 1
+                        scores[q_start + row, :valid_k] = torch.arange(valid_k, dtype=torch.float32)
+                return {"scores": scores}
+    
+            @staticmethod
+            def indexer_top_k_wrapper(scores, seq_lens, top_k, next_n, return_val):
+                del next_n
+                masked_scores = scores.clone()
+                key_ids = torch.arange(scores.size(1)).view(1, -1)
+                masked_scores.masked_fill_(key_ids >= seq_lens.view(-1, 1), float("-inf"))
+                values, indices = masked_scores.topk(top_k, dim=-1)
+                return {"indices": indices.to(torch.int32), "values": values if return_val else None}
+    
+        monkeypatch.setattr(dsa_cudnn_kernels, "_ensure_dsa_namespace", lambda: None)
+        monkeypatch.setattr(dsa_cudnn_kernels, "_cudnn_dsa", FakeDSA)
+    
+        query_positions = torch.tensor([0, 1, 6, 7, 8, 9, 10, 11, 20, 21, 22, 23])
+        starts = torch.tensor([0] * 4 + [8] * 8)
+        ends = query_positions + 1
+>       topk_indices, topk_length, topk_scores = dsa_cudnn_kernels._indexer_topk_bshd(
+            torch.ones((1, 12, 1, 1)),
+            torch.ones((1, 24, 1)),
+            torch.ones((1, 12, 1)),
+            topk=3,
+            varlen_starts=starts,
+            varlen_ends=ends,
+            return_scores=False,
+            return_topk_scores=True,
+            use_local_indexer_varlen=True,
+            packed_cu_seqlens_q=torch.tensor([0, 8, 24], dtype=torch.int32),
+            packed_cu_seqlens_k=torch.tensor([0, 8, 24], dtype=torch.int32),
+            packed_max_seqlen_q=16,
+            packed_max_seqlen_k=16,
+            packed_cp_size=2,
+            local_packed_cp_rank=0,
+        )
+
+tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py:602: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+megatron/core/transformer/experimental_attention_variant/dsa_cudnn_kernels.py:1244: in _indexer_topk_bshd
+    topk_indices, topk_scores = _indexer_topk_multi_packed_cp_thd(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+q_bshd = tensor([[[[1.]],
+
+         [[1.]],
+
+         [[1.]],
+
+         [[1.]],
+
+         [[1.]],
+
+         [[1.]],
+
+         [[1.]],
+
+         [[1.]],
+
+         [[1.]],
+
+         [[1.]],
+
+         [[1.]],
+
+         [[1.]]]])
+k_bshd = tensor([[[[1.]],
+
+         [[1.]],
+
+         [[1.]],
+
+         [[1.]],
+
+         [[1.]],
+
+         [[1.]],
+
+         [...  [[1.]],
+
+         [[1.]],
+
+         [[1.]],
+
+         [[1.]],
+
+         [[1.]],
+
+         [[1.]],
+
+         [[1.]]]])
+w_bsh = tensor([[[1.],
+         [1.],
+         [1.],
+         [1.],
+         [1.],
+         [1.],
+         [1.],
+         [1.],
+         [1.],
+         [1.],
+         [1.],
+         [1.]]])
+topk_k = 3, return_topk_scores = True
+starts = tensor([0, 0, 0, 0, 8, 8, 8, 8, 8, 8, 8, 8])
+ends = tensor([ 1,  2,  7,  8,  9, 10, 11, 12, 21, 22, 23, 24])
+packed_cu_seqlens_q = tensor([ 0,  8, 24], dtype=torch.int32)
+packed_cu_seqlens_k = tensor([ 0,  8, 24], dtype=torch.int32)
+packed_max_seqlen_q = 16, packed_max_seqlen_k = 16, cp_size = 2, cp_rank = 0
+
+    def _indexer_topk_multi_packed_cp_thd(
+        q_bshd: Tensor,
+        k_bshd: Tensor,
+        w_bsh: Tensor,
+        topk_k: int,
+        return_topk_scores: bool,
+        starts: Tensor,
+        ends: Tensor,
+        packed_cu_seqlens_q: Tensor,
+        packed_cu_seqlens_k: Tensor,
+        packed_max_seqlen_q: int,
+        packed_max_seqlen_k: int,
+        cp_size: int,
+        cp_rank: int,
+    ) -> Tuple[Tensor, Optional[Tensor]]:
+        """Run cuDNN's THD indexer on packed CP front/back query segments."""
+        b, sq, _idx_nh, _idx_hd = q_bshd.shape
+        sk = k_bshd.size(1)
+        if b != 1 or cp_size <= 1 or not 0 <= cp_rank < cp_size:
+            raise RuntimeError("packed CP cuDNN THD indexer requires b=1 and a valid CP rank")
+        if packed_cu_seqlens_q.numel() < 3:
+            raise RuntimeError(
+                "multi-sequence packed CP cuDNN THD indexer requires at least two sequences"
+            )
+        if packed_cu_seqlens_q.shape != packed_cu_seqlens_k.shape:
+            raise RuntimeError("packed CP cuDNN THD query/key cu_seqlens shapes must match")
+        if packed_max_seqlen_q <= 0 or packed_max_seqlen_k <= 0:
+            raise RuntimeError("packed CP cuDNN THD indexer requires positive maximum sequence lengths")
+    
+        segment_divisor = 2 * cp_size
+        if sk % segment_divisor != 0:
+            raise RuntimeError(f"packed CP key length must be divisible by {segment_divisor}, got {sk}")
+    
+        device = q_bshd.device
+        cu_q = packed_cu_seqlens_q.to(device=device, dtype=torch.int64).contiguous()
+        cu_k = packed_cu_seqlens_k.to(device=device, dtype=torch.int64).contiguous()
+        q_lengths = cu_q[1:] - cu_q[:-1]
+        k_lengths = cu_k[1:] - cu_k[:-1]
+        q_half = q_lengths // segment_divisor
+        k_half = k_lengths // segment_divisor
+        segment_q_lengths = torch.stack((q_half, q_half), dim=1).reshape(-1)
+        segment_k_lengths = torch.stack(
+            ((cp_rank + 1) * k_half, k_lengths - cp_rank * k_half), dim=1
+        ).reshape(-1)
+    
+        zero_i32 = torch.zeros(1, dtype=torch.int32, device=device)
+        segment_cu_q = torch.cat(
+            (zero_i32, segment_q_lengths.cumsum(dim=0, dtype=torch.int32))
+        ).contiguous()
+        segment_cu_k = torch.cat(
+            (zero_i32, segment_k_lengths.cumsum(dim=0, dtype=torch.int32))
+        ).contiguous()
+    
+        segment_key_starts = cu_k[:-1].repeat_interleave(2)
+        total_segment_k = sk + sk // segment_divisor
+        segment_ids = torch.repeat_interleave(
+            torch.arange(segment_k_lengths.numel(), device=device),
+            segment_k_lengths,
+            output_size=total_segment_k,
+        )
+        segment_offsets = torch.arange(total_segment_k, device=device, dtype=torch.int64)
+        segment_offsets -= torch.repeat_interleave(
+            segment_cu_k[:-1].to(dtype=torch.int64), segment_k_lengths, output_size=total_segment_k
+        )
+        source_indices = segment_key_starts.index_select(0, segment_ids) + segment_offsets
+        segmented_k = k_bshd[0].index_select(0, source_indices).contiguous()
+    
+        max_segment_q = packed_max_seqlen_q // segment_divisor
+        max_k_half = packed_max_seqlen_k // segment_divisor
+        max_segment_k = max((cp_rank + 1) * max_k_half, packed_max_seqlen_k - cp_rank * max_k_half)
+        segment_q_causal_offsets = (segment_k_lengths - segment_q_lengths).to(
+            dtype=torch.int32, device=device
+        )
+>       scores = _cudnn_dsa.indexer_forward_wrapper(
+            q_bshd[0],
+            segmented_k,
+            w_bsh[0],
+            ratio=_INDEXER_RATIO,
+            sm_scale=_INDEXER_SOFTMAX_SCALE,
+            cu_seqlens_q=segment_cu_q,
+            cu_seqlens_k=segment_cu_k,
+            max_seqlen_q=max_segment_q,
+            max_seqlen_k=max_segment_k,
+            q_causal_offsets=segment_q_causal_offsets,
+        )["scores"]
+E       TypeError: test_cudnn_indexer_topk_multi_packed_cp_uses_segmented_thd.<locals>.FakeDSA.indexer_forward_wrapper() got an unexpected keyword argument 'q_causal_offsets'
+
+megatron/core/transformer/experimental_attention_variant/dsa_cudnn_kernels.py:805: TypeError
+=============================== warnings summary ===============================
+../../../../.venv/lib/python3.12/site-packages/torch/cuda/__init__.py:61
+  /root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/torch/cuda/__init__.py:61: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+    import pynvml  # type: ignore[import]
+
+../../../../.venv/lib/python3.12/site-packages/torch/jit/_script.py:1488
+../../../../.venv/lib/python3.12/site-packages/torch/jit/_script.py:1488
+../../../../.venv/lib/python3.12/site-packages/torch/jit/_script.py:1488
+  /root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/torch/jit/_script.py:1488: DeprecationWarning: `torch.jit.script` is deprecated. Please switch to `torch.compile` or `torch.export`.
+    warnings.warn(
+
+megatron/core/dist_checkpointing/strategies/torch.py:69
+  /root/.cache/user_artifacts/trainers_main/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/dist_checkpointing/strategies/torch.py:69: DeprecationWarning: transformer_engine.pytorch.float8_tensor is deprecated and will be removed in a future release. Float8Tensor should be imported directly through `from transformer_engine.pytorch import Float8Tensor`
+    from transformer_engine.pytorch.float8_tensor import Float8Tensor
+
+../../../../.venv/lib/python3.12/site-packages/flashinfer/gemm/kernels/grouped_gemm_masked_blackwell.py:2059
+  /root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/flashinfer/gemm/kernels/grouped_gemm_masked_blackwell.py:2059: DeprecationWarning: tcgen05.OperandMajorMode is deprecated, use cute.nvgpu.OperandMajorMode instead
+    a_major_mode: tcgen05.OperandMajorMode,
+
+../../../../.venv/lib/python3.12/site-packages/flashinfer/gemm/kernels/grouped_gemm_masked_blackwell.py:2061
+  /root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/flashinfer/gemm/kernels/grouped_gemm_masked_blackwell.py:2061: DeprecationWarning: tcgen05.OperandMajorMode is deprecated, use cute.nvgpu.OperandMajorMode instead
+    b_major_mode: tcgen05.OperandMajorMode,
+
+../../../../.venv/lib/python3.12/site-packages/flashinfer/gdn_kernels/blackwell/gated_delta_net_chunked.py:99
+../../../../.venv/lib/python3.12/site-packages/flashinfer/gdn_kernels/blackwell/gated_delta_net_chunked.py:99
+  /root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/flashinfer/gdn_kernels/blackwell/gated_delta_net_chunked.py:99: DeprecationWarning: tcgen05.OperandMajorMode is deprecated, use cute.nvgpu.OperandMajorMode instead
+    from cutlass.cute.nvgpu.tcgen05 import OperandMajorMode
+
+../../../../.venv/lib/python3.12/site-packages/torch/jit/_script.py:365: 14 warnings
+  /root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/torch/jit/_script.py:365: DeprecationWarning: `torch.jit.script_method` is deprecated. Please switch to `torch.compile` or `torch.export`.
+    warnings.warn(
+
+megatron/core/tensor_parallel/random.py:83
+  /root/.cache/user_artifacts/trainers_main/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/tensor_parallel/random.py:83: DeprecationWarning: Using deprecated internal API from Transformer Engine. transformer_engine.pytorch.fp8 will be removed in a future release.
+    from transformer_engine.pytorch.fp8 import FP8GlobalStateManager, fp8_autocast
+
+megatron/core/inference/contexts/__init__.py:9
+  /root/.cache/user_artifacts/trainers_main/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/inference/contexts/__init__.py:9: DeprecationWarning: The following imports from `dynamic_context.py` will be removed in this file in `megatron-core` 0.14. The imports here result in a cyclic import issue that causes rotary embeddings to import from Apex rather than Transformer Engine.
+    warnings.warn(
+
+megatron/core/models/backends.py:34
+  /root/.cache/user_artifacts/trainers_main/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/backends.py:34: UserWarning: Apex is not installed. Falling back to Torch Norm
+    warnings.warn("Apex is not installed. Falling back to Torch Norm")
+
+megatron/core/models/gpt/gpt_layer_specs.py:74
+  /root/.cache/user_artifacts/trainers_main/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/gpt/gpt_layer_specs.py:74: UserWarning: Apex is not installed. Falling back to Torch Norm
+    warnings.warn("Apex is not installed. Falling back to Torch Norm")
+
+megatron/core/models/gpt/heterogeneous/heterogeneous_layer_specs.py:68
+  /root/.cache/user_artifacts/trainers_main/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/gpt/heterogeneous/heterogeneous_layer_specs.py:68: UserWarning: Apex is not installed. Falling back to Torch Norm
+    warnings.warn("Apex is not installed. Falling back to Torch Norm")
+
+<frozen importlib._bootstrap>:488
+  <frozen importlib._bootstrap>:488: DeprecationWarning: builtin type SwigPyPacked has no __module__ attribute
+
+<frozen importlib._bootstrap>:488
+  <frozen importlib._bootstrap>:488: DeprecationWarning: builtin type SwigPyObject has no __module__ attribute
+
+../../../../.venv/lib/python3.12/site-packages/comet_ml/error_tracking/shutdown.py:22
+  /root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/comet_ml/error_tracking/shutdown.py:22: SentryHubDeprecationWarning: `sentry_sdk.Hub` is deprecated and will be removed in a future major release. Please consult our 1.x to 2.x migration guide for details on how to migrate `Hub` usage to the new API: https://docs.sentry.io/platforms/python/migration/1.x-to-2.x
+    client = sentry_sdk.Hub.current.client
+
+../../../../.venv/lib/python3.12/site-packages/modelopt/torch/__init__.py:53
+  /root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/modelopt/torch/__init__.py:53: UserWarning: transformers>=5.0 support is experimental. Unified Hugging Face checkpoint export for quantized checkpoints may not work for some models yet.
+    _warnings.warn(
+
+megatron/rl/inference/inference_interface.py:15
+  /root/.cache/user_artifacts/trainers_main/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/rl/inference/inference_interface.py:15: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class InferenceInterface(BaseModel):
+
+megatron/rl/__init__.py:56
+megatron/rl/__init__.py:56
+  /root/.cache/user_artifacts/trainers_main/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/rl/__init__.py:56: PydanticDeprecatedSince20: The `__fields__` attribute is deprecated, use the `model_fields` class property instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    cls.Library.type_names[register_type.__fields__['type_name'].default] = register_type
+
+tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py: 21 warnings
+  /root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/torch/distributed/c10d_logger.py:83: UserWarning: barrier(): using the device under current context. You can specify `device_id` in `init_process_group` to mute this warning.
+    return func(*args, **kwargs)
+
+tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py: 20 warnings
+  /root/.cache/user_artifacts/trainers_main/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/transformer/transformer_config.py:2379: UserWarning: full scope is deprecated. Use empty cuda_graph_modules to capture the whole layer.
+    warnings.warn(
+
+tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py: 160 warnings
+  /root/.cache/user_artifacts/trainers_main/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/extensions/transformer_engine.py:931: DeprecationWarning: Warning: tp_group is None, using default tp group. Passing tp_group will be mandatory soon
+    tp_group = get_tensor_model_parallel_group_if_none(tp_group, is_expert=is_expert)
+
+tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_fused_absorbed_mla_dsa_matches_native[sparse_loss-False-2048-cudnn]
+  /root/cfe_migration/ov_dev/cudnn/deepseek_sparse_attention/indexer_backward/indexer_backward_sm100.py:739: DSLOptimizationWarning: This static loop has 64 iterations, which may be very slow to compile, consider using `cutlass.range(..., unroll_full=True)` instead.
+    for si in cutlass.range_constexpr(GS_PER_THREAD):
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+==================================== PASSES ====================================
+___ test_fused_absorbed_mla_dsa_matches_native[dense_loss-False-1024-cudnn] ____
+------------------------------ Captured log setup ------------------------------
+ERROR    tests.test_utils.python_scripts.download_unit_tests_dataset:download_unit_tests_dataset.py:80   Error downloading/extracting datasets.zip: [Errno 2] No such file or directory: '/opt/data/datasets.zip'
+ERROR    tests.test_utils.python_scripts.download_unit_tests_dataset:download_unit_tests_dataset.py:80   Error downloading/extracting tokenizers.zip: [Errno 2] No such file or directory: '/opt/data/tokenizers.zip'
+============================= slowest 15 durations =============================
+45.60s call     tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_fused_absorbed_mla_dsa_matches_native[dense_loss-False-1024-cudnn]
+29.87s call     tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_fused_absorbed_mla_dsa_matches_native[sparse_loss-False-2048-cudnn]
+22.15s call     tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_fused_absorbed_mla_dsa_matches_native[sparse_loss-False-1024-cudnn]
+7.48s call     tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_fused_absorbed_mla_dsa_matches_native[dense_loss-False-2048-cudnn]
+6.96s call     tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_unfused_absorbed_mla_dsa_matches_native[sparse_loss-False-4096]
+6.86s call     tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_unfused_absorbed_mla_dsa_matches_native[sparse_loss-True-4096]
+6.85s call     tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_unfused_absorbed_mla_dsa_matches_native[dense_loss-True-4096]
+6.83s call     tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_unfused_absorbed_mla_dsa_matches_native[dense_loss-False-4096]
+2.76s call     tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_unfused_absorbed_mla_dsa_matches_native[dense_loss-False-2048]
+2.43s call     tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_unfused_absorbed_mla_dsa_matches_native[sparse_loss-True-2048]
+2.42s call     tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_unfused_absorbed_mla_dsa_matches_native[sparse_loss-False-2048]
+2.38s call     tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_unfused_absorbed_mla_dsa_matches_native[dense_loss-True-2048]
+2.03s setup    tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_fused_absorbed_mla_dsa_matches_native[dense_loss-False-1024-cudnn]
+1.79s call     tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_fused_absorbed_mla_dsa_matches_native[sparse_loss-True-2048-cudnn]
+1.59s call     tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_fused_absorbed_mla_dsa_matches_native[sparse_loss-True-1024-cudnn]
+=========================== short test summary info ============================
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_fused_absorbed_mla_dsa_matches_native[dense_loss-False-1024-cudnn]
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_fused_absorbed_mla_dsa_matches_native[dense_loss-False-2048-cudnn]
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_fused_absorbed_mla_dsa_matches_native[dense_loss-True-1024-cudnn]
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_fused_absorbed_mla_dsa_matches_native[dense_loss-True-2048-cudnn]
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_fused_absorbed_mla_dsa_matches_native[sparse_loss-False-1024-cudnn]
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_fused_absorbed_mla_dsa_matches_native[sparse_loss-False-2048-cudnn]
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_fused_absorbed_mla_dsa_matches_native[sparse_loss-True-1024-cudnn]
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_fused_absorbed_mla_dsa_matches_native[sparse_loss-True-2048-cudnn]
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_unfused_absorbed_mla_dsa_matches_native[dense_loss-False-1024]
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_unfused_absorbed_mla_dsa_matches_native[dense_loss-False-2048]
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_unfused_absorbed_mla_dsa_matches_native[dense_loss-False-4096]
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_unfused_absorbed_mla_dsa_matches_native[dense_loss-True-1024]
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_unfused_absorbed_mla_dsa_matches_native[dense_loss-True-2048]
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_unfused_absorbed_mla_dsa_matches_native[dense_loss-True-4096]
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_unfused_absorbed_mla_dsa_matches_native[sparse_loss-False-1024]
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_unfused_absorbed_mla_dsa_matches_native[sparse_loss-False-2048]
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_unfused_absorbed_mla_dsa_matches_native[sparse_loss-False-4096]
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_unfused_absorbed_mla_dsa_matches_native[sparse_loss-True-1024]
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_unfused_absorbed_mla_dsa_matches_native[sparse_loss-True-2048]
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_unfused_absorbed_mla_dsa_matches_native[sparse_loss-True-4096]
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_bytes_to_chunk_rows_stays_within_budget_below_alignment
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_cudnn_indexer_topk_odd_k_uses_torch_fallback_for_cp_regression_shape[False]
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_cudnn_indexer_topk_odd_k_uses_torch_fallback_for_cp_regression_shape[True]
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_cudnn_indexer_topk_odd_k_torch_fallback_respects_seq_lens
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_cudnn_indexer_topk_even_k_still_uses_cudnn
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_cudnn_indexer_topk_varlen_uses_logical_query_positions
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_cudnn_indexer_topk_score_chunks_preserve_global_query_offsets
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_cudnn_indexer_topk_tie_break_prefers_lower_indices
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_cudnn_indexer_topk_repeated_varlen_ends_keep_distinct_query_rows
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_cudnn_indexer_topk_nonlocal_varlen_ends_avoid_global_score_rows
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_cudnn_indexer_topk_local_varlen_keeps_compact_query_rows
+SKIPPED [8] tests/unit_tests/transformer/experimental_attention_variant/dsa_native_parity_utils.py:49: DSA TileLang kernels are unavailable: No module named 'megatron.core.transformer.experimental_attention_variant.ops'
+FAILED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_cudnn_indexer_topk_multi_packed_cp_uses_segmented_thd
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed, 31 passed, 8 skipped, 237 warnings in 157.35s (0:02:37)
+sys:1: DeprecationWarning: builtin type swigvarlink has no __module__ attribute

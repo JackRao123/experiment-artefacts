@@ -1,0 +1,3144 @@
+LANG_RL Log directory: None
+Test data not found at /opt/data. Downloading...
+ERROR:tests.test_utils.python_scripts.download_unit_tests_dataset:  Error downloading/extracting datasets.zip: [Errno 2] No such file or directory: '/opt/data/datasets.zip'
+ERROR:tests.test_utils.python_scripts.download_unit_tests_dataset:  Error downloading/extracting tokenizers.zip: [Errno 2] No such file or directory: '/opt/data/tokenizers.zip'
+Test data downloaded successfully.
+Initializing torch.distributed with rank: 0, world_size: 1
+[rank0]:[W804 00:46:30.444807025 ProcessGroupNCCL.cpp:5188] Guessing device ID based on global rank. This can cause a hang if rank to GPU mapping is heterogeneous. You can specify device_id in init_process_group()
+.s.s.s.s.s.s.s.s.......................FFFF.FF......................................................DEBUG:megatron.core.transformer.experimental_attention_variant.dsa_kernels:DSA fused backend tilelang run_fused_qk_topk declined; falling back (backend returned None).
+DEBUG:megatron.core.transformer.experimental_attention_variant.dsa_kernels:DSA fused backend tilelang run_fused_qk_topk_with_loss declined; falling back (backend returned None).
+DEBUG:megatron.core.transformer.experimental_attention_variant.dsa_kernels:DSA fused backend tilelang run_fused_absorbed_sparse_attention declined; falling back (backend returned None).
+DEBUG:megatron.core.transformer.experimental_attention_variant.dsa_kernels:DSA fused backend tilelang run_fused_dsa_attention declined; falling back (backend returned None).
+.................................................FWARNING:megatron.core.tensor_parallel.random:CPU RNG state changed within GPU RNG context
+WARNING:megatron.core.tensor_parallel.random:CPU RNG state changed within GPU RNG context
+WARNING:megatron.core.tensor_parallel.random:CPU RNG state changed within GPU RNG context
+..................WARNING:megatron.core.tensor_parallel.random:CPU RNG state changed within GPU RNG context
+WARNING:megatron.core.tensor_parallel.random:CPU RNG state changed within GPU RNG context
+WARNING:megatron.core.tensor_parallel.random:CPU RNG state changed within GPU RNG context
+............FWARNING:megatron.core.tensor_parallel.random:CPU RNG state changed within GPU RNG context
+WARNING:megatron.core.tensor_parallel.random:CPU RNG state changed within GPU RNG context
+WARNING:megatron.core.tensor_parallel.random:CPU RNG state changed within GPU RNG context
+FFFWARNING:megatron.core.tensor_parallel.random:CPU RNG state changed within GPU RNG context
+WARNING:megatron.core.tensor_parallel.random:CPU RNG state changed within GPU RNG context
+WARNING:megatron.core.tensor_parallel.random:CPU RNG state changed within GPU RNG context
+WARNING:megatron.core.tensor_parallel.random:CPU RNG state changed within GPU RNG context
+WARNING:megatron.core.tensor_parallel.random:CPU RNG state changed within GPU RNG context
+WARNING:megatron.core.tensor_parallel.random:CPU RNG state changed within GPU RNG context
+FFF..F..
+=================================== FAILURES ===================================
+_ test_cudnn_indexer_topk_multi_packed_cp_selects_all_segment_keys[indices-odd-k] _
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7fd003c4a630>
+max_segment_k = 5, return_topk_scores = False
+
+    @pytest.mark.parametrize("max_segment_k", [5, 6], ids=["odd-k", "even-k"])
+    @pytest.mark.parametrize("return_topk_scores", [False, True], ids=["indices", "scores"])
+    def test_cudnn_indexer_topk_multi_packed_cp_selects_all_segment_keys(
+        monkeypatch, max_segment_k, return_topk_scores
+    ):
+        class FakeDSA:
+            @staticmethod
+            def indexer_forward_wrapper(
+                q, k, weights, ratio, sm_scale, cu_seqlens_q, cu_seqlens_k, max_seqlen_q, max_seqlen_k
+            ):
+                del k, weights, ratio, sm_scale, cu_seqlens_q, cu_seqlens_k, max_seqlen_q
+                return {
+                    "scores": torch.arange(max_seqlen_k, dtype=torch.float32)
+                    .view(1, max_seqlen_k)
+                    .expand(q.size(0), max_seqlen_k)
+                    .contiguous()
+                }
+    
+            @staticmethod
+            def indexer_top_k_wrapper(*args, **kwargs):
+                raise AssertionError("all-column selection must bypass the cuDNN top-k kernel")
+    
+        monkeypatch.setattr(dsa_cudnn_kernels, "_ensure_dsa_namespace", lambda: None)
+        monkeypatch.setattr(dsa_cudnn_kernels, "_cudnn_dsa", FakeDSA)
+    
+        starts = torch.tensor([0, 0, 4, 4])
+        ends = torch.tensor([1, 4, 5, 8])
+>       topk_indices, topk_length, topk_scores = dsa_cudnn_kernels._indexer_topk_bshd(
+            torch.ones((1, 4, 1, 1)),
+            torch.ones((1, 8, 1)),
+            torch.ones((1, 4, 1)),
+            topk=8,
+            varlen_starts=starts,
+            varlen_ends=ends,
+            return_scores=False,
+            return_topk_scores=return_topk_scores,
+            use_local_indexer_varlen=True,
+            packed_cu_seqlens_q=torch.tensor([0, 4, 8], dtype=torch.int32),
+            packed_cu_seqlens_k=torch.tensor([0, 4, 8], dtype=torch.int32),
+            packed_max_seqlen_q=4,
+            packed_max_seqlen_k=max_segment_k,
+            packed_cp_size=2,
+            local_packed_cp_rank=0,
+        )
+
+tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py:675: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+megatron/core/transformer/experimental_attention_variant/dsa_cudnn_kernels.py:1244: in _indexer_topk_bshd
+    topk_indices, topk_scores = _indexer_topk_multi_packed_cp_thd(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+q_bshd = tensor([[[[1.]],
+
+         [[1.]],
+
+         [[1.]],
+
+         [[1.]]]])
+k_bshd = tensor([[[[1.]],
+
+         [[1.]],
+
+         [[1.]],
+
+         [[1.]],
+
+         [[1.]],
+
+         [[1.]],
+
+         [[1.]],
+
+         [[1.]]]])
+w_bsh = tensor([[[1.],
+         [1.],
+         [1.],
+         [1.]]])
+topk_k = 8, return_topk_scores = False, starts = tensor([0, 0, 4, 4])
+ends = tensor([1, 4, 5, 8])
+packed_cu_seqlens_q = tensor([0, 4, 8], dtype=torch.int32)
+packed_cu_seqlens_k = tensor([0, 4, 8], dtype=torch.int32)
+packed_max_seqlen_q = 4, packed_max_seqlen_k = 5, cp_size = 2, cp_rank = 0
+
+    def _indexer_topk_multi_packed_cp_thd(
+        q_bshd: Tensor,
+        k_bshd: Tensor,
+        w_bsh: Tensor,
+        topk_k: int,
+        return_topk_scores: bool,
+        starts: Tensor,
+        ends: Tensor,
+        packed_cu_seqlens_q: Tensor,
+        packed_cu_seqlens_k: Tensor,
+        packed_max_seqlen_q: int,
+        packed_max_seqlen_k: int,
+        cp_size: int,
+        cp_rank: int,
+    ) -> Tuple[Tensor, Optional[Tensor]]:
+        """Run cuDNN's THD indexer on packed CP front/back query segments."""
+        b, sq, _idx_nh, _idx_hd = q_bshd.shape
+        sk = k_bshd.size(1)
+        if b != 1 or cp_size <= 1 or not 0 <= cp_rank < cp_size:
+            raise RuntimeError("packed CP cuDNN THD indexer requires b=1 and a valid CP rank")
+        if packed_cu_seqlens_q.numel() < 3:
+            raise RuntimeError(
+                "multi-sequence packed CP cuDNN THD indexer requires at least two sequences"
+            )
+        if packed_cu_seqlens_q.shape != packed_cu_seqlens_k.shape:
+            raise RuntimeError("packed CP cuDNN THD query/key cu_seqlens shapes must match")
+        if packed_max_seqlen_q <= 0 or packed_max_seqlen_k <= 0:
+            raise RuntimeError("packed CP cuDNN THD indexer requires positive maximum sequence lengths")
+    
+        segment_divisor = 2 * cp_size
+        if sk % segment_divisor != 0:
+            raise RuntimeError(f"packed CP key length must be divisible by {segment_divisor}, got {sk}")
+    
+        device = q_bshd.device
+        cu_q = packed_cu_seqlens_q.to(device=device, dtype=torch.int64).contiguous()
+        cu_k = packed_cu_seqlens_k.to(device=device, dtype=torch.int64).contiguous()
+        q_lengths = cu_q[1:] - cu_q[:-1]
+        k_lengths = cu_k[1:] - cu_k[:-1]
+        q_half = q_lengths // segment_divisor
+        k_half = k_lengths // segment_divisor
+        segment_q_lengths = torch.stack((q_half, q_half), dim=1).reshape(-1)
+        segment_k_lengths = torch.stack(
+            ((cp_rank + 1) * k_half, k_lengths - cp_rank * k_half), dim=1
+        ).reshape(-1)
+    
+        zero_i32 = torch.zeros(1, dtype=torch.int32, device=device)
+        segment_cu_q = torch.cat(
+            (zero_i32, segment_q_lengths.cumsum(dim=0, dtype=torch.int32))
+        ).contiguous()
+        segment_cu_k = torch.cat(
+            (zero_i32, segment_k_lengths.cumsum(dim=0, dtype=torch.int32))
+        ).contiguous()
+    
+        segment_key_starts = cu_k[:-1].repeat_interleave(2)
+        total_segment_k = sk + sk // segment_divisor
+        segment_ids = torch.repeat_interleave(
+            torch.arange(segment_k_lengths.numel(), device=device),
+            segment_k_lengths,
+            output_size=total_segment_k,
+        )
+        segment_offsets = torch.arange(total_segment_k, device=device, dtype=torch.int64)
+        segment_offsets -= torch.repeat_interleave(
+            segment_cu_k[:-1].to(dtype=torch.int64), segment_k_lengths, output_size=total_segment_k
+        )
+        source_indices = segment_key_starts.index_select(0, segment_ids) + segment_offsets
+        segmented_k = k_bshd[0].index_select(0, source_indices).contiguous()
+    
+        max_segment_q = packed_max_seqlen_q // segment_divisor
+        max_k_half = packed_max_seqlen_k // segment_divisor
+        max_segment_k = max((cp_rank + 1) * max_k_half, packed_max_seqlen_k - cp_rank * max_k_half)
+        segment_q_causal_offsets = (segment_k_lengths - segment_q_lengths).to(
+            dtype=torch.int32, device=device
+        )
+>       scores = _cudnn_dsa.indexer_forward_wrapper(
+            q_bshd[0],
+            segmented_k,
+            w_bsh[0],
+            ratio=_INDEXER_RATIO,
+            sm_scale=_INDEXER_SOFTMAX_SCALE,
+            cu_seqlens_q=segment_cu_q,
+            cu_seqlens_k=segment_cu_k,
+            max_seqlen_q=max_segment_q,
+            max_seqlen_k=max_segment_k,
+            q_causal_offsets=segment_q_causal_offsets,
+        )["scores"]
+E       TypeError: test_cudnn_indexer_topk_multi_packed_cp_selects_all_segment_keys.<locals>.FakeDSA.indexer_forward_wrapper() got an unexpected keyword argument 'q_causal_offsets'
+
+megatron/core/transformer/experimental_attention_variant/dsa_cudnn_kernels.py:805: TypeError
+_ test_cudnn_indexer_topk_multi_packed_cp_selects_all_segment_keys[indices-even-k] _
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7fd003b56e40>
+max_segment_k = 6, return_topk_scores = False
+
+    @pytest.mark.parametrize("max_segment_k", [5, 6], ids=["odd-k", "even-k"])
+    @pytest.mark.parametrize("return_topk_scores", [False, True], ids=["indices", "scores"])
+    def test_cudnn_indexer_topk_multi_packed_cp_selects_all_segment_keys(
+        monkeypatch, max_segment_k, return_topk_scores
+    ):
+        class FakeDSA:
+            @staticmethod
+            def indexer_forward_wrapper(
+                q, k, weights, ratio, sm_scale, cu_seqlens_q, cu_seqlens_k, max_seqlen_q, max_seqlen_k
+            ):
+                del k, weights, ratio, sm_scale, cu_seqlens_q, cu_seqlens_k, max_seqlen_q
+                return {
+                    "scores": torch.arange(max_seqlen_k, dtype=torch.float32)
+                    .view(1, max_seqlen_k)
+                    .expand(q.size(0), max_seqlen_k)
+                    .contiguous()
+                }
+    
+            @staticmethod
+            def indexer_top_k_wrapper(*args, **kwargs):
+                raise AssertionError("all-column selection must bypass the cuDNN top-k kernel")
+    
+        monkeypatch.setattr(dsa_cudnn_kernels, "_ensure_dsa_namespace", lambda: None)
+        monkeypatch.setattr(dsa_cudnn_kernels, "_cudnn_dsa", FakeDSA)
+    
+        starts = torch.tensor([0, 0, 4, 4])
+        ends = torch.tensor([1, 4, 5, 8])
+>       topk_indices, topk_length, topk_scores = dsa_cudnn_kernels._indexer_topk_bshd(
+            torch.ones((1, 4, 1, 1)),
+            torch.ones((1, 8, 1)),
+            torch.ones((1, 4, 1)),
+            topk=8,
+            varlen_starts=starts,
+            varlen_ends=ends,
+            return_scores=False,
+            return_topk_scores=return_topk_scores,
+            use_local_indexer_varlen=True,
+            packed_cu_seqlens_q=torch.tensor([0, 4, 8], dtype=torch.int32),
+            packed_cu_seqlens_k=torch.tensor([0, 4, 8], dtype=torch.int32),
+            packed_max_seqlen_q=4,
+            packed_max_seqlen_k=max_segment_k,
+            packed_cp_size=2,
+            local_packed_cp_rank=0,
+        )
+
+tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py:675: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+megatron/core/transformer/experimental_attention_variant/dsa_cudnn_kernels.py:1244: in _indexer_topk_bshd
+    topk_indices, topk_scores = _indexer_topk_multi_packed_cp_thd(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+q_bshd = tensor([[[[1.]],
+
+         [[1.]],
+
+         [[1.]],
+
+         [[1.]]]])
+k_bshd = tensor([[[[1.]],
+
+         [[1.]],
+
+         [[1.]],
+
+         [[1.]],
+
+         [[1.]],
+
+         [[1.]],
+
+         [[1.]],
+
+         [[1.]]]])
+w_bsh = tensor([[[1.],
+         [1.],
+         [1.],
+         [1.]]])
+topk_k = 8, return_topk_scores = False, starts = tensor([0, 0, 4, 4])
+ends = tensor([1, 4, 5, 8])
+packed_cu_seqlens_q = tensor([0, 4, 8], dtype=torch.int32)
+packed_cu_seqlens_k = tensor([0, 4, 8], dtype=torch.int32)
+packed_max_seqlen_q = 4, packed_max_seqlen_k = 6, cp_size = 2, cp_rank = 0
+
+    def _indexer_topk_multi_packed_cp_thd(
+        q_bshd: Tensor,
+        k_bshd: Tensor,
+        w_bsh: Tensor,
+        topk_k: int,
+        return_topk_scores: bool,
+        starts: Tensor,
+        ends: Tensor,
+        packed_cu_seqlens_q: Tensor,
+        packed_cu_seqlens_k: Tensor,
+        packed_max_seqlen_q: int,
+        packed_max_seqlen_k: int,
+        cp_size: int,
+        cp_rank: int,
+    ) -> Tuple[Tensor, Optional[Tensor]]:
+        """Run cuDNN's THD indexer on packed CP front/back query segments."""
+        b, sq, _idx_nh, _idx_hd = q_bshd.shape
+        sk = k_bshd.size(1)
+        if b != 1 or cp_size <= 1 or not 0 <= cp_rank < cp_size:
+            raise RuntimeError("packed CP cuDNN THD indexer requires b=1 and a valid CP rank")
+        if packed_cu_seqlens_q.numel() < 3:
+            raise RuntimeError(
+                "multi-sequence packed CP cuDNN THD indexer requires at least two sequences"
+            )
+        if packed_cu_seqlens_q.shape != packed_cu_seqlens_k.shape:
+            raise RuntimeError("packed CP cuDNN THD query/key cu_seqlens shapes must match")
+        if packed_max_seqlen_q <= 0 or packed_max_seqlen_k <= 0:
+            raise RuntimeError("packed CP cuDNN THD indexer requires positive maximum sequence lengths")
+    
+        segment_divisor = 2 * cp_size
+        if sk % segment_divisor != 0:
+            raise RuntimeError(f"packed CP key length must be divisible by {segment_divisor}, got {sk}")
+    
+        device = q_bshd.device
+        cu_q = packed_cu_seqlens_q.to(device=device, dtype=torch.int64).contiguous()
+        cu_k = packed_cu_seqlens_k.to(device=device, dtype=torch.int64).contiguous()
+        q_lengths = cu_q[1:] - cu_q[:-1]
+        k_lengths = cu_k[1:] - cu_k[:-1]
+        q_half = q_lengths // segment_divisor
+        k_half = k_lengths // segment_divisor
+        segment_q_lengths = torch.stack((q_half, q_half), dim=1).reshape(-1)
+        segment_k_lengths = torch.stack(
+            ((cp_rank + 1) * k_half, k_lengths - cp_rank * k_half), dim=1
+        ).reshape(-1)
+    
+        zero_i32 = torch.zeros(1, dtype=torch.int32, device=device)
+        segment_cu_q = torch.cat(
+            (zero_i32, segment_q_lengths.cumsum(dim=0, dtype=torch.int32))
+        ).contiguous()
+        segment_cu_k = torch.cat(
+            (zero_i32, segment_k_lengths.cumsum(dim=0, dtype=torch.int32))
+        ).contiguous()
+    
+        segment_key_starts = cu_k[:-1].repeat_interleave(2)
+        total_segment_k = sk + sk // segment_divisor
+        segment_ids = torch.repeat_interleave(
+            torch.arange(segment_k_lengths.numel(), device=device),
+            segment_k_lengths,
+            output_size=total_segment_k,
+        )
+        segment_offsets = torch.arange(total_segment_k, device=device, dtype=torch.int64)
+        segment_offsets -= torch.repeat_interleave(
+            segment_cu_k[:-1].to(dtype=torch.int64), segment_k_lengths, output_size=total_segment_k
+        )
+        source_indices = segment_key_starts.index_select(0, segment_ids) + segment_offsets
+        segmented_k = k_bshd[0].index_select(0, source_indices).contiguous()
+    
+        max_segment_q = packed_max_seqlen_q // segment_divisor
+        max_k_half = packed_max_seqlen_k // segment_divisor
+        max_segment_k = max((cp_rank + 1) * max_k_half, packed_max_seqlen_k - cp_rank * max_k_half)
+        segment_q_causal_offsets = (segment_k_lengths - segment_q_lengths).to(
+            dtype=torch.int32, device=device
+        )
+>       scores = _cudnn_dsa.indexer_forward_wrapper(
+            q_bshd[0],
+            segmented_k,
+            w_bsh[0],
+            ratio=_INDEXER_RATIO,
+            sm_scale=_INDEXER_SOFTMAX_SCALE,
+            cu_seqlens_q=segment_cu_q,
+            cu_seqlens_k=segment_cu_k,
+            max_seqlen_q=max_segment_q,
+            max_seqlen_k=max_segment_k,
+            q_causal_offsets=segment_q_causal_offsets,
+        )["scores"]
+E       TypeError: test_cudnn_indexer_topk_multi_packed_cp_selects_all_segment_keys.<locals>.FakeDSA.indexer_forward_wrapper() got an unexpected keyword argument 'q_causal_offsets'
+
+megatron/core/transformer/experimental_attention_variant/dsa_cudnn_kernels.py:805: TypeError
+_ test_cudnn_indexer_topk_multi_packed_cp_selects_all_segment_keys[scores-odd-k] _
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7fd003bbb530>
+max_segment_k = 5, return_topk_scores = True
+
+    @pytest.mark.parametrize("max_segment_k", [5, 6], ids=["odd-k", "even-k"])
+    @pytest.mark.parametrize("return_topk_scores", [False, True], ids=["indices", "scores"])
+    def test_cudnn_indexer_topk_multi_packed_cp_selects_all_segment_keys(
+        monkeypatch, max_segment_k, return_topk_scores
+    ):
+        class FakeDSA:
+            @staticmethod
+            def indexer_forward_wrapper(
+                q, k, weights, ratio, sm_scale, cu_seqlens_q, cu_seqlens_k, max_seqlen_q, max_seqlen_k
+            ):
+                del k, weights, ratio, sm_scale, cu_seqlens_q, cu_seqlens_k, max_seqlen_q
+                return {
+                    "scores": torch.arange(max_seqlen_k, dtype=torch.float32)
+                    .view(1, max_seqlen_k)
+                    .expand(q.size(0), max_seqlen_k)
+                    .contiguous()
+                }
+    
+            @staticmethod
+            def indexer_top_k_wrapper(*args, **kwargs):
+                raise AssertionError("all-column selection must bypass the cuDNN top-k kernel")
+    
+        monkeypatch.setattr(dsa_cudnn_kernels, "_ensure_dsa_namespace", lambda: None)
+        monkeypatch.setattr(dsa_cudnn_kernels, "_cudnn_dsa", FakeDSA)
+    
+        starts = torch.tensor([0, 0, 4, 4])
+        ends = torch.tensor([1, 4, 5, 8])
+>       topk_indices, topk_length, topk_scores = dsa_cudnn_kernels._indexer_topk_bshd(
+            torch.ones((1, 4, 1, 1)),
+            torch.ones((1, 8, 1)),
+            torch.ones((1, 4, 1)),
+            topk=8,
+            varlen_starts=starts,
+            varlen_ends=ends,
+            return_scores=False,
+            return_topk_scores=return_topk_scores,
+            use_local_indexer_varlen=True,
+            packed_cu_seqlens_q=torch.tensor([0, 4, 8], dtype=torch.int32),
+            packed_cu_seqlens_k=torch.tensor([0, 4, 8], dtype=torch.int32),
+            packed_max_seqlen_q=4,
+            packed_max_seqlen_k=max_segment_k,
+            packed_cp_size=2,
+            local_packed_cp_rank=0,
+        )
+
+tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py:675: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+megatron/core/transformer/experimental_attention_variant/dsa_cudnn_kernels.py:1244: in _indexer_topk_bshd
+    topk_indices, topk_scores = _indexer_topk_multi_packed_cp_thd(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+q_bshd = tensor([[[[1.]],
+
+         [[1.]],
+
+         [[1.]],
+
+         [[1.]]]])
+k_bshd = tensor([[[[1.]],
+
+         [[1.]],
+
+         [[1.]],
+
+         [[1.]],
+
+         [[1.]],
+
+         [[1.]],
+
+         [[1.]],
+
+         [[1.]]]])
+w_bsh = tensor([[[1.],
+         [1.],
+         [1.],
+         [1.]]])
+topk_k = 8, return_topk_scores = True, starts = tensor([0, 0, 4, 4])
+ends = tensor([1, 4, 5, 8])
+packed_cu_seqlens_q = tensor([0, 4, 8], dtype=torch.int32)
+packed_cu_seqlens_k = tensor([0, 4, 8], dtype=torch.int32)
+packed_max_seqlen_q = 4, packed_max_seqlen_k = 5, cp_size = 2, cp_rank = 0
+
+    def _indexer_topk_multi_packed_cp_thd(
+        q_bshd: Tensor,
+        k_bshd: Tensor,
+        w_bsh: Tensor,
+        topk_k: int,
+        return_topk_scores: bool,
+        starts: Tensor,
+        ends: Tensor,
+        packed_cu_seqlens_q: Tensor,
+        packed_cu_seqlens_k: Tensor,
+        packed_max_seqlen_q: int,
+        packed_max_seqlen_k: int,
+        cp_size: int,
+        cp_rank: int,
+    ) -> Tuple[Tensor, Optional[Tensor]]:
+        """Run cuDNN's THD indexer on packed CP front/back query segments."""
+        b, sq, _idx_nh, _idx_hd = q_bshd.shape
+        sk = k_bshd.size(1)
+        if b != 1 or cp_size <= 1 or not 0 <= cp_rank < cp_size:
+            raise RuntimeError("packed CP cuDNN THD indexer requires b=1 and a valid CP rank")
+        if packed_cu_seqlens_q.numel() < 3:
+            raise RuntimeError(
+                "multi-sequence packed CP cuDNN THD indexer requires at least two sequences"
+            )
+        if packed_cu_seqlens_q.shape != packed_cu_seqlens_k.shape:
+            raise RuntimeError("packed CP cuDNN THD query/key cu_seqlens shapes must match")
+        if packed_max_seqlen_q <= 0 or packed_max_seqlen_k <= 0:
+            raise RuntimeError("packed CP cuDNN THD indexer requires positive maximum sequence lengths")
+    
+        segment_divisor = 2 * cp_size
+        if sk % segment_divisor != 0:
+            raise RuntimeError(f"packed CP key length must be divisible by {segment_divisor}, got {sk}")
+    
+        device = q_bshd.device
+        cu_q = packed_cu_seqlens_q.to(device=device, dtype=torch.int64).contiguous()
+        cu_k = packed_cu_seqlens_k.to(device=device, dtype=torch.int64).contiguous()
+        q_lengths = cu_q[1:] - cu_q[:-1]
+        k_lengths = cu_k[1:] - cu_k[:-1]
+        q_half = q_lengths // segment_divisor
+        k_half = k_lengths // segment_divisor
+        segment_q_lengths = torch.stack((q_half, q_half), dim=1).reshape(-1)
+        segment_k_lengths = torch.stack(
+            ((cp_rank + 1) * k_half, k_lengths - cp_rank * k_half), dim=1
+        ).reshape(-1)
+    
+        zero_i32 = torch.zeros(1, dtype=torch.int32, device=device)
+        segment_cu_q = torch.cat(
+            (zero_i32, segment_q_lengths.cumsum(dim=0, dtype=torch.int32))
+        ).contiguous()
+        segment_cu_k = torch.cat(
+            (zero_i32, segment_k_lengths.cumsum(dim=0, dtype=torch.int32))
+        ).contiguous()
+    
+        segment_key_starts = cu_k[:-1].repeat_interleave(2)
+        total_segment_k = sk + sk // segment_divisor
+        segment_ids = torch.repeat_interleave(
+            torch.arange(segment_k_lengths.numel(), device=device),
+            segment_k_lengths,
+            output_size=total_segment_k,
+        )
+        segment_offsets = torch.arange(total_segment_k, device=device, dtype=torch.int64)
+        segment_offsets -= torch.repeat_interleave(
+            segment_cu_k[:-1].to(dtype=torch.int64), segment_k_lengths, output_size=total_segment_k
+        )
+        source_indices = segment_key_starts.index_select(0, segment_ids) + segment_offsets
+        segmented_k = k_bshd[0].index_select(0, source_indices).contiguous()
+    
+        max_segment_q = packed_max_seqlen_q // segment_divisor
+        max_k_half = packed_max_seqlen_k // segment_divisor
+        max_segment_k = max((cp_rank + 1) * max_k_half, packed_max_seqlen_k - cp_rank * max_k_half)
+        segment_q_causal_offsets = (segment_k_lengths - segment_q_lengths).to(
+            dtype=torch.int32, device=device
+        )
+>       scores = _cudnn_dsa.indexer_forward_wrapper(
+            q_bshd[0],
+            segmented_k,
+            w_bsh[0],
+            ratio=_INDEXER_RATIO,
+            sm_scale=_INDEXER_SOFTMAX_SCALE,
+            cu_seqlens_q=segment_cu_q,
+            cu_seqlens_k=segment_cu_k,
+            max_seqlen_q=max_segment_q,
+            max_seqlen_k=max_segment_k,
+            q_causal_offsets=segment_q_causal_offsets,
+        )["scores"]
+E       TypeError: test_cudnn_indexer_topk_multi_packed_cp_selects_all_segment_keys.<locals>.FakeDSA.indexer_forward_wrapper() got an unexpected keyword argument 'q_causal_offsets'
+
+megatron/core/transformer/experimental_attention_variant/dsa_cudnn_kernels.py:805: TypeError
+_ test_cudnn_indexer_topk_multi_packed_cp_selects_all_segment_keys[scores-even-k] _
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7fd003316b70>
+max_segment_k = 6, return_topk_scores = True
+
+    @pytest.mark.parametrize("max_segment_k", [5, 6], ids=["odd-k", "even-k"])
+    @pytest.mark.parametrize("return_topk_scores", [False, True], ids=["indices", "scores"])
+    def test_cudnn_indexer_topk_multi_packed_cp_selects_all_segment_keys(
+        monkeypatch, max_segment_k, return_topk_scores
+    ):
+        class FakeDSA:
+            @staticmethod
+            def indexer_forward_wrapper(
+                q, k, weights, ratio, sm_scale, cu_seqlens_q, cu_seqlens_k, max_seqlen_q, max_seqlen_k
+            ):
+                del k, weights, ratio, sm_scale, cu_seqlens_q, cu_seqlens_k, max_seqlen_q
+                return {
+                    "scores": torch.arange(max_seqlen_k, dtype=torch.float32)
+                    .view(1, max_seqlen_k)
+                    .expand(q.size(0), max_seqlen_k)
+                    .contiguous()
+                }
+    
+            @staticmethod
+            def indexer_top_k_wrapper(*args, **kwargs):
+                raise AssertionError("all-column selection must bypass the cuDNN top-k kernel")
+    
+        monkeypatch.setattr(dsa_cudnn_kernels, "_ensure_dsa_namespace", lambda: None)
+        monkeypatch.setattr(dsa_cudnn_kernels, "_cudnn_dsa", FakeDSA)
+    
+        starts = torch.tensor([0, 0, 4, 4])
+        ends = torch.tensor([1, 4, 5, 8])
+>       topk_indices, topk_length, topk_scores = dsa_cudnn_kernels._indexer_topk_bshd(
+            torch.ones((1, 4, 1, 1)),
+            torch.ones((1, 8, 1)),
+            torch.ones((1, 4, 1)),
+            topk=8,
+            varlen_starts=starts,
+            varlen_ends=ends,
+            return_scores=False,
+            return_topk_scores=return_topk_scores,
+            use_local_indexer_varlen=True,
+            packed_cu_seqlens_q=torch.tensor([0, 4, 8], dtype=torch.int32),
+            packed_cu_seqlens_k=torch.tensor([0, 4, 8], dtype=torch.int32),
+            packed_max_seqlen_q=4,
+            packed_max_seqlen_k=max_segment_k,
+            packed_cp_size=2,
+            local_packed_cp_rank=0,
+        )
+
+tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py:675: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+megatron/core/transformer/experimental_attention_variant/dsa_cudnn_kernels.py:1244: in _indexer_topk_bshd
+    topk_indices, topk_scores = _indexer_topk_multi_packed_cp_thd(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+q_bshd = tensor([[[[1.]],
+
+         [[1.]],
+
+         [[1.]],
+
+         [[1.]]]])
+k_bshd = tensor([[[[1.]],
+
+         [[1.]],
+
+         [[1.]],
+
+         [[1.]],
+
+         [[1.]],
+
+         [[1.]],
+
+         [[1.]],
+
+         [[1.]]]])
+w_bsh = tensor([[[1.],
+         [1.],
+         [1.],
+         [1.]]])
+topk_k = 8, return_topk_scores = True, starts = tensor([0, 0, 4, 4])
+ends = tensor([1, 4, 5, 8])
+packed_cu_seqlens_q = tensor([0, 4, 8], dtype=torch.int32)
+packed_cu_seqlens_k = tensor([0, 4, 8], dtype=torch.int32)
+packed_max_seqlen_q = 4, packed_max_seqlen_k = 6, cp_size = 2, cp_rank = 0
+
+    def _indexer_topk_multi_packed_cp_thd(
+        q_bshd: Tensor,
+        k_bshd: Tensor,
+        w_bsh: Tensor,
+        topk_k: int,
+        return_topk_scores: bool,
+        starts: Tensor,
+        ends: Tensor,
+        packed_cu_seqlens_q: Tensor,
+        packed_cu_seqlens_k: Tensor,
+        packed_max_seqlen_q: int,
+        packed_max_seqlen_k: int,
+        cp_size: int,
+        cp_rank: int,
+    ) -> Tuple[Tensor, Optional[Tensor]]:
+        """Run cuDNN's THD indexer on packed CP front/back query segments."""
+        b, sq, _idx_nh, _idx_hd = q_bshd.shape
+        sk = k_bshd.size(1)
+        if b != 1 or cp_size <= 1 or not 0 <= cp_rank < cp_size:
+            raise RuntimeError("packed CP cuDNN THD indexer requires b=1 and a valid CP rank")
+        if packed_cu_seqlens_q.numel() < 3:
+            raise RuntimeError(
+                "multi-sequence packed CP cuDNN THD indexer requires at least two sequences"
+            )
+        if packed_cu_seqlens_q.shape != packed_cu_seqlens_k.shape:
+            raise RuntimeError("packed CP cuDNN THD query/key cu_seqlens shapes must match")
+        if packed_max_seqlen_q <= 0 or packed_max_seqlen_k <= 0:
+            raise RuntimeError("packed CP cuDNN THD indexer requires positive maximum sequence lengths")
+    
+        segment_divisor = 2 * cp_size
+        if sk % segment_divisor != 0:
+            raise RuntimeError(f"packed CP key length must be divisible by {segment_divisor}, got {sk}")
+    
+        device = q_bshd.device
+        cu_q = packed_cu_seqlens_q.to(device=device, dtype=torch.int64).contiguous()
+        cu_k = packed_cu_seqlens_k.to(device=device, dtype=torch.int64).contiguous()
+        q_lengths = cu_q[1:] - cu_q[:-1]
+        k_lengths = cu_k[1:] - cu_k[:-1]
+        q_half = q_lengths // segment_divisor
+        k_half = k_lengths // segment_divisor
+        segment_q_lengths = torch.stack((q_half, q_half), dim=1).reshape(-1)
+        segment_k_lengths = torch.stack(
+            ((cp_rank + 1) * k_half, k_lengths - cp_rank * k_half), dim=1
+        ).reshape(-1)
+    
+        zero_i32 = torch.zeros(1, dtype=torch.int32, device=device)
+        segment_cu_q = torch.cat(
+            (zero_i32, segment_q_lengths.cumsum(dim=0, dtype=torch.int32))
+        ).contiguous()
+        segment_cu_k = torch.cat(
+            (zero_i32, segment_k_lengths.cumsum(dim=0, dtype=torch.int32))
+        ).contiguous()
+    
+        segment_key_starts = cu_k[:-1].repeat_interleave(2)
+        total_segment_k = sk + sk // segment_divisor
+        segment_ids = torch.repeat_interleave(
+            torch.arange(segment_k_lengths.numel(), device=device),
+            segment_k_lengths,
+            output_size=total_segment_k,
+        )
+        segment_offsets = torch.arange(total_segment_k, device=device, dtype=torch.int64)
+        segment_offsets -= torch.repeat_interleave(
+            segment_cu_k[:-1].to(dtype=torch.int64), segment_k_lengths, output_size=total_segment_k
+        )
+        source_indices = segment_key_starts.index_select(0, segment_ids) + segment_offsets
+        segmented_k = k_bshd[0].index_select(0, source_indices).contiguous()
+    
+        max_segment_q = packed_max_seqlen_q // segment_divisor
+        max_k_half = packed_max_seqlen_k // segment_divisor
+        max_segment_k = max((cp_rank + 1) * max_k_half, packed_max_seqlen_k - cp_rank * max_k_half)
+        segment_q_causal_offsets = (segment_k_lengths - segment_q_lengths).to(
+            dtype=torch.int32, device=device
+        )
+>       scores = _cudnn_dsa.indexer_forward_wrapper(
+            q_bshd[0],
+            segmented_k,
+            w_bsh[0],
+            ratio=_INDEXER_RATIO,
+            sm_scale=_INDEXER_SOFTMAX_SCALE,
+            cu_seqlens_q=segment_cu_q,
+            cu_seqlens_k=segment_cu_k,
+            max_seqlen_q=max_segment_q,
+            max_seqlen_k=max_segment_k,
+            q_causal_offsets=segment_q_causal_offsets,
+        )["scores"]
+E       TypeError: test_cudnn_indexer_topk_multi_packed_cp_selects_all_segment_keys.<locals>.FakeDSA.indexer_forward_wrapper() got an unexpected keyword argument 'q_causal_offsets'
+
+megatron/core/transformer/experimental_attention_variant/dsa_cudnn_kernels.py:805: TypeError
+_______ test_cudnn_indexer_topk_single_packed_cp_uses_absolute_seq_lens ________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7fd003315970>
+
+    def test_cudnn_indexer_topk_single_packed_cp_uses_absolute_seq_lens(monkeypatch):
+        seen = {"forward_shapes": [], "topk_seq_lens": []}
+    
+        class FakeDSA:
+            @staticmethod
+            def indexer_forward_wrapper(q_bshd, k_bshd, w_bsh, ratio, sm_scale):
+                seen["forward_shapes"].append((q_bshd.shape[1], k_bshd.shape[1]))
+                b, sq, _, _ = q_bshd.shape
+                sk = k_bshd.shape[1]
+                return {
+                    "scores": torch.arange(sk, dtype=torch.float32).view(1, 1, sk).expand(b, sq, sk)
+                }
+    
+            @staticmethod
+            def indexer_top_k_wrapper(scores_flat, seq_lens, top_k, next_n, return_val):
+                seen["topk_seq_lens"].append(seq_lens.detach().clone())
+                scores = scores_flat.clone()
+                key_ids = torch.arange(scores.size(1), device=scores.device).view(1, -1)
+                scores.masked_fill_(key_ids >= seq_lens.view(-1, 1), float("-inf"))
+                values, indices = scores.topk(top_k, dim=-1)
+                if return_val:
+                    return {"indices": indices.to(torch.int32), "values": values}
+                return {"indices": indices.to(torch.int32), "values": None}
+    
+        monkeypatch.setattr(dsa_cudnn_kernels, "_ensure_dsa_namespace", lambda: None)
+        monkeypatch.setattr(dsa_cudnn_kernels, "_cudnn_dsa", FakeDSA)
+    
+>       topk_indices, topk_length, topk_scores = dsa_cudnn_kernels._indexer_topk_bshd(
+            torch.ones((1, 4, 1, 1)),
+            torch.arange(8, dtype=torch.float32).view(1, 8, 1),
+            torch.ones((1, 4, 1)),
+            topk=3,
+            varlen_starts=torch.zeros(4, dtype=torch.int64),
+            varlen_ends=torch.tensor([3, 4, 5, 6], dtype=torch.int64),
+            key_positions=None,
+            return_scores=False,
+            return_topk_scores=True,
+            use_local_indexer_varlen=True,
+            single_packed_thd_sequence=True,
+            local_packed_cp_rank=1,
+        )
+
+tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py:835: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+megatron/core/transformer/experimental_attention_variant/dsa_cudnn_kernels.py:1226: in _indexer_topk_bshd
+    topk_indices, topk_scores = _indexer_topk_single_packed_cp_segments(
+megatron/core/transformer/experimental_attention_variant/dsa_cudnn_kernels.py:911: in _indexer_topk_single_packed_cp_segments
+    topk_indices, topk_scores = _indexer_topk_from_score_chunks(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+q_bshd = tensor([[[[1.]],
+
+         [[1.]]]])
+k_bshd = tensor([[[[0.]],
+
+         [[1.]],
+
+         [[2.]],
+
+         [[3.]]]])
+w_bsh = tensor([[[1.],
+         [1.]]])
+seq_lens = tensor([3, 4], dtype=torch.int32), topk_k = 3
+return_topk_scores = True
+
+    def _indexer_topk_from_score_chunks(
+        q_bshd: Tensor,
+        k_bshd: Tensor,
+        w_bsh: Tensor,
+        seq_lens: Tensor,
+        topk_k: int,
+        return_topk_scores: bool,
+        *,
+        starts: Optional[Tensor] = None,
+        ends: Optional[Tensor] = None,
+        key_positions_i64: Optional[Tensor] = None,
+        indexer_ratio: int = _INDEXER_RATIO,
+        score_seq_lens: Optional[Tensor] = None,
+        bottom_right_key_start: Optional[int] = None,
+    ) -> Tuple[Tensor, Optional[Tensor]]:
+        b, sq, _idx_nh, _idx_hd = q_bshd.shape
+        sk = k_bshd.size(1)
+        if bottom_right_key_start is not None:
+            if bottom_right_key_start < 0:
+                raise RuntimeError("cuDNN DSA bottom-right key start must be non-negative.")
+            if score_seq_lens is not None:
+                raise RuntimeError(
+                    "cuDNN DSA score chunks cannot combine bottom-right key cropping "
+                    "with explicit score sequence lengths."
+                )
+        chunk_rows = _indexer_score_chunk_rows(b, sq, sk)
+        seq_lens_b = seq_lens.view(b, sq)
+        indices_chunks = []
+        values_chunks = [] if return_topk_scores else None
+        # Loop-invariant across chunks; computed lazily on first global-row chunk and reused.
+        global_rows_k_bdk = None
+        global_rows_key_positions = None
+    
+        for row_start in range(0, sq, chunk_rows):
+            row_end = min(row_start + chunk_rows, sq)
+            q_chunk = q_bshd[:, row_start:row_end].contiguous()
+            w_chunk = w_bsh[:, row_start:row_end].contiguous()
+            score_k_bshd = k_bshd
+            score_sk = sk
+            chunk_topk_k = topk_k
+            if bottom_right_key_start is not None:
+                score_sk = min(sk, bottom_right_key_start + row_end)
+                score_k_bshd = k_bshd[:, :score_sk].contiguous()
+                chunk_topk_k = min(topk_k, score_sk)
+            score_chunk_seq_lens = (
+                None if score_seq_lens is None else score_seq_lens[row_start:row_end].contiguous()
+            )
+            if bottom_right_key_start is not None:
+                q_causal_offsets = torch.full(
+                    (b,),
+                    bottom_right_key_start + row_start,
+                    dtype=torch.int32,
+                    device=q_chunk.device,
+                )
+>               scores_chunk = _cudnn_dsa.indexer_forward_wrapper(
+                    q_chunk,
+                    score_k_bshd,
+                    w_chunk,
+                    ratio=indexer_ratio,
+                    sm_scale=_INDEXER_SOFTMAX_SCALE,
+                    q_causal_offsets=q_causal_offsets,
+E                   TypeError: test_cudnn_indexer_topk_single_packed_cp_uses_absolute_seq_lens.<locals>.FakeDSA.indexer_forward_wrapper() got an unexpected keyword argument 'q_causal_offsets'
+
+megatron/core/transformer/experimental_attention_variant/dsa_cudnn_kernels.py:644: TypeError
+_____ test_cudnn_indexer_topk_single_packed_cp_prefix_crops_keys_per_chunk _____
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7fd003bf2600>
+
+    def test_cudnn_indexer_topk_single_packed_cp_prefix_crops_keys_per_chunk(monkeypatch):
+        seen = {"forward_shapes": []}
+    
+        class FakeDSA:
+            @staticmethod
+            def indexer_forward_wrapper(q_bshd, k_bshd, w_bsh, ratio, sm_scale):
+                seen["forward_shapes"].append((q_bshd.shape[1], k_bshd.shape[1]))
+                b, sq, _, _ = q_bshd.shape
+                sk = k_bshd.shape[1]
+                return {
+                    "scores": torch.arange(sk, dtype=torch.float32).view(1, 1, sk).expand(b, sq, sk)
+                }
+    
+            @staticmethod
+            def indexer_top_k_wrapper(scores_flat, seq_lens, top_k, next_n, return_val):
+                scores = scores_flat.clone()
+                key_ids = torch.arange(scores.size(1), device=scores.device).view(1, -1)
+                scores.masked_fill_(key_ids >= seq_lens.view(-1, 1), float("-inf"))
+                values, indices = scores.topk(top_k, dim=-1)
+                return {"indices": indices.to(torch.int32), "values": values if return_val else None}
+    
+        monkeypatch.setattr(dsa_cudnn_kernels, "_ensure_dsa_namespace", lambda: None)
+        monkeypatch.setattr(dsa_cudnn_kernels, "_cudnn_dsa", FakeDSA)
+        monkeypatch.setattr(dsa_cudnn_kernels, "_indexer_score_chunk_rows", lambda *_args: 1)
+    
+>       topk_indices, topk_length, _ = dsa_cudnn_kernels._indexer_topk_bshd(
+            torch.ones((1, 2, 1, 1)),
+            torch.arange(8, dtype=torch.float32).view(1, 8, 1),
+            torch.ones((1, 2, 1)),
+            topk=2,
+            varlen_starts=torch.zeros(2, dtype=torch.int64),
+            varlen_ends=torch.tensor([1, 2], dtype=torch.int64),
+            key_positions=None,
+            return_scores=False,
+            use_local_indexer_varlen=True,
+            single_packed_thd_sequence=True,
+            local_packed_cp_rank=1,
+            local_packed_cp_query_len=8,
+        )
+
+tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py:888: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+megatron/core/transformer/experimental_attention_variant/dsa_cudnn_kernels.py:1226: in _indexer_topk_bshd
+    topk_indices, topk_scores = _indexer_topk_single_packed_cp_segments(
+megatron/core/transformer/experimental_attention_variant/dsa_cudnn_kernels.py:911: in _indexer_topk_single_packed_cp_segments
+    topk_indices, topk_scores = _indexer_topk_from_score_chunks(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+q_bshd = tensor([[[[1.]],
+
+         [[1.]]]])
+k_bshd = tensor([[[[0.]],
+
+         [[1.]],
+
+         [[2.]],
+
+         [[3.]]]])
+w_bsh = tensor([[[1.],
+         [1.]]])
+seq_lens = tensor([1, 2], dtype=torch.int32), topk_k = 2
+return_topk_scores = False
+
+    def _indexer_topk_from_score_chunks(
+        q_bshd: Tensor,
+        k_bshd: Tensor,
+        w_bsh: Tensor,
+        seq_lens: Tensor,
+        topk_k: int,
+        return_topk_scores: bool,
+        *,
+        starts: Optional[Tensor] = None,
+        ends: Optional[Tensor] = None,
+        key_positions_i64: Optional[Tensor] = None,
+        indexer_ratio: int = _INDEXER_RATIO,
+        score_seq_lens: Optional[Tensor] = None,
+        bottom_right_key_start: Optional[int] = None,
+    ) -> Tuple[Tensor, Optional[Tensor]]:
+        b, sq, _idx_nh, _idx_hd = q_bshd.shape
+        sk = k_bshd.size(1)
+        if bottom_right_key_start is not None:
+            if bottom_right_key_start < 0:
+                raise RuntimeError("cuDNN DSA bottom-right key start must be non-negative.")
+            if score_seq_lens is not None:
+                raise RuntimeError(
+                    "cuDNN DSA score chunks cannot combine bottom-right key cropping "
+                    "with explicit score sequence lengths."
+                )
+        chunk_rows = _indexer_score_chunk_rows(b, sq, sk)
+        seq_lens_b = seq_lens.view(b, sq)
+        indices_chunks = []
+        values_chunks = [] if return_topk_scores else None
+        # Loop-invariant across chunks; computed lazily on first global-row chunk and reused.
+        global_rows_k_bdk = None
+        global_rows_key_positions = None
+    
+        for row_start in range(0, sq, chunk_rows):
+            row_end = min(row_start + chunk_rows, sq)
+            q_chunk = q_bshd[:, row_start:row_end].contiguous()
+            w_chunk = w_bsh[:, row_start:row_end].contiguous()
+            score_k_bshd = k_bshd
+            score_sk = sk
+            chunk_topk_k = topk_k
+            if bottom_right_key_start is not None:
+                score_sk = min(sk, bottom_right_key_start + row_end)
+                score_k_bshd = k_bshd[:, :score_sk].contiguous()
+                chunk_topk_k = min(topk_k, score_sk)
+            score_chunk_seq_lens = (
+                None if score_seq_lens is None else score_seq_lens[row_start:row_end].contiguous()
+            )
+            if bottom_right_key_start is not None:
+                q_causal_offsets = torch.full(
+                    (b,),
+                    bottom_right_key_start + row_start,
+                    dtype=torch.int32,
+                    device=q_chunk.device,
+                )
+>               scores_chunk = _cudnn_dsa.indexer_forward_wrapper(
+                    q_chunk,
+                    score_k_bshd,
+                    w_chunk,
+                    ratio=indexer_ratio,
+                    sm_scale=_INDEXER_SOFTMAX_SCALE,
+                    q_causal_offsets=q_causal_offsets,
+E                   TypeError: test_cudnn_indexer_topk_single_packed_cp_prefix_crops_keys_per_chunk.<locals>.FakeDSA.indexer_forward_wrapper() got an unexpected keyword argument 'q_causal_offsets'
+
+megatron/core/transformer/experimental_attention_variant/dsa_cudnn_kernels.py:644: TypeError
+_ TestFusedDSAIndexerLossGradientTP.test_fused_indexer_loss_gradient_tp_consistency _
+
+self = <test_attention_variant_dsa.TestFusedDSAIndexerLossGradientTP object at 0x7fd003e8b8f0>
+
+    @pytest.mark.skipif(not torch.cuda.is_available(), reason="CUDA not available")
+    def test_fused_indexer_loss_gradient_tp_consistency(self):
+        """
+        Test that FusedDSAIndexerLoss produces consistent gradients across TP ranks
+        and matches TP=1 baseline.
+    
+        Tests all combinations of sparse_loss=[False, True] and TP=[2, 4] in a
+        single test to minimise process-group init/destroy overhead.
+        """
+        seqlen = 64
+        index_topk = 32
+        batch_size = 2
+        num_heads = 8
+        head_dim = 64
+        index_n_heads = 8
+        index_head_dim = 64
+        softmax_scale = head_dim**-0.5
+        loss_coeff = 1.0
+    
+        # =============================================
+        # Compute TP=1 baselines for both sparse_loss values
+        # =============================================
+        Utils.initialize_model_parallel(
+            tensor_model_parallel_size=1, pipeline_model_parallel_size=1
+        )
+        torch.manual_seed(42)
+        model_parallel_cuda_manual_seed(42)
+    
+        pg_collection_tp1 = ProcessGroupCollection.use_mpu_process_groups(required_pgs=['tp'])
+    
+        # Create inputs (shared across all variants)
+        q_input = torch.randn(
+            seqlen, batch_size, index_n_heads, index_head_dim, dtype=torch.float32
+        ).cuda()
+        weights_input = torch.randn(seqlen, batch_size, index_n_heads, dtype=torch.float32).cuda()
+        k_input = torch.randn(seqlen, batch_size, index_head_dim, dtype=torch.float32).cuda()
+        query_input = torch.randn(
+            seqlen, batch_size, num_heads, head_dim, dtype=torch.bfloat16
+        ).cuda()
+        key_input = torch.randn(
+            seqlen, batch_size, num_heads, head_dim, dtype=torch.bfloat16
+        ).cuda()
+        mask = torch.triu(
+            torch.full((seqlen, seqlen), float('-inf'), dtype=torch.float32).cuda(), diagonal=1
+        )
+    
+        # {sparse_loss: (topk_indices, loss, grad_q, grad_weights, grad_k)}
+        baselines = {}
+        for sparse_loss in [False, True]:
+            q_tp1 = q_input.clone().requires_grad_(True)
+            weights_tp1 = weights_input.clone().requires_grad_(True)
+            k_tp1 = k_input.clone().requires_grad_(True)
+    
+            topk_indices_tp1, loss_tp1 = FusedDSAIndexerLoss.apply(
+                q_tp1,
+                weights_tp1,
+                k_tp1,
+                query_input.detach(),
+                key_input.detach(),
+                softmax_scale,
+                index_topk,
+                loss_coeff,
+                mask,
+                sparse_loss,
+                pg_collection_tp1,
+                None,
+                None,
+                None,
+            )
+            loss_tp1.backward()
+    
+            baselines[sparse_loss] = (
+                topk_indices_tp1.clone(),
+                loss_tp1.detach().clone(),
+                q_tp1.grad.clone(),
+                weights_tp1.grad.clone(),
+                k_tp1.grad.clone(),
+            )
+    
+        Utils.destroy_model_parallel()
+    
+        # =============================================
+        # Test each TP size against baselines
+        # =============================================
+        for tensor_model_parallel_size in [2, 4]:
+>           Utils.initialize_model_parallel(
+                tensor_model_parallel_size=tensor_model_parallel_size,
+                pipeline_model_parallel_size=1,
+            )
+
+tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py:2141: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit_tests/test_utilities.py:136: in initialize_model_parallel
+    ps.initialize_model_parallel(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+tensor_model_parallel_size = 2, pipeline_model_parallel_size = 1
+virtual_pipeline_model_parallel_size = None
+pipeline_model_parallel_comm_backend = None, use_sharp = False
+context_parallel_size = 1, hierarchical_context_parallel_sizes = None
+hybrid_context_parallel = False, expert_model_parallel_size = 1
+num_distributed_optimizer_instances = 1, expert_tensor_parallel_size = None
+nccl_communicator_config_path = None, distributed_timeout_minutes = 30
+order = 'tp-cp-ep-dp-pp'
+get_embedding_ranks = <function default_embedding_ranks at 0x7fd1117fe5c0>
+get_position_embedding_ranks = <function default_position_embedding_ranks at 0x7fd1117fe840>
+create_gloo_process_groups = True, high_priority_stream_groups = None
+sharp_enabled_group = None, rank_offset = 0, local_world_size = None
+
+    def initialize_model_parallel(
+        tensor_model_parallel_size: int = 1,
+        pipeline_model_parallel_size: int = 1,
+        virtual_pipeline_model_parallel_size: Optional[int] = None,
+        pipeline_model_parallel_comm_backend: Optional[str] = None,
+        use_sharp: bool = False,
+        context_parallel_size: int = 1,
+        hierarchical_context_parallel_sizes: Optional[List[int]] = None,
+        hybrid_context_parallel: bool = False,
+        expert_model_parallel_size: int = 1,
+        num_distributed_optimizer_instances: int = 1,
+        expert_tensor_parallel_size: Optional[int] = None,
+        nccl_communicator_config_path: Optional[str] = None,
+        distributed_timeout_minutes: int = 30,
+        order: str = "tp-cp-ep-dp-pp",
+        get_embedding_ranks: Optional[Callable[[List[int], Optional[int]], List[int]]] = None,
+        get_position_embedding_ranks: Optional[Callable[[List[int], Optional[int]], List[int]]] = None,
+        create_gloo_process_groups: bool = True,
+        high_priority_stream_groups: Optional[List[str]] = None,
+        sharp_enabled_group: Optional[str] = None,
+        rank_offset: int = 0,
+        local_world_size: Optional[int] = None,
+    ) -> None:
+        """Initialize model data parallel groups.
+    
+        Args:
+            tensor_model_parallel_size (int, default = 1):
+                The number of GPUs to split individual tensors across.
+    
+            pipeline_model_parallel_size (int, default = 1):
+                The number of tensor parallel GPU groups to split the
+                Transformer layers across. For example, if
+                tensor_model_parallel_size is 4 and
+                pipeline_model_parallel_size is 2, the model will be split
+                into 2 groups of 4 GPUs.
+    
+            virtual_pipeline_model_parallel_size (int, optional):
+                The number of stages that each pipeline group will have,
+                interleaving as necessary. If None, no interleaving is
+                performed. For example, if tensor_model_parallel_size is 1,
+                pipeline_model_parallel_size is 4,
+                virtual_pipeline_model_parallel_size is 2, and there are
+                16 transformer layers in the model, the model will be
+                split into 8 stages with two layers each and each GPU
+                would get 2 stages as such (layer number starting with 1):
+    
+                GPU 0: [1, 2] [9, 10]
+                GPU 1: [3, 4] [11, 12]
+                GPU 2: [5, 6] [13, 14]
+                GPU 3: [7, 8] [15, 16]
+    
+            pipeline_model_parallel_comm_backend (str, optional):
+                The backend to use for pipeline parallel communication.
+                If None, the default backend will be used.
+    
+            use_sharp (bool, default = False):
+                Set the use of SHARP for the collective communications of
+                data-parallel process groups. When `True`, run barrier
+                within each data-parallel process group, which specifies
+                the SHARP application target groups.
+    
+            context_parallel_size (int, default = 1):
+                The number of tensor parallel GPU groups to split the
+                network input sequence length across. Compute of attention
+                module requires tokens of full sequence length, so GPUs
+                in a context parallel group need to communicate with each
+                other to exchange information of other sequence chunks.
+                Each GPU and its counterparts in other tensor parallel
+                groups compose a context parallel group.
+    
+                For example, assume we have 8 GPUs, if tensor model parallel
+                size is 4 and context parallel size is 2, the network input
+                will be split into two sequence chunks, which are processed
+                by 2 different groups of 4 GPUs. One chunk is processed by
+                GPU0-3, the other chunk is processed by GPU4-7. Four groups
+                are build to do context parallel communications: [GPU0, GPU4],
+                [GPU1, GPU5], [GPU2, GPU6], and [GPU3, GPU7].
+    
+                Context parallelism partitions sequence length, so it has no
+                impact on weights, which means weights are duplicated among
+                GPUs in a context parallel group. Hence, weight gradients
+                all-reduce is required in backward. For simplicity, we piggyback
+                GPUs of context parallelism on data parallel group for
+                weight gradient all-reduce.
+    
+            expert_model_parallel_size (int, default = 1):
+                The number of Mixture of Experts parallel GPUs in each expert
+                parallel group.
+    
+            num_distributed_optimizer_instances (int, default = 1):
+                The number of distributed optimizer replicas across the data-
+                parallel domain.
+    
+            expert_tensor_parallel_size (int, default = tp_size):
+                The number of GPUs to split individual tensors of expert.
+    
+            nccl_communicator_config_path (str, default = None):
+                Path to the yaml file of NCCL communicator configurations.
+                `min_ctas`, `max_ctas`, and `cga_cluster_size` can be set
+                for each communicator.
+    
+            distributed_timeout_minutes (int, default = 30): Timeout, in
+                minutes,for operations executed against distributed
+                process groups. See PyTorch documentation at
+                https://pytorch.org/docs/stable/distributed.html for
+                caveats.
+    
+            order (str, default=tp-dp-pp):
+                The rank initialization order of parallelism. Now we support
+                tp-dp-pp and tp-pp-dp orders.
+    
+            get_embedding_ranks (Callable[[List[int], Optional[int]], List[int]], optional, default=None):
+                A function that takes in a list of ranks for a pipeline group and returns
+                those ranks that should have embeddings.
+    
+            get_position_embedding_ranks (Callable[[List[int], Optional[int]], List[int]], optional, default=None):
+                A function that takes in a list of ranks for a pipeline group, and returns
+                those ranks that should have position embeddings.
+    
+            create_gloo_process_groups (bool, default = True):
+                Create Gloo process groups if set to True. If set to False, Gloo process groups are
+                not created and calls to get Gloo process groups will result in assertion errors.
+    
+            high_priority_stream_groups (List[str], default = None):
+                Specify which communicator groups should use high priority streams during creation.
+                Assigning high priority to communication streams ensures that communication kernels
+                are scheduled with higher priority, minimizing the exposed communication when it is
+                overlapped with other computation kernels.
+                Example: initialize_parallel_groups(..., high_priority_stream_groups=['dp_cp','ep_dp'])
+    
+            sharp_enabled_group (str, default = None):
+                Specify which communicator group should use SHARP communication.
+                This option is only valid when use_sharp is True.
+                By default (None), it is enabled from dp group.
+                Available options (choose one): [dp, dp_replica]
+    
+        Let's say we have a total of 16 GPUs denoted by g0 ... g15 and we
+        use 2 GPUs to parallelize the model tensor, and 4 GPUs to parallelize
+        the model pipeline. The present function will
+        create 8 tensor model-parallel groups, 4 pipeline model-parallel groups
+        and 8 data-parallel groups as:
+            8 data_parallel groups:
+                [g0, g2], [g1, g3], [g4, g6], [g5, g7], [g8, g10], [g9, g11], [g12, g14], [g13, g15]
+            8 tensor model-parallel groups:
+                [g0, g1], [g2, g3], [g4, g5], [g6, g7], [g8, g9], [g10, g11], [g12, g13], [g14, g15]
+            4 pipeline model-parallel groups:
+                [g0, g4, g8, g12], [g1, g5, g9, g13], [g2, g6, g10, g14], [g3, g7, g11, g15]
+        Note that for efficiency, the caller should make sure adjacent ranks
+        are on the same DGX box. For example if we are using 2 DGX-1 boxes
+        with a total of 16 GPUs, rank 0 to 7 belong to the first box and
+        ranks 8 to 15 belong to the second box.
+        """
+        # NCCL restricts IB SHARP usage to a single communicator group—the first one created
+        # with NCCL_COLLNET_ENABLE=1. After this group is created, NCCL_COLLNET_ENABLE must be
+        # set to 0 for subsequent groups.
+        if "NCCL_COLLNET_ENABLE" in os.environ:
+            del os.environ["NCCL_COLLNET_ENABLE"]
+    
+        if use_sharp:
+            if sharp_enabled_group is None:
+                # By default, SHARP is enabled from dp group.
+                sharp_enabled_group = "dp"
+            else:
+                # Currently, only dp and dp_replica groups are supported for SHARP.
+                assert sharp_enabled_group in ["dp", "dp_replica"], "Invalid sharp_enabled_group"
+                if sharp_enabled_group == "dp_replica":
+                    assert (
+                        num_distributed_optimizer_instances > 1
+                    ), "dp_replica group requires num_distributed_optimizer_instances > 1"
+        else:
+            assert (
+                sharp_enabled_group is None
+            ), "sharp_enabled_group is only valid when use_sharp is True"
+    
+        if get_embedding_ranks is None:
+            get_embedding_ranks = default_embedding_ranks
+    
+        if get_position_embedding_ranks is None:
+            get_position_embedding_ranks = default_position_embedding_ranks
+    
+        # Get world size and rank. Ensure some consistencies.
+        assert torch.distributed.is_initialized()
+        world_size: int = (
+            local_world_size if local_world_size is not None else torch.distributed.get_world_size()
+        )
+    
+        model_size = tensor_model_parallel_size * pipeline_model_parallel_size * context_parallel_size
+    
+        if world_size % model_size != 0:
+>           raise RuntimeError(f"world_size ({world_size}) is not divisible by {model_size}")
+E           RuntimeError: world_size (1) is not divisible by 2
+
+megatron/core/parallel_state.py:736: RuntimeError
+________ TestIndexerTensorParallel.test_dsa_indexer_weight_consistency _________
+
+self = <test_attention_variant_dsa.TestIndexerTensorParallel object at 0x7fd003e59c10>
+
+    @pytest.mark.skipif(not torch.cuda.is_available(), reason="CUDA not available")
+    def test_dsa_indexer_weight_consistency(self):
+        """Test that indexer weights are identical across ALL GPUs."""
+        for tensor_model_parallel_size in self.TP_SIZES:
+>           Utils.initialize_model_parallel(
+                tensor_model_parallel_size=tensor_model_parallel_size,
+                pipeline_model_parallel_size=1,
+            )
+
+tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py:3188: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit_tests/test_utilities.py:136: in initialize_model_parallel
+    ps.initialize_model_parallel(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+tensor_model_parallel_size = 2, pipeline_model_parallel_size = 1
+virtual_pipeline_model_parallel_size = None
+pipeline_model_parallel_comm_backend = None, use_sharp = False
+context_parallel_size = 1, hierarchical_context_parallel_sizes = None
+hybrid_context_parallel = False, expert_model_parallel_size = 1
+num_distributed_optimizer_instances = 1, expert_tensor_parallel_size = None
+nccl_communicator_config_path = None, distributed_timeout_minutes = 30
+order = 'tp-cp-ep-dp-pp'
+get_embedding_ranks = <function default_embedding_ranks at 0x7fd1117fe5c0>
+get_position_embedding_ranks = <function default_position_embedding_ranks at 0x7fd1117fe840>
+create_gloo_process_groups = True, high_priority_stream_groups = None
+sharp_enabled_group = None, rank_offset = 0, local_world_size = None
+
+    def initialize_model_parallel(
+        tensor_model_parallel_size: int = 1,
+        pipeline_model_parallel_size: int = 1,
+        virtual_pipeline_model_parallel_size: Optional[int] = None,
+        pipeline_model_parallel_comm_backend: Optional[str] = None,
+        use_sharp: bool = False,
+        context_parallel_size: int = 1,
+        hierarchical_context_parallel_sizes: Optional[List[int]] = None,
+        hybrid_context_parallel: bool = False,
+        expert_model_parallel_size: int = 1,
+        num_distributed_optimizer_instances: int = 1,
+        expert_tensor_parallel_size: Optional[int] = None,
+        nccl_communicator_config_path: Optional[str] = None,
+        distributed_timeout_minutes: int = 30,
+        order: str = "tp-cp-ep-dp-pp",
+        get_embedding_ranks: Optional[Callable[[List[int], Optional[int]], List[int]]] = None,
+        get_position_embedding_ranks: Optional[Callable[[List[int], Optional[int]], List[int]]] = None,
+        create_gloo_process_groups: bool = True,
+        high_priority_stream_groups: Optional[List[str]] = None,
+        sharp_enabled_group: Optional[str] = None,
+        rank_offset: int = 0,
+        local_world_size: Optional[int] = None,
+    ) -> None:
+        """Initialize model data parallel groups.
+    
+        Args:
+            tensor_model_parallel_size (int, default = 1):
+                The number of GPUs to split individual tensors across.
+    
+            pipeline_model_parallel_size (int, default = 1):
+                The number of tensor parallel GPU groups to split the
+                Transformer layers across. For example, if
+                tensor_model_parallel_size is 4 and
+                pipeline_model_parallel_size is 2, the model will be split
+                into 2 groups of 4 GPUs.
+    
+            virtual_pipeline_model_parallel_size (int, optional):
+                The number of stages that each pipeline group will have,
+                interleaving as necessary. If None, no interleaving is
+                performed. For example, if tensor_model_parallel_size is 1,
+                pipeline_model_parallel_size is 4,
+                virtual_pipeline_model_parallel_size is 2, and there are
+                16 transformer layers in the model, the model will be
+                split into 8 stages with two layers each and each GPU
+                would get 2 stages as such (layer number starting with 1):
+    
+                GPU 0: [1, 2] [9, 10]
+                GPU 1: [3, 4] [11, 12]
+                GPU 2: [5, 6] [13, 14]
+                GPU 3: [7, 8] [15, 16]
+    
+            pipeline_model_parallel_comm_backend (str, optional):
+                The backend to use for pipeline parallel communication.
+                If None, the default backend will be used.
+    
+            use_sharp (bool, default = False):
+                Set the use of SHARP for the collective communications of
+                data-parallel process groups. When `True`, run barrier
+                within each data-parallel process group, which specifies
+                the SHARP application target groups.
+    
+            context_parallel_size (int, default = 1):
+                The number of tensor parallel GPU groups to split the
+                network input sequence length across. Compute of attention
+                module requires tokens of full sequence length, so GPUs
+                in a context parallel group need to communicate with each
+                other to exchange information of other sequence chunks.
+                Each GPU and its counterparts in other tensor parallel
+                groups compose a context parallel group.
+    
+                For example, assume we have 8 GPUs, if tensor model parallel
+                size is 4 and context parallel size is 2, the network input
+                will be split into two sequence chunks, which are processed
+                by 2 different groups of 4 GPUs. One chunk is processed by
+                GPU0-3, the other chunk is processed by GPU4-7. Four groups
+                are build to do context parallel communications: [GPU0, GPU4],
+                [GPU1, GPU5], [GPU2, GPU6], and [GPU3, GPU7].
+    
+                Context parallelism partitions sequence length, so it has no
+                impact on weights, which means weights are duplicated among
+                GPUs in a context parallel group. Hence, weight gradients
+                all-reduce is required in backward. For simplicity, we piggyback
+                GPUs of context parallelism on data parallel group for
+                weight gradient all-reduce.
+    
+            expert_model_parallel_size (int, default = 1):
+                The number of Mixture of Experts parallel GPUs in each expert
+                parallel group.
+    
+            num_distributed_optimizer_instances (int, default = 1):
+                The number of distributed optimizer replicas across the data-
+                parallel domain.
+    
+            expert_tensor_parallel_size (int, default = tp_size):
+                The number of GPUs to split individual tensors of expert.
+    
+            nccl_communicator_config_path (str, default = None):
+                Path to the yaml file of NCCL communicator configurations.
+                `min_ctas`, `max_ctas`, and `cga_cluster_size` can be set
+                for each communicator.
+    
+            distributed_timeout_minutes (int, default = 30): Timeout, in
+                minutes,for operations executed against distributed
+                process groups. See PyTorch documentation at
+                https://pytorch.org/docs/stable/distributed.html for
+                caveats.
+    
+            order (str, default=tp-dp-pp):
+                The rank initialization order of parallelism. Now we support
+                tp-dp-pp and tp-pp-dp orders.
+    
+            get_embedding_ranks (Callable[[List[int], Optional[int]], List[int]], optional, default=None):
+                A function that takes in a list of ranks for a pipeline group and returns
+                those ranks that should have embeddings.
+    
+            get_position_embedding_ranks (Callable[[List[int], Optional[int]], List[int]], optional, default=None):
+                A function that takes in a list of ranks for a pipeline group, and returns
+                those ranks that should have position embeddings.
+    
+            create_gloo_process_groups (bool, default = True):
+                Create Gloo process groups if set to True. If set to False, Gloo process groups are
+                not created and calls to get Gloo process groups will result in assertion errors.
+    
+            high_priority_stream_groups (List[str], default = None):
+                Specify which communicator groups should use high priority streams during creation.
+                Assigning high priority to communication streams ensures that communication kernels
+                are scheduled with higher priority, minimizing the exposed communication when it is
+                overlapped with other computation kernels.
+                Example: initialize_parallel_groups(..., high_priority_stream_groups=['dp_cp','ep_dp'])
+    
+            sharp_enabled_group (str, default = None):
+                Specify which communicator group should use SHARP communication.
+                This option is only valid when use_sharp is True.
+                By default (None), it is enabled from dp group.
+                Available options (choose one): [dp, dp_replica]
+    
+        Let's say we have a total of 16 GPUs denoted by g0 ... g15 and we
+        use 2 GPUs to parallelize the model tensor, and 4 GPUs to parallelize
+        the model pipeline. The present function will
+        create 8 tensor model-parallel groups, 4 pipeline model-parallel groups
+        and 8 data-parallel groups as:
+            8 data_parallel groups:
+                [g0, g2], [g1, g3], [g4, g6], [g5, g7], [g8, g10], [g9, g11], [g12, g14], [g13, g15]
+            8 tensor model-parallel groups:
+                [g0, g1], [g2, g3], [g4, g5], [g6, g7], [g8, g9], [g10, g11], [g12, g13], [g14, g15]
+            4 pipeline model-parallel groups:
+                [g0, g4, g8, g12], [g1, g5, g9, g13], [g2, g6, g10, g14], [g3, g7, g11, g15]
+        Note that for efficiency, the caller should make sure adjacent ranks
+        are on the same DGX box. For example if we are using 2 DGX-1 boxes
+        with a total of 16 GPUs, rank 0 to 7 belong to the first box and
+        ranks 8 to 15 belong to the second box.
+        """
+        # NCCL restricts IB SHARP usage to a single communicator group—the first one created
+        # with NCCL_COLLNET_ENABLE=1. After this group is created, NCCL_COLLNET_ENABLE must be
+        # set to 0 for subsequent groups.
+        if "NCCL_COLLNET_ENABLE" in os.environ:
+            del os.environ["NCCL_COLLNET_ENABLE"]
+    
+        if use_sharp:
+            if sharp_enabled_group is None:
+                # By default, SHARP is enabled from dp group.
+                sharp_enabled_group = "dp"
+            else:
+                # Currently, only dp and dp_replica groups are supported for SHARP.
+                assert sharp_enabled_group in ["dp", "dp_replica"], "Invalid sharp_enabled_group"
+                if sharp_enabled_group == "dp_replica":
+                    assert (
+                        num_distributed_optimizer_instances > 1
+                    ), "dp_replica group requires num_distributed_optimizer_instances > 1"
+        else:
+            assert (
+                sharp_enabled_group is None
+            ), "sharp_enabled_group is only valid when use_sharp is True"
+    
+        if get_embedding_ranks is None:
+            get_embedding_ranks = default_embedding_ranks
+    
+        if get_position_embedding_ranks is None:
+            get_position_embedding_ranks = default_position_embedding_ranks
+    
+        # Get world size and rank. Ensure some consistencies.
+        assert torch.distributed.is_initialized()
+        world_size: int = (
+            local_world_size if local_world_size is not None else torch.distributed.get_world_size()
+        )
+    
+        model_size = tensor_model_parallel_size * pipeline_model_parallel_size * context_parallel_size
+    
+        if world_size % model_size != 0:
+>           raise RuntimeError(f"world_size ({world_size}) is not divisible by {model_size}")
+E           RuntimeError: world_size (1) is not divisible by 2
+
+megatron/core/parallel_state.py:736: RuntimeError
+________ TestIndexerTensorParallel.test_dsa_indexer_forward_consistency ________
+
+self = <test_attention_variant_dsa.TestIndexerTensorParallel object at 0x7fd003e880e0>
+
+    @pytest.mark.skipif(not torch.cuda.is_available(), reason="CUDA not available")
+    def test_dsa_indexer_forward_consistency(self):
+        """Test that indexer gives consistent results across different TP sizes and SP settings."""
+        seq_len = 64
+        batch_size = 2
+    
+        # TP=1 baseline (once for all TP sizes; TP=1 doesn't use SP)
+        Utils.initialize_model_parallel(
+            tensor_model_parallel_size=1, pipeline_model_parallel_size=1
+        )
+        torch.manual_seed(123)
+        model_parallel_cuda_manual_seed(123)
+    
+        config_tp1 = self._create_config(sequence_parallel=False)
+        pg_collection_tp1 = ProcessGroupCollection.use_mpu_process_groups(required_pgs=['tp', 'cp'])
+        indexer_tp1 = self._create_indexer(config_tp1, pg_collection_tp1).cuda()
+    
+        x_input = torch.randn(
+            seq_len, batch_size, config_tp1.hidden_size, dtype=torch.bfloat16
+        ).cuda()
+        qr_input = torch.randn(
+            seq_len, batch_size, config_tp1.q_lora_rank, dtype=torch.bfloat16
+        ).cuda()
+    
+        index_scores_tp1, topk_indices_tp1 = indexer_tp1.forward_with_scores(x_input, qr_input)
+        loss_tp1 = index_scores_tp1.sum()
+        loss_tp1.backward()
+    
+        indexer_tp1_grads = {
+            name: param.grad.clone().cpu()
+            for name, param in indexer_tp1.named_parameters()
+            if param.grad is not None
+        }
+    
+        Utils.destroy_model_parallel()
+    
+        # Test each TP size with both SP values
+        for tensor_model_parallel_size in self.TP_SIZES:
+>           Utils.initialize_model_parallel(
+                tensor_model_parallel_size=tensor_model_parallel_size,
+                pipeline_model_parallel_size=1,
+            )
+
+tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py:3256: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit_tests/test_utilities.py:136: in initialize_model_parallel
+    ps.initialize_model_parallel(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+tensor_model_parallel_size = 2, pipeline_model_parallel_size = 1
+virtual_pipeline_model_parallel_size = None
+pipeline_model_parallel_comm_backend = None, use_sharp = False
+context_parallel_size = 1, hierarchical_context_parallel_sizes = None
+hybrid_context_parallel = False, expert_model_parallel_size = 1
+num_distributed_optimizer_instances = 1, expert_tensor_parallel_size = None
+nccl_communicator_config_path = None, distributed_timeout_minutes = 30
+order = 'tp-cp-ep-dp-pp'
+get_embedding_ranks = <function default_embedding_ranks at 0x7fd1117fe5c0>
+get_position_embedding_ranks = <function default_position_embedding_ranks at 0x7fd1117fe840>
+create_gloo_process_groups = True, high_priority_stream_groups = None
+sharp_enabled_group = None, rank_offset = 0, local_world_size = None
+
+    def initialize_model_parallel(
+        tensor_model_parallel_size: int = 1,
+        pipeline_model_parallel_size: int = 1,
+        virtual_pipeline_model_parallel_size: Optional[int] = None,
+        pipeline_model_parallel_comm_backend: Optional[str] = None,
+        use_sharp: bool = False,
+        context_parallel_size: int = 1,
+        hierarchical_context_parallel_sizes: Optional[List[int]] = None,
+        hybrid_context_parallel: bool = False,
+        expert_model_parallel_size: int = 1,
+        num_distributed_optimizer_instances: int = 1,
+        expert_tensor_parallel_size: Optional[int] = None,
+        nccl_communicator_config_path: Optional[str] = None,
+        distributed_timeout_minutes: int = 30,
+        order: str = "tp-cp-ep-dp-pp",
+        get_embedding_ranks: Optional[Callable[[List[int], Optional[int]], List[int]]] = None,
+        get_position_embedding_ranks: Optional[Callable[[List[int], Optional[int]], List[int]]] = None,
+        create_gloo_process_groups: bool = True,
+        high_priority_stream_groups: Optional[List[str]] = None,
+        sharp_enabled_group: Optional[str] = None,
+        rank_offset: int = 0,
+        local_world_size: Optional[int] = None,
+    ) -> None:
+        """Initialize model data parallel groups.
+    
+        Args:
+            tensor_model_parallel_size (int, default = 1):
+                The number of GPUs to split individual tensors across.
+    
+            pipeline_model_parallel_size (int, default = 1):
+                The number of tensor parallel GPU groups to split the
+                Transformer layers across. For example, if
+                tensor_model_parallel_size is 4 and
+                pipeline_model_parallel_size is 2, the model will be split
+                into 2 groups of 4 GPUs.
+    
+            virtual_pipeline_model_parallel_size (int, optional):
+                The number of stages that each pipeline group will have,
+                interleaving as necessary. If None, no interleaving is
+                performed. For example, if tensor_model_parallel_size is 1,
+                pipeline_model_parallel_size is 4,
+                virtual_pipeline_model_parallel_size is 2, and there are
+                16 transformer layers in the model, the model will be
+                split into 8 stages with two layers each and each GPU
+                would get 2 stages as such (layer number starting with 1):
+    
+                GPU 0: [1, 2] [9, 10]
+                GPU 1: [3, 4] [11, 12]
+                GPU 2: [5, 6] [13, 14]
+                GPU 3: [7, 8] [15, 16]
+    
+            pipeline_model_parallel_comm_backend (str, optional):
+                The backend to use for pipeline parallel communication.
+                If None, the default backend will be used.
+    
+            use_sharp (bool, default = False):
+                Set the use of SHARP for the collective communications of
+                data-parallel process groups. When `True`, run barrier
+                within each data-parallel process group, which specifies
+                the SHARP application target groups.
+    
+            context_parallel_size (int, default = 1):
+                The number of tensor parallel GPU groups to split the
+                network input sequence length across. Compute of attention
+                module requires tokens of full sequence length, so GPUs
+                in a context parallel group need to communicate with each
+                other to exchange information of other sequence chunks.
+                Each GPU and its counterparts in other tensor parallel
+                groups compose a context parallel group.
+    
+                For example, assume we have 8 GPUs, if tensor model parallel
+                size is 4 and context parallel size is 2, the network input
+                will be split into two sequence chunks, which are processed
+                by 2 different groups of 4 GPUs. One chunk is processed by
+                GPU0-3, the other chunk is processed by GPU4-7. Four groups
+                are build to do context parallel communications: [GPU0, GPU4],
+                [GPU1, GPU5], [GPU2, GPU6], and [GPU3, GPU7].
+    
+                Context parallelism partitions sequence length, so it has no
+                impact on weights, which means weights are duplicated among
+                GPUs in a context parallel group. Hence, weight gradients
+                all-reduce is required in backward. For simplicity, we piggyback
+                GPUs of context parallelism on data parallel group for
+                weight gradient all-reduce.
+    
+            expert_model_parallel_size (int, default = 1):
+                The number of Mixture of Experts parallel GPUs in each expert
+                parallel group.
+    
+            num_distributed_optimizer_instances (int, default = 1):
+                The number of distributed optimizer replicas across the data-
+                parallel domain.
+    
+            expert_tensor_parallel_size (int, default = tp_size):
+                The number of GPUs to split individual tensors of expert.
+    
+            nccl_communicator_config_path (str, default = None):
+                Path to the yaml file of NCCL communicator configurations.
+                `min_ctas`, `max_ctas`, and `cga_cluster_size` can be set
+                for each communicator.
+    
+            distributed_timeout_minutes (int, default = 30): Timeout, in
+                minutes,for operations executed against distributed
+                process groups. See PyTorch documentation at
+                https://pytorch.org/docs/stable/distributed.html for
+                caveats.
+    
+            order (str, default=tp-dp-pp):
+                The rank initialization order of parallelism. Now we support
+                tp-dp-pp and tp-pp-dp orders.
+    
+            get_embedding_ranks (Callable[[List[int], Optional[int]], List[int]], optional, default=None):
+                A function that takes in a list of ranks for a pipeline group and returns
+                those ranks that should have embeddings.
+    
+            get_position_embedding_ranks (Callable[[List[int], Optional[int]], List[int]], optional, default=None):
+                A function that takes in a list of ranks for a pipeline group, and returns
+                those ranks that should have position embeddings.
+    
+            create_gloo_process_groups (bool, default = True):
+                Create Gloo process groups if set to True. If set to False, Gloo process groups are
+                not created and calls to get Gloo process groups will result in assertion errors.
+    
+            high_priority_stream_groups (List[str], default = None):
+                Specify which communicator groups should use high priority streams during creation.
+                Assigning high priority to communication streams ensures that communication kernels
+                are scheduled with higher priority, minimizing the exposed communication when it is
+                overlapped with other computation kernels.
+                Example: initialize_parallel_groups(..., high_priority_stream_groups=['dp_cp','ep_dp'])
+    
+            sharp_enabled_group (str, default = None):
+                Specify which communicator group should use SHARP communication.
+                This option is only valid when use_sharp is True.
+                By default (None), it is enabled from dp group.
+                Available options (choose one): [dp, dp_replica]
+    
+        Let's say we have a total of 16 GPUs denoted by g0 ... g15 and we
+        use 2 GPUs to parallelize the model tensor, and 4 GPUs to parallelize
+        the model pipeline. The present function will
+        create 8 tensor model-parallel groups, 4 pipeline model-parallel groups
+        and 8 data-parallel groups as:
+            8 data_parallel groups:
+                [g0, g2], [g1, g3], [g4, g6], [g5, g7], [g8, g10], [g9, g11], [g12, g14], [g13, g15]
+            8 tensor model-parallel groups:
+                [g0, g1], [g2, g3], [g4, g5], [g6, g7], [g8, g9], [g10, g11], [g12, g13], [g14, g15]
+            4 pipeline model-parallel groups:
+                [g0, g4, g8, g12], [g1, g5, g9, g13], [g2, g6, g10, g14], [g3, g7, g11, g15]
+        Note that for efficiency, the caller should make sure adjacent ranks
+        are on the same DGX box. For example if we are using 2 DGX-1 boxes
+        with a total of 16 GPUs, rank 0 to 7 belong to the first box and
+        ranks 8 to 15 belong to the second box.
+        """
+        # NCCL restricts IB SHARP usage to a single communicator group—the first one created
+        # with NCCL_COLLNET_ENABLE=1. After this group is created, NCCL_COLLNET_ENABLE must be
+        # set to 0 for subsequent groups.
+        if "NCCL_COLLNET_ENABLE" in os.environ:
+            del os.environ["NCCL_COLLNET_ENABLE"]
+    
+        if use_sharp:
+            if sharp_enabled_group is None:
+                # By default, SHARP is enabled from dp group.
+                sharp_enabled_group = "dp"
+            else:
+                # Currently, only dp and dp_replica groups are supported for SHARP.
+                assert sharp_enabled_group in ["dp", "dp_replica"], "Invalid sharp_enabled_group"
+                if sharp_enabled_group == "dp_replica":
+                    assert (
+                        num_distributed_optimizer_instances > 1
+                    ), "dp_replica group requires num_distributed_optimizer_instances > 1"
+        else:
+            assert (
+                sharp_enabled_group is None
+            ), "sharp_enabled_group is only valid when use_sharp is True"
+    
+        if get_embedding_ranks is None:
+            get_embedding_ranks = default_embedding_ranks
+    
+        if get_position_embedding_ranks is None:
+            get_position_embedding_ranks = default_position_embedding_ranks
+    
+        # Get world size and rank. Ensure some consistencies.
+        assert torch.distributed.is_initialized()
+        world_size: int = (
+            local_world_size if local_world_size is not None else torch.distributed.get_world_size()
+        )
+    
+        model_size = tensor_model_parallel_size * pipeline_model_parallel_size * context_parallel_size
+    
+        if world_size % model_size != 0:
+>           raise RuntimeError(f"world_size ({world_size}) is not divisible by {model_size}")
+E           RuntimeError: world_size (1) is not divisible by 2
+
+megatron/core/parallel_state.py:736: RuntimeError
+------------------------------ Captured log call -------------------------------
+WARNING  megatron.core.tensor_parallel.random:random.py:320 CPU RNG state changed within GPU RNG context
+WARNING  megatron.core.tensor_parallel.random:random.py:320 CPU RNG state changed within GPU RNG context
+WARNING  megatron.core.tensor_parallel.random:random.py:320 CPU RNG state changed within GPU RNG context
+___________ TestIndexerTensorParallel.test_dsa_indexer_gradient_sync ___________
+
+self = <test_attention_variant_dsa.TestIndexerTensorParallel object at 0x7fd003e8b440>
+
+    @pytest.mark.skipif(not torch.cuda.is_available(), reason="CUDA not available")
+    def test_dsa_indexer_gradient_sync(self):
+        """Test that gradients are properly synchronized within TP group."""
+        seq_len = 64
+        batch_size = 2
+    
+        for tensor_model_parallel_size in self.TP_SIZES:
+>           Utils.initialize_model_parallel(
+                tensor_model_parallel_size=tensor_model_parallel_size,
+                pipeline_model_parallel_size=1,
+            )
+
+tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py:3311: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit_tests/test_utilities.py:136: in initialize_model_parallel
+    ps.initialize_model_parallel(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+tensor_model_parallel_size = 2, pipeline_model_parallel_size = 1
+virtual_pipeline_model_parallel_size = None
+pipeline_model_parallel_comm_backend = None, use_sharp = False
+context_parallel_size = 1, hierarchical_context_parallel_sizes = None
+hybrid_context_parallel = False, expert_model_parallel_size = 1
+num_distributed_optimizer_instances = 1, expert_tensor_parallel_size = None
+nccl_communicator_config_path = None, distributed_timeout_minutes = 30
+order = 'tp-cp-ep-dp-pp'
+get_embedding_ranks = <function default_embedding_ranks at 0x7fd1117fe5c0>
+get_position_embedding_ranks = <function default_position_embedding_ranks at 0x7fd1117fe840>
+create_gloo_process_groups = True, high_priority_stream_groups = None
+sharp_enabled_group = None, rank_offset = 0, local_world_size = None
+
+    def initialize_model_parallel(
+        tensor_model_parallel_size: int = 1,
+        pipeline_model_parallel_size: int = 1,
+        virtual_pipeline_model_parallel_size: Optional[int] = None,
+        pipeline_model_parallel_comm_backend: Optional[str] = None,
+        use_sharp: bool = False,
+        context_parallel_size: int = 1,
+        hierarchical_context_parallel_sizes: Optional[List[int]] = None,
+        hybrid_context_parallel: bool = False,
+        expert_model_parallel_size: int = 1,
+        num_distributed_optimizer_instances: int = 1,
+        expert_tensor_parallel_size: Optional[int] = None,
+        nccl_communicator_config_path: Optional[str] = None,
+        distributed_timeout_minutes: int = 30,
+        order: str = "tp-cp-ep-dp-pp",
+        get_embedding_ranks: Optional[Callable[[List[int], Optional[int]], List[int]]] = None,
+        get_position_embedding_ranks: Optional[Callable[[List[int], Optional[int]], List[int]]] = None,
+        create_gloo_process_groups: bool = True,
+        high_priority_stream_groups: Optional[List[str]] = None,
+        sharp_enabled_group: Optional[str] = None,
+        rank_offset: int = 0,
+        local_world_size: Optional[int] = None,
+    ) -> None:
+        """Initialize model data parallel groups.
+    
+        Args:
+            tensor_model_parallel_size (int, default = 1):
+                The number of GPUs to split individual tensors across.
+    
+            pipeline_model_parallel_size (int, default = 1):
+                The number of tensor parallel GPU groups to split the
+                Transformer layers across. For example, if
+                tensor_model_parallel_size is 4 and
+                pipeline_model_parallel_size is 2, the model will be split
+                into 2 groups of 4 GPUs.
+    
+            virtual_pipeline_model_parallel_size (int, optional):
+                The number of stages that each pipeline group will have,
+                interleaving as necessary. If None, no interleaving is
+                performed. For example, if tensor_model_parallel_size is 1,
+                pipeline_model_parallel_size is 4,
+                virtual_pipeline_model_parallel_size is 2, and there are
+                16 transformer layers in the model, the model will be
+                split into 8 stages with two layers each and each GPU
+                would get 2 stages as such (layer number starting with 1):
+    
+                GPU 0: [1, 2] [9, 10]
+                GPU 1: [3, 4] [11, 12]
+                GPU 2: [5, 6] [13, 14]
+                GPU 3: [7, 8] [15, 16]
+    
+            pipeline_model_parallel_comm_backend (str, optional):
+                The backend to use for pipeline parallel communication.
+                If None, the default backend will be used.
+    
+            use_sharp (bool, default = False):
+                Set the use of SHARP for the collective communications of
+                data-parallel process groups. When `True`, run barrier
+                within each data-parallel process group, which specifies
+                the SHARP application target groups.
+    
+            context_parallel_size (int, default = 1):
+                The number of tensor parallel GPU groups to split the
+                network input sequence length across. Compute of attention
+                module requires tokens of full sequence length, so GPUs
+                in a context parallel group need to communicate with each
+                other to exchange information of other sequence chunks.
+                Each GPU and its counterparts in other tensor parallel
+                groups compose a context parallel group.
+    
+                For example, assume we have 8 GPUs, if tensor model parallel
+                size is 4 and context parallel size is 2, the network input
+                will be split into two sequence chunks, which are processed
+                by 2 different groups of 4 GPUs. One chunk is processed by
+                GPU0-3, the other chunk is processed by GPU4-7. Four groups
+                are build to do context parallel communications: [GPU0, GPU4],
+                [GPU1, GPU5], [GPU2, GPU6], and [GPU3, GPU7].
+    
+                Context parallelism partitions sequence length, so it has no
+                impact on weights, which means weights are duplicated among
+                GPUs in a context parallel group. Hence, weight gradients
+                all-reduce is required in backward. For simplicity, we piggyback
+                GPUs of context parallelism on data parallel group for
+                weight gradient all-reduce.
+    
+            expert_model_parallel_size (int, default = 1):
+                The number of Mixture of Experts parallel GPUs in each expert
+                parallel group.
+    
+            num_distributed_optimizer_instances (int, default = 1):
+                The number of distributed optimizer replicas across the data-
+                parallel domain.
+    
+            expert_tensor_parallel_size (int, default = tp_size):
+                The number of GPUs to split individual tensors of expert.
+    
+            nccl_communicator_config_path (str, default = None):
+                Path to the yaml file of NCCL communicator configurations.
+                `min_ctas`, `max_ctas`, and `cga_cluster_size` can be set
+                for each communicator.
+    
+            distributed_timeout_minutes (int, default = 30): Timeout, in
+                minutes,for operations executed against distributed
+                process groups. See PyTorch documentation at
+                https://pytorch.org/docs/stable/distributed.html for
+                caveats.
+    
+            order (str, default=tp-dp-pp):
+                The rank initialization order of parallelism. Now we support
+                tp-dp-pp and tp-pp-dp orders.
+    
+            get_embedding_ranks (Callable[[List[int], Optional[int]], List[int]], optional, default=None):
+                A function that takes in a list of ranks for a pipeline group and returns
+                those ranks that should have embeddings.
+    
+            get_position_embedding_ranks (Callable[[List[int], Optional[int]], List[int]], optional, default=None):
+                A function that takes in a list of ranks for a pipeline group, and returns
+                those ranks that should have position embeddings.
+    
+            create_gloo_process_groups (bool, default = True):
+                Create Gloo process groups if set to True. If set to False, Gloo process groups are
+                not created and calls to get Gloo process groups will result in assertion errors.
+    
+            high_priority_stream_groups (List[str], default = None):
+                Specify which communicator groups should use high priority streams during creation.
+                Assigning high priority to communication streams ensures that communication kernels
+                are scheduled with higher priority, minimizing the exposed communication when it is
+                overlapped with other computation kernels.
+                Example: initialize_parallel_groups(..., high_priority_stream_groups=['dp_cp','ep_dp'])
+    
+            sharp_enabled_group (str, default = None):
+                Specify which communicator group should use SHARP communication.
+                This option is only valid when use_sharp is True.
+                By default (None), it is enabled from dp group.
+                Available options (choose one): [dp, dp_replica]
+    
+        Let's say we have a total of 16 GPUs denoted by g0 ... g15 and we
+        use 2 GPUs to parallelize the model tensor, and 4 GPUs to parallelize
+        the model pipeline. The present function will
+        create 8 tensor model-parallel groups, 4 pipeline model-parallel groups
+        and 8 data-parallel groups as:
+            8 data_parallel groups:
+                [g0, g2], [g1, g3], [g4, g6], [g5, g7], [g8, g10], [g9, g11], [g12, g14], [g13, g15]
+            8 tensor model-parallel groups:
+                [g0, g1], [g2, g3], [g4, g5], [g6, g7], [g8, g9], [g10, g11], [g12, g13], [g14, g15]
+            4 pipeline model-parallel groups:
+                [g0, g4, g8, g12], [g1, g5, g9, g13], [g2, g6, g10, g14], [g3, g7, g11, g15]
+        Note that for efficiency, the caller should make sure adjacent ranks
+        are on the same DGX box. For example if we are using 2 DGX-1 boxes
+        with a total of 16 GPUs, rank 0 to 7 belong to the first box and
+        ranks 8 to 15 belong to the second box.
+        """
+        # NCCL restricts IB SHARP usage to a single communicator group—the first one created
+        # with NCCL_COLLNET_ENABLE=1. After this group is created, NCCL_COLLNET_ENABLE must be
+        # set to 0 for subsequent groups.
+        if "NCCL_COLLNET_ENABLE" in os.environ:
+            del os.environ["NCCL_COLLNET_ENABLE"]
+    
+        if use_sharp:
+            if sharp_enabled_group is None:
+                # By default, SHARP is enabled from dp group.
+                sharp_enabled_group = "dp"
+            else:
+                # Currently, only dp and dp_replica groups are supported for SHARP.
+                assert sharp_enabled_group in ["dp", "dp_replica"], "Invalid sharp_enabled_group"
+                if sharp_enabled_group == "dp_replica":
+                    assert (
+                        num_distributed_optimizer_instances > 1
+                    ), "dp_replica group requires num_distributed_optimizer_instances > 1"
+        else:
+            assert (
+                sharp_enabled_group is None
+            ), "sharp_enabled_group is only valid when use_sharp is True"
+    
+        if get_embedding_ranks is None:
+            get_embedding_ranks = default_embedding_ranks
+    
+        if get_position_embedding_ranks is None:
+            get_position_embedding_ranks = default_position_embedding_ranks
+    
+        # Get world size and rank. Ensure some consistencies.
+        assert torch.distributed.is_initialized()
+        world_size: int = (
+            local_world_size if local_world_size is not None else torch.distributed.get_world_size()
+        )
+    
+        model_size = tensor_model_parallel_size * pipeline_model_parallel_size * context_parallel_size
+    
+        if world_size % model_size != 0:
+>           raise RuntimeError(f"world_size ({world_size}) is not divisible by {model_size}")
+E           RuntimeError: world_size (1) is not divisible by 2
+
+megatron/core/parallel_state.py:736: RuntimeError
+__________ TestDSAttentionTensorParallel.test_dsa_weight_consistency ___________
+
+self = <test_attention_variant_dsa.TestDSAttentionTensorParallel object at 0x7fd003eaccb0>
+
+    @pytest.mark.skipif(not torch.cuda.is_available(), reason="CUDA not available")
+    def test_dsa_weight_consistency(self):
+        """Test that sparse attention indexer weights are identical across ALL GPUs."""
+        for tensor_model_parallel_size in self.TP_SIZES:
+>           Utils.initialize_model_parallel(
+                tensor_model_parallel_size=tensor_model_parallel_size,
+                pipeline_model_parallel_size=1,
+            )
+
+tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py:3436: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit_tests/test_utilities.py:136: in initialize_model_parallel
+    ps.initialize_model_parallel(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+tensor_model_parallel_size = 2, pipeline_model_parallel_size = 1
+virtual_pipeline_model_parallel_size = None
+pipeline_model_parallel_comm_backend = None, use_sharp = False
+context_parallel_size = 1, hierarchical_context_parallel_sizes = None
+hybrid_context_parallel = False, expert_model_parallel_size = 1
+num_distributed_optimizer_instances = 1, expert_tensor_parallel_size = None
+nccl_communicator_config_path = None, distributed_timeout_minutes = 30
+order = 'tp-cp-ep-dp-pp'
+get_embedding_ranks = <function default_embedding_ranks at 0x7fd1117fe5c0>
+get_position_embedding_ranks = <function default_position_embedding_ranks at 0x7fd1117fe840>
+create_gloo_process_groups = True, high_priority_stream_groups = None
+sharp_enabled_group = None, rank_offset = 0, local_world_size = None
+
+    def initialize_model_parallel(
+        tensor_model_parallel_size: int = 1,
+        pipeline_model_parallel_size: int = 1,
+        virtual_pipeline_model_parallel_size: Optional[int] = None,
+        pipeline_model_parallel_comm_backend: Optional[str] = None,
+        use_sharp: bool = False,
+        context_parallel_size: int = 1,
+        hierarchical_context_parallel_sizes: Optional[List[int]] = None,
+        hybrid_context_parallel: bool = False,
+        expert_model_parallel_size: int = 1,
+        num_distributed_optimizer_instances: int = 1,
+        expert_tensor_parallel_size: Optional[int] = None,
+        nccl_communicator_config_path: Optional[str] = None,
+        distributed_timeout_minutes: int = 30,
+        order: str = "tp-cp-ep-dp-pp",
+        get_embedding_ranks: Optional[Callable[[List[int], Optional[int]], List[int]]] = None,
+        get_position_embedding_ranks: Optional[Callable[[List[int], Optional[int]], List[int]]] = None,
+        create_gloo_process_groups: bool = True,
+        high_priority_stream_groups: Optional[List[str]] = None,
+        sharp_enabled_group: Optional[str] = None,
+        rank_offset: int = 0,
+        local_world_size: Optional[int] = None,
+    ) -> None:
+        """Initialize model data parallel groups.
+    
+        Args:
+            tensor_model_parallel_size (int, default = 1):
+                The number of GPUs to split individual tensors across.
+    
+            pipeline_model_parallel_size (int, default = 1):
+                The number of tensor parallel GPU groups to split the
+                Transformer layers across. For example, if
+                tensor_model_parallel_size is 4 and
+                pipeline_model_parallel_size is 2, the model will be split
+                into 2 groups of 4 GPUs.
+    
+            virtual_pipeline_model_parallel_size (int, optional):
+                The number of stages that each pipeline group will have,
+                interleaving as necessary. If None, no interleaving is
+                performed. For example, if tensor_model_parallel_size is 1,
+                pipeline_model_parallel_size is 4,
+                virtual_pipeline_model_parallel_size is 2, and there are
+                16 transformer layers in the model, the model will be
+                split into 8 stages with two layers each and each GPU
+                would get 2 stages as such (layer number starting with 1):
+    
+                GPU 0: [1, 2] [9, 10]
+                GPU 1: [3, 4] [11, 12]
+                GPU 2: [5, 6] [13, 14]
+                GPU 3: [7, 8] [15, 16]
+    
+            pipeline_model_parallel_comm_backend (str, optional):
+                The backend to use for pipeline parallel communication.
+                If None, the default backend will be used.
+    
+            use_sharp (bool, default = False):
+                Set the use of SHARP for the collective communications of
+                data-parallel process groups. When `True`, run barrier
+                within each data-parallel process group, which specifies
+                the SHARP application target groups.
+    
+            context_parallel_size (int, default = 1):
+                The number of tensor parallel GPU groups to split the
+                network input sequence length across. Compute of attention
+                module requires tokens of full sequence length, so GPUs
+                in a context parallel group need to communicate with each
+                other to exchange information of other sequence chunks.
+                Each GPU and its counterparts in other tensor parallel
+                groups compose a context parallel group.
+    
+                For example, assume we have 8 GPUs, if tensor model parallel
+                size is 4 and context parallel size is 2, the network input
+                will be split into two sequence chunks, which are processed
+                by 2 different groups of 4 GPUs. One chunk is processed by
+                GPU0-3, the other chunk is processed by GPU4-7. Four groups
+                are build to do context parallel communications: [GPU0, GPU4],
+                [GPU1, GPU5], [GPU2, GPU6], and [GPU3, GPU7].
+    
+                Context parallelism partitions sequence length, so it has no
+                impact on weights, which means weights are duplicated among
+                GPUs in a context parallel group. Hence, weight gradients
+                all-reduce is required in backward. For simplicity, we piggyback
+                GPUs of context parallelism on data parallel group for
+                weight gradient all-reduce.
+    
+            expert_model_parallel_size (int, default = 1):
+                The number of Mixture of Experts parallel GPUs in each expert
+                parallel group.
+    
+            num_distributed_optimizer_instances (int, default = 1):
+                The number of distributed optimizer replicas across the data-
+                parallel domain.
+    
+            expert_tensor_parallel_size (int, default = tp_size):
+                The number of GPUs to split individual tensors of expert.
+    
+            nccl_communicator_config_path (str, default = None):
+                Path to the yaml file of NCCL communicator configurations.
+                `min_ctas`, `max_ctas`, and `cga_cluster_size` can be set
+                for each communicator.
+    
+            distributed_timeout_minutes (int, default = 30): Timeout, in
+                minutes,for operations executed against distributed
+                process groups. See PyTorch documentation at
+                https://pytorch.org/docs/stable/distributed.html for
+                caveats.
+    
+            order (str, default=tp-dp-pp):
+                The rank initialization order of parallelism. Now we support
+                tp-dp-pp and tp-pp-dp orders.
+    
+            get_embedding_ranks (Callable[[List[int], Optional[int]], List[int]], optional, default=None):
+                A function that takes in a list of ranks for a pipeline group and returns
+                those ranks that should have embeddings.
+    
+            get_position_embedding_ranks (Callable[[List[int], Optional[int]], List[int]], optional, default=None):
+                A function that takes in a list of ranks for a pipeline group, and returns
+                those ranks that should have position embeddings.
+    
+            create_gloo_process_groups (bool, default = True):
+                Create Gloo process groups if set to True. If set to False, Gloo process groups are
+                not created and calls to get Gloo process groups will result in assertion errors.
+    
+            high_priority_stream_groups (List[str], default = None):
+                Specify which communicator groups should use high priority streams during creation.
+                Assigning high priority to communication streams ensures that communication kernels
+                are scheduled with higher priority, minimizing the exposed communication when it is
+                overlapped with other computation kernels.
+                Example: initialize_parallel_groups(..., high_priority_stream_groups=['dp_cp','ep_dp'])
+    
+            sharp_enabled_group (str, default = None):
+                Specify which communicator group should use SHARP communication.
+                This option is only valid when use_sharp is True.
+                By default (None), it is enabled from dp group.
+                Available options (choose one): [dp, dp_replica]
+    
+        Let's say we have a total of 16 GPUs denoted by g0 ... g15 and we
+        use 2 GPUs to parallelize the model tensor, and 4 GPUs to parallelize
+        the model pipeline. The present function will
+        create 8 tensor model-parallel groups, 4 pipeline model-parallel groups
+        and 8 data-parallel groups as:
+            8 data_parallel groups:
+                [g0, g2], [g1, g3], [g4, g6], [g5, g7], [g8, g10], [g9, g11], [g12, g14], [g13, g15]
+            8 tensor model-parallel groups:
+                [g0, g1], [g2, g3], [g4, g5], [g6, g7], [g8, g9], [g10, g11], [g12, g13], [g14, g15]
+            4 pipeline model-parallel groups:
+                [g0, g4, g8, g12], [g1, g5, g9, g13], [g2, g6, g10, g14], [g3, g7, g11, g15]
+        Note that for efficiency, the caller should make sure adjacent ranks
+        are on the same DGX box. For example if we are using 2 DGX-1 boxes
+        with a total of 16 GPUs, rank 0 to 7 belong to the first box and
+        ranks 8 to 15 belong to the second box.
+        """
+        # NCCL restricts IB SHARP usage to a single communicator group—the first one created
+        # with NCCL_COLLNET_ENABLE=1. After this group is created, NCCL_COLLNET_ENABLE must be
+        # set to 0 for subsequent groups.
+        if "NCCL_COLLNET_ENABLE" in os.environ:
+            del os.environ["NCCL_COLLNET_ENABLE"]
+    
+        if use_sharp:
+            if sharp_enabled_group is None:
+                # By default, SHARP is enabled from dp group.
+                sharp_enabled_group = "dp"
+            else:
+                # Currently, only dp and dp_replica groups are supported for SHARP.
+                assert sharp_enabled_group in ["dp", "dp_replica"], "Invalid sharp_enabled_group"
+                if sharp_enabled_group == "dp_replica":
+                    assert (
+                        num_distributed_optimizer_instances > 1
+                    ), "dp_replica group requires num_distributed_optimizer_instances > 1"
+        else:
+            assert (
+                sharp_enabled_group is None
+            ), "sharp_enabled_group is only valid when use_sharp is True"
+    
+        if get_embedding_ranks is None:
+            get_embedding_ranks = default_embedding_ranks
+    
+        if get_position_embedding_ranks is None:
+            get_position_embedding_ranks = default_position_embedding_ranks
+    
+        # Get world size and rank. Ensure some consistencies.
+        assert torch.distributed.is_initialized()
+        world_size: int = (
+            local_world_size if local_world_size is not None else torch.distributed.get_world_size()
+        )
+    
+        model_size = tensor_model_parallel_size * pipeline_model_parallel_size * context_parallel_size
+    
+        if world_size % model_size != 0:
+>           raise RuntimeError(f"world_size ({world_size}) is not divisible by {model_size}")
+E           RuntimeError: world_size (1) is not divisible by 2
+
+megatron/core/parallel_state.py:736: RuntimeError
+__________ TestDSAttentionTensorParallel.test_dsa_forward_consistency __________
+
+self = <test_attention_variant_dsa.TestDSAttentionTensorParallel object at 0x7fd003e6d5e0>
+
+    @pytest.mark.skipif(not torch.cuda.is_available(), reason="CUDA not available")
+    def test_dsa_forward_consistency(self):
+        """Test that sparse attention gives consistent results across different TP, SP, and sparse loss settings."""
+        from megatron.core.tensor_parallel.mappings import gather_from_tensor_model_parallel_region
+    
+        seq_len = 64
+        batch_size = 2
+    
+        # TP=1 baselines: one per use_sparse_indexer_loss value (SP is always False for TP=1)
+        Utils.initialize_model_parallel(
+            tensor_model_parallel_size=1, pipeline_model_parallel_size=1
+        )
+    
+        baselines = {}  # {sparse_loss: (output, indexer_grads, q_grad, k_grad, v_grad)}
+        for use_sparse_indexer_loss in self.SPARSE_VALUES:
+            torch.manual_seed(123)
+            model_parallel_cuda_manual_seed(123)
+    
+            config_tp1 = self._create_config(
+                sequence_parallel=False, use_sparse_indexer_loss=use_sparse_indexer_loss
+            )
+            pg_collection_tp1 = ProcessGroupCollection.use_mpu_process_groups(
+                required_pgs=['tp', 'cp']
+            )
+            sparse_attention_tp1 = self._create_sparse_attention(
+                config_tp1, pg_collection_tp1
+            ).cuda()
+    
+            num_heads = config_tp1.num_attention_heads
+            head_dim = config_tp1.hidden_size // num_heads
+    
+            query_input = torch.randn(
+                seq_len, batch_size, num_heads, head_dim, dtype=torch.float32
+            ).cuda()
+            key_input = torch.randn(
+                seq_len, batch_size, num_heads, head_dim, dtype=torch.float32
+            ).cuda()
+            value_input = torch.randn(
+                seq_len, batch_size, num_heads, head_dim, dtype=torch.float32
+            ).cuda()
+            x_input = torch.randn(
+                seq_len, batch_size, config_tp1.hidden_size, dtype=torch.bfloat16
+            ).cuda()
+            qr_input = torch.randn(
+                seq_len, batch_size, config_tp1.q_lora_rank, dtype=torch.bfloat16
+            ).cuda()
+            attention_mask = torch.ones(batch_size, 1, seq_len, seq_len, dtype=torch.bool).cuda()
+            attention_mask = torch.tril(attention_mask)
+            query_input = _broadcast_from_global_rank0(query_input)
+            key_input = _broadcast_from_global_rank0(key_input)
+            value_input = _broadcast_from_global_rank0(value_input)
+            x_input = _broadcast_from_global_rank0(x_input)
+            qr_input = _broadcast_from_global_rank0(qr_input)
+            attention_mask = _broadcast_from_global_rank0(attention_mask)
+            query_input.requires_grad_(True)
+            key_input.requires_grad_(True)
+            value_input.requires_grad_(True)
+    
+            sparse_attention_tp1.train()
+            output_tp1 = sparse_attention_tp1(
+                query=query_input,
+                key=key_input,
+                value=value_input,
+                x=x_input,
+                qr=qr_input,
+                attention_mask=attention_mask,
+                attn_mask_type=AttnMaskType.causal,
+            )
+    
+            loss_tp1 = output_tp1.sum()
+            loss_tp1.backward()
+    
+            baselines[use_sparse_indexer_loss] = (
+                output_tp1.detach().clone(),
+                {
+                    name: param.grad.clone()
+                    for name, param in sparse_attention_tp1.indexer.named_parameters()
+                    if param.grad is not None
+                },
+                query_input.grad.clone().cpu(),
+                key_input.grad.clone().cpu(),
+                value_input.grad.clone().cpu(),
+                num_heads,
+                head_dim,
+                query_input.detach().clone(),
+                key_input.detach().clone(),
+                value_input.detach().clone(),
+                x_input.detach().clone(),
+                qr_input.detach().clone(),
+                attention_mask.detach().clone(),
+                {
+                    name: tensor.detach().clone()
+                    for name, tensor in sparse_attention_tp1.indexer.state_dict().items()
+                },
+            )
+    
+        Utils.destroy_model_parallel()
+    
+        # Test each TP size with all (SP, sparse) combos
+        for tensor_model_parallel_size in self.TP_SIZES:
+>           Utils.initialize_model_parallel(
+                tensor_model_parallel_size=tensor_model_parallel_size,
+                pipeline_model_parallel_size=1,
+            )
+
+tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py:3569: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit_tests/test_utilities.py:136: in initialize_model_parallel
+    ps.initialize_model_parallel(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+tensor_model_parallel_size = 2, pipeline_model_parallel_size = 1
+virtual_pipeline_model_parallel_size = None
+pipeline_model_parallel_comm_backend = None, use_sharp = False
+context_parallel_size = 1, hierarchical_context_parallel_sizes = None
+hybrid_context_parallel = False, expert_model_parallel_size = 1
+num_distributed_optimizer_instances = 1, expert_tensor_parallel_size = None
+nccl_communicator_config_path = None, distributed_timeout_minutes = 30
+order = 'tp-cp-ep-dp-pp'
+get_embedding_ranks = <function default_embedding_ranks at 0x7fd1117fe5c0>
+get_position_embedding_ranks = <function default_position_embedding_ranks at 0x7fd1117fe840>
+create_gloo_process_groups = True, high_priority_stream_groups = None
+sharp_enabled_group = None, rank_offset = 0, local_world_size = None
+
+    def initialize_model_parallel(
+        tensor_model_parallel_size: int = 1,
+        pipeline_model_parallel_size: int = 1,
+        virtual_pipeline_model_parallel_size: Optional[int] = None,
+        pipeline_model_parallel_comm_backend: Optional[str] = None,
+        use_sharp: bool = False,
+        context_parallel_size: int = 1,
+        hierarchical_context_parallel_sizes: Optional[List[int]] = None,
+        hybrid_context_parallel: bool = False,
+        expert_model_parallel_size: int = 1,
+        num_distributed_optimizer_instances: int = 1,
+        expert_tensor_parallel_size: Optional[int] = None,
+        nccl_communicator_config_path: Optional[str] = None,
+        distributed_timeout_minutes: int = 30,
+        order: str = "tp-cp-ep-dp-pp",
+        get_embedding_ranks: Optional[Callable[[List[int], Optional[int]], List[int]]] = None,
+        get_position_embedding_ranks: Optional[Callable[[List[int], Optional[int]], List[int]]] = None,
+        create_gloo_process_groups: bool = True,
+        high_priority_stream_groups: Optional[List[str]] = None,
+        sharp_enabled_group: Optional[str] = None,
+        rank_offset: int = 0,
+        local_world_size: Optional[int] = None,
+    ) -> None:
+        """Initialize model data parallel groups.
+    
+        Args:
+            tensor_model_parallel_size (int, default = 1):
+                The number of GPUs to split individual tensors across.
+    
+            pipeline_model_parallel_size (int, default = 1):
+                The number of tensor parallel GPU groups to split the
+                Transformer layers across. For example, if
+                tensor_model_parallel_size is 4 and
+                pipeline_model_parallel_size is 2, the model will be split
+                into 2 groups of 4 GPUs.
+    
+            virtual_pipeline_model_parallel_size (int, optional):
+                The number of stages that each pipeline group will have,
+                interleaving as necessary. If None, no interleaving is
+                performed. For example, if tensor_model_parallel_size is 1,
+                pipeline_model_parallel_size is 4,
+                virtual_pipeline_model_parallel_size is 2, and there are
+                16 transformer layers in the model, the model will be
+                split into 8 stages with two layers each and each GPU
+                would get 2 stages as such (layer number starting with 1):
+    
+                GPU 0: [1, 2] [9, 10]
+                GPU 1: [3, 4] [11, 12]
+                GPU 2: [5, 6] [13, 14]
+                GPU 3: [7, 8] [15, 16]
+    
+            pipeline_model_parallel_comm_backend (str, optional):
+                The backend to use for pipeline parallel communication.
+                If None, the default backend will be used.
+    
+            use_sharp (bool, default = False):
+                Set the use of SHARP for the collective communications of
+                data-parallel process groups. When `True`, run barrier
+                within each data-parallel process group, which specifies
+                the SHARP application target groups.
+    
+            context_parallel_size (int, default = 1):
+                The number of tensor parallel GPU groups to split the
+                network input sequence length across. Compute of attention
+                module requires tokens of full sequence length, so GPUs
+                in a context parallel group need to communicate with each
+                other to exchange information of other sequence chunks.
+                Each GPU and its counterparts in other tensor parallel
+                groups compose a context parallel group.
+    
+                For example, assume we have 8 GPUs, if tensor model parallel
+                size is 4 and context parallel size is 2, the network input
+                will be split into two sequence chunks, which are processed
+                by 2 different groups of 4 GPUs. One chunk is processed by
+                GPU0-3, the other chunk is processed by GPU4-7. Four groups
+                are build to do context parallel communications: [GPU0, GPU4],
+                [GPU1, GPU5], [GPU2, GPU6], and [GPU3, GPU7].
+    
+                Context parallelism partitions sequence length, so it has no
+                impact on weights, which means weights are duplicated among
+                GPUs in a context parallel group. Hence, weight gradients
+                all-reduce is required in backward. For simplicity, we piggyback
+                GPUs of context parallelism on data parallel group for
+                weight gradient all-reduce.
+    
+            expert_model_parallel_size (int, default = 1):
+                The number of Mixture of Experts parallel GPUs in each expert
+                parallel group.
+    
+            num_distributed_optimizer_instances (int, default = 1):
+                The number of distributed optimizer replicas across the data-
+                parallel domain.
+    
+            expert_tensor_parallel_size (int, default = tp_size):
+                The number of GPUs to split individual tensors of expert.
+    
+            nccl_communicator_config_path (str, default = None):
+                Path to the yaml file of NCCL communicator configurations.
+                `min_ctas`, `max_ctas`, and `cga_cluster_size` can be set
+                for each communicator.
+    
+            distributed_timeout_minutes (int, default = 30): Timeout, in
+                minutes,for operations executed against distributed
+                process groups. See PyTorch documentation at
+                https://pytorch.org/docs/stable/distributed.html for
+                caveats.
+    
+            order (str, default=tp-dp-pp):
+                The rank initialization order of parallelism. Now we support
+                tp-dp-pp and tp-pp-dp orders.
+    
+            get_embedding_ranks (Callable[[List[int], Optional[int]], List[int]], optional, default=None):
+                A function that takes in a list of ranks for a pipeline group and returns
+                those ranks that should have embeddings.
+    
+            get_position_embedding_ranks (Callable[[List[int], Optional[int]], List[int]], optional, default=None):
+                A function that takes in a list of ranks for a pipeline group, and returns
+                those ranks that should have position embeddings.
+    
+            create_gloo_process_groups (bool, default = True):
+                Create Gloo process groups if set to True. If set to False, Gloo process groups are
+                not created and calls to get Gloo process groups will result in assertion errors.
+    
+            high_priority_stream_groups (List[str], default = None):
+                Specify which communicator groups should use high priority streams during creation.
+                Assigning high priority to communication streams ensures that communication kernels
+                are scheduled with higher priority, minimizing the exposed communication when it is
+                overlapped with other computation kernels.
+                Example: initialize_parallel_groups(..., high_priority_stream_groups=['dp_cp','ep_dp'])
+    
+            sharp_enabled_group (str, default = None):
+                Specify which communicator group should use SHARP communication.
+                This option is only valid when use_sharp is True.
+                By default (None), it is enabled from dp group.
+                Available options (choose one): [dp, dp_replica]
+    
+        Let's say we have a total of 16 GPUs denoted by g0 ... g15 and we
+        use 2 GPUs to parallelize the model tensor, and 4 GPUs to parallelize
+        the model pipeline. The present function will
+        create 8 tensor model-parallel groups, 4 pipeline model-parallel groups
+        and 8 data-parallel groups as:
+            8 data_parallel groups:
+                [g0, g2], [g1, g3], [g4, g6], [g5, g7], [g8, g10], [g9, g11], [g12, g14], [g13, g15]
+            8 tensor model-parallel groups:
+                [g0, g1], [g2, g3], [g4, g5], [g6, g7], [g8, g9], [g10, g11], [g12, g13], [g14, g15]
+            4 pipeline model-parallel groups:
+                [g0, g4, g8, g12], [g1, g5, g9, g13], [g2, g6, g10, g14], [g3, g7, g11, g15]
+        Note that for efficiency, the caller should make sure adjacent ranks
+        are on the same DGX box. For example if we are using 2 DGX-1 boxes
+        with a total of 16 GPUs, rank 0 to 7 belong to the first box and
+        ranks 8 to 15 belong to the second box.
+        """
+        # NCCL restricts IB SHARP usage to a single communicator group—the first one created
+        # with NCCL_COLLNET_ENABLE=1. After this group is created, NCCL_COLLNET_ENABLE must be
+        # set to 0 for subsequent groups.
+        if "NCCL_COLLNET_ENABLE" in os.environ:
+            del os.environ["NCCL_COLLNET_ENABLE"]
+    
+        if use_sharp:
+            if sharp_enabled_group is None:
+                # By default, SHARP is enabled from dp group.
+                sharp_enabled_group = "dp"
+            else:
+                # Currently, only dp and dp_replica groups are supported for SHARP.
+                assert sharp_enabled_group in ["dp", "dp_replica"], "Invalid sharp_enabled_group"
+                if sharp_enabled_group == "dp_replica":
+                    assert (
+                        num_distributed_optimizer_instances > 1
+                    ), "dp_replica group requires num_distributed_optimizer_instances > 1"
+        else:
+            assert (
+                sharp_enabled_group is None
+            ), "sharp_enabled_group is only valid when use_sharp is True"
+    
+        if get_embedding_ranks is None:
+            get_embedding_ranks = default_embedding_ranks
+    
+        if get_position_embedding_ranks is None:
+            get_position_embedding_ranks = default_position_embedding_ranks
+    
+        # Get world size and rank. Ensure some consistencies.
+        assert torch.distributed.is_initialized()
+        world_size: int = (
+            local_world_size if local_world_size is not None else torch.distributed.get_world_size()
+        )
+    
+        model_size = tensor_model_parallel_size * pipeline_model_parallel_size * context_parallel_size
+    
+        if world_size % model_size != 0:
+>           raise RuntimeError(f"world_size ({world_size}) is not divisible by {model_size}")
+E           RuntimeError: world_size (1) is not divisible by 2
+
+megatron/core/parallel_state.py:736: RuntimeError
+------------------------------ Captured log call -------------------------------
+WARNING  megatron.core.tensor_parallel.random:random.py:320 CPU RNG state changed within GPU RNG context
+WARNING  megatron.core.tensor_parallel.random:random.py:320 CPU RNG state changed within GPU RNG context
+WARNING  megatron.core.tensor_parallel.random:random.py:320 CPU RNG state changed within GPU RNG context
+WARNING  megatron.core.tensor_parallel.random:random.py:320 CPU RNG state changed within GPU RNG context
+WARNING  megatron.core.tensor_parallel.random:random.py:320 CPU RNG state changed within GPU RNG context
+WARNING  megatron.core.tensor_parallel.random:random.py:320 CPU RNG state changed within GPU RNG context
+_____________ TestDSAttentionTensorParallel.test_dsa_gradient_sync _____________
+
+self = <test_attention_variant_dsa.TestDSAttentionTensorParallel object at 0x7fd003e6fa40>
+
+    @pytest.mark.skipif(not torch.cuda.is_available(), reason="CUDA not available")
+    def test_dsa_gradient_sync(self):
+        """Test that indexer gradients are properly synchronized within TP group."""
+        seq_len = 64
+        batch_size = 2
+    
+        for tensor_model_parallel_size in self.TP_SIZES:
+>           Utils.initialize_model_parallel(
+                tensor_model_parallel_size=tensor_model_parallel_size,
+                pipeline_model_parallel_size=1,
+            )
+
+tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py:3714: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/unit_tests/test_utilities.py:136: in initialize_model_parallel
+    ps.initialize_model_parallel(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+tensor_model_parallel_size = 2, pipeline_model_parallel_size = 1
+virtual_pipeline_model_parallel_size = None
+pipeline_model_parallel_comm_backend = None, use_sharp = False
+context_parallel_size = 1, hierarchical_context_parallel_sizes = None
+hybrid_context_parallel = False, expert_model_parallel_size = 1
+num_distributed_optimizer_instances = 1, expert_tensor_parallel_size = None
+nccl_communicator_config_path = None, distributed_timeout_minutes = 30
+order = 'tp-cp-ep-dp-pp'
+get_embedding_ranks = <function default_embedding_ranks at 0x7fd1117fe5c0>
+get_position_embedding_ranks = <function default_position_embedding_ranks at 0x7fd1117fe840>
+create_gloo_process_groups = True, high_priority_stream_groups = None
+sharp_enabled_group = None, rank_offset = 0, local_world_size = None
+
+    def initialize_model_parallel(
+        tensor_model_parallel_size: int = 1,
+        pipeline_model_parallel_size: int = 1,
+        virtual_pipeline_model_parallel_size: Optional[int] = None,
+        pipeline_model_parallel_comm_backend: Optional[str] = None,
+        use_sharp: bool = False,
+        context_parallel_size: int = 1,
+        hierarchical_context_parallel_sizes: Optional[List[int]] = None,
+        hybrid_context_parallel: bool = False,
+        expert_model_parallel_size: int = 1,
+        num_distributed_optimizer_instances: int = 1,
+        expert_tensor_parallel_size: Optional[int] = None,
+        nccl_communicator_config_path: Optional[str] = None,
+        distributed_timeout_minutes: int = 30,
+        order: str = "tp-cp-ep-dp-pp",
+        get_embedding_ranks: Optional[Callable[[List[int], Optional[int]], List[int]]] = None,
+        get_position_embedding_ranks: Optional[Callable[[List[int], Optional[int]], List[int]]] = None,
+        create_gloo_process_groups: bool = True,
+        high_priority_stream_groups: Optional[List[str]] = None,
+        sharp_enabled_group: Optional[str] = None,
+        rank_offset: int = 0,
+        local_world_size: Optional[int] = None,
+    ) -> None:
+        """Initialize model data parallel groups.
+    
+        Args:
+            tensor_model_parallel_size (int, default = 1):
+                The number of GPUs to split individual tensors across.
+    
+            pipeline_model_parallel_size (int, default = 1):
+                The number of tensor parallel GPU groups to split the
+                Transformer layers across. For example, if
+                tensor_model_parallel_size is 4 and
+                pipeline_model_parallel_size is 2, the model will be split
+                into 2 groups of 4 GPUs.
+    
+            virtual_pipeline_model_parallel_size (int, optional):
+                The number of stages that each pipeline group will have,
+                interleaving as necessary. If None, no interleaving is
+                performed. For example, if tensor_model_parallel_size is 1,
+                pipeline_model_parallel_size is 4,
+                virtual_pipeline_model_parallel_size is 2, and there are
+                16 transformer layers in the model, the model will be
+                split into 8 stages with two layers each and each GPU
+                would get 2 stages as such (layer number starting with 1):
+    
+                GPU 0: [1, 2] [9, 10]
+                GPU 1: [3, 4] [11, 12]
+                GPU 2: [5, 6] [13, 14]
+                GPU 3: [7, 8] [15, 16]
+    
+            pipeline_model_parallel_comm_backend (str, optional):
+                The backend to use for pipeline parallel communication.
+                If None, the default backend will be used.
+    
+            use_sharp (bool, default = False):
+                Set the use of SHARP for the collective communications of
+                data-parallel process groups. When `True`, run barrier
+                within each data-parallel process group, which specifies
+                the SHARP application target groups.
+    
+            context_parallel_size (int, default = 1):
+                The number of tensor parallel GPU groups to split the
+                network input sequence length across. Compute of attention
+                module requires tokens of full sequence length, so GPUs
+                in a context parallel group need to communicate with each
+                other to exchange information of other sequence chunks.
+                Each GPU and its counterparts in other tensor parallel
+                groups compose a context parallel group.
+    
+                For example, assume we have 8 GPUs, if tensor model parallel
+                size is 4 and context parallel size is 2, the network input
+                will be split into two sequence chunks, which are processed
+                by 2 different groups of 4 GPUs. One chunk is processed by
+                GPU0-3, the other chunk is processed by GPU4-7. Four groups
+                are build to do context parallel communications: [GPU0, GPU4],
+                [GPU1, GPU5], [GPU2, GPU6], and [GPU3, GPU7].
+    
+                Context parallelism partitions sequence length, so it has no
+                impact on weights, which means weights are duplicated among
+                GPUs in a context parallel group. Hence, weight gradients
+                all-reduce is required in backward. For simplicity, we piggyback
+                GPUs of context parallelism on data parallel group for
+                weight gradient all-reduce.
+    
+            expert_model_parallel_size (int, default = 1):
+                The number of Mixture of Experts parallel GPUs in each expert
+                parallel group.
+    
+            num_distributed_optimizer_instances (int, default = 1):
+                The number of distributed optimizer replicas across the data-
+                parallel domain.
+    
+            expert_tensor_parallel_size (int, default = tp_size):
+                The number of GPUs to split individual tensors of expert.
+    
+            nccl_communicator_config_path (str, default = None):
+                Path to the yaml file of NCCL communicator configurations.
+                `min_ctas`, `max_ctas`, and `cga_cluster_size` can be set
+                for each communicator.
+    
+            distributed_timeout_minutes (int, default = 30): Timeout, in
+                minutes,for operations executed against distributed
+                process groups. See PyTorch documentation at
+                https://pytorch.org/docs/stable/distributed.html for
+                caveats.
+    
+            order (str, default=tp-dp-pp):
+                The rank initialization order of parallelism. Now we support
+                tp-dp-pp and tp-pp-dp orders.
+    
+            get_embedding_ranks (Callable[[List[int], Optional[int]], List[int]], optional, default=None):
+                A function that takes in a list of ranks for a pipeline group and returns
+                those ranks that should have embeddings.
+    
+            get_position_embedding_ranks (Callable[[List[int], Optional[int]], List[int]], optional, default=None):
+                A function that takes in a list of ranks for a pipeline group, and returns
+                those ranks that should have position embeddings.
+    
+            create_gloo_process_groups (bool, default = True):
+                Create Gloo process groups if set to True. If set to False, Gloo process groups are
+                not created and calls to get Gloo process groups will result in assertion errors.
+    
+            high_priority_stream_groups (List[str], default = None):
+                Specify which communicator groups should use high priority streams during creation.
+                Assigning high priority to communication streams ensures that communication kernels
+                are scheduled with higher priority, minimizing the exposed communication when it is
+                overlapped with other computation kernels.
+                Example: initialize_parallel_groups(..., high_priority_stream_groups=['dp_cp','ep_dp'])
+    
+            sharp_enabled_group (str, default = None):
+                Specify which communicator group should use SHARP communication.
+                This option is only valid when use_sharp is True.
+                By default (None), it is enabled from dp group.
+                Available options (choose one): [dp, dp_replica]
+    
+        Let's say we have a total of 16 GPUs denoted by g0 ... g15 and we
+        use 2 GPUs to parallelize the model tensor, and 4 GPUs to parallelize
+        the model pipeline. The present function will
+        create 8 tensor model-parallel groups, 4 pipeline model-parallel groups
+        and 8 data-parallel groups as:
+            8 data_parallel groups:
+                [g0, g2], [g1, g3], [g4, g6], [g5, g7], [g8, g10], [g9, g11], [g12, g14], [g13, g15]
+            8 tensor model-parallel groups:
+                [g0, g1], [g2, g3], [g4, g5], [g6, g7], [g8, g9], [g10, g11], [g12, g13], [g14, g15]
+            4 pipeline model-parallel groups:
+                [g0, g4, g8, g12], [g1, g5, g9, g13], [g2, g6, g10, g14], [g3, g7, g11, g15]
+        Note that for efficiency, the caller should make sure adjacent ranks
+        are on the same DGX box. For example if we are using 2 DGX-1 boxes
+        with a total of 16 GPUs, rank 0 to 7 belong to the first box and
+        ranks 8 to 15 belong to the second box.
+        """
+        # NCCL restricts IB SHARP usage to a single communicator group—the first one created
+        # with NCCL_COLLNET_ENABLE=1. After this group is created, NCCL_COLLNET_ENABLE must be
+        # set to 0 for subsequent groups.
+        if "NCCL_COLLNET_ENABLE" in os.environ:
+            del os.environ["NCCL_COLLNET_ENABLE"]
+    
+        if use_sharp:
+            if sharp_enabled_group is None:
+                # By default, SHARP is enabled from dp group.
+                sharp_enabled_group = "dp"
+            else:
+                # Currently, only dp and dp_replica groups are supported for SHARP.
+                assert sharp_enabled_group in ["dp", "dp_replica"], "Invalid sharp_enabled_group"
+                if sharp_enabled_group == "dp_replica":
+                    assert (
+                        num_distributed_optimizer_instances > 1
+                    ), "dp_replica group requires num_distributed_optimizer_instances > 1"
+        else:
+            assert (
+                sharp_enabled_group is None
+            ), "sharp_enabled_group is only valid when use_sharp is True"
+    
+        if get_embedding_ranks is None:
+            get_embedding_ranks = default_embedding_ranks
+    
+        if get_position_embedding_ranks is None:
+            get_position_embedding_ranks = default_position_embedding_ranks
+    
+        # Get world size and rank. Ensure some consistencies.
+        assert torch.distributed.is_initialized()
+        world_size: int = (
+            local_world_size if local_world_size is not None else torch.distributed.get_world_size()
+        )
+    
+        model_size = tensor_model_parallel_size * pipeline_model_parallel_size * context_parallel_size
+    
+        if world_size % model_size != 0:
+>           raise RuntimeError(f"world_size ({world_size}) is not divisible by {model_size}")
+E           RuntimeError: world_size (1) is not divisible by 2
+
+megatron/core/parallel_state.py:736: RuntimeError
+_ TestDSAModuleSpecDispatch.test_get_experimental_attention_variant_module_spec_dsa _
+
+self = <test_attention_variant_dsa.TestDSAModuleSpecDispatch object at 0x7fd003d24890>
+
+    def test_get_experimental_attention_variant_module_spec_dsa(self):
+        """get_experimental_attention_variant_module_spec dispatches to DSA for variant='dsa'."""
+        config = self._make_dsa_config(experimental_attention_variant="dsa")
+        spec = get_experimental_attention_variant_module_spec(config)
+>       assert spec.module == AbsorbedMLASelfAttention
+E       AssertionError: assert <class 'megatron.core.transformer.experimental_attention_variant.glm_absorbed_mla.GlmAbsorbedMLASelfAttention'> == AbsorbedMLASelfAttention
+E        +  where <class 'megatron.core.transformer.experimental_attention_variant.glm_absorbed_mla.GlmAbsorbedMLASelfAttention'> = ModuleSpec(module=<class 'megatron.core.transformer.experimental_attention_variant.glm_absorbed_mla.GlmAbsorbedMLASelf...'>, kv_layernorm=<class 'megatron.core.transformer.identity_op.IdentityOp'>), metainfo={'fuse_input_layernorm': False}).module
+
+tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py:3861: AssertionError
+________ TestDSAModuleSpecDispatch.test_get_dsa_module_spec_for_backend ________
+
+self = <test_attention_variant_dsa.TestDSAModuleSpecDispatch object at 0x7fd003d2a960>
+
+    def test_get_dsa_module_spec_for_backend(self):
+        """get_dsa_module_spec_for_backend returns the correct full spec structure."""
+        from megatron.core.extensions.transformer_engine_spec_provider import TESpecProvider
+    
+        config = self._make_dsa_config()
+        backend = TESpecProvider()
+        spec = get_dsa_module_spec_for_backend(config, backend=backend)
+>       assert spec.module == AbsorbedMLASelfAttention
+E       AssertionError: assert <class 'megatron.core.transformer.experimental_attention_variant.glm_absorbed_mla.GlmAbsorbedMLASelfAttention'> == AbsorbedMLASelfAttention
+E        +  where <class 'megatron.core.transformer.experimental_attention_variant.glm_absorbed_mla.GlmAbsorbedMLASelfAttention'> = ModuleSpec(module=<class 'megatron.core.transformer.experimental_attention_variant.glm_absorbed_mla.GlmAbsorbedMLASelf...'>, kv_layernorm=<class 'megatron.core.transformer.identity_op.IdentityOp'>), metainfo={'fuse_input_layernorm': False}).module
+
+tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py:3883: AssertionError
+=============================== warnings summary ===============================
+../../../../.venv/lib/python3.12/site-packages/torch/cuda/__init__.py:61
+  /root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/torch/cuda/__init__.py:61: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+    import pynvml  # type: ignore[import]
+
+../../../../.venv/lib/python3.12/site-packages/torch/jit/_script.py:1488
+../../../../.venv/lib/python3.12/site-packages/torch/jit/_script.py:1488
+../../../../.venv/lib/python3.12/site-packages/torch/jit/_script.py:1488
+  /root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/torch/jit/_script.py:1488: DeprecationWarning: `torch.jit.script` is deprecated. Please switch to `torch.compile` or `torch.export`.
+    warnings.warn(
+
+megatron/core/dist_checkpointing/strategies/torch.py:69
+  /root/.cache/user_artifacts/trainers_main/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/dist_checkpointing/strategies/torch.py:69: DeprecationWarning: transformer_engine.pytorch.float8_tensor is deprecated and will be removed in a future release. Float8Tensor should be imported directly through `from transformer_engine.pytorch import Float8Tensor`
+    from transformer_engine.pytorch.float8_tensor import Float8Tensor
+
+../../../../.venv/lib/python3.12/site-packages/flashinfer/gemm/kernels/grouped_gemm_masked_blackwell.py:2059
+  /root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/flashinfer/gemm/kernels/grouped_gemm_masked_blackwell.py:2059: DeprecationWarning: tcgen05.OperandMajorMode is deprecated, use cute.nvgpu.OperandMajorMode instead
+    a_major_mode: tcgen05.OperandMajorMode,
+
+../../../../.venv/lib/python3.12/site-packages/flashinfer/gemm/kernels/grouped_gemm_masked_blackwell.py:2061
+  /root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/flashinfer/gemm/kernels/grouped_gemm_masked_blackwell.py:2061: DeprecationWarning: tcgen05.OperandMajorMode is deprecated, use cute.nvgpu.OperandMajorMode instead
+    b_major_mode: tcgen05.OperandMajorMode,
+
+../../../../.venv/lib/python3.12/site-packages/flashinfer/gdn_kernels/blackwell/gated_delta_net_chunked.py:99
+../../../../.venv/lib/python3.12/site-packages/flashinfer/gdn_kernels/blackwell/gated_delta_net_chunked.py:99
+  /root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/flashinfer/gdn_kernels/blackwell/gated_delta_net_chunked.py:99: DeprecationWarning: tcgen05.OperandMajorMode is deprecated, use cute.nvgpu.OperandMajorMode instead
+    from cutlass.cute.nvgpu.tcgen05 import OperandMajorMode
+
+../../../../.venv/lib/python3.12/site-packages/torch/jit/_script.py:365: 14 warnings
+  /root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/torch/jit/_script.py:365: DeprecationWarning: `torch.jit.script_method` is deprecated. Please switch to `torch.compile` or `torch.export`.
+    warnings.warn(
+
+megatron/core/tensor_parallel/random.py:83
+  /root/.cache/user_artifacts/trainers_main/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/tensor_parallel/random.py:83: DeprecationWarning: Using deprecated internal API from Transformer Engine. transformer_engine.pytorch.fp8 will be removed in a future release.
+    from transformer_engine.pytorch.fp8 import FP8GlobalStateManager, fp8_autocast
+
+megatron/core/inference/contexts/__init__.py:9
+  /root/.cache/user_artifacts/trainers_main/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/inference/contexts/__init__.py:9: DeprecationWarning: The following imports from `dynamic_context.py` will be removed in this file in `megatron-core` 0.14. The imports here result in a cyclic import issue that causes rotary embeddings to import from Apex rather than Transformer Engine.
+    warnings.warn(
+
+megatron/core/models/backends.py:34
+  /root/.cache/user_artifacts/trainers_main/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/backends.py:34: UserWarning: Apex is not installed. Falling back to Torch Norm
+    warnings.warn("Apex is not installed. Falling back to Torch Norm")
+
+megatron/core/models/gpt/gpt_layer_specs.py:74
+  /root/.cache/user_artifacts/trainers_main/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/gpt/gpt_layer_specs.py:74: UserWarning: Apex is not installed. Falling back to Torch Norm
+    warnings.warn("Apex is not installed. Falling back to Torch Norm")
+
+megatron/core/models/gpt/heterogeneous/heterogeneous_layer_specs.py:68
+  /root/.cache/user_artifacts/trainers_main/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/gpt/heterogeneous/heterogeneous_layer_specs.py:68: UserWarning: Apex is not installed. Falling back to Torch Norm
+    warnings.warn("Apex is not installed. Falling back to Torch Norm")
+
+<frozen importlib._bootstrap>:488
+  <frozen importlib._bootstrap>:488: DeprecationWarning: builtin type SwigPyPacked has no __module__ attribute
+
+<frozen importlib._bootstrap>:488
+  <frozen importlib._bootstrap>:488: DeprecationWarning: builtin type SwigPyObject has no __module__ attribute
+
+../../../../.venv/lib/python3.12/site-packages/modelopt/torch/__init__.py:53
+  /root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/modelopt/torch/__init__.py:53: UserWarning: transformers>=5.0 support is experimental. Unified Hugging Face checkpoint export for quantized checkpoints may not work for some models yet.
+    _warnings.warn(
+
+megatron/rl/inference/inference_interface.py:15
+  /root/.cache/user_artifacts/trainers_main/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/rl/inference/inference_interface.py:15: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class InferenceInterface(BaseModel):
+
+megatron/rl/__init__.py:56
+megatron/rl/__init__.py:56
+  /root/.cache/user_artifacts/trainers_main/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/rl/__init__.py:56: PydanticDeprecatedSince20: The `__fields__` attribute is deprecated, use the `model_fields` class property instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    cls.Library.type_names[register_type.__fields__['type_name'].default] = register_type
+
+tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py: 20 warnings
+tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py: 10 warnings
+  /root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/torch/distributed/c10d_logger.py:83: UserWarning: barrier(): using the device under current context. You can specify `device_id` in `init_process_group` to mute this warning.
+    return func(*args, **kwargs)
+
+tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py: 20 warnings
+tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py: 9 warnings
+  /root/.cache/user_artifacts/trainers_main/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/transformer/transformer_config.py:2379: UserWarning: full scope is deprecated. Use empty cuda_graph_modules to capture the whole layer.
+    warnings.warn(
+
+tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py: 160 warnings
+tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py: 15 warnings
+  /root/.cache/user_artifacts/trainers_main/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/extensions/transformer_engine.py:931: DeprecationWarning: Warning: tp_group is None, using default tp group. Passing tp_group will be mandatory soon
+    tp_group = get_tensor_model_parallel_group_if_none(tp_group, is_expert=is_expert)
+
+tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_fused_absorbed_mla_dsa_matches_native[sparse_loss-False-2048-cudnn]
+  /root/cfe_migration/ov_dev/cudnn/deepseek_sparse_attention/indexer_backward/indexer_backward_sm100.py:739: DSLOptimizationWarning: This static loop has 64 iterations, which may be very slow to compile, consider using `cutlass.range(..., unroll_full=True)` instead.
+    for si in cutlass.range_constexpr(GS_PER_THREAD):
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+==================================== PASSES ====================================
+___ test_fused_absorbed_mla_dsa_matches_native[dense_loss-False-1024-cudnn] ____
+------------------------------ Captured log setup ------------------------------
+ERROR    tests.test_utils.python_scripts.download_unit_tests_dataset:download_unit_tests_dataset.py:80   Error downloading/extracting datasets.zip: [Errno 2] No such file or directory: '/opt/data/datasets.zip'
+ERROR    tests.test_utils.python_scripts.download_unit_tests_dataset:download_unit_tests_dataset.py:80   Error downloading/extracting tokenizers.zip: [Errno 2] No such file or directory: '/opt/data/tokenizers.zip'
+__________________ test_dsa_kernel_hooks_log_declined_backend __________________
+------------------------------ Captured log call -------------------------------
+DEBUG    megatron.core.transformer.experimental_attention_variant.dsa_kernels:dsa_kernels.py:69 DSA fused backend tilelang run_fused_qk_topk declined; falling back (backend returned None).
+DEBUG    megatron.core.transformer.experimental_attention_variant.dsa_kernels:dsa_kernels.py:69 DSA fused backend tilelang run_fused_qk_topk_with_loss declined; falling back (backend returned None).
+DEBUG    megatron.core.transformer.experimental_attention_variant.dsa_kernels:dsa_kernels.py:69 DSA fused backend tilelang run_fused_absorbed_sparse_attention declined; falling back (backend returned None).
+DEBUG    megatron.core.transformer.experimental_attention_variant.dsa_kernels:dsa_kernels.py:69 DSA fused backend tilelang run_fused_dsa_attention declined; falling back (backend returned None).
+_______________ TestDSAIndexer.test_dsa_indexer_constructor[16] ________________
+------------------------------ Captured log setup ------------------------------
+WARNING  megatron.core.tensor_parallel.random:random.py:320 CPU RNG state changed within GPU RNG context
+WARNING  megatron.core.tensor_parallel.random:random.py:320 CPU RNG state changed within GPU RNG context
+WARNING  megatron.core.tensor_parallel.random:random.py:320 CPU RNG state changed within GPU RNG context
+_____________________ TestDSAttention.test_dsa_constructor _____________________
+------------------------------ Captured log setup ------------------------------
+WARNING  megatron.core.tensor_parallel.random:random.py:320 CPU RNG state changed within GPU RNG context
+WARNING  megatron.core.tensor_parallel.random:random.py:320 CPU RNG state changed within GPU RNG context
+WARNING  megatron.core.tensor_parallel.random:random.py:320 CPU RNG state changed within GPU RNG context
+============================= slowest 15 durations =============================
+30.69s call     tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_fused_absorbed_mla_dsa_matches_native[sparse_loss-False-1024-cudnn]
+29.97s call     tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_fused_absorbed_mla_dsa_matches_native[sparse_loss-False-2048-cudnn]
+27.61s call     tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_fused_absorbed_mla_dsa_matches_native[dense_loss-False-1024-cudnn]
+27.24s call     tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_unfused_absorbed_mla_dsa_matches_native[sparse_loss-True-4096]
+25.59s teardown tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::TestRotateActivation::test_rotate_activation_dtype_check
+12.36s call     tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_cudnn_full_fusion_real_kernel_packed_cp_varlen_matches_reference
+7.97s call     tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_fused_absorbed_mla_dsa_matches_native[dense_loss-False-2048-cudnn]
+7.31s call     tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_cudnn_indexer_topk_single_packed_cp_real_kernel_uses_bottom_right_alignment
+7.08s call     tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_unfused_absorbed_mla_dsa_matches_native[sparse_loss-False-4096]
+6.83s call     tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_unfused_absorbed_mla_dsa_matches_native[dense_loss-False-4096]
+6.75s call     tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_unfused_absorbed_mla_dsa_matches_native[dense_loss-True-4096]
+5.79s call     tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_cudnn_attention_backward_supports_small_local_head_count
+2.83s call     tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_unfused_absorbed_mla_dsa_matches_native[sparse_loss-True-2048]
+2.51s call     tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_unfused_absorbed_mla_dsa_matches_native[dense_loss-False-2048]
+2.37s call     tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_unfused_absorbed_mla_dsa_matches_native[sparse_loss-False-2048]
+=========================== short test summary info ============================
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_fused_absorbed_mla_dsa_matches_native[dense_loss-False-1024-cudnn]
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_fused_absorbed_mla_dsa_matches_native[dense_loss-False-2048-cudnn]
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_fused_absorbed_mla_dsa_matches_native[dense_loss-True-1024-cudnn]
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_fused_absorbed_mla_dsa_matches_native[dense_loss-True-2048-cudnn]
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_fused_absorbed_mla_dsa_matches_native[sparse_loss-False-1024-cudnn]
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_fused_absorbed_mla_dsa_matches_native[sparse_loss-False-2048-cudnn]
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_fused_absorbed_mla_dsa_matches_native[sparse_loss-True-1024-cudnn]
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_fused_absorbed_mla_dsa_matches_native[sparse_loss-True-2048-cudnn]
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_unfused_absorbed_mla_dsa_matches_native[dense_loss-False-1024]
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_unfused_absorbed_mla_dsa_matches_native[dense_loss-False-2048]
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_unfused_absorbed_mla_dsa_matches_native[dense_loss-False-4096]
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_unfused_absorbed_mla_dsa_matches_native[dense_loss-True-1024]
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_unfused_absorbed_mla_dsa_matches_native[dense_loss-True-2048]
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_unfused_absorbed_mla_dsa_matches_native[dense_loss-True-4096]
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_unfused_absorbed_mla_dsa_matches_native[sparse_loss-False-1024]
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_unfused_absorbed_mla_dsa_matches_native[sparse_loss-False-2048]
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_unfused_absorbed_mla_dsa_matches_native[sparse_loss-False-4096]
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_unfused_absorbed_mla_dsa_matches_native[sparse_loss-True-1024]
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_unfused_absorbed_mla_dsa_matches_native[sparse_loss-True-2048]
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_unfused_absorbed_mla_dsa_matches_native[sparse_loss-True-4096]
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_bytes_to_chunk_rows_stays_within_budget_below_alignment
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_cudnn_indexer_topk_odd_k_uses_torch_fallback_for_cp_regression_shape[False]
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_cudnn_indexer_topk_odd_k_uses_torch_fallback_for_cp_regression_shape[True]
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_cudnn_indexer_topk_odd_k_torch_fallback_respects_seq_lens
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_cudnn_indexer_topk_even_k_still_uses_cudnn
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_cudnn_indexer_topk_varlen_uses_logical_query_positions
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_cudnn_indexer_topk_score_chunks_preserve_global_query_offsets
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_cudnn_indexer_topk_tie_break_prefers_lower_indices
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_cudnn_indexer_topk_repeated_varlen_ends_keep_distinct_query_rows
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_cudnn_indexer_topk_nonlocal_varlen_ends_avoid_global_score_rows
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_cudnn_indexer_topk_local_varlen_keeps_compact_query_rows
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_cudnn_split_topk_threads_multi_packed_cp_metadata
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_cudnn_indexer_topk_single_packed_cp_real_kernel_uses_bottom_right_alignment
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_cudnn_indexer_topk_indices_only_filters_masked_varlen_scores
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_cudnn_indexer_topk_indices_only_compacts_invalid_prefix_entries
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_cudnn_indexer_topk_can_return_topk_scores
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_cudnn_indexer_topk_tie_break_does_not_bias_selected_scores
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_cudnn_indexer_topk_scores_reapply_varlen_bounds
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_cudnn_attention_topk_preparation_preserves_valid_prefix
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_cudnn_split_topk_hook_uses_indexer_topk
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_cudnn_fused_hooks_reject_non_relu_scoring[split_topk]
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_cudnn_fused_hooks_reject_non_relu_scoring[split_topk_loss]
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_cudnn_fused_hooks_reject_non_relu_scoring[full_fusion]
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_cudnn_split_topk_with_loss_returns_precomputed_indexer_grads
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_cudnn_split_topk_with_loss_declines_unsupported_flashmla_value_dim
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_flash_mla_topk_alignment_uses_sm100_block
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_dsa_fwd_flash_mla_pads_topk_to_flashmla_block
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_cudnn_indexer_topk_scores_local_varlen_keeps_compact_query_rows
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_cudnn_sparse_attn_target_uses_frontend_wrapper
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_cudnn_sparse_attn_target_pads_small_local_head_count
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_cudnn_sparse_loss_uses_selected_topk_scores
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_cudnn_sparse_loss_masks_invalid_query_rows_for_backward
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_cudnn_sparse_loss_reduces_attention_target_across_tp
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_cudnn_sparse_backward_uses_batch_major_topk_indices_for_batched_kv
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_cudnn_attention_backward_sanitizes_ignored_topk_slots[full_fusion]
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_cudnn_attention_backward_sanitizes_ignored_topk_slots[split_attention]
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_cudnn_full_fusion_skips_sparse_bwd_compaction_for_nonempty_local_varlen
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_cudnn_sparse_attention_uses_supplied_topk_length
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_cudnn_sparse_attention_declines_unsupported_flashmla_value_dim
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_cudnn_attention_backward_supports_small_local_head_count
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_cudnn_attention_backward_pads_small_local_head_count
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_cudnn_indexer_backward_head_padding_slices_to_actual_heads
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_cudnn_sparse_indexer_backward_chunks_sequence_and_preserves_scaling
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_cudnn_flash_mla_sm100_uses_smallest_supported_head_padding
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_cudnn_sparse_backward_topk_padding_aligns_to_block_size
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_cudnn_attn_target_pads_small_local_head_count
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_cudnn_dense_attn_lse_uses_full_causal_kv
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_cudnn_dense_loss_recomputes_full_kv_lse
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_cudnn_full_fusion_declines_absorbed_mla_without_up_v_weight
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_cudnn_full_fusion_declines_unsupported_flashmla_value_dim
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_cudnn_full_fusion_accepts_varlen_when_indexer_loss_disabled
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_cudnn_full_fusion_skips_varlen_dense_indexer_loss_under_no_grad
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_cudnn_full_fusion_accepts_local_varlen_for_sparse_indexer_loss
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_cudnn_full_fusion_declines_varlen_dense_indexer_loss
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_cudnn_full_fusion_strips_flagged_plain_causal_varlen
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_cudnn_full_fusion_real_kernel_packed_cp_varlen_matches_reference
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_cudnn_split_real_kernel_packed_cp_varlen_matches_reference
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::TestDSAIndexShareHelpers::test_index_share_schedule_matches_compute_layers
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::TestDSAIndexShareHelpers::test_index_share_helpers_validate_inputs
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::TestDSAIndexShareHelpers::test_index_share_pipeline_split_rejects_cross_stage_source
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::TestDSAIndexShareHelpers::test_skip_layer_does_not_build_indexer
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::TestDSAIndexShareHelpers::test_index_share_holder_uses_attention_mask_without_packed_seq_params
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::TestDSAIndexShareHelpers::test_index_share_holder_uses_packed_seq_params_when_available
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::test_dsa_kernel_backend_selects_optional_kernel_module
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::test_dsa_kernel_backend_loader_cache_and_import_errors
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::test_dsa_kernel_hooks_return_none_without_backend_function
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::test_dsa_kernel_hooks_log_declined_backend
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::test_dsa_kernel_hooks_dispatch_to_backend
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::test_dsa_kernel_dependency_validation
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::TestDSACPPositionHelpers::test_allgather_layout_positions
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::TestDSACPPositionHelpers::test_nonpacked_allgather_cp_layout_reorders_gathered_kv_to_global_order
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::TestDSACPPositionHelpers::test_nonpacked_allgather_cp_rejects_uneven_rank_lengths
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::TestDSACPPositionHelpers::test_nonpacked_allgather_cp_checks_cuda_lengths
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::TestDSACPPositionHelpers::test_position_based_causal_mask
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::TestDSACPPositionHelpers::test_position_based_causal_mask_supports_reordered_keys
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::TestDSACPPositionHelpers::test_packed_position_based_causal_mask
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::TestDSACPPositionHelpers::test_topk_uses_key_length
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::TestDSACPPositionHelpers::test_cp_packed_varlen_end_to_end_matches_dense_mask
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::TestDSACPPositionHelpers::test_cp_packed_varlen_uneven_rank_lengths_matches_dense_mask
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::TestDSACPPositionHelpers::test_packed_allgather_cp_layout_reorders_gathered_kv_to_global_order
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::TestDSACPPositionHelpers::test_cp_packed_zigzag_varlen_matches_dense_mask
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::TestDSACPPositionHelpers::test_cp_packed_zigzag_matches_full_sequence_run_with_real_shards
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::TestDSACPPositionHelpers::test_unfused_dsa_allows_delayed_backward_after_same_shape_reuse
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::TestDSACPPositionHelpers::test_unfused_dsa_all_invalid_topk_rows_keep_gradients_finite
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::TestDSACPPositionHelpers::test_fused_bounds_use_identity_varlen_without_key_positions
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::TestDSACPPositionHelpers::test_fused_bounds_decline_explicit_additive_mask
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::TestDSACPPositionHelpers::test_build_mask_flags_plain_causal_varlen_bounds
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::TestDSACPPositionHelpers::test_build_mask_additive_mask_is_not_flagged_plain_causal
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::TestDSACPPositionHelpers::test_build_mask_nonpacked_positions_not_flagged_plain_causal
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::TestDSACPPositionHelpers::test_extract_query_positions_rejects_mismatched_batch_on_cpu
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::TestDSACPPositionHelpers::test_extract_query_positions_returns_first_row
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::TestDSACPPositionHelpers::test_scatter_topk_chunked_matches_manual_with_negative_indices
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::TestDSAAbsorbedParityCPU::test_absorbed_path_matches_non_absorbed_output
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::TestDSAAbsorbedParityCPU::test_absorbed_path_requires_up_v_weight
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::TestDSAAbsorbedParityCPU::test_absorbed_path_all_invalid_topk_rows_return_zero
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::TestDSAIndexerLossHelpersCPU::test_normalize_indexer_target_preserves_zero_rows_and_in_place_contract
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::TestDSAIndexerLossHelpersCPU::test_indexer_kl_per_row_ignores_invalid_slots
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::TestDSAIndexerLossHelpersCPU::test_indexer_loss_from_target_matches_log_softmax_gradient[False]
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::TestDSAIndexerLossHelpersCPU::test_indexer_loss_from_target_matches_log_softmax_gradient[True]
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::TestDSAIndexerLossRowMaskCPU::test_masked_log_softmax_handles_fully_masked_rows
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::TestDSAIndexerLossRowMaskCPU::test_dense_indexer_loss_ignores_padded_rows
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::TestDSAIndexerLossRowMaskCPU::test_sparse_indexer_loss_ignores_padded_rows
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::TestDSAIndexerLossRowMaskCPU::test_naive_topk_masks_all_invalid_slots_with_minus_one
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::TestRotateActivation::test_rotate_activation_shape
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::TestRotateActivation::test_rotate_activation_dtype_check
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::TestComputeDSAIndexerLoss::test_dsa_indexer_loss_shape[seqlen_and_topk0]
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::TestComputeDSAIndexerLoss::test_dsa_indexer_loss_shape[seqlen_and_topk1]
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::TestComputeDSAIndexerLoss::test_dsa_indexer_loss_sparse[seqlen_and_topk0]
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::TestComputeDSAIndexerLoss::test_dsa_indexer_loss_sparse[seqlen_and_topk1]
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::TestComputeDSAIndexerLoss::test_sparse_varlen_empty_rows_are_finite[seqlen_and_topk0]
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::TestComputeDSAIndexerLoss::test_sparse_varlen_empty_rows_are_finite[seqlen_and_topk1]
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::TestDSAIndexerLossAutoScaler::test_forward_pass
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::TestDSAIndexerLossAutoScaler::test_backward_pass
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::TestDSAIndexerLossAutoScaler::test_set_loss_scale_requires_tensor
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::TestFusedDSAIndexerLossGradient::test_fused_indexer_loss_gradient_matches_autograd
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::TestDSAIndexer::test_dsa_indexer_constructor[16]
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::TestDSAIndexer::test_dsa_indexer_constructor[64]
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::TestDSAIndexer::test_dsa_indexer_rope_interleave_follows_config[False-16]
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::TestDSAIndexer::test_dsa_indexer_rope_interleave_follows_config[False-64]
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::TestDSAIndexer::test_dsa_indexer_rope_interleave_follows_config[True-16]
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::TestDSAIndexer::test_dsa_indexer_rope_interleave_follows_config[True-64]
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::TestDSAIndexer::test_dsa_indexer_rotate_activation_follows_config[False-16]
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::TestDSAIndexer::test_dsa_indexer_rotate_activation_follows_config[False-64]
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::TestDSAIndexer::test_dsa_indexer_rotate_activation_follows_config[True-16]
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::TestDSAIndexer::test_dsa_indexer_rotate_activation_follows_config[True-64]
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::TestDSAIndexer::test_dsa_indexer_forward[16]
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::TestDSAIndexer::test_dsa_indexer_forward[64]
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::TestDSAIndexer::test_dsa_indexer_forward_with_scores[16]
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::TestDSAIndexer::test_dsa_indexer_forward_with_scores[64]
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::TestDSAIndexer::test_dsa_indexer_forward_with_scores_packed_thd[16]
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::TestDSAIndexer::test_dsa_indexer_forward_with_scores_packed_thd[64]
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::TestDSAIndexer::test_dsa_indexer_with_mask[16]
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::TestDSAIndexer::test_dsa_indexer_with_mask[64]
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::TestDSAttention::test_dsa_constructor
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::TestDSAttention::test_unfused_backend_skips_full_fused_attention
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::TestDSAttention::test_inactive_indexer_loss_can_use_full_fused_attention[disabled-loss]
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::TestDSAttention::test_inactive_indexer_loss_can_use_full_fused_attention[eval]
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::TestDSAttention::test_packed_dense_indexer_loss_uses_local_varlen_on_fused_path
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::TestDSAttention::test_packed_tp_sequence_parallel_uses_full_query_rows_for_single_sequence
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::TestDSAttention::test_packed_cp_gathers_local_indexer_key_with_global_attention_kv
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::TestDSAttention::test_tp_sequence_parallel_uses_global_causal_rows[nonpacked]
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::TestDSAttention::test_tp_sequence_parallel_uses_global_causal_rows[packed]
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::TestDSAttention::test_dsa_forward
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::TestDSAttention::test_dsa_backward
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::TestDSAttention::test_dsa_topk_selection
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::TestDSAModuleSpecDispatch::test_dsa_rejects_bias_linear
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::TestDSAModuleSpecDispatch::test_dsa_cp_requires_allgather_cp_comm_type
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::TestDSAModuleSpecDispatch::test_get_dsa_module_spec_requires_mla
+PASSED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::TestDSAModuleSpecDispatch::test_get_dsa_module_spec_rejects_qk_l2_norm
+SKIPPED [8] tests/unit_tests/transformer/experimental_attention_variant/dsa_native_parity_utils.py:49: DSA TileLang kernels are unavailable: No module named 'megatron.core.transformer.experimental_attention_variant.ops'
+FAILED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_cudnn_indexer_topk_multi_packed_cp_selects_all_segment_keys[indices-odd-k]
+FAILED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_cudnn_indexer_topk_multi_packed_cp_selects_all_segment_keys[indices-even-k]
+FAILED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_cudnn_indexer_topk_multi_packed_cp_selects_all_segment_keys[scores-odd-k]
+FAILED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_cudnn_indexer_topk_multi_packed_cp_selects_all_segment_keys[scores-even-k]
+FAILED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_cudnn_indexer_topk_single_packed_cp_uses_absolute_seq_lens
+FAILED tests/unit_tests/transformer/experimental_attention_variant/test_dsa_native_parity.py::test_cudnn_indexer_topk_single_packed_cp_prefix_crops_keys_per_chunk
+FAILED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::TestFusedDSAIndexerLossGradientTP::test_fused_indexer_loss_gradient_tp_consistency
+FAILED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::TestIndexerTensorParallel::test_dsa_indexer_weight_consistency
+FAILED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::TestIndexerTensorParallel::test_dsa_indexer_forward_consistency
+FAILED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::TestIndexerTensorParallel::test_dsa_indexer_gradient_sync
+FAILED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::TestDSAttentionTensorParallel::test_dsa_weight_consistency
+FAILED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::TestDSAttentionTensorParallel::test_dsa_forward_consistency
+FAILED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::TestDSAttentionTensorParallel::test_dsa_gradient_sync
+FAILED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::TestDSAModuleSpecDispatch::test_get_experimental_attention_variant_module_spec_dsa
+FAILED tests/unit_tests/transformer/experimental_attention_variant/test_attention_variant_dsa.py::TestDSAModuleSpecDispatch::test_get_dsa_module_spec_for_backend
+15 failed, 169 passed, 8 skipped, 1 deselected, 269 warnings in 221.12s (0:03:41)
+sys:1: DeprecationWarning: builtin type swigvarlink has no __module__ attribute
