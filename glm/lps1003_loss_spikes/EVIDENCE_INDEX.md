@@ -70,6 +70,7 @@ the main session's post-rebuild-warmup mitigation and its live validation run.**
 | cp16@32k multi-doc (3×10k, real tail doc) also clean; /forward zero-fills weight-0 logprobs; ambient real-text churn floor 12–18% tokens >1 nat | `min32k/x3x10k_0801_011540/` (window + mud_solo/mud_first/b21 uniform resend), payloads + meta in `min32k/` |
 | POSITIVE CONTROL 08-01: partition-1-only fires (rep0 destroys docs 4-6, heals); cutoff chunk 17/32 + flicker band 13-16; negatives validated | `ctrl/` — README.md, payload_b0_part1_uniform.json + meta, full-position dumps `ctrl_p1_0801_013628/` |
 | Steady-state persistence 08-01: docs 4-6 visit coherent low-NLL state ~8%/rep, flat rate, 146 reps (conn unset) | `ctrl/soak_0801_015956/` — soak.jsonl (all reps), 17 exemplar full-position dumps, `ctrl/soak.py` |
+| PR #910 08-06: seven-datum 254.5k payload clean for 100/100 reps; all 25,451,000 logprobs retained; no divergence vs fixed baseline | `pr910_256k_soak_20260806/` — README, all-position comparison, drivers; 221 MB raw capture retained locally + on devbox |
 | Payload/bundle provenance | `probe_bundle.jsonl.gz` (22 labeled batches), `train_bundle_0_31.jsonl.gz` (batches 0-31), builders `build_probe_bundle.py` / `build_train_bundle.py`; batch aggregates bit-match prod ClickHouse submit lines (INVESTIGATION.md §1) |
 
 ## Negative/caveat results (do not overclaim)
