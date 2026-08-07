@@ -1,0 +1,29 @@
+{
+  "base_model": "zai-org/GLM-5.2-FP8",
+  "max_seq_len": 262144,
+  "tensor_parallel_size": 1,
+  "pipeline_parallel_size": 1,
+  "expert_parallel_size": 16,
+  "context_parallel_size": 16,
+  "expert_tensor_parallel_size": 1,
+  "trust_remote_code": true,
+  "attention_backend": "flash",
+  "lora_rank": 32,
+  "lora_alpha": 64,
+  "weight_sync": {
+    "type": "disabled"
+  },
+  "checkpoint_dir": "/tmp/checkpoints/glm52-b300-optnight",
+  "recompute": {
+    "granularity": "selective",
+    "modules": [
+      "core_attn",
+      "moe",
+      "layernorm",
+      "mla_up_proj"
+    ]
+  },
+  "comm_overlap": {
+    "overlap_moe_expert_parallel_comm": true
+  }
+}

@@ -42,6 +42,16 @@ Notes: EP8 (intra-node experts) infeasible — +91 GB/rank expert weights at bf1
 |---|---|---:|---:|---:|---:|---:|---|---|
 | exp00 | golden baseline (alltoall, full recompute) | **416.5** | 78.7 (82.1/75.2) | 5.9% | 7.9% | (poller missed — srun queued; see exp00b) | 12.3578/12.3401/12.3106 ≈ baseline ✓ | **tonight's anchor.** ~7% below q480z53's 446 — box/fabric variance; windows spread ±5% |
 
+### exp01 — flex/DeepEP dispatcher (attempts, 2026-08-07 ~10:40–11:30 PDT)
+
+- **Attempt 1** (no NVSHMEM env): crash at NVSHMEM IBGDA init — `mlx5dv_devx_obj_modify INIT2RTR_QP syndrome 1ffea3`, `ibgda_rc_init2rtr failed` on every RC; also `cudaHostRegister IoMemory error=800` + `ibgda_alloc_and_map_qp_uar` GPU-handler failures. Root cause: NVSHMEM defaulted to GID 0 (RoCEv1 link-local); fabric needs GID 3 (RoCEv2, routable — same as NCCL_IB_GID_INDEX=3). Fabric GID table confirmed via sysfs.
+- **Attempt 2** (`NVSHMEM_IB_ENABLE_IBGDA=1 NVSHMEM_IBGDA_NIC_HANDLER=cpu NVSHMEM_IB_GID_INDEX=3 NVSHMEM_HCA_LIST=mlx5_bond_0:1,mlx5_bond_1:1`): QPs connect, boot reaches first MoE forward in warmup, then **`DeepEP error: timeout (dispatch CPU)` in `internode_dispatch`** + illegal-memory-access cascade on peer ranks. Transport connects but the IBGDA data path over the LAG-bonded RoCE devices (`mlx5_bond_*`) doesn't move data.
+- **Attempt 3** (`NVSHMEM_IBGDA_NIC_HANDLER=gpu` + `NVSHMEM_DEBUG=INFO`): same dispatch timeouts (17 DeepEP errors). NVSHMEM logs `IBGDA: device used mlx5_bond_0, data_direct support: 0`.
+
+**Verdict: flex/DeepEP is infeasible on ali B300 (LAG-bonded RoCE) tonight.** QPs connect with GID 3 but IBGDA never moves data over the bond devices, both CPU and GPU NIC handlers. This is an infra/qualification gap (DeepEP+NVSHMEM IBGDA over RDMA LAG bonds), not a trainer-config problem. Follow-up ticket material: qualify DeepEP on the ali fabric or expose non-bonded physical ports to NVSHMEM.
+
+Fallback prepared: `exp03a-overlap-alltoall.json` (selective recompute + `overlap_moe_expert_parallel_comm` — the bridge validator accepts dispatcher `alltoall` too), `exp03b` adds `delay_wgrad_compute`.
+
 ### exp00 — baseline re-anchor (2026-08-07 ~01:45)
 
 Box tj-qzlr0o3 inherited the baseline session's shared-FS state: trainers_main @ 0e0b65a6 + LPS-1003 full-footprint-warmup patch, fabric-aware run_trainer_node.sh, GLM-5.2-FP8 HF cache. Trainer boot ~13 min. Loss canaries match the q480z53 baseline to ≤2e-3 → correctness anchor holds. Rank-0 reserved peak 260.2 GB (matches baseline 260.2). Mem-poller srun queued behind the trainer job (fresh srun ≠ --jobid attach) — fixed in run_bench.sh by attaching to the devbox_trainer allocation; exp00b-memprobe (warmup + 1 main window on the hot trainer) captures per-GPU peaks for the baseline config.
