@@ -21,7 +21,7 @@ A more aggressive variant (16 channels/peer + `NCCL_MAX_NCHANNELS=64`) reaches ~
 ## What was ruled out (evidence in NOTEBOOK.md)
 
 - **DeepEP (`moe_token_dispatcher: flex`)**: NVSHMEM IBGDA cannot move data over the LAG-bonded RoCE devices on ali B300 (QPs connect with GID 3, dispatch times out; both CPU and GPU NIC handlers; `data_direct support: 0`). Infra qualification gap — follow-up ticket.
-- **EP a2a↔compute overlap (`overlap_moe_expert_parallel_comm`)**: mcore forbids it under full recompute AND under `"moe"`-recomputing selective lists; not recomputing MoE requires ~300 GB/rank of expanded-token activations vs ≤12 GiB headroom. Structurally impossible at 256k EP16/CP16 on 275 GB parts.
+- **EP a2a↔compute overlap (`overlap_moe_expert_parallel_comm`)**: killed twice over. (a) mcore forbids it under full recompute AND under `"moe"`-recomputing selective lists; not recomputing MoE requires ~300 GB/rank of expanded-token activations vs ≤12 GiB headroom — structurally impossible at 256k EP16/CP16 on 275 GB parts. (b) Independently (overnight code read): the combined-1F1B overlap schedule only pipelines bwd(mb i) with fwd(mb i+1), and the controller's THD-CP loop invokes the schedule per-partition with `num_microbatches=1`, so the flag degenerates to no overlap here even if memory allowed; a real version needs a controller patch grouping equal-length THD partitions into one schedule call, and can at best hide min(comm, compute).
 - **Lighter recompute lists**: same arithmetic (even layernorm-only-saved = ~31 GB > headroom). Full recompute stands.
 - **EP8 (intra-node experts)**: +91 GB/rank expert weights at bf16 — doesn't fit.
 - `NCCL_IB_SPLIT_DATA_ON_QPS` 0 vs 1: immaterial.
@@ -38,6 +38,12 @@ A more aggressive variant (16 channels/peer + `NCCL_MAX_NCHANNELS=64`) reaches ~
 2. Eliminate MoE dispatcher host syncs (26.7k `nonzero`/step) in megatron-core.
 3. Upstream the two small patches: TF32 frozen LM head (env-gated) in `chunked_lm_head.py`; clear `moe_shared_expert_overlap` when `overlap_moe_expert_parallel_comm` is set (validator trap).
 4. Default the NCCL QP/channel env for ali-B300 multinode trainer pods (prod launch env, not just devbox).
+
+## Ops notes
+
+- My two `devbox-up 2 b300` attempts failed at deploy: B300 pool capacity exhaustion + a CPFS fileset over byte quota (ENOSPC on the bootstrap's dd write validation) — root-caused overnight; the night ran on the user-provided tj-qzlr0o3.
+- The project-shared `.devbox_up/` lifecycle scripts were clobbered twice by concurrent 1-node/4-node provisions (other sessions); pinned private copies under `lps1062/ctl/` with a `BT_LPS1062_LAUNCH=1` launch guard + caller-audit log after an unattributed trainer start.
+- TF32 head patch has a standalone parity test: `test_tf32_head_parity.py` (this folder), patch archived as `patches/tf32-lm-head.patch`; the exact diff applied on the box is `box-patches-0e0b65a6.patch`.
 
 ## Reproduction
 
