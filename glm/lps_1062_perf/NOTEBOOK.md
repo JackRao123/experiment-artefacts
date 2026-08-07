@@ -50,6 +50,8 @@ Notes: EP8 (intra-node experts) infeasible — +91 GB/rank expert weights at bf1
 | exp05b | + QPS=8, `NCCL_NCHANNELS_PER_NET_PEER=4` | **559** | 58.6 (63.3/53.9) | 7.9% | 10.6% | 263,297/224,237 | drift ≤1.4e-3 (mains) ✓ | **+34% vs anchor** — fabric lever is rich; probing ceiling |
 | exp05c | + `NCCL_NCHANNELS_PER_NET_PEER=8` | **583** | 56.2 (61.5/50.8) | 8.3% | 11.1% | 262,553/224,513 | drift ≤8e-4 ✓ | **+40% vs anchor**; channel scaling flattening (+4% for 4→8) |
 | exp05d | + chan=16, `NCCL_MAX_NCHANNELS=64` `NCCL_MIN_NCHANNELS=32` | **597** | 54.9 (61.6/48.3) | 8.5% | 11.4% | **266,123**/226,423 | drift ≤3.1e-3 (w0), ≤1.4e-3 mains ✓ | **+43%**, but +3.5 GiB peak (NCCL buffers) → 8.9 GiB headroom; escalation stopped, kineto capture on this config |
+| exp05e | exp05d but `NCCL_IB_SPLIT_DATA_ON_QPS=0` | 603 | 54.4 (59.3/49.4) | 8.6% | 11.5% | 266,883/226,683 | drift ≤2e-3 ✓ | tied with exp05d — split knob immaterial at these sizes |
+| **exp06** | **SHIP: exp05c env, 3-window soak** | **629** (57.0/49.6/49.6 → steady ~660) | **52.1** | **8.9%** | 11.9% | 263,813/224,333 | drift ≤2e-3 ✓ | **+51% vs anchor (+58% steady-state)**; headroom-first pick: 16-chan buys ~2.5% but costs ~3.5 GiB of OOM margin |
 
 ### exp01 — flex/DeepEP dispatcher (attempts, 2026-08-07 ~10:40–11:30 PDT)
 

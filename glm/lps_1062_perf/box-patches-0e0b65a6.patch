@@ -1,0 +1,196 @@
+diff --git a/server/src/trainers_server/dp_worker/api/chunked_lm_head.py b/server/src/trainers_server/dp_worker/api/chunked_lm_head.py
+index 47fa2032..d6a051a5 100644
+--- a/server/src/trainers_server/dp_worker/api/chunked_lm_head.py
++++ b/server/src/trainers_server/dp_worker/api/chunked_lm_head.py
+@@ -5,6 +5,8 @@ from __future__ import annotations
+ 
+ from typing import Any, Callable, Optional
+ 
++import os
++
+ import torch
+ from megatron.core import mpu
+ from megatron.core.extensions.transformer_engine import te_parallel_cross_entropy
+@@ -26,6 +28,51 @@ ChunkLossFn = Callable[[torch.Tensor, int, int, torch.Tensor, bool], torch.Tenso
+ _GLM52_ATTENTION_VARIANT = "dsa"
+ 
+ 
++class _TF32FrozenLinear(torch.autograd.Function):
++    """fp32 projection through a frozen weight on TF32 tensor cores.
++
++    The fp32 head's inputs are exact bf16 upcasts (8-bit mantissa), which
++    TF32's 10-bit mantissa represents exactly, and cuBLAS TF32 kernels
++    accumulate in fp32 - every product is exact and only the summation order
++    can differ from the fp32 SIMT kernel. Moves the vocab-sized GEMM from
++    CUDA cores to tensor cores. The weight is frozen (LoRA base): backward
++    returns no weight grad and runs only the dgrad GEMM, also under TF32.
++    """
++
++    @staticmethod
++    def forward(ctx, hidden, weight):
++        ctx.save_for_backward(weight)
++        prev = torch.backends.cuda.matmul.allow_tf32
++        torch.backends.cuda.matmul.allow_tf32 = True
++        try:
++            return torch.nn.functional.linear(hidden, weight)
++        finally:
++            torch.backends.cuda.matmul.allow_tf32 = prev
++
++    @staticmethod
++    def backward(ctx, grad_out):
++        (weight,) = ctx.saved_tensors
++        prev = torch.backends.cuda.matmul.allow_tf32
++        torch.backends.cuda.matmul.allow_tf32 = True
++        try:
++            return grad_out @ weight, None
++        finally:
++            torch.backends.cuda.matmul.allow_tf32 = prev
++
++
++_tf32_logged = False
++
++
++def _tf32_head_enabled() -> bool:
++    enabled = os.environ.get("BT_TF32_LM_HEAD", "0") == "1"
++    global _tf32_logged
++    if enabled and not _tf32_logged:
++        print("TF32 LM-head fast path ACTIVE", flush=True)
++        _tf32_logged = True
++    return enabled
++
++
++
+ def fp32_output_head_enabled(language_model: Any) -> bool:
+     """Whether to project the output head in fp32 — true for GLM-5.2 (fused DSA).
+ 
+@@ -73,6 +120,15 @@ def _project_logits(
+             if output_weight is not None
+             else getattr(output_layer, "weight", None)
+         )
++        if (
++            _tf32_head_enabled()
++            and mpu.get_tensor_model_parallel_world_size() == 1
++            and getattr(output_layer, "bias", None) is None
++            and base_weight is not None
++            and not base_weight.requires_grad
++        ):
++            # TF32 fast path: same fp32 math on tensor cores (_TF32FrozenLinear).
++            return _TF32FrozenLinear.apply(hidden.float(), base_weight.float())
+         logits, _ = output_layer(
+             hidden.float(),
+             weight=base_weight.float() if base_weight is not None else None,
+@@ -82,16 +138,25 @@ def _project_logits(
+ 
+     base_weight = output_weight if output_weight is not None else to_wrap.weight
+     adapter_enabled = bool(output_layer._adapter_enabled)
+-    output_layer.disable_adapter_layers()
+-    try:
+-        base_logits, _ = output_layer(
+-            hidden.float(),
+-            weight=base_weight.float(),
+-            runtime_gather_output=False,
+-        )
+-    finally:
+-        if adapter_enabled:
+-            output_layer.enable_adapter_layers()
++    if (
++        _tf32_head_enabled()
++        and mpu.get_tensor_model_parallel_world_size() == 1
++        and getattr(to_wrap, "bias", None) is None
++        and not base_weight.requires_grad
++    ):
++        # TF32 fast path: same fp32 math on tensor cores (_TF32FrozenLinear).
++        base_logits = _TF32FrozenLinear.apply(hidden.float(), base_weight.float())
++    else:
++        output_layer.disable_adapter_layers()
++        try:
++            base_logits, _ = output_layer(
++                hidden.float(),
++                weight=base_weight.float(),
++                runtime_gather_output=False,
++            )
++        finally:
++            if adapter_enabled:
++                output_layer.enable_adapter_layers()
+     if adapter_enabled:
+         # Same bf16 adapter call the fused forward makes, promoted for the add.
+         delta = output_layer.adapter_forward(
+diff --git a/server/src/trainers_server/dp_worker/api/megatron_controller.py b/server/src/trainers_server/dp_worker/api/megatron_controller.py
+index 711147c6..1d5aea5b 100644
+--- a/server/src/trainers_server/dp_worker/api/megatron_controller.py
++++ b/server/src/trainers_server/dp_worker/api/megatron_controller.py
+@@ -349,6 +349,13 @@ def _configure_moe_provider(provider, config: TrainerControllerConfig) -> None:
+                 provider.moe_flex_dispatcher_backend = "deepep"
+             if hasattr(provider, "moe_shared_expert_overlap"):
+                 provider.moe_shared_expert_overlap = False
++    # mcore rejects overlap_moe_expert_parallel_comm while the provider still
++    # has moe_shared_expert_overlap on (GLM-5.2 default). The flex branch above
++    # already clears it; clear it for the alltoall+overlap combination too.
++    if config.comm_overlap.overlap_moe_expert_parallel_comm and hasattr(
++        provider, "moe_shared_expert_overlap"
++    ):
++        provider.moe_shared_expert_overlap = False
+     if hasattr(provider, "moe_grouped_gemm"):
+         provider.moe_grouped_gemm = True
+     if hasattr(provider, "moe_permute_fusion"):
+@@ -1949,6 +1956,13 @@ class MegatronBridgeController:
+         self._init_training_stack(
+             initialize_runtime=not self._megatron_runtime_initialized
+         )
++        # A rebuild reallocates the training stack, which (unlike startup) used
++        # to hand the very next customer op freshly allocated buffers. On fresh
++        # deployments those first post-rebuild ops have produced corrupted
++        # forwards for partition-tail documents (LPS-1003). Run the same warmup
++        # startup gets — including the full-footprint THD pass — so the window
++        # is burned on synthetic data before the server serves real ops.
++        self.run_startup_warmup()
+ 
+         logger.debug(
+             "init_trainer_server: reset complete in %.2fs (lora_rank=%d)",
+@@ -2397,6 +2411,46 @@ class MegatronBridgeController:
+             self.execute_forward_backward(
+                 ForwardBackwardDetails(data=[datum]), forward_only=False
+             )
++            # Second pass at real-op footprint (THD path only). The minimal datum
++            # above packs into a tiny THD partition, so it never touches the
++            # buffer range a production-sized partition occupies. Ops executed in
++            # the first steps after a (re)build have produced corrupted forwards
++            # for the documents at the tail of full-sized partitions on fresh
++            # deployments (LPS-1003: post-boot/rebuild windows, corruption
++            # anchored to partition tails, healing once real-shaped work has run).
++            # Filling a max_seq_len-sized partition with synthetic documents
++            # burns that window here instead of on customer data.
++            if (
++                self.config.context_parallel_size > 1
++                and not os.environ.get("BT_SKIP_FULL_WARMUP")
++            ):
++                full_total = int(
++                    os.environ.get("BT_WARMUP_FULL_TOKENS", self.config.max_seq_len)
++                )
++                doc_len = min(32768, full_total)
++                docs = []
++                remaining = full_total
++                while remaining >= 2048:
++                    n = min(doc_len, remaining)
++                    toks = [(i % 128) + 1 for i in range(n)]
++                    docs.append(
++                        Datum(
++                            model_input=ModelInput.from_ints(toks),
++                            loss_fn_inputs={
++                                "target_tokens": TensorData(
++                                    data=toks[1:] + [-100], dtype="int64", shape=[n]
++                                )
++                            },
++                        )
++                    )
++                    remaining -= n
++                banner(
++                    f"warmup pass 2 — full-footprint THD partition "
++                    f"({len(docs)} synthetic docs, ~{full_total} tokens)..."
++                )
++                self.execute_forward_backward(
++                    ForwardBackwardDetails(data=docs), forward_only=False
++                )
+         except Exception as exc:
+             banner(
+                 f"FAILED after {time.perf_counter() - t0:.1f}s — {type(exc).__name__}: {exc}"
