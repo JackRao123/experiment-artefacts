@@ -29,11 +29,11 @@ Notes: EP8 (intra-node experts) infeasible — +91 GB/rank expert weights at bf1
 
 ## Experiment queue (revise as results come in)
 
-1. `exp00-baseline` — golden config rerun on fresh box + current main (commit moved 0e0b65a6 → 5191b710): re-anchor.
-2. `exp01-flex` — dispatcher flex, all else baseline.
-3. `exp02-selective` — recompute selective `["core_attn","moe","layernorm","mla_up_proj"]` (memory probe; a2a still replayed via "moe").
-4. `exp03-overlap` — flex + selective + `overlap_moe_expert_parallel_comm` (+ delay_wgrad if needed).
-5. `exp04+` — CE path fix, recompute-list tuning (drop `core_attn` if TE fused attn makes it unnecessary — mcore warns it may be), NCCL tunables, env experiments. Data-driven.
+1. `exp00-baseline` — golden config rerun on fresh box + current main (commit moved 0e0b65a6 → 234d0784): re-anchor.
+2. `exp01-flex` — dispatcher flex, all else baseline. **The critical experiment**: at ~47 GB/s effective the a2a is at/near RoCE line rate, so the win must come from moving fewer cross-node bytes (DeepEP NVL-forwarding sends once per node then fans out over NVLink) + killing the host-sync serialization.
+3. `exp02-selective` — recompute selective `["core_attn","moe","layernorm","mla_up_proj"]` (memory probe; a2a still replayed via "moe"). Saving dispatcher outputs instead (`moe_act`-style) is a dead end: ~1.6 GB/layer/rank of dispatched tokens = ~120 GB — doesn't fit.
+4. `exp03-overlap` — flex + selective + `overlap_moe_expert_parallel_comm`. **Caveat found in code (02:00):** the combined-1F1B schedule only overlaps bwd(mb i) with fwd(mb i+1), and controller.py's THD-CP loop calls the schedule per-partition with `num_microbatches=1` → flag degenerates to no overlap. Real version needs a controller patch grouping equal-length THD partitions into one schedule call (`exp03b`, our synthetic datums are all exactly 256k so grouping is trivial there); also overlap can at best hide min(comm, compute) ≈ 15 s of the 45 s a2a — byte reduction (flex) matters more.
+5. `exp04+` — TF32 head patch (built, `patches/tf32-lm-head.patch` + parity test), recompute-list tuning (drop `core_attn` if TE fused attn makes it unnecessary — mcore warns it may be), NCCL tunables. Data-driven.
 
 ## Iterations
 
