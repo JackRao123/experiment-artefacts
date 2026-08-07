@@ -1,0 +1,149 @@
+From 52f2c4c05d2c7baed9e0e8765c21c7db7dc5cbb9 Mon Sep 17 00:00:00 2001
+From: Jack Rao <jack.rao@baseten.co>
+Date: Fri, 7 Aug 2026 01:32:48 -0700
+Subject: [PATCH] perf(server): run the GLM fp32 LM-head GEMM on tensor cores
+ via scoped TF32 (LPS-1062)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Both operands of the fp32 base head projection are exact bf16 upcasts, so
+TF32 multiplies them exactly and accumulates in fp32 — numerically equivalent
+to the FP32 SIMT kernel modulo summation order, but on tensor cores instead
+of CUDA cores (~115 ms -> ~few ms per 4096-token chunk on B300). Scoped to a
+custom autograd.Function (fwd + dgrad; base weight frozen under LoRA), gated
+on TP1/no-bias/frozen-weight/CUDA, kill-switch BT_TF32_FP32_HEAD=0.
+
+Co-Authored-By: Claude Fable 5 <noreply@anthropic.com>
+---
+ .../megatron_bridge/chunked_lm_head.py        | 93 ++++++++++++++++---
+ 1 file changed, 81 insertions(+), 12 deletions(-)
+
+diff --git a/server/src/trainers_server/dp_worker/backends/megatron_bridge/chunked_lm_head.py b/server/src/trainers_server/dp_worker/backends/megatron_bridge/chunked_lm_head.py
+index d2f92c38..02e74d8f 100644
+--- a/server/src/trainers_server/dp_worker/backends/megatron_bridge/chunked_lm_head.py
++++ b/server/src/trainers_server/dp_worker/backends/megatron_bridge/chunked_lm_head.py
+@@ -3,6 +3,7 @@
+ 
+ from __future__ import annotations
+ 
++import os
+ from typing import Any, Callable, Optional
+ 
+ import torch
+@@ -38,6 +39,64 @@ def fp32_output_head_enabled(language_model: Any) -> bool:
+     )
+ 
+ 
++class _TF32BaseProjection(torch.autograd.Function):
++    """FP32 base LM-head projection on tensor cores via TF32.
++
++    The fp32 head exists so base logits are not rounded to bf16 before
++    ``te_parallel_cross_entropy`` upcasts them (see ``_project_logits``). Both
++    GEMM operands here are exact bf16 upcasts (8-bit mantissas), so TF32
++    (10-bit-mantissa multiplies, fp32 accumulation) computes bit-identical
++    products; only the accumulation order can differ from the FP32 SIMT
++    kernel, the same variation any cuBLAS algorithm change carries. This moves
++    the vocab-shaped GEMM (~115 ms/4096-token chunk on B300 in FP32 SIMT) onto
++    tensor cores.
++
++    Only reached for a frozen base weight (eligibility checked by
++    ``_tf32_head_eligible``), so backward returns dgrad only.
++    """
++
++    @staticmethod
++    def forward(ctx, hidden: torch.Tensor, weight: torch.Tensor) -> torch.Tensor:
++        ctx.save_for_backward(weight)
++        prev = torch.backends.cuda.matmul.allow_tf32
++        torch.backends.cuda.matmul.allow_tf32 = True
++        try:
++            return torch.nn.functional.linear(hidden, weight)
++        finally:
++            torch.backends.cuda.matmul.allow_tf32 = prev
++
++    @staticmethod
++    def backward(ctx, grad_output: torch.Tensor):
++        (weight,) = ctx.saved_tensors
++        prev = torch.backends.cuda.matmul.allow_tf32
++        torch.backends.cuda.matmul.allow_tf32 = True
++        try:
++            return grad_output.matmul(weight), None
++        finally:
++            torch.backends.cuda.matmul.allow_tf32 = prev
++
++
++def _tf32_head_eligible(module: Any, weight: torch.Tensor | None) -> bool:
++    """Whether the fp32 base projection can run as a bare TF32 linear.
++
++    Requires the projection to be exactly ``x @ W.t()``: TP1 (no vocab-parallel
++    gather semantics), no bias on the layer, an explicit frozen weight, and a
++    CUDA input path. ``BT_TF32_FP32_HEAD=0`` force-disables for A/B testing.
++    """
++    if os.environ.get("BT_TF32_FP32_HEAD", "1") == "0":
++        return False
++    if weight is None or weight.requires_grad:
++        return False
++    if mpu.get_tensor_model_parallel_world_size() != 1:
++        return False
++    if not weight.is_cuda:
++        return False
++    for m in (module, getattr(module, "to_wrap", None)):
++        if m is not None and getattr(m, "bias", None) is not None:
++            return False
++    return True
++
++
+ def _project_logits(
+     output_layer: Any,
+     hidden: torch.Tensor,
+@@ -73,25 +132,35 @@ def _project_logits(
+             if output_weight is not None
+             else getattr(output_layer, "weight", None)
+         )
++        weight_fp32 = base_weight.float() if base_weight is not None else None
++        if weight_fp32 is not None and _tf32_head_eligible(output_layer, weight_fp32):
++            return _TF32BaseProjection.apply(hidden.float(), weight_fp32)
+         logits, _ = output_layer(
+             hidden.float(),
+-            weight=base_weight.float() if base_weight is not None else None,
++            weight=weight_fp32,
+             runtime_gather_output=False,
+         )
+         return logits
+ 
+     base_weight = output_weight if output_weight is not None else to_wrap.weight
+-    adapter_enabled = bool(output_layer._adapter_enabled)
+-    output_layer.disable_adapter_layers()
+-    try:
+-        base_logits, _ = output_layer(
+-            hidden.float(),
+-            weight=base_weight.float(),
+-            runtime_gather_output=False,
+-        )
+-    finally:
+-        if adapter_enabled:
+-            output_layer.enable_adapter_layers()
++    weight_fp32 = base_weight.float()
++    if _tf32_head_eligible(output_layer, weight_fp32):
++        # Bare TF32 linear over the frozen base weight; no need to toggle
++        # adapters since the module forward is bypassed entirely.
++        base_logits = _TF32BaseProjection.apply(hidden.float(), weight_fp32)
++        adapter_enabled = bool(output_layer._adapter_enabled)
++    else:
++        adapter_enabled = bool(output_layer._adapter_enabled)
++        output_layer.disable_adapter_layers()
++        try:
++            base_logits, _ = output_layer(
++                hidden.float(),
++                weight=weight_fp32,
++                runtime_gather_output=False,
++            )
++        finally:
++            if adapter_enabled:
++                output_layer.enable_adapter_layers()
+     if adapter_enabled:
+         # Same bf16 adapter call the fused forward makes, promoted for the add.
+         delta = output_layer.adapter_forward(
+-- 
+2.50.1 (Apple Git-155)
+
