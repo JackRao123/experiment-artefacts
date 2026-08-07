@@ -46,6 +46,7 @@ Notes: EP8 (intra-node experts) infeasible — +91 GB/rank expert weights at bf1
 | exp03 | EP a2a overlap (+selective recompute) | — | — | — | — | — | — | **infeasible: validator × memory** (see below) |
 | exp04 | TF32 CE head (v1 patch) | 417 | 78.7 | 5.9% | 7.9% | 263,609/223,649 | drift ≤5e-4 ✓ | no-op — head isn't LoRA-wrapped (attn-only LoRA), unpatched branch ran |
 | exp04b | TF32 CE head (v2, verified active) | **431** | 76.0 (80.1/71.9) | 6.1% | 8.2% | 263,989/223,729 | drift ≤1.4e-3 ✓ | **+3.5% vs anchor**, both windows faster; keep on |
+| exp05a | + `NCCL_IB_QPS_PER_CONNECTION=4` `NCCL_IB_SPLIT_DATA_ON_QPS=1` | **464** | 70.6 (72.8/68.3) | 6.6% | 8.8% | 262,849/223,549 | drift ≤1.5e-3 ✓ | **+11.4% vs anchor.** LAG bonds hash flows per-QP — multiple QPs spread each peer connection across bond slaves. GDR confirmed enabled; 6×400 Gb bonds/node; NCCL 2.28.9 |
 
 ### exp01 — flex/DeepEP dispatcher (attempts, 2026-08-07 ~10:40–11:30 PDT)
 
