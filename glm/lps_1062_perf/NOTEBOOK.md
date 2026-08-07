@@ -52,6 +52,14 @@ Notes: EP8 (intra-node experts) infeasible — +91 GB/rank expert weights at bf1
 
 Fallback prepared: `exp03a-overlap-alltoall.json` (selective recompute + `overlap_moe_expert_parallel_comm` — the bridge validator accepts dispatcher `alltoall` too), `exp03b` adds `delay_wgrad_compute`.
 
+### exp03 — EP a2a overlap: structurally infeasible at 256k (2026-08-07 ~11:45)
+
+Two boots, two mcore validator walls, then arithmetic kills it:
+1. `disable moe_shared_expert_overlap when enabling overlap_moe_expert_parallel_comm` — GLM provider defaults it on; only the flex branch cleared it. **Patched** on-box (megatron_controller.py `_configure_moe_provider`: clear it under the overlap flag too) — keep for PR regardless.
+2. `disable moe in recompute_modules when enabling overlap_moe_expert_parallel_comm` — the overlap schedule can't run under a checkpointed MoE replay. But *not* recomputing MoE means saving the expanded-token activations: ~262k×topk8/EP16 rows × 6144 h × 2 B ≈ 1.6 GB dispatch output + ~2.7 GB expert GEMM in/out per layer per rank ⇒ ~4-6 GB × 75 layers ≈ **300+ GB/rank** vs a 12 GiB worst-GPU headroom. Same arithmetic kills every selective-recompute variant that leaves MoE (or even just layernorms, ~31 GB) resident.
+
+**Verdict: EP-overlap and all lighter-recompute configs are memory-infeasible at 256k on 275 GB parts with EP16/CP16. Full recompute stands.** Re-ranked queue: TF32 CE head (exp04), NCCL alltoall transport tuning (exp05).
+
 ### exp00 — baseline re-anchor (2026-08-07 ~01:45)
 
 Box tj-qzlr0o3 inherited the baseline session's shared-FS state: trainers_main @ 0e0b65a6 + LPS-1003 full-footprint-warmup patch, fabric-aware run_trainer_node.sh, GLM-5.2-FP8 HF cache. Trainer boot ~13 min. Loss canaries match the q480z53 baseline to ≤2e-3 → correctness anchor holds. Rank-0 reserved peak 260.2 GB (matches baseline 260.2). Mem-poller srun queued behind the trainer job (fresh srun ≠ --jobid attach) — fixed in run_bench.sh by attaching to the devbox_trainer allocation; exp00b-memprobe (warmup + 1 main window on the hot trainer) captures per-GPU peaks for the baseline config.
