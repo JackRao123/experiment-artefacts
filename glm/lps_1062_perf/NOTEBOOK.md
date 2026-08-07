@@ -1,0 +1,40 @@
+# LPS-1062 optimization night — notebook
+
+**Date:** 2026-08-07 (overnight session) · **Goal:** maximize GLM-5.2 256k training throughput on 2×8 B300 without OOM or correctness regressions.
+
+Baseline (2026-08-06, devbox q480z53, trainers_main @ 0e0b65a6, golden config TP1/PP1/EP16/CP16, full recompute, alltoall dispatcher):
+**446 tok/s/GPU · 73.5 s / 524k-token step · MFU(4×fwd, w/ indexer, 2.5PF) 8.4%.**
+Bottlenecks (from `~/perf_profiles/lps-1062/glm52-b300-s256k/REPORT.md`):
+NCCL 65% of step (EP a2a SendRecv 59%), 26.7k `aten::nonzero` GPU syncs/step, 8 FP32 SIMT vocab GEMMs (1.85 s), allocator reserved 260/275 GB.
+
+## Measurement protocol (apples-to-apples)
+
+- `bench_driver.py` (this folder): synthetic random tokens seed `0xB300`, **identical rng consumption order to the baseline profile run**: 1×262k-token warmup window, then 2 main windows of 2×262k datums (524,288 tokens/step). Metrics = mean of the 2 main windows.
+- Report per iteration: **tok/s/GPU, step time (s), MFU** (two conventions: `mfu3x` = model FLOPs 3×fwd — rewards removing recompute; `hfu` = hardware passes actually run), plus loss/grad_norm per window as the **correctness canary** — must stay ≈ baseline (12.356/0.940 warmup, 12.339/0.941, 12.310/0.693) modulo small reduction-order drift. Fwd FLOPs/token = 118.3 GF (84.3 matmul + 10.5 DSA + 23.6 indexer), see `mfu_calc.py`.
+- No kineto/memory profiler in timed runs (profilers only for diagnosis, marked as such).
+- Oversized artifacts (traces, pickles) → `~/perf_profiles/lps-1062/opt-night/`; everything else here.
+
+## Lever map (from code reading, trainers @ 5191b710)
+
+| Lever | Config | Attacks | Risk |
+|---|---|---|---|
+| DeepEP fused dispatch | `moe_token_dispatcher: "flex"` (wheel vendored, cu13) | a2a 59% + nonzero syncs | RoCE/NVSHMEM bring-up; fallback envs: `NVSHMEM_IB_ENABLE_IBGDA=1`, GID 3, `NVSHMEM_HCA_LIST` |
+| EP a2a↔compute overlap | `comm_overlap.overlap_moe_expert_parallel_comm: true` (+ optional `delay_wgrad_compute`) | hide a2a latency | **requires `recompute_granularity != "full"`** (bridge validator, comm_overlap.py:493); THD-CP loop forbids only `overlap_grad_reduce` |
+| Selective recompute w/ module list | `recompute: {granularity: "selective", modules: [...]}`; allowed: core_attn, moe_act, layernorm, mla_up_proj, mlp, moe, shared_experts | recompute pass replays fwd a2a under "full"; module list can approximate full-recompute memory | OOM at 256k if saved set too big |
+| CE/vocab FP32 GEMMs | code path TBD (8×115 ms, grid [1210,32], bias_relu epilogue) | 2.4% of step | needs patch; loss parity check |
+| CUDA_DEVICE_MAX_CONNECTIONS | launch env (=1 today) | serialized launch queue kills overlap | was the *mask* for LPS-1003 DSA stream race (fixed in PR#875 wheel +dsatopk5); only touch with loss parity validation |
+| moe_expert_capacity pad | fixed-shape routing | nonzero syncs | pads inflate a2a volume — likely net loss; only if syncs persist after flex |
+
+Notes: EP8 (intra-node experts) infeasible — +91 GB/rank expert weights at bf16. `moe_permute_fusion` already on, `moe_grouped_gemm` on, aux-loss off, `moe_router_fusion` hardcoded off.
+
+## Experiment queue (revise as results come in)
+
+1. `exp00-baseline` — golden config rerun on fresh box + current main (commit moved 0e0b65a6 → 5191b710): re-anchor.
+2. `exp01-flex` — dispatcher flex, all else baseline.
+3. `exp02-selective` — recompute selective `["core_attn","moe","layernorm","mla_up_proj"]` (memory probe; a2a still replayed via "moe").
+4. `exp03-overlap` — flex + selective + `overlap_moe_expert_parallel_comm` (+ delay_wgrad if needed).
+5. `exp04+` — CE path fix, recompute-list tuning (drop `core_attn` if TE fused attn makes it unnecessary — mcore warns it may be), NCCL tunables, env experiments. Data-driven.
+
+## Iterations
+
+(filled in as the night progresses)
