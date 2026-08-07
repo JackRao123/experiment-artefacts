@@ -41,6 +41,11 @@ Notes: EP8 (intra-node experts) infeasible — +91 GB/rank expert weights at bf1
 | # | config | tok/s/GPU | step (s) | mfu3x | hfu | max GPU mem (MiB) | loss canary | notes |
 |---|---|---:|---:|---:|---:|---:|---|---|
 | exp00 | golden baseline (alltoall, full recompute) | **416.5** | 78.7 (82.1/75.2) | 5.9% | 7.9% | (poller missed — srun queued; see exp00b) | 12.3578/12.3401/12.3106 ≈ baseline ✓ | **tonight's anchor.** ~7% below q480z53's 446 — box/fabric variance; windows spread ±5% |
+| exp00b | same, hot trainer, 1 window (mem probe) | 445 | 73.6 | 6.3% | 8.4% | **263,009 / 223,889** (max/min) | informational (3 optim steps applied) | worst-GPU headroom only ~12 GiB |
+| exp01 | flex/DeepEP | — | — | — | — | — | — | **infeasible on fabric** (see below) |
+| exp03 | EP a2a overlap (+selective recompute) | — | — | — | — | — | — | **infeasible: validator × memory** (see below) |
+| exp04 | TF32 CE head (v1 patch) | 417 | 78.7 | 5.9% | 7.9% | 263,609/223,649 | drift ≤5e-4 ✓ | no-op — head isn't LoRA-wrapped (attn-only LoRA), unpatched branch ran |
+| exp04b | TF32 CE head (v2, verified active) | **431** | 76.0 (80.1/71.9) | 6.1% | 8.2% | 263,989/223,729 | drift ≤1.4e-3 ✓ | **+3.5% vs anchor**, both windows faster; keep on |
 
 ### exp01 — flex/DeepEP dispatcher (attempts, 2026-08-07 ~10:40–11:30 PDT)
 
