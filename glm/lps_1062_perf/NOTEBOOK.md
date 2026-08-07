@@ -49,6 +49,7 @@ Notes: EP8 (intra-node experts) infeasible — +91 GB/rank expert weights at bf1
 | exp05a | + `NCCL_IB_QPS_PER_CONNECTION=4` `NCCL_IB_SPLIT_DATA_ON_QPS=1` | **464** | 70.6 (72.8/68.3) | 6.6% | 8.8% | 262,849/223,549 | drift ≤1.5e-3 ✓ | **+11.4% vs anchor.** LAG bonds hash flows per-QP — multiple QPs spread each peer connection across bond slaves. GDR confirmed enabled; 6×400 Gb bonds/node; NCCL 2.28.9 |
 | exp05b | + QPS=8, `NCCL_NCHANNELS_PER_NET_PEER=4` | **559** | 58.6 (63.3/53.9) | 7.9% | 10.6% | 263,297/224,237 | drift ≤1.4e-3 (mains) ✓ | **+34% vs anchor** — fabric lever is rich; probing ceiling |
 | exp05c | + `NCCL_NCHANNELS_PER_NET_PEER=8` | **583** | 56.2 (61.5/50.8) | 8.3% | 11.1% | 262,553/224,513 | drift ≤8e-4 ✓ | **+40% vs anchor**; channel scaling flattening (+4% for 4→8) |
+| exp05d | + chan=16, `NCCL_MAX_NCHANNELS=64` `NCCL_MIN_NCHANNELS=32` | **597** | 54.9 (61.6/48.3) | 8.5% | 11.4% | **266,123**/226,423 | drift ≤3.1e-3 (w0), ≤1.4e-3 mains ✓ | **+43%**, but +3.5 GiB peak (NCCL buffers) → 8.9 GiB headroom; escalation stopped, kineto capture on this config |
 
 ### exp01 — flex/DeepEP dispatcher (attempts, 2026-08-07 ~10:40–11:30 PDT)
 
@@ -67,6 +68,14 @@ Two boots, two mcore validator walls, then arithmetic kills it:
 2. `disable moe in recompute_modules when enabling overlap_moe_expert_parallel_comm` — the overlap schedule can't run under a checkpointed MoE replay. But *not* recomputing MoE means saving the expanded-token activations: ~262k×topk8/EP16 rows × 6144 h × 2 B ≈ 1.6 GB dispatch output + ~2.7 GB expert GEMM in/out per layer per rank ⇒ ~4-6 GB × 75 layers ≈ **300+ GB/rank** vs a 12 GiB worst-GPU headroom. Same arithmetic kills every selective-recompute variant that leaves MoE (or even just layernorms, ~31 GB) resident.
 
 **Verdict: EP-overlap and all lighter-recompute configs are memory-infeasible at 256k on 275 GB parts with EP16/CP16. Full recompute stands.** Re-ranked queue: TF32 CE head (exp04), NCCL alltoall transport tuning (exp05).
+
+### Diagnostic kineto trace of exp05d config (2026-08-07 ~21:10Z)
+
+One profiled 524k-token step (48.8 s wall), rank 0; trace at `~/perf_profiles/lps-1062/opt-night/exp05d.pt.trace.json` (1.05 GB). vs baseline trace:
+- **SendRecv 24.5 s (50% of wall, was 44.9 s/59%)**; per-call p50 17.8 ms (was 34 ms), p90 32.6 ms — QP/channel spreading ~halved a2a time. AllGather 0.93 s, ReduceScatter 0.61 s, AllReduce 0.01 s.
+- **`aten::nonzero` unchanged: 26,684 calls, 20.6 s CPU** (+29k `cudaStreamSynchronize` 20.0 s, 33.6k `cudaMemcpyAsync` 15.0 s). With comm halved, the MoE-dispatch GPU-sync round-trips are now co-dominant — the reason step time didn't fall in proportion to per-call a2a. **Top remaining lever; needs mcore dispatcher surgery (device-side split bookkeeping / batched D2H), out of scope tonight — follow-up ticket.**
+- **FP32 SIMT vocab GEMMs: gone** (TF32 head verified in trace; nvjet tensor-core GEMMs only).
+- Compute kernels ≈ 19.6 s busy; DSA bwd 3.0 s, indexer fwd 1.65 s + topk 0.44 s, sparse fwd 1.16 s, GEMM ~3.7 s; idle 6.6%.
 
 ### Ops incident — phantom trainer start (2026-08-07 20:21Z)
 
