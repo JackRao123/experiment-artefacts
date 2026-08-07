@@ -28,6 +28,9 @@ def main() -> None:
     data["aggregates"]["per_gpu_max_used_mib"] = per_gpu
     data["aggregates"]["max_gpu_used_mib"] = max(per_gpu.values(), default=0)
     result_path.write_text(json.dumps(data, indent=2))
+    if not per_gpu:
+        print(f"MEM {label}: no poller CSVs found — per-GPU max missing", flush=True)
+        return
     vals = sorted(per_gpu.values())
     print(
         f"MEM {label}: max {vals[-1]} MiB, min {vals[0]} MiB across {len(vals)} GPUs "

@@ -38,4 +38,10 @@ Notes: EP8 (intra-node experts) infeasible — +91 GB/rank expert weights at bf1
 
 ## Iterations
 
-(filled in as the night progresses)
+| # | config | tok/s/GPU | step (s) | mfu3x | hfu | max GPU mem (MiB) | loss canary | notes |
+|---|---|---:|---:|---:|---:|---:|---|---|
+| exp00 | golden baseline (alltoall, full recompute) | **416.5** | 78.7 (82.1/75.2) | 5.9% | 7.9% | (poller missed — srun queued; see exp00b) | 12.3578/12.3401/12.3106 ≈ baseline ✓ | **tonight's anchor.** ~7% below q480z53's 446 — box/fabric variance; windows spread ±5% |
+
+### exp00 — baseline re-anchor (2026-08-07 ~01:45)
+
+Box tj-qzlr0o3 inherited the baseline session's shared-FS state: trainers_main @ 0e0b65a6 + LPS-1003 full-footprint-warmup patch, fabric-aware run_trainer_node.sh, GLM-5.2-FP8 HF cache. Trainer boot ~13 min. Loss canaries match the q480z53 baseline to ≤2e-3 → correctness anchor holds. Rank-0 reserved peak 260.2 GB (matches baseline 260.2). Mem-poller srun queued behind the trainer job (fresh srun ≠ --jobid attach) — fixed in run_bench.sh by attaching to the devbox_trainer allocation; exp00b-memprobe (warmup + 1 main window on the hot trainer) captures per-GPU peaks for the baseline config.
