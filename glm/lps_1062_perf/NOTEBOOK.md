@@ -68,6 +68,10 @@ Two boots, two mcore validator walls, then arithmetic kills it:
 
 **Verdict: EP-overlap and all lighter-recompute configs are memory-infeasible at 256k on 275 GB parts with EP16/CP16. Full recompute stands.** Re-ranked queue: TF32 CE head (exp04), NCCL alltoall transport tuning (exp05).
 
+### Ops incident — phantom trainer start (2026-08-07 20:21Z)
+
+A trainer srun using MY `lps1062/ctl/run_trainer_node.sh` was submitted at 20:21:45Z by an unknown caller (not my launch tasks; coincided with a shared-FS `env.sh` regeneration at 20:19:26Z by another session's 4-node provisioning). Its env (NCCL knobs) would have been whatever the caller had — untrusted. Mitigations: caller-audit logging + `BT_LPS1062_LAUNCH=1` guard added to `ctl/start_trainer.sh`; job killed, exp05d relaunched deliberately. Result integrity: exp05b/c scored 559/583 vs 464 for correct-env exp05a and ~430 for no-NCCL-env — a default-env trainer can't produce those numbers, so their env was intact (pending sruns keep dispatch-time env). No benched result came from the phantom trainer.
+
 ### exp00 — baseline re-anchor (2026-08-07 ~01:45)
 
 Box tj-qzlr0o3 inherited the baseline session's shared-FS state: trainers_main @ 0e0b65a6 + LPS-1003 full-footprint-warmup patch, fabric-aware run_trainer_node.sh, GLM-5.2-FP8 HF cache. Trainer boot ~13 min. Loss canaries match the q480z53 baseline to ≤2e-3 → correctness anchor holds. Rank-0 reserved peak 260.2 GB (matches baseline 260.2). Mem-poller srun queued behind the trainer job (fresh srun ≠ --jobid attach) — fixed in run_bench.sh by attaching to the devbox_trainer allocation; exp00b-memprobe (warmup + 1 main window on the hot trainer) captures per-GPU peaks for the baseline config.
