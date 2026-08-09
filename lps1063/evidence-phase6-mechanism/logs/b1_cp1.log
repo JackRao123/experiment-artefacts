@@ -1,0 +1,11 @@
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/torch/cuda/__init__.py:61: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/torch/cuda/__init__.py:61: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+CP=1 chunk=704 n_iters=10 seeds=[16, 17, 18] TE=2.16.0 torch=2.11.0+cu130 cudnn=91900 probe=off NVTE_ALLOW_NONDETERMINISTIC_ALGO=None
+[seed 16] rank 0: 1 distinct outputs over 10 iters; wobble rows: []
+[seed 16] GLOBAL: deterministic (0/1 ranks)
+[seed 17] rank 0: 1 distinct outputs over 10 iters; wobble rows: []
+[seed 17] GLOBAL: deterministic (0/1 ranks)
+[seed 18] rank 0: 1 distinct outputs over 10 iters; wobble rows: []
+[seed 18] GLOBAL: deterministic (0/1 ranks)

@@ -1,0 +1,13 @@
++ V=/root/.cache/user_artifacts/trainers_main/server/.venv/bin
++ RD=/root/.cache/user_artifacts/lps1063-phase6
++ cd /root/.cache/user_artifacts/lps1063-phase6
++ export CUDA_VISIBLE_DEVICES=0,1,2,3
++ CUDA_VISIBLE_DEVICES=0,1,2,3
++ /root/.cache/user_artifacts/trainers_main/server/.venv/bin/torchrun --standalone --nproc-per-node=4 standalone_te_cp_repro_v2.py --n-iters 30
++ echo 'b0a rc=1'
++ BT_CP_PROBE=1
++ BT_CP_PROBE_DIR=/root/.cache/user_artifacts/lps1063-phase6/probe
++ BT_CP_PROBE_SAVE=1
++ /root/.cache/user_artifacts/trainers_main/server/.venv/bin/torchrun --standalone --nproc-per-node=4 standalone_te_cp_repro_v2.py --n-iters 30
++ echo 'b0b rc=1'
++ touch logs/b0.done

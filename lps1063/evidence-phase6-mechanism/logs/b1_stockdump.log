@@ -1,0 +1,94 @@
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/torch/cuda/__init__.py:61: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+W0808 10:10:13.797000 7717 torch/distributed/run.py:851] 
+W0808 10:10:13.797000 7717 torch/distributed/run.py:851] *****************************************
+W0808 10:10:13.797000 7717 torch/distributed/run.py:851] Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+W0808 10:10:13.797000 7717 torch/distributed/run.py:851] *****************************************
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/torch/cuda/__init__.py:61: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/torch/cuda/__init__.py:61: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/torch/cuda/__init__.py:61: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/torch/cuda/__init__.py:61: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+CP=4 chunk=88 n_iters=2 seeds=[16, 17, 18] TE=2.16.0 torch=2.11.0+cu130 cudnn=91900 probe=off NVTE_ALLOW_NONDETERMINISTIC_ALGO=None
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/torch/autograd/function.py:596: UserWarning: An unbatched P2P op (send/recv) was called on this ProcessGroup with size 4.  In lazy initialization mode, this will result in a new 2-rank NCCL communicator to be created. (Triggered internally at /pytorch/torch/csrc/distributed/c10d/ProcessGroupNCCL.cpp:4094.)
+  return super().apply(*args, **kwargs)  # type: ignore[misc]
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/torch/autograd/function.py:596: UserWarning: An unbatched P2P op (send/recv) was called on this ProcessGroup with size 4.  In lazy initialization mode, this will result in a new 2-rank NCCL communicator to be created. (Triggered internally at /pytorch/torch/csrc/distributed/c10d/ProcessGroupNCCL.cpp:4094.)
+  return super().apply(*args, **kwargs)  # type: ignore[misc]
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/torch/autograd/function.py:596: UserWarning: An unbatched P2P op (send/recv) was called on this ProcessGroup with size 4.  In lazy initialization mode, this will result in a new 2-rank NCCL communicator to be created. (Triggered internally at /pytorch/torch/csrc/distributed/c10d/ProcessGroupNCCL.cpp:4094.)
+  return super().apply(*args, **kwargs)  # type: ignore[misc]
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/torch/autograd/function.py:596: UserWarning: An unbatched P2P op (send/recv) was called on this ProcessGroup with size 4.  In lazy initialization mode, this will result in a new 2-rank NCCL communicator to be created. (Triggered internally at /pytorch/torch/csrc/distributed/c10d/ProcessGroupNCCL.cpp:4094.)
+  return super().apply(*args, **kwargs)  # type: ignore[misc]
+[seed 16] rank 3: 1 distinct outputs over 2 iters; wobble rows: []
+[seed 16] rank 2: 2 distinct outputs over 2 iters; wobble rows: [174]
+[seed 16] rank 1: 2 distinct outputs over 2 iters; wobble rows: [174]
+[seed 16] rank 0: 2 distinct outputs over 2 iters; wobble rows: [174]
+[seed 16] GLOBAL: NONDETERMINISTIC (3/4 ranks)
+[seed 17] rank 3: 1 distinct outputs over 2 iters; wobble rows: []
+[seed 17] rank 0: 2 distinct outputs over 2 iters; wobble rows: [174][seed 17] rank 1: 2 distinct outputs over 2 iters; wobble rows: [174]
+
+[seed 17] rank 2: 2 distinct outputs over 2 iters; wobble rows: [174]
+[seed 17] GLOBAL: NONDETERMINISTIC (3/4 ranks)
+[seed 18] rank 3: 1 distinct outputs over 2 iters; wobble rows: []
+[seed 18] rank 1: 2 distinct outputs over 2 iters; wobble rows: [174]
+[seed 18] rank 0: 2 distinct outputs over 2 iters; wobble rows: [174]
+[seed 18] rank 2: 2 distinct outputs over 2 iters; wobble rows: [174]
+[seed 18] GLOBAL: NONDETERMINISTIC (3/4 ranks)
+W0808 10:10:44.582000 7717 torch/distributed/elastic/multiprocessing/api.py:1012] Sending process 7786 closing signal SIGTERM
+W0808 10:10:44.583000 7717 torch/distributed/elastic/multiprocessing/api.py:1012] Sending process 7787 closing signal SIGTERM
+W0808 10:10:44.584000 7717 torch/distributed/elastic/multiprocessing/api.py:1012] Sending process 7788 closing signal SIGTERM
+E0808 10:10:46.302000 7717 torch/distributed/elastic/multiprocessing/api.py:986] failed (exitcode: 1) local_rank: 0 (pid: 7785) of binary: /root/.cache/user_artifacts/trainers_main/server/.venv/bin/python3
+Traceback (most recent call last):
+  File "/root/.cache/user_artifacts/trainers_main/server/.venv/bin/torchrun", line 10, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py", line 362, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/torch/distributed/run.py", line 990, in main
+    run(args)
+  File "/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/torch/distributed/run.py", line 981, in run
+    elastic_launch(
+  File "/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/torch/distributed/launcher/api.py", line 170, in __call__
+    return launch_agent(self._config, self._entrypoint, list(args))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/torch/distributed/launcher/api.py", line 317, in launch_agent
+    raise ChildFailedError(
+torch.distributed.elastic.multiprocessing.errors.ChildFailedError: 
+============================================================
+standalone_te_cp_repro_v2.py FAILED
+------------------------------------------------------------
+Failures:
+[1]:
+  time      : 2026-08-08_10:10:46
+  host      : baseten-training-job-w6xx15w-multinode-0.baseten-training-job-w6xx15w-multinode.org-99340d71961343c28c5c567d705ab0c0.svc.cluster.local
+  rank      : 1 (local_rank: 1)
+  exitcode  : -15 (pid: 7786)
+  error_file: <N/A>
+  traceback : Signal 15 (SIGTERM) received by PID 7786
+[2]:
+  time      : 2026-08-08_10:10:46
+  host      : baseten-training-job-w6xx15w-multinode-0.baseten-training-job-w6xx15w-multinode.org-99340d71961343c28c5c567d705ab0c0.svc.cluster.local
+  rank      : 2 (local_rank: 2)
+  exitcode  : -15 (pid: 7787)
+  error_file: <N/A>
+  traceback : Signal 15 (SIGTERM) received by PID 7787
+[3]:
+  time      : 2026-08-08_10:10:46
+  host      : baseten-training-job-w6xx15w-multinode-0.baseten-training-job-w6xx15w-multinode.org-99340d71961343c28c5c567d705ab0c0.svc.cluster.local
+  rank      : 3 (local_rank: 3)
+  exitcode  : -15 (pid: 7788)
+  error_file: <N/A>
+  traceback : Signal 15 (SIGTERM) received by PID 7788
+------------------------------------------------------------
+Root Cause (first observed failure):
+[0]:
+  time      : 2026-08-08_10:10:44
+  host      : baseten-training-job-w6xx15w-multinode-0.baseten-training-job-w6xx15w-multinode.org-99340d71961343c28c5c567d705ab0c0.svc.cluster.local
+  rank      : 0 (local_rank: 0)
+  exitcode  : 1 (pid: 7785)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+============================================================

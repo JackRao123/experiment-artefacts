@@ -1,0 +1,52 @@
+Using the latest cached version of the dataset since EleutherAI/hendrycks_math couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'algebra' at /root/.cache/team_artifacts/huggingface/datasets/EleutherAI___hendrycks_math/algebra/0.0.0/21a5633873b6a120296cce3e2df9d5550074f4a3 (last modified on Fri Aug  7 19:35:31 2026).
+Using the latest cached version of the dataset since EleutherAI/hendrycks_math couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'counting_and_probability' at /root/.cache/team_artifacts/huggingface/datasets/EleutherAI___hendrycks_math/counting_and_probability/0.0.0/21a5633873b6a120296cce3e2df9d5550074f4a3 (last modified on Sat Jul 25 00:50:23 2026).
+Using the latest cached version of the dataset since EleutherAI/hendrycks_math couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'geometry' at /root/.cache/team_artifacts/huggingface/datasets/EleutherAI___hendrycks_math/geometry/0.0.0/21a5633873b6a120296cce3e2df9d5550074f4a3 (last modified on Sat Jul 25 00:50:30 2026).
+Using the latest cached version of the dataset since EleutherAI/hendrycks_math couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'intermediate_algebra' at /root/.cache/team_artifacts/huggingface/datasets/EleutherAI___hendrycks_math/intermediate_algebra/0.0.0/21a5633873b6a120296cce3e2df9d5550074f4a3 (last modified on Sat Jul 25 00:50:36 2026).
+Using the latest cached version of the dataset since EleutherAI/hendrycks_math couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'number_theory' at /root/.cache/team_artifacts/huggingface/datasets/EleutherAI___hendrycks_math/number_theory/0.0.0/21a5633873b6a120296cce3e2df9d5550074f4a3 (last modified on Sat Jul 25 00:50:41 2026).
+Using the latest cached version of the dataset since EleutherAI/hendrycks_math couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'prealgebra' at /root/.cache/team_artifacts/huggingface/datasets/EleutherAI___hendrycks_math/prealgebra/0.0.0/21a5633873b6a120296cce3e2df9d5550074f4a3 (last modified on Sat Jul 25 00:50:48 2026).
+Using the latest cached version of the dataset since EleutherAI/hendrycks_math couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'precalculus' at /root/.cache/team_artifacts/huggingface/datasets/EleutherAI___hendrycks_math/precalculus/0.0.0/21a5633873b6a120296cce3e2df9d5550074f4a3 (last modified on Sat Jul 25 00:50:54 2026).
+mixed group: Level 4 problem: 'The lengths of the sides of a triangle with positive area are $\\log_{10}12$, $\\log_{10}75$'
+prompt tokens: 111
+policy_version at start: 0
+fwd_pre: 697 logprobs, head=[0.0, 0.0, 0.0]
+forward_backward 10s; metrics: {'loss': 0.0017055107452985461, 'mismatch_kl': 0.8047521179594475}
+optim_step; metrics: {'step': 1.0, 'learning_rate': 0.0002, 'lr': 0.0002, 'grad_norm': 0.11737854033708572, 'tps': 298.4451826415536, 'train_mean_nll': 0.0017055107452985461, 'num_tokens': 5667.0, 'num_loss_tokens': 4787.0, 'step_seconds': 18.988411707105115}
+fwd0: 697 logprobs, head=[0.0, 0.0, 0.0]
+fwd0b: 697 logprobs, head=[0.0, 0.0, 0.0]
+DETERMINISM fwd0 vs fwd0b: {'max': 1.6187849044799805, 'mean': 0.034019908134992796, 'n_nonzero': 585, 'n': 697, 'argmax': 401}
+TRAINING EFFECT fwd0 vs fwd_pre: {'max': 2.466193199157715, 'mean': 0.04188262098630768, 'n_nonzero': 584, 'n': 697, 'argmax': 667}
+saved P1: /tmp/checkpoints/lps1063-roundtrip-p1
+Traceback (most recent call last):
+  File "/root/.cache/user_artifacts/nemotron-repro-1node/repro_roundtrip_1node.py", line 320, in <module>
+    sys.exit(asyncio.run(main()))
+             ~~~~~~~~~~~^^^^^^^^
+  File "/root/.local/share/uv/python/cpython-3.14.6-linux-x86_64-gnu/lib/python3.14/asyncio/runners.py", line 205, in run
+    return runner.run(main)
+           ~~~~~~~~~~^^^^^^
+  File "/root/.local/share/uv/python/cpython-3.14.6-linux-x86_64-gnu/lib/python3.14/asyncio/runners.py", line 128, in run
+    return self._loop.run_until_complete(task)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/root/.local/share/uv/python/cpython-3.14.6-linux-x86_64-gnu/lib/python3.14/asyncio/base_events.py", line 719, in run_until_complete
+    return future.result()
+           ~~~~~~~~~~~~~^^
+  File "/root/.cache/user_artifacts/nemotron-repro-1node/repro_roundtrip_1node.py", line 272, in main
+    loaded = await tc.load_state_with_optimizer(saved.path)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_main/loops/loops/baseten/loops/promise_client.py", line 422, in result_async
+    self._cached = await _poll_operation_async(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+    )
+    ^
+  File "/root/.cache/user_artifacts/trainers_main/loops/loops/baseten/loops/promise_client.py", line 324, in _poll_operation_async
+    raise TimeoutError(
+    ...<2 lines>...
+    )
+TimeoutError: long-poll exceeded ready_timeout=3600.0s for operation_id=8f52e96e98634708ade0191e54350dc0

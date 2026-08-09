@@ -1,0 +1,117 @@
+
+$ /root/.cache/user_artifacts/bin/uv pip install --python /root/.cache/user_artifacts/lps1063-matrix-gibbs/venvs/te_2_16_0/bin/python --no-deps nvidia-cudnn-cu13==9.25.0.15
+Using Python 3.12.13 environment at: venvs/te_2_16_0
+Checked 1 package in 37ms
+
+$ /root/.cache/user_artifacts/lps1063-matrix-gibbs/venvs/te_2_16_0/bin/python /root/.cache/user_artifacts/lps1063-matrix-gibbs/cell_probe.py  (CUDA_VISIBLE_DEVICES=4)
+
+Traceback (most recent call last):
+  File "/root/.cache/user_artifacts/lps1063-matrix-gibbs/cell_probe.py", line 116, in <module>
+    main()
+  File "/root/.cache/user_artifacts/lps1063-matrix-gibbs/cell_probe.py", line 79, in main
+    import transformer_engine  # noqa: PLC0415
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/lps1063-matrix-gibbs/venvs/te_2_16_0/lib/python3.12/site-packages/transformer_engine/__init__.py", line 11, in <module>
+    import transformer_engine.common
+  File "/root/.cache/user_artifacts/lps1063-matrix-gibbs/venvs/te_2_16_0/lib/python3.12/site-packages/transformer_engine/common/__init__.py", line 364, in <module>
+    sanity_checks_for_pypi_installation()
+  File "/root/.cache/user_artifacts/lps1063-matrix-gibbs/venvs/te_2_16_0/lib/python3.12/site-packages/transformer_engine/common/__init__.py", line 202, in sanity_checks_for_pypi_installation
+    assert te_installed, "Could not find `transformer-engine`."
+           ^^^^^^^^^^^^
+AssertionError: Could not find `transformer-engine`.
+
+
+$ /root/.cache/user_artifacts/bin/uv pip install --python /root/.cache/user_artifacts/lps1063-matrix-gibbs/venvs/te_2_16_0/bin/python --no-deps nvidia-cudnn-cu13==9.25.0.15
+Using Python 3.12.13 environment at: venvs/te_2_16_0
+Checked 1 package in 50ms
+
+$ /root/.cache/user_artifacts/lps1063-matrix-gibbs/venvs/te_2_16_0/bin/python /root/.cache/user_artifacts/lps1063-matrix-gibbs/cell_probe.py  (CUDA_VISIBLE_DEVICES=4)
+{"te_version": "2.16.0", "te_file": "/root/.cache/user_artifacts/lps1063-matrix-gibbs/venvs/te_2_16_0/lib/python3.12/site-packages/transformer_engine/__init__.py", "torch_version": "2.11.0+cu130", "torch_cudnn_version": 92500, "cuda_version_torch": "13.0", "pip_versions": {"nvidia-cublas": "13.6.0.2", "nvidia-cudnn-cu13": "9.25.0.15", "transformer-engine": "2.16.0", "transformer-engine-cu13": "2.16.0", "transformer-engine-torch": "2.16.0"}, "loaded_cudnn": [{"mapped": "/root/.cache/user_artifacts/lps1063-matrix-gibbs/venvs/te_2_16_0/lib/python3.12/site-packages/nvidia/cudnn/lib/libcudnn.so.9", "real": "/root/.cache/user_artifacts/lps1063-matrix-gibbs/venvs/te_2_16_0/lib/python3.12/site-packages/nvidia/cudnn/lib/libcudnn.so.9", "version": 92500}, {"mapped": "/root/.cache/user_artifacts/lps1063-matrix-gibbs/venvs/te_2_16_0/lib/python3.12/site-packages/nvidia/cudnn/lib/libcudnn_adv.so.9", "real": "/root/.cache/user_artifacts/lps1063-matrix-gibbs/venvs/te_2_16_0/lib/python3.12/site-packages/nvidia/cudnn/lib/libcudnn_adv.so.9", "version": 92500}, {"mapped": "/root/.cache/user_artifacts/lps1063-matrix-gibbs/venvs/te_2_16_0/lib/python3.12/site-packages/nvidia/cudnn/lib/libcudnn_cnn.so.9", "real": "/root/.cache/user_artifacts/lps1063-matrix-gibbs/venvs/te_2_16_0/lib/python3.12/site-packages/nvidia/cudnn/lib/libcudnn_cnn.so.9", "version": 92500}, {"mapped": "/root/.cache/user_artifacts/lps1063-matrix-gibbs/venvs/te_2_16_0/lib/python3.12/site-packages/nvidia/cudnn/lib/libcudnn_engines_precompiled.so.9", "real": "/root/.cache/user_artifacts/lps1063-matrix-gibbs/venvs/te_2_16_0/lib/python3.12/site-packages/nvidia/cudnn/lib/libcudnn_engines_precompiled.so.9", "version": 92500}, {"mapped": "/root/.cache/user_artifacts/lps1063-matrix-gibbs/venvs/te_2_16_0/lib/python3.12/site-packages/nvidia/cudnn/lib/libcudnn_engines_runtime_compiled.so.9", "real": "/root/.cache/user_artifacts/lps1063-matrix-gibbs/venvs/te_2_16_0/lib/python3.12/site-packages/nvidia/cudnn/lib/libcudnn_engines_runtime_compiled.so.9", "version": 92500}, {"mapped": "/root/.cache/user_artifacts/lps1063-matrix-gibbs/venvs/te_2_16_0/lib/python3.12/site-packages/nvidia/cudnn/lib/libcudnn_engines_tensor_ir.so.9", "real": "/root/.cache/user_artifacts/lps1063-matrix-gibbs/venvs/te_2_16_0/lib/python3.12/site-packages/nvidia/cudnn/lib/libcudnn_engines_tensor_ir.so.9", "version": 92500}, {"mapped": "/root/.cache/user_artifacts/lps1063-matrix-gibbs/venvs/te_2_16_0/lib/python3.12/site-packages/nvidia/cudnn/lib/libcudnn_ext.so.9", "real": "/root/.cache/user_artifacts/lps1063-matrix-gibbs/venvs/te_2_16_0/lib/python3.12/site-packages/nvidia/cudnn/lib/libcudnn_ext.so.9", "version": "error:/root/.cache/user_artifacts/lps1063-matrix-gibbs/venvs/te_2_16_0/lib/python3.12/site-packages/nvidia/cudnn/lib/libcudnn_ext.so.9: undefined symbol: cudnnGetVersion"}, {"mapped": "/root/.cache/user_artifacts/lps1063-matrix-gibbs/venvs/te_2_16_0/lib/python3.12/site-packages/nvidia/cudnn/lib/libcudnn_graph.so.9", "real": "/root/.cache/user_artifacts/lps1063-matrix-gibbs/venvs/te_2_16_0/lib/python3.12/site-packages/nvidia/cudnn/lib/libcudnn_graph.so.9", "version": 92500}, {"mapped": "/root/.cache/user_artifacts/lps1063-matrix-gibbs/venvs/te_2_16_0/lib/python3.12/site-packages/nvidia/cudnn/lib/libcudnn_heuristic.so.9", "real": "/root/.cache/user_artifacts/lps1063-matrix-gibbs/venvs/te_2_16_0/lib/python3.12/site-packages/nvidia/cudnn/lib/libcudnn_heuristic.so.9", "version": 92500}, {"mapped": "/root/.cache/user_artifacts/lps1063-matrix-gibbs/venvs/te_2_16_0/lib/python3.12/site-packages/nvidia/cudnn/lib/libcudnn_ops.so.9", "real": "/root/.cache/user_artifacts/lps1063-matrix-gibbs/venvs/te_2_16_0/lib/python3.12/site-packages/nvidia/cudnn/lib/libcudnn_ops.so.9", "version": 92500}], "direct_seqlens_var": {"in_python": false, "in_binary": false}, "probe_fwd_ok": true, "probe_fwd_err": null}
+
+
+
+$ /root/.cache/user_artifacts/lps1063-matrix-gibbs/venvs/te_2_16_0/bin/torchrun --standalone --nproc-per-node=4 /root/.cache/user_artifacts/lps1063-matrix-gibbs/standalone_te_cp_repro_v2.py --n-iters 60 --seeds 16,17,18
+W0808 10:37:31.645000 18131 torch/distributed/run.py:851] 
+W0808 10:37:31.645000 18131 torch/distributed/run.py:851] *****************************************
+W0808 10:37:31.645000 18131 torch/distributed/run.py:851] Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+W0808 10:37:31.645000 18131 torch/distributed/run.py:851] *****************************************
+CP=4 chunk=88 n_iters=60 seeds=[16, 17, 18] TE=2.16.0 torch=2.11.0+cu130 cudnn=92500 probe=off NVTE_ALLOW_NONDETERMINISTIC_ALGO=None
+/root/.cache/user_artifacts/lps1063-matrix-gibbs/venvs/te_2_16_0/lib/python3.12/site-packages/torch/autograd/function.py:596: UserWarning: An unbatched P2P op (send/recv) was called on this ProcessGroup with size 4.  In lazy initialization mode, this will result in a new 2-rank NCCL communicator to be created. (Triggered internally at /pytorch/torch/csrc/distributed/c10d/ProcessGroupNCCL.cpp:4094.)
+  return super().apply(*args, **kwargs)  # type: ignore[misc]
+/root/.cache/user_artifacts/lps1063-matrix-gibbs/venvs/te_2_16_0/lib/python3.12/site-packages/torch/autograd/function.py:596: UserWarning: An unbatched P2P op (send/recv) was called on this ProcessGroup with size 4.  In lazy initialization mode, this will result in a new 2-rank NCCL communicator to be created. (Triggered internally at /pytorch/torch/csrc/distributed/c10d/ProcessGroupNCCL.cpp:4094.)
+  return super().apply(*args, **kwargs)  # type: ignore[misc]
+/root/.cache/user_artifacts/lps1063-matrix-gibbs/venvs/te_2_16_0/lib/python3.12/site-packages/torch/autograd/function.py:596: UserWarning: An unbatched P2P op (send/recv) was called on this ProcessGroup with size 4.  In lazy initialization mode, this will result in a new 2-rank NCCL communicator to be created. (Triggered internally at /pytorch/torch/csrc/distributed/c10d/ProcessGroupNCCL.cpp:4094.)
+  return super().apply(*args, **kwargs)  # type: ignore[misc]
+/root/.cache/user_artifacts/lps1063-matrix-gibbs/venvs/te_2_16_0/lib/python3.12/site-packages/torch/autograd/function.py:596: UserWarning: An unbatched P2P op (send/recv) was called on this ProcessGroup with size 4.  In lazy initialization mode, this will result in a new 2-rank NCCL communicator to be created. (Triggered internally at /pytorch/torch/csrc/distributed/c10d/ProcessGroupNCCL.cpp:4094.)
+  return super().apply(*args, **kwargs)  # type: ignore[misc]
+[seed 16] rank 3: 1 distinct outputs over 60 iters; wobble rows: []
+[seed 16] rank 1: 7 distinct outputs over 60 iters; wobble rows: [174]
+[seed 16] rank 2: 7 distinct outputs over 60 iters; wobble rows: [174]
+[seed 16] rank 0: 6 distinct outputs over 60 iters; wobble rows: [174]
+[seed 16] GLOBAL: NONDETERMINISTIC (3/4 ranks)
+[seed 17] rank 3: 1 distinct outputs over 60 iters; wobble rows: []
+[seed 17] rank 1: 4 distinct outputs over 60 iters; wobble rows: [174]
+[seed 17] rank 0: 5 distinct outputs over 60 iters; wobble rows: [174]
+[seed 17] rank 2: 4 distinct outputs over 60 iters; wobble rows: [174]
+[seed 17] GLOBAL: NONDETERMINISTIC (3/4 ranks)
+[seed 18] rank 3: 1 distinct outputs over 60 iters; wobble rows: []
+[seed 18] rank 1: 4 distinct outputs over 60 iters; wobble rows: [174]
+[seed 18] rank 0: 3 distinct outputs over 60 iters; wobble rows: [174]
+[seed 18] rank 2: 4 distinct outputs over 60 iters; wobble rows: [174]
+[seed 18] GLOBAL: NONDETERMINISTIC (3/4 ranks)
+W0808 10:38:58.906000 18131 torch/distributed/elastic/multiprocessing/api.py:1012] Sending process 18200 closing signal SIGTERM
+W0808 10:38:58.908000 18131 torch/distributed/elastic/multiprocessing/api.py:1012] Sending process 18201 closing signal SIGTERM
+W0808 10:38:58.908000 18131 torch/distributed/elastic/multiprocessing/api.py:1012] Sending process 18202 closing signal SIGTERM
+E0808 10:39:00.137000 18131 torch/distributed/elastic/multiprocessing/api.py:986] failed (exitcode: 1) local_rank: 0 (pid: 18199) of binary: /root/.cache/user_artifacts/lps1063-matrix-gibbs/venvs/te_2_16_0/bin/python
+Traceback (most recent call last):
+  File "/root/.cache/user_artifacts/lps1063-matrix-gibbs/venvs/te_2_16_0/bin/torchrun", line 10, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/root/.cache/user_artifacts/lps1063-matrix-gibbs/venvs/te_2_16_0/lib/python3.12/site-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py", line 362, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/lps1063-matrix-gibbs/venvs/te_2_16_0/lib/python3.12/site-packages/torch/distributed/run.py", line 990, in main
+    run(args)
+  File "/root/.cache/user_artifacts/lps1063-matrix-gibbs/venvs/te_2_16_0/lib/python3.12/site-packages/torch/distributed/run.py", line 981, in run
+    elastic_launch(
+  File "/root/.cache/user_artifacts/lps1063-matrix-gibbs/venvs/te_2_16_0/lib/python3.12/site-packages/torch/distributed/launcher/api.py", line 170, in __call__
+    return launch_agent(self._config, self._entrypoint, list(args))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/lps1063-matrix-gibbs/venvs/te_2_16_0/lib/python3.12/site-packages/torch/distributed/launcher/api.py", line 317, in launch_agent
+    raise ChildFailedError(
+torch.distributed.elastic.multiprocessing.errors.ChildFailedError: 
+============================================================
+/root/.cache/user_artifacts/lps1063-matrix-gibbs/standalone_te_cp_repro_v2.py FAILED
+------------------------------------------------------------
+Failures:
+[1]:
+  time      : 2026-08-08_10:39:00
+  host      : baseten-training-job-w6xx15w-multinode-0.baseten-training-job-w6xx15w-multinode.org-99340d71961343c28c5c567d705ab0c0.svc.cluster.local
+  rank      : 1 (local_rank: 1)
+  exitcode  : 1 (pid: 18200)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+[2]:
+  time      : 2026-08-08_10:39:00
+  host      : baseten-training-job-w6xx15w-multinode-0.baseten-training-job-w6xx15w-multinode.org-99340d71961343c28c5c567d705ab0c0.svc.cluster.local
+  rank      : 2 (local_rank: 2)
+  exitcode  : 1 (pid: 18201)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+[3]:
+  time      : 2026-08-08_10:39:00
+  host      : baseten-training-job-w6xx15w-multinode-0.baseten-training-job-w6xx15w-multinode.org-99340d71961343c28c5c567d705ab0c0.svc.cluster.local
+  rank      : 3 (local_rank: 3)
+  exitcode  : 1 (pid: 18202)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+------------------------------------------------------------
+Root Cause (first observed failure):
+[0]:
+  time      : 2026-08-08_10:38:58
+  host      : baseten-training-job-w6xx15w-multinode-0.baseten-training-job-w6xx15w-multinode.org-99340d71961343c28c5c567d705ab0c0.svc.cluster.local
+  rank      : 0 (local_rank: 0)
+  exitcode  : 1 (pid: 18199)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+============================================================

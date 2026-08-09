@@ -1,0 +1,3842 @@
+[
+ {
+  "rank": 0,
+  "n_calls": 10,
+  "n_modules": 160,
+  "n_divergent": 129,
+  "first_diff": {
+   "module": "module.module.decoder.layers.21",
+   "occurrence": 0,
+   "cls": "MoETransformerLayer",
+   "seq": 32,
+   "n_distinct": 4,
+   "sum_spread": 0.002349853515625
+  },
+  "first_router_diff": {
+   "module": "module.module.decoder.layers.24.mlp.router",
+   "occurrence": 0,
+   "cls": "TopKRouter",
+   "seq": 35,
+   "n_distinct": 4,
+   "sum_spread": 2.1457672119140625e-06
+  },
+  "divergent_head": [
+   {
+    "module": "module.module.decoder.layers.21",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 32,
+    "n_distinct": 4,
+    "sum_spread": 0.002349853515625
+   },
+   {
+    "module": "module.module.decoder.layers.22",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 33,
+    "n_distinct": 4,
+    "sum_spread": 0.1816549301147461
+   },
+   {
+    "module": "module.module.decoder.layers.23",
+    "occurrence": 0,
+    "cls": "TransformerLayer",
+    "seq": 34,
+    "n_distinct": 4,
+    "sum_spread": 0.14630889892578125
+   },
+   {
+    "module": "module.module.decoder.layers.24.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 35,
+    "n_distinct": 4,
+    "sum_spread": 2.1457672119140625e-06
+   },
+   {
+    "module": "module.module.decoder.layers.24",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 36,
+    "n_distinct": 4,
+    "sum_spread": 0.444366455078125
+   },
+   {
+    "module": "module.module.decoder.layers.25",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 37,
+    "n_distinct": 4,
+    "sum_spread": 0.8881028294563293
+   },
+   {
+    "module": "module.module.decoder.layers.26.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 38,
+    "n_distinct": 4,
+    "sum_spread": 8.121132850646973e-07
+   },
+   {
+    "module": "module.module.decoder.layers.26",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 39,
+    "n_distinct": 4,
+    "sum_spread": 1.1453170776367188
+   },
+   {
+    "module": "module.module.decoder.layers.27",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 40,
+    "n_distinct": 4,
+    "sum_spread": 1.1942882537841797
+   },
+   {
+    "module": "module.module.decoder.layers.28.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 41,
+    "n_distinct": 4,
+    "sum_spread": 3.1155068427324295e-06
+   },
+   {
+    "module": "module.module.decoder.layers.28",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 42,
+    "n_distinct": 4,
+    "sum_spread": 2.8249473571777344
+   },
+   {
+    "module": "module.module.decoder.layers.29",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 43,
+    "n_distinct": 4,
+    "sum_spread": 3.689830780029297
+   }
+  ]
+ },
+ {
+  "rank": 1,
+  "n_calls": 10,
+  "n_modules": 160,
+  "n_divergent": 138,
+  "first_diff": {
+   "module": "module.module.decoder.layers.15",
+   "occurrence": 0,
+   "cls": "MoETransformerLayer",
+   "seq": 23,
+   "n_distinct": 2,
+   "sum_spread": 0.0003662109375
+  },
+  "first_router_diff": {
+   "module": "module.module.decoder.layers.17.mlp.router",
+   "occurrence": 0,
+   "cls": "TopKRouter",
+   "seq": 25,
+   "n_distinct": 2,
+   "sum_spread": 7.972121238708496e-07
+  },
+  "divergent_head": [
+   {
+    "module": "module.module.decoder.layers.15",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 23,
+    "n_distinct": 2,
+    "sum_spread": 0.0003662109375
+   },
+   {
+    "module": "module.module.decoder.layers.16",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 24,
+    "n_distinct": 2,
+    "sum_spread": 0.002288818359375
+   },
+   {
+    "module": "module.module.decoder.layers.17.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 25,
+    "n_distinct": 2,
+    "sum_spread": 7.972121238708496e-07
+   },
+   {
+    "module": "module.module.decoder.layers.17",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 26,
+    "n_distinct": 2,
+    "sum_spread": 0.056156158447265625
+   },
+   {
+    "module": "module.module.decoder.layers.18",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 27,
+    "n_distinct": 2,
+    "sum_spread": 0.09657669067382812
+   },
+   {
+    "module": "module.module.decoder.layers.19.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 28,
+    "n_distinct": 2,
+    "sum_spread": 8.046627044677734e-07
+   },
+   {
+    "module": "module.module.decoder.layers.19",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 29,
+    "n_distinct": 2,
+    "sum_spread": 0.38091278076171875
+   },
+   {
+    "module": "module.module.decoder.layers.20",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 30,
+    "n_distinct": 2,
+    "sum_spread": 0.5247459411621094
+   },
+   {
+    "module": "module.module.decoder.layers.21.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 31,
+    "n_distinct": 2,
+    "sum_spread": 7.972121238708496e-07
+   },
+   {
+    "module": "module.module.decoder.layers.21",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 32,
+    "n_distinct": 8,
+    "sum_spread": 0.4673004150390625
+   },
+   {
+    "module": "module.module.decoder.layers.22",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 33,
+    "n_distinct": 9,
+    "sum_spread": 1.4762420654296875
+   },
+   {
+    "module": "module.module.decoder.layers.23",
+    "occurrence": 0,
+    "cls": "TransformerLayer",
+    "seq": 34,
+    "n_distinct": 9,
+    "sum_spread": 1.6471099853515625
+   }
+  ]
+ },
+ {
+  "rank": 2,
+  "n_calls": 10,
+  "n_modules": 160,
+  "n_divergent": 134,
+  "first_diff": {
+   "module": "module.module.decoder.layers.18",
+   "occurrence": 0,
+   "cls": "MambaLayer",
+   "seq": 27,
+   "n_distinct": 2,
+   "sum_spread": 0.2069530487060547
+  },
+  "first_router_diff": {
+   "module": "module.module.decoder.layers.19.mlp.router",
+   "occurrence": 0,
+   "cls": "TopKRouter",
+   "seq": 28,
+   "n_distinct": 2,
+   "sum_spread": 8.940696716308594e-08
+  },
+  "divergent_head": [
+   {
+    "module": "module.module.decoder.layers.18",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 27,
+    "n_distinct": 2,
+    "sum_spread": 0.2069530487060547
+   },
+   {
+    "module": "module.module.decoder.layers.19.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 28,
+    "n_distinct": 2,
+    "sum_spread": 8.940696716308594e-08
+   },
+   {
+    "module": "module.module.decoder.layers.19",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 29,
+    "n_distinct": 2,
+    "sum_spread": 0.19322586059570312
+   },
+   {
+    "module": "module.module.decoder.layers.20",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 30,
+    "n_distinct": 2,
+    "sum_spread": 0.5190238952636719
+   },
+   {
+    "module": "module.module.decoder.layers.21.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 31,
+    "n_distinct": 2,
+    "sum_spread": 2.980232238769531e-07
+   },
+   {
+    "module": "module.module.decoder.layers.21",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 32,
+    "n_distinct": 3,
+    "sum_spread": 1.387847900390625
+   },
+   {
+    "module": "module.module.decoder.layers.22",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 33,
+    "n_distinct": 9,
+    "sum_spread": 2.1776790618896484
+   },
+   {
+    "module": "module.module.decoder.layers.23",
+    "occurrence": 0,
+    "cls": "TransformerLayer",
+    "seq": 34,
+    "n_distinct": 9,
+    "sum_spread": 1.4506044387817383
+   },
+   {
+    "module": "module.module.decoder.layers.24.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 35,
+    "n_distinct": 9,
+    "sum_spread": 3.4570693969726562e-06
+   },
+   {
+    "module": "module.module.decoder.layers.24",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 36,
+    "n_distinct": 9,
+    "sum_spread": 2.6761322021484375
+   },
+   {
+    "module": "module.module.decoder.layers.25",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 37,
+    "n_distinct": 9,
+    "sum_spread": 4.024080872535706
+   },
+   {
+    "module": "module.module.decoder.layers.26.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 38,
+    "n_distinct": 9,
+    "sum_spread": 3.509223461151123e-06
+   }
+  ]
+ },
+ {
+  "rank": 3,
+  "n_calls": 10,
+  "n_modules": 160,
+  "n_divergent": 134,
+  "first_diff": {
+   "module": "module.module.decoder.layers.18",
+   "occurrence": 0,
+   "cls": "MambaLayer",
+   "seq": 27,
+   "n_distinct": 2,
+   "sum_spread": 0.13061141967773438
+  },
+  "first_router_diff": {
+   "module": "module.module.decoder.layers.19.mlp.router",
+   "occurrence": 0,
+   "cls": "TopKRouter",
+   "seq": 28,
+   "n_distinct": 2,
+   "sum_spread": 8.195638656616211e-07
+  },
+  "divergent_head": [
+   {
+    "module": "module.module.decoder.layers.18",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 27,
+    "n_distinct": 2,
+    "sum_spread": 0.13061141967773438
+   },
+   {
+    "module": "module.module.decoder.layers.19.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 28,
+    "n_distinct": 2,
+    "sum_spread": 8.195638656616211e-07
+   },
+   {
+    "module": "module.module.decoder.layers.19",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 29,
+    "n_distinct": 2,
+    "sum_spread": 0.40728759765625
+   },
+   {
+    "module": "module.module.decoder.layers.20",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 30,
+    "n_distinct": 2,
+    "sum_spread": 0.46393585205078125
+   },
+   {
+    "module": "module.module.decoder.layers.21.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 31,
+    "n_distinct": 2,
+    "sum_spread": 1.4901161193847656e-06
+   },
+   {
+    "module": "module.module.decoder.layers.21",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 32,
+    "n_distinct": 2,
+    "sum_spread": 0.37929725646972656
+   },
+   {
+    "module": "module.module.decoder.layers.22",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 33,
+    "n_distinct": 9,
+    "sum_spread": 0.8297004699707031
+   },
+   {
+    "module": "module.module.decoder.layers.23",
+    "occurrence": 0,
+    "cls": "TransformerLayer",
+    "seq": 34,
+    "n_distinct": 9,
+    "sum_spread": 0.3760952949523926
+   },
+   {
+    "module": "module.module.decoder.layers.24.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 35,
+    "n_distinct": 9,
+    "sum_spread": 2.8908252716064453e-06
+   },
+   {
+    "module": "module.module.decoder.layers.24",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 36,
+    "n_distinct": 10,
+    "sum_spread": 1.1079483032226562
+   },
+   {
+    "module": "module.module.decoder.layers.25",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 37,
+    "n_distinct": 10,
+    "sum_spread": 1.5703716278076172
+   },
+   {
+    "module": "module.module.decoder.layers.26.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 38,
+    "n_distinct": 10,
+    "sum_spread": 2.0936131477355957e-06
+   }
+  ]
+ },
+ {
+  "rank": 4,
+  "n_calls": 10,
+  "n_modules": 160,
+  "n_divergent": 147,
+  "first_diff": {
+   "module": "module.module.decoder.layers.9",
+   "occurrence": 0,
+   "cls": "MambaLayer",
+   "seq": 14,
+   "n_distinct": 10,
+   "sum_spread": 0.03870701789855957
+  },
+  "first_router_diff": {
+   "module": "module.module.decoder.layers.10.mlp.router",
+   "occurrence": 0,
+   "cls": "TopKRouter",
+   "seq": 15,
+   "n_distinct": 10,
+   "sum_spread": 3.0994415283203125e-06
+  },
+  "divergent_head": [
+   {
+    "module": "module.module.decoder.layers.9",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 14,
+    "n_distinct": 10,
+    "sum_spread": 0.03870701789855957
+   },
+   {
+    "module": "module.module.decoder.layers.10.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 15,
+    "n_distinct": 10,
+    "sum_spread": 3.0994415283203125e-06
+   },
+   {
+    "module": "module.module.decoder.layers.10",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 16,
+    "n_distinct": 10,
+    "sum_spread": 0.12548446655273438
+   },
+   {
+    "module": "module.module.decoder.layers.11",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 17,
+    "n_distinct": 10,
+    "sum_spread": 0.2635049819946289
+   },
+   {
+    "module": "module.module.decoder.layers.12.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 18,
+    "n_distinct": 10,
+    "sum_spread": 2.2798776626586914e-06
+   },
+   {
+    "module": "module.module.decoder.layers.12",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 19,
+    "n_distinct": 10,
+    "sum_spread": 0.8056869506835938
+   },
+   {
+    "module": "module.module.decoder.layers.13",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 20,
+    "n_distinct": 10,
+    "sum_spread": 1.404493808746338
+   },
+   {
+    "module": "module.module.decoder.layers.14",
+    "occurrence": 0,
+    "cls": "TransformerLayer",
+    "seq": 21,
+    "n_distinct": 10,
+    "sum_spread": 1.3944625854492188
+   },
+   {
+    "module": "module.module.decoder.layers.15.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 22,
+    "n_distinct": 10,
+    "sum_spread": 1.7136335372924805e-06
+   },
+   {
+    "module": "module.module.decoder.layers.15",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 23,
+    "n_distinct": 10,
+    "sum_spread": 1.76495361328125
+   },
+   {
+    "module": "module.module.decoder.layers.16",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 24,
+    "n_distinct": 10,
+    "sum_spread": 1.9091829061508179
+   },
+   {
+    "module": "module.module.decoder.layers.17.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 25,
+    "n_distinct": 10,
+    "sum_spread": 2.086162567138672e-06
+   }
+  ]
+ },
+ {
+  "rank": 5,
+  "n_calls": 10,
+  "n_modules": 160,
+  "n_divergent": 147,
+  "first_diff": {
+   "module": "module.module.decoder.layers.9",
+   "occurrence": 0,
+   "cls": "MambaLayer",
+   "seq": 14,
+   "n_distinct": 10,
+   "sum_spread": 0.052799224853515625
+  },
+  "first_router_diff": {
+   "module": "module.module.decoder.layers.10.mlp.router",
+   "occurrence": 0,
+   "cls": "TopKRouter",
+   "seq": 15,
+   "n_distinct": 10,
+   "sum_spread": 2.2873282432556152e-06
+  },
+  "divergent_head": [
+   {
+    "module": "module.module.decoder.layers.9",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 14,
+    "n_distinct": 10,
+    "sum_spread": 0.052799224853515625
+   },
+   {
+    "module": "module.module.decoder.layers.10.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 15,
+    "n_distinct": 10,
+    "sum_spread": 2.2873282432556152e-06
+   },
+   {
+    "module": "module.module.decoder.layers.10",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 16,
+    "n_distinct": 10,
+    "sum_spread": 0.5394763946533203
+   },
+   {
+    "module": "module.module.decoder.layers.11",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 17,
+    "n_distinct": 10,
+    "sum_spread": 0.6496646404266357
+   },
+   {
+    "module": "module.module.decoder.layers.12.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 18,
+    "n_distinct": 10,
+    "sum_spread": 3.0100345611572266e-06
+   },
+   {
+    "module": "module.module.decoder.layers.12",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 19,
+    "n_distinct": 10,
+    "sum_spread": 0.6757602691650391
+   },
+   {
+    "module": "module.module.decoder.layers.13",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 20,
+    "n_distinct": 10,
+    "sum_spread": 0.7585806846618652
+   },
+   {
+    "module": "module.module.decoder.layers.14",
+    "occurrence": 0,
+    "cls": "TransformerLayer",
+    "seq": 21,
+    "n_distinct": 10,
+    "sum_spread": 1.2320451736450195
+   },
+   {
+    "module": "module.module.decoder.layers.15.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 22,
+    "n_distinct": 10,
+    "sum_spread": 2.16066837310791e-06
+   },
+   {
+    "module": "module.module.decoder.layers.15",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 23,
+    "n_distinct": 10,
+    "sum_spread": 1.3339242935180664
+   },
+   {
+    "module": "module.module.decoder.layers.16",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 24,
+    "n_distinct": 10,
+    "sum_spread": 1.5348587036132812
+   },
+   {
+    "module": "module.module.decoder.layers.17.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 25,
+    "n_distinct": 10,
+    "sum_spread": 2.7418136596679688e-06
+   }
+  ]
+ },
+ {
+  "rank": 6,
+  "n_calls": 10,
+  "n_modules": 160,
+  "n_divergent": 147,
+  "first_diff": {
+   "module": "module.module.decoder.layers.9",
+   "occurrence": 0,
+   "cls": "MambaLayer",
+   "seq": 14,
+   "n_distinct": 10,
+   "sum_spread": 0.030634909868240356
+  },
+  "first_router_diff": {
+   "module": "module.module.decoder.layers.10.mlp.router",
+   "occurrence": 0,
+   "cls": "TopKRouter",
+   "seq": 15,
+   "n_distinct": 10,
+   "sum_spread": 2.8349459171295166e-06
+  },
+  "divergent_head": [
+   {
+    "module": "module.module.decoder.layers.9",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 14,
+    "n_distinct": 10,
+    "sum_spread": 0.030634909868240356
+   },
+   {
+    "module": "module.module.decoder.layers.10.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 15,
+    "n_distinct": 10,
+    "sum_spread": 2.8349459171295166e-06
+   },
+   {
+    "module": "module.module.decoder.layers.10",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 16,
+    "n_distinct": 10,
+    "sum_spread": 0.1112356185913086
+   },
+   {
+    "module": "module.module.decoder.layers.11",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 17,
+    "n_distinct": 10,
+    "sum_spread": 0.24896717071533203
+   },
+   {
+    "module": "module.module.decoder.layers.12.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 18,
+    "n_distinct": 10,
+    "sum_spread": 2.905726432800293e-06
+   },
+   {
+    "module": "module.module.decoder.layers.12",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 19,
+    "n_distinct": 10,
+    "sum_spread": 0.4476184844970703
+   },
+   {
+    "module": "module.module.decoder.layers.13",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 20,
+    "n_distinct": 10,
+    "sum_spread": 0.5972833633422852
+   },
+   {
+    "module": "module.module.decoder.layers.14",
+    "occurrence": 0,
+    "cls": "TransformerLayer",
+    "seq": 21,
+    "n_distinct": 10,
+    "sum_spread": 0.5803251266479492
+   },
+   {
+    "module": "module.module.decoder.layers.15.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 22,
+    "n_distinct": 10,
+    "sum_spread": 3.7848949432373047e-06
+   },
+   {
+    "module": "module.module.decoder.layers.15",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 23,
+    "n_distinct": 10,
+    "sum_spread": 0.7298374176025391
+   },
+   {
+    "module": "module.module.decoder.layers.16",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 24,
+    "n_distinct": 10,
+    "sum_spread": 0.9124373197555542
+   },
+   {
+    "module": "module.module.decoder.layers.17.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 25,
+    "n_distinct": 10,
+    "sum_spread": 2.8014183044433594e-06
+   }
+  ]
+ },
+ {
+  "rank": 7,
+  "n_calls": 10,
+  "n_modules": 160,
+  "n_divergent": 147,
+  "first_diff": {
+   "module": "module.module.decoder.layers.9",
+   "occurrence": 0,
+   "cls": "MambaLayer",
+   "seq": 14,
+   "n_distinct": 10,
+   "sum_spread": 0.05431756377220154
+  },
+  "first_router_diff": {
+   "module": "module.module.decoder.layers.10.mlp.router",
+   "occurrence": 0,
+   "cls": "TopKRouter",
+   "seq": 15,
+   "n_distinct": 10,
+   "sum_spread": 2.9634684324264526e-06
+  },
+  "divergent_head": [
+   {
+    "module": "module.module.decoder.layers.9",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 14,
+    "n_distinct": 10,
+    "sum_spread": 0.05431756377220154
+   },
+   {
+    "module": "module.module.decoder.layers.10.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 15,
+    "n_distinct": 10,
+    "sum_spread": 2.9634684324264526e-06
+   },
+   {
+    "module": "module.module.decoder.layers.10",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 16,
+    "n_distinct": 10,
+    "sum_spread": 0.21291542053222656
+   },
+   {
+    "module": "module.module.decoder.layers.11",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 17,
+    "n_distinct": 10,
+    "sum_spread": 0.31734466552734375
+   },
+   {
+    "module": "module.module.decoder.layers.12.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 18,
+    "n_distinct": 10,
+    "sum_spread": 2.950429916381836e-06
+   },
+   {
+    "module": "module.module.decoder.layers.12",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 19,
+    "n_distinct": 10,
+    "sum_spread": 0.4351940155029297
+   },
+   {
+    "module": "module.module.decoder.layers.13",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 20,
+    "n_distinct": 10,
+    "sum_spread": 0.5923681259155273
+   },
+   {
+    "module": "module.module.decoder.layers.14",
+    "occurrence": 0,
+    "cls": "TransformerLayer",
+    "seq": 21,
+    "n_distinct": 10,
+    "sum_spread": 0.8663406372070312
+   },
+   {
+    "module": "module.module.decoder.layers.15.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 22,
+    "n_distinct": 10,
+    "sum_spread": 4.947185516357422e-06
+   },
+   {
+    "module": "module.module.decoder.layers.15",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 23,
+    "n_distinct": 10,
+    "sum_spread": 1.116109848022461
+   },
+   {
+    "module": "module.module.decoder.layers.16",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 24,
+    "n_distinct": 10,
+    "sum_spread": 1.4232382774353027
+   },
+   {
+    "module": "module.module.decoder.layers.17.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 25,
+    "n_distinct": 10,
+    "sum_spread": 2.868473529815674e-06
+   }
+  ]
+ },
+ {
+  "rank": 8,
+  "n_calls": 10,
+  "n_modules": 160,
+  "n_divergent": 135,
+  "first_diff": {
+   "module": "module.module.decoder.layers.17",
+   "occurrence": 0,
+   "cls": "MoETransformerLayer",
+   "seq": 26,
+   "n_distinct": 2,
+   "sum_spread": 0.0001373291015625
+  },
+  "first_router_diff": {
+   "module": "module.module.decoder.layers.19.mlp.router",
+   "occurrence": 0,
+   "cls": "TopKRouter",
+   "seq": 28,
+   "n_distinct": 3,
+   "sum_spread": 1.0728836059570312e-06
+  },
+  "divergent_head": [
+   {
+    "module": "module.module.decoder.layers.17",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 26,
+    "n_distinct": 2,
+    "sum_spread": 0.0001373291015625
+   },
+   {
+    "module": "module.module.decoder.layers.18",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 27,
+    "n_distinct": 3,
+    "sum_spread": 0.020712852478027344
+   },
+   {
+    "module": "module.module.decoder.layers.19.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 28,
+    "n_distinct": 3,
+    "sum_spread": 1.0728836059570312e-06
+   },
+   {
+    "module": "module.module.decoder.layers.19",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 29,
+    "n_distinct": 4,
+    "sum_spread": 0.0730743408203125
+   },
+   {
+    "module": "module.module.decoder.layers.20",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 30,
+    "n_distinct": 4,
+    "sum_spread": 0.3383750915527344
+   },
+   {
+    "module": "module.module.decoder.layers.21.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 31,
+    "n_distinct": 4,
+    "sum_spread": 1.8328428268432617e-06
+   },
+   {
+    "module": "module.module.decoder.layers.21",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 32,
+    "n_distinct": 5,
+    "sum_spread": 0.5346298217773438
+   },
+   {
+    "module": "module.module.decoder.layers.22",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 33,
+    "n_distinct": 10,
+    "sum_spread": 0.6714057922363281
+   },
+   {
+    "module": "module.module.decoder.layers.23",
+    "occurrence": 0,
+    "cls": "TransformerLayer",
+    "seq": 34,
+    "n_distinct": 10,
+    "sum_spread": 2.3427867889404297
+   },
+   {
+    "module": "module.module.decoder.layers.24.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 35,
+    "n_distinct": 10,
+    "sum_spread": 3.129243850708008e-06
+   },
+   {
+    "module": "module.module.decoder.layers.24",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 36,
+    "n_distinct": 10,
+    "sum_spread": 2.429302215576172
+   },
+   {
+    "module": "module.module.decoder.layers.25",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 37,
+    "n_distinct": 10,
+    "sum_spread": 3.533423900604248
+   }
+  ]
+ },
+ {
+  "rank": 9,
+  "n_calls": 10,
+  "n_modules": 160,
+  "n_divergent": 134,
+  "first_diff": {
+   "module": "module.module.decoder.layers.18",
+   "occurrence": 0,
+   "cls": "MambaLayer",
+   "seq": 27,
+   "n_distinct": 3,
+   "sum_spread": 0.015453100204467773
+  },
+  "first_router_diff": {
+   "module": "module.module.decoder.layers.19.mlp.router",
+   "occurrence": 0,
+   "cls": "TopKRouter",
+   "seq": 28,
+   "n_distinct": 3,
+   "sum_spread": 1.2814998626708984e-06
+  },
+  "divergent_head": [
+   {
+    "module": "module.module.decoder.layers.18",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 27,
+    "n_distinct": 3,
+    "sum_spread": 0.015453100204467773
+   },
+   {
+    "module": "module.module.decoder.layers.19.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 28,
+    "n_distinct": 3,
+    "sum_spread": 1.2814998626708984e-06
+   },
+   {
+    "module": "module.module.decoder.layers.19",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 29,
+    "n_distinct": 3,
+    "sum_spread": 0.17161941528320312
+   },
+   {
+    "module": "module.module.decoder.layers.20",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 30,
+    "n_distinct": 4,
+    "sum_spread": 0.4991016387939453
+   },
+   {
+    "module": "module.module.decoder.layers.21.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 31,
+    "n_distinct": 4,
+    "sum_spread": 1.1175870895385742e-06
+   },
+   {
+    "module": "module.module.decoder.layers.21",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 32,
+    "n_distinct": 6,
+    "sum_spread": 1.0135917663574219
+   },
+   {
+    "module": "module.module.decoder.layers.22",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 33,
+    "n_distinct": 10,
+    "sum_spread": 1.4223194122314453
+   },
+   {
+    "module": "module.module.decoder.layers.23",
+    "occurrence": 0,
+    "cls": "TransformerLayer",
+    "seq": 34,
+    "n_distinct": 10,
+    "sum_spread": 2.3392581939697266
+   },
+   {
+    "module": "module.module.decoder.layers.24.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 35,
+    "n_distinct": 10,
+    "sum_spread": 3.91155481338501e-06
+   },
+   {
+    "module": "module.module.decoder.layers.24",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 36,
+    "n_distinct": 10,
+    "sum_spread": 3.22894287109375
+   },
+   {
+    "module": "module.module.decoder.layers.25",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 37,
+    "n_distinct": 10,
+    "sum_spread": 4.734315872192383
+   },
+   {
+    "module": "module.module.decoder.layers.26.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 38,
+    "n_distinct": 10,
+    "sum_spread": 2.816319465637207e-06
+   }
+  ]
+ },
+ {
+  "rank": 10,
+  "n_calls": 10,
+  "n_modules": 160,
+  "n_divergent": 134,
+  "first_diff": {
+   "module": "module.module.decoder.layers.18",
+   "occurrence": 0,
+   "cls": "MambaLayer",
+   "seq": 27,
+   "n_distinct": 3,
+   "sum_spread": 0.1848602294921875
+  },
+  "first_router_diff": {
+   "module": "module.module.decoder.layers.19.mlp.router",
+   "occurrence": 0,
+   "cls": "TopKRouter",
+   "seq": 28,
+   "n_distinct": 3,
+   "sum_spread": 7.003545761108398e-07
+  },
+  "divergent_head": [
+   {
+    "module": "module.module.decoder.layers.18",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 27,
+    "n_distinct": 3,
+    "sum_spread": 0.1848602294921875
+   },
+   {
+    "module": "module.module.decoder.layers.19.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 28,
+    "n_distinct": 3,
+    "sum_spread": 7.003545761108398e-07
+   },
+   {
+    "module": "module.module.decoder.layers.19",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 29,
+    "n_distinct": 3,
+    "sum_spread": 0.2044830322265625
+   },
+   {
+    "module": "module.module.decoder.layers.20",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 30,
+    "n_distinct": 4,
+    "sum_spread": 0.1927204132080078
+   },
+   {
+    "module": "module.module.decoder.layers.21.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 31,
+    "n_distinct": 4,
+    "sum_spread": 1.9669532775878906e-06
+   },
+   {
+    "module": "module.module.decoder.layers.21",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 32,
+    "n_distinct": 6,
+    "sum_spread": 0.41814613342285156
+   },
+   {
+    "module": "module.module.decoder.layers.22",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 33,
+    "n_distinct": 10,
+    "sum_spread": 0.7536516189575195
+   },
+   {
+    "module": "module.module.decoder.layers.23",
+    "occurrence": 0,
+    "cls": "TransformerLayer",
+    "seq": 34,
+    "n_distinct": 10,
+    "sum_spread": 0.8135514259338379
+   },
+   {
+    "module": "module.module.decoder.layers.24.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 35,
+    "n_distinct": 10,
+    "sum_spread": 2.987682819366455e-06
+   },
+   {
+    "module": "module.module.decoder.layers.24",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 36,
+    "n_distinct": 10,
+    "sum_spread": 2.8998947143554688
+   },
+   {
+    "module": "module.module.decoder.layers.25",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 37,
+    "n_distinct": 10,
+    "sum_spread": 3.811168670654297
+   },
+   {
+    "module": "module.module.decoder.layers.26.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 38,
+    "n_distinct": 10,
+    "sum_spread": 4.92483377456665e-06
+   }
+  ]
+ },
+ {
+  "rank": 11,
+  "n_calls": 10,
+  "n_modules": 160,
+  "n_divergent": 142,
+  "first_diff": {
+   "module": "module.module.decoder.layers.12",
+   "occurrence": 0,
+   "cls": "MoETransformerLayer",
+   "seq": 19,
+   "n_distinct": 2,
+   "sum_spread": 0.00030517578125
+  },
+  "first_router_diff": {
+   "module": "module.module.decoder.layers.15.mlp.router",
+   "occurrence": 0,
+   "cls": "TopKRouter",
+   "seq": 22,
+   "n_distinct": 2,
+   "sum_spread": 6.407499313354492e-07
+  },
+  "divergent_head": [
+   {
+    "module": "module.module.decoder.layers.12",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 19,
+    "n_distinct": 2,
+    "sum_spread": 0.00030517578125
+   },
+   {
+    "module": "module.module.decoder.layers.13",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 20,
+    "n_distinct": 2,
+    "sum_spread": 0.025758743286132812
+   },
+   {
+    "module": "module.module.decoder.layers.14",
+    "occurrence": 0,
+    "cls": "TransformerLayer",
+    "seq": 21,
+    "n_distinct": 2,
+    "sum_spread": 0.06482315063476562
+   },
+   {
+    "module": "module.module.decoder.layers.15.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 22,
+    "n_distinct": 2,
+    "sum_spread": 6.407499313354492e-07
+   },
+   {
+    "module": "module.module.decoder.layers.15",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 23,
+    "n_distinct": 2,
+    "sum_spread": 0.04360198974609375
+   },
+   {
+    "module": "module.module.decoder.layers.16",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 24,
+    "n_distinct": 2,
+    "sum_spread": 0.05185508728027344
+   },
+   {
+    "module": "module.module.decoder.layers.17.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 25,
+    "n_distinct": 2,
+    "sum_spread": 6.109476089477539e-07
+   },
+   {
+    "module": "module.module.decoder.layers.17",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 26,
+    "n_distinct": 4,
+    "sum_spread": 0.039981842041015625
+   },
+   {
+    "module": "module.module.decoder.layers.18",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 27,
+    "n_distinct": 7,
+    "sum_spread": 0.06727981567382812
+   },
+   {
+    "module": "module.module.decoder.layers.19.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 28,
+    "n_distinct": 7,
+    "sum_spread": 3.159046173095703e-06
+   },
+   {
+    "module": "module.module.decoder.layers.19",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 29,
+    "n_distinct": 7,
+    "sum_spread": 0.45784664154052734
+   },
+   {
+    "module": "module.module.decoder.layers.20",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 30,
+    "n_distinct": 8,
+    "sum_spread": 0.5951147079467773
+   }
+  ]
+ },
+ {
+  "rank": 12,
+  "n_calls": 10,
+  "n_modules": 160,
+  "n_divergent": 147,
+  "first_diff": {
+   "module": "module.module.decoder.layers.9",
+   "occurrence": 0,
+   "cls": "MambaLayer",
+   "seq": 14,
+   "n_distinct": 10,
+   "sum_spread": 0.05350160598754883
+  },
+  "first_router_diff": {
+   "module": "module.module.decoder.layers.10.mlp.router",
+   "occurrence": 0,
+   "cls": "TopKRouter",
+   "seq": 15,
+   "n_distinct": 10,
+   "sum_spread": 2.4512410163879395e-06
+  },
+  "divergent_head": [
+   {
+    "module": "module.module.decoder.layers.9",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 14,
+    "n_distinct": 10,
+    "sum_spread": 0.05350160598754883
+   },
+   {
+    "module": "module.module.decoder.layers.10.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 15,
+    "n_distinct": 10,
+    "sum_spread": 2.4512410163879395e-06
+   },
+   {
+    "module": "module.module.decoder.layers.10",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 16,
+    "n_distinct": 10,
+    "sum_spread": 0.13325786590576172
+   },
+   {
+    "module": "module.module.decoder.layers.11",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 17,
+    "n_distinct": 10,
+    "sum_spread": 0.27229928970336914
+   },
+   {
+    "module": "module.module.decoder.layers.12.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 18,
+    "n_distinct": 10,
+    "sum_spread": 2.2351741790771484e-06
+   },
+   {
+    "module": "module.module.decoder.layers.12",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 19,
+    "n_distinct": 10,
+    "sum_spread": 1.0874700546264648
+   },
+   {
+    "module": "module.module.decoder.layers.13",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 20,
+    "n_distinct": 10,
+    "sum_spread": 1.0746750831604004
+   },
+   {
+    "module": "module.module.decoder.layers.14",
+    "occurrence": 0,
+    "cls": "TransformerLayer",
+    "seq": 21,
+    "n_distinct": 10,
+    "sum_spread": 1.1291923522949219
+   },
+   {
+    "module": "module.module.decoder.layers.15.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 22,
+    "n_distinct": 10,
+    "sum_spread": 2.0265579223632812e-06
+   },
+   {
+    "module": "module.module.decoder.layers.15",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 23,
+    "n_distinct": 10,
+    "sum_spread": 0.9961404800415039
+   },
+   {
+    "module": "module.module.decoder.layers.16",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 24,
+    "n_distinct": 10,
+    "sum_spread": 1.2662267684936523
+   },
+   {
+    "module": "module.module.decoder.layers.17.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 25,
+    "n_distinct": 10,
+    "sum_spread": 2.086162567138672e-06
+   }
+  ]
+ },
+ {
+  "rank": 13,
+  "n_calls": 10,
+  "n_modules": 160,
+  "n_divergent": 147,
+  "first_diff": {
+   "module": "module.module.decoder.layers.9",
+   "occurrence": 0,
+   "cls": "MambaLayer",
+   "seq": 14,
+   "n_distinct": 10,
+   "sum_spread": 0.0135955810546875
+  },
+  "first_router_diff": {
+   "module": "module.module.decoder.layers.10.mlp.router",
+   "occurrence": 0,
+   "cls": "TopKRouter",
+   "seq": 15,
+   "n_distinct": 10,
+   "sum_spread": 4.209578037261963e-06
+  },
+  "divergent_head": [
+   {
+    "module": "module.module.decoder.layers.9",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 14,
+    "n_distinct": 10,
+    "sum_spread": 0.0135955810546875
+   },
+   {
+    "module": "module.module.decoder.layers.10.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 15,
+    "n_distinct": 10,
+    "sum_spread": 4.209578037261963e-06
+   },
+   {
+    "module": "module.module.decoder.layers.10",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 16,
+    "n_distinct": 10,
+    "sum_spread": 0.0987238883972168
+   },
+   {
+    "module": "module.module.decoder.layers.11",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 17,
+    "n_distinct": 10,
+    "sum_spread": 0.22725486755371094
+   },
+   {
+    "module": "module.module.decoder.layers.12.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 18,
+    "n_distinct": 10,
+    "sum_spread": 2.652406692504883e-06
+   },
+   {
+    "module": "module.module.decoder.layers.12",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 19,
+    "n_distinct": 10,
+    "sum_spread": 0.4086761474609375
+   },
+   {
+    "module": "module.module.decoder.layers.13",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 20,
+    "n_distinct": 10,
+    "sum_spread": 0.6096661984920502
+   },
+   {
+    "module": "module.module.decoder.layers.14",
+    "occurrence": 0,
+    "cls": "TransformerLayer",
+    "seq": 21,
+    "n_distinct": 10,
+    "sum_spread": 0.8142657279968262
+   },
+   {
+    "module": "module.module.decoder.layers.15.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 22,
+    "n_distinct": 10,
+    "sum_spread": 2.205371856689453e-06
+   },
+   {
+    "module": "module.module.decoder.layers.15",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 23,
+    "n_distinct": 10,
+    "sum_spread": 0.746337890625
+   },
+   {
+    "module": "module.module.decoder.layers.16",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 24,
+    "n_distinct": 10,
+    "sum_spread": 0.8475732803344727
+   },
+   {
+    "module": "module.module.decoder.layers.17.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 25,
+    "n_distinct": 10,
+    "sum_spread": 2.562999725341797e-06
+   }
+  ]
+ },
+ {
+  "rank": 14,
+  "n_calls": 10,
+  "n_modules": 160,
+  "n_divergent": 147,
+  "first_diff": {
+   "module": "module.module.decoder.layers.9",
+   "occurrence": 0,
+   "cls": "MambaLayer",
+   "seq": 14,
+   "n_distinct": 10,
+   "sum_spread": 0.02441883087158203
+  },
+  "first_router_diff": {
+   "module": "module.module.decoder.layers.10.mlp.router",
+   "occurrence": 0,
+   "cls": "TopKRouter",
+   "seq": 15,
+   "n_distinct": 10,
+   "sum_spread": 3.5390257835388184e-06
+  },
+  "divergent_head": [
+   {
+    "module": "module.module.decoder.layers.9",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 14,
+    "n_distinct": 10,
+    "sum_spread": 0.02441883087158203
+   },
+   {
+    "module": "module.module.decoder.layers.10.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 15,
+    "n_distinct": 10,
+    "sum_spread": 3.5390257835388184e-06
+   },
+   {
+    "module": "module.module.decoder.layers.10",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 16,
+    "n_distinct": 10,
+    "sum_spread": 0.1466388702392578
+   },
+   {
+    "module": "module.module.decoder.layers.11",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 17,
+    "n_distinct": 10,
+    "sum_spread": 0.26494455337524414
+   },
+   {
+    "module": "module.module.decoder.layers.12.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 18,
+    "n_distinct": 10,
+    "sum_spread": 2.428889274597168e-06
+   },
+   {
+    "module": "module.module.decoder.layers.12",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 19,
+    "n_distinct": 10,
+    "sum_spread": 0.7236337661743164
+   },
+   {
+    "module": "module.module.decoder.layers.13",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 20,
+    "n_distinct": 10,
+    "sum_spread": 0.9014034271240234
+   },
+   {
+    "module": "module.module.decoder.layers.14",
+    "occurrence": 0,
+    "cls": "TransformerLayer",
+    "seq": 21,
+    "n_distinct": 10,
+    "sum_spread": 0.9539961814880371
+   },
+   {
+    "module": "module.module.decoder.layers.15.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 22,
+    "n_distinct": 10,
+    "sum_spread": 2.9802322387695312e-06
+   },
+   {
+    "module": "module.module.decoder.layers.15",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 23,
+    "n_distinct": 10,
+    "sum_spread": 1.1717777252197266
+   },
+   {
+    "module": "module.module.decoder.layers.16",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 24,
+    "n_distinct": 10,
+    "sum_spread": 1.7592864036560059
+   },
+   {
+    "module": "module.module.decoder.layers.17.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 25,
+    "n_distinct": 10,
+    "sum_spread": 3.084540367126465e-06
+   }
+  ]
+ },
+ {
+  "rank": 15,
+  "n_calls": 10,
+  "n_modules": 160,
+  "n_divergent": 150,
+  "first_diff": {
+   "module": "module.module.decoder.layers.7",
+   "occurrence": 0,
+   "cls": "TransformerLayer",
+   "seq": 11,
+   "n_distinct": 10,
+   "sum_spread": 0.010843753814697266
+  },
+  "first_router_diff": {
+   "module": "module.module.decoder.layers.8.mlp.router",
+   "occurrence": 0,
+   "cls": "TopKRouter",
+   "seq": 12,
+   "n_distinct": 10,
+   "sum_spread": 7.37607479095459e-07
+  },
+  "divergent_head": [
+   {
+    "module": "module.module.decoder.layers.7",
+    "occurrence": 0,
+    "cls": "TransformerLayer",
+    "seq": 11,
+    "n_distinct": 10,
+    "sum_spread": 0.010843753814697266
+   },
+   {
+    "module": "module.module.decoder.layers.8.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 12,
+    "n_distinct": 10,
+    "sum_spread": 7.37607479095459e-07
+   },
+   {
+    "module": "module.module.decoder.layers.8",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 13,
+    "n_distinct": 10,
+    "sum_spread": 0.024053573608398438
+   },
+   {
+    "module": "module.module.decoder.layers.9",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 14,
+    "n_distinct": 10,
+    "sum_spread": 0.07934951782226562
+   },
+   {
+    "module": "module.module.decoder.layers.10.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 15,
+    "n_distinct": 10,
+    "sum_spread": 1.9259750843048096e-06
+   },
+   {
+    "module": "module.module.decoder.layers.10",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 16,
+    "n_distinct": 10,
+    "sum_spread": 0.11516380310058594
+   },
+   {
+    "module": "module.module.decoder.layers.11",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 17,
+    "n_distinct": 10,
+    "sum_spread": 0.26456451416015625
+   },
+   {
+    "module": "module.module.decoder.layers.12.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 18,
+    "n_distinct": 10,
+    "sum_spread": 1.8924474716186523e-06
+   },
+   {
+    "module": "module.module.decoder.layers.12",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 19,
+    "n_distinct": 10,
+    "sum_spread": 0.7119941711425781
+   },
+   {
+    "module": "module.module.decoder.layers.13",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 20,
+    "n_distinct": 10,
+    "sum_spread": 0.8985168933868408
+   },
+   {
+    "module": "module.module.decoder.layers.14",
+    "occurrence": 0,
+    "cls": "TransformerLayer",
+    "seq": 21,
+    "n_distinct": 10,
+    "sum_spread": 1.0016851425170898
+   },
+   {
+    "module": "module.module.decoder.layers.15.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 22,
+    "n_distinct": 10,
+    "sum_spread": 2.562999725341797e-06
+   }
+  ]
+ },
+ {
+  "rank": 16,
+  "n_calls": 10,
+  "n_modules": 160,
+  "n_divergent": 142,
+  "first_diff": {
+   "module": "module.module.decoder.layers.12",
+   "occurrence": 0,
+   "cls": "MoETransformerLayer",
+   "seq": 19,
+   "n_distinct": 2,
+   "sum_spread": 0.000579833984375
+  },
+  "first_router_diff": {
+   "module": "module.module.decoder.layers.15.mlp.router",
+   "occurrence": 0,
+   "cls": "TopKRouter",
+   "seq": 22,
+   "n_distinct": 4,
+   "sum_spread": 1.4156103134155273e-06
+  },
+  "divergent_head": [
+   {
+    "module": "module.module.decoder.layers.12",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 19,
+    "n_distinct": 2,
+    "sum_spread": 0.000579833984375
+   },
+   {
+    "module": "module.module.decoder.layers.13",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 20,
+    "n_distinct": 4,
+    "sum_spread": 0.016139984130859375
+   },
+   {
+    "module": "module.module.decoder.layers.14",
+    "occurrence": 0,
+    "cls": "TransformerLayer",
+    "seq": 21,
+    "n_distinct": 4,
+    "sum_spread": 0.041957855224609375
+   },
+   {
+    "module": "module.module.decoder.layers.15.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 22,
+    "n_distinct": 4,
+    "sum_spread": 1.4156103134155273e-06
+   },
+   {
+    "module": "module.module.decoder.layers.15",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 23,
+    "n_distinct": 4,
+    "sum_spread": 0.041744232177734375
+   },
+   {
+    "module": "module.module.decoder.layers.16",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 24,
+    "n_distinct": 4,
+    "sum_spread": 0.11234474182128906
+   },
+   {
+    "module": "module.module.decoder.layers.17.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 25,
+    "n_distinct": 4,
+    "sum_spread": 1.2814998626708984e-06
+   },
+   {
+    "module": "module.module.decoder.layers.17",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 26,
+    "n_distinct": 7,
+    "sum_spread": 0.5030784606933594
+   },
+   {
+    "module": "module.module.decoder.layers.18",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 27,
+    "n_distinct": 9,
+    "sum_spread": 0.7841854095458984
+   },
+   {
+    "module": "module.module.decoder.layers.19.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 28,
+    "n_distinct": 9,
+    "sum_spread": 3.11434268951416e-06
+   },
+   {
+    "module": "module.module.decoder.layers.19",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 29,
+    "n_distinct": 9,
+    "sum_spread": 1.2535552978515625
+   },
+   {
+    "module": "module.module.decoder.layers.20",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 30,
+    "n_distinct": 9,
+    "sum_spread": 1.0122613906860352
+   }
+  ]
+ },
+ {
+  "rank": 17,
+  "n_calls": 10,
+  "n_modules": 160,
+  "n_divergent": 141,
+  "first_diff": {
+   "module": "module.module.decoder.layers.13",
+   "occurrence": 0,
+   "cls": "MambaLayer",
+   "seq": 20,
+   "n_distinct": 4,
+   "sum_spread": 0.024343490600585938
+  },
+  "first_router_diff": {
+   "module": "module.module.decoder.layers.15.mlp.router",
+   "occurrence": 0,
+   "cls": "TopKRouter",
+   "seq": 22,
+   "n_distinct": 4,
+   "sum_spread": 1.9371509552001953e-06
+  },
+  "divergent_head": [
+   {
+    "module": "module.module.decoder.layers.13",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 20,
+    "n_distinct": 4,
+    "sum_spread": 0.024343490600585938
+   },
+   {
+    "module": "module.module.decoder.layers.14",
+    "occurrence": 0,
+    "cls": "TransformerLayer",
+    "seq": 21,
+    "n_distinct": 4,
+    "sum_spread": 0.08508014678955078
+   },
+   {
+    "module": "module.module.decoder.layers.15.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 22,
+    "n_distinct": 4,
+    "sum_spread": 1.9371509552001953e-06
+   },
+   {
+    "module": "module.module.decoder.layers.15",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 23,
+    "n_distinct": 4,
+    "sum_spread": 0.13784027099609375
+   },
+   {
+    "module": "module.module.decoder.layers.16",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 24,
+    "n_distinct": 5,
+    "sum_spread": 0.24612045288085938
+   },
+   {
+    "module": "module.module.decoder.layers.17.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 25,
+    "n_distinct": 5,
+    "sum_spread": 1.564621925354004e-06
+   },
+   {
+    "module": "module.module.decoder.layers.17",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 26,
+    "n_distinct": 5,
+    "sum_spread": 0.18562889099121094
+   },
+   {
+    "module": "module.module.decoder.layers.18",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 27,
+    "n_distinct": 9,
+    "sum_spread": 0.5788078308105469
+   },
+   {
+    "module": "module.module.decoder.layers.19.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 28,
+    "n_distinct": 9,
+    "sum_spread": 2.8759241104125977e-06
+   },
+   {
+    "module": "module.module.decoder.layers.19",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 29,
+    "n_distinct": 9,
+    "sum_spread": 0.8147621154785156
+   },
+   {
+    "module": "module.module.decoder.layers.20",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 30,
+    "n_distinct": 9,
+    "sum_spread": 0.8911514282226562
+   },
+   {
+    "module": "module.module.decoder.layers.21.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 31,
+    "n_distinct": 9,
+    "sum_spread": 3.859400749206543e-06
+   }
+  ]
+ },
+ {
+  "rank": 18,
+  "n_calls": 10,
+  "n_modules": 160,
+  "n_divergent": 142,
+  "first_diff": {
+   "module": "module.module.decoder.layers.12",
+   "occurrence": 0,
+   "cls": "MoETransformerLayer",
+   "seq": 19,
+   "n_distinct": 2,
+   "sum_spread": 0.002330780029296875
+  },
+  "first_router_diff": {
+   "module": "module.module.decoder.layers.15.mlp.router",
+   "occurrence": 0,
+   "cls": "TopKRouter",
+   "seq": 22,
+   "n_distinct": 4,
+   "sum_spread": 2.086162567138672e-06
+  },
+  "divergent_head": [
+   {
+    "module": "module.module.decoder.layers.12",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 19,
+    "n_distinct": 2,
+    "sum_spread": 0.002330780029296875
+   },
+   {
+    "module": "module.module.decoder.layers.13",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 20,
+    "n_distinct": 4,
+    "sum_spread": 0.018198013305664062
+   },
+   {
+    "module": "module.module.decoder.layers.14",
+    "occurrence": 0,
+    "cls": "TransformerLayer",
+    "seq": 21,
+    "n_distinct": 4,
+    "sum_spread": 0.06354594230651855
+   },
+   {
+    "module": "module.module.decoder.layers.15.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 22,
+    "n_distinct": 4,
+    "sum_spread": 2.086162567138672e-06
+   },
+   {
+    "module": "module.module.decoder.layers.15",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 23,
+    "n_distinct": 4,
+    "sum_spread": 0.07240676879882812
+   },
+   {
+    "module": "module.module.decoder.layers.16",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 24,
+    "n_distinct": 4,
+    "sum_spread": 0.23202991485595703
+   },
+   {
+    "module": "module.module.decoder.layers.17.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 25,
+    "n_distinct": 4,
+    "sum_spread": 1.341104507446289e-06
+   },
+   {
+    "module": "module.module.decoder.layers.17",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 26,
+    "n_distinct": 5,
+    "sum_spread": 0.22829437255859375
+   },
+   {
+    "module": "module.module.decoder.layers.18",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 27,
+    "n_distinct": 9,
+    "sum_spread": 0.3386613130569458
+   },
+   {
+    "module": "module.module.decoder.layers.19.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 28,
+    "n_distinct": 9,
+    "sum_spread": 2.562999725341797e-06
+   },
+   {
+    "module": "module.module.decoder.layers.19",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 29,
+    "n_distinct": 9,
+    "sum_spread": 1.0023689270019531
+   },
+   {
+    "module": "module.module.decoder.layers.20",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 30,
+    "n_distinct": 9,
+    "sum_spread": 0.8081932067871094
+   }
+  ]
+ },
+ {
+  "rank": 19,
+  "n_calls": 10,
+  "n_modules": 160,
+  "n_divergent": 141,
+  "first_diff": {
+   "module": "module.module.decoder.layers.13",
+   "occurrence": 0,
+   "cls": "MambaLayer",
+   "seq": 20,
+   "n_distinct": 4,
+   "sum_spread": 0.020069122314453125
+  },
+  "first_router_diff": {
+   "module": "module.module.decoder.layers.15.mlp.router",
+   "occurrence": 0,
+   "cls": "TopKRouter",
+   "seq": 22,
+   "n_distinct": 4,
+   "sum_spread": 1.5497207641601562e-06
+  },
+  "divergent_head": [
+   {
+    "module": "module.module.decoder.layers.13",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 20,
+    "n_distinct": 4,
+    "sum_spread": 0.020069122314453125
+   },
+   {
+    "module": "module.module.decoder.layers.14",
+    "occurrence": 0,
+    "cls": "TransformerLayer",
+    "seq": 21,
+    "n_distinct": 4,
+    "sum_spread": 0.1257190704345703
+   },
+   {
+    "module": "module.module.decoder.layers.15.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 22,
+    "n_distinct": 4,
+    "sum_spread": 1.5497207641601562e-06
+   },
+   {
+    "module": "module.module.decoder.layers.15",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 23,
+    "n_distinct": 4,
+    "sum_spread": 0.2684192657470703
+   },
+   {
+    "module": "module.module.decoder.layers.16",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 24,
+    "n_distinct": 5,
+    "sum_spread": 0.1555042266845703
+   },
+   {
+    "module": "module.module.decoder.layers.17.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 25,
+    "n_distinct": 5,
+    "sum_spread": 1.0281801223754883e-06
+   },
+   {
+    "module": "module.module.decoder.layers.17",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 26,
+    "n_distinct": 7,
+    "sum_spread": 0.4305706024169922
+   },
+   {
+    "module": "module.module.decoder.layers.18",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 27,
+    "n_distinct": 10,
+    "sum_spread": 0.5104801654815674
+   },
+   {
+    "module": "module.module.decoder.layers.19.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 28,
+    "n_distinct": 10,
+    "sum_spread": 2.7418136596679688e-06
+   },
+   {
+    "module": "module.module.decoder.layers.19",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 29,
+    "n_distinct": 10,
+    "sum_spread": 0.8501110076904297
+   },
+   {
+    "module": "module.module.decoder.layers.20",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 30,
+    "n_distinct": 10,
+    "sum_spread": 1.7095730304718018
+   },
+   {
+    "module": "module.module.decoder.layers.21.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 31,
+    "n_distinct": 10,
+    "sum_spread": 3.3080577850341797e-06
+   }
+  ]
+ },
+ {
+  "rank": 20,
+  "n_calls": 10,
+  "n_modules": 160,
+  "n_divergent": 141,
+  "first_diff": {
+   "module": "module.module.decoder.layers.13",
+   "occurrence": 0,
+   "cls": "MambaLayer",
+   "seq": 20,
+   "n_distinct": 5,
+   "sum_spread": 0.0052337646484375
+  },
+  "first_router_diff": {
+   "module": "module.module.decoder.layers.15.mlp.router",
+   "occurrence": 0,
+   "cls": "TopKRouter",
+   "seq": 22,
+   "n_distinct": 5,
+   "sum_spread": 1.7583370208740234e-06
+  },
+  "divergent_head": [
+   {
+    "module": "module.module.decoder.layers.13",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 20,
+    "n_distinct": 5,
+    "sum_spread": 0.0052337646484375
+   },
+   {
+    "module": "module.module.decoder.layers.14",
+    "occurrence": 0,
+    "cls": "TransformerLayer",
+    "seq": 21,
+    "n_distinct": 5,
+    "sum_spread": 0.1207737922668457
+   },
+   {
+    "module": "module.module.decoder.layers.15.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 22,
+    "n_distinct": 5,
+    "sum_spread": 1.7583370208740234e-06
+   },
+   {
+    "module": "module.module.decoder.layers.15",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 23,
+    "n_distinct": 5,
+    "sum_spread": 0.19517898559570312
+   },
+   {
+    "module": "module.module.decoder.layers.16",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 24,
+    "n_distinct": 8,
+    "sum_spread": 0.5150127410888672
+   },
+   {
+    "module": "module.module.decoder.layers.17.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 25,
+    "n_distinct": 8,
+    "sum_spread": 2.294778823852539e-06
+   },
+   {
+    "module": "module.module.decoder.layers.17",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 26,
+    "n_distinct": 8,
+    "sum_spread": 1.1333894729614258
+   },
+   {
+    "module": "module.module.decoder.layers.18",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 27,
+    "n_distinct": 10,
+    "sum_spread": 1.2145207524299622
+   },
+   {
+    "module": "module.module.decoder.layers.19.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 28,
+    "n_distinct": 10,
+    "sum_spread": 4.26173210144043e-06
+   },
+   {
+    "module": "module.module.decoder.layers.19",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 29,
+    "n_distinct": 10,
+    "sum_spread": 2.000133514404297
+   },
+   {
+    "module": "module.module.decoder.layers.20",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 30,
+    "n_distinct": 10,
+    "sum_spread": 2.853081703186035
+   },
+   {
+    "module": "module.module.decoder.layers.21.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 31,
+    "n_distinct": 10,
+    "sum_spread": 2.16066837310791e-06
+   }
+  ]
+ },
+ {
+  "rank": 21,
+  "n_calls": 10,
+  "n_modules": 160,
+  "n_divergent": 141,
+  "first_diff": {
+   "module": "module.module.decoder.layers.13",
+   "occurrence": 0,
+   "cls": "MambaLayer",
+   "seq": 20,
+   "n_distinct": 5,
+   "sum_spread": 0.00994110107421875
+  },
+  "first_router_diff": {
+   "module": "module.module.decoder.layers.15.mlp.router",
+   "occurrence": 0,
+   "cls": "TopKRouter",
+   "seq": 22,
+   "n_distinct": 5,
+   "sum_spread": 1.862645149230957e-06
+  },
+  "divergent_head": [
+   {
+    "module": "module.module.decoder.layers.13",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 20,
+    "n_distinct": 5,
+    "sum_spread": 0.00994110107421875
+   },
+   {
+    "module": "module.module.decoder.layers.14",
+    "occurrence": 0,
+    "cls": "TransformerLayer",
+    "seq": 21,
+    "n_distinct": 5,
+    "sum_spread": 0.23465824127197266
+   },
+   {
+    "module": "module.module.decoder.layers.15.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 22,
+    "n_distinct": 5,
+    "sum_spread": 1.862645149230957e-06
+   },
+   {
+    "module": "module.module.decoder.layers.15",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 23,
+    "n_distinct": 5,
+    "sum_spread": 0.3148174285888672
+   },
+   {
+    "module": "module.module.decoder.layers.16",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 24,
+    "n_distinct": 8,
+    "sum_spread": 0.3732028007507324
+   },
+   {
+    "module": "module.module.decoder.layers.17.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 25,
+    "n_distinct": 8,
+    "sum_spread": 2.428889274597168e-06
+   },
+   {
+    "module": "module.module.decoder.layers.17",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 26,
+    "n_distinct": 8,
+    "sum_spread": 0.8966312408447266
+   },
+   {
+    "module": "module.module.decoder.layers.18",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 27,
+    "n_distinct": 10,
+    "sum_spread": 0.9765100479125977
+   },
+   {
+    "module": "module.module.decoder.layers.19.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 28,
+    "n_distinct": 10,
+    "sum_spread": 3.7848949432373047e-06
+   },
+   {
+    "module": "module.module.decoder.layers.19",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 29,
+    "n_distinct": 10,
+    "sum_spread": 1.0489253997802734
+   },
+   {
+    "module": "module.module.decoder.layers.20",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 30,
+    "n_distinct": 10,
+    "sum_spread": 1.8344688415527344
+   },
+   {
+    "module": "module.module.decoder.layers.21.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 31,
+    "n_distinct": 10,
+    "sum_spread": 2.9206275939941406e-06
+   }
+  ]
+ },
+ {
+  "rank": 22,
+  "n_calls": 10,
+  "n_modules": 160,
+  "n_divergent": 141,
+  "first_diff": {
+   "module": "module.module.decoder.layers.13",
+   "occurrence": 0,
+   "cls": "MambaLayer",
+   "seq": 20,
+   "n_distinct": 5,
+   "sum_spread": 0.013885498046875
+  },
+  "first_router_diff": {
+   "module": "module.module.decoder.layers.15.mlp.router",
+   "occurrence": 0,
+   "cls": "TopKRouter",
+   "seq": 22,
+   "n_distinct": 5,
+   "sum_spread": 3.121793270111084e-06
+  },
+  "divergent_head": [
+   {
+    "module": "module.module.decoder.layers.13",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 20,
+    "n_distinct": 5,
+    "sum_spread": 0.013885498046875
+   },
+   {
+    "module": "module.module.decoder.layers.14",
+    "occurrence": 0,
+    "cls": "TransformerLayer",
+    "seq": 21,
+    "n_distinct": 5,
+    "sum_spread": 0.1496286392211914
+   },
+   {
+    "module": "module.module.decoder.layers.15.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 22,
+    "n_distinct": 5,
+    "sum_spread": 3.121793270111084e-06
+   },
+   {
+    "module": "module.module.decoder.layers.15",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 23,
+    "n_distinct": 5,
+    "sum_spread": 0.3578510284423828
+   },
+   {
+    "module": "module.module.decoder.layers.16",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 24,
+    "n_distinct": 8,
+    "sum_spread": 0.5503149032592773
+   },
+   {
+    "module": "module.module.decoder.layers.17.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 25,
+    "n_distinct": 8,
+    "sum_spread": 1.9222497940063477e-06
+   },
+   {
+    "module": "module.module.decoder.layers.17",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 26,
+    "n_distinct": 8,
+    "sum_spread": 0.822967529296875
+   },
+   {
+    "module": "module.module.decoder.layers.18",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 27,
+    "n_distinct": 10,
+    "sum_spread": 1.4376702308654785
+   },
+   {
+    "module": "module.module.decoder.layers.19.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 28,
+    "n_distinct": 10,
+    "sum_spread": 2.2649765014648438e-06
+   },
+   {
+    "module": "module.module.decoder.layers.19",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 29,
+    "n_distinct": 10,
+    "sum_spread": 1.5233688354492188
+   },
+   {
+    "module": "module.module.decoder.layers.20",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 30,
+    "n_distinct": 10,
+    "sum_spread": 2.5043792724609375
+   },
+   {
+    "module": "module.module.decoder.layers.21.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 31,
+    "n_distinct": 10,
+    "sum_spread": 1.9818544387817383e-06
+   }
+  ]
+ },
+ {
+  "rank": 23,
+  "n_calls": 10,
+  "n_modules": 160,
+  "n_divergent": 150,
+  "first_diff": {
+   "module": "module.module.decoder.layers.7",
+   "occurrence": 0,
+   "cls": "TransformerLayer",
+   "seq": 11,
+   "n_distinct": 10,
+   "sum_spread": 0.0012234747409820557
+  },
+  "first_router_diff": {
+   "module": "module.module.decoder.layers.8.mlp.router",
+   "occurrence": 0,
+   "cls": "TopKRouter",
+   "seq": 12,
+   "n_distinct": 10,
+   "sum_spread": 8.046627044677734e-07
+  },
+  "divergent_head": [
+   {
+    "module": "module.module.decoder.layers.7",
+    "occurrence": 0,
+    "cls": "TransformerLayer",
+    "seq": 11,
+    "n_distinct": 10,
+    "sum_spread": 0.0012234747409820557
+   },
+   {
+    "module": "module.module.decoder.layers.8.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 12,
+    "n_distinct": 10,
+    "sum_spread": 8.046627044677734e-07
+   },
+   {
+    "module": "module.module.decoder.layers.8",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 13,
+    "n_distinct": 10,
+    "sum_spread": 0.010828971862792969
+   },
+   {
+    "module": "module.module.decoder.layers.9",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 14,
+    "n_distinct": 10,
+    "sum_spread": 0.04390525817871094
+   },
+   {
+    "module": "module.module.decoder.layers.10.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 15,
+    "n_distinct": 10,
+    "sum_spread": 6.854534149169922e-07
+   },
+   {
+    "module": "module.module.decoder.layers.10",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 16,
+    "n_distinct": 10,
+    "sum_spread": 0.029409408569335938
+   },
+   {
+    "module": "module.module.decoder.layers.11",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 17,
+    "n_distinct": 10,
+    "sum_spread": 0.05113983154296875
+   },
+   {
+    "module": "module.module.decoder.layers.12.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 18,
+    "n_distinct": 10,
+    "sum_spread": 8.493661880493164e-07
+   },
+   {
+    "module": "module.module.decoder.layers.12",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 19,
+    "n_distinct": 10,
+    "sum_spread": 0.07806777954101562
+   },
+   {
+    "module": "module.module.decoder.layers.13",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 20,
+    "n_distinct": 10,
+    "sum_spread": 0.11117887496948242
+   },
+   {
+    "module": "module.module.decoder.layers.14",
+    "occurrence": 0,
+    "cls": "TransformerLayer",
+    "seq": 21,
+    "n_distinct": 10,
+    "sum_spread": 0.30524444580078125
+   },
+   {
+    "module": "module.module.decoder.layers.15.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 22,
+    "n_distinct": 10,
+    "sum_spread": 1.3709068298339844e-06
+   }
+  ]
+ },
+ {
+  "rank": 24,
+  "n_calls": 10,
+  "n_modules": 160,
+  "n_divergent": 141,
+  "first_diff": {
+   "module": "module.module.decoder.layers.13",
+   "occurrence": 0,
+   "cls": "MambaLayer",
+   "seq": 20,
+   "n_distinct": 4,
+   "sum_spread": 0.030817031860351562
+  },
+  "first_router_diff": {
+   "module": "module.module.decoder.layers.15.mlp.router",
+   "occurrence": 0,
+   "cls": "TopKRouter",
+   "seq": 22,
+   "n_distinct": 4,
+   "sum_spread": 2.0712614059448242e-06
+  },
+  "divergent_head": [
+   {
+    "module": "module.module.decoder.layers.13",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 20,
+    "n_distinct": 4,
+    "sum_spread": 0.030817031860351562
+   },
+   {
+    "module": "module.module.decoder.layers.14",
+    "occurrence": 0,
+    "cls": "TransformerLayer",
+    "seq": 21,
+    "n_distinct": 4,
+    "sum_spread": 0.08699476718902588
+   },
+   {
+    "module": "module.module.decoder.layers.15.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 22,
+    "n_distinct": 4,
+    "sum_spread": 2.0712614059448242e-06
+   },
+   {
+    "module": "module.module.decoder.layers.15",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 23,
+    "n_distinct": 4,
+    "sum_spread": 0.24556446075439453
+   },
+   {
+    "module": "module.module.decoder.layers.16",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 24,
+    "n_distinct": 4,
+    "sum_spread": 0.6580419540405273
+   },
+   {
+    "module": "module.module.decoder.layers.17.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 25,
+    "n_distinct": 4,
+    "sum_spread": 1.259148120880127e-06
+   },
+   {
+    "module": "module.module.decoder.layers.17",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 26,
+    "n_distinct": 4,
+    "sum_spread": 0.6856918334960938
+   },
+   {
+    "module": "module.module.decoder.layers.18",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 27,
+    "n_distinct": 10,
+    "sum_spread": 0.546966552734375
+   },
+   {
+    "module": "module.module.decoder.layers.19.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 28,
+    "n_distinct": 10,
+    "sum_spread": 3.6954879760742188e-06
+   },
+   {
+    "module": "module.module.decoder.layers.19",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 29,
+    "n_distinct": 10,
+    "sum_spread": 0.6002464294433594
+   },
+   {
+    "module": "module.module.decoder.layers.20",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 30,
+    "n_distinct": 10,
+    "sum_spread": 1.2187423706054688
+   },
+   {
+    "module": "module.module.decoder.layers.21.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 31,
+    "n_distinct": 10,
+    "sum_spread": 2.60770320892334e-06
+   }
+  ]
+ },
+ {
+  "rank": 25,
+  "n_calls": 10,
+  "n_modules": 160,
+  "n_divergent": 141,
+  "first_diff": {
+   "module": "module.module.decoder.layers.13",
+   "occurrence": 0,
+   "cls": "MambaLayer",
+   "seq": 20,
+   "n_distinct": 4,
+   "sum_spread": 0.021839141845703125
+  },
+  "first_router_diff": {
+   "module": "module.module.decoder.layers.15.mlp.router",
+   "occurrence": 0,
+   "cls": "TopKRouter",
+   "seq": 22,
+   "n_distinct": 4,
+   "sum_spread": 7.748603820800781e-07
+  },
+  "divergent_head": [
+   {
+    "module": "module.module.decoder.layers.13",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 20,
+    "n_distinct": 4,
+    "sum_spread": 0.021839141845703125
+   },
+   {
+    "module": "module.module.decoder.layers.14",
+    "occurrence": 0,
+    "cls": "TransformerLayer",
+    "seq": 21,
+    "n_distinct": 4,
+    "sum_spread": 0.20303916931152344
+   },
+   {
+    "module": "module.module.decoder.layers.15.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 22,
+    "n_distinct": 4,
+    "sum_spread": 7.748603820800781e-07
+   },
+   {
+    "module": "module.module.decoder.layers.15",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 23,
+    "n_distinct": 4,
+    "sum_spread": 0.12637710571289062
+   },
+   {
+    "module": "module.module.decoder.layers.16",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 24,
+    "n_distinct": 4,
+    "sum_spread": 0.44806528091430664
+   },
+   {
+    "module": "module.module.decoder.layers.17.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 25,
+    "n_distinct": 4,
+    "sum_spread": 3.822147846221924e-06
+   },
+   {
+    "module": "module.module.decoder.layers.17",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 26,
+    "n_distinct": 4,
+    "sum_spread": 0.3449993133544922
+   },
+   {
+    "module": "module.module.decoder.layers.18",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 27,
+    "n_distinct": 10,
+    "sum_spread": 0.40926313400268555
+   },
+   {
+    "module": "module.module.decoder.layers.19.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 28,
+    "n_distinct": 10,
+    "sum_spread": 2.7567148208618164e-06
+   },
+   {
+    "module": "module.module.decoder.layers.19",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 29,
+    "n_distinct": 10,
+    "sum_spread": 0.5464515686035156
+   },
+   {
+    "module": "module.module.decoder.layers.20",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 30,
+    "n_distinct": 10,
+    "sum_spread": 1.1331844329833984
+   },
+   {
+    "module": "module.module.decoder.layers.21.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 31,
+    "n_distinct": 10,
+    "sum_spread": 2.3096799850463867e-06
+   }
+  ]
+ },
+ {
+  "rank": 26,
+  "n_calls": 10,
+  "n_modules": 160,
+  "n_divergent": 141,
+  "first_diff": {
+   "module": "module.module.decoder.layers.13",
+   "occurrence": 0,
+   "cls": "MambaLayer",
+   "seq": 20,
+   "n_distinct": 4,
+   "sum_spread": 0.02783203125
+  },
+  "first_router_diff": {
+   "module": "module.module.decoder.layers.15.mlp.router",
+   "occurrence": 0,
+   "cls": "TopKRouter",
+   "seq": 22,
+   "n_distinct": 4,
+   "sum_spread": 2.2426247596740723e-06
+  },
+  "divergent_head": [
+   {
+    "module": "module.module.decoder.layers.13",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 20,
+    "n_distinct": 4,
+    "sum_spread": 0.02783203125
+   },
+   {
+    "module": "module.module.decoder.layers.14",
+    "occurrence": 0,
+    "cls": "TransformerLayer",
+    "seq": 21,
+    "n_distinct": 4,
+    "sum_spread": 0.11670541763305664
+   },
+   {
+    "module": "module.module.decoder.layers.15.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 22,
+    "n_distinct": 4,
+    "sum_spread": 2.2426247596740723e-06
+   },
+   {
+    "module": "module.module.decoder.layers.15",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 23,
+    "n_distinct": 4,
+    "sum_spread": 0.11985111236572266
+   },
+   {
+    "module": "module.module.decoder.layers.16",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 24,
+    "n_distinct": 4,
+    "sum_spread": 0.3347134590148926
+   },
+   {
+    "module": "module.module.decoder.layers.17.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 25,
+    "n_distinct": 4,
+    "sum_spread": 1.4975666999816895e-06
+   },
+   {
+    "module": "module.module.decoder.layers.17",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 26,
+    "n_distinct": 5,
+    "sum_spread": 0.3676471710205078
+   },
+   {
+    "module": "module.module.decoder.layers.18",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 27,
+    "n_distinct": 10,
+    "sum_spread": 0.4715871810913086
+   },
+   {
+    "module": "module.module.decoder.layers.19.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 28,
+    "n_distinct": 10,
+    "sum_spread": 2.995133399963379e-06
+   },
+   {
+    "module": "module.module.decoder.layers.19",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 29,
+    "n_distinct": 10,
+    "sum_spread": 1.2435150146484375
+   },
+   {
+    "module": "module.module.decoder.layers.20",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 30,
+    "n_distinct": 10,
+    "sum_spread": 2.573162078857422
+   },
+   {
+    "module": "module.module.decoder.layers.21.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 31,
+    "n_distinct": 10,
+    "sum_spread": 2.7418136596679688e-06
+   }
+  ]
+ },
+ {
+  "rank": 27,
+  "n_calls": 10,
+  "n_modules": 160,
+  "n_divergent": 141,
+  "first_diff": {
+   "module": "module.module.decoder.layers.13",
+   "occurrence": 0,
+   "cls": "MambaLayer",
+   "seq": 20,
+   "n_distinct": 4,
+   "sum_spread": 0.017425537109375
+  },
+  "first_router_diff": {
+   "module": "module.module.decoder.layers.15.mlp.router",
+   "occurrence": 0,
+   "cls": "TopKRouter",
+   "seq": 22,
+   "n_distinct": 4,
+   "sum_spread": 2.0265579223632812e-06
+  },
+  "divergent_head": [
+   {
+    "module": "module.module.decoder.layers.13",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 20,
+    "n_distinct": 4,
+    "sum_spread": 0.017425537109375
+   },
+   {
+    "module": "module.module.decoder.layers.14",
+    "occurrence": 0,
+    "cls": "TransformerLayer",
+    "seq": 21,
+    "n_distinct": 4,
+    "sum_spread": 0.21305274963378906
+   },
+   {
+    "module": "module.module.decoder.layers.15.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 22,
+    "n_distinct": 4,
+    "sum_spread": 2.0265579223632812e-06
+   },
+   {
+    "module": "module.module.decoder.layers.15",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 23,
+    "n_distinct": 4,
+    "sum_spread": 0.2690410614013672
+   },
+   {
+    "module": "module.module.decoder.layers.16",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 24,
+    "n_distinct": 4,
+    "sum_spread": 0.2521038055419922
+   },
+   {
+    "module": "module.module.decoder.layers.17.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 25,
+    "n_distinct": 4,
+    "sum_spread": 4.306435585021973e-06
+   },
+   {
+    "module": "module.module.decoder.layers.17",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 26,
+    "n_distinct": 4,
+    "sum_spread": 0.2937297821044922
+   },
+   {
+    "module": "module.module.decoder.layers.18",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 27,
+    "n_distinct": 10,
+    "sum_spread": 0.43486976623535156
+   },
+   {
+    "module": "module.module.decoder.layers.19.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 28,
+    "n_distinct": 10,
+    "sum_spread": 3.11434268951416e-06
+   },
+   {
+    "module": "module.module.decoder.layers.19",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 29,
+    "n_distinct": 10,
+    "sum_spread": 0.4915275573730469
+   },
+   {
+    "module": "module.module.decoder.layers.20",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 30,
+    "n_distinct": 10,
+    "sum_spread": 1.0510854721069336
+   },
+   {
+    "module": "module.module.decoder.layers.21.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 31,
+    "n_distinct": 10,
+    "sum_spread": 1.952052116394043e-06
+   }
+  ]
+ },
+ {
+  "rank": 28,
+  "n_calls": 10,
+  "n_modules": 160,
+  "n_divergent": 141,
+  "first_diff": {
+   "module": "module.module.decoder.layers.13",
+   "occurrence": 0,
+   "cls": "MambaLayer",
+   "seq": 20,
+   "n_distinct": 4,
+   "sum_spread": 0.024184226989746094
+  },
+  "first_router_diff": {
+   "module": "module.module.decoder.layers.15.mlp.router",
+   "occurrence": 0,
+   "cls": "TopKRouter",
+   "seq": 22,
+   "n_distinct": 4,
+   "sum_spread": 2.3245811462402344e-06
+  },
+  "divergent_head": [
+   {
+    "module": "module.module.decoder.layers.13",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 20,
+    "n_distinct": 4,
+    "sum_spread": 0.024184226989746094
+   },
+   {
+    "module": "module.module.decoder.layers.14",
+    "occurrence": 0,
+    "cls": "TransformerLayer",
+    "seq": 21,
+    "n_distinct": 4,
+    "sum_spread": 0.2106304168701172
+   },
+   {
+    "module": "module.module.decoder.layers.15.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 22,
+    "n_distinct": 4,
+    "sum_spread": 2.3245811462402344e-06
+   },
+   {
+    "module": "module.module.decoder.layers.15",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 23,
+    "n_distinct": 4,
+    "sum_spread": 0.25261878967285156
+   },
+   {
+    "module": "module.module.decoder.layers.16",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 24,
+    "n_distinct": 4,
+    "sum_spread": 0.22736644744873047
+   },
+   {
+    "module": "module.module.decoder.layers.17.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 25,
+    "n_distinct": 4,
+    "sum_spread": 1.341104507446289e-06
+   },
+   {
+    "module": "module.module.decoder.layers.17",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 26,
+    "n_distinct": 4,
+    "sum_spread": 0.1831188201904297
+   },
+   {
+    "module": "module.module.decoder.layers.18",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 27,
+    "n_distinct": 10,
+    "sum_spread": 0.30870628356933594
+   },
+   {
+    "module": "module.module.decoder.layers.19.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 28,
+    "n_distinct": 10,
+    "sum_spread": 2.250075340270996e-06
+   },
+   {
+    "module": "module.module.decoder.layers.19",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 29,
+    "n_distinct": 10,
+    "sum_spread": 1.1658687591552734
+   },
+   {
+    "module": "module.module.decoder.layers.20",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 30,
+    "n_distinct": 10,
+    "sum_spread": 1.0981006622314453
+   },
+   {
+    "module": "module.module.decoder.layers.21.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 31,
+    "n_distinct": 10,
+    "sum_spread": 1.7881393432617188e-06
+   }
+  ]
+ },
+ {
+  "rank": 29,
+  "n_calls": 10,
+  "n_modules": 160,
+  "n_divergent": 142,
+  "first_diff": {
+   "module": "module.module.decoder.layers.12",
+   "occurrence": 0,
+   "cls": "MoETransformerLayer",
+   "seq": 19,
+   "n_distinct": 2,
+   "sum_spread": 0.0001220703125
+  },
+  "first_router_diff": {
+   "module": "module.module.decoder.layers.15.mlp.router",
+   "occurrence": 0,
+   "cls": "TopKRouter",
+   "seq": 22,
+   "n_distinct": 5,
+   "sum_spread": 1.564621925354004e-06
+  },
+  "divergent_head": [
+   {
+    "module": "module.module.decoder.layers.12",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 19,
+    "n_distinct": 2,
+    "sum_spread": 0.0001220703125
+   },
+   {
+    "module": "module.module.decoder.layers.13",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 20,
+    "n_distinct": 5,
+    "sum_spread": 0.020732879638671875
+   },
+   {
+    "module": "module.module.decoder.layers.14",
+    "occurrence": 0,
+    "cls": "TransformerLayer",
+    "seq": 21,
+    "n_distinct": 5,
+    "sum_spread": 0.18158197402954102
+   },
+   {
+    "module": "module.module.decoder.layers.15.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 22,
+    "n_distinct": 5,
+    "sum_spread": 1.564621925354004e-06
+   },
+   {
+    "module": "module.module.decoder.layers.15",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 23,
+    "n_distinct": 7,
+    "sum_spread": 0.16109895706176758
+   },
+   {
+    "module": "module.module.decoder.layers.16",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 24,
+    "n_distinct": 8,
+    "sum_spread": 0.29791688919067383
+   },
+   {
+    "module": "module.module.decoder.layers.17.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 25,
+    "n_distinct": 8,
+    "sum_spread": 2.4437904357910156e-06
+   },
+   {
+    "module": "module.module.decoder.layers.17",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 26,
+    "n_distinct": 8,
+    "sum_spread": 0.38385868072509766
+   },
+   {
+    "module": "module.module.decoder.layers.18",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 27,
+    "n_distinct": 10,
+    "sum_spread": 0.6029376983642578
+   },
+   {
+    "module": "module.module.decoder.layers.19.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 28,
+    "n_distinct": 10,
+    "sum_spread": 2.175569534301758e-06
+   },
+   {
+    "module": "module.module.decoder.layers.19",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 29,
+    "n_distinct": 10,
+    "sum_spread": 1.6961517333984375
+   },
+   {
+    "module": "module.module.decoder.layers.20",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 30,
+    "n_distinct": 10,
+    "sum_spread": 1.6818523406982422
+   }
+  ]
+ },
+ {
+  "rank": 30,
+  "n_calls": 10,
+  "n_modules": 160,
+  "n_divergent": 142,
+  "first_diff": {
+   "module": "module.module.decoder.layers.12",
+   "occurrence": 0,
+   "cls": "MoETransformerLayer",
+   "seq": 19,
+   "n_distinct": 2,
+   "sum_spread": 0.00250244140625
+  },
+  "first_router_diff": {
+   "module": "module.module.decoder.layers.15.mlp.router",
+   "occurrence": 0,
+   "cls": "TopKRouter",
+   "seq": 22,
+   "n_distinct": 5,
+   "sum_spread": 9.98377799987793e-07
+  },
+  "divergent_head": [
+   {
+    "module": "module.module.decoder.layers.12",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 19,
+    "n_distinct": 2,
+    "sum_spread": 0.00250244140625
+   },
+   {
+    "module": "module.module.decoder.layers.13",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 20,
+    "n_distinct": 5,
+    "sum_spread": 0.03746795654296875
+   },
+   {
+    "module": "module.module.decoder.layers.14",
+    "occurrence": 0,
+    "cls": "TransformerLayer",
+    "seq": 21,
+    "n_distinct": 5,
+    "sum_spread": 0.21889615058898926
+   },
+   {
+    "module": "module.module.decoder.layers.15.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 22,
+    "n_distinct": 5,
+    "sum_spread": 9.98377799987793e-07
+   },
+   {
+    "module": "module.module.decoder.layers.15",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 23,
+    "n_distinct": 5,
+    "sum_spread": 0.3664283752441406
+   },
+   {
+    "module": "module.module.decoder.layers.16",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 24,
+    "n_distinct": 7,
+    "sum_spread": 0.5351791381835938
+   },
+   {
+    "module": "module.module.decoder.layers.17.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 25,
+    "n_distinct": 7,
+    "sum_spread": 1.3262033462524414e-06
+   },
+   {
+    "module": "module.module.decoder.layers.17",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 26,
+    "n_distinct": 8,
+    "sum_spread": 0.5486106872558594
+   },
+   {
+    "module": "module.module.decoder.layers.18",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 27,
+    "n_distinct": 10,
+    "sum_spread": 0.5922183990478516
+   },
+   {
+    "module": "module.module.decoder.layers.19.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 28,
+    "n_distinct": 10,
+    "sum_spread": 3.769993782043457e-06
+   },
+   {
+    "module": "module.module.decoder.layers.19",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 29,
+    "n_distinct": 10,
+    "sum_spread": 1.7238960266113281
+   },
+   {
+    "module": "module.module.decoder.layers.20",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 30,
+    "n_distinct": 10,
+    "sum_spread": 1.525752067565918
+   }
+  ]
+ },
+ {
+  "rank": 31,
+  "n_calls": 10,
+  "n_modules": 160,
+  "n_divergent": 141,
+  "first_diff": {
+   "module": "module.module.decoder.layers.13",
+   "occurrence": 0,
+   "cls": "MambaLayer",
+   "seq": 20,
+   "n_distinct": 5,
+   "sum_spread": 0.015621185302734375
+  },
+  "first_router_diff": {
+   "module": "module.module.decoder.layers.15.mlp.router",
+   "occurrence": 0,
+   "cls": "TopKRouter",
+   "seq": 22,
+   "n_distinct": 5,
+   "sum_spread": 1.341104507446289e-06
+  },
+  "divergent_head": [
+   {
+    "module": "module.module.decoder.layers.13",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 20,
+    "n_distinct": 5,
+    "sum_spread": 0.015621185302734375
+   },
+   {
+    "module": "module.module.decoder.layers.14",
+    "occurrence": 0,
+    "cls": "TransformerLayer",
+    "seq": 21,
+    "n_distinct": 5,
+    "sum_spread": 0.3796224594116211
+   },
+   {
+    "module": "module.module.decoder.layers.15.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 22,
+    "n_distinct": 5,
+    "sum_spread": 1.341104507446289e-06
+   },
+   {
+    "module": "module.module.decoder.layers.15",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 23,
+    "n_distinct": 5,
+    "sum_spread": 0.7191829681396484
+   },
+   {
+    "module": "module.module.decoder.layers.16",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 24,
+    "n_distinct": 8,
+    "sum_spread": 0.8817992210388184
+   },
+   {
+    "module": "module.module.decoder.layers.17.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 25,
+    "n_distinct": 8,
+    "sum_spread": 2.7567148208618164e-06
+   },
+   {
+    "module": "module.module.decoder.layers.17",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 26,
+    "n_distinct": 8,
+    "sum_spread": 1.179330825805664
+   },
+   {
+    "module": "module.module.decoder.layers.18",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 27,
+    "n_distinct": 10,
+    "sum_spread": 0.9519600868225098
+   },
+   {
+    "module": "module.module.decoder.layers.19.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 28,
+    "n_distinct": 10,
+    "sum_spread": 3.1441450119018555e-06
+   },
+   {
+    "module": "module.module.decoder.layers.19",
+    "occurrence": 0,
+    "cls": "MoETransformerLayer",
+    "seq": 29,
+    "n_distinct": 10,
+    "sum_spread": 1.1986560821533203
+   },
+   {
+    "module": "module.module.decoder.layers.20",
+    "occurrence": 0,
+    "cls": "MambaLayer",
+    "seq": 30,
+    "n_distinct": 10,
+    "sum_spread": 2.818192958831787
+   },
+   {
+    "module": "module.module.decoder.layers.21.mlp.router",
+    "occurrence": 0,
+    "cls": "TopKRouter",
+    "seq": 31,
+    "n_distinct": 10,
+    "sum_spread": 1.8924474716186523e-06
+   }
+  ]
+ }
+]

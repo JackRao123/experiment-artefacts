@@ -1,0 +1,33 @@
++ V=/root/.cache/user_artifacts/trainers_main/server/.venv/bin
++ RD=/root/.cache/user_artifacts/lps1063-phase6
++ cd /root/.cache/user_artifacts/lps1063-phase6
++ export CUDA_VISIBLE_DEVICES=0,1,2,3
++ CUDA_VISIBLE_DEVICES=0,1,2,3
++ mkdir -p dumps probe-p1000 probe-n1e30
++ R='/root/.cache/user_artifacts/trainers_main/server/.venv/bin/torchrun --standalone --nproc-per-node=4 standalone_te_cp_repro_v2.py'
++ BT_CP_PROBE=1
++ BT_CP_PROBE_DIR=/root/.cache/user_artifacts/lps1063-phase6/probe-p1000
++ BT_CP_LSE_POISON=1000
++ /root/.cache/user_artifacts/trainers_main/server/.venv/bin/torchrun --standalone --nproc-per-node=4 standalone_te_cp_repro_v2.py --n-iters 30 --dump-out dumps/p1000
++ echo 'p1000 rc=0'
++ BT_CP_PROBE=1
++ BT_CP_PROBE_DIR=/root/.cache/user_artifacts/lps1063-phase6/probe-n1e30
++ BT_CP_LSE_POISON=-1e30
++ /root/.cache/user_artifacts/trainers_main/server/.venv/bin/torchrun --standalone --nproc-per-node=4 standalone_te_cp_repro_v2.py --n-iters 30 --dump-out dumps/n1e30
++ echo 'n1e30 rc=0'
++ /root/.cache/user_artifacts/trainers_main/server/.venv/bin/torchrun --standalone --nproc-per-node=4 standalone_te_cp_repro_v2.py --n-iters 100 --pad-between-seqs --dump-out dumps/padfix
++ echo 'padfix rc=0'
++ /root/.cache/user_artifacts/trainers_main/server/.venv/bin/torchrun --standalone --nproc-per-node=1 standalone_te_cp_repro_v2.py --n-iters 10 --dump-out dumps/cp1
++ echo 'cp1 rc=0'
++ PYTORCH_NO_CUDA_MEMORY_CACHING=1
++ /root/.cache/user_artifacts/trainers_main/server/.venv/bin/torchrun --standalone --nproc-per-node=4 standalone_te_cp_repro_v2.py --n-iters 30
++ echo 'nocache rc=1'
++ /root/.cache/user_artifacts/trainers_main/server/.venv/bin/torchrun --standalone --nproc-per-node=4 standalone_te_cp_repro_v2.py --n-iters 2 --dump-out dumps/stock
++ echo 'stockdump rc=1'
++ NVTE_ALLOW_NONDETERMINISTIC_ALGO=0
++ /root/.cache/user_artifacts/trainers_main/server/.venv/bin/torchrun --standalone --nproc-per-node=4 standalone_te_cp_repro_v2.py --n-iters 20 --backward
++ echo 'bwd_stock rc=1'
++ NVTE_ALLOW_NONDETERMINISTIC_ALGO=0
++ /root/.cache/user_artifacts/trainers_main/server/.venv/bin/torchrun --standalone --nproc-per-node=4 standalone_te_cp_repro_v2.py --n-iters 20 --backward --pad-between-seqs
++ echo 'bwd_padfix rc=0'
++ touch logs/b1.done

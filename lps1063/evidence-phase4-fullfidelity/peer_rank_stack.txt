@@ -1,0 +1,44 @@
+Process 5512: /root/.cache/user_artifacts/trainers_main/server/.venv/bin/python3 -u -m trainers_server.dp_worker.main
+Python v3.12.3 (/usr/bin/python3.12)
+
+Thread 5512 (active): "MainThread"
+    broadcast_object_list (torch/distributed/distributed_c10d.py:3849)
+    wrapper (torch/distributed/c10d_logger.py:83)
+    _peer_loop (trainers_server/dp_worker/worker.py:241)
+    run_rank (trainers_server/dp_worker/worker.py:314)
+    main (trainers_server/dp_worker/main.py:244)
+    <module> (trainers_server/dp_worker/main.py:248)
+    _run_code (<frozen runpy>:88)
+    _run_module_as_main (<frozen runpy>:198)
+Thread 6440 (idle): "InductorSubproc"
+    _recv_msg (torch/_inductor/compile_worker/subproc_pool.py:76)
+    _read_thread (torch/_inductor/compile_worker/subproc_pool.py:271)
+    run (threading.py:1010)
+    _bootstrap_inner (threading.py:1073)
+    _bootstrap (threading.py:1030)
+Thread 6445 (idle): "Thread-2"
+    wait (threading.py:359)
+    wait (threading.py:655)
+    run (tqdm/_monitor.py:60)
+    _bootstrap_inner (threading.py:1073)
+    _bootstrap (threading.py:1030)
+Thread 6453 (idle)
+Thread 6455 (idle): "Dummy-3"
+Thread 6457 (idle)
+Thread 6459 (idle)
+Thread 6461 (idle)
+Thread 6463 (idle)
+Thread 6465 (idle)
+Thread 6467 (idle)
+Thread 15094 (idle): "QueueFeederThread"
+    wait (threading.py:355)
+    _feed (multiprocessing/queues.py:251)
+    run (threading.py:1010)
+    _bootstrap_inner (threading.py:1073)
+    _bootstrap (threading.py:1030)
+Thread 15096 (idle): "QueueFeederThread"
+    wait (threading.py:355)
+    _feed (multiprocessing/queues.py:251)
+    run (threading.py:1010)
+    _bootstrap_inner (threading.py:1073)
+    _bootstrap (threading.py:1030)
