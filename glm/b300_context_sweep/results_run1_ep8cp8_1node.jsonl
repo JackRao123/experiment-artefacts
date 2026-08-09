@@ -1,0 +1,11 @@
+{"L": 0, "ok": true, "peak_mib_per_gpu": [221599, 221599, 221599, 221599, 221599, 221599, 221599, 221599], "peak_mib_max": 221599, "peak_mib_min": 221599, "note": "idle baseline after trainer ready"}
+{"L": 0, "ok": true, "peak_mib_per_gpu": [233341, 232997, 232997, 232997, 232977, 233297, 233017, 233017], "peak_mib_max": 233341, "peak_mib_min": 232977, "note": "idle baseline after trainer ready"}
+{"L": 16384, "ok": true, "wall_s": 3.09, "peak_mib_per_gpu": [233387, 233043, 233023, 233005, 233085, 233343, 233048, 233063], "peak_mib_max": 233387, "peak_mib_min": 233005, "samples": 10}
+{"L": 32768, "ok": true, "wall_s": 19.42, "peak_mib_per_gpu": [243687, 243583, 243883, 243705, 243605, 243503, 243605, 243843], "peak_mib_max": 243883, "peak_mib_min": 243503, "samples": 16}
+{"L": 49152, "ok": true, "wall_s": 19.54, "peak_mib_per_gpu": [252829, 252603, 253063, 253205, 252725, 252663, 252625, 253223], "peak_mib_max": 253223, "peak_mib_min": 252603, "samples": 26}
+{"L": 65536, "ok": true, "wall_s": 21.38, "peak_mib_per_gpu": [268089, 267843, 267863, 267605, 267625, 268363, 267645, 267843], "peak_mib_max": 268363, "peak_mib_min": 267605, "samples": 18}
+{"L": 81920, "ok": true, "wall_s": 78.81, "peak_mib_per_gpu": [273939, 273715, 273843, 274035, 273805, 274053, 274075, 273955], "peak_mib_max": 274075, "peak_mib_min": 273715, "samples": 101}
+{"L": 98304, "ok": true, "wall_s": 104.15, "peak_mib_per_gpu": [273159, 272915, 274013, 273475, 273909, 273917, 273729, 273437], "peak_mib_max": 274013, "peak_mib_min": 272915, "samples": 108}
+{"L": 114688, "ok": true, "wall_s": 125.73, "peak_mib_per_gpu": [273821, 273937, 273915, 272997, 273875, 273929, 273729, 273835], "peak_mib_max": 273937, "peak_mib_min": 272997, "samples": 156}
+{"L": 131072, "ok": true, "wall_s": 217.8, "peak_mib_per_gpu": [274083, 273933, 274021, 274099, 273911, 273859, 273811, 273939], "peak_mib_max": 274099, "peak_mib_min": 273811, "samples": 235}
+{"L": 147456, "ok": false, "wall_s": 154.15, "peak_mib_per_gpu": [273949, 273405, 274107, 273845, 274027, 274027, 273267, 273907], "peak_mib_max": 274107, "peak_mib_min": 273267, "samples": 131, "error": "{\"error\": \"poll exception: RemoteDisconnected('Remote end closed connection without response')\"}"}
