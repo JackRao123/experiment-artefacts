@@ -1,7 +1,25 @@
-# LPS-1063 investigation notebook
+# LPS-1073 investigation notebook
 
-Running log for the `save_state`/reload correctness mismatch on MoE trainers.
-Ticket: https://linear.app/baseten/issue/LPS-1063
+> **STATUS: DONE — root-caused, mechanism-proven, fixed at tip of `main`.**
+>
+> This investigation was originally tracked as **LPS-1063** ("save_state /
+> reload correctness mismatch on MoE trainers"), which consolidated two
+> reports that turned out to be **unrelated bugs**. LPS-1063 was split:
+>
+> - **LPS-1073 (this folder)** — the Nemotron Ultra nightly gate failure =
+>   TE fused-attn forward **nondeterminism** under CP (tail-padded THD).
+>   NOT a `save_state` bug; the save/reload compare was just the test that
+>   surfaced it. Fix merged: Megatron-LM#25 → Megatron-Bridge#31 →
+>   trainers#994.
+> - **LPS-1074** — MoE `save_state` checkpoint truncation (DSv4 /
+>   Qwen3.5-397B-A17B): the actual `save_state` bug. **Open.**
+>
+> Folder renamed `lps1063` → `lps1073` on 2026-08-09. Inline `LPS-1063`
+> references below are historical (they refer to the pre-split ticket).
+
+Running log for the Nemotron nightly-gate failure → TE fused-attn forward
+nondeterminism under CP (tail-padded THD).
+Ticket: https://linear.app/baseten/issue/LPS-1073
 Newest entries at the bottom. Keep updating as work proceeds.
 
 ---

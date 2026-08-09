@@ -1,4 +1,6 @@
-# LPS-1063 version matrix — cuDNN x TE, CP4 standalone repro (work item C)
+# LPS-1073 version matrix — cuDNN x TE, CP4 standalone repro (work item C)
+
+> (Originally LPS-1063, pre-split — see the banner at the top of `../NOTEBOOK.md`.)
 
 - lane: cu13 | torch: torch==2.11.0+cu130 | GPUs: 4,5,6,7 (CUDA_VISIBLE_DEVICES) | box: tj-w6xx15w, 1-node B300-class sm103 (ali) | started: 2026-08-08 13:40:38 UTC
 - per cell: CP4, seeds 16,17,18, 60 iters/seed (= 180 forwards/rank/cell)

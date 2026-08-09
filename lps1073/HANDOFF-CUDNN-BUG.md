@@ -1,4 +1,6 @@
-# LPS-1063 overnight handoff: root-cause to full evidence + FIX the CP fused-attn forward nondeterminism
+# LPS-1073 overnight handoff: root-cause to full evidence + FIX the CP fused-attn forward nondeterminism
+
+> (Originally LPS-1063, pre-split — see the banner at the top of `NOTEBOOK.md`. DONE.)
 
 Owner tonight: **feynman** (fresh context, does the work).
 Supervisor: **ramanujan** (context-constrained; send CONCISE milestone updates
