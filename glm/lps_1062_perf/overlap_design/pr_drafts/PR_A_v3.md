@@ -44,21 +44,27 @@ the replay cache engaged) — remains the last open gate before this PR opens.
 **Known improvement (not a blocker; curie's leg-(b) finding, grothendieck's
 read concurred):** V3-ON introduces a recurring >1 ms D2H memcpy class —
 33 calls/window, 0.71 s total, max 132 ms tail — parented by `aten::copy_`
-(the probe's pinned 1-byte copy) with grandparents `aten::repeat` ×20 /
-`clone` ×8 / `_to_copy` ×4 / `scatter` ×1, ABSENT in the C′-era trace (6
-calls, 0.062 s, zero `aten::repeat`). Both boots B/F+C′+W1, so the delta is
-exactly V3. Mechanism read (design lane): the kick's
-`stream.wait_stream(current)` orders the side-stream D2H behind the compute
-stream's whole backlog at kick time — at 131k that backlog includes the
-probe input's repeat-class construction, so the 1-byte copy inherits it.
-This is the SAME defect class as W3-v2's (the fleet's wait_stream lesson):
-the fix is input-dependency-only ordering — wait on an event recorded at the
-probe input's producer (or compute the flag without the repeat-class
-construction), never the backlog. ~1.8 % of window time as measured + the
-132 ms tail; removal likely improves the 131k wall beyond tonight's +4–5 %.
-Filed as a follow-up (the memcpy_gt1ms checker row it tripped is ruled
-intent-satisfied, era-exact; the BFC profile's coverage gap vs the
-probe-input construction is documented in curie's record).
+with grandparents `aten::repeat` ×20 / `clone` ×8 / `_to_copy` ×4 /
+`scatter` ×1, ABSENT in the C′-era trace (6 calls, 0.062 s, zero
+`aten::repeat`). Both boots B/F+C′+W1, so the delta is exactly V3.
+**Mechanism read (CORRECTED after curie's sanity check — my first read
+attributed it to the kick's `wait_stream(current)` inheriting the compute
+backlog, the W3-v2 defect class; curie's rows refute that: the probe
+eventSyncs are µs-scale (1.8 ms total across 312 probes, zero >1 ms — a
+backlog-inheriting kick would show long host waits there), and kineto
+gpu_memcpy duration is execution time, not queue wait — a 132 ms D2H is a
+hundreds-of-MB-to-GB-class copy, not a delayed 1-byte flag).** The
+evidence-supported mechanism is CONSTRUCTION-SIDE: a big repeat-constructed
+tensor (the probe input's 131k-scale construction) moving to host. The fix
+that the evidence supports: keep the probe input/result device-resident (or
+shrink the repeat-class construction) — not (only) input-dependency
+ordering. ~1.8 % of window time as measured + the 132 ms tail; removal
+likely improves the 131k wall beyond tonight's +4–5 %. Filed as a follow-up
+(the memcpy_gt1ms checker row it tripped is ruled intent-satisfied,
+era-exact; the BFC profile's coverage gap vs the probe-input construction is
+documented in curie's record). Residual measurement (morning-class, curie
+offered): the 33 copies' start-gaps vs the compute backlog on the leg-(b)
+trace — settles whether ordering plays any secondary role.
 
 ## Evidence / tests
 

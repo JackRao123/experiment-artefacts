@@ -185,18 +185,26 @@ soak with the cache engaged — is the last open gate. The PR skeleton
 **New finding (curie, not a blocker):** V3-ON introduces a recurring >1 ms
 D2H memcpy class (33 calls/window, 0.71 s, max 132 ms; `aten::copy_`-parented
 with `aten::repeat`/`clone`/`_to_copy`/`scatter` grandparents), absent in the
-C′-era trace; both boots B/F+C′+W1 ⇒ the delta is exactly V3. Design-lane
-read: the probe kick's `stream.wait_stream(current)` orders the side-stream
-1-byte D2H behind the compute stream's whole backlog at kick time — at 131k
-that backlog carries the probe input's repeat-class construction, and the
-copy inherits it. **This is the W3-v2 defect class** (the fleet's
-wait_stream lesson): the fix is input-dependency-only ordering (wait the
-event recorded at the probe input's producer, or construct the flag without
-the repeat class) — recorded as a known-improvement note in the PR skeleton;
-removal likely improves the 131k wall beyond +4–5 %. (~1.8 % of window +
-the 132 ms tail as measured.) The tripped memcpy_gt1ms checker row is ruled
-intent-satisfied (era-exact); the BFC profile's coverage gap vs the
-probe-input construction is documented in curie's record.
+C′-era trace; both boots B/F+C′+W1 ⇒ the delta is exactly V3.
+
+**CORRECTION (curie's sanity check, same night — my first read was wrong):**
+I attributed the class to the probe kick's `stream.wait_stream(current)`
+inheriting the compute backlog (the W3-v2 defect class). curie's rows refute
+it: (a) the probe eventSyncs are µs-scale (1.8 ms total across 312 probes,
+zero >1 ms) — a backlog-inheriting kick would show long host waits there;
+(b) kineto gpu_memcpy duration is execution time, not queue wait — a 132 ms
+D2H is a hundreds-of-MB-to-GB-class copy, not a delayed 1-byte flag. **The
+evidence-supported mechanism is CONSTRUCTION-SIDE: a big repeat-constructed
+tensor (the probe input's 131k-scale construction) moving to host; the fix
+is to keep the probe input/result device-resident (or shrink the repeat),
+not (only) input-dependency ordering.** The ordering principle (wait the
+producer's event, never the backlog) stays sound as a general rule — it just
+doesn't bind here. Lesson recorded: the recurrent-defect-class pattern match
+is a hypothesis, not a mechanism — curie's eventSync rows killed mine in one
+read. (The wait_stream-in-the-kick pattern's presence is still noted; it
+just isn't tonight's finding's driver.) Residual measurement offered by
+curie (morning-class): the 33 copies' start-gaps vs the compute backlog on
+the leg-(b) trace.
 
 ## Open items carried (mine)
 
