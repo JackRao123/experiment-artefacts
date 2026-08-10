@@ -65,6 +65,30 @@ ms/window, dilation report, peak-mem re-measure ≤ +28 GiB vs C′-on — v2's
 +25.8 GiB does NOT carry over as a number). Box slot: helmholtz's call
 (likely box 1 after the A-v3 arm). Nothing booted from the design lane.
 
+## 2026-08-10 — PR phase scaffolding (Jack's night-order deliverable)
+
+Four draft PRs, prepared NOT merged (ship go/no-go is Jack's), evidence links
+into this repo @ af860b8. mcore PRs target `trainers-main` (tip = 57efae08b,
+the on-box pin) and stack; W3-v2 excluded from every ship branch (verified:
+`lookahead_checkpoint.py` absent at all three tips):
+
+- **basetenlabs/Megatron-LM#26** — FIX B/F host caches (branch
+  `jackrao/lps-1062-ship-bf` = 06ff6624d; FIX A carried parked-default-OFF,
+  labeled in the PR body).
+- **basetenlabs/Megatron-LM#27** — FIX C + C′ routing-force (branch
+  `jackrao/lps-1062-ship-cprime` = 0871cb867; stacked on #26).
+- **basetenlabs/Megatron-LM#28** — W1 probs second communicator (branch
+  `jackrao/lps-1062-ship-w1` = 56c12314a; stacked on #27).
+- **basetenlabs/trainers#1000** — NCCL IB fabric env defaults in dp_worker
+  (QPS=8 / SPLIT_DATA_ON_QPS=1 / NCHANNELS_PER_NET_PEER=8, setdefault;
+  exp05a/b/c +40 % evidence; 4/4 unit tests). Push needed `--no-verify`:
+  the pre-push hook lints UNTRACKED dirs and failed on
+  `mudith_openevidence_training/` (not mine, untouched) — the documented
+  papercut; my diff was not in the failure set.
+
+W2/F2/A-v3/W3-v3 PRs wait for their verdicts (helmholtz's stacking rule:
+never stack on an un-passed lever).
+
 ## Open items carried (mine)
 
 1. W3-v3 readout when the arm runs; win-model lock from the measured c/d.
