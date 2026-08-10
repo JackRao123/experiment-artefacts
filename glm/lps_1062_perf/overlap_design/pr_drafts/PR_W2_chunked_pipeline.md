@@ -11,15 +11,17 @@ Do NOT open before helmholtz confirms.
 > **FAILED BY HANG** in the first window's backward (warmup0, box 3) — NCCL
 > collective-timeout after ~7 min. First-pass analysis:
 > [W2_ARM_HANG_ANALYSIS_20260810.md](../W2_ARM_HANG_ANALYSIS_20260810.md).
-> Headline: (i) the failure is a stack-composition/topology class, not a
+> Headline: (i) the failure is a stack-composition class, not a
 > gate-regression — the T2 gate passed at its scale and the W2 backward's
 > collective order is structural (not data-dependent) at code level; (ii) the
-> prime suspect if the arm ran >16 ranks is the stack branch's UNGUARDED W1
-> `new_group` (predates the ship-w1 guard `d794ca3d2` — the #28-review
-> hazard class, which the guard already fixes by refusing to arm); (iii) if
-> 16-rank golden, the sharpest suspect is a FIX-C replay-restore divergence
-> at full shape (a verify-on soak discriminates in one run). **Do not open
-> this PR until the hang is root-caused and a re-arm passes.**
+> #28-class topology suspect (unguarded W1 `new_group` on the stack branch)
+> is expected dead — the reference arm ran clean with W1 ACTIVE and warmup0's
+> forward completed (900 probs A2As on the W1 comm) before the backward hang;
+> (iii) front-runner: a FIX-C replay-restore divergence at full shape (ranks
+> disagree on chunk plans ⇒ mismatched A2A sizes ⇒ collective hang in the
+> first checkpoint backward's recompute) — the discriminating experiment is
+> the W2+C′ VERIFY=1 full-shape soak (morning item, needs a box slot). **Do
+> not open this PR until the hang is root-caused and a re-arm passes.**
 
 ---
 

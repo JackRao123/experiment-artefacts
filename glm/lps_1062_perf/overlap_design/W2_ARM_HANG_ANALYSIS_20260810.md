@@ -12,7 +12,7 @@ patch tonight (morning severity). The T2 gate passed at gate scale/defaults,
 so this is a full-shape/stack-composition-class failure until proven
 otherwise.
 
-## 0. TL;DR
+## 0. TL;DR (updated after helmholtz's re-ranking observations)
 
 - Hypothesis 3 (W2 PG-creation ordering) is **RULED OUT at code level**:
   W2-v3 calls `new_group` nowhere (verified); the only `new_group` in the
@@ -20,17 +20,24 @@ otherwise.
 - Hypothesis 1 as written (data-dependent bwd chunk ORDER) is **refuted at
   code level**: the W2 backward's collective order is structural, not
   data-dependent (§2). What IS data-dependent is the split SIZES — a per-rank
-  split mismatch hangs without any order divergence (§4, suspect B).
-- **Prime suspect, topology-dependent (§3):** the stack branch the arm ran
-  (`15d5679e`) predates the ship-w1 `new_group` guard (`d794ca3d2`). IF the
-  arm ran on >16 ranks with EP16 (EP group NOT spanning the world — e.g. a
-  4-node box), W1's unguarded second-communicator creation is the #28-class
-  rendezvous hazard, and it fits the evidence (non-default PG 18 timeout +
-  multi-rank default_pg dumps + one rank idle). **First discriminator: the
-  arm's world size / EP span, and PG 18's identity.**
-- If the arm was 16-rank golden: the code read yields no order-divergence
-  mechanism (§2), which points at a full-shape-only condition the gate can't
-  see (§4) — the FIX-C replay restore at full shape is the sharpest.
+  split mismatch hangs without any order divergence (§4).
+- The #28-class topology suspect (unguarded W1 `new_group` on the stack
+  branch) is **EXPECTED DEAD** on two observations (helmholtz, §3): the W2
+  reference arm ran clean on the same boot-class with W1 ACTIVE, and the arm
+  completed warmup0's FORWARD (900 probs A2As on the W1 comm) before hanging
+  in backward — a creation-time rendezvous corruption does not fit
+  forward-works-backward-hangs on the same comm. grothendieck's 1-minute log
+  answers (world size / EP span / env / PG-18 membership) close the branch
+  formally.
+- **Front-runner (§4, suspect A): a FIX-C replay-restore divergence at full
+  shape** — the replay's restored W2 chunk metadata diverges from the first
+  pass on some rank ⇒ ranks disagree on chunk plans ⇒ mismatched A2A sizes
+  ⇒ collective hang inside the FIRST checkpoint backward's recompute (fits
+  the evidence: clean forward, hang in the first backward, first window).
+  Also explains why the synthetic both-gates-on gate missed it (gate scale +
+  synthetic routing don't produce the diverging condition). The
+  discriminating experiment is the W2+C′ VERIFY=1 full-shape soak (§5 step 1;
+  morning item, needs a box slot).
 
 ## 1. Hypothesis 3 — PG-creation ordering: RULED OUT as written
 
@@ -72,54 +79,55 @@ order-divergence deadlock (the classic two-comm cross-pair) needs a
 structural divergence that does not exist here. NOTE: this refutes the
 mechanism as stated; it does NOT clear the sizes — see §4.
 
-## 3. Prime suspect if the arm ran >16 ranks: the unguarded W1 `new_group`
+## 3. The #28-class topology suspect — EXPECTED DEAD (helmholtz's observations)
 
 The arm ran the stack branch (`jackrao/lps-1062-r3-stack` @ 15d5679e — the
 only branch carrying W2-v3). That tip's W1 code has the **UNGUARDED**
 `new_group(get_process_group_ranks(self.ep_group))` (default
 `use_local_synchronization=False`); the guard + local-sync fix landed only on
 `jackrao/lps-1062-ship-w1` (`d794ca3d2`, post-review) and is NOT in the
-stack.
+stack. On a >16-rank box with EP16 (two EP groups), that unguarded creation
+is the #28-class rendezvous hazard.
 
-torch's contract: with `use_local_synchronization=False`, EVERY process must
-enumerate the same subgroups in the same order. On 16-rank EP16 the single
-EP group spans the world — safe (all tonight's 2-node arms). On a >16-rank
-box with EP16 (e.g. 32 ranks: two EP groups), the two EP groups' creations
-cross-talk the same-name store rendezvous → hang or a corrupt communicator —
-**and the evidence fits**: a non-default PG (ID 18) timing out on one rank
-while default_pg collectives time out elsewhere, and one rank idle in
-backward. This is exactly the hazard the #28 review flagged for the 4-node
-DP4 topology.
+**Why it's expected dead (helmholtz, 2026-08-10):** (1) the W2 REFERENCE arm
+ran CLEAN on the same boot-class with W1 ACTIVE (arm-check line); (2) the arm
+boot completed warmup0's FORWARD — W1's comm carries 900 probs A2As in the
+forward — before hanging in the backward. A creation-time rendezvous
+corruption does not fit forward-works-backward-hangs on the same comm: the
+hazard would wedge the FIRST probs A2A (forward), not let 900 pass. Expect
+the topology discriminator (grothendieck's 1-minute log read: world size /
+EP span / `BT_MOE_PROBS_A2A_COMM` in `/proc` env / PG-18 membership) to come
+back 16-rank/EP-spans-world and close this branch formally. (The guard stays
+on ship-w1 regardless — it's the correct ship form for multi-EP-group
+topologies; it just isn't tonight's mechanism.)
 
-**This is checkable in one minute from the arm log:** the arm's world size
-and EP span (the config json + the boot's rank lines), and whether
-`BT_MOE_PROBS_A2A_COMM=1` was in the env (`/proc/<pid>/environ` per house
-rule). If EP did not span the world with W1 armed: this is the mechanism,
-and the fix already exists (ship-w1's guard refuses to arm W1 there — the
-arm would have fallen back, loudly, instead of hanging). If 16-rank golden:
-rule this out and go to §4.
-
-## 4. If 16-rank golden: the full-shape-only suspects (ranked)
+## 4. The full-shape suspects (re-ranked; A is the front-runner)
 
 The gate (T2 re-run, d88d8b7d) passed ALL cases at 2048/8192 with ckpt
 on/off and fixc variants — so single-layer, gate-scale composition is
 proven. What the gate cannot see (75 MoE layers + MTP + DSA + CP16 + 131k +
 the real trainer loop):
 
-- **Suspect A — FIX-C replay restore divergence at full shape.** Under C′,
-  the replay pass restores the W2 chunk metadata from the cache
-  (`w2_local_counts_host` / `w2_global_counts_host`) instead of re-D2H-ing.
-  If the restored plan diverges from the first pass's on ANY rank (stale
-  entry, a keying miss at full shape, an MTP-layer interaction), the
-  replay's A2A splits mismatch across ranks → collective hang INSIDE the
-  checkpoint backward's recompute — which fits "hung in backward, first
-  window, full stack" precisely. The gate exercised ckpt+fixc at gate scale,
-  so this needs a full-shape-specific trigger (e.g. a count pattern at 131k
-  real routing that the synthetic gate cases don't produce, or the
+- **Suspect A (FRONT-RUNNER) — FIX-C replay-restore divergence at full
+  shape.** Under C′, the replay pass restores the W2 chunk metadata from the
+  cache (`w2_local_counts_host` / `w2_global_counts_host`, the two W2-gated
+  slots on the FIX-C entry) instead of re-D2H-ing. The chunk plan is computed
+  from those host matrices; if the restore diverges from the first pass on
+  ANY rank (stale entry, a keying miss at full shape, an MTP-layer
+  interaction), the replay's A2A splits mismatch across ranks → collective
+  hang INSIDE the first checkpoint backward's recompute — which fits the
+  evidence precisely (clean forward; hang in the first backward; first
+  window). It also explains the gate miss: the gate's synthetic routing +
+  2048/8192 single-layer scale ran the composition green, so the diverging
+  condition is full-shape-specific (a real-routing count pattern, or the
   75-chunk/mb structure — curie's correction — interacting with the cache
-  keying). Discriminator: the verify-mode soak
-  (`BT_MOE_DISPATCH_REPLAY_CACHE_VERIFY=1`) re-derives and asserts bitwise
-  per replay — a verify-on boot reproduces-or-clears this in one run.
+  keying). Code-read caveat (honest limits): the store/hit path for the W2
+  slots reads consistent — host values are fresh per-pass copies
+  (`maybe_move_tensor_to_cpu` allocates anew; entries store references to
+  per-pass objects, no buffer aliasing), keyed `store[id(dispatcher)]` per
+  layer, restored on hit. So the divergence, if real, lives in a condition
+  the code read can't see from here — which is exactly why the
+  discriminating experiment (§5 step 1) exists.
 - **Suspect B — a zero/degenerate count pattern at 131k the gate's cases
   didn't produce** (e.g. a whole expert-group with zero rows on a rank, or
   the MTP layer's dispatcher arming W2 with a different local-expert count).
@@ -132,28 +140,39 @@ the real trainer loop):
   the DSA-bwd path at full shape interacting with the W2 arm's timing.
   Discriminator: the pending collectives' PG + sizes in the dump.
 
-## 5. Discrimination plan (box-side, ~30 min, no new boot needed for most)
+## 5. Discrimination plan
 
-- **A. Arm topology + env (log read, 1 min):** world size, EP/CP/DP, whether
-  W1 was armed (`BT_MOE_PROBS_A2A_COMM` in `/proc/<pid>/environ`), whether
-  the W1 "armed — second communicator" line appears. → settles §3.
-- **B. The timeout dump's pending collectives:** PG, sizes, and per-rank
-  order. Match sizes against the W2 signatures (dispatch chunks ≈ half the
+**Step 1 (the discriminating experiment — morning item, needs a box slot):
+the W2+C′ VERIFY=1 full-shape soak.** Boot the arm's exact config at 131k
+with W2 armed + `BT_MOE_DISPATCH_REPLAY_CACHE=1` +
+`BT_MOE_DISPATCH_REPLAY_CACHE_VERIFY=1` (verify mode re-derives the metadata
+on every replay and asserts bitwise equality against the restored cache —
+including the W2 slots via `_verify_host_metadata`). Outcomes: a verify
+ASSERTION names the diverging field (suspect A confirmed, with the field
+localized) before any collective can hang; a clean verify soak clears the
+replay-restore path and re-ranks suspect B/C (then read the dump's pending
+collectives per steps B/C). NOTE: verify mode syncs every layer-pass — it is
+a correctness instrument, never a timed run. If the hang reproduces EVEN
+under verify (the assert is on the hit path's comparison, so a hang before
+the assert would mean the divergence is upstream of the restore — e.g. in
+the first pass's own store), that ordering evidence itself localizes the
+defect.
+
+Then, only as needed (log reads, no boot):
+- **A. Arm topology + env (1 min, grothendieck collecting):** world size,
+  EP/CP/DP, whether W1 was armed, the W1 armed line. → closes §3 formally.
+- **B. The timeout dump's pending collectives:** PG, sizes, per-rank order.
+  Match sizes against the W2 signatures (dispatch chunks ≈ half the
   monolithic 805 MB; combine likewise; probs = 66 KB on comm 2). The FIRST
-  unmatched/mismatched collective across ranks localizes the wedge. →
-  discriminates §4's suspects; a probs-sized pending op on PG 18 points at
-  §3/W1; a dispatch-sized mismatch across ranks points at §4-A/B.
-- **C. PG 18's membership** (the dump's group table): == EP-group ranks ⇒
-  W1's comm or an mcore EP subgroup; ⊂ EP ⇒ something else.
+  mismatched collective across ranks localizes the wedge.
+- **C. PG 18's membership** (the dump's group table).
 - **D. Where in the backward:** the log's recompute/FIX-C markers around the
   hang — replay (suspect A) vs graph-backward (suspect B/C).
 - **E. The W2 per-window counters** in trainer_srun.log before the hang:
   did the first forward's `{dispatch_issues, combine_issues, waits}` advance
-  as expected (K=2 per layer-pass)? Silence pattern localizes the stall.
-- **F. If a re-run is warranted (helmholtz's call, NOT tonight):** the
-  verify-on soak (suspect A) and/or a W1-off W2 arm (isolates the two-comm
-  composition entirely — W2 without W1 puts probs on the EP comm, removing
-  comm 2 from the picture).
+  as expected (K=2 per layer-pass)?
+- **F. Fallback re-arm (helmholtz's call):** a W1-off W2 arm (probs on the
+  EP comm) isolates the two-comm composition entirely.
 
 ## 6. What this is NOT (scope guards)
 
