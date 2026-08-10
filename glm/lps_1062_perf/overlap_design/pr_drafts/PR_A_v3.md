@@ -52,26 +52,37 @@ on the leg-(b) trace, host↔GPU correlation — final after two wrong
 premises):** the GPU-side copies are µs-scale (p50 0.00 ms, max 0.02 ms —
 execution is instantaneous); ~100 % of the host-side duration is WAIT
 (host-minus-GPU p50 9.01 ms, max 132.3 ms); the compute stream is 100 % busy
-during every call; all 33 copies are on stream 7 — the COMPUTE stream. So
-the class IS the whole-backlog ordering defect: a pageable/synchronizing D2H
-read issued on the compute stream blocks the host until the stream drains to
-the copy point — the read inherits the first-pass compute backlog by direct
-stream order. (Settled after two wrong premises, both recorded: my first
-read's locus — the kick's side-stream `wait_stream` — was wrong, the copies
-are on the compute stream; curie's first refutation — host-duration as GPU
-execution, a size/bandwidth story — was wrong. The estate lesson cuts both
-ways: a defect-class pattern match is a hypothesis, and so is a refutation
-built on an unchecked premise.) **Fix direction:** keep the flag
-device-resident and read lazily, or a pinned-memory truly-async copy with a
-deferred host read, or order the copy after only the producer's event
-(input-dependency ordering, correctly located). Line-level locus: the 33
-copies' grandparent stacks are repeat/clone/scatter-constructed tensors —
-not the probe's pinned-copy path (whose source is the `.all()` flag) — so
-the exact V3-activated line is being pinned from curie's correlation stacks
-(morning). ~1.8 % of window time + the 132 ms tail as measured; removal
-likely improves the 131k wall beyond tonight's +4–5 %. (The memcpy_gt1ms
-checker row it tripped is ruled intent-satisfied, era-exact; the BFC
-profile's coverage gap is documented in curie's record.)
+during every call; all 33 copies are on stream 7 — the COMPUTE stream, and
+32/33 sit inside `CheckpointFunctionBackward` (the checkpoint recompute +
+backward). So the class IS the whole-backlog ordering defect: a
+pageable/synchronizing D2H read issued on the compute stream blocks the host
+until the stream drains to the copy point — the read inherits the recompute
+backlog by direct stream order. (Settled after two wrong premises, both
+recorded: my first read's locus — the kick's side-stream `wait_stream` —
+was wrong, the copies are on the compute stream; curie's first refutation —
+host-duration as GPU execution, a size/bandwidth story — was wrong. The
+estate lesson cuts both ways: a defect-class pattern match is a hypothesis,
+and so is a refutation built on an unchecked premise.) **Fix direction:**
+keep the flag device-resident and read lazily, or a pinned-memory
+truly-async copy with a deferred host read, or order the copy after only the
+producer's event (input-dependency ordering, correctly located).
+**Line-level locus (bounded negative result from the design-lane code read,
+2026-08-10):** the op chains (20× `copy_←repeat`, 8× `clone←masked_fill←
+MaskedFillBackward0`, 4× `_to_copy←to`, 1× `scatter`) match NO host-read
+call in the V3 patch surface — the intentional D2H (the side-stream pinned
+`.all()`-flag copy) is truly async and its source chain is `gt/all`, not
+repeat; the read path is host-only (`event.synchronize()` + pinned
+`.item()`); the verify path's device `.item()` is soak-gated and was off in
+leg (b). So the copies are a V3-activated host read in the replay's
+execution of EXISTING code (the checkpoint backward re-runs the indexer/
+attention forward, which carries the repeat/masked_fill machinery), not a
+line in the patch itself. The morning instrument is a capture with python
+stacks (the slimmed trace bottoms out at CheckpointFunctionBackward); the
+search is bounded to the replay-side indexer/attention forward path.
+~1.8 % of window time + the 132 ms tail as measured; removal likely improves
+the 131k wall beyond tonight's +4–5 %. (The memcpy_gt1ms checker row it
+tripped is ruled intent-satisfied, era-exact; the BFC profile's coverage gap
+is documented in curie's record.)
 
 ## Evidence / tests
 

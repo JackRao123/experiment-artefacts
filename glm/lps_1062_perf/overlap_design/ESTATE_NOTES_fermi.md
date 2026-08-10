@@ -213,6 +213,28 @@ defect-class pattern match is a hypothesis (my first read), and so is a
 refutation built on an unchecked premise (curie's first refutation). The
 trace settled it.
 
+## 2026-08-10 (close) — A-v3 D2H finding: the bounded negative result
+
+curie's locus pinning (ancestor walk on all 33 host calls, leg-(b) trace):
+op chains 20× `copy_←repeat`, 8× `clone←masked_fill←MaskedFillBackward0`,
+4× `_to_copy←to`, 1× `scatter`; 32/33 inside CheckpointFunctionBackward (the
+checkpoint recompute+backward), 1/33 in CheckpointFunction fwd; all on the
+compute stream, host blocked 9–132 ms behind the backlog. **My code read of
+the V3 flag-consumption surface (the ask): a bounded NEGATIVE result** — no
+host-read call in the V3 patch surface matches the op chains: the
+intentional D2H (the side-stream pinned `.all()`-flag copy) is truly async
+and its source chain is `gt/all` (not repeat); the read path is host-only
+(`probe.event.synchronize()` + pinned `.item()` — no GPU); the verify path's
+device `.item()` is soak-gated and was OFF in leg (b). The two non-V3 host
+reads in the DSA surface are also ruled out (an error-path CP-length
+validation; a per-step loss-scale setter). So the copies are a V3-activated
+host read in the replay's execution of EXISTING code (the checkpoint
+backward re-runs the indexer/attention forward, which carries the
+repeat/masked_fill machinery) — not a patch line. Morning instrument: a
+capture with python stacks (the slimmed trace bottoms out at
+CheckpointFunctionBackward); the search is bounded to the replay-side
+indexer/attention forward path. PR #29's body carries this form.
+
 ## Open items carried (mine)
 
 1. W3-v3 readout when the arm runs; win-model lock from the measured c/d.

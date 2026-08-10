@@ -80,8 +80,9 @@ to trim for the customer shape.
 | trainers **#1000** | NCCL IB fabric env defaults (setdefault, operator-wins) | clean; retitled |
 | trainers **#1001** | F2 phantom partitions (full DP2 evidence + ported test suite) | opened on verdict-complete |
 
-Plus: **A-v3 PR opening as draft** (both legs adjudicated PASS; body carries the
-three-regime robustness + the D2H improvement note). Held closed: W2 (arm failed by hang —
+Plus: **Megatron-LM #29 — A-v3, opened as draft** (cherry-picked onto ship-w1, W2/W3
+excluded by construction, CPU suite green on-branch; body carries both legs' verdicts,
+the three-regime robustness line, and the D2H improvement note). Held closed: W2 (arm failed by hang —
 diagnosis attached), W3 (refuted; v4 design skeleton instead). Estate:
 JackRao123/experiment-artefacts — all evidence, frames, analyses, and findings committed +
 pushed through the night.
