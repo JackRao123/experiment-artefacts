@@ -36,10 +36,13 @@ otherwise.
 - The PG-18 fork from §4.6 stands (framework-group blocked-behind vs
   cross-node divergence); the reference-boot `nranks=8` grep decides the
   framework branch.
-- Morning repro guidance CHANGED (§5): step 1 reproduces the SAME regime
-  (FORCE-on/CACHE-off — the actual hanging regime); step 2 runs the intended
-  full-C′ regime (cache on ⇒ frames exist ⇒ force live + cache live). A hang
-  in only one of them is itself the discriminator.
+- **curie's formal adjudication (§4.7) lands the decisive detail:** the hung
+  ALLTOALL_BASE had NumelIn wildly imbalanced (2…130,448) vs uniform
+  NumelOut (65536) — **the K=2 pipeline deadlocks under routing imbalance
+  the monolithic reference tolerates** (per-chunk sync/size-negotiation
+  class; the gate's 3.48× synthetic skew never approached tonight's real
+  per-peer skew). Repro step 1 reframed accordingly: an IMBALANCED datum mix
+  in the same regime, dump preserved (§5).
 
 ## 0'. Earlier form (superseded by the engagement-table update)
 
@@ -306,14 +309,58 @@ free routing.** Re-ranked candidates:
   path in the chunked Functions (none: the Functions' forward is
   grad-agnostic). Recorded for completeness; the repro discriminates.
 
+## 4.7. curie's formal adjudication (2026-08-10, late) — the decisive
+       mechanism detail
+
+The hung collective (watchdog seq 619, all-enqueued-none-completed, 600 s
+watchdog) was an `ALLTOALL_BASE` with **NumelIn wildly imbalanced across
+ranks (2, 4, 134, 353, 21287, 105000, 113247, 130448 elements) vs uniform
+NumelOut (65536)**. Verdict detail: **the K=2 pipeline deadlocks under
+routing imbalance that the gate-OFF (monolithic) reference tolerates** — the
+per-chunk sync/size-negotiation class. Full evidence:
+`~/perf_profiles/lps-1062/W2_ARM_ADJUDICATION.md`.
+
+Reads on the numbers (fermi): uniform NumelOut 65536 = 8,192 tok/rank/mb ×
+topk 8 (a rank's local token×topk count at 131k×d4) and imbalanced NumelIn =
+the expert-work distribution — the shape of a **combine-direction A2A**
+(each rank receives its own tokens back, uniform; sends expert outputs,
+skewed). The gate record is consistent: the T2 gate's engineered imbalance
+(3.48× expert-0 skew) passed at 2048/8192 — tonight's real-routing
+full-shape skew is orders of magnitude wider, and the gate's synthetic cases
+never produced a per-peer 2-vs-130k split. The reference tolerating the same
+skew (clean 701) localizes the sensitivity to the chunked path's per-peer
+split structure, not the imbalance itself.
+
+**Residual tension (honest, still open):** 8 NumelIn values = 8 ranks — so
+EITHER the group is genuinely 8-rank (which maps to NO W2/W1 comm at golden
+mesh per the §4.5/§4.6 enumeration — the W2 chunked A2As run on the 16-rank
+`ep_group`) OR the watchdog printed only the 8 enqueuing ranks of a 16-rank
+group (the §4.6 reading-2 fork: node-0 enqueued, node-1 never posted =
+cross-node divergence). The group_desc never survived (dump lost on the
+kill). The dump-preserving repro (§5 step 1) settles both the mechanism and
+the group identity.
+
+Design-level consequence for the W2 PR (recorded, not fixed tonight): the
+chunked path has a deadlock class under wide routing imbalance that the
+monolithic path tolerates — a ship blocker until root-caused and covered
+(the gate needs a wide-skew case at the real per-peer scale; the fix
+direction depends on where the size negotiation actually wedges — see the
+reframed repro, §5).
+
 ## 5. Discrimination plan (morning; repro guidance CHANGED per the
    engagement-table update)
 
-**Step 1 (the repro, same regime):** reproduce the hang in the SAME regime
-as the hanging boot — W2(K=2)+W1, FORCE-on/CACHE-off (C′ inert), golden
-131k×d4 — with the NCCL dump preserved this time (the kill tonight lost it).
-A repro confirms the regime; the preserved dump settles the PG-18 fork
-(membership vs enqueue-list) and names the stuck collective's size/class.
+**Step 1 (the repro — REFRAMED per curie's adjudication):** drive an
+**IMBALANCED datum mix** in the same regime (W2(K=2)+W1, FORCE-on/CACHE-off,
+golden 131k×d4) — a wide-skew routing pattern at the real per-peer scale
+(the hung collective's NumelIn spanned 2…130,448; the gate's 3.48× synthetic
+skew never approached this) — with the NCCL dump PRESERVED this time (the
+kill tonight lost it). The B_custmix customer-histogram recipe (the F2 (b)
+datum set) is the closest existing driver; a synthetic hot-expert mix is the
+sharper instrument. A repro confirms the imbalance-deadlock class; the
+preserved dump settles the PG-18 fork (membership vs enqueue-list) and
+localizes the wedge (which chunk, dispatch vs combine, zero-corner vs
+size-mismatch).
 
 **Step 2 (the regime discriminator):** the intended full-C′ regime (cache ON
 ⇒ frames exist ⇒ force live + cache live), same shape. A hang in exactly one

@@ -179,6 +179,16 @@ dispatcher_opt/fixa_v3/ · traces ~/perf_profiles/lps-1062/round3/.
   experiment: full-stack soak GREEN (composition proven), VERIFY=0 canary+capture+timed
   in flight. Boxes 1+3 stay idle-at-READY for morning arms after it.
 
+- ~07:00–08:45 PT: SHIFT CLOSE. FINDING_FIXC_NOT_ENGAGING (armed≠engaged; FORCE-without-
+  CACHE on 3 boots; code-read: CACHE-off ⇒ FORCE inert ⇒ free-routing regime; canary
+  verdicts survived on measured deltas). A-v3 two-boot completion: **PASS both legs**
+  (mechanism exact vs era pins, numerics in-band, composition 6600/6600, wall +4-5% steady
+  @131k informational — upside surprise). (c2)+W2 routed through FORMAL verification-lane
+  adjudication (my process miss, self-caught-by-curie): (c2) PASS confirmed + warmup0
+  prediction confirmed + 5.7% ON-cost ship-gate question; W2 FAIL stands w/ NumelIn-
+  imbalance mechanism (deadlocks under routing imbalance reference tolerates).
+  SCORECARD_MORNING.md is FINAL. Boxes 1+3 idle-at-READY; 6 PRs draft; fleet standing by.
+
 ## Watch items
 - Succession trigger: 50–60% context per agent (Jack revised down) or natural boundary.
 - Box waiter false-positives during boots (pgrep gap); md5 every relay-scp; no window-1

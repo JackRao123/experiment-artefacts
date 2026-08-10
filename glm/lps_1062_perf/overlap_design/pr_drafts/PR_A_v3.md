@@ -3,10 +3,13 @@
 **Repo:** basetenlabs/Megatron-LM · **Branch:** to be cut at the A-v3 stack
 commit (15d5679eb, "stack 8/8") — stacked on the W2 branch if W2 ships, else
 re-based onto `jackrao/lps-1062-ship-w1` · **Base:** per stack state at open
-**OPEN CONDITION (helmholtz):** leg (b) PASSED (2026-08-10: mechanism +
-numerics + wall +4–5 % informational-positive); **leg (a) — the composition
-soak (V3 invariant with the replay cache engaged) — is the last open gate.**
-Do NOT open before helmholtz confirms leg (a). (Body otherwise filled.)
+**STATUS: OPENED AS DRAFT 2026-08-10 — basetenlabs/Megatron-LM#29** (the
+word given by helmholtz: leg (b) mechanism+numerics PASS +4–5 % informational;
+leg (a) composition PASS 6600/6600). Branch `jackrao/lps-1062-ship-av3` =
+A-v3 cherry-picked onto ship-w1 (d58a3214a; dsa files only — W2/W3 excluded),
+CPU suite ALL PASS re-run on the branch. The opened body carries the
+three-regime robustness line, the settled D2H note, and the regime-finding
+story; this file is kept as the pre-draft record.
 
 ---
 
@@ -41,30 +44,34 @@ NUMERICS PASS · wall informational-positive (+4–5 % steady at 131k, honest
 steady-vs-steady read).** Leg (a) — the composition soak (V3 invariant with
 the replay cache engaged) — remains the last open gate before this PR opens.
 
-**Known improvement (not a blocker; curie's leg-(b) finding, grothendieck's
-read concurred):** V3-ON introduces a recurring >1 ms D2H memcpy class —
-33 calls/window, 0.71 s total, max 132 ms tail — parented by `aten::copy_`
-with grandparents `aten::repeat` ×20 / `clone` ×8 / `_to_copy` ×4 /
-`scatter` ×1, ABSENT in the C′-era trace (6 calls, 0.062 s, zero
-`aten::repeat`). Both boots B/F+C′+W1, so the delta is exactly V3.
-**Mechanism read (CORRECTED after curie's sanity check — my first read
-attributed it to the kick's `wait_stream(current)` inheriting the compute
-backlog, the W3-v2 defect class; curie's rows refute that: the probe
-eventSyncs are µs-scale (1.8 ms total across 312 probes, zero >1 ms — a
-backlog-inheriting kick would show long host waits there), and kineto
-gpu_memcpy duration is execution time, not queue wait — a 132 ms D2H is a
-hundreds-of-MB-to-GB-class copy, not a delayed 1-byte flag).** The
-evidence-supported mechanism is CONSTRUCTION-SIDE: a big repeat-constructed
-tensor (the probe input's 131k-scale construction) moving to host. The fix
-that the evidence supports: keep the probe input/result device-resident (or
-shrink the repeat-class construction) — not (only) input-dependency
-ordering. ~1.8 % of window time as measured + the 132 ms tail; removal
-likely improves the 131k wall beyond tonight's +4–5 %. Filed as a follow-up
-(the memcpy_gt1ms checker row it tripped is ruled intent-satisfied,
-era-exact; the BFC profile's coverage gap vs the probe-input construction is
-documented in curie's record). Residual measurement (morning-class, curie
-offered): the 33 copies' start-gaps vs the compute backlog on the leg-(b)
-trace — settles whether ordering plays any secondary role.
+**Known improvement (not a blocker; curie's leg-(b) finding):** V3-ON
+introduces a recurring >1 ms D2H memcpy class — 33 calls/window, 0.71 s
+total, max 132 ms tail — absent in the C′-era trace (6 calls, 0.062 s); the
+boot delta is exactly V3. **Settled mechanism (curie's start-gap measurement
+on the leg-(b) trace, host↔GPU correlation — final after two wrong
+premises):** the GPU-side copies are µs-scale (p50 0.00 ms, max 0.02 ms —
+execution is instantaneous); ~100 % of the host-side duration is WAIT
+(host-minus-GPU p50 9.01 ms, max 132.3 ms); the compute stream is 100 % busy
+during every call; all 33 copies are on stream 7 — the COMPUTE stream. So
+the class IS the whole-backlog ordering defect: a pageable/synchronizing D2H
+read issued on the compute stream blocks the host until the stream drains to
+the copy point — the read inherits the first-pass compute backlog by direct
+stream order. (Settled after two wrong premises, both recorded: my first
+read's locus — the kick's side-stream `wait_stream` — was wrong, the copies
+are on the compute stream; curie's first refutation — host-duration as GPU
+execution, a size/bandwidth story — was wrong. The estate lesson cuts both
+ways: a defect-class pattern match is a hypothesis, and so is a refutation
+built on an unchecked premise.) **Fix direction:** keep the flag
+device-resident and read lazily, or a pinned-memory truly-async copy with a
+deferred host read, or order the copy after only the producer's event
+(input-dependency ordering, correctly located). Line-level locus: the 33
+copies' grandparent stacks are repeat/clone/scatter-constructed tensors —
+not the probe's pinned-copy path (whose source is the `.all()` flag) — so
+the exact V3-activated line is being pinned from curie's correlation stacks
+(morning). ~1.8 % of window time + the 132 ms tail as measured; removal
+likely improves the 131k wall beyond tonight's +4–5 %. (The memcpy_gt1ms
+checker row it tripped is ruled intent-satisfied, era-exact; the BFC
+profile's coverage gap is documented in curie's record.)
 
 ## Evidence / tests
 

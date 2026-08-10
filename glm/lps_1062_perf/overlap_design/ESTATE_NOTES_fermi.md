@@ -187,24 +187,31 @@ D2H memcpy class (33 calls/window, 0.71 s, max 132 ms; `aten::copy_`-parented
 with `aten::repeat`/`clone`/`_to_copy`/`scatter` grandparents), absent in the
 C′-era trace; both boots B/F+C′+W1 ⇒ the delta is exactly V3.
 
-**CORRECTION (curie's sanity check, same night — my first read was wrong):**
-I attributed the class to the probe kick's `stream.wait_stream(current)`
-inheriting the compute backlog (the W3-v2 defect class). curie's rows refute
-it: (a) the probe eventSyncs are µs-scale (1.8 ms total across 312 probes,
-zero >1 ms) — a backlog-inheriting kick would show long host waits there;
-(b) kineto gpu_memcpy duration is execution time, not queue wait — a 132 ms
-D2H is a hundreds-of-MB-to-GB-class copy, not a delayed 1-byte flag. **The
-evidence-supported mechanism is CONSTRUCTION-SIDE: a big repeat-constructed
-tensor (the probe input's 131k-scale construction) moving to host; the fix
-is to keep the probe input/result device-resident (or shrink the repeat),
-not (only) input-dependency ordering.** The ordering principle (wait the
-producer's event, never the backlog) stays sound as a general rule — it just
-doesn't bind here. Lesson recorded: the recurrent-defect-class pattern match
-is a hypothesis, not a mechanism — curie's eventSync rows killed mine in one
-read. (The wait_stream-in-the-kick pattern's presence is still noted; it
-just isn't tonight's finding's driver.) Residual measurement offered by
-curie (morning-class): the 33 copies' start-gaps vs the compute backlog on
-the leg-(b) trace.
+**CORRECTION-OF-CORRECTION (curie's start-gap measurement, same night — the
+trace settled it):** the sequence ran (i) my first read: the kick's
+side-stream `wait_stream(current)` inherits the compute backlog (W3-v2
+class); (ii) curie's refutation: host-duration = GPU execution, a
+big-copy/bandwidth story (my docs were "corrected" to construction-side on
+that premise); (iii) curie's start-gap measurement (all 33 copies,
+host↔GPU correlation): GPU-side copies µs-scale (p50 0.00, max 0.02 ms),
+~100 % of the host-side duration is WAIT (host-minus-GPU p50 9.01 ms, max
+132.3 ms), compute stream 100 % busy during every call, all 33 copies on
+stream 7 (the COMPUTE stream). **FINAL: the class IS the whole-backlog
+ordering defect — a pageable/synchronizing D2H read on the compute stream
+blocks the host until the stream drains to the copy point — with the locus
+corrected from my framing (not a side-stream wait_stream; direct
+stream-order inheritance on the compute stream itself).** Both wrong
+premises recorded (my locus, curie's size premise). Fix direction: keep the
+flag device-resident and read lazily, or pinned truly-async copy + deferred
+host read, or producer-event ordering (input-dependency principle, correctly
+located); "shrink the repeat" does not survive. Line-level locus TBD from
+curie's correlation stacks (the 33 copies' grandparents are
+repeat/clone/scatter-constructed tensors — NOT the probe's pinned-copy path,
+whose source is the `.all()` flag — so a V3-activated line, pinned in the
+morning). The estate lesson cuts both ways tonight (curie's framing): a
+defect-class pattern match is a hypothesis (my first read), and so is a
+refutation built on an unchecked premise (curie's first refutation). The
+trace settled it.
 
 ## Open items carried (mine)
 
