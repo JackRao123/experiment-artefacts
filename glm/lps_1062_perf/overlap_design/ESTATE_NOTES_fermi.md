@@ -174,6 +174,30 @@ evidence chain: `W2_ARM_HANG_ANALYSIS_20260810.md`. The night's arc:
 - The W2 PR stays CLOSED with the caveat in `pr_drafts/`; re-arm only after
   root cause.
 
+## 2026-08-10 (late) — A-v3 leg (b) verdict + the D2H finding
+
+**A-v3 leg (b): MECHANISM PASS · NUMERICS PASS · wall informational-positive
+(+4–5 % steady at 131k, steady-vs-steady).** (curie; record
+`~/perf_profiles/lps-1062/AV3_LEGB_VERDICT.md`.) Leg (a) — the composition
+soak with the cache engaged — is the last open gate. The PR skeleton
+(`pr_drafts/PR_A_v3.md`) is filled and stays unopened until leg (a).
+
+**New finding (curie, not a blocker):** V3-ON introduces a recurring >1 ms
+D2H memcpy class (33 calls/window, 0.71 s, max 132 ms; `aten::copy_`-parented
+with `aten::repeat`/`clone`/`_to_copy`/`scatter` grandparents), absent in the
+C′-era trace; both boots B/F+C′+W1 ⇒ the delta is exactly V3. Design-lane
+read: the probe kick's `stream.wait_stream(current)` orders the side-stream
+1-byte D2H behind the compute stream's whole backlog at kick time — at 131k
+that backlog carries the probe input's repeat-class construction, and the
+copy inherits it. **This is the W3-v2 defect class** (the fleet's
+wait_stream lesson): the fix is input-dependency-only ordering (wait the
+event recorded at the probe input's producer, or construct the flag without
+the repeat class) — recorded as a known-improvement note in the PR skeleton;
+removal likely improves the 131k wall beyond +4–5 %. (~1.8 % of window +
+the 132 ms tail as measured.) The tripped memcpy_gt1ms checker row is ruled
+intent-satisfied (era-exact); the BFC profile's coverage gap vs the
+probe-input construction is documented in curie's record.
+
 ## Open items carried (mine)
 
 1. W3-v3 readout when the arm runs; win-model lock from the measured c/d.

@@ -3,9 +3,10 @@
 **Repo:** basetenlabs/Megatron-LM · **Branch:** to be cut at the A-v3 stack
 commit (15d5679eb, "stack 8/8") — stacked on the W2 branch if W2 ships, else
 re-based onto `jackrao/lps-1062-ship-w1` · **Base:** per stack state at open
-**OPEN CONDITION (helmholtz):** only after the A-v3 timed arm (ARM-5) verdict
-lands PASS. Do NOT open before helmholtz confirms. (Skeleton — fill the
-verdict numbers at open time.)
+**OPEN CONDITION (helmholtz):** leg (b) PASSED (2026-08-10: mechanism +
+numerics + wall +4–5 % informational-positive); **leg (a) — the composition
+soak (V3 invariant with the replay cache engaged) — is the last open gate.**
+Do NOT open before helmholtz confirms leg (a). (Body otherwise filled.)
 
 ---
 
@@ -34,8 +35,30 @@ overlapped). The mechanism rows stay primary: `eventsync_a_*` ≈ 312 µs-scale
 calls/step, ≤1.5 s total, ≤25 events >1 ms for a healthy A-active capture;
 `aten::nonzero` slices >5 ms ≈ 0; `cudaStreamSynchronize` −312.
 
-**Timed-arm verdict (ARM-5):** *fills at open time — mechanism rows + wall
-vs the C′-on baseline, per the two-tier rule.*
+**Timed-arm verdict (leg (b), 2026-08-10, curie — record:
+`~/perf_profiles/lps-1062/AV3_LEGB_VERDICT.md`):** **MECHANISM PASS ·
+NUMERICS PASS · wall informational-positive (+4–5 % steady at 131k, honest
+steady-vs-steady read).** Leg (a) — the composition soak (V3 invariant with
+the replay cache engaged) — remains the last open gate before this PR opens.
+
+**Known improvement (not a blocker; curie's leg-(b) finding, grothendieck's
+read concurred):** V3-ON introduces a recurring >1 ms D2H memcpy class —
+33 calls/window, 0.71 s total, max 132 ms tail — parented by `aten::copy_`
+(the probe's pinned 1-byte copy) with grandparents `aten::repeat` ×20 /
+`clone` ×8 / `_to_copy` ×4 / `scatter` ×1, ABSENT in the C′-era trace (6
+calls, 0.062 s, zero `aten::repeat`). Both boots B/F+C′+W1, so the delta is
+exactly V3. Mechanism read (design lane): the kick's
+`stream.wait_stream(current)` orders the side-stream D2H behind the compute
+stream's whole backlog at kick time — at 131k that backlog includes the
+probe input's repeat-class construction, so the 1-byte copy inherits it.
+This is the SAME defect class as W3-v2's (the fleet's wait_stream lesson):
+the fix is input-dependency-only ordering — wait on an event recorded at the
+probe input's producer (or compute the flag without the repeat-class
+construction), never the backlog. ~1.8 % of window time as measured + the
+132 ms tail; removal likely improves the 131k wall beyond tonight's +4–5 %.
+Filed as a follow-up (the memcpy_gt1ms checker row it tripped is ruled
+intent-satisfied, era-exact; the BFC profile's coverage gap vs the
+probe-input construction is documented in curie's record).
 
 ## Evidence / tests
 
