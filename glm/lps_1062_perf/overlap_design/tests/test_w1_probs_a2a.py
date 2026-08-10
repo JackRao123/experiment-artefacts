@@ -266,6 +266,21 @@ def _sec5_gate_and_telemetry(rank):
             os.environ["BT_MOE_PROBS_A2A_COMM"] = old
 
 
+def _sec6_ep_span_guard(rank):
+    """The new_group rendezvous guard (helmholtz's PR-review finding): with
+    >1 EP group (e.g. world-32 EP16) the default new_group contract is unsafe;
+    the gate must refuse to arm unless the EP group spans the world."""
+    td = token_dispatcher
+    check("sec6 guard: full-world EP group spans",
+          td._probs_a2a_ep_spans_world([0, 1], 2) is True)
+    check("sec6 guard: unsorted full-world ranks still span",
+          td._probs_a2a_ep_spans_world([1, 0], 2) is True)
+    check("sec6 guard: partial EP group does not span (world-32 EP16 class)",
+          td._probs_a2a_ep_spans_world(list(range(16)), 32) is False)
+    check("sec6 guard: the second EP group of world-32 does not span either",
+          td._probs_a2a_ep_spans_world(list(range(16, 32)), 32) is False)
+
+
 def _worker(rank, world_size, store_path):
     store = dist.FileStore(store_path, world_size)
     dist.init_process_group("gloo", store=store, rank=rank, world_size=world_size)
@@ -276,6 +291,7 @@ def _worker(rank, world_size, store_path):
         _sec4_backward_parity(rank)
         if rank == 0:
             _sec5_gate_and_telemetry(rank)
+            _sec6_ep_span_guard(rank)
         dist.barrier()
     finally:
         dist.destroy_process_group()

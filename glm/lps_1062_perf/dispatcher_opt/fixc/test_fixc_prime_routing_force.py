@@ -291,7 +291,7 @@ def case_padding_rows():
         _, saved_map = router(x.detach())
     saved_map = saved_map.clone()
     saved_map[4] = False  # a padding row
-    stash = {LAYER: saved_map}
+    stash = {id(router): saved_map}
     setattr(psp, router_mod._ROUTING_FORCE_STASH_ATTR, stash)
 
     # Replay frame: push manually (the real frame machinery, no checkpoint).
@@ -328,7 +328,7 @@ def case_fallbacks():
 
     # shape mismatch: saved map with a wrong shape
     bad = torch.zeros(4, EXPERTS, dtype=torch.bool)  # logits are [8, 8]
-    setattr(psp, router_mod._ROUTING_FORCE_STASH_ATTR, {LAYER: bad})
+    setattr(psp, router_mod._ROUTING_FORCE_STASH_ATTR, {id(router): bad})
     recompute._replay_pass_stack().append(recompute.CheckpointPassFrame(True, psp))
     try:
         router(x)
@@ -352,7 +352,7 @@ def case_verify_mode():
         _, saved_map = router(x.detach())
 
     # consistent replay: verify passes
-    setattr(psp, router_mod._ROUTING_FORCE_STASH_ATTR, {LAYER: saved_map})
+    setattr(psp, router_mod._ROUTING_FORCE_STASH_ATTR, {id(router): saved_map})
     recompute._replay_pass_stack().append(recompute.CheckpointPassFrame(True, psp))
     try:
         router(x)
@@ -375,7 +375,7 @@ def case_verify_mode():
         return probs, rm
 
     router.routing = bad_routing
-    setattr(psp, router_mod._ROUTING_FORCE_STASH_ATTR, {LAYER: saved_map})
+    setattr(psp, router_mod._ROUTING_FORCE_STASH_ATTR, {id(router): saved_map})
     raised = False
     recompute._replay_pass_stack().append(recompute.CheckpointPassFrame(True, psp))
     try:
@@ -409,8 +409,57 @@ def case_loss_terms_fallback():
     check("z-loss on: latch set", router_mod._ROUTING_FORCE_LOSS_DISABLED[0] is True)
 
 
+def case_mtp_layer_number_collision():
+    print("\n== case 7: MTP layer-number collision — stash keyed by id(router) ==")
+    os.environ["BT_MOE_ROUTING_REPLAY_FORCE"] = "1"
+    os.environ["BT_MOE_DISPATCH_REPLAY_CACHE"] = "1"
+    _reset_force_state()
+    # Two router INSTANCES sharing one layer_number (the MTP router reuses a
+    # main-stack layer number): layer_number keying would cross-contaminate
+    # (B's stash overwrites A's; A's replay pops B's map). id(router) keying
+    # keeps them distinct — the router object is identical across a
+    # microbatch's first pass and replay.
+    routerA = _make_router(seed=11, layer=7)
+    routerB = _make_router(seed=22, layer=7)
+    psp = PackedSeqParams()
+    x = torch.randn(32, 1, HIDDEN, generator=torch.Generator().manual_seed(7))
+
+    seen = {"A": {}, "B": {}}
+    for tag, r in (("A", routerA), ("B", routerB)):
+        orig = r.routing
+
+        def make_spy(orig, bag):
+            def spy(logits, padding_mask=None):
+                probs, rm = orig(logits, padding_mask=padding_mask)
+                bag["replay" if torch.is_grad_enabled() else "first"] = rm.detach().clone()
+                return probs, rm
+            return spy
+
+        r.routing = make_spy(orig, seen[tag])
+
+    def chunk(h):
+        pA, mA = routerA(h)
+        pB, mB = routerB(h)
+        return (pA.sum() + pB.sum()), mA.to(torch.float32) + mB.to(torch.float32)
+
+    wrapped = recompute._wrap_checkpoint_chunk_pass(chunk, psp)
+    x_in = x.detach().clone().requires_grad_(True)
+    out = tensor_parallel.checkpoint(wrapped, False, x_in)
+    out[0].backward()
+    check("MTP-collision: the two routers' first-pass maps differ (real signal)",
+          not torch.equal(seen["A"]["first"], seen["B"]["first"]))
+    check("MTP-collision: router A's replay == router A's first pass",
+          torch.equal(seen["A"]["replay"], seen["A"]["first"]))
+    check("MTP-collision: router B's replay == router B's first pass",
+          torch.equal(seen["B"]["replay"], seen["B"]["first"]))
+    check("MTP-collision: counters {stashes:2, forces:2, misses:0}",
+          router_mod._ROUTING_FORCE_STATS["stashes"] == 2
+          and router_mod._ROUTING_FORCE_STATS["forces"] == 2
+          and router_mod._ROUTING_FORCE_STATS["misses"] == 0)
+
+
 def case_source_guards():
-    print("\n== case 7: source guards ==")
+    print("\n== case 8: source guards ==")
     import inspect
 
     fwd_src = inspect.getsource(TopKRouter.forward)
@@ -420,6 +469,11 @@ def case_source_guards():
           "_routing_force_stash" in fwd_src)
     gate_src = inspect.getsource(router_mod._routing_force_enabled)
     check("gate reads BT_MOE_ROUTING_REPLAY_FORCE", "BT_MOE_ROUTING_REPLAY_FORCE" in gate_src)
+    fetch_src = inspect.getsource(router_mod._routing_force_replay_saved_map)
+    stash_src = inspect.getsource(router_mod._routing_force_stash)
+    check("stash key is id(router), never layer_number (MTP collision guard)",
+          "id(router)" in fetch_src and "id(router)" in stash_src
+          and "router.layer_number" not in fetch_src and "router.layer_number" not in stash_src)
 
 
 def main():
@@ -430,6 +484,7 @@ def main():
     case_fallbacks()
     case_verify_mode()
     case_loss_terms_fallback()
+    case_mtp_layer_number_collision()
     case_source_guards()
 
     print("\n" + ("=" * 60))
