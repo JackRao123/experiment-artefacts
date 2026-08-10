@@ -12,7 +12,36 @@ patch tonight (morning severity). The T2 gate passed at gate scale/defaults,
 so this is a full-shape/stack-composition-class failure until proven
 otherwise.
 
-## 0. TL;DR (updated after helmholtz's re-ranking observations)
+## 0. TL;DR (final night form, after the engagement-table update)
+
+- The hanging boot ran **FORCE-without-CACHE** (grothendieck's engagement
+  table: `BT_MOE_ROUTING_REPLAY_FORCE` on, `BT_MOE_DISPATCH_REPLAY_CACHE`
+  OFF) on the golden mesh (expA131, CP16, no F2). The reference ran the same
+  cache state, clean — so cache-off alone doesn't hang; **the delta is W2's
+  chunked path in the free-routing-replay regime at full shape.**
+- **Suspect A as mechanized (FIX-C replay-restore divergence) is DEAD:** the
+  cache was disabled — the store/restore path never executed.
+- **Sharper code-read finding (this round):** C′ itself was INERT on the
+  hanging boot. `_wrap_checkpoint_chunk_pass` no-ops unless the cache gate
+  is on (recompute.py:130-131) ⇒ no checkpoint-pass frames existed ⇒ C′'s
+  `_routing_force_frame()` returned None ⇒ no stash, no force — **the replay
+  routed FREELY** (recomputed logits under enable_grad vs the no-grad first
+  pass — exactly the ULP-divergence class C′ exists to prevent). So the
+  hanging regime was W2(K=2)+W1 with free replay routing.
+- The free-routing divergence is analyzed in §4-final: it makes the replay's
+  counts/plan differ from the first pass's, but each pass stays internally
+  consistent (counts are all-gathered within the pass), so it does NOT
+  mismatch a collective by itself — the mechanism needs something more
+  (§4-final candidates).
+- The PG-18 fork from §4.6 stands (framework-group blocked-behind vs
+  cross-node divergence); the reference-boot `nranks=8` grep decides the
+  framework branch.
+- Morning repro guidance CHANGED (§5): step 1 reproduces the SAME regime
+  (FORCE-on/CACHE-off — the actual hanging regime); step 2 runs the intended
+  full-C′ regime (cache on ⇒ frames exist ⇒ force live + cache live). A hang
+  in only one of them is itself the discriminator.
+
+## 0'. Earlier form (superseded by the engagement-table update)
 
 - Hypothesis 3 (W2 PG-creation ordering) is **RULED OUT at code level**:
   W2-v3 calls `new_group` nowhere (verified); the only `new_group` in the
@@ -101,33 +130,22 @@ back 16-rank/EP-spans-world and close this branch formally. (The guard stays
 on ship-w1 regardless — it's the correct ship form for multi-EP-group
 topologies; it just isn't tonight's mechanism.)
 
-## 4. The full-shape suspects (re-ranked; A is the front-runner)
+## 4. The full-shape suspects (SUPERSEDED by §4-final — the engagement-table
+   update killed suspect A and changed the regime reading)
 
 The gate (T2 re-run, d88d8b7d) passed ALL cases at 2048/8192 with ckpt
 on/off and fixc variants — so single-layer, gate-scale composition is
 proven. What the gate cannot see (75 MoE layers + MTP + DSA + CP16 + 131k +
 the real trainer loop):
 
-- **Suspect A (FRONT-RUNNER) — FIX-C replay-restore divergence at full
-  shape.** Under C′, the replay pass restores the W2 chunk metadata from the
-  cache (`w2_local_counts_host` / `w2_global_counts_host`, the two W2-gated
-  slots on the FIX-C entry) instead of re-D2H-ing. The chunk plan is computed
-  from those host matrices; if the restore diverges from the first pass on
-  ANY rank (stale entry, a keying miss at full shape, an MTP-layer
-  interaction), the replay's A2A splits mismatch across ranks → collective
-  hang INSIDE the first checkpoint backward's recompute — which fits the
-  evidence precisely (clean forward; hang in the first backward; first
-  window). It also explains the gate miss: the gate's synthetic routing +
-  2048/8192 single-layer scale ran the composition green, so the diverging
-  condition is full-shape-specific (a real-routing count pattern, or the
-  75-chunk/mb structure — curie's correction — interacting with the cache
-  keying). Code-read caveat (honest limits): the store/hit path for the W2
-  slots reads consistent — host values are fresh per-pass copies
-  (`maybe_move_tensor_to_cpu` allocates anew; entries store references to
-  per-pass objects, no buffer aliasing), keyed `store[id(dispatcher)]` per
-  layer, restored on hit. So the divergence, if real, lives in a condition
-  the code read can't see from here — which is exactly why the
-  discriminating experiment (§5 step 1) exists.
+- **Suspect A — DEAD (engagement-table update, 2026-08-10 late):** the
+  hanging boot ran FORCE-WITHOUT-CACHE — the replay cache was DISABLED, so
+  the store/restore path this suspect needed never executed. (Earlier drafts
+  of this section had it as the front-runner — "FIX-C replay-restore
+  divergence at full shape ⇒ ranks disagree on chunk plans ⇒ mismatched A2A
+  sizes ⇒ hang in the first checkpoint backward's recompute". Record kept
+  for provenance; the mechanism as mechanized had no code path to run. See
+  §4-final for the re-ranked field.)
 - **Suspect B — a zero/degenerate count pattern at 131k the gate's cases
   didn't produce** (e.g. a whole expert-group with zero rows on a rank, or
   the MTP layer's dispatcher arming W2 with a different local-expert count).
@@ -238,7 +256,81 @@ lines:
 **Night's close on W2 (helmholtz):** the W2 row stays FAIL-by-hang with this
 as the sharpest open question + the VERIFY=1 soak as morning step 1.
 
-## 5. Discrimination plan
+## 4-final. The free-routing regime (the actual hanging configuration) and
+            the re-ranked field
+
+The engagement table (grothendieck, authoritative): the hanging boot ran
+**FORCE-on / CACHE-off**. Two consequences landed by code read:
+
+1. **Suspect A is dead** (the cache's store/restore never executed).
+2. **C′ was INERT on the hanging boot** — `_wrap_checkpoint_chunk_pass`
+   no-ops unless `BT_MOE_DISPATCH_REPLAY_CACHE=1` (recompute.py:130-131), so
+   no checkpoint-pass frames existed, so `_routing_force_frame()` returned
+   None on every pass: no stash, no force. **The replay routed FREELY** —
+   recomputed logits under `enable_grad` vs the no-grad first pass, the exact
+   ULP-divergence class C′ was built to prevent. (Regime note for the
+   estate: any FORCE-without-CACHE arm tonight had the force inert; the W2
+   arm's A/B vs the reference stays valid for the hang — both boots shared
+   the regime, the delta is W2.)
+
+What free replay routing does and does NOT do (the honest bound of the
+code read): the replay's recomputed logits diverge from the first pass at
+ULP level ⇒ boundary tokens flip top-k ⇒ the replay's counts and chunk plan
+differ from the first pass's. BUT each pass is internally consistent (the
+counts are all-gathered within the pass), so no single collective mismatches
+across ranks from this alone — and the per-pass W2 state (`_w2_pass`, plans,
+buffers) is created and cleared per pass (verified: set in token_dispatch,
+cleared in combine_postprocess with the rest of the forward state), so no
+mixed-pass contamination. **The hang mechanism needs something more than
+free routing.** Re-ranked candidates:
+
+- **(a) A full-shape data condition in the fresh-compute path** (suspect B
+  stands): something in the split-size/chunk-plan computation consuming
+  rank-local or non-deterministic state that only 131k real routing produces
+  (the gate's synthetic cases at 2048/8192 can't see it). Code-read limit
+  stated: the plan computation is "pure host math" from all-gathered counts
+  (consistent across ranks by construction) — so this candidate needs a
+  condition the code read can't see; the repro (§5) is the instrument.
+- **(b) The blocked-behind reading of PG 18** (§4.6 reading 1): PG 18 is a
+  framework-created 8-rank group and the W2 backward hung ON it — the real
+  wedge is elsewhere (a host-side stall or a different stuck collective);
+  the reference-boot `nranks=8` grep decides whether such groups exist in
+  the clean boot at all.
+- **(c) The cross-node divergence reading of PG 18** (§4.6 reading 2):
+  node-0-only enqueues on a 16-rank group = the two nodes' backward streams
+  diverged — under the free-routing regime this needs a node-level
+  divergence source (none found at code level; the repro decides).
+- **(d) A W2×free-routing interaction not visible at code level** — e.g. a
+  per-pass structure in the chunked path that assumes pass-invariant counts
+  (none found: the plan is recomputed per pass) or a grad-mode-only code
+  path in the chunked Functions (none: the Functions' forward is
+  grad-agnostic). Recorded for completeness; the repro discriminates.
+
+## 5. Discrimination plan (morning; repro guidance CHANGED per the
+   engagement-table update)
+
+**Step 1 (the repro, same regime):** reproduce the hang in the SAME regime
+as the hanging boot — W2(K=2)+W1, FORCE-on/CACHE-off (C′ inert), golden
+131k×d4 — with the NCCL dump preserved this time (the kill tonight lost it).
+A repro confirms the regime; the preserved dump settles the PG-18 fork
+(membership vs enqueue-list) and names the stuck collective's size/class.
+
+**Step 2 (the regime discriminator):** the intended full-C′ regime (cache ON
+⇒ frames exist ⇒ force live + cache live), same shape. A hang in exactly one
+regime is itself the discriminator: hangs-only-with-cache-off ⇒ the
+free-routing divergence is load-bearing (and C′-on is the mitigation already
+built); hangs-in-both ⇒ regime-independent, pointing at (b)/(c).
+
+**Step 3 (only if step 1 reproduces):** the W1-off W2 arm (probs on the EP
+comm) isolates the two-comm composition; and a W2-arm at the gate's
+2048/8192 shape with REAL routing data (if portable) bisects
+full-shape-data vs full-shape-structure.
+
+Log reads (no boot): the reference-boot `nranks=8` grep (step 0b, §4.6);
+the arm log's W2 per-window counters before the hang (did the first
+forward's `{dispatch_issues, combine_issues, waits}` advance as expected?);
+py-spy on MORE ranks if a re-run hangs (rank 6's "idle in autograd backward"
+needs its wait target named).
 
 **Step 0 (log reads, no boot — grothendieck):** (a) DONE — mesh confirmed
 golden CP16, no F2 (§4.6); (b) **the reference-boot grep (helmholtz's
