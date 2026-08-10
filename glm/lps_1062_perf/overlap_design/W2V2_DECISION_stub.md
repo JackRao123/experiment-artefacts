@@ -77,6 +77,22 @@ canary** (or captures < 50 % again). If built, option 6 first (small,
 mechanism understood), v2 behind it (stub scope below; the v1 bitwise
 argument carries over).
 
+**Option-6 BUILD STATUS (2026-08-10, fermi):** BUILT Mac-side per this card —
+`OPTION6_DESIGN.md` + `patches/option6-probs-bwd-reorder.patch` (md5
+6fbf3acc0b170f247ff2b4f0fa71d68d, over the ship-w1 tip d794ca3d2) +
+`tests/test_option6_probs_bwd_reorder.py` (ALL PASS; incl. the engine-order
+mechanism proof and the W1 regression re-run). The build found the card's
+two-part form needed a THIRD part and sharpened part (i): the fused
+with-probs sort holds the probs grad hostage in ONE joint autograd node
+(part i splits it via the fused sort's own row_id_map bwd op — no host
+sync, bitwise row permutations); natural sequence order would still run
+fc1.bwd first (part ii: seq-bump the probs path above the fc1 pack — the
+W1-v2 inert-bump lesson addressed: this bump's target is the probs path vs
+fc1, not the two A2A nodes' relative order); and the early issue needs its
+wait deferred to the tokens reverse (part iii: the mappings.py early/late
+carrier), else the exposure relocates instead of hiding. NOT booted;
+morning-review deliverable.
+
 **Option-6 disposition card (pre-registered, so a future build is not
 re-litigated):**
 
