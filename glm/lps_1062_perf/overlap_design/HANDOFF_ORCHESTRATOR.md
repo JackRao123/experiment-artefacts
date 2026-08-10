@@ -136,6 +136,40 @@ dispatcher_opt/fixa_v3/ · traces ~/perf_profiles/lps-1062/round3/.
   preprocess all_gather; node1 finalize_model_grads), timebox honored, evidence in
   lps1062_bench/wxlgv5w/. (a)+(a3) ⇒ phantom partitions are THE causal fix. (b) custmix next.
 
+- 02:45 PT: **F2 (b) PASS** (Aug-9 deadlock shape completed flag-ON; losses monotone-sane;
+  evidence lps1062_bench/wxlgv5w/f2b-custmix.*). (c) DP1-golden canary RUNNING. Box-3
+  anchors COMPLETE: 691 @131k-d4 / 718 @16k-d32 (box-variance band vs box-1 705/703.5;
+  curie canary confirm pending) → W2 timed arm GO on box 3 after confirm.
+  **Spin calibration (runbook): on this stack a real deadlock reads 0%-util FROZEN;
+  healthy idle-at-READY reads 7/8 GPUs cosmetic-100% (standing peer-loop NCCL recv-wait).
+  Do not treat 7/8-at-100% as a hang signature.**
+- PR slop-review (independent, read-only) returned NOT-SLOP with 4 fixes — all landed
+  (see task ledger): #28 W1 new_group multi-EP-group fix + guard (W1 PROHIBITED on
+  4-node boots until fixed build validated there), #27 C′ stash id(router) re-key
+  (negative-control-verified), #1000 retitle, #26 nits. DP4 probe plan ready
+  (f2_fix/DP4_SCALEOUT_PROBE.md; W1-active=INVALID). DP4 box wgomdv3 allocating.
+
+- 03:15 PT: **A-v3 verify soak PASS** (curie: 6863/6863 bitwise verifies, constant lag-1
+  structural, armed ×16 ranks). Timed arm VERIFY=0 in flight. **F2 (c) re-designed:**
+  DP1-golden bar INVALID-by-design (config-topology drift dominates; (c1) run has ZERO
+  fired windows by construction → screen vacuous); verdict rides on (c2) equal-count
+  flag-ON/OFF A/B (arm A launched; arm B = flag-OFF reboot with BT_SKIP_WARMUP=1, justified
+  by (a3)). **Scope: (c) proves fix-INERTNESS; phantom-FIRED numerics = design + (b)-sane,
+  1a/1b is the ship gate.** DP4 box wgomdv3: devbox-up poller crashed (papercut
+  pc_d0136712361b), continuation driver running steps 3–13. HYGIENE RULE (curie): all log
+  claims over persistent tees must be boot-region-scoped (14-boot tee had an old FIX-C
+  RuntimeError an unscoped grep missed by luck).
+
+- ~03:45 PT (10:45 UTC): **A-v3 INVALIDATED (under-armed)** — grothendieck self-caught:
+  both A-v3 boots ran without C′+W1 armed (boot-region proof); timed delta discarded;
+  A-v3's own mechanism rows PASSED in isolation; 7 checker FAILs = post-C′ pins on a
+  C′-off trace (regime mismatch, not defect). ORDERING RE-RULED: W3-v3 canary FIRST
+  (box 1, fixa_v3 reverted per frame else-branch, baseline C′-ON refs) → W2 arm (box 3)
+  → A-v3 re-arm last-or-morning. **NEW FLEET RULE: pre-drive ARM-CHECK — boot-region
+  ARMED/ACTIVE lines for every recipe-expected gate pasted into the arm log before any
+  run drives; unproven gate ⇒ INVALID.** DP4 attempt 1 (wgomdv3) died to infra flake
+  (rank2 SSH never up, RUNNING→FAILED); attempt 2 = qv2g7e3 deploying. (c2) arm B driving.
+
 ## Watch items
 - Succession trigger: 50–60% context per agent (Jack revised down) or natural boundary.
 - Box waiter false-positives during boots (pgrep gap); md5 every relay-scp; no window-1

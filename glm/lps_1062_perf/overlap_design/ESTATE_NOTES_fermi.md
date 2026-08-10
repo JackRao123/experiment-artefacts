@@ -94,6 +94,21 @@ the on-box pin) and stack; W3-v2 excluded from every ship branch (verified:
 W2/F2/A-v3/W3-v3 PRs wait for their verdicts (helmholtz's stacking rule:
 never stack on an un-passed lever).
 
+## 2026-08-10 — CORRECTION: v3 patch application path (helmholtz's catch)
+
+My patch docs' "the v2 base" phrasing was ambiguous and the revert-first
+path was unwritten; on-box, grothendieck hit the failure: the v3 patch is a
+FULL patch vs a NO-W3 base, and against the v2-in-tree clone it fails by
+design (new-file collision on lookahead_checkpoint.py; recompute.py hunk
+already applied). Resolution (clean, md5-proofed): **revert v2
+(`git apply -R` of 6f08c5dc…; check = lookahead_checkpoint.py absent +
+recompute.py back at d43d8621b), then apply v3** (post-state 7304202b… /
+0ec487cd…). Both docs (W3_PATCH_NOTES.md v3 section, DESIGN_W3V3.md §9) now
+carry the explicit application path. Class note: a "full patch vs base"
+artifact must always name its revert-first path when a predecessor version
+is expected to be in-tree — the md5 chain verifies content, not
+applicability.
+
 ## Open items carried (mine)
 
 1. W3-v3 readout when the arm runs; win-model lock from the measured c/d.

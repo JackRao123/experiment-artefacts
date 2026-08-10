@@ -35,6 +35,20 @@
   tree byte-for-byte (lookahead_checkpoint.py md5 7304202b…, recompute.py
   0ec487cd…). CPU suite 40/40 green (incl. the dropout RNG-isolation proof
   and the new sec8 ordering guards).
+- **APPLICATION PATH (corrected 2026-08-10 after a box trip — helmholtz's
+  estate-note correction):** the v3 patch is a **FULL patch against a NO-W3
+  base** (57efae08b + FIX A/B/F + FIX C; recompute.py base blob d43d8621b) —
+  NOT a v2→v3 delta. Against a tree that already carries v2 it FAILS by
+  design (`lookahead_checkpoint.py` already exists; the recompute.py hunk
+  context is already applied). **If the target tree carries v2: revert v2
+  first** (`git apply -R` of the v2 patch `6f08c5dc…`; reversal check =
+  `lookahead_checkpoint.py` absent + recompute.py back at blob d43d8621b),
+  **then apply v3**; post-state proof: lookahead_checkpoint.py md5
+  7304202b…, recompute.py 0ec487cd…. grothendieck hit exactly this on-box
+  and resolved it via revert-v2 → apply-v3 (clean, md5-proofed). My earlier
+  "the v2 base" phrasing above meant "the base v2 was built against" — read
+  it that way; the on-box clone carries v2 IN-TREE, so the revert step is
+  mandatory there.
 - **v2 patch hygiene note (found at v3 regeneration):** v2's recompute.py
   `index` line post-image hash (3c45f3695) is STALE — it names the v1-era
   keyword-form blob; the v2 hunk CONTENT is the correct all-positional form

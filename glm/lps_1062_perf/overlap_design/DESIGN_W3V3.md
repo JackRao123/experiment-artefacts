@@ -240,6 +240,14 @@ after the v3 readout (non-additivity note in the stub).
   blob d43d8621b), same as v2. Verified: `git apply --check` clean on the
   reconstructed base; applied tree reproduces the Mac tree byte-for-byte
   (lookahead_checkpoint.py md5 7304202b…, recompute.py 0ec487cd…).
+- **Application path (corrected 2026-08-10 — the box trip):** this is a FULL
+  patch against a NO-W3 base, NOT a v2→v3 delta. Against a tree already
+  carrying v2 it fails by design (new-file collision on
+  lookahead_checkpoint.py; the recompute.py hunk already applied). On the
+  v2-in-tree box clone: **revert v2 first** (`git apply -R` of v2 patch
+  6f08c5dc…; check = lookahead_checkpoint.py absent + recompute.py back at
+  d43d8621b), then apply v3 (post-state: 7304202b… / 0ec487cd…).
+  grothendieck's on-box resolution followed exactly this (md5-proofed).
 - Tests: `tests/test_w3_lookahead_checkpoint.py` 40/40 green on Mac CPU —
   all v2 sections (bitwise parity under dropout=0.5, counters, eviction,
   fallback, RNG round-trip, integration-arity + AST call-site guard) plus
