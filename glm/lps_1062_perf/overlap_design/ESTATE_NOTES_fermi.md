@@ -145,6 +145,35 @@ revives per the stub sequencing (Mac-side build for morning review, no
 boot), W3-v4 becomes a documented morning design item. **No patch work
 before T6 lands** — hypothesis-first burned this lever twice.
 
+## 2026-08-10 (late) — W2 arm FAIL-BY-HANG: the design-lane analysis
+
+W2 timed arm hung in the first window's backward (box 3, golden mesh
+expA131 CP16, C′+W1+W2(K=2); reference clean at 701). Full analysis +
+evidence chain: `W2_ARM_HANG_ANALYSIS_20260810.md`. The night's arc:
+
+- Ruled out at code level: W2 PG-creation (no `new_group` anywhere in W2 —
+  exhaustive, direct or indirect); data-dependent bwd chunk ORDER (the
+  backward's collective order is structural: combine chain K−1→0, dispatch
+  loop 0→K−1, layer boundaries dependency-ordered).
+- The #28-class topology suspect (unguarded W1 `new_group` on the stack
+  branch, which predates the ship-w1 guard) died to helmholtz's two
+  observations: reference arm clean with W1 ACTIVE + warmup0's forward
+  completed (900 probs A2As on the W1 comm) before the backward hang.
+- The PG-18 contradiction is the finding: an 8-rank ranks-0–7 group hung on
+  a golden mesh where no 8-rank group exists (mcore creates none; W2 creates
+  none — K=2 splits within-rank expert subsets, never rank subsets). Two
+  readings recorded (framework-created group, blocked-behind class vs
+  16-rank EP-class group with only node-0 enqueued = cross-node divergence);
+  the reference-boot nranks=8 grep decides the framework branch.
+- Front-runner for morning: suspect A — FIX-C replay-restore divergence at
+  full shape (ranks disagree on chunk plans ⇒ mismatched A2A sizes ⇒
+  collective hang in the first checkpoint backward's recompute; fits
+  clean-forward/first-backward/first-window; explains the gate miss).
+  Discriminating experiment: the W2+C′ VERIFY=1 full-shape soak (morning
+  step 1, needs a box slot; asserts before any hang).
+- The W2 PR stays CLOSED with the caveat in `pr_drafts/`; re-arm only after
+  root cause.
+
 ## Open items carried (mine)
 
 1. W3-v3 readout when the arm runs; win-model lock from the measured c/d.
