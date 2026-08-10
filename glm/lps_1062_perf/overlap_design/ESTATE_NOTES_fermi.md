@@ -37,9 +37,14 @@ recompute.py 0ec487cd…). CPU suite 40/40 (v2 sections + new sec8 ordering
 guards: no `wait_stream` in the module, exactly the two `wait_event` edges,
 gather-inside-context, both event producers pinned by AST).
 
-**Also folded into v3:** the telemetry-window relabel (window now rolls on
-chunk backwards; the v2 events-window/"chunk backwards" mislabel caused the
-false 150/mb reading — counter semantics unchanged, v2 bars carry over);
+**Also folded into v3:** the telemetry-window relabel — the 150/mb mislabel
+source is dead at a named site: `megatron/core/lookahead_checkpoint.py`,
+`_lookahead_note()` now only accumulates event counters, and the window rolls
+exclusively in `_lookahead_note_chunk_backward()` (called once per
+`LookaheadCheckpointFunction.backward`), so the printed "(%d chunk
+backwards)" is truthful by construction (v2 rolled the window inside the
+per-event `_lookahead_note`, ~2 events/chunk-backward, under a
+chunk-backwards label). Counter semantics unchanged — v2 bars carry over;
 per-kick `kick_ms_avg/max` CUDA-event telemetry (the in-log dilation signal);
 `BT_MOE_LOOKAHEAD_TRIM_EVERY=N` allocator-trim knob (default OFF; the
 16k-enablement knob; global empty_cache at the microbatch sweep — churn cost

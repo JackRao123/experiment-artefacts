@@ -502,6 +502,23 @@ races):
   (8,192 tok/rank/mb) — fits the 71 GiB headroom. At 16k×d32 (32,768
   tok/rank/mb) ≈ +8–12 GiB — **measure before enabling there**; gate off per
   shape if tight.
+
+  > **CORRECTION (2026-08-10, minkowski's settled model; recorded by fermi —
+  > supersedes the 2–4 GiB estimate, which undercounted the MoE save set
+  > ~4×):** measured on the W3-v2 arm at 131k-d4 (poller + 16-rank allocator
+  > snapshot, `round3/arm-w3-318g61w/mem_snapshot/`): **+25.4–25.8 GiB =
+  > ~11.5 GiB intrinsic** (two ~11.4 GiB kicked chunk graphs live at the
+  > mid-backward peak — MoE-pipeline saves dominate: 2.58 GiB×4 A2A/sort/GEMM
+  > saves; the full-seq attention-K/V hypothesis is REFUTED, no 4 GiB blocks
+  > exist) **+ ~14 GiB allocator retention** on the side-stream pool (26–30
+  > GiB free-cached, uniform across ranks — recoverable via the v3
+  > `BT_MOE_LOOKAHEAD_TRIM_EVERY` knob). 131k arm stood vs 44.9 GiB headroom
+  > (≥10 GiB bar). 16k×d32 stays HARD OFF: corrected model there ≈ 13–14
+  > GiB/chunk intrinsic (MoE/MLP terms ×4 at 32,768 tok/rank/mb) + retention
+  > + fragmentation — genuinely borderline, re-measure before any enablement.
+  > Under W3-v3 the number is RE-MEASURED (canary frame M1: ≤ +28 GiB vs the
+  > selected baseline), not inherited. Full record: ESTATE_NOTES_minkowski.md
+  > (2026-08-09 memory-model entry) + DESIGN_W3V3.md §5.
 - **(c) CPU driving:** the autograd thread also blocks in the dispatcher's
   `d2h_event.synchronize()` during the kicked recompute (2× ~14 ms, runahead-
   inflated) — stalls bwd(L) pushes. **Synergy: enable FIX C

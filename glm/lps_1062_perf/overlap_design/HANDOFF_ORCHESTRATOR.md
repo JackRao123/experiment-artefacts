@@ -129,6 +129,12 @@ dispatcher_opt/fixa_v3/ · traces ~/perf_profiles/lps-1062/round3/.
   (proven levers only: B/F, NCCL env, C′, W1; W3-v2 excluded from ship branches).
 - 02:10 PT: **BOX 3 (wxlg05w) DEVBOX READY** (13/13, exit 0) — handed to grothendieck:
   golden stack → CPFS lps1062_bench/wxlg05w/ → anchors → W2 timed arm lives there.
+- 02:15 PT: W3-v3 canary frame Amendment #1 re-frozen pre-boot (9 items; A1.4 misses==1/mb
+  EXACT ruled with spec-governs; A1.3 idle-gap stall redefinition). Frame fully frozen.
+- 02:20 PT: **F2 (a3) PASS — causality proven.** Flag-OFF reproduced the deadlock (log
+  frozen at pass-1, no READY), py-spy signatures matched both nodes (node0 token_dispatcher
+  preprocess all_gather; node1 finalize_model_grads), timebox honored, evidence in
+  lps1062_bench/wxlgv5w/. (a)+(a3) ⇒ phantom partitions are THE causal fix. (b) custmix next.
 
 ## Watch items
 - Succession trigger: 50–60% context per agent (Jack revised down) or natural boundary.
