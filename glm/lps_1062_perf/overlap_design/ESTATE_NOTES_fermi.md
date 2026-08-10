@@ -235,6 +235,17 @@ capture with python stacks (the slimmed trace bottoms out at
 CheckpointFunctionBackward); the search is bounded to the replay-side
 indexer/attention forward path. PR #29's body carries this form.
 
+**curie's closing sharpening (recorded for the morning capture recipe):**
+the recipe now carries BOTH instruments — GPU-track annotations for the
+Lookahead functions (the W3-v3 T3 gap) AND python stacks
+(`with_stack=True`) targeted at the replay-side indexer/attention path —
+plus one measurement note: record the per-window copy COUNT as well as
+durations. The era trace had 6 such copies (max 14.9 ms) vs leg-(b)'s 33
+(max 132 ms) — the 6-vs-33 count delta is itself a V3-ON execution-COUNT
+signal (the host-read path runs ~5× more often under V3), not just a
+timing shift — a further constraint on the locus (a V3-conditional
+execution-frequency change in the replay-side path).
+
 ## Open items carried (mine)
 
 1. W3-v3 readout when the arm runs; win-model lock from the measured c/d.
