@@ -7,6 +7,20 @@
 PASSES. The gate is already clean; the wall/mechanism verdict is pending.
 Do NOT open before helmholtz confirms.
 
+> **⚠ STATUS CAVEAT (2026-08-10 — PR STAYS CLOSED):** the W2 timed arm
+> **FAILED BY HANG** in the first window's backward (warmup0, box 3) — NCCL
+> collective-timeout after ~7 min. First-pass analysis:
+> [W2_ARM_HANG_ANALYSIS_20260810.md](../W2_ARM_HANG_ANALYSIS_20260810.md).
+> Headline: (i) the failure is a stack-composition/topology class, not a
+> gate-regression — the T2 gate passed at its scale and the W2 backward's
+> collective order is structural (not data-dependent) at code level; (ii) the
+> prime suspect if the arm ran >16 ranks is the stack branch's UNGUARDED W1
+> `new_group` (predates the ship-w1 guard `d794ca3d2` — the #28-review
+> hazard class, which the guard already fixes by refusing to arm); (iii) if
+> 16-rank golden, the sharpest suspect is a FIX-C replay-restore divergence
+> at full shape (a verify-on soak discriminates in one run). **Do not open
+> this PR until the hang is root-caused and a re-arm passes.**
+
 ---
 
 ## What

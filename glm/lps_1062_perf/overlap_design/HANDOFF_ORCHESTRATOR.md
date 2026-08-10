@@ -170,6 +170,15 @@ dispatcher_opt/fixa_v3/ · traces ~/perf_profiles/lps-1062/round3/.
   run drives; unproven gate ⇒ INVALID.** DP4 attempt 1 (wgomdv3) died to infra flake
   (rank2 SSH never up, RUNNING→FAILED); attempt 2 = qv2g7e3 deploying. (c2) arm B driving.
 
+- ~05:45–06:45 PT: ENDGAME — F2 verdict set COMPLETE/PASS (PR #1001 draft). W3-v3 FAIL on
+  T1 (0.9%) + T6 mapped the causal chain (A-v3 = W3-v4 prerequisite); W3 closed tonight,
+  option-6 BUILT Mac-side (patch 6fbf3acc, CPU-proven), W3-v4 skeleton landed. W2 timed
+  arm FAIL BY HANG (first bwd @131k full shape, C′+W1 composition, non-default-PG NCCL
+  timeout; gate-scale was clean) — lever stopped, PR held closed, fermi analyzing. Box 2
+  torn down (evidence on CPFS); DP4 blocked-by-infra (2 attempts). A-v3 re-arm = final
+  experiment: full-stack soak GREEN (composition proven), VERIFY=0 canary+capture+timed
+  in flight. Boxes 1+3 stay idle-at-READY for morning arms after it.
+
 ## Watch items
 - Succession trigger: 50–60% context per agent (Jack revised down) or natural boundary.
 - Box waiter false-positives during boots (pgrep gap); md5 every relay-scp; no window-1
