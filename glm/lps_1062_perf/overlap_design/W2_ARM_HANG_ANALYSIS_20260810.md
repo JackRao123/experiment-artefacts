@@ -140,7 +140,57 @@ the real trainer loop):
   the DSA-bwd path at full shape interacting with the W2 arm's timing.
   Discriminator: the pending collectives' PG + sizes in the dump.
 
+## 4.5. The PG-18 evidence (grothendieck/helmholtz, 2026-08-10) — and a
+       premise correction
+
+The stuck group: **PG 18 / GUID 186, watchdog seq 619 enqueued-not-completed
+on EXACTLY ranks 0–7 (the leader node) — an 8-rank group.** World 16; EP16
+spans all ranks; W1 comm ACTIVE + created-over-16 (boot marker). This closes
+the #28-class branch formally (W1's comm is 16-rank and worked through the
+forward).
+
+**Premise correction (fermi, code read — direct):** the W2 chunked path does
+NOT run over an 8-rank group. K=2 splits the 16 LOCAL EXPERTS on every rank
+into 2 groups of 8 EXPERTS; both chunked Functions
+(`_ChunkedDispatchA2A`/`_ChunkedCombineA2A`) take `self.ep_group =
+pg_collection.ep` — the full 16-rank EP group — for every chunk (that
+every-rank-in-every-chunk balance is the design's core property, memo §2.3).
+So PG 18 is neither W1's second comm (16-rank) nor the W2 chunked A2As' comm
+(16-rank). It is a THIRD group, outside the W1/W2 comm structure.
+
+**What 8-rank ranks-0–7 group can exist at world 16:** enumerated the stack's
+group-creation sites (mcore parallel_state + the bridge + the trainer
+server): at golden TP1/PP1/EP16/CP16/DP1 there is NO 8-rank group (no
+hierarchical CP configured — `hierarchical_context_parallel_sizes` unset;
+EP/TP-EP/CP groups are 16-rank; TP/DP trivial). An 8-rank ranks-0–7 group is
+exactly a **CP8 ring (one replica's CP group) if the arm's mesh was
+EP16/CP8/DP2 (expB-class), not golden CP16.** → the two settling questions
+(both one-line log reads for grothendieck): (a) PG 18's `group_desc` in the
+dump's group table (names the group directly); (b) the arm config's
+`context_parallel_size` (16 vs 8) — and if 8: was box 3's server/src carrying
+the F2 patch (DP2 without F2 is the deadlock class the F2 PR fixes), and note
+the reference read (701 ≈ the golden-CP16 anchor class) would then be a
+mesh-mismatched comparison to flag.
+
+**If the mesh was expB (CP8/DP2):** PG 18 = replica 0's CP8 ring (attention
+AG/RS). A CP-ring timeout on replica 0 is the DOWNSTREAM symptom of a
+cross-replica desync — a rank stuck in a 16-rank EP collective blocks its
+CP ring's progress. That re-frames but does not displace suspect A: the
+first window's FORWARD completed (per-replica partition counts matched — the
+textbook F2 forward deadlock needs a count mismatch, so F2-class fits
+imperfectly), and the backward hang points at a backward-phase desync — the
+replay/restore divergence (suspect A) remains the front-runner, now with the
+mechanism: the replay's A2A on the 16-rank EP group mismatches across
+replicas → replica-1 ranks stuck there → replica 0's CP8 ring (PG 18) times
+out waiting.
+
 ## 5. Discrimination plan
+
+**Step 0 (log reads, no boot — grothendieck, closes the group-identity
+question):** (a) PG 18's `group_desc` in the dump's group table (names the
+group directly — settles §4.5's "which 8-rank group"); (b) the arm config's
+`context_parallel_size` (16 golden vs 8 expB) and whether box 3's server/src
+carried the F2 patch.
 
 **Step 1 (the discriminating experiment — morning item, needs a box slot):
 the W2+C′ VERIFY=1 full-shape soak.** Boot the arm's exact config at 131k
