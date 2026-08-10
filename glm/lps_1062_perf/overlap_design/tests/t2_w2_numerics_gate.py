@@ -8,12 +8,15 @@ FP8 e4m3 blockwise — the GLM-5.2 recipe), EP = world size, full-recompute
 checkpoint wrapper (so the chunked path runs in the no-grad first pass AND
 the grad-enabled replay), expert weights frozen (the golden LoRA config).
 
-For each routing case, the SAME weights/inputs/routing are run with W2 off vs
-W2 on (in-process A/B), and the layer output and input grad must be
-torch.equal:
+For each routing case, the SAME weights/inputs/routing AND the SAME upstream
+gradient (one seeded grad_out per iteration, shared by the A/B/C runs) are
+run with W2 off vs W2 on (in-process A/B), and the layer output and input
+grad must be torch.equal:
 
   1. balanced — random top-8 routing;
-  2. imbalance — ~90% of selections to expert 0 (a2a sizes up to 3.5x skew);
+  2. imbalance — expert 0 at ~3.5x uniform selection share (exactly TOPK
+     distinct picks per token — see craft_routing's docstring for why the
+     pre-fix ~90% construction crashed the A2A);
   3. zero (peer, group) — every rank sends nothing to dest 3's group-1
      experts (global experts 56..63): exercises the list-A2A zero-count path
      (R2) on both the send side (all ranks) and the receive side (rank 3);
@@ -103,6 +106,25 @@ def check(name, cond):
         FAILURES.append(name)
 
 
+def _delta_stats(tag, ref, got):
+    """Mismatch diagnostics for the variance-class ship bar (Jack's ruling,
+    2026-08-09): a torch.equal FAIL is no longer the ship verdict by itself —
+    the deviation must be quantified as noise-class (ULP-scale, zero-mean,
+    unstructured) vs systematic. Printed on the mismatch path only;
+    torch.equal remains the diagnostic gold tier in check()."""
+    d = got.float() - ref.float()
+    ad = d.abs()
+    denom = ref.float().abs().clamp_min(1e-30)
+    if dist.get_rank() == 0:
+        print(
+            f"DELTA {tag}: mismatched={int((d != 0).sum())}/{d.numel()} "
+            f"max_abs={ad.max().item():.3e} mean_abs={ad.mean().item():.3e} "
+            f"max_rel={(ad / denom).max().item():.3e} "
+            f"signed_bias={d.mean().item():.3e} (bf16 eps ~= 7.8e-3 rel)",
+            flush=True,
+        )
+
+
 NUM_EXPERTS = 256
 TOPK = 8
 K = 2
@@ -165,28 +187,56 @@ def build_layer(config, pg):
 
 
 def craft_routing(case, T, device, seed):
-    """(probs [T,E] sparse f32, routing_map [T,E] bool) — identical across ranks."""
+    """(probs [T,E] sparse f32, routing_map [T,E] bool) — identical across ranks.
+
+    Every case MUST select exactly TOPK distinct experts per token: the
+    dispatcher's dropless num_out_tokens is static T*topk and the permute
+    pads to it, so a token with fewer selections crashes the A2A
+    ("Split sizes doesn't match total dim 0 size"). The pre-fix imbalance
+    case duplicated expert 0 in the selection list, which the bool mask
+    collapsed to 1-2 selections/token (the 0626 imbalance run-A crash);
+    zero_expert / zero_peer_group post-masked selected experts, with the
+    same effect. Skews/masks are now built into the candidate sets instead.
+    """
     g = torch.Generator().manual_seed(seed)
     routing = torch.zeros(T, NUM_EXPERTS, dtype=torch.bool)
-    for t in range(T):
-        if case == "imbalance":
-            idx = [0] * (TOPK - 1) + [int(torch.randint(0, NUM_EXPERTS, (1,), generator=g))]
-        else:
-            idx = torch.randperm(NUM_EXPERTS, generator=g)[:TOPK].tolist()
-        routing[t, idx] = True
     if case == "zero_expert":
-        routing[:, 42] = False
-    if case == "zero_peer_group":
+        allowed = [e for e in range(NUM_EXPERTS) if e != 42]
+    elif case == "zero_peer_group":
         # dest rank 3, group 1 (L = num_local_experts/K local experts per group)
         le = NUM_EXPERTS // dist.get_world_size()
         l = le // K
-        routing[:, 3 * le + l : 3 * le + 2 * l] = False
+        blocked = set(range(3 * le + l, 3 * le + 2 * l))
+        allowed = [e for e in range(NUM_EXPERTS) if e not in blocked]
+    else:
+        allowed = list(range(NUM_EXPERTS))
+    allowed_t = torch.tensor(allowed)
+    for t in range(T):
+        if case == "imbalance":
+            # ~3.5x skew toward expert 0 with exactly TOPK distinct picks:
+            # include expert 0 with p = 3.5*TOPK/NUM_EXPERTS (its selection
+            # share is then ~3.5x the uniform 1/NUM_EXPERTS), fill the rest
+            # distinctly from the other experts.
+            idx = []
+            if float(torch.rand((), generator=g)) < 3.5 * TOPK / NUM_EXPERTS:
+                idx.append(0)
+            others = (torch.randperm(NUM_EXPERTS - 1, generator=g) + 1).tolist()
+            idx.extend(others[: TOPK - len(idx)])
+        else:
+            idx = allowed_t[torch.randperm(len(allowed), generator=g)[:TOPK]].tolist()
+        routing[t, idx] = True
     probs = torch.rand(T, NUM_EXPERTS, generator=g) * routing
     return probs.cuda(device), routing.cuda(device)
 
 
-def run_once(layer, config, hidden_states, probs, routing_map, use_checkpoint, use_fixc_marker):
-    """One fwd+bwd of the layer with a crafted routing; returns (out, in_grad)."""
+def run_once(layer, config, hidden_states, grad_out, probs, routing_map, use_checkpoint, use_fixc_marker):
+    """One fwd+bwd of the layer with a crafted routing; returns (out, in_grad).
+
+    grad_out is drawn ONCE per (case, ckpt, fixc) iteration by the caller and
+    shared by the A/B/C runs — drawing it here (global RNG) made every run
+    backward against a different upstream gradient and the grad asserts
+    vacuous-by-noise (the 0626 defect-1 artifact).
+    """
     layer.router.forward = lambda *a, **k: (probs, routing_map)
 
     def fwd(h):
@@ -197,7 +247,6 @@ def run_once(layer, config, hidden_states, probs, routing_map, use_checkpoint, u
 
         fwd = _wrap_checkpoint_chunk_pass(fwd, None)
 
-    grad_out = torch.randn_like(hidden_states)
     hidden_states = hidden_states.detach().requires_grad_(True)
     with get_fp8_context(config, 0):
         if use_checkpoint:
@@ -270,56 +319,74 @@ def main():
     for case, kw in cases:
         for use_ckpt in (False, True):
             for use_fixc in ([False, True] if (use_ckpt and case in fixc_cases) else [False]):
-                if use_fixc:
-                    os.environ["BT_MOE_DISPATCH_REPLAY_CACHE"] = "1"
                 probs, routing_map = craft_routing(case, seq, "cuda", kw["seed"])
                 g = torch.Generator().manual_seed(kw["seed"] + 1000)
                 hidden_states = torch.randn(
                     seq, 1, hidden, generator=g, dtype=torch.bfloat16
                 ).cuda()
+                # One upstream gradient per (case, ckpt, fixc) iteration,
+                # shared by the A/B/C runs being compared (see run_once).
+                grad_out = torch.randn(
+                    seq, 1, hidden, generator=g, dtype=torch.bfloat16
+                ).cuda()
 
-                # Run A: W1 off, W2 off (status quo)
-                set_w1(layer, False)
-                set_w2(layer, False)
-                out_a, grad_a = run_once(
-                    layer, config, hidden_states, probs, routing_map, use_ckpt, use_fixc
-                )
-                # Run B: W1 on, W2 on
-                set_w1(layer, True)
-                set_w2(layer, True)
-                from megatron.core.transformer.moe import token_dispatcher as _td
-
-                fixc_before = dict(_td._REPLAY_STATS) if use_fixc else None
-                out_b, grad_b = run_once(
-                    layer, config, hidden_states, probs, routing_map, use_ckpt, use_fixc
-                )
-                # Run C: W1 off, W2 on (probs on the EP comm, issued first)
-                set_w1(layer, False)
-                out_c, grad_c = run_once(
-                    layer, config, hidden_states, probs, routing_map, use_ckpt, use_fixc
-                )
-
-                tag = f"{case} ckpt={int(use_ckpt)} fixc={int(use_fixc)}"
-                check(f"{tag}: W2 output == monolithic output", torch.equal(out_a, out_b))
-                check(f"{tag}: W2 input grad == monolithic", torch.equal(grad_a, grad_b))
-                check(f"{tag}: W2(no-W1) output == monolithic", torch.equal(out_a, out_c))
-                check(f"{tag}: W2(no-W1) input grad == monolithic", torch.equal(grad_a, grad_c))
                 if use_fixc:
-                    # Second-review item 6: the replay cache must have HIT on
-                    # the W2-on replay (a silent fallback would still pass
-                    # torch.equal — the v1 inert-gate trap).
-                    fixc_after = dict(_td._REPLAY_STATS)
-                    check(
-                        f"{tag}: FIX-C replay cache hit on W2-on run "
-                        f"(hits {fixc_before['hits']} -> {fixc_after['hits']})",
-                        fixc_after["hits"] > fixc_before["hits"],
+                    os.environ["BT_MOE_DISPATCH_REPLAY_CACHE"] = "1"
+                try:
+                    # Run A: W1 off, W2 off (status quo)
+                    set_w1(layer, False)
+                    set_w2(layer, False)
+                    out_a, grad_a = run_once(
+                        layer, config, hidden_states, grad_out, probs, routing_map, use_ckpt, use_fixc
                     )
-                    check(
-                        f"{tag}: FIX-C no misses on W2-on run "
-                        f"(misses {fixc_before['misses']} -> {fixc_after['misses']})",
-                        fixc_after["misses"] == fixc_before["misses"],
+                    # Run B: W1 on, W2 on
+                    set_w1(layer, True)
+                    set_w2(layer, True)
+                    from megatron.core.transformer.moe import token_dispatcher as _td
+
+                    fixc_before = dict(_td._REPLAY_STATS) if use_fixc else None
+                    out_b, grad_b = run_once(
+                        layer, config, hidden_states, grad_out, probs, routing_map, use_ckpt, use_fixc
                     )
-                    os.environ.pop("BT_MOE_DISPATCH_REPLAY_CACHE", None)
+                    # Run C: W1 off, W2 on (probs on the EP comm, issued first)
+                    set_w1(layer, False)
+                    out_c, grad_c = run_once(
+                        layer, config, hidden_states, grad_out, probs, routing_map, use_ckpt, use_fixc
+                    )
+
+                    tag = f"{case} ckpt={int(use_ckpt)} fixc={int(use_fixc)}"
+                    eq_ob, eq_gb = torch.equal(out_a, out_b), torch.equal(grad_a, grad_b)
+                    eq_oc, eq_gc = torch.equal(out_a, out_c), torch.equal(grad_a, grad_c)
+                    if not eq_ob:
+                        _delta_stats(f"{tag} W2-out-vs-monolithic", out_a, out_b)
+                    if not eq_gb:
+                        _delta_stats(f"{tag} W2-grad-vs-monolithic", grad_a, grad_b)
+                    if not eq_oc:
+                        _delta_stats(f"{tag} W2noW1-out-vs-monolithic", out_a, out_c)
+                    if not eq_gc:
+                        _delta_stats(f"{tag} W2noW1-grad-vs-monolithic", grad_a, grad_c)
+                    check(f"{tag}: W2 output == monolithic output", eq_ob)
+                    check(f"{tag}: W2 input grad == monolithic", eq_gb)
+                    check(f"{tag}: W2(no-W1) output == monolithic", eq_oc)
+                    check(f"{tag}: W2(no-W1) input grad == monolithic", eq_gc)
+                    if use_fixc:
+                        # Second-review item 6: the replay cache must have HIT on
+                        # the W2-on replay (a silent fallback would still pass
+                        # torch.equal — the v1 inert-gate trap).
+                        fixc_after = dict(_td._REPLAY_STATS)
+                        check(
+                            f"{tag}: FIX-C replay cache hit on W2-on run "
+                            f"(hits {fixc_before['hits']} -> {fixc_after['hits']})",
+                            fixc_after["hits"] > fixc_before["hits"],
+                        )
+                        check(
+                            f"{tag}: FIX-C no misses on W2-on run "
+                            f"(misses {fixc_before['misses']} -> {fixc_after['misses']})",
+                            fixc_after["misses"] == fixc_before["misses"],
+                        )
+                finally:
+                    if use_fixc:
+                        os.environ.pop("BT_MOE_DISPATCH_REPLAY_CACHE", None)
 
     dist.barrier()
     ok = not FAILURES

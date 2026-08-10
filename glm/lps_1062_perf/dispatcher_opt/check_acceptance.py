@@ -155,8 +155,13 @@ def measure(trace_path: str) -> dict:
     # FIX C split: the dispatcher's d2h_event syncs divide into first-pass
     # (parent CheckpointFunction) and recompute-replay (parent
     # CheckpointFunctionBackward). FIX C removes the replay half.
-    disp_fwd = es2[es2.parent == "CheckpointFunction"]
-    disp_replay = es2[es2.parent == "CheckpointFunctionBackward"]
+    # W3 (2026-08-10, boltzmann): under BT_MOE_LOOKAHEAD_RECOMPUTE the
+    # checkpoint Function is LookaheadCheckpointFunction{,Backward} — include
+    # both names (pre-W3 traces simply match nothing on the Lookahead names).
+    disp_fwd = es2[es2.parent.isin(["CheckpointFunction", "LookaheadCheckpointFunction"])]
+    disp_replay = es2[
+        es2.parent.isin(["CheckpointFunctionBackward", "LookaheadCheckpointFunctionBackward"])
+    ]
     m["eventsync_dispatcher_fwd_calls"] = int(len(disp_fwd))
     m["eventsync_dispatcher_replay_calls"] = int(len(disp_replay))
 

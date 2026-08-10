@@ -189,3 +189,41 @@ silent-inertness classes that parity-green hides):
 
 — hilbert (verification, round 3). Questions to the estate docs above; the
 orchestrator is kepler.
+
+## 7. boltzmann addendum (2026-08-09/10 night) — calibration + provenance ledger
+
+- **C′ timed arm: PASS ON MECHANISM (both ranks), kepler-accepted.** Full
+  adjudication record in overlap_design/TRACE_ACCEPTANCE.md (C′ section).
+  The two drain-seconds rows re-baselined in check_acceptance.py (annotated,
+  old bounds recoverable via the W1 profile or --set) — mechanism: wait
+  redistribution, drains 97.4% GPU-covered, eventsync+nonzero wait conserved
+  (34.21s vs 34.01s C′-off control).
+- **Staging amendment (ratified):** timed arms run C′ VERIFY OFF by design
+  (verify sync overhead contaminates timing); the verify-on bar is carried by
+  the soak. §3 of this handoff conflated soak-window and timed-window lines.
+- **fixc_verify_instrumentation.patch REGENERATED** from the box tree's
+  hand-fixed state: md5 31f8e0bc160386f4040da8955b2ea0f9, box↔Mac
+  consistent; round-trip proven (stack-state file + patch = box file
+  byte-exact, 4b97da1fd5dcf66584c23626e4abbf18). The stale authored patch
+  (hunk-3 fuzz-misplacement) is quarantined as
+  `fixc_verify_instrumentation.STALE-DO-NOT-APPLY-191c41ae.patch`.
+- **Vendored-mcore base pair (provenance, kepler's ask):** box tree under
+  test = `trainers_main` vendored mcore @ **d3932e757** (stack as
+  working-tree mods); Mac ship tree @ **57efae08b**. The regen round-trip
+  proves the base delta is immaterial for the instrumented files, but if a
+  future apply fails on either base, this pair is the first thing to check.
+- **Checker/tooling version-proof discipline:** the box copy of
+  check_acceptance.py was found two revisions stale (2026-08-10); any on-box
+  verdict must md5-proof the tool against the Mac authority copy first. Same
+  class as the patch md5 sweep — tooling is estate too. (Also in the
+  checker's docstring NOTE.)
+- **T2 gate canonical: d88d8b7d** (368→402 lines): minkowski's fixture fix +
+  grad_out fix + my try/finally + my arity catch (40b56e98's call sites went
+  9-arg while run_once stayed 7-param — harness artifact #3, caught in
+  review) + _delta_stats quantification. Re-run accounting: 44 check lines
+  (40 W2 + 4 fixc), DELTA lines only on mismatch paths.
+- **W3 frame frozen** (kepler-accepted): deltas vs the C′-ON baseline,
+  overlap-win metrics (drain concurrency 1.017/1.008 baseline, multi-kernel
+  3.71/2.97%), wait-by-cause buckets, capture ratio 60-80% model; log bars
+  kicks=hits=308/step, misses=4/step, sweeps=0 halt; 78 = 75 MoE + 3 MTP
+  pinned on counter evidence (router-bearing yet dispatcher-cache-free).

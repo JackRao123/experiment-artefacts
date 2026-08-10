@@ -1,16 +1,16 @@
 --- a/megatron/core/transformer/moe/token_dispatcher.py
 +++ b/megatron/core/transformer/moe/token_dispatcher.py
-@@ -194,6 +194,9 @@
-         "output_splits_host",
-         "output_splits_tp_host",
-         "num_out_tokens_host",
+@@ -200,6 +200,9 @@
+         # from; populated only when the dispatcher's _w2_config is armed.
+         "w2_local_counts_host",
+         "w2_global_counts_host",
 +        # Verify mode only: the first pass's (padded) routing_map, for the
 +        # mismatch forensics' XOR detail (None otherwise — 2 MB per entry).
 +        "routing_map_dev",
-         "tokens_per_expert_host",
-         "num_global_tokens_per_local_expert_host",
      )
-@@ -280,6 +283,61 @@
+ 
+     def __init__(self):
+@@ -284,6 +287,61 @@
              and np.array_equal(fresh, cached)
          )
      return type(fresh) is type(cached) and fresh == cached
@@ -72,7 +72,7 @@
  
  
  def _verify_device_metadata(dispatcher, entry, num_tokens_per_local_expert):
-@@ -287,6 +345,18 @@
+@@ -291,6 +349,18 @@
      fresh = _capture_device_metadata(dispatcher, num_tokens_per_local_expert)
      for name, fresh_val in fresh.items():
          if not _values_equal(fresh_val, getattr(entry, name)):
@@ -91,10 +91,10 @@
              raise RuntimeError(
                  "BT_MOE_DISPATCH_REPLAY_CACHE_VERIFY: replay device metadata mismatch in "
                  f"{name} on {type(dispatcher).__name__} (routing_shape {entry.routing_shape}): "
-@@ -350,6 +420,10 @@
-         entry.num_global_tokens_per_local_expert_host = getattr(
-             dispatcher, "num_global_tokens_per_local_expert", None
-         )
+@@ -376,6 +446,10 @@
+     if getattr(dispatcher, "_w2_config", None) is not None:
+         entry.w2_local_counts_host = getattr(dispatcher, "_w2_local_counts_host", None)
+         entry.w2_global_counts_host = getattr(dispatcher, "_w2_global_counts_host", None)
 +    # Verify mode only: keep the first pass's routing_map for the mismatch
 +    # forensics' XOR detail (boundary flips vs wholesale corruption).
 +    if _replay_verify_enabled():

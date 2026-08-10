@@ -1,5 +1,78 @@
 # W3 — BT_MOE_LOOKAHEAD_RECOMPUTE patch notes (helmholtz, 2026-08-09)
 
+## v3 (2026-08-10, fermi) — input-dependency-only kick ordering
+
+- **Why:** the v2 canary measured kicks 99.9 % serialized (0 wall for +25.8
+  GiB). boltzmann's SM-slack measurement (curie-confirmed) refuted the "no SM
+  headroom" reading: 83.5 % of bwd-phase kernel time runs at <10 % occupancy
+  (~35.9 s slack/step), SendRecv windows at ~0 % occ. The serialization was
+  ORDERING: v2's `side_stream.wait_stream(current)` at kick time chained each
+  kick behind the whole compute backlog — including, transitively, the
+  previous kick's consume-wait sitting on the compute stream's tail.
+- **Change (lookahead_checkpoint.py only; recompute.py hunk byte-identical to
+  v2):** the kick now waits on exactly two events — (a) its own chunk's
+  `input_event` (recorded at first-pass registration; covers the saved-input
+  producers and, for a microbatch's first kick, transitively the previous
+  microbatch's whole backward) and (b) the registry's `last_bwd_end` event
+  (recorded at the end of each chunk backward; covers the allocator reuse
+  edge — side-pool blocks freed from the graph consumed two backwards ago may
+  still be read by its queued kernels). `wait_stream` is banned from the
+  module (AST-guarded). The distribute-saved-activations gather moved INSIDE
+  the side-stream context (the two waits don't cover a compute-stream gather
+  pushed at kick time). Full design + risk audit: `../DESIGN_W3V3.md`.
+- **Also in v3:** telemetry window now rolls on CHUNK BACKWARDS (the v2
+  events-based window + "chunk backwards" label caused the false 150/mb
+  reading; counter semantics unchanged — the v2 bars kicks==hits==78/mb,
+  misses==1/mb, sweeps==0, fallbacks==0 carry over verbatim); per-kick
+  CUDA-event duration stats (`kick_ms_avg/max` on the window line — the
+  in-log dilation signal); `BT_MOE_LOOKAHEAD_TRIM_EVERY=N` allocator-trim
+  knob (default OFF; the 16k-enablement knob; sync + churn cost is
+  canary-measured before any reliance).
+- **Identity:** `w3-lookahead-recompute-v3.patch`, md5
+  **05dda37f68f3113747a812e357d9b552**, 638 lines (new file 588 + recompute.py
+  hunk unchanged). Verified: `git apply --check` clean vs the v2 base
+  (57efae08b + recompute.py blob d43d8621b); applied tree reproduces the Mac
+  tree byte-for-byte (lookahead_checkpoint.py md5 7304202b…, recompute.py
+  0ec487cd…). CPU suite 40/40 green (incl. the dropout RNG-isolation proof
+  and the new sec8 ordering guards).
+- **v2 patch hygiene note (found at v3 regeneration):** v2's recompute.py
+  `index` line post-image hash (3c45f3695) is STALE — it names the v1-era
+  keyword-form blob; the v2 hunk CONTENT is the correct all-positional form
+  (true post-image 3c9babb34). Cosmetic (plain `git apply` ignores it); the
+  v3 patch carries correct hashes. Recorded so no one "verifies" v2 by its
+  index line.
+- **16k×d32 stays HARD OFF** (memory model there is genuinely borderline:
+  MoE/MLP terms ×4 ≈ 13–14 GiB/chunk intrinsic + retention; separate
+  justification + measurement required — see DESIGN_W3V3.md §5).
+
+## v2 (2026-08-09, minkowski) — boot-blocking call-site fix
+
+- **Defect:** the recompute.py `chunk_runner` call site passed
+  `chunk_key=`/`carrier=` as keywords BEFORE `*args`; the 6 positional args
+  fill signature slots 3–4 (`chunk_key`, `carrier`) and collide with the
+  keywords → `TypeError: got multiple values` on all 16 ranks, 0.1 s into
+  forward (box log `w3_boot_FAIL_chunk_key.log`, md5 dd58a4df). v1 never
+  booted.
+- **Fix (fourier's proposal, confirmed correct):** all-positional in
+  signature order — `lookahead_checkpoint(cf,
+  self.config.distribute_saved_activations, start + layer_offset,
+  packed_seq_params, *args)` — matching the sibling `te_checkpoint` call's
+  `self.config.` convention (the v1 text already used
+  `self.config.distribute_saved_activations`; no discrepancy there).
+  Keywords-after-`*args` is NOT an alternative: `chunk_key`/`carrier` are
+  positional-or-keyword params, so the positional fill still collides.
+- **Verification:** v2 hunk applied to the FIX-C-base recompute.py blob
+  (`d43d8621b`) reproduces the fixed Mac tree byte-for-byte; full patch
+  `git apply --check` clean vs the same base. New md5:
+  **6f08c5dc08b6720c26102a47a9706b85** (509 lines), supersedes v1.
+- **Epistemics (third instance tonight of tested-in-isolation /
+  dead-at-integration, after the two T2 harness artifacts):** the Mac suite
+  drives `lookahead_checkpoint()` directly and never executes the
+  integration call site. Regression net added:
+  `tests/test_w3_lookahead_checkpoint.py` now drives the call with the
+  integration arity (6 trailing positional args) AND statically guards the
+  recompute.py call site against keyword-before-`*args` (CPU, no CUDA).
+
 ## What
 
 `w3-lookahead-recompute.patch` — cross-layer lookahead recompute for full

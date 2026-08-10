@@ -23,6 +23,14 @@ Verifies `megatron/core/lookahead_checkpoint.py` against mcore's status-quo
   4. fallback: carrier=None degrades to status-quo inline recompute
      (bitwise-equal to the reference) with fallbacks counted loudly.
   5. RNG round-trip of the save/restore helpers the Function relies on.
+  8. v3 ORDERING GUARDS (AST/source-level, CPU): the v2 whole-backlog
+     wait_stream(current) serialized kicks 99.9% (measured, W3 canary
+     2026-08-10). v3 replaces it with input-dependency-only ordering: the
+     kick waits on exactly (a) its chunk's input_event and (b) the registry's
+     last_bwd_end event. These guards forbid reintroducing backlog ordering
+     and pin the two-event structure + the gather-inside-stream-context
+     placement (the distribute gather's output is read on the side stream;
+     the two waits do not cover a compute-stream gather pushed at kick time).
 
 The real RNG helpers in tensor_parallel.random touch CUDA RNG state, so the
 test monkeypatches CPU equivalents (get/set torch's CPU generator state) —
@@ -235,6 +243,158 @@ def test_6_gate_telemetry():
             os.environ["BT_MOE_LOOKAHEAD_RECOMPUTE"] = old
 
 
+def test_7_integration_call_site():
+    """The recompute.py chunk_runner call-site contract (the v1 boot defect).
+
+    v1 passed chunk_key=/carrier= as keywords BEFORE *args; the 6 positional
+    args fill signature slots 3-4 and collide -> TypeError on all 16 ranks,
+    0.1 s into forward. The Mac suite drove lookahead_checkpoint() directly
+    and never executed the integration call site (tonight's third
+    tested-in-isolation / dead-at-integration instance). (a) drives the
+    integration arity through the real API; (b) statically guards the
+    vendored call site against the keyword-before-*args form.
+    """
+    os.environ["BT_MOE_LOOKAHEAD_RECOMPUTE"] = "1"
+    # (a) integration arity: fn + 6 trailing positional args (recompute.py's
+    # args tuple: hidden_states, attention_mask, context, context_mask,
+    # rotary_pos_emb, padding_mask).
+    carrier = types.SimpleNamespace()
+    seen = {}
+
+    def fn(h, attention_mask, context, context_mask, rotary_pos_emb, padding_mask):
+        seen["args"] = (
+            h, attention_mask, context, context_mask, rotary_pos_emb, padding_mask
+        )
+        return h * 2
+
+    h = torch.randn(3, H, generator=torch.Generator().manual_seed(5))
+    six = (h, None, None, None, None, None)
+    out = lc.lookahead_checkpoint(fn, False, "key7", carrier, *six)
+    check("sec7a: integration-arity call binds and runs", torch.equal(out, h * 2))
+    check(
+        "sec7a: fn received all 6 positional args in order",
+        "args" in seen and all(a is b for a, b in zip(seen["args"], six)),
+    )
+    reg = lc._get_registry(carrier)
+    check(
+        "sec7a: chunk registered under the positional chunk_key",
+        "key7" in reg["chunks"],
+    )
+
+    # (b) static guard on the vendored call site (AST, not regex).
+    import ast
+
+    src_path = os.path.join(_find_mcore(), "megatron", "core", "recompute.py")
+    with open(src_path) as f:
+        tree = ast.parse(f.read())
+    calls = [
+        n
+        for n in ast.walk(tree)
+        if isinstance(n, ast.Call)
+        and isinstance(n.func, ast.Name)
+        and n.func.id == "lookahead_checkpoint"
+    ]
+    check(
+        "sec7b: exactly one lookahead_checkpoint call site in recompute.py",
+        len(calls) == 1,
+    )
+    if calls:
+        # ALL keywords forbidden, not just chunk_key/carrier: any keyword
+        # before *args collides with the positional fill the same way
+        # (boltzmann's hardening, 2026-08-09).
+        check(
+            "sec7b: call site is all-positional (no keywords at all)",
+            not calls[0].keywords,
+        )
+        check(
+            "sec7b: call site forwards *args",
+            any(isinstance(a, ast.Starred) for a in calls[0].args),
+        )
+
+
+def test_8_v3_ordering_guards():
+    """v3 input-dependency-only kick ordering — static regression net.
+
+    The v2 wait_stream(current) is the measured 99.9%-serialization defect;
+    these guards make reintroducing it (or dropping one of the two v3 event
+    edges, or moving the distribute gather back out of the stream context) a
+    loud failure instead of a silent perf regression.
+    """
+    import ast
+
+    src_path = os.path.join(_find_mcore(), "megatron", "core", "lookahead_checkpoint.py")
+    with open(src_path) as f:
+        src = f.read()
+    tree = ast.parse(src)
+
+    # (a) no wait_stream anywhere in the module (backlog ordering is banned).
+    wait_stream_calls = [
+        n
+        for n in ast.walk(tree)
+        if isinstance(n, ast.Call)
+        and isinstance(n.func, ast.Attribute)
+        and n.func.attr == "wait_stream"
+    ]
+    check("sec8a: no wait_stream (whole-backlog ordering) anywhere", not wait_stream_calls)
+
+    funcs = {n.name: n for n in ast.walk(tree) if isinstance(n, ast.FunctionDef)}
+    kick_fn = funcs.get("_kick_previous_chunk")
+    check("sec8b: _kick_previous_chunk exists", kick_fn is not None)
+
+    if kick_fn is not None:
+        kick_src = ast.get_source_segment(src, kick_fn)
+        # (b) exactly two wait_event calls: input_event edge + last_bwd_end edge.
+        wait_event_calls = [
+            n
+            for n in ast.walk(kick_fn)
+            if isinstance(n, ast.Call)
+            and isinstance(n.func, ast.Attribute)
+            and n.func.attr == "wait_event"
+        ]
+        check("sec8b: kick waits on exactly two events", len(wait_event_calls) == 2)
+        check(
+            "sec8b: kick waits the chunk's input_event",
+            any("input_event" in ast.get_source_segment(src, n.args[0]) for n in wait_event_calls),
+        )
+        check(
+            "sec8b: kick waits the registry's last_bwd_end event",
+            any("last_bwd_end" in ast.get_source_segment(src, n.args[0]) for n in wait_event_calls),
+        )
+        # (c) the distribute gather runs INSIDE the stream context, i.e. after
+        # the waits in source order (its output is read on the side stream).
+        gather_line = kick_src.find("gather_split_1d_tensor(")
+        wait_lines = [kick_src.find("wait_event("), kick_src.rfind("wait_event(")]
+        check(
+            "sec8c: distribute gather is inside the side-stream context (after the waits)",
+            gather_line > 0 and all(0 <= w < gather_line for w in wait_lines),
+        )
+
+    # (d) forward records input_event at registration (edge a producer).
+    fwd_fn = funcs.get("forward")
+    fwd_src = ast.get_source_segment(src, fwd_fn) if fwd_fn is not None else ""
+    check(
+        "sec8d: forward records entry.input_event at registration",
+        fwd_fn is not None and "entry.input_event" in fwd_src and "record_event" in fwd_src,
+    )
+
+    # (e) backward records the bwd-end event into the registry (edge b producer).
+    bwd_fn = funcs.get("backward")
+    check("sec8e: backward exists", bwd_fn is not None)
+    if bwd_fn is not None:
+        stores_last_bwd_end = any(
+            isinstance(n, ast.Assign)
+            and any(
+                isinstance(t, ast.Subscript) and "last_bwd_end" in ast.get_source_segment(src, t)
+                for t in n.targets
+            )
+            and isinstance(n.value, ast.Call)
+            and isinstance(n.value.func, ast.Attribute)
+            and n.value.func.attr == "record_event"
+            for n in ast.walk(bwd_fn)
+        )
+        check("sec8e: backward stores record_event() into registry['last_bwd_end']", stores_last_bwd_end)
+
+
 def main():
     test_6_gate_telemetry()
     test_5_rng_roundtrip()
@@ -242,6 +402,8 @@ def main():
     test_2_kick_coverage_counters()
     test_3_eviction()
     test_4_fallback_no_carrier()
+    test_7_integration_call_site()
+    test_8_v3_ordering_guards()
     if FAILURES:
         raise SystemExit(f"{len(FAILURES)} FAILURES: {FAILURES}")
     print("OK — all W3 lookahead-checkpoint CPU checks passed")

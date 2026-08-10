@@ -1,9 +1,9 @@
 diff --git a/megatron/core/lookahead_checkpoint.py b/megatron/core/lookahead_checkpoint.py
 new file mode 100644
-index 000000000..205365859
+index 000000000..19023ac56
 --- /dev/null
 +++ b/megatron/core/lookahead_checkpoint.py
-@@ -0,0 +1,459 @@
+@@ -0,0 +1,588 @@
 +# Copyright (c) 2026 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
 +
 +"""Lookahead recompute for full activation checkpointing (BT_MOE_LOOKAHEAD_RECOMPUTE).
@@ -35,11 +35,21 @@ index 000000000..205365859
 +* The kicked graph's leaf tensors are the kick's own detached inputs; the
 +  chunk's backward collects their .grad (value-identical to the inline
 +  path's detached inputs — both detach the same saved tensors).
-+* Stream/allocator safety: each kick starts with side_stream.wait_stream(
-+  current), ordering the side stream after the compute stream's backlog so
-+  allocator blocks freed during earlier backwards can never be clobbered
-+  while still read; the consuming backward waits the kick's done-event and
-+  record_stream()s the stashed outputs before use.
++* Stream/allocator safety (v3 — input-dependency-only ordering): each kick
++  waits on exactly two events, never on the compute stream's backlog:
++  (a) its own chunk's input_event (recorded on the compute stream at the
++  chunk's first-pass registration — covers the saved-input producers; for
++  the first kick of a microbatch this also transitively covers the previous
++  microbatch's entire backward, since it was recorded in this microbatch's
++  forward phase), and (b) the registry's last_bwd_end event (recorded on the
++  compute stream at the end of the most recent chunk backward — covers the
++  allocator reuse edge: side-pool blocks freed from the graph consumed two
++  backwards ago may still be read by that backward's queued kernels). The
++  v2 whole-backlog wait_stream(current) is REMOVED: it transitively chained
++  each kick behind the previous kick's consume-wait (and, with the host
++  running ahead, behind the entire remaining backward phase), serializing
++  kicks 99.9% (measured, W3 canary 2026-08-10). The consuming backward waits
++  the kick's done-event and record_stream()s the stashed outputs before use.
 +* Eviction discipline: a chunk's registry entry is popped on consume (its
 +  backward), the kick's stash is popped by the kicked chunk's backward, and
 +  the registry is swept when the last remaining chunk's backward completes
@@ -50,9 +60,18 @@ index 000000000..205365859
 +Telemetry (WARNING level; logger.info from megatron.core does not reach
 +trainer_srun.log): one-time gate-state line, one-time armed line (first
 +registered chunk), and per-window counters (kicks / stash_hits / stash_misses
-+/ sweeps / fallbacks) every 300 chunk backwards (~1 step at 78 layers x 4
-+datums) for the first 100 windows. A present-but-inert patch is never
-+silent: gate ON with no kicks shows up as misses.
++/ sweeps / fallbacks / trims) every 300 CHUNK BACKWARDS (~1 step at 79
++chunks x 4 datums) for the first 100 windows, plus kick-duration stats
++(kick_ms avg/max, CUDA-event measured on the side stream — the dilation
++signal vs the ~41 ms inline-recompute reference). A present-but-inert patch
++is never silent: gate ON with no kicks shows up as misses.
++
++Memory trim knob (default OFF; 131k does not need it — REQUIRED for any
++16k experiment): BT_MOE_LOOKAHEAD_TRIM_EVERY=N trims the caching allocator
++(torch.cuda.empty_cache) at every Nth microbatch boundary (the registry
++sweep point, e.g. N=4 = once per step at d4), releasing the side-stream
++pool's free-cached retention (~14 GiB at 131k, measured). Cost: device sync
+++ cudaMalloc churn on ALL pools — measured in the canary before any use.
 +"""
 +
 +import contextlib
@@ -97,10 +116,24 @@ index 000000000..205365859
 +    "stash_misses": 0,
 +    "sweeps": 0,
 +    "fallbacks": 0,
++    "trims": 0,
 +}
-+_LOOKAHEAD_WINDOW = [0, 0]  # [chunk backwards this window, windows logged]
++# [chunk backwards this window, windows logged]. v3: the window rolls on
++# CHUNK BACKWARDS (one per LookaheadCheckpointFunction.backward call), not on
++# telemetry events — the v2 counter rolled on ~2 events/chunk-backward and
++# its "(%d chunk backwards)" label was a misread source (the false 150/mb
++# chunk-count reading, 2026-08-10). Counter semantics are unchanged, so the
++# v2 canary bars carry over: kicks == stash_hits == 78/mb, stash_misses ==
++# 1/mb, sweeps == 0, fallbacks == 0.
++_LOOKAHEAD_WINDOW = [0, 0]
 +_LOOKAHEAD_WINDOW_SIZE = 300
 +_LOOKAHEAD_WINDOW_LOG_MAX = 100
++# Kick-duration accumulators for the window line: [total_ms, count, max_ms].
++# CUDA-event measured on the side stream (kick start -> done); the dilation
++# signal vs the ~41 ms inline-recompute reference.
++_LOOKAHEAD_KICK_MS = [0.0, 0, 0.0]
++# Microbatch-boundary count for the BT_MOE_LOOKAHEAD_TRIM_EVERY knob.
++_LOOKAHEAD_TRIM_COUNT = [0]
 +
 +
 +def _lookahead_enabled() -> bool:
@@ -122,22 +155,53 @@ index 000000000..205365859
 +
 +
 +def _lookahead_note(kind: str):
-+    """Per-window lookahead telemetry (WARNING so it reaches trainer logs)."""
++    """Accumulate one telemetry event (no I/O — the window rolls on chunk
++    backwards, see _lookahead_note_chunk_backward)."""
 +    _LOOKAHEAD_STATS[kind] += 1
++
++
++def _lookahead_note_chunk_backward():
++    """One chunk backward completed; roll the telemetry window if due."""
 +    _LOOKAHEAD_WINDOW[0] += 1
 +    if _LOOKAHEAD_WINDOW[0] >= _LOOKAHEAD_WINDOW_SIZE:
 +        _LOOKAHEAD_WINDOW[0] = 0
 +        _LOOKAHEAD_WINDOW[1] += 1
 +        if _LOOKAHEAD_WINDOW[1] <= _LOOKAHEAD_WINDOW_LOG_MAX:
++            n = _LOOKAHEAD_KICK_MS[1]
++            kick_ms = "n/a" if n == 0 else f"{_LOOKAHEAD_KICK_MS[0] / n:.1f}"
 +            logger.warning(
-+                "BT_MOE_LOOKAHEAD_RECOMPUTE window %d (%d chunk backwards): %s",
++                "BT_MOE_LOOKAHEAD_RECOMPUTE window %d (%d chunk backwards): %s "
++                "kick_ms_avg=%s kick_ms_max=%.1f",
 +                _LOOKAHEAD_WINDOW[1],
 +                _LOOKAHEAD_WINDOW_SIZE,
 +                dict(_LOOKAHEAD_STATS),
++                kick_ms,
++                _LOOKAHEAD_KICK_MS[2],
 +            )
 +
 +
 +_LOOKAHEAD_CONFIG_CHECKED = [False]
++_LOOKAHEAD_TRIM_EVERY = [None]  # lazy-read int; 0/None = off
++
++
++def _lookahead_trim_every() -> int:
++    """Lazy read of BT_MOE_LOOKAHEAD_TRIM_EVERY (0 = off, default)."""
++    if _LOOKAHEAD_TRIM_EVERY[0] is None:
++        try:
++            _LOOKAHEAD_TRIM_EVERY[0] = int(
++                os.environ.get("BT_MOE_LOOKAHEAD_TRIM_EVERY", "0")
++            )
++        except ValueError:
++            _LOOKAHEAD_TRIM_EVERY[0] = 0
++        if _LOOKAHEAD_TRIM_EVERY[0] > 0 and _lookahead_enabled():
++            logger.warning(
++                "BT_MOE_LOOKAHEAD_TRIM_EVERY=%d: allocator trim at every %d-th "
++                "microbatch boundary (empty_cache; sync + cudaMalloc churn cost "
++                "is canary-measured before any reliance)",
++                _LOOKAHEAD_TRIM_EVERY[0],
++                _LOOKAHEAD_TRIM_EVERY[0],
++            )
++    return _LOOKAHEAD_TRIM_EVERY[0]
 +
 +
 +def lookahead_recompute_enabled() -> bool:
@@ -200,8 +264,10 @@ index 000000000..205365859
 +        "fp8",
 +        "fp8_recipe",
 +        "ctx",
++        "input_event",
 +        "kicked_inputs",
 +        "kicked_outputs",
++        "kick_start_event",
 +        "done_event",
 +    )
 +
@@ -211,8 +277,10 @@ index 000000000..205365859
 +        self.fp8 = False
 +        self.fp8_recipe = None
 +        self.ctx = None
++        self.input_event = None
 +        self.kicked_inputs = None
 +        self.kicked_outputs = None
++        self.kick_start_event = None
 +        self.done_event = None
 +
 +
@@ -225,7 +293,10 @@ index 000000000..205365859
 +    """
 +    registry = getattr(carrier, _REGISTRY_ATTR, None)
 +    if registry is None:
-+        registry = {"order": [], "chunks": {}}
++        # last_bwd_end: event recorded on the compute stream at the end of the
++        # most recent chunk backward this microbatch (the kick's allocator
++        # reuse-edge ordering; None until the first backward completes).
++        registry = {"order": [], "chunks": {}, "last_bwd_end": None}
 +        setattr(carrier, _REGISTRY_ATTR, registry)
 +    return registry
 +
@@ -268,21 +339,43 @@ index 000000000..205365859
 +        return
 +    prev_ctx = prev.ctx
 +    inputs = prev_ctx.saved_tensors
-+    if prev_ctx.distribute_saved_activations:
-+        safely_set_viewless_tensor_data(
-+            inputs[0],
-+            gather_split_1d_tensor(inputs[0].data).view(prev_ctx.input_0_shape),
-+        )
 +    stream = _get_side_stream()
-+    # Allocator safety: order the side stream after the compute stream's
-+    # backlog, so blocks freed (host-side) during earlier backwards — which
-+    # the side stream's allocations may reuse — are never written while still
-+    # read by the compute stream's queued work. At kick time the next chunk's
-+    # backward has not been pushed yet, so this costs ~nothing and preserves
-+    # the overlap.
++    # v3 ordering — input-dependency-only, NEVER the compute backlog (the v2
++    # wait_stream(current) transitively chained each kick behind the previous
++    # kick's consume-wait and, with the host running ahead, behind the entire
++    # remaining backward phase: kicks measured 99.9% serialized, 2026-08-10).
++    # Two events suffice:
++    #   (a) input_event — recorded at this chunk's first-pass registration;
++    #     covers the saved-input producers (and, for a microbatch's first
++    #     kick, transitively the previous microbatch's whole backward: the
++    #     event was recorded in this microbatch's forward phase, which follows
++    #     it on the compute stream).
++    #   (b) last_bwd_end — recorded at the end of the most recent chunk
++    #     backward; covers the allocator reuse edge: side-pool blocks freed
++    #     from the graph consumed two backwards ago may still be read by that
++    #     backward's queued kernels. Absent at a microbatch's first backward
++    #     (no freed side-pool graph exists yet this microbatch).
++    # Both complete long before kick time in steady state, so the kick starts
++    # immediately and co-runs with the current chunk's backward window.
 +    if stream is not None:
-+        stream.wait_stream(torch.cuda.current_stream())
++        if prev.input_event is not None:
++            stream.wait_event(prev.input_event)
++        last_bwd_end = registry.get("last_bwd_end")
++        if last_bwd_end is not None:
++            stream.wait_event(last_bwd_end)
 +    with torch.cuda.stream(stream) if stream is not None else contextlib.nullcontext():
++        # The distribute-saved-activations gather runs INSIDE the side-stream
++        # context: its output is read by the kick on the side stream, and the
++        # two waits above do not cover a compute-stream gather pushed now
++        # (its input, the saved split chunk, is covered by input_event).
++        if prev_ctx.distribute_saved_activations:
++            safely_set_viewless_tensor_data(
++                inputs[0],
++                gather_split_1d_tensor(inputs[0].data).view(prev_ctx.input_0_shape),
++            )
++        if stream is not None:
++            prev.kick_start_event = torch.cuda.Event(enable_timing=True)
++            prev.kick_start_event.record(stream)
 +        with tp_random._fork_rng():
 +            tp_random._set_all_rng_states(*prev.rng_states)
 +            detached_inputs = detach_variable(inputs)
@@ -293,7 +386,9 @@ index 000000000..205365859
 +        outputs = (outputs,)
 +    prev.kicked_inputs = detached_inputs
 +    prev.kicked_outputs = outputs
-+    prev.done_event = stream.record_event() if stream is not None else None
++    if stream is not None:
++        prev.done_event = torch.cuda.Event(enable_timing=True)
++        prev.done_event.record(stream)
 +    _lookahead_note("kicks")
 +
 +
@@ -346,6 +441,12 @@ index 000000000..205365859
 +            entry.fp8_recipe = ctx.fp8_recipe
 +            entry.ctx = ctx  # strong ref; the entry is popped on consume and
 +            # the registry dies with the microbatch carrier regardless.
++            if torch.cuda.is_available():
++                # v3 kick-ordering edge (a): recorded here — after this chunk's
++                # first-pass forward on the compute stream — so it is ordered
++                # after the saved-input producers. By kick time (the backward
++                # phase) it has long completed; the wait is a steady-state no-op.
++                entry.input_event = torch.cuda.current_stream().record_event()
 +            registry["order"].append(chunk_key)
 +            registry["chunks"][chunk_key] = entry
 +            if not _LOOKAHEAD_ARMED_LOGGED[0]:
@@ -386,6 +487,15 @@ index 000000000..205365859
 +                for t in outputs:
 +                    if isinstance(t, torch.Tensor):
 +                        t.record_stream(torch.cuda.current_stream())
++                # Kick-duration telemetry (dilation signal): both events are
++                # timing-enabled; done_event is complete-or-nearly so (the
++                # stream wait above does not host-sync — guard with query()).
++                if entry.kick_start_event is not None and entry.done_event.query():
++                    ms = entry.kick_start_event.elapsed_time(entry.done_event)
++                    _LOOKAHEAD_KICK_MS[0] += ms
++                    _LOOKAHEAD_KICK_MS[1] += 1
++                    if ms > _LOOKAHEAD_KICK_MS[2]:
++                        _LOOKAHEAD_KICK_MS[2] = ms
 +            else:
 +                outputs = entry.kicked_outputs
 +            detached_inputs = entry.kicked_inputs
@@ -425,6 +535,15 @@ index 000000000..205365859
 +        torch.autograd.backward(outputs, args)
 +        grads = tuple(inp.grad if isinstance(inp, torch.Tensor) else inp for inp in detached_inputs)
 +
++        # v3 kick-ordering edge (b): record the end of THIS chunk's backward
++        # on the compute stream. The next backward's kick reuses side-pool
++        # blocks freed from this chunk's (now-consumed) graph; waiting on this
++        # event orders the kick's writes after this backward's reads — and
++        # nothing else (the whole-backlog wait is what serialized v2).
++        if registry is not None and torch.cuda.is_available():
++            registry["last_bwd_end"] = torch.cuda.current_stream().record_event()
++        _lookahead_note_chunk_backward()
++
 +        # Eviction sweep: this was the last registered chunk's backward — the
 +        # registry must be empty now; anything left is a structural bug (and
 +        # would otherwise pin a stash until the carrier dies).
@@ -438,6 +557,16 @@ index 000000000..205365859
 +                    "entries at microbatch end — indicates a structural bug; report",
 +                    leftover,
 +                )
++            # Microbatch boundary: optional allocator trim (default OFF; the
++            # 16k-enablement knob — releases the side-stream pool's
++            # free-cached retention). Only on a genuine microbatch end (this
++            # backward consumed a registered entry).
++            trim_every = _lookahead_trim_every()
++            if trim_every > 0 and entry is not None and torch.cuda.is_available():
++                _LOOKAHEAD_TRIM_COUNT[0] += 1
++                if _LOOKAHEAD_TRIM_COUNT[0] % trim_every == 0:
++                    torch.cuda.empty_cache()
++                    _lookahead_note("trims")
 +
 +        tp_random._unset_checkpointing()
 +        return (None, None, None, None) + grads
@@ -464,7 +593,7 @@ index 000000000..205365859
 +        function, distribute_saved_activations, chunk_key, carrier, *args
 +    )
 diff --git a/megatron/core/recompute.py b/megatron/core/recompute.py
-index d43d8621b..3c45f3695 100644
+index d43d8621b..3c9babb34 100644
 --- a/megatron/core/recompute.py
 +++ b/megatron/core/recompute.py
 @@ -11,6 +11,11 @@ from megatron.core import tensor_parallel
