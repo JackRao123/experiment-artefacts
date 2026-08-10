@@ -109,6 +109,42 @@ artifact must always name its revert-first path when a predecessor version
 is expected to be in-tree — the md5 chain verifies content, not
 applicability.
 
+## 2026-08-10 — W3-v3 CANARY VERDICT: FAIL on T1 (the verdict-carrying row)
+
+Full record: `~/perf_profiles/lps-1062/W3V3_CANARY_VERDICT.md` (curie).
+**Capture 0.9 %** (0.10 s of 11.00 s side-stream kernel time concurrent) vs
+the ≥50 % bar; v2 was 0.1 %. The plumbing was entirely correct — kicks fire
+(74/mb + 1 structural inline; **the C′-ON stack's chunk count is 75/mb, not
+the frozen 78/mb** — the 78 conflated DSA-layer count with checkpoint-chunk
+count; doc line landed in DESIGN_W3V3.md §7), land in the right windows
+(99.5 %), stashes hit exactly, numerics near-bitwise (w0 +0.1e-3, mains
+≤0.7e-3), memory +24.9 GiB ≤ +28. The SM slack was confirmed still present
+on the arm (34.65 s / 83.3 %; SendRecv 23.52 s @0 % occ) — **the territory
+exists; v3's ordering never reached it.** kick_ms: typical steady kick ~34 ms
+vs the 41 ms inline reference — no execution dilation; the HBM term is
+unmeasurable at 0.9 % capture (nothing co-runs).
+
+**Failure anatomy (curie's labeled hypotheses, NOT measurement):** (1) the
+recurring ~2947 ms constant-magnitude kick, 1/window, is consistent with the
+step-boundary first kick's input-event transitively covering the prior
+step's tail (my §2(a) note) — a real structural wait, constant magnitude;
+(2) the (b) `last_bwd_end` edge covers the immediately-preceding backward
+whenever the host is NOT far ahead — under the reverted-A regime the DSA-bwd
+drains throttle host run-ahead, so kicks may be pushed just-in-time with the
+(b)-wait still pending ⇒ serialize behind the very window they were meant to
+hide in. **The safety edge may BE the serializer.** Candidate v4 levers (my
+call when adjudicated): pool versioning / MemPool scoping instead of the (b)
+event wait; or restoring host run-ahead (A-v3 re-arm interaction: post-C′
+drains differ).
+
+**Decision structure (helmholtz):** T6 wait-accounting-by-cause on the
+EXISTING trace is the discriminator. IF a single fixable edge dominates AND
+a surgical v4 is boot-ready by 13:00 UTC → v4 canary tonight on box 1. ELSE:
+W3 closes for the night (scorecard reads the V4-world variants), option-6
+revives per the stub sequencing (Mac-side build for morning review, no
+boot), W3-v4 becomes a documented morning design item. **No patch work
+before T6 lands** — hypothesis-first burned this lever twice.
+
 ## Open items carried (mine)
 
 1. W3-v3 readout when the arm runs; win-model lock from the measured c/d.

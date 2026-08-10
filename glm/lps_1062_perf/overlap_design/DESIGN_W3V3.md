@@ -179,6 +179,15 @@ backwards** (~1 step) and is labeled truthfully (the v2 events-based window
 caused the false 150/mb reading — fixed in v3, regression-netted by the
 estate rule). Gate-on config assert (dropout == 0) unchanged.
 
+> **CHUNK-COUNT CORRECTION (2026-08-10, curie, from the v3 canary arm):** the
+> measured count on the C′-ON stack is **75 chunks/mb** (74 kicks + 1
+> structural inline), not the frozen 78/mb — the 78 was model-derived (78
+> hidden layers + MTP) and likely conflated the DSA-layer count with the
+> checkpoint-chunk count. The bar's STRUCTURE held exactly (kicks == hits ==
+> chunks−1, misses == 1); only the constant was off. Treat the per-mb
+> constant as stack-derived-at-runtime, not model-derived, in any future
+> frame.
+
 **New in-log signal:** `kick_ms_avg` / `kick_ms_max` per window (CUDA-event
 kick duration on the side stream). Reference: ~41 ms inline. Dilation bar:
 avg ≤ ~60 ms (≈1.5×); sustained max ≫ that = contention biting.

@@ -2,9 +2,11 @@
 
 **Repo:** basetenlabs/trainers · **Branch:** `jackrao/lps-1062-f2-main-rebase`
 (rebased onto main; see f2_fix/REBASE_NOTES.md) · **Base:** main
-**OPEN CONDITION (helmholtz):** only after the (b) customer-mix repro AND (c)
-DP1 loss canary PASS. (a)+(a3) already PASS. Do NOT open before helmholtz
-confirms.
+**STATUS: OPENED AS DRAFT 2026-08-10 — basetenlabs/trainers#1001** (open
+condition met: (a) PASS, (a3) PASS, (b) PASS, (c1) vacuous-by-construction
+recorded, (c2) PASS max |dloss| 1.65e-3/21 windows). The opened body is the
+filled version of this draft (evidence slots + honest scope line + the
+main-layout test port f4f5d332); this file is kept as the pre-draft record.
 
 ---
 
