@@ -1,0 +1,28 @@
+
+=== [1/13] preflight (laptop checks, no side effects)
+00:06:25  project jrao123-ali = dq47r1q; tokens present; truss/ssh config OK
+
+=== [2/13] create workstation job
+00:06:27  note: 1 other active box(es) in jrao123-ali: w79ypo3 (creating a new one anyway)
+00:06:27  creating: truss train workstation --node-count 2 --accelerator B300 --project-id jrao123-ali --team Parsed
+Launching workstation jrao123-ali with 2x 8x B300...
+
+Workstation created!
+
+Once the job is running, SSH in with:
+  ssh training-job-wxlgpzw-0.ssh.baseten.co (leader)
+  ssh training-job-wxlgpzw-1.ssh.baseten.co
+
+If you haven't set up SSH yet, run:
+  truss ssh setup
+
+Multi-node env vars available on each node:
+  BT_LEADER_ADDR, BT_NODE_RANK, BT_GROUP_SIZE
+
+View logs:
+  truss train logs --job-id wxlgpzw --tail
+
+Stop the workstation:
+  truss train stop --job-id wxlgpzw
+
+00:06:40  FATAL [step create workstation job]: parsed job id 'wxlgpzw' but the API shows new job 'w79ypo3' — refusing to guess

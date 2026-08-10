@@ -4,11 +4,13 @@
 
 ## Result
 
-| | tok/s/GPU | step (524k tok) | MFU (3×fwd / 2.5 PF) | worst-GPU peak |
+| | tok/s/GPU | step (524k tok) | MFU (mfu3x, LoRA-corrected / 2.5 PF) | worst-GPU peak |
 |---|---:|---:|---:|---:|
-| Baseline (exp00, this box) | 416.5 | 78.7 s | 5.9% | 263.0 GiB / 268.6 cap |
-| **Ship config (exp06, 3-window soak)** | **629 (steady-state ~660)** | **52.1 s** | **8.9%** | **263.8 GiB (11 GiB headroom)** |
-| Max-perf variant (exp05e) | 603 (2-window) | 54.4 s | 8.6% | 266.9 GiB |
+| Baseline (exp00, this box) | 416.5 | 78.7 s | 4.4% | 263.0 GiB / 268.6 cap |
+| **Ship config (exp06, 3-window soak)** | **629 (steady-state ~660)** | **52.1 s** | **6.6%** | **263.8 GiB (11 GiB headroom)** |
+| Max-perf variant (exp05e) | 603 (2-window) | 54.4 s | 6.3% | 266.9 GiB |
+
+_MFU column recomputed 2026-08-09 under the LoRA-corrected `overnight/mfu.py` (frozen-base backward is dgrad-only: useful = 2·matmul + 3·attn + 3·adapter). The prior full-FT 3×fwd convention read ×1.36 higher at 262K (exp06 was reported 8.9%); full conversion table: `overnight/mfu_lora_correction.md`. tok/s, step times, and all relative deltas are method-independent and unchanged._
 
 **+51% throughput (steady-state +58%), memory flat vs baseline, loss canaries ≤2e-3 (run-to-run noise) on every experiment.** Note the first window after boot is consistently ~15% slower than steady state (allocator/autotune settling) — 2-window benches under-report; the soak's windows 2-3 agree at ~660 tok/s/GPU.
 

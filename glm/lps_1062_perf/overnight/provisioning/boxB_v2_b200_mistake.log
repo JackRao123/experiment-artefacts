@@ -1,0 +1,29 @@
+
+=== [1/13] preflight (laptop checks, no side effects)
+00:27:58  project jrao123-hyd = 2qjn9j3; tokens present; truss/ssh config OK
+
+=== [2/13] create workstation job
+00:27:59  creating: truss train workstation --node-count 2 --accelerator B200 --project-id jrao123-hyd --team Parsed
+Launching workstation jrao123-hyd with 2x 8x B200...
+
+Workstation created!
+
+Once the job is running, SSH in with:
+  ssh training-job-qk7p52w-0.ssh.baseten.co (leader)
+  ssh training-job-qk7p52w-1.ssh.baseten.co
+
+If you haven't set up SSH yet, run:
+  truss ssh setup
+
+Multi-node env vars available on each node:
+  BT_LEADER_ADDR, BT_NODE_RANK, BT_GROUP_SIZE
+
+View logs:
+  truss train logs --job-id qk7p52w --tail
+
+Stop the workstation:
+  truss train stop --job-id qk7p52w
+00:28:09  created job qk7p52w
+
+=== [3/13] wait for job qk7p52w to reach RUNNING
+00:28:10    status=TRAINING_JOB_CREATED; waiting 15s

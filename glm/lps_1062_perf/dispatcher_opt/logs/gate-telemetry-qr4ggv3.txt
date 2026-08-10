@@ -1,0 +1,38 @@
+# Gate telemetry evidence — box qr4ggv3, 2026-08-09 (gibbs)
+
+trainer_srun.log is overwritten per boot, so this file preserves the
+per-boot gate-state evidence captured via grep at each stage. All lines
+are WARNING-level (v2 telemetry) and reached the log on all 16 ranks.
+
+## Boot 5 — GATED v2 (BT_DSA_BWD_ASYNC_NONEMPTY=1 BT_DSA_CP_LAYOUT_CACHE=1 BT_THD_ROPE_HOST_CACHE=1)
+
+Gate-state lines at boot (16 = all ranks):
+
+    16 WARNING:megatron.core.models.common.embeddings.rope_utils:BT_THD_ROPE_HOST_CACHE=1: THD RoPE cu_seqlens host cache ACTIVE
+    16 WARNING:megatron.core.transformer.experimental_attention_variant.dsa:BT_DSA_CP_LAYOUT_CACHE=1: DSA packed-CP layout cache ACTIVE
+    16 WARNING:megatron.core.transformer.experimental_attention_variant.dsa_cudnn_kernels:BT_DSA_BWD_ASYNC_NONEMPTY=1: DSA-bwd async-nonempty probe patch ACTIVE
+    16 WARNING:megatron.core.transformer.experimental_attention_variant.dsa_cudnn_kernels:BT_DSA_BWD_ASYNC_NONEMPTY: armed — first async nonempty probe kicked
+
+Per-window fallback counter (logged every 156 reads; final window line,
+identical on all 12 responding ranks; covers boot warmup + 2 timed benches
++ steady capture):
+
+    WARNING:...dsa_cudnn_kernels:BT_DSA_BWD_ASYNC_NONEMPTY: window 17 (≈step 17): reads=2652 fallbacks=0 probes_missing=0
+
+Fallback / missing-probe WARNING count across the whole boot: 0.
+
+## Boot 6 — B+F only (A gate unset)
+
+    16 ...rope_utils:BT_THD_ROPE_HOST_CACHE=1: THD RoPE cu_seqlens host cache ACTIVE
+    16 ...dsa:BT_DSA_CP_LAYOUT_CACHE=1: DSA packed-CP layout cache ACTIVE
+    16 ...dsa_cudnn_kernels:BT_DSA_BWD_ASYNC_NONEMPTY present but DISABLED (env unset or != '1'); using the original syncing nonzero path
+
+## Boot 7 — gates OFF (deconfound; ship env only)
+
+    16 ...rope_utils:BT_THD_ROPE_HOST_CACHE present but DISABLED (env unset or != '1'); reading cu_seqlens per call
+    16 ...dsa:BT_DSA_CP_LAYOUT_CACHE present but DISABLED (env unset or != '1'); rebuilding the packed CP layout per layer
+    16 ...dsa_cudnn_kernels:BT_DSA_BWD_ASYNC_NONEMPTY present but DISABLED (env unset or != '1'); using the original syncing nonzero path
+
+Interpretation: gate-state telemetry is loud and per-rank; "armed" fired on
+all 16 ranks during boot warmup when A was on; with gates off the patched
+checkout is provably inert (DISABLED lines + deconfound loss parity).

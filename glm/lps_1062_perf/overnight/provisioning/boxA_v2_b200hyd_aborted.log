@@ -1,0 +1,7 @@
+
+=== [1/13] preflight (laptop checks, no side effects)
+00:28:02  project jrao123-hyd = 2qjn9j3; tokens present; truss/ssh config OK
+
+=== [2/13] create workstation job
+00:28:03  note: 1 other active box(es) in jrao123-hyd: w56y2mq (creating a new one anyway)
+00:28:03  creating: truss train workstation --node-count 2 --accelerator B200 --project-id jrao123-hyd --team Parsed

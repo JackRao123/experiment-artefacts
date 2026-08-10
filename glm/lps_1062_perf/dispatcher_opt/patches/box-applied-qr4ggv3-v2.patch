@@ -1,0 +1,629 @@
+diff --git a/megatron/core/models/common/embeddings/rope_utils.py b/megatron/core/models/common/embeddings/rope_utils.py
+index 9fab25a3f..f2fc0a344 100644
+--- a/megatron/core/models/common/embeddings/rope_utils.py
++++ b/megatron/core/models/common/embeddings/rope_utils.py
+@@ -2,7 +2,9 @@
+ 
+ from __future__ import annotations
+ 
++import os
+ import warnings
++from collections import OrderedDict
+ from typing import TYPE_CHECKING, Optional
+ 
+ if TYPE_CHECKING:
+@@ -35,6 +37,76 @@ except ImportError:
+     apply_rotary_emb_flash = None
+ 
+ 
++# ----------------------------------------------------------------------------
++# BT_THD_ROPE_HOST_CACHE (env-gated, default OFF)
++#
++# `_apply_rotary_pos_emb_thd` reads per-sequence lengths/offsets from the CUDA
++# cu_seqlens tensor via `.tolist()` + per-sequence `.item()` — each a blocking
++# pageable D2H that drains the compute stream (measured ~620 calls >1ms /
++# 14.8s CPU per 524K-token step on GLM-5.2 CP16: 2 calls per layer (q/k rope)
++# × 78 layers × 2 microbatches × (fwd + recompute replay); see
++# experiment_artefacts/glm/lps_1062_perf/dispatcher_opt/). cu_seqlens is a
++# per-microbatch constant shared by every layer, so when the gate is on the
++# host copy is taken once per unique tensor and cached; all host reads then
++# run on the cached copy with identical integer arithmetic (bitwise-exact —
++# the same int32 values, the same ops, zero device syncs in steady state).
++#
++# The cache is keyed by id(tensor) and each entry holds a strong reference to
++# the tensor, so an id can never be recycled by a different tensor while
++# cached; entries are FIFO-evicted (bound: a few KB). Because the cache lives
++# for the whole run, each entry also records the tensor's `_version` counter
++# and hits only when it still matches: an in-place mutation of a cached
++# cu_seqlens then misses and re-copies instead of silently serving stale
++# seqlens. fwd (main thread) and the recompute replay (autograd thread) may
++# race on get/set — dict ops are GIL-atomic and a lost race costs one
++# duplicate D2H of identical values.
++# ----------------------------------------------------------------------------
++
++_THD_ROPE_HOST_CACHE: "OrderedDict[int, tuple]" = OrderedDict()
++_THD_ROPE_HOST_CACHE_MAX = 64
++_THD_ROPE_GATE_LOGGED = [False]
++
++
++def _thd_rope_host_cache_enabled() -> bool:
++    """Lazy env-gate read (per-call; negligible at ~4 calls/layer).
++
++    Logs the gate state once per process at WARNING level (logger.info from
++    megatron.core does not reach trainer_srun.log) so a present-but-inert
++    patch is never silent.
++    """
++    enabled = os.environ.get("BT_THD_ROPE_HOST_CACHE", "0") == "1"
++    if not _THD_ROPE_GATE_LOGGED[0]:
++        _THD_ROPE_GATE_LOGGED[0] = True
++        if enabled:
++            logger.warning("BT_THD_ROPE_HOST_CACHE=1: THD RoPE cu_seqlens host cache ACTIVE")
++        else:
++            logger.warning(
++                "BT_THD_ROPE_HOST_CACHE present but DISABLED (env unset or != '1'); "
++                "reading cu_seqlens per call"
++            )
++    return enabled
++
++
++def _host_cu_seqlens(cu_seqlens: Tensor) -> Tensor:
++    """Return a host (CPU) copy of cu_seqlens, cached per unique tensor object.
++
++    Hits require both object identity and an unchanged `_version` counter, so
++    in-place mutation of a cached tensor forces a fresh copy.
++    """
++    key = id(cu_seqlens)
++    version = cu_seqlens._version
++    entry = _THD_ROPE_HOST_CACHE.get(key)
++    if entry is not None and entry[0] is cu_seqlens and entry[1] == version:
++        _THD_ROPE_HOST_CACHE.move_to_end(key)
++        return entry[2]
++    host = cu_seqlens.cpu()  # returns self when already on CPU
++    _THD_ROPE_HOST_CACHE[key] = (cu_seqlens, version, host)
++    _THD_ROPE_HOST_CACHE.move_to_end(key)
++    while len(_THD_ROPE_HOST_CACHE) > _THD_ROPE_HOST_CACHE_MAX:
++        _THD_ROPE_HOST_CACHE.popitem(last=False)
++    return host
++
++
+ __all__ = [
+     'apply_rotary_pos_emb',
+     'apply_rotary_emb_flash',
+@@ -219,9 +291,15 @@ def _apply_rotary_pos_emb_thd(
+         raise ValueError("cp_group must be provided for THD format RoPE")
+     cp_size = cp_group.size()
+     cp_rank = cp_group.rank()
+-    seqlens = ((cu_seqlens[1:] - cu_seqlens[:-1]) // cp_size).tolist()
++    if _thd_rope_host_cache_enabled():
++        # Read from a cached host copy: identical integer values/arithmetic with
++        # no per-call device sync (one D2H per unique cu_seqlens tensor).
++        cu_seqlens_host = _host_cu_seqlens(cu_seqlens)
++    else:
++        cu_seqlens_host = cu_seqlens
++    seqlens = ((cu_seqlens_host[1:] - cu_seqlens_host[:-1]) // cp_size).tolist()
+     sequence_splits = torch.split(t, seqlens)
+-    total_seqlen = int(cu_seqlens[-1].item())
++    total_seqlen = int(cu_seqlens_host[-1].item())
+     has_packed_freqs = freqs.dim() >= 1 and freqs.size(0) == total_seqlen
+ 
+     # Handle two different frequency tensor formats:
+@@ -236,7 +314,7 @@ def _apply_rotary_pos_emb_thd(
+         local_freqs = []
+         for i, x in enumerate(sequence_splits):
+             # cu_seqlens[i] is the starting offset of this sequence in the original batch
+-            seq_start_offset = cu_seqlens[i].item()
++            seq_start_offset = cu_seqlens_host[i].item()
+             local_freqs.append(
+                 _get_thd_freqs_on_this_cp_rank(cp_rank, cp_size, x, freqs, seq_start_offset)
+             )
+diff --git a/megatron/core/transformer/experimental_attention_variant/dsa.py b/megatron/core/transformer/experimental_attention_variant/dsa.py
+index bfead2a25..35303943b 100644
+--- a/megatron/core/transformer/experimental_attention_variant/dsa.py
++++ b/megatron/core/transformer/experimental_attention_variant/dsa.py
+@@ -1,7 +1,9 @@
+ # Copyright (c) 2025, NVIDIA CORPORATION. All rights reserved.
+ 
+ import copy
++import logging
+ import math
++import os
+ from dataclasses import dataclass
+ from typing import Optional, Tuple, Union
+ 
+@@ -34,6 +36,70 @@ except ImportError:
+     hadamard_transform = None
+ 
+ 
++# ----------------------------------------------------------------------------
++# BT_DSA_CP_LAYOUT_CACHE (env-gated, default OFF)
++#
++# Under packed THD + allgather CP, every layer's forward rebuilds the packed CP
++# layout (query positions + gathered-KV reorder) via
++# `dsa_layout.build_packed_allgather_cp_query_positions_and_key_reorder`, which
++# internally issues 17 × 5 boolean-mask indexes (each an aten::nonzero + D2H
++# sync) — 85 host syncs per layer-microbatch, 26,520 per 78-layer × 2-mb step
++# including the full-recompute replay (see
++# experiment_artefacts/glm/lps_1062_perf/dispatcher_opt/). The result is a pure
++# function of the microbatch's (cu_seqlens_q, cu_seqlens_kv, cp_size, cp_rank,
++# sizes) — identical across layers and across the recompute replay — so cache
++# it on the packed_seq_params carrier, the same per-microbatch lifetime pattern
++# the DSA top-k sharing holder uses. Cached tensors are the identical objects
++# from the first computation, so reuse is bitwise exact. Downstream consumers
++# are read-only (index_select / mask construction).
++# ----------------------------------------------------------------------------
++
++logger = logging.getLogger(__name__)
++
++_CP_LAYOUT_CACHE_ATTR = "_dsa_cp_layout_cache"
++_CP_LAYOUT_GATE_LOGGED = [False]
++
++
++def _cp_layout_cache_enabled() -> bool:
++    """Lazy env-gate read (per-call; negligible at ~3 calls/layer).
++
++    Logs the gate state once per process at WARNING level (logger.info from
++    megatron.core does not reach trainer_srun.log) so a present-but-inert
++    patch is never silent.
++    """
++    enabled = os.environ.get("BT_DSA_CP_LAYOUT_CACHE", "0") == "1"
++    if not _CP_LAYOUT_GATE_LOGGED[0]:
++        _CP_LAYOUT_GATE_LOGGED[0] = True
++        if enabled:
++            logger.warning("BT_DSA_CP_LAYOUT_CACHE=1: DSA packed-CP layout cache ACTIVE")
++        else:
++            logger.warning(
++                "BT_DSA_CP_LAYOUT_CACHE present but DISABLED (env unset or != '1'); "
++                "rebuilding the packed CP layout per layer"
++            )
++    return enabled
++
++
++def _cached_cp_layout(packed_seq_params, key, cu_seqlens_q, cu_seqlens_kv, builder):
++    """Return the cached packed-CP layout for this microbatch, building on miss.
++
++    The cache lives on the packed_seq_params carrier (one per microbatch, alive
++    through its forward and recompute replay). Entries hold references to the
++    input cu_seqlens tensors and hit only on object identity, so a stale entry
++    can never be returned for different inputs.
++    """
++    cache = getattr(packed_seq_params, _CP_LAYOUT_CACHE_ATTR, None)
++    if cache is None:
++        cache = {}
++        setattr(packed_seq_params, _CP_LAYOUT_CACHE_ATTR, cache)
++    entry = cache.get(key)
++    if entry is not None and entry[0] is cu_seqlens_q and entry[1] is cu_seqlens_kv:
++        return entry[2]
++    result = builder()
++    cache[key] = (cu_seqlens_q, cu_seqlens_kv, result)
++    return result
++
++
+ def is_dsa_skip_topk_layer(layer_number: int, skip_topk_offset: int, topk_freq: int) -> bool:
+     """Return whether a 1-indexed layer reuses a previous DSA top-k result."""
+     if layer_number < 1:
+@@ -1733,13 +1799,30 @@ class DSAttention(MegatronModule):
+                     row_start, row_start + sq, dtype=torch.int64, device=query.device
+                 )
+             elif sequence_parallel_tp and cp_size > 1:
+-                packed_query_positions_full = dsa_layout.build_packed_allgather_cp_local_positions(
+-                    cu_seqlens_q,
+-                    cp_size,
+-                    cp_rank,
+-                    query.device,
+-                    output_size=packed_query_output_size,
+-                )
++                if _cp_layout_cache_enabled():
++                    packed_query_positions_full = _cached_cp_layout(
++                        packed_seq_params,
++                        ("local_pos", cp_size, cp_rank, packed_query_output_size),
++                        cu_seqlens_q,
++                        None,
++                        lambda: dsa_layout.build_packed_allgather_cp_local_positions(
++                            cu_seqlens_q,
++                            cp_size,
++                            cp_rank,
++                            query.device,
++                            output_size=packed_query_output_size,
++                        ),
++                    )
++                else:
++                    packed_query_positions_full = (
++                        dsa_layout.build_packed_allgather_cp_local_positions(
++                            cu_seqlens_q,
++                            cp_size,
++                            cp_rank,
++                            query.device,
++                            output_size=packed_query_output_size,
++                        )
++                    )
+                 if sequence_parallel_query_is_local:
+                     row_start = sequence_parallel_tp_row_start
+                     packed_query_positions = packed_query_positions_full[row_start : row_start + sq]
+@@ -1758,20 +1841,48 @@ class DSAttention(MegatronModule):
+                     and isinstance(packed_seq_params.max_seqlen_kv, int)
+                     and packed_seq_params.max_seqlen_kv == packed_global_output_size
+                 )
+-                packed_query_positions, kv_reorder_idx = (
+-                    dsa_layout.build_packed_allgather_cp_query_positions_and_key_reorder(
+-                        cu_seqlens_q=cu_seqlens_q,
+-                        cu_seqlens_kv=cu_seqlens_kv,
+-                        cp_size=cp_size,
+-                        cp_rank=cp_rank,
+-                        device=query.device,
+-                        local_output_size=packed_query_output_size,
+-                        key_local_output_size=packed_query_output_size,
+-                        global_output_size=packed_global_output_size,
+-                        query_cu_seqlens_cover_output=query_cu_seqlens_cover_output,
+-                        key_cu_seqlens_cover_output=key_cu_seqlens_cover_output,
++                if _cp_layout_cache_enabled():
++                    packed_query_positions, kv_reorder_idx = _cached_cp_layout(
++                        packed_seq_params,
++                        (
++                            "qk_pos_reorder",
++                            cp_size,
++                            cp_rank,
++                            packed_query_output_size,
++                            packed_global_output_size,
++                            query_cu_seqlens_cover_output,
++                            key_cu_seqlens_cover_output,
++                        ),
++                        cu_seqlens_q,
++                        cu_seqlens_kv,
++                        lambda: dsa_layout.build_packed_allgather_cp_query_positions_and_key_reorder(
++                            cu_seqlens_q=cu_seqlens_q,
++                            cu_seqlens_kv=cu_seqlens_kv,
++                            cp_size=cp_size,
++                            cp_rank=cp_rank,
++                            device=query.device,
++                            local_output_size=packed_query_output_size,
++                            key_local_output_size=packed_query_output_size,
++                            global_output_size=packed_global_output_size,
++                            query_cu_seqlens_cover_output=query_cu_seqlens_cover_output,
++                            key_cu_seqlens_cover_output=key_cu_seqlens_cover_output,
++                        ),
++                    )
++                else:
++                    packed_query_positions, kv_reorder_idx = (
++                        dsa_layout.build_packed_allgather_cp_query_positions_and_key_reorder(
++                            cu_seqlens_q=cu_seqlens_q,
++                            cu_seqlens_kv=cu_seqlens_kv,
++                            cp_size=cp_size,
++                            cp_rank=cp_rank,
++                            device=query.device,
++                            local_output_size=packed_query_output_size,
++                            key_local_output_size=packed_query_output_size,
++                            global_output_size=packed_global_output_size,
++                            query_cu_seqlens_cover_output=query_cu_seqlens_cover_output,
++                            key_cu_seqlens_cover_output=key_cu_seqlens_cover_output,
++                        )
+                     )
+-                )
+             if packed_query_positions is not None:
+                 packed_query_positions = packed_query_positions.contiguous()
+         elif cp_size > 1:
+@@ -1811,6 +1922,24 @@ class DSAttention(MegatronModule):
+             # Gather local-sequence tensors, then undo MCore's zigzag rank order.
+             def _build_kv_reorder_idx(local_len):
+                 if packed_thd:
++                    if _cp_layout_cache_enabled():
++                        _, idx = _cached_cp_layout(
++                            packed_seq_params,
++                            ("kv_reorder", cp_size, cp_rank, local_len),
++                            cu_seqlens_q,
++                            cu_seqlens_kv,
++                            lambda: dsa_layout.build_packed_allgather_cp_query_positions_and_key_reorder(
++                                cu_seqlens_q=cu_seqlens_q,
++                                cu_seqlens_kv=cu_seqlens_kv,
++                                cp_size=cp_size,
++                                cp_rank=cp_rank,
++                                device=query.device,
++                                local_output_size=local_len,
++                                key_local_output_size=local_len,
++                                global_output_size=local_len * cp_size,
++                            ),
++                        )
++                        return idx
+                     _, idx = dsa_layout.build_packed_allgather_cp_query_positions_and_key_reorder(
+                         cu_seqlens_q=cu_seqlens_q,
+                         cu_seqlens_kv=cu_seqlens_kv,
+diff --git a/megatron/core/transformer/experimental_attention_variant/dsa_cudnn_kernels.py b/megatron/core/transformer/experimental_attention_variant/dsa_cudnn_kernels.py
+index 6dbdce09b..d20e26927 100644
+--- a/megatron/core/transformer/experimental_attention_variant/dsa_cudnn_kernels.py
++++ b/megatron/core/transformer/experimental_attention_variant/dsa_cudnn_kernels.py
+@@ -5,6 +5,8 @@
+ from __future__ import annotations
+ 
+ import functools
++import logging
++import os
+ from typing import TYPE_CHECKING, Optional, Protocol, Tuple
+ 
+ import torch
+@@ -23,8 +25,213 @@ if TYPE_CHECKING:
+     from megatron.core.process_groups_config import ProcessGroupCollection
+     from megatron.core.transformer.transformer_config import TransformerConfig
+ 
++logger = logging.getLogger(__name__)
++
+ _flash_mla_sparse_fwd = None
+ 
++# ----------------------------------------------------------------------------
++# BT_DSA_BWD_ASYNC_NONEMPTY (env-gated, default OFF)
++#
++# `_run_sparse_attention_backward` compacts away query rows with no valid top-k
++# entries via `torch.nonzero(topk_length > 0)` — a synchronizing call that drains
++# the compute stream once per layer-microbatch in backward (measured 156 calls /
++# 19.2s CPU per 524K-token step on GLM-5.2 CP16; see
++# experiment_artefacts/glm/lps_1062_perf/dispatcher_opt/). When the gate is on,
++# the forward pass instead kicks an asynchronous 1-byte D2H of
++# `(topk_length > 0).all()` on a side stream (the same pattern the MoE alltoall
++# dispatcher uses for its split bookkeeping) and stashes (event, pinned_buf) on
++# the autograd ctx. Backward then waits on an event that completed during
++# forward (~µs) and, when every row is non-empty, substitutes
++# `torch.arange(N)` — bitwise identical to `nonzero(topk_length > 0).flatten()`
++# in that case (row-major int64 indices) — keeping every other op of the
++# compaction dataflow unchanged. When any row is empty it falls back to the
++# original syncing `nonzero` (status-quo cost, no regression).
++#
++# Stream-safety notes (review: dispatcher_opt/REVIEW_FIXA.md):
++# * Ordering: `.all()` is enqueued on the current (compute) stream FIRST, then
++#   the side stream wait_stream()s the compute stream (a snapshot of
++#   already-enqueued work), so the 1-byte copy is ordered after the flag.
++# * The per-call pinned buffer and the device flag tensor are both referenced
++#   from ctx until backward reads them, so neither can be recycled while the
++#   D2H is in flight (no ring buffer — replay interleaving makes slot reuse
++#   racy). `record_stream` on the device flag is belt-and-braces for the same.
++# * Recompute timing: under full recompute the first (no-grad) forward's ctx is
++#   discarded; the replay's ctx is the one backward reads. NOTE: grad mode
++#   CANNOT discriminate the two from inside the kick — PyTorch runs every
++#   autograd Function.forward under no-grad, so `torch.is_grad_enabled()` is
++#   False inside `FusedSparseAttentionFunc.forward` in BOTH passes (gating on
++#   it here made the patch inert — v1 bug). The probe therefore also fires in
++#   the discarded first pass: harmless (its ctx/event/pinned buf are dropped
++#   and GC'd; nothing ever waits on the event) and cheap (2 tiny kernels + a
++#   1-byte copy). In the replay, the backward's `event.synchronize()` runs tens
++#   of ms later, after the replayed layer forward has finished on the compute
++#   stream — the event waits only on the side-stream copy, long complete =>
++#   µs-scale, and it never touches the compute stream (no hidden drain, no
++#   circular wait; also correct under CUDA_DEVICE_MAX_CONNECTIONS=1, which the
++#   trainer leaves unset).
++# * CUDA-graph capture falls back to the original path (side-stream work
++#   during capture is illegal).
++# * Loudness: the first successful kick logs "armed" once; with the gate on,
++#   every backward read is counted and a per-window log line reports
++#   fallbacks AND probe-misses — a present-but-inert patch (no probes reaching
++#   ctx) shows up as probes_missing=156/156 instead of failing silently.
++# ----------------------------------------------------------------------------
++
++
++def _async_nonempty_enabled() -> bool:
++    """Lazy env-gate read (per-call; ~100ns, negligible at 156 calls/step).
++
++    Logs the gate state once per process at WARNING level (logger.info from
++    megatron.core does not reach trainer_srun.log) so a present-but-inert
++    patch is never silent.
++    """
++    enabled = os.environ.get("BT_DSA_BWD_ASYNC_NONEMPTY", "0") == "1"
++    if not _GATE_STATE_LOGGED["async_nonempty"]:
++        _GATE_STATE_LOGGED["async_nonempty"] = True
++        if enabled:
++            logger.warning(
++                "BT_DSA_BWD_ASYNC_NONEMPTY=1: DSA-bwd async-nonempty probe patch ACTIVE"
++            )
++        else:
++            logger.warning(
++                "BT_DSA_BWD_ASYNC_NONEMPTY present but DISABLED (env unset or != '1'); "
++                "using the original syncing nonzero path"
++            )
++    return enabled
++
++
++_GATE_STATE_LOGGED = {"async_nonempty": False, "async_nonempty_armed": False}
++
++
++_NONEMPTY_DTOH_STREAM = None
++
++
++def _get_nonempty_dtoh_stream() -> "torch.cuda.Stream":
++    """One lazily-created module-level side stream (mirrors the dispatcher's)."""
++    global _NONEMPTY_DTOH_STREAM
++    if _NONEMPTY_DTOH_STREAM is None:
++        _NONEMPTY_DTOH_STREAM = torch.cuda.Stream()
++    return _NONEMPTY_DTOH_STREAM
++
++
++# Probe telemetry (REVIEW_FIXA 2b + loudness requirement): the fast path is
++# expected to fire ~100% on bench AND customer data; any fallback is status-quo
++# cost, and routine fallbacks void the win claim — so they are counted and
++# logged. probes_missing counts gated backward reads whose ctx carries no probe
++# (present-but-inert detection: a healthy patched boot shows 0). All lines at
++# WARNING so they reach trainer_srun.log. 156 flag reads ≈ one 78-layer ×
++# 2-microbatch step (GLM-5.2 CP16 bench shape).
++_NONEMPTY_PROBE_STATS = {"reads": 0, "fallbacks": 0, "probes_missing": 0, "logged_windows": 0}
++_NONEMPTY_PROBE_WINDOW = 156
++_NONEMPTY_PROBE_MAX_LOGGED_WINDOWS = 100
++
++
++def _note_nonempty_probe_read(all_rows_nonempty: bool) -> None:
++    stats = _NONEMPTY_PROBE_STATS
++    stats["reads"] += 1
++    if not all_rows_nonempty:
++        stats["fallbacks"] += 1
++        logger.warning(
++            "BT_DSA_BWD_ASYNC_NONEMPTY: fallback to syncing nonzero (empty top-k rows) "
++            "— occurrence %d at flag-read %d",
++            stats["fallbacks"],
++            stats["reads"],
++        )
++    if (
++        stats["reads"] % _NONEMPTY_PROBE_WINDOW == 0
++        and stats["logged_windows"] < _NONEMPTY_PROBE_MAX_LOGGED_WINDOWS
++    ):
++        stats["logged_windows"] += 1
++        logger.warning(
++            "BT_DSA_BWD_ASYNC_NONEMPTY: window %d (≈step %d): reads=%d fallbacks=%d "
++            "probes_missing=%d",
++            stats["logged_windows"],
++            stats["logged_windows"],
++            stats["reads"],
++            stats["fallbacks"],
++            stats["probes_missing"],
++        )
++
++
++def _note_nonempty_probe_missing() -> None:
++    stats = _NONEMPTY_PROBE_STATS
++    stats["reads"] += 1
++    stats["probes_missing"] += 1
++    if stats["probes_missing"] == 1:
++        logger.warning(
++            "BT_DSA_BWD_ASYNC_NONEMPTY: gate is ON but a backward read found no probe "
++            "on ctx — the patch is present-but-inert (check that the kick fired in "
++            "forward; see the 'armed' line at first use)"
++        )
++    if (
++        stats["reads"] % _NONEMPTY_PROBE_WINDOW == 0
++        and stats["logged_windows"] < _NONEMPTY_PROBE_MAX_LOGGED_WINDOWS
++    ):
++        stats["logged_windows"] += 1
++        logger.warning(
++            "BT_DSA_BWD_ASYNC_NONEMPTY: window %d (≈step %d): reads=%d fallbacks=%d "
++            "probes_missing=%d",
++            stats["logged_windows"],
++            stats["logged_windows"],
++            stats["reads"],
++            stats["fallbacks"],
++            stats["probes_missing"],
++        )
++
++
++def _maybe_kick_nonempty_probe(topk_length_flat: Tensor):
++    """Kick the async all-rows-nonempty probe; return (event, pinned_buf, flag_gpu).
++
++    Returns None when the probe cannot run (gate off, CPU tensor, or CUDA-graph
++    capture) — callers then take the original syncing path. NOTE: no
++    `torch.is_grad_enabled()` gate here — PyTorch runs every autograd
++    Function.forward under no-grad, so that check is always False inside
++    `FusedSparseAttentionFunc.forward` and would disable the probe in BOTH the
++    discarded first pass and the recompute replay (v1 inertness bug). The
++    discarded-pass kick is harmless (its ctx is dropped; nothing waits on the
++    event) and cheap.
++    """
++    if not _async_nonempty_enabled():
++        return None
++    if not isinstance(topk_length_flat, Tensor) or not topk_length_flat.is_cuda:
++        return None
++    if torch.cuda.is_current_stream_capturing():
++        return None
++    # Ordering (binding): flag on the compute stream, THEN side-stream wait.
++    flag_gpu = (topk_length_flat > 0).all()
++    stream = _get_nonempty_dtoh_stream()
++    stream.wait_stream(torch.cuda.current_stream())
++    with torch.cuda.stream(stream):
++        pinned_buf = torch.empty((), dtype=torch.bool, pin_memory=True)
++        pinned_buf.copy_(flag_gpu, non_blocking=True)
++        event = stream.record_event()
++    # Keep the device flag's memory from being recycled while the side-stream
++    # copy is in flight (the ctx reference to flag_gpu is the primary guard).
++    flag_gpu.record_stream(stream)
++    if not _GATE_STATE_LOGGED["async_nonempty_armed"]:
++        _GATE_STATE_LOGGED["async_nonempty_armed"] = True
++        logger.warning(
++            "BT_DSA_BWD_ASYNC_NONEMPTY: armed — first async nonempty probe kicked"
++        )
++    return (event, pinned_buf, flag_gpu)
++
++
++def _read_nonempty_probe(ctx) -> bool:
++    """Read a stashed probe in backward; False means 'take the original path'."""
++    gate_on = _async_nonempty_enabled()
++    probe = getattr(ctx, "dsa_nonempty_probe", None)
++    if probe is None:
++        if gate_on:
++            # Loud inertness: with the gate on every backward should find a probe.
++            _note_nonempty_probe_missing()
++        return False
++    event, pinned_buf, _flag_gpu = probe
++    event.synchronize()
++    all_rows_nonempty = bool(pinned_buf.item())
++    if gate_on:
++        _note_nonempty_probe_read(all_rows_nonempty)
++    return all_rows_nonempty
++
+ 
+ class CudnnDsaInterface(Protocol):
+     """Subset of the cudnn-frontend ``DSA`` namespace these fused kernels call.
+@@ -2019,6 +2226,7 @@ def _run_sparse_attention_forward(
+     d_v: int,
+     topk_length: Optional[Tensor] = None,
+     sanitize_topk_for_backward_in_place: bool = False,
++    _nonempty_probe_out: Optional[list] = None,
+ ) -> Tuple[Tensor, Tensor, Tensor, Tensor, Tensor, Tensor, Tensor]:
+     """Run FlashMLA sparse attention from local DSA top-k indices."""
+     sq, b, num_heads, d = query.shape
+@@ -2035,6 +2243,10 @@ def _run_sparse_attention_forward(
+     else:
+         global_idxs = _local_to_global_flat(topk_indices_attn, b)
+     topk_length_flat = topk_length_attn.permute(1, 0).reshape(-1)
++    if _nonempty_probe_out is not None:
++        probe = _maybe_kick_nonempty_probe(topk_length_flat)
++        if probe is not None:
++            _nonempty_probe_out.append(probe)
+ 
+     q_flat = query.reshape(sq * b, num_heads, d)
+     kv_flat = kv_full.reshape(skv * b, kv_full.size(-1))
+@@ -2077,6 +2289,7 @@ def _run_sparse_attention_backward(
+     skv: int,
+     grad_output: Tensor,
+     all_rows_nonempty: bool = False,
++    nonempty_rows_verified: bool = False,
+ ) -> Tuple[Tensor, Tensor]:
+     """Run sparse attention backward, skipping rows that have no valid top-k entries."""
+     d_v = out_flat.shape[-1]
+@@ -2127,7 +2340,15 @@ def _run_sparse_attention_backward(
+         grad_kv_full = grad_kv_flat.reshape(skv, b, kv_flat.size(-1))
+         return grad_query, grad_kv_full
+ 
+-    valid_row_indices = torch.nonzero(topk_length > 0, as_tuple=False).flatten()
++    if nonempty_rows_verified:
++        # BT_DSA_BWD_ASYNC_NONEMPTY fast path: the forward-side async probe verified
++        # every row has >= 1 valid top-k entry, so nonzero(topk_length > 0) is exactly
++        # arange(N) (row-major int64) — bitwise identical, without the stream drain.
++        valid_row_indices = torch.arange(
++            topk_length.numel(), dtype=torch.int64, device=topk_length.device
++        )
++    else:
++        valid_row_indices = torch.nonzero(topk_length > 0, as_tuple=False).flatten()
+     dummy_row_index = torch.full(
+         (1,), bwd_q_flat.size(0), dtype=valid_row_indices.dtype, device=valid_row_indices.device
+     )
+@@ -2605,11 +2826,20 @@ class FusedSparseAttentionFunc(torch.autograd.Function):
+         """Run fused sparse attention for precomputed top-k metadata."""
+         sq, b, num_heads, d = query.shape
+         skv = kv_full.shape[0]
++        nonempty_probe = [] if _async_nonempty_enabled() else None
+         out_flat, lse, q_flat, kv_flat, attn_sink, global_idxs, topk_length_flat = (
+             _run_sparse_attention_forward(
+-                query, kv_full, topk_indices, softmax_scale, d_v, topk_length=topk_length
++                query,
++                kv_full,
++                topk_indices,
++                softmax_scale,
++                d_v,
++                topk_length=topk_length,
++                _nonempty_probe_out=nonempty_probe,
+             )
+         )
++        if nonempty_probe:
++            ctx.dsa_nonempty_probe = nonempty_probe[0]
+ 
+         ctx.save_for_backward(q_flat, kv_flat, attn_sink, global_idxs, out_flat, lse)
+         ctx.softmax_scale = softmax_scale
+@@ -2644,6 +2874,7 @@ class FusedSparseAttentionFunc(torch.autograd.Function):
+             d=d,
+             skv=skv,
+             grad_output=grad_output,
++            nonempty_rows_verified=_read_nonempty_probe(ctx),
+         )
+ 
+         return grad_query, grad_kv_full, None, None, None, None

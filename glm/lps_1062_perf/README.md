@@ -28,7 +28,7 @@ lps-1062/
 ## Headline (2026-08-06, devbox q480z53, 2×8 B300 ali, trainers_main @ 0e0b65a6)
 
 - **446 tok/s/GPU** (7,134 tok/s), **73.5 s** per 524k-token step, optim 0.06 s
-- **MFU ≈ 7.5–9.4%** — ~3× off the 20–30% target
+- **MFU ≈ 4.7–6.7%** (LoRA-corrected 2026-08-09: mfu3x 4.7% / HFU 6.7% at 446 tok/s/GPU; reported ≈7.5–9.4% under the prior full-FT convention — see `trainers/experiment_artefacts/glm/lps_1062_perf/overnight/mfu_lora_correction.md`) — ~3–5× off the 20–30% target
 - **NCCL = 65% of step**; EP all-to-all `SendRecv` alone = 59% (uniform ~34 ms/call ≈ 47 GB/s → RoCE-bandwidth-bound)
 - 26,684 `aten::nonzero` GPU syncs/step (35 s CPU) — kills comm/compute overlap
 - 8 vocab-shaped FP32 SIMT GEMMs/step (~1.85 s) — CE/LM-head path off tensor cores
