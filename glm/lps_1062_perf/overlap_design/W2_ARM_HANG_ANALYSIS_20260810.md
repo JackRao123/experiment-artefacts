@@ -184,13 +184,70 @@ mechanism: the replay's A2A on the 16-rank EP group mismatches across
 replicas → replica-1 ranks stuck there → replica 0's CP8 ring (PG 18) times
 out waiting.
 
+## 4.6. The contradiction IS the finding (helmholtz, closing the night) —
+       and the two readings of "8-rank ranks 0–7"
+
+Confirmed facts (grothendieck's dispatch record + log reads, authoritative):
+the arm ran the GOLDEN mesh (expA131, CP16, no F2, box-3 server/src
+pristine; the reference ran the same config — the A/B was valid; the
+mesh-mismatch branch is CLOSED). So an 8-rank ranks-0–7 group existed and
+hung on a mesh where the enumeration says none should.
+
+**Code-side verdict (fermi, exhaustive):** the W2 patch creates NO process
+group, directly or indirectly. The full W2 diff surface (token_dispatcher.py,
+moe_layer.py, experts.py; `_ChunkedDispatchA2A`, `_ChunkedCombineA2A`,
+`_W2ChunkPlan`, `_w2_compute_chunk_plan`, `_W2PipelineConfig`) contains no
+`new_group`, no `new_subgroups`, no `get_*_subgroup`, no comm-split, no
+group-splitting utility — every `group=` argument is the 16-rank
+`pg_collection.ep` (or W1's 16-rank second comm for the probs path). And at
+golden TP1/PP1/EP16/CP16/DP1 on 16 ranks, mcore's parallel_state creates no
+8-rank group either (TP/DP/ETP trivial; CP/EP/TP-EP/TP-CP 16-rank; no
+hierarchical CP configured; partial-expert-DP groups need
+num_distributed_optimizer_instances > 1). grothendieck's "ranks 0–7 host
+experts 0–7" reading also fails on the design: at EP16 every rank hosts
+local experts 0–7 — a K=2 expert-group split is a within-rank expert subset,
+not a rank subset, so no W2 structure maps to an 8-rank group under ANY
+reading.
+
+**So PG 18 is framework-created outside the W2/dispatcher surface** — OR the
+"8-rank" reading itself is the artifact. Two readings, because the NCCL dump
+files did not survive the kill and the membership came from the watchdog
+lines:
+
+- **Reading 1 (membership):** PG 18 is a genuinely 8-rank group (ranks 0–7).
+  Then it is framework-created (trainer/bridge/DCP/TE/optimizer path — none
+  found in the W2 or dispatcher code), and the W2 backward hung ON it in the
+  blocked-behind class: the real wedge is elsewhere and this group's
+  collective was enqueued behind it. helmholtz's cheap discriminator:
+  **grep the REFERENCE boot for any nranks=8 NCCL comm-init line** — if
+  PG-18-class groups exist in the clean reference boot, they're
+  framework-created and W2 merely hung on one; if only the arm boot has one,
+  something in the armed path creates it lazily (the code read says the W2
+  patch cannot — so that outcome would indict a stack-composition
+  interaction, not the W2 diff).
+- **Reading 2 (enqueue-list):** PG 18 may be a 16-rank group (EP-class) on
+  which only ranks 0–7 (node 0) ENQUEUED seq 619 — "enqueued-not-completed
+  on exactly ranks 0–7" then reads as a cross-NODE divergence: node 0 posted
+  the collective and node 1 never reached it. That reading points straight
+  back at suspect A (a replay/restore divergence that splits the world
+  between the nodes) — the two nodes' backward streams diverged. (The dump
+  is gone, so this stays ambiguous until a re-run preserves it — the
+  verify-on soak asserts BEFORE any hang, which is why it's step 1
+  regardless.)
+
+**Night's close on W2 (helmholtz):** the W2 row stays FAIL-by-hang with this
+as the sharpest open question + the VERIFY=1 soak as morning step 1.
+
 ## 5. Discrimination plan
 
-**Step 0 (log reads, no boot — grothendieck, closes the group-identity
-question):** (a) PG 18's `group_desc` in the dump's group table (names the
-group directly — settles §4.5's "which 8-rank group"); (b) the arm config's
-`context_parallel_size` (16 golden vs 8 expB) and whether box 3's server/src
-carried the F2 patch.
+**Step 0 (log reads, no boot — grothendieck):** (a) DONE — mesh confirmed
+golden CP16, no F2 (§4.6); (b) **the reference-boot grep (helmholtz's
+discriminator):** any nranks=8 NCCL comm-init lines in the clean reference
+boot — present-there-too ⇒ framework-created (blocked-behind class);
+arm-only ⇒ lazy creation in the armed path (the code read says the W2 patch
+cannot — that outcome indicts a stack-composition interaction, not the W2
+diff); (c) PG 18's `group_desc` if any dump survives a future re-run
+(settles membership-vs-enqueue-list, §4.6 reading 1 vs 2).
 
 **Step 1 (the discriminating experiment — morning item, needs a box slot):
 the W2+C′ VERIFY=1 full-shape soak.** Boot the arm's exact config at 131k
