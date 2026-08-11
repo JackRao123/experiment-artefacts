@@ -187,7 +187,10 @@ dispatcher_opt/fixa_v3/ · traces ~/perf_profiles/lps-1062/round3/.
   adjudication (my process miss, self-caught-by-curie): (c2) PASS confirmed + warmup0
   prediction confirmed + 5.7% ON-cost ship-gate question; W2 FAIL stands w/ NumelIn-
   imbalance mechanism (deadlocks under routing imbalance reference tolerates).
-  SCORECARD_MORNING.md is FINAL. Boxes 1+3 idle-at-READY; 6 PRs draft; fleet standing by.
+  SCORECARD_MORNING.md is FINAL. 6 PRs draft; fleet standing by.
+- ~09:07 PT: Jack awake — on his order, ALL devboxes torn down (318g61w + wxlg05w stopped,
+  project verified zero active jobs; evidence/clones persist on CPFS). Estate = zero boxes;
+  morning work re-provisions via devbox-up.
 
 ## Watch items
 - Succession trigger: 50–60% context per agent (Jack revised down) or natural boundary.
