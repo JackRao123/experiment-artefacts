@@ -1,0 +1,116 @@
+
+=== [1/13] preflight (laptop checks, no side effects)
+16:07:32  project jrao123-ali = dq47r1q; tokens present; truss/ssh config OK
+
+=== [2/13] create workstation job
+16:07:33  note: 1 other active box(es) in jrao123-ali: 3ylvylq (creating a new one anyway)
+16:07:33  creating: truss train workstation --node-count 2 --accelerator B300 --project-id jrao123-ali --team Parsed
+Launching workstation jrao123-ali with 2x 8x B300...
+
+Workstation created!
+
+Once the job is running, SSH in with:
+  ssh training-job-q480z53-0.ssh.baseten.co (leader)
+  ssh training-job-q480z53-1.ssh.baseten.co
+
+If you haven't set up SSH yet, run:
+  truss ssh setup
+
+Multi-node env vars available on each node:
+  BT_LEADER_ADDR, BT_NODE_RANK, BT_GROUP_SIZE
+
+View logs:
+  truss train logs --job-id q480z53 --tail
+
+Stop the workstation:
+  truss train stop --job-id q480z53
+16:07:44  created job q480z53
+
+=== [3/13] wait for job q480z53 to reach RUNNING
+16:07:45    status=TRAINING_JOB_CREATED; waiting 15s
+16:08:00    status=TRAINING_JOB_DEPLOYING; waiting 15s
+16:08:16  status TRAINING_JOB_RUNNING
+
+=== [4/13] ssh reachability + topology
+16:08:18    [rank0] ssh not up yet (boot grace, 898s left): baseten-ssh: SSH proxy rejected the connection. Is the workload and SSH server r
+16:08:40    [rank0] ssh not up yet (boot grace, 875s left): baseten-ssh: SSH proxy rejected the connection. Is the workload and SSH server r
+16:09:04    rank 0 (leader) reachable
+16:09:07  leader reports BT_GROUP_SIZE=2 BT_NUM_GPUS=8 job=q480z53
+16:09:09    [rank1] ssh not up yet (boot grace, 847s left): baseten-ssh: SSH proxy rejected the connection. Is the workload and SSH server r
+16:09:32    rank 1 reachable
+
+=== [5/13] cluster sanity: slurm, shared FS, capacity
+16:09:39    srun reached 0/2 nodes; retrying in 20s
+16:10:03  srun fan-out OK: 2/2 nodes
+16:10:06  shared FS OK: all 2 nodes read the sentinel
+16:10:10  user_artifacts free: 184606G
+
+=== [6/13] apt deps on every node (python3.12 python3.12-dev python3.12-venv ninja-build curl)
+debconf: delaying package configuration, since apt-utils is not installed
+INSTALLED
+16:10:23    rank 0: apt deps OK
+debconf: delaying package configuration, since apt-utils is not installed
+INSTALLED
+16:10:34    rank 1: apt deps OK
+
+=== [7/13] stage uv at /root/.cache/user_artifacts/bin/uv
+16:10:41  SKIP (uv already staged: uv 0.11.32 (x86_64-unknown-linux-gnu))
+
+=== [8/13] configure GitHub token + clone basetenlabs/trainers
+W: https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64/InRelease: Key is stored in legacy trusted.gpg keyring (/etc/apt/trusted.gpg), see the DEPRECATION section in apt-key(8) for details.
+debconf: delaying package configuration, since apt-utils is not installed
+Cloning into '/root/trainers'...
+shared clone exists @ 0e0b65a6 (not pulling — run git pull manually to update)
+submodules already initialized
+   abb16d10a362eab2c24011ea314cad45fd86dee3 loops (baseten-loops-v0.7.1-7-gabb16d1)
+   0f26fc3696707e7725c730cf093f89156447739f server/vendor/megatron-bridge (v0.2.0rc6-1819-g0f26fc36)
+16:11:43  GitHub credential + clones + submodules OK
+
+=== [9/13] build server + sampler venvs in the shared clone
+16:11:52    server_venv: SKIP (probe passed)
+16:11:56    sampler_venv: SKIP (probe passed)
+
+=== [10/13] write /root/.cache/user_artifacts/env.sh + launch helper scripts
+env + trainer/sampler helpers written
+16:12:00  env file + trainer/sampler helpers written
+
+=== [11/13] verification gate
+16:12:04    PASS srun-hostnames (2/2)
+16:12:12    PASS per-node-tools (2/2)
+16:12:49    PASS server-venv-all-nodes (2/2)
+16:13:17    PASS sampler-venv-leader (1/1)
+16:13:21    PASS env-file-all-nodes (2/2)
+
+=== [12/13] tj-q480z53 aliases in ~/.ssh/config
+16:13:22  added Host blocks tj-q480z53 .. tj-q480z53-1 (backup: ~/.ssh/config.devbox-up.bak)
+
+=== [13/13] DEVBOX READY
+
+  DEVBOX READY   job=q480z53   nodes=2x8 B300   project=jrao123-ali
+  leader : ssh tj-q480z53          (= training-job-q480z53-0.ssh.baseten.co)
+  workers: tj-q480z53-1..1         (= training-job-q480z53-<rank>.ssh.baseten.co)
+  build clone: /root/.cache/user_artifacts/trainers_main  @ 0e0b65a6
+  git clone  : /root/trainers  @ c21023dc (token-backed HTTPS)
+  env    : source /root/.cache/user_artifacts/env.sh
+  logs   : /root/.cache/user_artifacts/.devbox_up/
+
+--- MULTINODE TRAINER (port 8001, all 2 nodes; run on the leader) ---------
+  ssh tj-q480z53
+  BT_TRAINER_CONFIG_PATH=<your config .json on /root/.cache/user_artifacts> bash /root/.cache/user_artifacts/.devbox_up/start_trainer.sh
+  # configs: see /root/.cache/user_artifacts/trainers_main/examples/trainer-configs/ (weight_sync type=local)
+  # health : curl -sf http://127.0.0.1:8001/health ; status: curl -s http://127.0.0.1:8001/status
+  # wait   : bash /root/.cache/user_artifacts/.devbox_up/wait_trainer_health.sh  (background)
+  # stop   : bash /root/.cache/user_artifacts/.devbox_up/stop_trainer.sh
+
+--- SINGLE-NODE SAMPLER (port 8000; run on any node) -----------------------
+  ssh tj-q480z53
+  MODEL_PATH=<hf id or weights path> bash /root/.cache/user_artifacts/.devbox_up/start_sampler.sh
+  # health : curl -sf http://127.0.0.1:8000/health
+  # wait   : bash /root/.cache/user_artifacts/.devbox_up/wait_sampler_health.sh  (background)
+  # stop   : bash /root/.cache/user_artifacts/.devbox_up/stop_sampler.sh
+
+--- HOUSEKEEPING -----------------------------------------------------------
+  stop box     : truss train stop --remote baseten --job-id q480z53
+  job logs     : truss train logs --remote baseten --job-id q480z53 --tail
+  new box      : devbox-up <num_nodes>   (always creates a fresh one)
+

@@ -10,7 +10,7 @@
 | **Ship config (exp06, 3-window soak)** | **629 (steady-state ~660)** | **52.1 s** | **6.6%** | **263.8 GiB (11 GiB headroom)** |
 | Max-perf variant (exp05e) | 603 (2-window) | 54.4 s | 6.3% | 266.9 GiB |
 
-_MFU column recomputed 2026-08-09 under the LoRA-corrected `overnight/mfu.py` (frozen-base backward is dgrad-only: useful = 2·matmul + 3·attn + 3·adapter). The prior full-FT 3×fwd convention read ×1.36 higher at 262K (exp06 was reported 8.9%); full conversion table: `overnight/mfu_lora_correction.md`. tok/s, step times, and all relative deltas are method-independent and unchanged._
+_MFU column recomputed 2026-08-09 under the LoRA-corrected `runs/overnight_20260809_mfu_sweep/mfu.py` (frozen-base backward is dgrad-only: useful = 2·matmul + 3·attn + 3·adapter). The prior full-FT 3×fwd convention read ×1.36 higher at 262K (exp06 was reported 8.9%); full conversion table: `runs/overnight_20260809_mfu_sweep/mfu_lora_correction.md`. tok/s, step times, and all relative deltas are method-independent and unchanged._
 
 **+51% throughput (steady-state +58%), memory flat vs baseline, loss canaries ≤2e-3 (run-to-run noise) on every experiment.** Note the first window after boot is consistently ~15% slower than steady state (allocator/autotune settling) — 2-window benches under-report; the soak's windows 2-3 agree at ~660 tok/s/GPU.
 
@@ -45,9 +45,9 @@ A more aggressive variant (16 channels/peer + `NCCL_MAX_NCHANNELS=64`) reaches ~
 
 - My two `devbox-up 2 b300` attempts failed at deploy: B300 pool capacity exhaustion + a CPFS fileset over byte quota (ENOSPC on the bootstrap's dd write validation) — root-caused overnight; the night ran on the user-provided tj-qzlr0o3.
 - The project-shared `.devbox_up/` lifecycle scripts were clobbered twice by concurrent 1-node/4-node provisions (other sessions); pinned private copies under `lps1062/ctl/` with a `BT_LPS1062_LAUNCH=1` launch guard + caller-audit log after an unattributed trainer start.
-- TF32 head patch has a standalone parity test: `test_tf32_head_parity.py` (this folder), patch archived as `patches/tf32-lm-head.patch`; the exact diff applied on the box is `box-patches-0e0b65a6.patch`.
+- TF32 head patch has a standalone parity test: `test_tf32_head_parity.py` (**lost — lived on the Aug-7 box only, never archived to this repo; the patch below is intact**), patch archived as `runs/overnight_20260807_baseline_shipconfig/patches/tf32-lm-head.patch`; the exact diff applied on the box is `runs/overnight_20260807_baseline_shipconfig/box-patches-0e0b65a6.patch`.
 
 ## Reproduction
 
-- Benchmark protocol + all per-experiment JSONs: `bench_driver.py`, `run_bench.sh` (per-GPU max-mem polling), results in `lps1062_bench/` on the box; canonical copies in this folder as `results/`.
-- Trainer configs: `configs/`. Launch env per experiment: NOTEBOOK.md table.
+- Benchmark protocol + all per-experiment JSONs: `runs/overnight_20260807_baseline_shipconfig/bench_driver.py`, `runs/overnight_20260807_baseline_shipconfig/run_bench.sh` (per-GPU max-mem polling), results in `lps1062_bench/` on the box; canonical copies in this folder as `runs/overnight_20260807_baseline_shipconfig/results/`.
+- Trainer configs: `runs/overnight_20260807_baseline_shipconfig/configs/`. Launch env per experiment: NOTEBOOK.md table.

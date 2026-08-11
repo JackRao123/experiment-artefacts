@@ -3,11 +3,11 @@
 > **2026-08-09 PM — MFU convention change (Jack-commissioned).** Every
 > mfu3x/hfu cell in this file has been converted in place to LoRA-corrected
 > accounting (frozen base = dgrad-only backward + audit-constant fixes):
-> method in the rewritten `overnight/mfu.py`; per-label old↔new mapping and
+> method in the rewritten `runs/overnight_20260809_mfu_sweep/mfu.py`; per-label old↔new mapping and
 > ×-factors (mfu3x ×0.686–0.736, hfu ×0.756–0.793 by L) in
-> `overnight/mfu_lora_correction.md`. Raw tok/s/GPU, step times, memory,
+> `runs/overnight_20260809_mfu_sweep/mfu_lora_correction.md`. Raw tok/s/GPU, step times, memory,
 > losses are method-independent and unchanged. Pre-correction values:
-> the mapping table, `overnight/mfu_pre_lora_20260809.py`, and the results
+> the mapping table, `runs/overnight_20260809_mfu_sweep/mfu_pre_lora_20260809.py`, and the results
 > JSONs (old-convention MFU fields through the v2 cycle; LoRA-corrected
 > fields from the BF-only cycle onward). Prose milestones below keep their
 > original figures as historical record where marked.
@@ -20,7 +20,7 @@
 ~29k `cudaStreamSynchronize` (20.0s) + 33.6k `cudaMemcpyAsync` (15.0s) per
 524K-token step in the mcore alltoall dispatcher's host-side split
 bookkeeping — co-dominant with SendRecv (24.5s/50%) since the Aug-7 NCCL fix.
-Plan: dispatcher_opt/HANDOFF.md. Correctness rule: env-gated patch
+Plan: runs/overnight_20260809_dispatcher_hostsync/HANDOFF.md. Correctness rule: env-gated patch
 (`BT_FUSED_DISPATCH_SPLITS=1`, default OFF), standalone bitwise parity test,
 on-box A/B with loss canary (>5e-3 drift = stop).
 
@@ -28,7 +28,7 @@ on-box A/B with loss canary (>5e-3 drift = stop).
 site/phase from exp05d.pt.trace.json → go/no-go + win bound; (2) ramanujan:
 patch + parity test green (Mac checkout, diffs via pascal); (3) gibbs: fresh
 2-node B300, A131-131k-d4 baseline repro (620/steady ~645), then
-same-kit A/B; (4) diff + writeup archived to dispatcher_opt/.
+same-kit A/B; (4) diff + writeup archived to runs/overnight_20260809_dispatcher_hostsync/.
 
 **Numbers to beat (steady tok/s/GPU, 524K tok/step, ship env + TF32):**
 golden@131K 645 · CP8/DP2@131K 745 · customer-shape 16k-d32 734.
@@ -59,7 +59,7 @@ golden@131K 645 · CP8/DP2@131K 745 · customer-shape 16k-d32 734.
   +1–4%; >+6% = artifact). MAX_CONNECTIONS confirmed unset in trainer.
   ATTRIBUTION errata: eventSync 300/4.13s (both threads). pascal signed
   off; ramanujan proceeding to diffs. gibbs box qr4ggv3 booting.
-- ~10:3x — laplace `dispatcher_opt/check_acceptance.py` validated:
+- ~10:3x — laplace `runs/overnight_20260809_dispatcher_hostsync/check_acceptance.py` validated:
   baseline-exp05d profile reproduces the §2c baseline column 16/16 on the
   exp05d trace; negative control (post-patch profile on unpatched trace)
   fails 11/16 with the must-not-change rows passing — discriminates.
@@ -76,7 +76,7 @@ golden@131K 645 · CP8/DP2@131K 745 · customer-shape 16k-d32 734.
   tj-qr4ggv3-1, gotcha confirmed; /proc env ✓ full prod warmup).
   Baseline A131-131k-d4 r3 running.
 - ~11:1x — ramanujan PHASE 2 Mac-CPU-green: 3 patches archived
-  (`dispatcher_opt/patches/0001-fix-a-dsa-bwd-async-nonempty`,
+  (`runs/overnight_20260809_dispatcher_hostsync/patches/0001-fix-a-dsa-bwd-async-nonempty`,
   `0002-fix-b-dsa-cp-layout-cache`, `0003-fix-f-thd-rope-host-cache` +
   PATCH_NOTES + tests). REVIEW_FIXA reqs implemented as binding; parity A
   19 PASS (incl. forced-fallback), B 191 PASS, F PASS; patches
@@ -110,7 +110,7 @@ golden@131K 645 · CP8/DP2@131K 745 · customer-shape 16k-d32 734.
   fallback counter.
 - ~12:4x — baseline REPRODUCED with valid canary (row A131-repro2-w2:
   630/634 steady, dloss ≤1.1e-3, gn exact). Patches 0001..0003 applied
-  clean on-box (archived `patches/box-applied-qr4ggv3.patch`, md5
+  clean on-box (archived `runs/overnight_20260809_dispatcher_hostsync/patches/box-applied-qr4ggv3.patch`, md5
   e9670205, cross-node grep-verified); on-box GPU parity ALL GREEN
   (A 22/22 incl. forced-fallback telemetry; B, F incl. mutation-miss).
   One test-only harness fix by gibbs (Generator device on GPU leg,
@@ -231,7 +231,7 @@ golden@131K 645 · CP8/DP2@131K 745 · customer-shape 16k-d32 734.
 proven at both shapes (131k ≤2e-3; 16k matched-step ≤5e-4), memory flat,
 DP-safe golden mesh (no F2 exposure). FIX A parked default-OFF (isolated
 effect ≈ 0; unblocks only after FIX C). Full story, evidence and tickets:
-`dispatcher_opt/REPORT.md`.** Key science: premise correction F6 (sites =
+`runs/overnight_20260809_dispatcher_hostsync/REPORT.md`.** Key science: premise correction F6 (sites =
 DSA bwd + DSA layout + THD RoPE, not the dispatcher; mechanism =
 launch-pipeline decompression, SendRecv flat, GPU idle 8.5→1.8s;
 host-block CPU is M-invariant, starvation share is shape-dependent).
@@ -242,7 +242,7 @@ exercise the production call context; no first-step profiled captures;
 pre-register mechanism discriminators before the decisive trace.
 Box qr4ggv3 torn down at close. Patches remain applied (gates
 default-OFF = inert) in the shared checkout; diffs archived in
-`dispatcher_opt/patches/`.
+`runs/overnight_20260809_dispatcher_hostsync/patches/`.
 
 - ~13:1x — **MFU method change in progress (Jack-commissioned, session
   fibonacci):** mfu.py rewritten to LoRA-corrected FLOP accounting
@@ -260,7 +260,7 @@ default-OFF = inert) in the shared checkout; diffs archived in
   race put the new driver on-box BEFORE any bench ran on it — pascal
   blessed it for the final benches (raw numbers driver-independent,
   --lora-rank 32 explicit, MFU labeled new-formula). fibonacci's
-  correction table landed (`overnight/mfu_lora_correction.md`, incl. a
+  correction table landed (`runs/overnight_20260809_mfu_sweep/mfu_lora_correction.md`, incl. a
   C-D-131k-d4 transcription-slip catch) and this file's MFU cells are now
   CONVERTED per the top-of-file note.]
 
@@ -285,12 +285,12 @@ immediate win ~1–2s/step (+2–4% tok/s), hard ceiling 4.74s. The Aug-7
 **Strategic value stands: every second shaved off comm exposes ~1s of
 these blocks, so the surgery is a precondition for future comm/DeepEP
 wins — proceeding with corrected expectations.** Evidence:
-`dispatcher_opt/ATTRIBUTION.md`, `dispatcher_opt/CANDIDATE_FIXES_ramanujan.md`.
+`runs/overnight_20260809_dispatcher_hostsync/ATTRIBUTION.md`, `runs/overnight_20260809_dispatcher_hostsync/CANDIDATE_FIXES_ramanujan.md`.
 
 | # | config | tok/s/GPU | step (s) | mfu3x | hfu | max GPU mem (MiB) | loss canary | notes |
 |---|---|---:|---:|---:|---:|---|---|---|
 | A131-repro1 | expA131 EP16/CP16 2×8 qr4ggv3 (131K boot, full warmup), 131k×d4 r3 | **623** (609/617/645; steady 645) | 52.6 | 5.7% | 8.2% | 201,275/194,831 | throughput/mem ✓ vs ref (620/645/52.8); loss INVALID — warmup-datums=1 vs ref w2 (rng-stream rule; gibbs self-caught) | baseline repro on the validation box; canary rerun with --warmup-datums 2 on fresh reboot → becomes the A/B anchor |
-| A131-repro2-w2 | same, fresh reboot, --warmup-datums 2, 131k×d4 r3 | **630** (623/634/634; steady 634) | 52.0 | 5.7% | 8.3% | 201,711/194,831 | **✓ dloss ≤1.1e-3 vs last-night w2 ref, gn main2 0.6645 exact** | **BASELINE REPRODUCED — canonical A/B anchor** (`results/A131-131k-d4-repro2-w2.json`); patches being applied |
+| A131-repro2-w2 | same, fresh reboot, --warmup-datums 2, 131k×d4 r3 | **630** (623/634/634; steady 634) | 52.0 | 5.7% | 8.3% | 201,711/194,831 | **✓ dloss ≤1.1e-3 vs last-night w2 ref, gn main2 0.6645 exact** | **BASELINE REPRODUCED — canonical A/B anchor** (`runs/overnight_20260809_mfu_sweep/results/A131-131k-d4-repro2-w2.json`); patches being applied |
 | A131-patched-ABF | same boot-shape, gated boot (A+B+F gates + ship env, /proc-verified), 131k×d4 r3 + same-boot re-measure r3 | **687** (624/723/725; steady ~724) · re-measure **721** (721/721/720) | 47.7 / 45.5 | 6.3% | 9.1% | 201,439/194,735 | **✓ parity: dloss ≤1.5e-3 all windows vs anchor**; 0 fallback WARNINGs (8 windows) | **+14% steady vs anchor (724 vs 634), +12% vs last-night 645; ~6.2s/step** — later RE-ATTRIBUTED: FIX A inert (gate bug) ⇒ this row = **B+F only** |
 | A131-patched-ABF-v2 | v2 patches (A ACTIVE: armed-lines ×16 ranks, probes_missing=0), same protocol, r3 + same-boot re-measure | **672** (631/706/683) · re-measure **707** (713/701/707; steady ~707) | 48.8 / 46.3 | 6.1% | 8.9% | ≈flat | **✓ parity: dloss ≤0.9e-3 all windows** | **A's marginal win over B+F ≈ 0 (707 vs 723, ~−2%)**: A works exactly as designed (312 flag events 0.46s, p50 5.5µs — replay argument holds) but buys nothing TODAY — the drains it removes were already throttled cheap by the dispatcher's upstream replay eventSync (77ms p50); the 34.02s eventsync FAIL = that dispatcher class runahead-inflated by B+F (benign, GPU idle 1.82s). Steady capture: eventsync 912 EXACT (600+312), nonzero 356/0.11s, gpu_idle 8.52→**1.82s**, SendRecv 26.03 FLAT ⇒ launch-decompression mechanism per pre-registered discriminators; checker ALL PASS after eventsync-row split |
 | A131-patched-BF | BF-only gated boot (A DISABLED ×16 verified), same protocol, 131k×d4 r3 | **701** (674/723/707; steady ~715) | 46.8 | 6.4% | 9.3% | 201,915/194,975 | **✓ dloss ≤2.0e-3 vs anchor** | **A isolated same-code gate-off/on: 715 vs 707 ≈ −1% = ZERO within noise (telemetry confound killed). TOTAL PATCH WIN vs unpatched 634–645: +11–13%, ALL from B+F** |
@@ -312,7 +312,7 @@ cherry-pick `e42e843c` (`BT_TF32_LM_HEAD=1`). **Ship env on all runs:**
 `NCCL_IB_QPS_PER_CONNECTION=8 NCCL_IB_SPLIT_DATA_ON_QPS=1
 NCCL_NCHANNELS_PER_NET_PEER=8`.
 
-**MFU method (updated, `overnight/mfu.py`):** FLOPs/token now
+**MFU method (updated, `runs/overnight_20260809_mfu_sweep/mfu.py`):** FLOPs/token now
 length-dependent — matmul 84.3 GF + DSA attn 10.5 GF (const) + indexer
 23.6 GF × (L/262144). Reproduces the old constant (118.3 GF) at L=262,144
 exactly; old numbers in this notebook remain valid. `mfu3x` = 3×fwd (useful
@@ -320,7 +320,7 @@ FLOPs, notebook convention), `hfu` = 4× (full recompute). Peak 2.5 PF/GPU.
 [2026-08-09 PM: this method superseded by the LoRA-corrected mfu.py; all
 table cells converted — see note at top of file.]
 
-**Protocol:** `overnight/PROTOCOL.md`; driver `overnight/bench_driver2.py`
+**Protocol:** `runs/overnight_20260809_mfu_sweep/PROTOCOL.md`; driver `runs/overnight_20260809_mfu_sweep/bench_driver2.py`
 (seed 0xB300, warmup + N main windows, per-GPU mem polled). Canary = first
 run at each seq len per stack; later runs drift-checked (≤2e-3 noise).
 
@@ -334,12 +334,12 @@ DP-semantics gate on box B). Config fixes: `expB` max_seq_len 262144→**131072*
 (CP8@262K ≈300 GiB predicted — boot warmup would OOM); added
 `expF-ep32cp8dp4.json` (stretch). Every bench standardized at ~524,288
 tokens/step (seq_len × datums) for direct MFU comparability with Aug-7.
-MFU method: kept `overnight/mfu.py` (length-dependent FWD(L), reproduces the
+MFU method: kept `runs/overnight_20260809_mfu_sweep/mfu.py` (length-dependent FWD(L), reproduces the
 old 118.3 GF/token constant at 262K); independent arithmetic audit running →
-`overnight/mfu_audit.md`. Correctness rule: only proven loss-neutral env
+`runs/overnight_20260809_mfu_sweep/mfu_audit.md`. Correctness rule: only proven loss-neutral env
 (ship NCCL + BT_TF32_LM_HEAD=1); every config×L canary-checked, >5e-3 stops.
 
-**MFU audit result (00:35, `overnight/mfu_audit.md`):** mfu.py FWD(L) is
+**MFU audit result (00:35, `runs/overnight_20260809_mfu_sweep/mfu_audit.md`):** mfu.py FWD(L) is
 **~4% high, uniformly across L** (indexer params counted in all 78 layers vs
 the 21 `indexer_types` full layers; wq_b input dim; FULL_IDX_LAYERS 22→21).
 Corrected FWD: 93.9/96.7/102.3/113.6 GF/tok at 32K/64K/131K/262K (script:
@@ -415,7 +415,7 @@ adapters, folded into F_lora(r).]
 
 | C-G-16k-d32 | expG EP16/CP8/DP4 4×8, 16k×d32 r2 (customer shape) | 339 (252/**517**) | 48.4 | 2.7% | 3.9% | 273,881 (99.6% cap — residual) | 12.2094/12.1934, gn 0.47/0.44 sane | **contaminated: ran on the pool the 65k thrash left at cap**; main1 517 = recovering, fresh-pool likely ≈B's 734 but unproven on this arm (accepted caveat, no re-boot at 05:30) |
 
-| B-custmix | expB EP16/CP8/DP2 2×8, 20 heterogeneous datums (10,240–63,488 tok, customer histogram, 530,432 tok/step) | **DEADLOCK (F2)** — warmup hung >12 min | — | — | — | ~273 GiB, both nodes NCCL-spin | n/a | **F2 empirically confirmed on customer-realistic input**: replica0 got 294,912 tok→3 partitions, replica1 235,520→2 → replica0 stuck in partition-3 EP dispatch (token_dispatcher.py:959), replica1 already past the loop (packing.py:415). Forensics → results/B_custmix_f2/ |
+| B-custmix | expB EP16/CP8/DP2 2×8, 20 heterogeneous datums (10,240–63,488 tok, customer histogram, 530,432 tok/step) | **DEADLOCK (F2)** — warmup hung >12 min | — | — | — | ~273 GiB, both nodes NCCL-spin | n/a | **F2 empirically confirmed on customer-realistic input**: replica0 got 294,912 tok→3 partitions, replica1 235,520→2 → replica0 stuck in partition-3 EP dispatch (token_dispatcher.py:959), replica1 already past the loop (packing.py:415). Forensics → runs/overnight_20260809_mfu_sweep/results/B_custmix_f2/ |
 
 ### Findings so far (02:0x)
 
@@ -465,7 +465,7 @@ max partition count across DP + phantom partitions). Tonight's mitigation
 DP>1 boots + bench driver `--warmup-datums <DP>` (driver warmup absorbs
 kernel compile), datum counts multiples of DP at equal lengths. Shared
 checkout stays pristine. Forensics →
-`overnight/results/B_dp2_boot_deadlock/`.
+`runs/overnight_20260809_mfu_sweep/results/B_dp2_boot_deadlock/`.
 
 **F5 — multi-doc-partition allocator thrash on CP8 meshes (box B; GATES the
 recommendation).** B-65k-d8 (2 docs per 131K partition, CP8/DP2) thrashes on
@@ -550,20 +550,20 @@ env.sh is mutable by any box's provisioner at any time.
 
 **MFU method:** mfu.py convention kept all night (length-dependent FWD(L);
 comparable with every prior LPS-1062 row). Independent audit
-(`overnight/mfu_audit.md`): absolute values ~4% high (×0.96 to correct);
+(`runs/overnight_20260809_mfu_sweep/mfu_audit.md`): absolute values ~4% high (×0.96 to correct);
 2.5 PF/GPU peak is a convention (datasheet dense bf16 ≈ 2.25 PF). Raw
 tok/s/GPU is method-independent.
 [2026-08-09 PM: superseded — the ×0.96 covered only the audit constants;
 the LoRA pass-structure correction is larger (published mfu3x ~×1.30–1.39
 high overall). All cells above now LoRA-corrected; steady refs: exp06
 660 ⇒ mfu3x 6.9/hfu 9.9; B 745 ⇒ 6.8/9.8; C-G 725 ⇒ 6.6/9.6. See
-`overnight/mfu_lora_correction.md`.]
+`runs/overnight_20260809_mfu_sweep/mfu_lora_correction.md`.]
 
 **Tickets to file:**
 1. **F2 fix** — DP>1 THD-CP deadlock: per-replica partition counts must be
    equalized (all-reduce max + phantom partitions); boot warmup pass-1
    (1 datum) deadlocks 100% at DP>1; BT_SKIP_WARMUP=1 is the stopgap.
-   Evidence: `overnight/results/B_dp2_boot_deadlock/`, `B_custmix_f2/`.
+   Evidence: `runs/overnight_20260809_mfu_sweep/results/B_dp2_boot_deadlock/`, `B_custmix_f2/`.
 2. **F5 root-cause** — CP8 ~65K-homogeneous allocator thrash despite
    expandable_segments (launch.sh default): capture
    `memory._record_memory_history` snapshot mid-thrash; consider packer
@@ -581,7 +581,7 @@ md5 protocol; trainer_srun.log cross-box truncation = F4; env.sh mutable by
 any provisioner). Never kill the bench driver mid-op (orphaned server-side
 op poisons the next optim_step token accounting — restart the trainer).
 Boxes: A=wxlgezw, B=wlxm57w, C=wpr25e3 — all torn down by ~06:00, verified
-STOPPED. 17 result jsons + 4 forensics/mem bundles in `overnight/results/`.
+STOPPED. 17 result jsons + 4 forensics/mem bundles in `runs/overnight_20260809_mfu_sweep/results/`.
 
 ---
 
@@ -593,15 +593,15 @@ LoRA-corrected values — see note at top of file.]
 
 Baseline (2026-08-06, devbox q480z53, trainers_main @ 0e0b65a6, golden config TP1/PP1/EP16/CP16, full recompute, alltoall dispatcher):
 **446 tok/s/GPU · 73.5 s / 524k-token step · MFU(4×fwd, w/ indexer, 2.5PF) 8.4% [LoRA-corrected: 6.7%].**
-Bottlenecks (from `~/perf_profiles/lps-1062/glm52-b300-s256k/REPORT.md`):
+Bottlenecks (from `runs/overnight_20260807_baseline_shipconfig/glm52-b300-s256k/REPORT.md`):
 NCCL 65% of step (EP a2a SendRecv 59%), 26.7k `aten::nonzero` GPU syncs/step, 8 FP32 SIMT vocab GEMMs (1.85 s), allocator reserved 260/275 GB.
 
 ## Measurement protocol (apples-to-apples)
 
-- `bench_driver.py` (this folder): synthetic random tokens seed `0xB300`, **identical rng consumption order to the baseline profile run**: 1×262k-token warmup window, then 2 main windows of 2×262k datums (524,288 tokens/step). Metrics = mean of the 2 main windows.
-- Report per iteration: **tok/s/GPU, step time (s), MFU** (two conventions: `mfu3x` = model FLOPs 3×fwd — rewards removing recompute; `hfu` = hardware passes actually run), plus loss/grad_norm per window as the **correctness canary** — must stay ≈ baseline (12.356/0.940 warmup, 12.339/0.941, 12.310/0.693) modulo small reduction-order drift. Fwd FLOPs/token = 118.3 GF (84.3 matmul + 10.5 DSA + 23.6 indexer), see `mfu_calc.py`.
+- `runs/overnight_20260807_baseline_shipconfig/bench_driver.py` (this folder): synthetic random tokens seed `0xB300`, **identical rng consumption order to the baseline profile run**: 1×262k-token warmup window, then 2 main windows of 2×262k datums (524,288 tokens/step). Metrics = mean of the 2 main windows.
+- Report per iteration: **tok/s/GPU, step time (s), MFU** (two conventions: `mfu3x` = model FLOPs 3×fwd — rewards removing recompute; `hfu` = hardware passes actually run), plus loss/grad_norm per window as the **correctness canary** — must stay ≈ baseline (12.356/0.940 warmup, 12.339/0.941, 12.310/0.693) modulo small reduction-order drift. Fwd FLOPs/token = 118.3 GF (84.3 matmul + 10.5 DSA + 23.6 indexer), see `runs/overnight_20260807_baseline_shipconfig/glm52-b300-s256k/mfu_calc.py`.
 - No kineto/memory profiler in timed runs (profilers only for diagnosis, marked as such).
-- **Per-GPU max memory**: every bench runs under `run_bench.sh`, which starts `poll_gpu_mem.sh` (nvidia-smi, 2 s cadence) on every node via srun and folds per-GPU max used MiB into the result json (`aggregates.per_gpu_max_used_mib`). nvidia-smi reports allocator-reserved memory, which is the OOM-relevant number; 2 s sampling can miss sub-second transients.
+- **Per-GPU max memory**: every bench runs under `runs/overnight_20260807_baseline_shipconfig/run_bench.sh`, which starts `tools/poll_gpu_mem.sh` (nvidia-smi, 2 s cadence) on every node via srun and folds per-GPU max used MiB into the result json (`aggregates.per_gpu_max_used_mib`). nvidia-smi reports allocator-reserved memory, which is the OOM-relevant number; 2 s sampling can miss sub-second transients.
 - Oversized artifacts (traces, pickles) → `~/perf_profiles/lps-1062/opt-night/`; everything else here.
 
 ## Lever map (from code reading, trainers @ 5191b710)
@@ -674,4 +674,4 @@ A trainer srun using MY `lps1062/ctl/run_trainer_node.sh` was submitted at 20:21
 
 ### exp00 — baseline re-anchor (2026-08-07 ~01:45)
 
-Box tj-qzlr0o3 inherited the baseline session's shared-FS state: trainers_main @ 0e0b65a6 + LPS-1003 full-footprint-warmup patch, fabric-aware run_trainer_node.sh, GLM-5.2-FP8 HF cache. Trainer boot ~13 min. Loss canaries match the q480z53 baseline to ≤2e-3 → correctness anchor holds. Rank-0 reserved peak 260.2 GB (matches baseline 260.2). Mem-poller srun queued behind the trainer job (fresh srun ≠ --jobid attach) — fixed in run_bench.sh by attaching to the devbox_trainer allocation; exp00b-memprobe (warmup + 1 main window on the hot trainer) captures per-GPU peaks for the baseline config.
+Box tj-qzlr0o3 inherited the baseline session's shared-FS state: trainers_main @ 0e0b65a6 + LPS-1003 full-footprint-warmup patch, fabric-aware run_trainer_node.sh, GLM-5.2-FP8 HF cache. Trainer boot ~13 min. Loss canaries match the q480z53 baseline to ≤2e-3 → correctness anchor holds. Rank-0 reserved peak 260.2 GB (matches baseline 260.2). Mem-poller srun queued behind the trainer job (fresh srun ≠ --jobid attach) — fixed in runs/overnight_20260807_baseline_shipconfig/run_bench.sh by attaching to the devbox_trainer allocation; exp00b-memprobe (warmup + 1 main window on the hot trainer) captures per-GPU peaks for the baseline config.
