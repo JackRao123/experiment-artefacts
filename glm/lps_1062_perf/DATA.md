@@ -19,6 +19,9 @@ run docs but the raw evidence is gone.
 
 | path | size | what | md5 (files only) |
 |---|---:|---|---|
+| `kimi27/traces/b300-1-78ref8i2-0016_4347.1786820197615552255.pt.trace.json` | 248M | Kimi-K2.7-Code rank-0 kineto trace, 131k×d4, golden B300 TP8/EP16/CP1, main @ 29b59564 (sha256 dd62e603…) | — |
+| `kimi27/traces/mem/memory.rank{0..15}.pickle` | — | Kimi memory snapshots (16 ranks) | — |
+| `kimi27/kimi27-131k-d4.json` | 4K | Kimi bench JSON (sha256 7b59da3a…): 641 tok/s/GPU, mfu3x 15.9%, peak 170 GiB | — |
 | `opt-night/exp05d.pt.trace.json` | 1.0G | canonical post-optimization baseline trace (Aug-7, cited across NOTEBOOK/REPORT/ATTRIBUTION) | 32d30aa15c467db6f19caf2fedebef80 |
 | `glm52-b300-s256k/node0/*.pt.trace.json` | 1.0G | Aug-6 baseline rank-0 kineto trace | 0358280caf35a307108955e3ba7cca13 |
 | `glm52-b300-s256k/node0/memory.rank0.pickle` | — | baseline memory snapshot rank 0 | 6488c4fe43e8e9b23021fa82914590c9 |

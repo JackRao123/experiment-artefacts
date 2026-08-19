@@ -1,0 +1,82 @@
+
+=== [1/13] preflight (laptop checks, no side effects)
+14:19:02  project jrao123-ali = dq47r1q; tokens present; truss/ssh config OK
+
+=== [2/13] wait for job w7982d3 to reach RUNNING
+14:19:03  status TRAINING_JOB_RUNNING
+
+=== [3/13] ssh reachability + topology
+14:19:09    rank 0 (leader) reachable
+14:19:14  leader reports BT_GROUP_SIZE=2 BT_NUM_GPUS=8 job=w7982d3
+14:19:19    rank 1 reachable
+
+=== [4/13] cluster sanity: slurm, shared FS, capacity
+14:19:33  srun fan-out OK: 2/2 nodes
+14:19:41  shared FS OK: all 2 nodes read the sentinel
+14:19:47  user_artifacts free: 189765G
+
+=== [5/13] apt deps on every node (python3.12 python3.12-dev python3.12-venv ninja-build curl)
+SKIP
+14:19:58    rank 0: apt deps OK
+SKIP
+14:20:04    rank 1: apt deps OK
+
+=== [6/13] stage uv at /root/.cache/user_artifacts/bin/uv
+14:20:16  SKIP (uv already staged: uv 0.11.32 (x86_64-unknown-linux-gnu))
+
+=== [7/13] configure GitHub token + clone basetenlabs/trainers
+shared clone exists @ 73c24b00 (not pulling — run git pull manually to update)
+/root checkout exists @ 73c24b00 (not pulling — run git pull manually to update)
+submodules already initialized
+   81c086ba4f45380154ec170a27417de2a588618e loops (baseten-loops-tinker-v0.11.0-2-g81c086b)
+   20fcf2ea7c4d2db4ab447dba9954410304183467 server/vendor/megatron-bridge (v0.2.0rc6-1820-g20fcf2ea)
+14:20:48  GitHub credential + clones + submodules OK
+
+=== [8/13] build server + sampler venvs in the shared clone
+14:21:01    server_venv: SKIP (probe passed)
+14:21:07    sampler_venv: SKIP (probe passed)
+
+=== [9/13] write /root/.cache/user_artifacts/env.sh + launch helper scripts
+env + trainer/sampler helpers written
+14:21:13  env file + trainer/sampler helpers written
+
+=== [10/13] verification gate
+14:21:19    PASS srun-hostnames (2/2)
+14:21:38    PASS per-node-tools (2/2)
+14:22:08    PASS server-venv-all-nodes (2/2)
+14:22:29    PASS sampler-venv-leader (1/1)
+14:22:34    PASS env-file-all-nodes (2/2)
+
+=== [11/13] tj-w7982d3 aliases in ~/.ssh/config
+14:22:36  added Host blocks tj-w7982d3 .. tj-w7982d3-1 (backup: ~/.ssh/config.devbox-up.bak)
+
+=== [12/13] DEVBOX READY
+
+  DEVBOX READY   job=w7982d3   nodes=2x8 B300   project=jrao123-ali
+  leader : ssh tj-w7982d3          (= training-job-w7982d3-0.ssh.baseten.co)
+  workers: tj-w7982d3-1..1         (= training-job-w7982d3-<rank>.ssh.baseten.co)
+  build clone: /root/.cache/user_artifacts/trainers_main  @ 73c24b00
+  git clone  : /root/trainers  @ 73c24b00 (token-backed HTTPS)
+  env    : source /root/.cache/user_artifacts/env.sh
+  logs   : /root/.cache/user_artifacts/.devbox_up/
+
+--- MULTINODE TRAINER (port 8001, all 2 nodes; run on the leader) ---------
+  ssh tj-w7982d3
+  BT_TRAINER_CONFIG_PATH=<your config .json on /root/.cache/user_artifacts> bash /root/.cache/user_artifacts/.devbox_up/start_trainer.sh
+  # configs: see /root/.cache/user_artifacts/trainers_main/examples/trainer-configs/ (weight_sync type=local)
+  # health : curl -sf http://127.0.0.1:8001/health ; status: curl -s http://127.0.0.1:8001/status
+  # wait   : bash /root/.cache/user_artifacts/.devbox_up/wait_trainer_health.sh  (background)
+  # stop   : bash /root/.cache/user_artifacts/.devbox_up/stop_trainer.sh
+
+--- SINGLE-NODE SAMPLER (port 8000; run on any node) -----------------------
+  ssh tj-w7982d3
+  MODEL_PATH=<hf id or weights path> bash /root/.cache/user_artifacts/.devbox_up/start_sampler.sh
+  # health : curl -sf http://127.0.0.1:8000/health
+  # wait   : bash /root/.cache/user_artifacts/.devbox_up/wait_sampler_health.sh  (background)
+  # stop   : bash /root/.cache/user_artifacts/.devbox_up/stop_sampler.sh
+
+--- HOUSEKEEPING -----------------------------------------------------------
+  stop box     : truss train stop --remote baseten --job-id w7982d3
+  job logs     : truss train logs --remote baseten --job-id w7982d3 --tail
+  new box      : devbox-up <gpus>   (always creates a fresh one)
+
