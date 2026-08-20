@@ -22,10 +22,9 @@ One variable per arm. All parse-checked against TrainerControllerConfig
 |---|---|---|
 | 1 | `trainer_pp2cp8ep8_131k.json` | Full-recompute baseline; the census boot. |
 | 2a | `trainer_pp2cp8ep8_32k.json` + `trainer_pp2cp8ep8_32k_selective_novpp_plain.json` | 32k full baseline (noise floor) vs 32k selective, no offload. Moved to 32k because selective-only OOMs at 131k (above). |
-| 2c | `trainer_pp2cp8ep8_32k_selective_offload_moe_act_combine_attn_proj.json` | Full phase-1 config at 32k. **BRING-UP ARM ONLY — not a measurement; 32k throughput is NOT a throughput claim and must not be reported as one.** |
+| 2c | `trainer_pp2cp8ep8_32k_selective_offload_moe_act_attn_proj.json` | Full phase-1 config at 32k. **BRING-UP ARM ONLY — not a measurement; 32k throughput is NOT a throughput claim and must not be reported as one.** |
 | 3a | `trainer_pp2cp8ep8_131k_selective_offload_moe_act.json` | First config that runs at 131k at all — bring-up milestone, expect first-boot problems. |
-| 3b | `trainer_pp2cp8ep8_131k_selective_offload_moe_act_combine.json` | Adds moe_combine. Boots only once carnot's dispatcher hook + vendored vocabulary hunk land. |
-| 3c | `trainer_pp2cp8ep8_131k_selective_offload_moe_act_combine_attn_proj.json` | Adds attn_proj (legal under core_attn recompute; trainers 0c794d36). Same carnot-hunk boot dependency as 3b. |
+| 3b | `trainer_pp2cp8ep8_131k_selective_offload_moe_act_attn_proj.json` | Adds attn_proj, legal under core_attn recompute. |
 | 5 | `trainer_pp2cp8ep8_131k_rung5_control_full_recompute.json` + `trainer_pp2cp8ep8_131k_rung5_phase1_offload.json` | The headline MATCHED PAIR at d16: identical except recompute+offload, frozen under rung-5 names so later ladder-arm tuning cannot move the headline. Treatment arm intentionally mirrors rung 3c's content. |
 
 **Rung 5 reports a RATIO, not an absolute.** The pair runs on one tree, one
@@ -52,7 +51,7 @@ the never-booted offload machinery on ONE 8xB300 node (tj-wlmlkeq):
   control; the pool-fix tripwire's length-matched reference (the prior
   trial's 30% pinned-allocation cost was measured at 32k).
 - `trainer_cp8ep8_32k_pp1_bringup_offload.json` — selective recompute +
-  moe_act + moe_combine + attn_proj at TP1/PP1/CP8/EP8/ETP1, 32k.
+  moe_act + attn_proj at TP1/PP1/CP8/EP8/ETP1, 32k.
 
 Both are BRING-UP artifacts for a blocked-hardware workaround, NOT ladder
 rungs. Every never-booted piece they exercise (pool fix, NUMA binding,
@@ -88,3 +87,25 @@ So: `NVTE_CPU_OFFLOAD_V1=1` belongs in the launcher environment of every
 offload rung, never in worker-side code. carnot's boot-time engagement probe
 logs both the env value and TE's latched value; `env=1 latch=0` is the
 signature of this trap — treat it as a failed boot, not a slow one.
+
+## The moe_combine group was dropped (2026-08-20)
+
+There is no combine offload arm. The group was scoped on a census row of
+0.20–0.25 GiB per layer per microbatch that was **derived from tensor shapes**,
+not measured against the dispatcher and Transformer Engine path this model uses.
+TE's permutation source shows our combine runs the mask-map unpermute with no
+merging probs, and that variant saves only `row_id_map` and `pad_offsets` for
+backward — sub-megabyte index tensors, below `min_offloaded_tensor_size`. The
+group would capture essentially nothing, so the arm that added it was
+indistinguishable from the arm before it.
+
+The large tensors at that seam (dispatched tokens, expert output, order 1.6 GiB
+each per layer per microbatch at 131k) are **transient**: nothing saves them for
+backward and they are freed during forward. There is no better hook site. The
+expert-activation group is the entire resident MoE story.
+
+Budget consequence: those bytes were attributed by subtraction, so they move
+into the resident bucket. Glue goes from 0.44–0.89 to 0.64–1.14 GiB per layer
+per microbatch, and the worst-case projected peak on the binding stage goes from
+~213 to ~227 GiB against a ~248 GiB effective ceiling. That tightens the margin
+and raises the stakes on the rung-1 census.

@@ -4,6 +4,8 @@ Decided by Jack 2026-08-20 (with hilbert). Goal: **maximize throughput** on
 GLM-5.2 PP2/CP8/EP8 @131k by eliminating most of the activation
 recomputation tax. Stacks on checkpoint **PR #1070**.
 
+**Execution owner: banach (handed off by hilbert, 2026-08-20).**
+
 ---
 
 # FOR HUMANS
@@ -25,9 +27,17 @@ of every 133 s step (~35%)**. This plan splits the layer's data three ways:
 ## What we get
 
 - Recovers **~39 of the 46 s** of recompute per step → **~+40% throughput**
-  (984 → ~1,400 tok/s/GPU; ~1,540 on the record environment).
-- Also deletes ~10 s of the exposed all-to-all for free (the recompute
-  pass's share of it). Remaining a2a (~19 s) is the next lever afterward.
+  (984 → ~1,400 tok/s/GPU; ~1,540 on the record environment). That is the
+  ONE number — ~10 s of it is the exposed all-to-all the recompute pass
+  was re-shipping (a component of the 39 s, not an extra win on top).
+- **The two changes are ONE PACKAGE** (established 2026-08-20): at 131k
+  the offload is load-bearing, not polish — selective recompute alone
+  stores 2.24 GiB/layer/mb and would put rank 0 ~45 GiB OVER the memory
+  ceiling. There is no "selective-only" configuration at the mission
+  length, and therefore no partial fallback inside the package; the only
+  fallback is the block+K dial (~12–13%), a different mechanism.
+- After this lands, the remaining exposed all-to-all is ~19 s — the next
+  lever.
 
 ## What has to be true first (the gates)
 
@@ -42,6 +52,14 @@ of every 133 s step (~35%)**. This plan splits the layer's data three ways:
    (Expert activations already have working, proven hooks.)
 4. **First hardware validation of the backpressure valve** (committed, 
    never booted).
+5. **NUMA-local pinned buffers — a gate, not a tuning knob** (bench
+   2026-08-20): with all 8 GPUs offloading at once, host buffers on the
+   wrong CPU socket collapse bandwidth by 73%, and the OS-DEFAULT
+   spread-across-both placement by 42% — **below the feature's
+   requirement**. Get this wrong and phase 1 silently fails by ~30%.
+   The box has no numactl, so binding must happen inside the
+   pinned-buffer allocator itself (rides the pool patch), and boot must
+   verify actual page placement, not assume it.
 
 ## What we're deliberately NOT doing
 
@@ -93,12 +111,21 @@ design; the human section above is the decision of record.
   indexer 3.3, attn-fwd 3.7, CP-RS 2.9, cat 2.8, idle 14.3. Deal ratios
   (GiB saved / ms): projections ~0.11, glue ~0.11, core-attn 0.05–0.10,
   MoE block ~0.027.
+- Indexer leaders (freq-4 rule: a layer computes its own selection iff
+  1-based idx ≤3 or (idx−3)%4==0): 11 leaders on stage 0, 10 on stage 1
+  → shared-selection stash ~5.9 GB (rank 0, ×2 in-flight) / ~2.7 GB
+  (rank 8). Census gotcha: that stash's byte size is ALIASED at other
+  seq/CP geometries — identify by allocation site, never size signature.
 - Bandwidth (tj-wlmlkeq direct bench, huygens 2026-08-20; confirms
   campaign PCIE_OFFLOAD_BW_BENCH.md): per-GPU pinned D2H 57.3 / H2D 55.7
   GB/s solo; single-GPU bidi 48.3+48.3; all-8 unidirectional 456 D2H /
-  439 H2D aggregate, NO per-GPU collapse; all-8 bidi ~29/dir/GPU
-  (campaign box; unmeasured on tj-wlmlkeq); NUMA remote <1% single-GPU
-  (multi-GPU cross-socket UNMEASURED — do not rely); pageable 5× worse.
+  439 H2D aggregate, NO per-GPU collapse; all-8 bidi NUMA-local
+  27.5+28.8 /GPU (node ~450 total, direction-agnostic). NUMA AT 8 GPUS
+  IS BINARY (resolved 2026-08-20, ALL8_BIDI_OFFLOAD_BW_BENCH.md):
+  local 27.5/28.8; INTERLEAVED (the unbound-process DEFAULT) 15.6/16.8 —
+  BELOW the 22/24 demand; cross-socket 7.4/7.8 (−73%, and per-GPU
+  fairness breaks down under clamp). The single-GPU "<1% remote penalty"
+  is real but generalizes to nothing. Pageable 5× worse.
   Host: 2× Xeon 6767P, 3.93 TiB physical, **cgroup memory.max = 2.42
   TiB** (size against this, not physical). GPUs 0–3 → NUMA0, 4–7 → NUMA1;
   NVMe RAID0 27.9 TB on NUMA1. Bench source: /tmp/cuda_host_bw.cu on box.
@@ -108,28 +135,95 @@ design; the human section above is the decision of record.
 - `recompute: {granularity: selective}` (core_attn checkpointed, all else
   eager) — replaces full recompute.
 - Fine-grained activation offload ON for: moe_act group (hooks exist,
-  proven at 32k), dispatcher-combine (HOOK TO BUILD — single
-  off_interface wrap in token dispatcher, force-release discipline),
-  attention qkv-proj + out-proj inputs (HOOK TO BUILD — attention.py hook
-  sites are not on GLM-5.2's AbsorbedMLA path). Do NOT enable
-  offload_core_attention in phase 1 (phase-2 A/B, ~+5%, halves PCIe
-  margin). expert_fc1 group: drop from module lists (inert under LoRA).
+  proven at 32k), the combine-side saves — **hook goes on the UNPERMUTE
+  step, NOT FusedCombine** (carnot 2026-08-20: on the mission path,
+  MoEFlexTokenDispatcher/DeepEP's FusedCombine saves nothing — handle
+  only; a combine-site wrap would be silently inert and quietly forfeit
+  the ~0.2 GiB/layer bucket) — and the attention out-proj input (HOOK TO
+  BUILD; clean site). The **qkv-proj input is CONDITIONAL**: it is
+  hidden_states, which the core-attention checkpoint scope may also
+  save — offloading it risks either double-storage (saving illusory) or
+  an H2D transfer in the critical path of core-attn recompute (defeating
+  why core-attn is in the recompute bucket). carnot characterizes the
+  multi-save behavior (storage-pointer identity + whether the hook layer
+  dedups same-storage saves); DEFAULT POSTURE until then: offload
+  out-proj only (0.2 GiB, not 0.4). Do NOT enable offload_core_attention
+  in phase 1 (phase-2 A/B, ~+5%, halves PCIe margin). expert_fc1 group:
+  drop from module lists (inert under LoRA — confirmed at both levels:
+  LoRA target list + TE GroupedLinear frozen-weight path).
+- TAIL-LAYER EXCLUSION (added 2026-08-20, banach's finding): do NOT
+  offload the last K=2 layers of each stage — they are stashed last and
+  needed first (backward runs layers in reverse), so their round trip is
+  pure waste; on the LAST stage (0 warmup, F(mb)→B(mb) back-to-back) it
+  is a serialized ~145 ms/mb round trip with only the loss path as cover.
+  Cost: a few GiB. Check first whether f2407a10's `fraction`/margin
+  machinery already implements trailing-group retention before writing
+  new code. Rung 3's seam-window stall measurement confirms it works.
 - Pinned pool: patch the MoE-groups-off-pool hardcode
-  (fine_grained_activation_offload.py:362-366 class) — pad-to-max makes
-  shapes constant, pool-safe. Freeze-exception required (precedent:
-  gauss's cache-clear probe).
+  (fine_grained_activation_offload.py:362-368, OffloadTensorGroup.__init__,
+  forces expert_fc1/moe_act/fused_group_mlp off the pool) — pad-to-max
+  makes shapes constant, pool-safe. Freeze-exception required (precedent:
+  gauss's cache-clear probe). SAME exception also carries a valve
+  telemetry counter (in-flight count + drain-fire frequency, zero-cost
+  when quiet): the valve BLOCKS the compute stream rather than skipping
+  (undersized valve = throughput cost, never memory — safe for gate #1)
+  but today logs only its configured cap once at build, so tuning would
+  otherwise be trace-only. Two hunks documented separately in the
+  exception so either reverts alone.
 - Placement: pinned host buffers NUMA-local per huygens; large async
   copies; valve `max_inflight_offloads` tuned so stash never queues past
   ~2 layers; prefetch order within a layer's bwd = MoE tensors first
   (needed first: bwd order is MoE-bwd → attn-bwd), projections last;
   double-buffer 1 layer ahead (~5 GiB GPU reserve).
 
-## Arithmetic (stage 1 = binding, 40 layers × I=2 = 80 sets)
+## Arithmetic (binding stage = STAGE 0: 35 MoE layers × I=2 = 70 MoE sets)
+
+RESOLVED 2026-08-20 (banach, architectural argument): the last stage
+(stage 1) is in-flight **I=1**, and S_eager stays ~2.94 — layers are
+uniform MoE architecture (only layers 0–2 are dense, all on stage 0), so
+per-layer set size is a layer-type property; the alternative (stage-1
+S≈5.5) would contradict stage-0's clean measured slope (5.8/layer =
+2×2.9). All plan figures err ~5–11% conservative as written:
+- Offloaded, stage 0: 70 MoE × 1.6 + 6 dense × 0.4 ≈ 114 GiB/step-window
+  (plan's 128 conservative); stage 1: 40 × 1.6 = 64 GiB.
+- GPU-stored, stage 0 (binding): 76 sets × 0.63–1.08 ≈ 48–82 GiB.
+- CPU pinned is ASYMMETRIC: node 0 ~0.9 TiB, node 1 ~0.5 TiB (vs 2.42
+  TiB cgroup each) — size and NUMA-split per node, not per the old
+  uniform 1.0 figure.
+- Per-GPU stash/prefetch rates UNCHANGED (~22/24 GB/s — per-layer rates).
+Stage 1 has HALF the memory pressure AND the F→B tail hazard → it needs
+offload least where its timing is tightest — strengthens the K=2 tail
+exclusion; consider being generally more conservative on stage 1.
+Rung-1 census (per-rank, per-layer-type) confirms rather than decides.
 
 - Offloaded: ~1.6 GiB/layer-mb (1.2 MoE + 0.4 proj) → stash ~22 GB/s
   during fwd (72 ms/layer), prefetch ~24 GB/s during bwd (~66 ms/layer
-  incl. retained core-attn recompute) — ≤50% of solo budget, safe even at
-  the 29/dir all-8-bidi seam floor. Node ~180 GB/s vs 440+ measured.
+  incl. retained core-attn recompute). Node ~180 GB/s vs 440+ measured.
+- BANDWIDTH OPERATING MODEL (clarified 2026-08-20 after banach's
+  challenge): non-interleaved 1F1B serializes F and B phases per rank
+  (trace-verified) and the node is CP-lockstep, so the SUSTAINED regime
+  is all-8 UNIDIRECTIONAL (measured 55–57 GB/s/GPU, no collapse →
+  ~2.4× margin). Bidirectional occurs only at phase seams
+  (prefetch-ahead during F tail + stash drain into early B): ~60–130 ms
+  per seam at 1–2-layer double-buffering ≈ ~5% duty. The 29/dir
+  all-8-bidi figure is the seam/naive-scheduler regime, NOT the design
+  point — but it assumes a phase-disciplined scheduler (valve-enforced,
+  zero hardware evidence). PP p2p rides the same PCIe switch but
+  ~0.1 GB/s — negligible.
+  MEASURED (banach's bench, 2026-08-20, tj-wlmlkeq, cross-validated
+  against huygens within 0.6% — full table
+  results/ALL8_BIDI_OFFLOAD_BW_BENCH.md): the model HOLDS. Unidirectional
+  56.8/54.6 per GPU vs 22/24 demand (2.3–2.6×). All-8 bidi NUMA-local:
+  27.5 D2H + 28.8 H2D per GPU — the seam regime ALSO meets demand
+  (paced run at exactly 22/24 achieved 99.8/99.5% of target, 0.75 ms
+  median latency, no standing queue). Structural fact nobody's model
+  had: at 8 GPUs the node total is ~450 GB/s REGARDLESS of direction mix
+  (directions split the ceiling, unlike single-GPU where they nearly
+  add) — seam capacity is inherently ~half of unidirectional. VERDICT:
+  phase 1 proceeds, no design change. Phase-2 core-attn offload is
+  CONDITIONALLY alive (doubled demand ~44/48 fits unidirectional, not
+  the seam) — strictly dependent on phase-disciplined scheduling, judged
+  by rung 3's exposed-stall measurement.
 - GPU-stored: 0.19 input + 0.44–0.89 glue ≈ 0.63–1.08 → 50–86 GiB + ~5
   prefetch buffers + 20 burst vs ~85–100 headroom: OK at census-mid,
   TIGHT at census-hi → gate #1 (census boot) decides; contingency =
@@ -139,22 +233,103 @@ design; the human section above is the decision of record.
 - CPU pinned: 80 × 1.6 × 8 ranks ≈ 1.0 TiB/node, NUMA-split ~512
   GiB/socket, vs 2.42 TiB cgroup — OK, leave room for dataloader.
 
-## Validation ladder (standing rules apply)
+## Validation ladder (Jack's calls, 2026-08-20)
 
-1. Census boot: `torch.cuda.memory._record_memory_history` +
-   BT_PEAK_MEM_REPORT on PP2 @131k d2 — closes the glue row; no PP2
-   allocator snapshot exists today (256k PP1/CP16 snapshots at
-   `~/perf_profiles/lps-1062/glm52-b300-s256k/` transfer imperfectly).
-2. Selective-recompute-only boot (no offload): memory must match E1-class
-   prediction; banks nothing but validates the scope switch.
-3. Offload arms, one variable at a time: moe_act → +combine → +proj;
-   matched-step memory reads; step-time bar pre-registered per arm.
-4. Parity: NOISE-RELATIVE bars only (per-token floor 3.7–5.5 on this
-   stack; never 1e-6/1e-3). DSA tests green + canonical env block before
-   anchors. BT_SAVE_STATE_SYNC=1 is a NO-OP until queue item Q1 merges —
-   avoid /save_state on soaks until then.
-5. One fresh-subagent review per PR, no round-trips
-   ([[lightweight-review-policy]]).
+Standard for every rung: **131k seq len, d2 (2 microbatches)** — 1F1B holds
+max 2 microbatches in flight regardless of M, so d2 peak memory = d16 peak
+memory (campaign-verified; the d2→d16 gap was step-position allocator
+creep). Run each leg past the memory plateau (~+21 GiB over early steps) or
+the peak reads low. Tool: `lps_1062_perf/tools/profile_driver_new.py`
+(warmup → 1 kineto-traced step → untraced control windows) — measures
+throughput + max memory. **Traces on ranks 0 AND 8** (both stage leaders):
+NO driver change needed — cherry-pick trainer commit `ad39a97d`
+(BT_PROFILE_RANKS env, default rank-0-only) into the stack and set
+`BT_PROFILE_RANKS=0,8`. The driver's memory_profile mode writes
+`memory.rank<N>.pickle` allocator snapshots on ALL ranks.
+
+1. Baseline census boot (current full-recompute config, pre-offload):
+   memory_profile ON → all-rank pickles close the glue census row (gate
+   #1; no PP2 allocator snapshot exists today). Also banks the d2
+   baseline throughput/peak for the A/Bs. Run the baseline arm TWICE
+   (same seed, same data order) — the repeat establishes this box's
+   within-boot noise floor for the numerical gates (campaign floor
+   3.7–5.5 per-token is the prior, not the bar).
+2. RESCOPED 2026-08-20 (godel found rung 2 as originally written cannot
+   run: selective-only at 131k OOMs — rank 0 projected 292 GiB vs 247.7
+   effective ceiling, corroborated by E1's historical 258.8 OOM. The
+   ladder previously contradicted the plan's own conclusions section on
+   this; fleet caught it before a boot was burned.)
+   **2a. Selective-recompute-only at 32k** (fits with wide margin) —
+   TWO gates: (a) memory must match the model's 32k prediction (with
+   rung 1's 131k census this gives two points on the memory-vs-seqlen
+   line — stronger than one); (b) NUMERICAL: per-token loss vector +
+   aggregate grad-norm vs a matched 32k full-recompute baseline arm,
+   same seed/data/steps, noise-relative vs a repeat-pair floor.
+   Correctness of the scope switch is a per-layer property — sequence
+   length is irrelevant to it — so 32k isolates the variable cleanly;
+   32k chosen over 64k for the precedent link to the prior
+   selective+offload trial. Precondition from carnot's code read
+   unchanged: if shared layers RECOMPUTE indices rather than saving
+   them, a Mac unit test pins correctness BEFORE this boot.
+   **2b (conditional). Deliberate selective-only boot at 131k to
+   confirm the OOM lands at the predicted number** — run ONLY if rung
+   1's measured census leaves the projection ambiguous; if run,
+   pre-register the predicted OOM figure first. Costs one failed step.
+   **2c. Full phase-1 offload configuration at 32k — a BRING-UP rung,
+   not a measurement** (added 2026-08-20, banach): eight never-booted
+   pieces (valve, pool fix, in-allocator NUMA binding, placement
+   verification, valve counters, new module vocabulary + validator,
+   unpermute hook, projection hook) must not all first-boot at 131k
+   prices. Pass = it boots, every hook shows engaged in the build-time
+   probe log, placement verification reports NUMA-local, valve counters
+   report sane values, nothing crashes. EXPLICITLY not a throughput
+   claim — 32k throughput says nothing about the 131k win and must not
+   be reported as if it does. Scope honesty: 2c de-risks CRASHES and
+   WIRING only; the valve's real backpressure and the NUMA saturation
+   penalty only engage at 131k/all-8 load — tuning stays at rung 3.
+   TRIPWIRE (observational, not a gate): the prior 32k trial measured
+   −30% step cost from pinned allocation at this exact length — if the
+   pool fix does not visibly recover most of that here, STOP and
+   investigate before any 131k arm; the pool premise is load-bearing.
+   2c also smoke-runs the instruments themselves (census tool, trace
+   classifier incl. the new Memcpy copy class, both-rank tracing).
+   Risk downgraded (carnot, 2026-08-20): the prior 32k trial
+   (trainer_pp2cp8ep8_32k_selective_offload_novpp.json) already ran
+   selective recompute WITH offload to completion, and indexer group
+   mechanics are seq-len-independent — so the combination is exercised,
+   not novel. Caveats keeping the gate: that trial was throughput-only
+   (never parity-checked — silent mis-attention runs to completion), and
+   its module list included core_attn, which ours excludes. The gate is
+   now confirmation of a likely-benign path, not a fishing expedition.
+3. Offload arms at 131k, one variable at a time: moe_act → +combine →
+   +proj; matched-step/plateau memory reads; throughput A/B per arm vs
+   rung-1 baseline. NOTE: arm 1 (selective + moe_act offload) is the
+   FIRST configuration of the package that runs at mission length at
+   all — treat its first clean step as a milestone, not an increment.
+4. Parity: NOISE-RELATIVE bars only — the base path is intrinsically
+   nondeterministic (per-token floor 3.7–5.5); never import 1e-6/1e-3.
+   DSA tests green + canonical env block before anchors.
+5. Headline anchor — a MATCHED PAIR, not a comparison against history
+   (rescoped 2026-08-20, banach): TWO d16 runs on the IDENTICAL tree —
+   full-recompute baseline and the phase-1 configuration — and the
+   **RATIO is the headline deliverable**. Rationale: the old "record-
+   comparable number" quietly depended on TF32 (PR 995 — backlogged by
+   Jack, no owner on this stack) and Q2 being on the tree, plus
+   archaeology on which historical figures included TF32. Matched-pair
+   makes TF32/B-F/wheel/box differences cancel; absolute tok/s/GPU
+   figures are reported as context only, not load-bearing. (d16 not d2
+   because d2's pipeline bubble is 33% of the step vs 6%, understating
+   the win; memory is identical.) **SETTLED BY JACK 2026-08-20: "TF32.
+   I don't want that." The TF32 port is CANCELLED, not deferred; the
+   absolute record-comparable number is NOT a deliverable of this
+   workstream — never produce one, never compare our figures to the 984
+   or 1089–1103 historical bands. The whole ladder runs one consistent
+   no-TF32 tree.** Side benefit: rung 1's d2 baseline + this d16
+   baseline give an M-scaling check on one tree.
+
+Cautions: BT_SAVE_STATE_SYNC=1 is a NO-OP until queue item Q1 merges —
+avoid /save_state until then. Per Jack (2026-08-20): NO per-PR subagent
+reviews for this stack — build it, measure it.
 
 ## Pointers
 
