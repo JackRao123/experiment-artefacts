@@ -42,6 +42,28 @@ d16 control together give a microbatch-scaling read on one tree for free —
 d2 vs d16 at the same full-recompute config isolates the pipeline-bubble
 share of the step (~33% at d2 vs ~6% at d16).
 
+## Blocked-hardware workaround (2026-08-20): single-node PP1 bring-up pair
+
+The org-wide multinode regression (worker pod's bt-interactive-session
+configmap never created) has killed every 2-node box. These two configs run
+the never-booted offload machinery on ONE 8xB300 node (tj-wlmlkeq):
+
+- `trainer_cp8ep8_32k_pp1_bringup_full_recompute.json` — PP1 full-recompute
+  control; the pool-fix tripwire's length-matched reference (the prior
+  trial's 30% pinned-allocation cost was measured at 32k).
+- `trainer_cp8ep8_32k_pp1_bringup_offload.json` — selective recompute +
+  moe_act + moe_combine + attn_proj at TP1/PP1/CP8/EP8/ETP1, 32k.
+
+Both are BRING-UP artifacts for a blocked-hardware workaround, NOT ladder
+rungs. Every never-booted piece they exercise (pool fix, NUMA binding,
+placement verification, valve telemetry, the valve, the vocabulary change +
+relaxed validator, the unpermute hook, the projection hook) is per-rank
+machinery that does not depend on pipeline parallelism. Conversely, PP1
+means they validate NOTHING about stage asymmetry, the 2-vs-1 in-flight
+split, or the tail-layer seam hazard — those need two nodes. No throughput
+claim of any kind. Gate #1 (the 131k memory census) remains blocked on two
+nodes.
+
 Boot env for ALL offload rungs: `NVTE_CPU_OFFLOAD_V1=1` must be in the
 LAUNCHER environment. NUMA: carnot's allocator binds NUMA-local by default;
 `BT_OFFLOAD_NUMA_BIND=off` is the opt-out A/B switch — leave it unset for
