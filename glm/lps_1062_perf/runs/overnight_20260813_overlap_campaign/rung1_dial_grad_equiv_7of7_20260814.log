@@ -1,0 +1,280 @@
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/torch/cuda/__init__.py:61: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+
+*****************************************
+Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+*****************************************
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/torch/cuda/__init__.py:61: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/torch/cuda/__init__.py:61: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/root/.cache/user_artifacts/trainers_main/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/backends.py:34: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_main/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/gpt/gpt_layer_specs.py:74: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_main/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/backends.py:34: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_main/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/gpt/gpt_layer_specs.py:74: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_main/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/gpt/heterogeneous/heterogeneous_layer_specs.py:68: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_main/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/gpt/heterogeneous/heterogeneous_layer_specs.py:68: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/modelopt/torch/__init__.py:53: UserWarning: transformers>=5.0 support is experimental. Unified Hugging Face checkpoint export for quantized checkpoints may not work for some models yet.
+  _warnings.warn(
+LANG_RL Log directory: None
+Test data not found at /opt/data. Downloading...
+ERROR:tests.test_utils.python_scripts.download_unit_tests_dataset:  Error downloading/extracting datasets.zip: [Errno 2] No such file or directory: '/opt/data/datasets.zip'
+ERROR:tests.test_utils.python_scripts.download_unit_tests_dataset:  Error downloading/extracting tokenizers.zip: [Errno 2] No such file or directory: '/opt/data/tokenizers.zip'
+Test data downloaded successfully.
+Initializing torch.distributed with rank: 0, world_size: 2
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/torch/distributed/c10d_logger.py:83: UserWarning: barrier(): using the device under current context. You can specify `device_id` in `init_process_group` to mute this warning.
+  return func(*args, **kwargs)
+[rank0]:[W814 05:14:48.817267005 ProcessGroupNCCL.cpp:5188] Guessing device ID based on global rank. This can cause a hang if rank to GPU mapping is heterogeneous. You can specify device_id in init_process_group()
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/modelopt/torch/__init__.py:53: UserWarning: transformers>=5.0 support is experimental. Unified Hugging Face checkpoint export for quantized checkpoints may not work for some models yet.
+  _warnings.warn(
+LANG_RL Log directory: None
+Test data not found at /opt/data. Downloading...
+ERROR:tests.test_utils.python_scripts.download_unit_tests_dataset:  Error downloading/extracting datasets.zip: [Errno 2] No such file or directory: '/opt/data/datasets.zip'
+ERROR:tests.test_utils.python_scripts.download_unit_tests_dataset:  Error downloading/extracting tokenizers.zip: [Errno 2] No such file or directory: '/opt/data/tokenizers.zip'
+Test data downloaded successfully.
+Initializing torch.distributed with rank: 1, world_size: 2
+/root/.cache/user_artifacts/trainers_main/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/transformer/transformer_config.py:1507: UserWarning: moe_ffn_hidden_size is not set, using ffn_hidden_size instead.
+  warnings.warn("moe_ffn_hidden_size is not set, using ffn_hidden_size instead.")
+/root/.cache/user_artifacts/trainers_main/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/transformer/transformer_config.py:2379: UserWarning: full scope is deprecated. Use empty cuda_graph_modules to capture the whole layer.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_main/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/transformer/transformer_config.py:1507: UserWarning: moe_ffn_hidden_size is not set, using ffn_hidden_size instead.
+  warnings.warn("moe_ffn_hidden_size is not set, using ffn_hidden_size instead.")
+/root/.cache/user_artifacts/trainers_main/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/transformer/transformer_config.py:2379: UserWarning: full scope is deprecated. Use empty cuda_graph_modules to capture the whole layer.
+  warnings.warn(
+WARNING:DotProductAttention:flash-attn may provide important feature support or performance improvement. Please install flash-attn >= 2.4.1, <= 2.8.3 by pip3 install flash-attn==<version>.
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/nvidia_cutlass_dsl/python_packages/cutlass/cute/core.py:5442: DeprecationWarning: Use explicit `struct.scalar.ptr` for pointer instead.
+  warnings.warn(
+../root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/torch/distributed/c10d_logger.py:83: UserWarning: barrier(): using the device under current context. You can specify `device_id` in `init_process_group` to mute this warning.
+  return func(*args, **kwargs)
+/root/.cache/user_artifacts/trainers_main/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/transformer/transformer_config.py:1507: UserWarning: moe_ffn_hidden_size is not set, using ffn_hidden_size instead.
+  warnings.warn("moe_ffn_hidden_size is not set, using ffn_hidden_size instead.")
+/root/.cache/user_artifacts/trainers_main/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/transformer/transformer_config.py:2379: UserWarning: full scope is deprecated. Use empty cuda_graph_modules to capture the whole layer.
+  warnings.warn(
+/root/.cache/user_artifacts/trainers_main/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/transformer/transformer_config.py:1507: UserWarning: moe_ffn_hidden_size is not set, using ffn_hidden_size instead.
+  warnings.warn("moe_ffn_hidden_size is not set, using ffn_hidden_size instead.")
+/root/.cache/user_artifacts/trainers_main/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/transformer/transformer_config.py:2379: UserWarning: full scope is deprecated. Use empty cuda_graph_modules to capture the whole layer.
+  warnings.warn(
+............
+==================================== PASSES ====================================
+________ TestDialCallableStandalone.test_t1_lora_trap_grad_equivalence _________
+------------------------------ Captured log setup ------------------------------
+ERROR    tests.test_utils.python_scripts.download_unit_tests_dataset:download_unit_tests_dataset.py:80   Error downloading/extracting datasets.zip: [Errno 2] No such file or directory: '/opt/data/datasets.zip'
+ERROR    tests.test_utils.python_scripts.download_unit_tests_dataset:download_unit_tests_dataset.py:80   Error downloading/extracting tokenizers.zip: [Errno 2] No such file or directory: '/opt/data/tokenizers.zip'
+------------------------------ Captured log call -------------------------------
+WARNING  DotProductAttention:utils.py:1397 flash-attn may provide important feature support or performance improvement. Please install flash-attn >= 2.4.1, <= 2.8.3 by pip3 install flash-attn==<version>.
+============================= slowest 15 durations =============================
+22.47s call     tests/unit_tests/a2a_overlap/test_recompute_dial_grad_equiv.py::TestDialCallableStandalone::test_t1_lora_trap_grad_equivalence
+6.44s setup    tests/unit_tests/a2a_overlap/test_recompute_dial_grad_equiv.py::TestDialCallableStandalone::test_t1_lora_trap_grad_equivalence
+3.53s teardown tests/unit_tests/a2a_overlap/test_recompute_dial_grad_equiv.py::TestDialPlan::test_t7_dense_exclusion_and_k_semantics
+2.11s call     tests/unit_tests/a2a_overlap/test_recompute_dial_grad_equiv.py::TestDialPlan::test_t5_k_equals_l_vs_stock_full_recompute
+1.56s call     tests/unit_tests/a2a_overlap/test_recompute_dial_grad_equiv.py::TestDialPlan::test_t4_k0_equals_no_dial
+1.08s call     tests/unit_tests/a2a_overlap/test_recompute_dial_grad_equiv.py::TestDialCallableStandalone::test_t3_rng_fork_restore
+1.02s call     tests/unit_tests/a2a_overlap/test_recompute_dial_grad_equiv.py::TestDialCallableStandalone::test_t2_negative_control
+0.04s call     tests/unit_tests/a2a_overlap/test_recompute_dial_grad_equiv.py::TestDialPlan::test_t7_dense_exclusion_and_k_semantics
+0.03s teardown tests/unit_tests/a2a_overlap/test_recompute_dial_grad_equiv.py::TestDialPlan::test_t5_k_equals_l_vs_stock_full_recompute
+0.03s teardown tests/unit_tests/a2a_overlap/test_recompute_dial_grad_equiv.py::TestDialCallableStandalone::test_t3_rng_fork_restore
+0.03s call     tests/unit_tests/a2a_overlap/test_recompute_dial_grad_equiv.py::TestDialPlan::test_t6_node_contract
+0.03s teardown tests/unit_tests/a2a_overlap/test_recompute_dial_grad_equiv.py::TestDialPlan::test_t6_node_contract
+0.03s setup    tests/unit_tests/a2a_overlap/test_recompute_dial_grad_equiv.py::TestDialCallableStandalone::test_t2_negative_control
+0.03s setup    tests/unit_tests/a2a_overlap/test_recompute_dial_grad_equiv.py::TestDialPlan::test_t5_k_equals_l_vs_stock_full_recompute
+0.03s setup    tests/unit_tests/a2a_overlap/test_recompute_dial_grad_equiv.py::TestDialPlan::test_t4_k0_equals_no_dial
+=========================== short test summary info ============================
+PASSED tests/unit_tests/a2a_overlap/test_recompute_dial_grad_equiv.py::TestDialCallableStandalone::test_t1_lora_trap_grad_equivalence
+PASSED tests/unit_tests/a2a_overlap/test_recompute_dial_grad_equiv.py::TestDialCallableStandalone::test_t2_negative_control
+PASSED tests/unit_tests/a2a_overlap/test_recompute_dial_grad_equiv.py::TestDialCallableStandalone::test_t3_rng_fork_restore
+PASSED tests/unit_tests/a2a_overlap/test_recompute_dial_grad_equiv.py::TestDialPlan::test_t4_k0_equals_no_dial
+PASSED tests/unit_tests/a2a_overlap/test_recompute_dial_grad_equiv.py::TestDialPlan::test_t5_k_equals_l_vs_stock_full_recompute
+PASSED tests/unit_tests/a2a_overlap/test_recompute_dial_grad_equiv.py::TestDialPlan::test_t6_node_contract
+PASSED tests/unit_tests/a2a_overlap/test_recompute_dial_grad_equiv.py::TestDialPlan::test_t7_dense_exclusion_and_k_semantics
+7 passed in 38.87s
+
+==================================== PASSES ====================================
+________ TestDialCallableStandalone.test_t1_lora_trap_grad_equivalence _________
+------------------------------ Captured log setup ------------------------------
+ERROR    tests.test_utils.python_scripts.download_unit_tests_dataset:download_unit_tests_dataset.py:80   Error downloading/extracting datasets.zip: [Errno 2] No such file or directory: '/opt/data/datasets.zip'
+ERROR    tests.test_utils.python_scripts.download_unit_tests_dataset:download_unit_tests_dataset.py:80   Error downloading/extracting tokenizers.zip: [Errno 2] No such file or directory: '/opt/data/tokenizers.zip'
+============================= slowest 15 durations =============================
+22.47s call     tests/unit_tests/a2a_overlap/test_recompute_dial_grad_equiv.py::TestDialCallableStandalone::test_t1_lora_trap_grad_equivalence
+3.86s teardown tests/unit_tests/a2a_overlap/test_recompute_dial_grad_equiv.py::TestDialPlan::test_t7_dense_exclusion_and_k_semantics
+3.07s setup    tests/unit_tests/a2a_overlap/test_recompute_dial_grad_equiv.py::TestDialCallableStandalone::test_t1_lora_trap_grad_equivalence
+2.11s call     tests/unit_tests/a2a_overlap/test_recompute_dial_grad_equiv.py::TestDialPlan::test_t5_k_equals_l_vs_stock_full_recompute
+1.56s call     tests/unit_tests/a2a_overlap/test_recompute_dial_grad_equiv.py::TestDialPlan::test_t4_k0_equals_no_dial
+1.08s call     tests/unit_tests/a2a_overlap/test_recompute_dial_grad_equiv.py::TestDialCallableStandalone::test_t3_rng_fork_restore
+1.02s call     tests/unit_tests/a2a_overlap/test_recompute_dial_grad_equiv.py::TestDialCallableStandalone::test_t2_negative_control
+0.04s teardown tests/unit_tests/a2a_overlap/test_recompute_dial_grad_equiv.py::TestDialPlan::test_t6_node_contract
+0.04s call     tests/unit_tests/a2a_overlap/test_recompute_dial_grad_equiv.py::TestDialPlan::test_t7_dense_exclusion_and_k_semantics
+0.03s teardown tests/unit_tests/a2a_overlap/test_recompute_dial_grad_equiv.py::TestDialPlan::test_t5_k_equals_l_vs_stock_full_recompute
+0.03s teardown tests/unit_tests/a2a_overlap/test_recompute_dial_grad_equiv.py::TestDialCallableStandalone::test_t3_rng_fork_restore
+0.03s teardown tests/unit_tests/a2a_overlap/test_recompute_dial_grad_equiv.py::TestDialPlan::test_t4_k0_equals_no_dial
+0.03s setup    tests/unit_tests/a2a_overlap/test_recompute_dial_grad_equiv.py::TestDialPlan::test_t5_k_equals_l_vs_stock_full_recompute
+0.03s setup    tests/unit_tests/a2a_overlap/test_recompute_dial_grad_equiv.py::TestDialPlan::test_t4_k0_equals_no_dial
+0.03s setup    tests/unit_tests/a2a_overlap/test_recompute_dial_grad_equiv.py::TestDialCallableStandalone::test_t2_negative_control
+=========================== short test summary info ============================
+PASSED tests/unit_tests/a2a_overlap/test_recompute_dial_grad_equiv.py::TestDialCallableStandalone::test_t1_lora_trap_grad_equivalence
+PASSED tests/unit_tests/a2a_overlap/test_recompute_dial_grad_equiv.py::TestDialCallableStandalone::test_t2_negative_control
+PASSED tests/unit_tests/a2a_overlap/test_recompute_dial_grad_equiv.py::TestDialCallableStandalone::test_t3_rng_fork_restore
+PASSED tests/unit_tests/a2a_overlap/test_recompute_dial_grad_equiv.py::TestDialPlan::test_t4_k0_equals_no_dial
+PASSED tests/unit_tests/a2a_overlap/test_recompute_dial_grad_equiv.py::TestDialPlan::test_t5_k_equals_l_vs_stock_full_recompute
+PASSED tests/unit_tests/a2a_overlap/test_recompute_dial_grad_equiv.py::TestDialPlan::test_t6_node_contract
+PASSED tests/unit_tests/a2a_overlap/test_recompute_dial_grad_equiv.py::TestDialPlan::test_t7_dense_exclusion_and_k_semantics
+7 passed in 36.32s

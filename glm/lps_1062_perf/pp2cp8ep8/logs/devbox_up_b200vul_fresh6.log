@@ -1,0 +1,66 @@
+
+=== [1/13] preflight (laptop checks, no side effects)
+06:03:30  project jrao123-vul = zq87jyw; tokens present; truss/ssh config OK
+
+=== [2/13] create workstation job
+06:03:31  creating: truss train workstation --node-count 1 --accelerator B200 --project-id jrao123-vul --team Parsed
+Launching workstation jrao123-vul with 8x B200...
+
+Workstation created!
+
+Once the job is running, SSH in with:
+  ssh training-job-q0l6pmq-0.ssh.baseten.co
+
+If you haven't set up SSH yet, run:
+  truss ssh setup
+
+View logs:
+  truss train logs --job-id q0l6pmq --tail
+
+Stop the workstation:
+  truss train stop --job-id q0l6pmq
+06:03:44  created job q0l6pmq
+
+=== [3/13] wait for job q0l6pmq to reach RUNNING
+06:03:44    status=TRAINING_JOB_CREATED; waiting 15s
+06:03:59    status=TRAINING_JOB_DEPLOYING; waiting 15s
+06:04:15    status=TRAINING_JOB_DEPLOYING; waiting 15s
+06:04:30    status=TRAINING_JOB_DEPLOYING; waiting 15s
+06:04:45    status=TRAINING_JOB_DEPLOYING; waiting 15s
+06:05:00    status=TRAINING_JOB_DEPLOYING; waiting 15s
+06:05:16    status=TRAINING_JOB_DEPLOYING; waiting 15s
+06:05:31    status=TRAINING_JOB_DEPLOYING; waiting 15s
+06:05:46    status=TRAINING_JOB_DEPLOYING; waiting 15s
+06:06:02    status=TRAINING_JOB_DEPLOYING; waiting 15s
+06:06:17    status=TRAINING_JOB_DEPLOYING; waiting 15s
+06:06:32    status=TRAINING_JOB_DEPLOYING; waiting 15s
+06:06:47    status=TRAINING_JOB_DEPLOYING; waiting 15s
+06:07:03    status=TRAINING_JOB_DEPLOYING; waiting 15s
+06:07:18    status=TRAINING_JOB_DEPLOYING; waiting 15s
+06:07:33    status=TRAINING_JOB_DEPLOYING; waiting 15s
+06:07:49    status=TRAINING_JOB_DEPLOYING; waiting 15s
+06:08:04    status=TRAINING_JOB_DEPLOYING; waiting 15s
+06:08:20    status=TRAINING_JOB_DEPLOYING; waiting 15s
+06:08:36    status=TRAINING_JOB_DEPLOYING; waiting 15s
+06:08:51    status=TRAINING_JOB_DEPLOYING; waiting 15s
+06:09:07    status=TRAINING_JOB_DEPLOYING; waiting 15s
+06:09:22    status=TRAINING_JOB_DEPLOYING; waiting 15s
+06:09:37    status=TRAINING_JOB_DEPLOYING; waiting 15s
+06:09:53    status=TRAINING_JOB_DEPLOYING; waiting 15s
+06:10:08    status=TRAINING_JOB_DEPLOYING; waiting 15s
+06:10:23    status=TRAINING_JOB_DEPLOYING; waiting 15s
+06:10:38    status=TRAINING_JOB_DEPLOYING; waiting 15s
+06:10:54    status=TRAINING_JOB_DEPLOYING; waiting 15s
+06:11:10    status=TRAINING_JOB_DEPLOYING; waiting 15s
+06:11:25    status=TRAINING_JOB_DEPLOYING; waiting 15s
+06:11:40    status=TRAINING_JOB_DEPLOYING; waiting 15s
+06:11:56    status=TRAINING_JOB_DEPLOYING; waiting 15s
+06:12:11    status=TRAINING_JOB_DEPLOYING; waiting 15s
+06:12:26    status=TRAINING_JOB_DEPLOYING; waiting 15s
+06:12:41    status=TRAINING_JOB_DEPLOYING; waiting 15s
+06:12:57    status=TRAINING_JOB_DEPLOYING; waiting 15s
+
+06:49:47  FATAL [step wait for job q0l6pmq to reach RUNNING]: Baseten API GET /v1/training_projects/zq87jyw/jobs failed: curl: (6) Could not resolve host: api.baseten.co
+curl: (28) Resolving timed out after 444620 milliseconds
+curl: (6) Could not resolve host: api.baseten.co
+curl: (28) Resolving timed out after 834143 milliseconds 

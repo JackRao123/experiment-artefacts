@@ -1,0 +1,33 @@
+Process 42577: /root/.cache/user_artifacts/trainers_main/server/.venv/bin/python -u -m trainers_server.dp_worker.main
+Python v3.12.3 (/usr/bin/python3.12)
+
+Thread 42577 (idle): "MainThread"
+    is_current_async_call_done (core.py:589)
+    maybe_finalize_async_calls (core.py:991)
+    maybe_finalize_async_save (bridge/training/checkpointing.py:404)
+    finalize_async_saves (bridge/training/checkpointing.py:718)
+    save_state (trainers_server/dp_worker/backends/megatron_bridge/checkpointing.py:47)
+    save_state (trainers_server/dp_worker/backends/megatron_bridge/backend.py:448)
+    save_state (trainers_server/dp_worker/controller/checkpoints/manager.py:153)
+    execute_save_state (trainers_server/dp_worker/controller/controller.py:211)
+    _execute (trainers_server/dp_worker/worker.py:169)
+    _peer_loop (trainers_server/dp_worker/worker.py:319)
+    run_rank (trainers_server/dp_worker/worker.py:426)
+    main (trainers_server/dp_worker/main.py:238)
+    <module> (trainers_server/dp_worker/main.py:242)
+    _run_code (<frozen runpy>:88)
+    _run_module_as_main (<frozen runpy>:198)
+Thread 42817 (idle): "InductorSubproc"
+    _recv_msg (torch/_inductor/compile_worker/subproc_pool.py:76)
+    _read_thread (torch/_inductor/compile_worker/subproc_pool.py:271)
+    run (threading.py:1010)
+    _bootstrap_inner (threading.py:1073)
+    _bootstrap (threading.py:1030)
+Thread 42818 (idle): "Thread-1"
+    wait (threading.py:359)
+    wait (threading.py:655)
+    run (tqdm/_monitor.py:60)
+    _bootstrap_inner (threading.py:1073)
+    _bootstrap (threading.py:1030)
+Thread 42822 (idle)
+Thread 42823 (idle)

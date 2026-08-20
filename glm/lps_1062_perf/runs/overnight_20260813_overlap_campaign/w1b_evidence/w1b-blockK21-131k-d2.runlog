@@ -1,0 +1,15 @@
+[status] world_size=16
+Terminated
+Traceback (most recent call last):
+  File "/root/.cache/user_artifacts/lps1062/fold_mem.py", line 43, in <module>
+    main()
+  File "/root/.cache/user_artifacts/lps1062/fold_mem.py", line 27, in main
+    data = json.loads(result_path.read_text())
+                      ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/pathlib.py", line 1029, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/pathlib.py", line 1015, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/root/.cache/user_artifacts/lps1062_bench/w1b-blockK21-131k-d2.json'

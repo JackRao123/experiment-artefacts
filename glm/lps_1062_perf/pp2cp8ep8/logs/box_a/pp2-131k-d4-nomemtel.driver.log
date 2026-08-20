@@ -1,0 +1,11 @@
+[status] world_size=16 dp=1
+[profile] memory_profile/start
+[pp2-131k-d4-nomemtel warmup0] fb=88.3s (371 tok/s/GPU) optim=4.4s loss=12.317549267191064 gn=0.42738187313079834
+[profile] runtime_profile/start
+[pp2-131k-d4-nomemtel traced0] fb=71.9s (456 tok/s/GPU) optim=0.0s loss=12.316170243608425 gn=0.45562005043029785
+[profile] runtime_profile/stop (sync kineto flush, can take minutes)
+[pp2-131k-d4-nomemtel control0] fb=56.9s (576 tok/s/GPU) optim=0.0s loss=12.318350359728697 gn=0.3500467538833618
+[pp2-131k-d4-nomemtel control1] fb=56.4s (581 tok/s/GPU) optim=2.2s loss=12.30941913161569 gn=0.3543775677680969
+[profile] memory_profile/stop (snapshot dump, can take minutes)
+[done] -> /root/.cache/user_artifacts/lps1062_bench/pp2-131k-d4-nomemtel.json
+SUMMARY pp2-131k-d4-nomemtel: 578 tok/s/GPU | step 56.7s (524288 tok) | mfu3x 5.3% | hfu 7.6% | traced 71.9s (+26.9% kineto overhead) | peak_mem 168 GiB

@@ -1,0 +1,91 @@
+{
+  "label": "exp00-baseline",
+  "seq_len": 262144,
+  "started": "2026-08-07 16:30:26",
+  "initial_status": {
+    "mode": "training",
+    "step": 0,
+    "model_id": "zai-org/GLM-5.2-FP8",
+    "device": "cuda:0",
+    "last_loss": null,
+    "grad_norm": null,
+    "gpu_memory": {
+      "cuda:0": 256576061440
+    },
+    "world_size": 16,
+    "tensor_parallel_size": 1,
+    "pipeline_parallel_size": 1,
+    "expert_parallel_size": 16,
+    "context_parallel_size": 16,
+    "expert_tensor_parallel_size": 1,
+    "data_parallel_size": 1,
+    "max_seq_len": 262144
+  },
+  "final_status": {
+    "mode": "training",
+    "step": 3,
+    "model_id": "zai-org/GLM-5.2-FP8",
+    "device": "cuda:0",
+    "last_loss": null,
+    "grad_norm": null,
+    "gpu_memory": {
+      "cuda:0": 260153802752
+    },
+    "world_size": 16,
+    "tensor_parallel_size": 1,
+    "pipeline_parallel_size": 1,
+    "expert_parallel_size": 16,
+    "context_parallel_size": 16,
+    "expert_tensor_parallel_size": 1,
+    "data_parallel_size": 1,
+    "max_seq_len": 262144
+  },
+  "windows": [
+    {
+      "label": "warmup",
+      "window_index": 0,
+      "num_tokens": 262144,
+      "fb_elapsed_s": 43.8018215270713,
+      "fb_tps_per_gpu": 374.04837125036056,
+      "optim_elapsed_s": 5.141359478002414,
+      "loss": 12.357822829524343,
+      "grad_norm": 0.9424732327461243
+    },
+    {
+      "label": "main",
+      "window_index": 0,
+      "num_tokens": 524288,
+      "fb_elapsed_s": 82.09987642779015,
+      "fb_tps_per_gpu": 399.12362144443244,
+      "optim_elapsed_s": 0.05245010694488883,
+      "loss": 12.340086326928432,
+      "grad_norm": 0.9428127408027649
+    },
+    {
+      "label": "main",
+      "window_index": 1,
+      "num_tokens": 524288,
+      "fb_elapsed_s": 75.23993940418586,
+      "fb_tps_per_gpu": 435.5133757348162,
+      "optim_elapsed_s": 0.04574029287323356,
+      "loss": 12.31060146561228,
+      "grad_norm": 0.6965014338493347
+    }
+  ],
+  "aggregates": {
+    "step_s_mean": 78.669907915988,
+    "tps": 6664.4033772085995,
+    "tps_per_gpu": 416.52521107553747,
+    "mfu3x": 0.0591299189642833,
+    "hfu": 0.07883989195237774,
+    "optim_s_mean": 0.04909519990906119,
+    "peak_gpu_memory_bytes": 260153802752,
+    "per_gpu_max_used_mib": {},
+    "max_gpu_used_mib": 0
+  },
+  "canary_drift_vs_baseline": [
+    "warmup0: dloss=+0.0022 dgn=+0.0029",
+    "main0: dloss=+0.0009 dgn=+0.0020",
+    "main1: dloss=+0.0001 dgn=+0.0034"
+  ]
+}

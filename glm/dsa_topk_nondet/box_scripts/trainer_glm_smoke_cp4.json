@@ -1,0 +1,16 @@
+{
+  "base_model": "/root/glm52_smoke",
+  "max_seq_len": 65536,
+  "tensor_parallel_size": 1,
+  "pipeline_parallel_size": 1,
+  "expert_parallel_size": 4,
+  "context_parallel_size": 4,
+  "expert_tensor_parallel_size": 1,
+  "trust_remote_code": true,
+  "attention_backend": "auto",
+  "lora_rank": 16,
+  "router_replay_mode": "R3",
+  "weight_sync": {
+    "type": "disabled"
+  }
+}

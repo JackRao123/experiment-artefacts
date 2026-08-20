@@ -1,0 +1,17 @@
+diff --git a/server/src/trainers_server/dp_worker/backends/megatron_bridge/megatron_config.py b/server/src/trainers_server/dp_worker/backends/megatron_bridge/megatron_config.py
+--- a/server/src/trainers_server/dp_worker/backends/megatron_bridge/megatron_config.py
++++ b/server/src/trainers_server/dp_worker/backends/megatron_bridge/megatron_config.py
+@@ -51,4 +51,13 @@ def _configure_moe_provider(provider, config: TrainerControllerConfig) -> None:
+             if hasattr(provider, "moe_shared_expert_overlap"):
+                 provider.moe_shared_expert_overlap = False
++    # mcore rejects overlap_moe_expert_parallel_comm while the provider still
++    # has moe_shared_expert_overlap on (GLM-5.2 default). The flex branch above
++    # already clears it; clear it for the alltoall+overlap combination too.
++    # (Ported from the 0e0b65a6-era megatron_controller.py hunk preserved on
++    # box as lps1062_pp2/pre_checkout_local_changes_0e0b65a6.patch — LPS-1062 L0.)
++    if config.comm_overlap.overlap_moe_expert_parallel_comm and hasattr(
++        provider, "moe_shared_expert_overlap"
++    ):
++        provider.moe_shared_expert_overlap = False
+     if hasattr(provider, "moe_grouped_gemm"):
+         provider.moe_grouped_gemm = True

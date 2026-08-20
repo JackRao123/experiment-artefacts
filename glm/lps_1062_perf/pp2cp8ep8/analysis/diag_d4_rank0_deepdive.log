@@ -1,0 +1,184 @@
+[6s] step ProfilerStep#0: 69.56s
+[6s] gpu busy 60.43s idle 9.12s kernels 237,218
+[6s] hostapi 37,134; ops 894,204; gaps 228,294
+[7s] classified
+{
+ "trace": "traces/diag_d4_rank0.pt.trace.json",
+ "step_window_s": 69.55504572,
+ "gpu_idle_s": 9.124470338,
+ "kernel_count": 237218,
+ "gap_histogram": [
+  {
+   "range_us": [
+    0.0,
+    100.0
+   ],
+   "count": 226323,
+   "total_s": 2.624002776
+  },
+  {
+   "range_us": [
+    100.0,
+    1000.0
+   ],
+   "count": 1660,
+   "total_s": 0.348530152
+  },
+  {
+   "range_us": [
+    1000.0,
+    10000.0
+   ],
+   "count": 268,
+   "total_s": 0.587507187
+  },
+  {
+   "range_us": [
+    10000.0,
+    -1
+   ],
+   "count": 43,
+   "total_s": 5.366706469
+  }
+ ],
+ "gap_attribution_gt0.1ms": {
+  "FIXB_LAYOUT": {
+   "gaps": 472,
+   "idle_s": 0.222409798
+  },
+  "FIXA_DSA_BWD": {
+   "gaps": 9,
+   "idle_s": 0.003562558
+  },
+  "DISPATCH_REPLAY": {
+   "gaps": 5,
+   "idle_s": 0.001017449
+  },
+  "DISPATCH_FWD": {
+   "gaps": 0,
+   "idle_s": 0.0
+  },
+  "ROPE_HOST_F": {
+   "gaps": 429,
+   "idle_s": 1.933773059
+  },
+  "OTHER_ITEM": {
+   "gaps": 106,
+   "idle_s": 0.47911246
+  },
+  "OTHER": {
+   "gaps": 14,
+   "idle_s": 0.704753926
+  },
+  "UNATTRIBUTED": {
+   "gaps": 936,
+   "idle_s": 2.958114558
+  }
+ },
+ "aten_nonzero": {
+  "calls": 13832,
+  "cpu_s": 8.803423666,
+  "layout_calls": 13680,
+  "gt5ms": 151
+ },
+ "kernels_in_layout_index_windows": 46928,
+ "devsync_count": 17,
+ "devsync_cpu_s": 34.039963869,
+ "devsync_first_last_rel_s": [
+  6.410119905,
+  69.55512557
+ ],
+ "classes": {
+  "FIXB_LAYOUT": {
+   "calls": 27360,
+   "cpu_s": 0.296817424
+  },
+  "FIXA_DSA_BWD": {
+   "calls": 304,
+   "cpu_s": 7.901228737
+  },
+  "DISPATCH_REPLAY": {
+   "calls": 140,
+   "cpu_s": 1.739404755
+  },
+  "DISPATCH_FWD": {
+   "calls": 140,
+   "cpu_s": 1.405802173
+  },
+  "ROPE_HOST_F": {
+   "calls": 5824,
+   "cpu_s": 8.552963529
+  },
+  "OTHER_ITEM": {
+   "calls": 2469,
+   "cpu_s": 0.790820929
+  },
+  "OTHER": {
+   "calls": 897,
+   "cpu_s": 34.049627344
+  }
+ },
+ "other_top": [
+  {
+   "sig": "cudaDeviceSynchronize <- ProfilerStep#0",
+   "calls": 16,
+   "cpu_s": 34.039930778
+  },
+  {
+   "sig": "aten::copy_ <- aten::_to_copy",
+   "calls": 96,
+   "cpu_s": 0.758210658
+  },
+  {
+   "sig": "aten::copy_ <- aten::clone",
+   "calls": 597,
+   "cpu_s": 0.009345459
+  },
+  {
+   "sig": "aten::copy_ <- aten::sort",
+   "calls": 656,
+   "cpu_s": 0.009246433
+  },
+  {
+   "sig": "cudaMemcpyAsync <- aten::cat <- CheckpointFunction",
+   "calls": 436,
+   "cpu_s": 0.004804478
+  },
+  {
+   "sig": "cudaMemcpyAsync <- aten::cat <- CheckpointFunctionBackward",
+   "calls": 436,
+   "cpu_s": 0.004693909
+  },
+  {
+   "sig": "aten::copy_ <- aten::scatter",
+   "calls": 560,
+   "cpu_s": 0.004569227
+  },
+  {
+   "sig": "aten::copy_ <- AsStridedBackward0",
+   "calls": 140,
+   "cpu_s": 0.003961696
+  },
+  {
+   "sig": "aten::copy_ <- torch::autograd::CopySlices",
+   "calls": 280,
+   "cpu_s": 0.003245167
+  },
+  {
+   "sig": "aten::copy_ <- aten::repeat",
+   "calls": 88,
+   "cpu_s": 0.001529311
+  },
+  {
+   "sig": "aten::_local_scalar_dense <- aten::item",
+   "calls": 44,
+   "cpu_s": 0.000628101
+  },
+  {
+   "sig": "aten::copy_ <- ProfilerStep#0",
+   "calls": 8,
+   "cpu_s": 8.4877e-05
+  }
+ ],
+ "elapsed_s": 7.319978713989258
+}

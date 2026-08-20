@@ -1,0 +1,54 @@
+
+=== [1/13] preflight (laptop checks, no side effects)
+08:10:07  project jrao123-hyd = 2qjn9j3; tokens present; truss/ssh config OK
+
+=== [2/13] create workstation job
+08:10:07  note: 1 other active box(es) in jrao123-hyd: 3186ygw (creating a new one anyway)
+08:10:07  creating: truss train workstation --node-count 2 --accelerator B200 --project-id jrao123-hyd --team Parsed
+Launching workstation jrao123-hyd with 2x 8x B200...
+
+Workstation created!
+
+Once the job is running, SSH in with:
+  ssh training-job-wpr7de3-0.ssh.baseten.co (leader)
+  ssh training-job-wpr7de3-1.ssh.baseten.co
+
+If you haven't set up SSH yet, run:
+  truss ssh setup
+
+Multi-node env vars available on each node:
+  BT_LEADER_ADDR, BT_NODE_RANK, BT_GROUP_SIZE
+
+View logs:
+  truss train logs --job-id wpr7de3 --tail
+
+Stop the workstation:
+  truss train stop --job-id wpr7de3
+08:10:22  created job wpr7de3
+
+=== [3/13] wait for job wpr7de3 to reach RUNNING
+08:10:23    status=TRAINING_JOB_CREATED; waiting 15s
+08:10:38    status=TRAINING_JOB_DEPLOYING; waiting 15s
+08:10:53    status=TRAINING_JOB_DEPLOYING; waiting 15s
+08:11:09    status=TRAINING_JOB_DEPLOYING; waiting 15s
+08:11:24    status=TRAINING_JOB_DEPLOYING; waiting 15s
+08:11:39    status=TRAINING_JOB_DEPLOYING; waiting 15s
+08:11:55    status=TRAINING_JOB_DEPLOYING; waiting 15s
+08:12:10    status=TRAINING_JOB_DEPLOYING; waiting 15s
+08:12:26    status=TRAINING_JOB_DEPLOYING; waiting 15s
+08:12:41    status=TRAINING_JOB_DEPLOYING; waiting 15s
+08:12:56    status=TRAINING_JOB_DEPLOYING; waiting 15s
+08:13:12    status=TRAINING_JOB_DEPLOYING; waiting 15s
+08:13:27    status=TRAINING_JOB_DEPLOYING; waiting 15s
+08:13:42    status=TRAINING_JOB_DEPLOYING; waiting 15s
+08:13:58    status=TRAINING_JOB_DEPLOYING; waiting 15s
+08:14:13    status=TRAINING_JOB_DEPLOYING; waiting 15s
+08:14:28    status=TRAINING_JOB_DEPLOYING; waiting 15s
+08:14:44    status=TRAINING_JOB_DEPLOYING; waiting 15s
+08:14:59    status=TRAINING_JOB_DEPLOYING; waiting 15s
+08:15:14    status=TRAINING_JOB_DEPLOYING; waiting 15s
+08:15:30    status=TRAINING_JOB_DEPLOYING; waiting 15s
+08:15:45    status=TRAINING_JOB_DEPLOYING; waiting 15s
+08:16:00    status=TRAINING_JOB_DEPLOYING; waiting 15s
+08:16:16    status=TRAINING_JOB_DEPLOYING; waiting 15s
+08:16:31    status=TRAINING_JOB_DEPLOYING; waiting 15s

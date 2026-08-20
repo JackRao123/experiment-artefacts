@@ -1,0 +1,27 @@
+
+=== [1/13] preflight (laptop checks, no side effects)
+08:01:42  project jrao123-hyd = 2qjn9j3; tokens present; truss/ssh config OK
+
+=== [2/13] create workstation job
+08:01:43  creating: truss train workstation --node-count 2 --accelerator B200 --project-id jrao123-hyd --team Parsed
+Launching workstation jrao123-hyd with 2x 8x B200...
+
+Workstation created!
+
+Once the job is running, SSH in with:
+  ssh training-job-3186ygw-0.ssh.baseten.co (leader)
+  ssh training-job-3186ygw-1.ssh.baseten.co
+
+If you haven't set up SSH yet, run:
+  truss ssh setup
+
+Multi-node env vars available on each node:
+  BT_LEADER_ADDR, BT_NODE_RANK, BT_GROUP_SIZE
+
+View logs:
+  truss train logs --job-id 3186ygw --tail
+
+Stop the workstation:
+  truss train stop --job-id 3186ygw
+
+08:02:06  FATAL [step create workstation job]: Baseten API GET /v1/training_projects/2qjn9j3/jobs failed: curl: (35) Recv failure: Connection reset by peer 

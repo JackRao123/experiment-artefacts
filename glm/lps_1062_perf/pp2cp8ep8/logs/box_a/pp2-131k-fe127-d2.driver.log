@@ -1,0 +1,11 @@
+[status] world_size=16 dp=1
+[profile] memory_profile/start
+[pp2-131k-fe127-d2 warmup0] fb=22.2s (737 tok/s/GPU) optim=4.3s loss=12.316095856444218 gn=0.35741400718688965
+[profile] runtime_profile/start
+[pp2-131k-fe127-d2 traced0] fb=23.1s (710 tok/s/GPU) optim=0.7s loss=12.31606533863326 gn=0.4265897274017334
+[profile] runtime_profile/stop (sync kineto flush, can take minutes)
+[pp2-131k-fe127-d2 control0] fb=22.4s (730 tok/s/GPU) optim=0.7s loss=12.321796011322109 gn=0.4933583438396454
+[pp2-131k-fe127-d2 control1] fb=21.6s (760 tok/s/GPU) optim=0.1s loss=12.304935874449725 gn=0.4299386739730835
+[profile] memory_profile/stop (snapshot dump, can take minutes)
+[done] -> /root/.cache/user_artifacts/lps1062_bench/pp2-131k-fe127-d2.json
+SUMMARY pp2-131k-fe127-d2: 745 tok/s/GPU | step 22.0s (262144 tok) | mfu3x 6.8% | hfu 9.8% | traced 23.1s (+4.9% kineto overhead) | peak_mem 141 GiB

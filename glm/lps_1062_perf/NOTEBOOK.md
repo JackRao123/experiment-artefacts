@@ -1,5 +1,10 @@
 # LPS-1062 optimization night — notebook
 
+> **2026-08-10 night — new direction: PP2/CP8/EP8 @131k, fresh start from
+> tip of main.** Jack's call: prior artifacts here are largely slop; restart
+> clean. That effort logs in **`pp2cp8ep8/NOTEBOOK.md`** (goal in
+> `pp2cp8ep8/GOAL.md`); this file stays as historical record.
+
 > **2026-08-09 PM — MFU convention change (Jack-commissioned).** Every
 > mfu3x/hfu cell in this file has been converted in place to LoRA-corrected
 > accounting (frozen base = dgrad-only backward + audit-constant fixes):

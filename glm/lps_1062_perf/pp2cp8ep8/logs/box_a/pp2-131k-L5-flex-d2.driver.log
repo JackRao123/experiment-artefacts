@@ -1,0 +1,11 @@
+[status] world_size=16 dp=1
+[profile] memory_profile/start
+[pp2-131k-L5-flex-d2 warmup0] fb=39.4s (415 tok/s/GPU) optim=6.8s loss=12.317018066544087 gn=0.40395084023475647
+[profile] runtime_profile/start
+[pp2-131k-L5-flex-d2 traced0] fb=24.5s (668 tok/s/GPU) optim=0.7s loss=12.315361521618055 gn=0.4420955181121826
+[profile] runtime_profile/stop (sync kineto flush, can take minutes)
+[pp2-131k-L5-flex-d2 control0] fb=22.9s (716 tok/s/GPU) optim=0.1s loss=12.320959632565556 gn=0.48568809032440186
+[pp2-131k-L5-flex-d2 control1] fb=23.1s (709 tok/s/GPU) optim=0.1s loss=12.305672116639073 gn=0.42672818899154663
+[profile] memory_profile/stop (snapshot dump, can take minutes)
+[done] -> /root/.cache/user_artifacts/lps1062_bench/pp2-131k-L5-flex-d2.json
+SUMMARY pp2-131k-L5-flex-d2: 713 tok/s/GPU | step 23.0s (262144 tok) | mfu3x 6.5% | hfu 9.4% | traced 24.5s (+6.7% kineto overhead) | peak_mem 172 GiB

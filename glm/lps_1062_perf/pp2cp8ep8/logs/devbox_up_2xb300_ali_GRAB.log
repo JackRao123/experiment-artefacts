@@ -1,0 +1,40 @@
+
+=== [1/13] preflight (laptop checks, no side effects)
+08:35:30  project jrao123-ali = dq47r1q; tokens present; truss/ssh config OK
+
+=== [2/13] create workstation job
+08:35:31  creating: truss train workstation --node-count 2 --accelerator B300 --project-id jrao123-ali --team Parsed
+Launching workstation jrao123-ali with 2x 8x B300...
+
+Workstation created!
+
+Once the job is running, SSH in with:
+  ssh training-job-wxlkgzw-0.ssh.baseten.co (leader)
+  ssh training-job-wxlkgzw-1.ssh.baseten.co
+
+If you haven't set up SSH yet, run:
+  truss ssh setup
+
+Multi-node env vars available on each node:
+  BT_LEADER_ADDR, BT_NODE_RANK, BT_GROUP_SIZE
+
+View logs:
+  truss train logs --job-id wxlkgzw --tail
+
+Stop the workstation:
+  truss train stop --job-id wxlkgzw
+08:35:42  created job wxlkgzw
+
+=== [3/13] wait for job wxlkgzw to reach RUNNING
+08:35:43    status=TRAINING_JOB_CREATED; waiting 15s
+08:35:58    status=TRAINING_JOB_DEPLOYING; waiting 15s
+08:36:13  status TRAINING_JOB_RUNNING
+
+=== [4/13] ssh reachability + topology
+08:36:15    [rank0] ssh not up yet (boot grace, 897s left): baseten-ssh: SSH proxy rejected the connection. Is the workload and SSH server r
+08:36:38    [rank0] ssh not up yet (boot grace, 875s left): baseten-ssh: SSH proxy rejected the connection. Is the workload and SSH server r
+08:37:00    [rank0] ssh not up yet (boot grace, 852s left): baseten-ssh: SSH proxy rejected the connection. Is the workload and SSH server r
+08:37:22    [rank0] ssh not up yet (boot grace, 831s left): baseten-ssh: SSH proxy rejected the connection. Is the workload and SSH server r
+08:37:44    [rank0] ssh not up yet (boot grace, 809s left): baseten-ssh: SSH proxy rejected the connection. Is the workload and SSH server r
+
+08:38:05  FATAL [step ssh reachability + topology]: job wxlkgzw left RUNNING mid-provision — now TRAINING_JOB_FAILED: (no error_message). The box is gone (infra flake); create a fresh one: devbox-up <num_nodes>

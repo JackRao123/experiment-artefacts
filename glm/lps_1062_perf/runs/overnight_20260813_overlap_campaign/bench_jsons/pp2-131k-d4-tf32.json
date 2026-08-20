@@ -1,0 +1,139 @@
+{
+  "label": "pp2-131k-d4-tf32",
+  "seq_len": 131072,
+  "num_gpus": 16,
+  "datums_per_window": 4,
+  "tokens_per_step": 524288,
+  "started": "2026-08-12 20:05:14",
+  "initial_status": {
+    "mode": "training",
+    "step": 0,
+    "model_id": "zai-org/GLM-5.2-FP8",
+    "device": "cuda:0",
+    "last_loss": null,
+    "grad_norm": null,
+    "gpu_memory": {
+      "cuda:0": 104673050624
+    },
+    "world_size": 16,
+    "tensor_parallel_size": 1,
+    "pipeline_parallel_size": 2,
+    "expert_parallel_size": 8,
+    "context_parallel_size": 8,
+    "expert_tensor_parallel_size": 1,
+    "data_parallel_size": 1,
+    "max_seq_len": 131072
+  },
+  "memory_profile_start": {
+    "mode": "memory",
+    "recording": true,
+    "local_path": "/tmp/checkpoints/profiles/latest/memory"
+  },
+  "runtime_profile_start": {
+    "mode": "torch",
+    "recording": true,
+    "local_path": "/tmp/checkpoints/profiles/torch_trace"
+  },
+  "runtime_profile_stop": {
+    "mode": "torch",
+    "local_path": "/tmp/checkpoints/profiles/torch_trace",
+    "remote_path": null,
+    "files": [
+      "b300-1-em6dm6d3-0017_22435.1786565282072752202.pt.trace.json"
+    ],
+    "size_bytes": 699513220
+  },
+  "memory_profile_stop": {
+    "mode": "memory",
+    "local_path": "/tmp/checkpoints/profiles/latest/memory",
+    "remote_path": null,
+    "files": [
+      "memory.rank0.pickle"
+    ],
+    "size_bytes": 12183879
+  },
+  "final_status": {
+    "mode": "training",
+    "step": 4,
+    "model_id": "zai-org/GLM-5.2-FP8",
+    "device": "cuda:0",
+    "last_loss": null,
+    "grad_norm": null,
+    "gpu_memory": {
+      "cuda:0": 181114241024
+    },
+    "world_size": 16,
+    "tensor_parallel_size": 1,
+    "pipeline_parallel_size": 2,
+    "expert_parallel_size": 8,
+    "context_parallel_size": 8,
+    "expert_tensor_parallel_size": 1,
+    "data_parallel_size": 1,
+    "max_seq_len": 131072
+  },
+  "windows": [
+    {
+      "label": "pp2-131k-d4-tf32",
+      "window_index": 0,
+      "phase": "warmup",
+      "datums": 4,
+      "num_tokens": 524288,
+      "fb_elapsed_s": 89.34869957203045,
+      "fb_tps_per_gpu": 366.74288665593104,
+      "optim_elapsed_s": 3.8202841382008046,
+      "loss": 12.316799673459423,
+      "grad_norm": 0.42520269751548767,
+      "server_step_seconds": 92.43294130684808
+    },
+    {
+      "label": "pp2-131k-d4-tf32",
+      "window_index": 0,
+      "phase": "traced",
+      "datums": 4,
+      "num_tokens": 524288,
+      "fb_elapsed_s": 64.99457792495377,
+      "fb_tps_per_gpu": 504.16513263361276,
+      "optim_elapsed_s": 1.0582487529609352,
+      "loss": 12.316823515499234,
+      "grad_norm": 0.4621335566043854,
+      "server_step_seconds": 64.34252323303372
+    },
+    {
+      "label": "pp2-131k-d4-tf32",
+      "window_index": 0,
+      "phase": "control",
+      "datums": 4,
+      "num_tokens": 524288,
+      "fb_elapsed_s": 55.73240425181575,
+      "fb_tps_per_gpu": 587.9523849705878,
+      "optim_elapsed_s": 0.04519644612446427,
+      "loss": 12.318920661320963,
+      "grad_norm": 0.35254865884780884,
+      "server_step_seconds": 55.12024451675825
+    },
+    {
+      "label": "pp2-131k-d4-tf32",
+      "window_index": 1,
+      "phase": "control",
+      "datums": 4,
+      "num_tokens": 524288,
+      "fb_elapsed_s": 55.51585382106714,
+      "fb_tps_per_gpu": 590.2458080823969,
+      "optim_elapsed_s": 0.785268222913146,
+      "loss": 12.308046783804198,
+      "grad_norm": 0.3548032343387604,
+      "server_step_seconds": 54.941662122961134
+    }
+  ],
+  "aggregates": {
+    "tokens_per_step": 524288,
+    "control_fb_seconds_mean": 55.624129036441445,
+    "control_tps_per_gpu": 589.0968643937321,
+    "mfu3x": 0.05362719328866312,
+    "hfu": 0.07783339993263008,
+    "traced_fb_seconds": 64.99457792495377,
+    "kineto_overhead_pct": 16.8460145818614,
+    "optim_s_mean": 0.41523233451880515,
+    "peak_gpu_memory_bytes": 181114241024
+  }
+}

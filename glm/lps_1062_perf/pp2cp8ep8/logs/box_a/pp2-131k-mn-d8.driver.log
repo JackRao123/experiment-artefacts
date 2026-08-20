@@ -1,0 +1,11 @@
+[status] world_size=16 dp=1
+[profile] memory_profile/start
+[pp2-131k-mn-d8 warmup0] fb=69.1s (949 tok/s/GPU) optim=0.0s loss=12.248231874327654 gn=0.3365911841392517
+[profile] runtime_profile/start
+[pp2-131k-mn-d8 traced0] fb=66.2s (989 tok/s/GPU) optim=0.1s loss=12.242489757459698 gn=0.31963369250297546
+[profile] runtime_profile/stop (sync kineto flush, can take minutes)
+[pp2-131k-mn-d8 control0] fb=65.3s (1003 tok/s/GPU) optim=0.0s loss=12.231147622281053 gn=0.3222545087337494
+[pp2-131k-mn-d8 control1] fb=65.8s (997 tok/s/GPU) optim=0.1s loss=12.215649342722646 gn=0.29315096139907837
+[profile] memory_profile/stop (snapshot dump, can take minutes)
+[done] -> /root/.cache/user_artifacts/lps1062_bench/pp2-131k-mn-d8.json
+SUMMARY pp2-131k-mn-d8: 1000 tok/s/GPU | step 65.5s (1048576 tok) | mfu3x 9.1% | hfu 13.2% | traced 66.2s (+1.1% kineto overhead) | peak_mem 182 GiB

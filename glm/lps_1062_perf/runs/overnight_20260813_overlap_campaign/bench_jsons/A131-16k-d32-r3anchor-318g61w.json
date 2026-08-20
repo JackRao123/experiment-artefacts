@@ -1,0 +1,120 @@
+{
+  "label": "A131-16k-d32-r3anchor-318g61w",
+  "seq_len": 16384,
+  "num_gpus": 16,
+  "datums_per_window": 32,
+  "started": "2026-08-10 01:05:25",
+  "initial_status": {
+    "mode": "training",
+    "step": 4,
+    "model_id": "zai-org/GLM-5.2-FP8",
+    "device": "cuda:0",
+    "last_loss": null,
+    "grad_norm": null,
+    "gpu_memory": {
+      "cuda:0": 203218223104
+    },
+    "world_size": 16,
+    "tensor_parallel_size": 1,
+    "pipeline_parallel_size": 1,
+    "expert_parallel_size": 16,
+    "context_parallel_size": 16,
+    "expert_tensor_parallel_size": 1,
+    "data_parallel_size": 1,
+    "max_seq_len": 131072
+  },
+  "final_status": {
+    "mode": "training",
+    "step": 8,
+    "model_id": "zai-org/GLM-5.2-FP8",
+    "device": "cuda:0",
+    "last_loss": null,
+    "grad_norm": null,
+    "gpu_memory": {
+      "cuda:0": 204224856064
+    },
+    "world_size": 16,
+    "tensor_parallel_size": 1,
+    "pipeline_parallel_size": 1,
+    "expert_parallel_size": 16,
+    "context_parallel_size": 16,
+    "expert_tensor_parallel_size": 1,
+    "data_parallel_size": 1,
+    "max_seq_len": 131072
+  },
+  "windows": [
+    {
+      "label": "A131-16k-d32-r3anchor-318g61w",
+      "window_index": 0,
+      "phase": "warmup",
+      "num_tokens": 32768,
+      "fb_elapsed_s": 5.039693261962384,
+      "fb_tps_per_gpu": 406.3739385604072,
+      "optim_elapsed_s": 0.040565282106399536,
+      "loss": 12.260917376243667,
+      "grad_norm": 0.6085602045059204
+    },
+    {
+      "label": "A131-16k-d32-r3anchor-318g61w",
+      "window_index": 0,
+      "phase": "main",
+      "num_tokens": 524288,
+      "fb_elapsed_s": 46.92510929191485,
+      "fb_tps_per_gpu": 698.3041807351932,
+      "optim_elapsed_s": 0.0477591659873724,
+      "loss": 12.256193539034365,
+      "grad_norm": 0.5796624422073364
+    },
+    {
+      "label": "A131-16k-d32-r3anchor-318g61w",
+      "window_index": 1,
+      "phase": "main",
+      "num_tokens": 524288,
+      "fb_elapsed_s": 46.52595608797856,
+      "fb_tps_per_gpu": 704.2950377642351,
+      "optim_elapsed_s": 0.05005822703242302,
+      "loss": 12.239876129219313,
+      "grad_norm": 0.5435824394226074
+    },
+    {
+      "label": "A131-16k-d32-r3anchor-318g61w",
+      "window_index": 2,
+      "phase": "main",
+      "num_tokens": 524288,
+      "fb_elapsed_s": 46.612545024137944,
+      "fb_tps_per_gpu": 702.9867170529167,
+      "optim_elapsed_s": 0.0506466228980571,
+      "loss": 12.223600683635476,
+      "grad_norm": 0.5076519846916199
+    }
+  ],
+  "aggregates": {
+    "step_s_mean": 46.68787013467712,
+    "tokens_per_step": 524288,
+    "tps": 11229.640557335864,
+    "tps_per_gpu": 701.8525348334915,
+    "mfu3x": 0.05558313561071933,
+    "hfu": 0.08165300324248989,
+    "optim_s_mean": 0.04948800530595084,
+    "peak_gpu_memory_bytes": 204224856064,
+    "per_gpu_max_used_mib": {
+      "b300-1-3xpzznsc-0018:gpu0": 202079,
+      "b300-1-3xpzznsc-0018:gpu1": 199855,
+      "b300-1-3xpzznsc-0018:gpu2": 201235,
+      "b300-1-3xpzznsc-0018:gpu3": 197895,
+      "b300-1-3xpzznsc-0018:gpu4": 196535,
+      "b300-1-3xpzznsc-0018:gpu5": 195935,
+      "b300-1-3xpzznsc-0018:gpu6": 194815,
+      "b300-1-3xpzznsc-0018:gpu7": 200055,
+      "b300-1-ana8db87-0004:gpu0": 198875,
+      "b300-1-ana8db87-0004:gpu1": 197395,
+      "b300-1-ana8db87-0004:gpu2": 196695,
+      "b300-1-ana8db87-0004:gpu3": 199995,
+      "b300-1-ana8db87-0004:gpu4": 198615,
+      "b300-1-ana8db87-0004:gpu5": 196675,
+      "b300-1-ana8db87-0004:gpu6": 200555,
+      "b300-1-ana8db87-0004:gpu7": 201255
+    },
+    "max_gpu_used_mib": 202079
+  }
+}

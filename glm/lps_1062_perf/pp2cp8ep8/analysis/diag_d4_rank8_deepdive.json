@@ -1,0 +1,180 @@
+{
+ "trace": "traces/diag_d4_rank8.pt.trace.json",
+ "step_window_s": 69.159220174,
+ "gpu_idle_s": 6.804739541,
+ "kernel_count": 253698,
+ "gap_histogram": [
+  {
+   "range_us": [
+    0.0,
+    100.0
+   ],
+   "count": 240106,
+   "total_s": 2.551589901
+  },
+  {
+   "range_us": [
+    100.0,
+    1000.0
+   ],
+   "count": 1610,
+   "total_s": 0.383480532
+  },
+  {
+   "range_us": [
+    1000.0,
+    10000.0
+   ],
+   "count": 316,
+   "total_s": 0.671051558
+  },
+  {
+   "range_us": [
+    10000.0,
+    -1
+   ],
+   "count": 30,
+   "total_s": 3.196318541
+  }
+ ],
+ "gap_attribution_gt0.1ms": {
+  "FIXB_LAYOUT": {
+   "gaps": 409,
+   "idle_s": 0.102374637
+  },
+  "FIXA_DSA_BWD": {
+   "gaps": 34,
+   "idle_s": 0.009154656
+  },
+  "DISPATCH_REPLAY": {
+   "gaps": 6,
+   "idle_s": 0.00152721
+  },
+  "DISPATCH_FWD": {
+   "gaps": 0,
+   "idle_s": 0.0
+  },
+  "ROPE_HOST_F": {
+   "gaps": 308,
+   "idle_s": 0.560408449
+  },
+  "OTHER_ITEM": {
+   "gaps": 146,
+   "idle_s": 1.257035909
+  },
+  "OTHER": {
+   "gaps": 20,
+   "idle_s": 0.476784088
+  },
+  "UNATTRIBUTED": {
+   "gaps": 1033,
+   "idle_s": 1.843565682
+  }
+ },
+ "aten_nonzero": {
+  "calls": 14576,
+  "cpu_s": 9.104873015,
+  "layout_calls": 14408,
+  "gt5ms": 167
+ },
+ "kernels_in_layout_index_windows": 50221,
+ "devsync_count": 17,
+ "devsync_cpu_s": 27.09639231,
+ "devsync_first_last_rel_s": [
+  0.255641228,
+  69.15927131
+ ],
+ "classes": {
+  "FIXB_LAYOUT": {
+   "calls": 28816,
+   "cpu_s": 0.310626688
+  },
+  "FIXA_DSA_BWD": {
+   "calls": 320,
+   "cpu_s": 8.121217699
+  },
+  "DISPATCH_REPLAY": {
+   "calls": 160,
+   "cpu_s": 2.129876149
+  },
+  "DISPATCH_FWD": {
+   "calls": 160,
+   "cpu_s": 2.574304611
+  },
+  "ROPE_HOST_F": {
+   "calls": 6080,
+   "cpu_s": 9.065162103
+  },
+  "OTHER_ITEM": {
+   "calls": 2825,
+   "cpu_s": 7.364957338
+  },
+  "OTHER": {
+   "calls": 914,
+   "cpu_s": 27.182385771
+  }
+ },
+ "other_top": [
+  {
+   "sig": "cudaDeviceSynchronize <- ProfilerStep#0",
+   "calls": 16,
+   "cpu_s": 27.096359144
+  },
+  {
+   "sig": "aten::_local_scalar_dense <- aten::item",
+   "calls": 158,
+   "cpu_s": 7.110261842
+  },
+  {
+   "sig": "aten::copy_ <- aten::_to_copy",
+   "calls": 134,
+   "cpu_s": 0.22065495
+  },
+  {
+   "sig": "cudaStreamSynchronize <- aten::nonzero <- aten::_index_put_impl_",
+   "calls": 8,
+   "cpu_s": 0.07653692
+  },
+  {
+   "sig": "aten::copy_ <- aten::clone",
+   "calls": 641,
+   "cpu_s": 0.009858782
+  },
+  {
+   "sig": "aten::copy_ <- aten::sort",
+   "calls": 640,
+   "cpu_s": 0.008853964
+  },
+  {
+   "sig": "aten::copy_ <- AsStridedBackward0",
+   "calls": 160,
+   "cpu_s": 0.004959332
+  },
+  {
+   "sig": "aten::copy_ <- aten::scatter",
+   "calls": 640,
+   "cpu_s": 0.004748265
+  },
+  {
+   "sig": "cudaMemcpyAsync <- aten::cat <- CheckpointFunctionBackward",
+   "calls": 440,
+   "cpu_s": 0.004735118
+  },
+  {
+   "sig": "cudaMemcpyAsync <- aten::cat <- CheckpointFunction",
+   "calls": 440,
+   "cpu_s": 0.004601685
+  },
+  {
+   "sig": "aten::copy_ <- torch::autograd::CopySlices",
+   "calls": 320,
+   "cpu_s": 0.003657049
+  },
+  {
+   "sig": "aten::copy_ <- aten::repeat",
+   "calls": 80,
+   "cpu_s": 0.001251451
+  }
+ ],
+ "elapsed_s": 7.826945066452026
+}

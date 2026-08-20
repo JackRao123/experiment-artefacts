@@ -1,0 +1,27 @@
+window: 41.49s  (gpu events: 272707)
+gpu-busy union: 35.03s (84.4%)
+compute union:  24.92s (60.1%)
+comm union:     10.12s (24.4%)
+compute/comm overlap: 0.00s (0.0%)
+
+=== SS3b buckets (% of window) ===
+fill/drain parks (p2p union): 6.24s (15.0%)  n=10
+a2a exposure (no compute):    0.00s (0.0%)  a2a_total=0.00s n=0
+cpu-blocked crit (host&empty): 1.72s (4.1%)
+optim kernels:                0.00s (0.0%)
+allgather union: 2.55s | allreduce union: 0.63s
+gpu-empty total: 6.46s (15.6%)
+
+=== host blocking ops (cuda_runtime/driver) ===
+  cudaStreamSynchronize: n=17794 total=10.33s
+  cudaDeviceSynchronize: n=11 total=6.27s
+
+=== top p2p park durations (s) ===
+  4.86  ncclDevKernel_SendRecv(ncclDevKernelArgsStorage<4096ul>)
+  1.35  ncclDevKernel_SendRecv(ncclDevKernelArgsStorage<4096ul>)
+  0.01  ncclDevKernel_SendRecv(ncclDevKernelArgsStorage<4096ul>)
+  0.01  ncclDevKernel_SendRecv(ncclDevKernelArgsStorage<4096ul>)
+  0.01  ncclDevKernel_SendRecv(ncclDevKernelArgsStorage<4096ul>)
+  0.00  ncclDevKernel_SendRecv(ncclDevKernelArgsStorage<4096ul>)
+  0.00  ncclDevKernel_SendRecv(ncclDevKernelArgsStorage<4096ul>)
+  0.00  ncclDevKernel_SendRecv(ncclDevKernelArgsStorage<4096ul>)

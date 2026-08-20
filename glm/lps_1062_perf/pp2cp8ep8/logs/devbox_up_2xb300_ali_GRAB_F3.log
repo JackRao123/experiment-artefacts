@@ -1,0 +1,36 @@
+
+=== [1/13] preflight (laptop checks, no side effects)
+00:58:02  project jrao123-ali = dq47r1q; tokens present; truss/ssh config OK
+
+=== [2/13] create workstation job
+00:58:04  creating: truss train workstation --node-count 2 --accelerator B300 --project-id jrao123-ali --team Parsed
+Launching workstation jrao123-ali with 2x 8x B300...
+
+Workstation created!
+
+Once the job is running, SSH in with:
+  ssh training-job-wd7dr4w-0.ssh.baseten.co (leader)
+  ssh training-job-wd7dr4w-1.ssh.baseten.co
+
+If you haven't set up SSH yet, run:
+  truss ssh setup
+
+Multi-node env vars available on each node:
+  BT_LEADER_ADDR, BT_NODE_RANK, BT_GROUP_SIZE
+
+View logs:
+  truss train logs --job-id wd7dr4w --tail
+
+Stop the workstation:
+  truss train stop --job-id wd7dr4w
+00:58:21  created job wd7dr4w
+
+=== [3/13] wait for job wd7dr4w to reach RUNNING
+00:58:23    status=TRAINING_JOB_CREATED; waiting 15s
+00:58:39    status=TRAINING_JOB_DEPLOYING; waiting 15s
+00:58:55    status=TRAINING_JOB_DEPLOYING; waiting 15s
+00:59:10    status=TRAINING_JOB_DEPLOYING; waiting 15s
+00:59:26    status=TRAINING_JOB_DEPLOYING; waiting 15s
+00:59:42    status=TRAINING_JOB_DEPLOYING; waiting 15s
+
+00:59:59  FATAL [step wait for job wd7dr4w to reach RUNNING]: job wd7dr4w entered terminal state TRAINING_JOB_FAILED: (no error_message)

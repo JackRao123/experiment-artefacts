@@ -1,0 +1,14 @@
+[status] world_size=16 dp=1
+[profile] memory_profile/start
+Traceback (most recent call last):
+  File "/root/.cache/user_artifacts/lps1062_pp2/profile_driver_new.py", line 204, in <module>
+    main()
+  File "/root/.cache/user_artifacts/lps1062_pp2/profile_driver_new.py", line 147, in main
+    windows = [drive_window(client, args.label, 0, make_datums(rng, args),
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/lps1062_pp2/profile_driver_new.py", line 87, in drive_window
+    fb = submit_and_wait(client, "/forward_backward", {"data": datums}, FB_TIMEOUT_S)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/lps1062_pp2/profile_driver_new.py", line 79, in submit_and_wait
+    raise RuntimeError(f"{path} op {operation_id} errored: {body.get('error', '')[:2000]}")
+RuntimeError: /forward_backward op e3dd80fb21214a218dfa13003b26b513 errored: TypeError: _sum_over_microbatches.<locals>.wrapped() got an unexpected keyword argument 'return_schedule_plan'

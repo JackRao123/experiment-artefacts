@@ -1,0 +1,95 @@
+
+=== [1/13] preflight (laptop checks, no side effects)
+23:52:03  project jrao123-vul = zq87jyw; tokens present; truss/ssh config OK
+
+=== [2/13] create workstation job
+23:52:04  creating: truss train workstation --node-count 1 --accelerator B200 --project-id jrao123-vul --team Parsed
+Launching workstation jrao123-vul with 8x B200...
+
+Workstation created!
+
+Once the job is running, SSH in with:
+  ssh training-job-318mv1w-0.ssh.baseten.co
+
+If you haven't set up SSH yet, run:
+  truss ssh setup
+
+View logs:
+  truss train logs --job-id 318mv1w --tail
+
+Stop the workstation:
+  truss train stop --job-id 318mv1w
+23:52:19  created job 318mv1w
+
+=== [3/13] wait for job 318mv1w to reach RUNNING
+23:52:19    status=TRAINING_JOB_CREATED; waiting 15s
+23:52:34    status=TRAINING_JOB_DEPLOYING; waiting 15s
+23:52:50    status=TRAINING_JOB_DEPLOYING; waiting 15s
+23:53:05    status=TRAINING_JOB_DEPLOYING; waiting 15s
+23:53:20    status=TRAINING_JOB_DEPLOYING; waiting 15s
+23:53:36    status=TRAINING_JOB_DEPLOYING; waiting 15s
+23:53:51    status=TRAINING_JOB_DEPLOYING; waiting 15s
+23:54:06    status=TRAINING_JOB_DEPLOYING; waiting 15s
+23:54:21    status=TRAINING_JOB_DEPLOYING; waiting 15s
+23:54:37    status=TRAINING_JOB_DEPLOYING; waiting 15s
+23:54:52    status=TRAINING_JOB_DEPLOYING; waiting 15s
+23:55:08    status=TRAINING_JOB_DEPLOYING; waiting 15s
+23:55:23    status=TRAINING_JOB_DEPLOYING; waiting 15s
+23:55:38    status=TRAINING_JOB_DEPLOYING; waiting 15s
+23:55:53    status=TRAINING_JOB_DEPLOYING; waiting 15s
+23:56:09    status=TRAINING_JOB_DEPLOYING; waiting 15s
+23:56:24    status=TRAINING_JOB_DEPLOYING; waiting 15s
+23:56:39    status=TRAINING_JOB_DEPLOYING; waiting 15s
+23:56:54    status=TRAINING_JOB_DEPLOYING; waiting 15s
+23:57:10    status=TRAINING_JOB_DEPLOYING; waiting 15s
+23:57:25    status=TRAINING_JOB_DEPLOYING; waiting 15s
+23:57:40    status=TRAINING_JOB_DEPLOYING; waiting 15s
+23:57:56    status=TRAINING_JOB_DEPLOYING; waiting 15s
+23:58:11    status=TRAINING_JOB_DEPLOYING; waiting 15s
+23:58:26    status=TRAINING_JOB_DEPLOYING; waiting 15s
+23:58:42    status=TRAINING_JOB_DEPLOYING; waiting 15s
+23:58:57    status=TRAINING_JOB_DEPLOYING; waiting 15s
+23:59:12    status=TRAINING_JOB_DEPLOYING; waiting 15s
+23:59:27    status=TRAINING_JOB_DEPLOYING; waiting 15s
+23:59:43    status=TRAINING_JOB_DEPLOYING; waiting 15s
+23:59:58    status=TRAINING_JOB_DEPLOYING; waiting 15s
+00:00:13    status=TRAINING_JOB_DEPLOYING; waiting 15s
+00:00:28    status=TRAINING_JOB_DEPLOYING; waiting 15s
+00:00:44    status=TRAINING_JOB_DEPLOYING; waiting 15s
+00:00:59    status=TRAINING_JOB_DEPLOYING; waiting 15s
+00:01:14    status=TRAINING_JOB_DEPLOYING; waiting 15s
+00:01:30    status=TRAINING_JOB_DEPLOYING; waiting 15s
+00:01:45    status=TRAINING_JOB_DEPLOYING; waiting 15s
+00:02:00    status=TRAINING_JOB_DEPLOYING; waiting 15s
+00:02:16    status=TRAINING_JOB_DEPLOYING; waiting 15s
+00:02:31    status=TRAINING_JOB_DEPLOYING; waiting 15s
+00:02:46    status=TRAINING_JOB_DEPLOYING; waiting 15s
+00:03:02    status=TRAINING_JOB_DEPLOYING; waiting 15s
+00:03:17    status=TRAINING_JOB_DEPLOYING; waiting 15s
+00:03:32    status=TRAINING_JOB_DEPLOYING; waiting 15s
+00:03:47    status=TRAINING_JOB_DEPLOYING; waiting 15s
+00:04:03    status=TRAINING_JOB_DEPLOYING; waiting 15s
+00:04:18    status=TRAINING_JOB_DEPLOYING; waiting 15s
+00:04:33    status=TRAINING_JOB_DEPLOYING; waiting 15s
+00:04:49    status=TRAINING_JOB_DEPLOYING; waiting 15s
+00:05:04    status=TRAINING_JOB_DEPLOYING; waiting 15s
+00:05:19    status=TRAINING_JOB_DEPLOYING; waiting 15s
+00:05:34    status=TRAINING_JOB_DEPLOYING; waiting 15s
+00:05:50    status=TRAINING_JOB_DEPLOYING; waiting 15s
+00:06:05    status=TRAINING_JOB_DEPLOYING; waiting 15s
+00:06:20    status=TRAINING_JOB_DEPLOYING; waiting 15s
+00:06:36    status=TRAINING_JOB_DEPLOYING; waiting 15s
+00:06:51    status=TRAINING_JOB_DEPLOYING; waiting 15s
+00:07:06    status=TRAINING_JOB_DEPLOYING; waiting 15s
+00:07:22    status=TRAINING_JOB_DEPLOYING; waiting 15s
+00:07:37    status=TRAINING_JOB_DEPLOYING; waiting 15s
+00:07:52    status=TRAINING_JOB_DEPLOYING; waiting 15s
+00:08:07    status=TRAINING_JOB_DEPLOYING; waiting 15s
+00:08:23    status=TRAINING_JOB_DEPLOYING; waiting 15s
+00:08:38    status=TRAINING_JOB_DEPLOYING; waiting 15s
+00:08:53    status=TRAINING_JOB_DEPLOYING; waiting 15s
+00:09:09    status=TRAINING_JOB_DEPLOYING; waiting 15s
+00:09:24    status=TRAINING_JOB_DEPLOYING; waiting 15s
+00:09:39    status=TRAINING_JOB_DEPLOYING; waiting 15s
+00:09:54    status=TRAINING_JOB_DEPLOYING; waiting 15s
+00:10:10    status=TRAINING_JOB_DEPLOYING; waiting 15s

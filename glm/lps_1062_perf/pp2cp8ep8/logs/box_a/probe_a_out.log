@@ -1,0 +1,36 @@
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/torch/cuda/__init__.py:61: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+
+=== case realA-tailfill@cp8: 3 docs, cp=8, pad_to=131072 ===
+  real=92931 padded=131072 local/rank=16384 tailfill=38112
+  TE == mcore on every rank: PASS
+
+=== case realA-notailfill@cp8: 3 docs, cp=8, pad_to=None ===
+  real=92931 padded=92960 local/rank=11620 tailfill=0
+  TE == mcore on every rank: PASS
+
+=== case realB-tailfill@cp8: 2 docs, cp=8, pad_to=131072 ===
+  real=71558 padded=131072 local/rank=16384 tailfill=59488
+  TE == mcore on every rank: PASS
+
+=== case awkward-tailfill@cp8: 5 docs, cp=8, pad_to=131072 ===
+  real=5148 padded=131072 local/rank=16384 tailfill=125856
+  TE == mcore on every rank: PASS
+
+=== case realA-tailfill@cp16: 3 docs, cp=16, pad_to=131072 ===
+  real=92931 padded=131072 local/rank=8192 tailfill=38080
+  TE == mcore on every rank: PASS
+
+=== case realA-notailfill@cp16: 3 docs, cp=16, pad_to=None ===
+  real=92931 padded=92992 local/rank=5812 tailfill=0
+  TE == mcore on every rank: PASS
+
+=== case realB-tailfill@cp16: 2 docs, cp=16, pad_to=131072 ===
+  real=71558 padded=131072 local/rank=8192 tailfill=59456
+  TE == mcore on every rank: PASS
+
+=== case awkward-tailfill@cp16: 5 docs, cp=16, pad_to=131072 ===
+  real=5148 padded=131072 local/rank=8192 tailfill=125792
+  TE == mcore on every rank: PASS
+
+TOTAL MISMATCHED ROWS: 0

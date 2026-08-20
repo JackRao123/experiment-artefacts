@@ -1,0 +1,11 @@
+[status] world_size=16 dp=1
+[profile] memory_profile/start
+[pp2-131k-d4-shipenv warmup0] fb=104.4s (314 tok/s/GPU) optim=3.5s loss=12.316919837340068 gn=0.423206627368927
+[profile] runtime_profile/start
+[pp2-131k-d4-shipenv traced0] fb=70.5s (465 tok/s/GPU) optim=0.7s loss=12.316875014305223 gn=0.46010175347328186
+[profile] runtime_profile/stop (sync kineto flush, can take minutes)
+[pp2-131k-d4-shipenv control0] fb=59.7s (549 tok/s/GPU) optim=0.8s loss=12.317589321817946 gn=0.3507528305053711
+[pp2-131k-d4-shipenv control1] fb=59.0s (555 tok/s/GPU) optim=0.9s loss=12.309164498630514 gn=0.3542265295982361
+[profile] memory_profile/stop (snapshot dump, can take minutes)
+[done] -> /root/.cache/user_artifacts/lps1062_bench/pp2-131k-d4-shipenv.json
+SUMMARY pp2-131k-d4-shipenv: 552 tok/s/GPU | step 59.4s (524288 tok) | mfu3x 5.0% | hfu 7.3% | traced 70.5s (+18.8% kineto overhead) | peak_mem 168 GiB

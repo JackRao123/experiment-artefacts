@@ -1,0 +1,110 @@
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/torch/cuda/__init__.py:61: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/torch/cuda/__init__.py:61: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/root/.cache/user_artifacts/trainers_main/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/backends.py:34: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_main/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/gpt/gpt_layer_specs.py:74: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/modelopt/torch/__init__.py:53: UserWarning: transformers>=5.0 support is experimental. Unified Hugging Face checkpoint export for quantized checkpoints may not work for some models yet.
+  _warnings.warn(
+/root/.cache/user_artifacts/trainers_main/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/gpt/heterogeneous/heterogeneous_layer_specs.py:68: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_main/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/vision/vit_layer_specs.py:31: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/trainers_main/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/mimo/config/base_configs.py:12: UserWarning: MimoModelConfig is experimental and still under active development. The API may change without notice in future releases.
+  class MimoModelConfig:
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+INFO:trainers_server.dp_worker.backends.megatron_bridge.backend:LoRA config: rank=8 alpha=32 (default 32) -> forward scale=4
+INFO:trainers_server.dp_worker.backends.megatron_bridge.megatron_config:Installed TE get_attention_backend logging wrapper
+INFO:trainers_server.dp_worker.backends.megatron_bridge.megatron_config:attention_backend=AttnBackend.auto (auto, provider default)
+/root/.cache/user_artifacts/trainers_main/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/transformer/transformer_config.py:2379: UserWarning: full scope is deprecated. Use empty cuda_graph_modules to capture the whole layer.
+  warnings.warn(
+WARNING:megatron.core.rerun_state_machine:RerunStateMachine initialized in mode RerunMode.DISABLED
+> initializing torch distributed ...
+> initialized tensor model parallel with size 1
+> initialized pipeline model parallel with size 1
+> setting random seeds to 1234 ...
+> compiling dataset index builder ...
+make: Entering directory '/root/.cache/user_artifacts/trainers_main/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/datasets'
+make: Nothing to be done for 'default'.
+make: Leaving directory '/root/.cache/user_artifacts/trainers_main/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/datasets'
+>>> done with dataset index builder. Compilation time: 0.032 seconds
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/torch/distributed/c10d_logger.py:83: UserWarning: barrier(): using the device under current context. You can specify `device_id` in `init_process_group` to mute this warning.
+  return func(*args, **kwargs)
+/root/.cache/user_artifacts/trainers_main/server/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/gpt/gpt_layer_specs.py:216: UserWarning: The fp8 argument in "get_gpt_layer_with_transformer_engine_spec" has been deprecated and will be removed soon. Please update your code accordingly.
+  warnings.warn(
+Fetching 1 files:   0%|          | 0/1 [00:00<?, ?it/s]Fetching 1 files: 100%|██████████| 1/1 [00:00<00:00, 1841.22it/s]
+Loading from Qwen/Qwen3-0.6B ━━━━━━━━━━━━━━━━ 100% 0:00:00 (226/226) Qwen3Bridge
+[PEFT+Recompute] Patched decoder block forward to enable grad on hidden_states input. This ensures checkpoint backward is called when only adapters are trainable (PP=1 with frozen base model).
+ > number of parameters on (tensor, pipeline) model parallel rank (0, 0): 600408064
+INFO:trainers_server.dp_worker.backends.megatron_bridge.backend:LoRA training: froze 0 MoE router expert-bias updates
+INFO:trainers_server.dp_worker.backends.megatron_bridge.backend:MegatronBridgeBackend ready
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/torch/distributed/c10d_logger.py:83: UserWarning: barrier(): using the device under current context. You can specify `device_id` in `init_process_group` to mute this warning.
+  return func(*args, **kwargs)
+INFO:trainers_server.dp_worker.backends.megatron_bridge.backend:starting — forward+backward seq=64 across PP=1 (establishing pipeline p2p connections + compiling DSA/Triton/cuDNN forward and backward kernels)...
+WARNING:megatron.core.lookahead_checkpoint:BT_MOE_LOOKAHEAD_RECOMPUTE present but DISABLED (env unset or != '1'); status-quo checkpoint recompute order
+INFO:trainers_server.dp_worker.backends.megatron_bridge.megatron_config:TE get_attention_backend first call — args=(AttentionParams(qkv_type=<class 'torch.Tensor'>, qkv_dtype=torch.bfloat16, qkv_layout='sbhd_sbhd_sbhd', batch_size=1, num_heads=16, num_gqa_groups=8, max_seqlen_q=128, max_seqlen_kv=128, head_dim_qk=128, head_dim_v=128, attn_mask_type='causal', window_size=(-1, 0), bottom_right_diagonal=False, alibi_slopes_shape=None, core_attention_bias_type='no_bias', core_attention_bias_shape=None, core_attention_bias_requires_grad=False, pad_between_seqs=False, attention_dropout=0.0, context_parallel=False, cp_comm_type='p2p', cp_size=1, deterministic=False, is_training=True, fp8=False, fp8_meta={'fp8_checkpoint': False, 'fp8_group': None}, inference_params=None, softmax_type='vanilla', return_max_logit=False, cuda_graph=False, num_splits=1),) kwargs={}
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/torch/cuda/__init__.py:61: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/torch/autograd/graph.py:869: UserWarning: The AccumulateGrad node's stream does not match the stream of the node that produced the incoming gradient. This may incur unnecessary synchronization and break CUDA graph capture if the AccumulateGrad node's stream is the default stream. This mismatch is caused by an AccumulateGrad node created prior to the current iteration being kept alive. This can happen if the autograd graph is still being kept alive by tensors such as the loss, or if you are using DDP, which will stash a reference to the node. To resolve the mismatch, delete all references to the autograd graph or ensure that DDP initialization is performed under the same stream as subsequent forwards. If the mismatch is intentional, you can use torch.autograd.graph.set_warn_on_accumulate_grad_stream_mismatch(False) to suppress this warning. (Triggered internally at /pytorch/torch/csrc/autograd/input_buffer.cpp:240.)
+  return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+INFO:trainers_server.dp_worker.backends.megatron_bridge.backend:READY — pipeline connected (1 PP stage(s)), kernels warm (2.7s). Server will now accept ops.
+INFO:     Started server process [43331]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:     127.0.0.1:50832 - "GET /health HTTP/1.1" 200 OK
+INFO:trainers_server.dp_worker.api.server:submit: op=forward_backward operation_id=3ad2229a3a0641d5aa35a66a1af7a1cd enqueued (qsize=1) n_datums=1 total_tokens=16 seq_len[min/max]=16/16
+INFO:     127.0.0.1:50842 - "POST /forward_backward HTTP/1.1" 202 Accepted
+INFO:trainers_server.dp_worker.api.dispatcher_worker:dispatcher_worker: op=forward_backward operation_id=3ad2229a3a0641d5aa35a66a1af7a1cd done in 0.25s {'loss': 8.585878499348958}
+INFO:trainers_server.dp_worker.api.server:retrieve: operation_id=3ad2229a3a0641d5aa35a66a1af7a1cd done after 0.25s
+INFO:     127.0.0.1:50842 - "GET /operations/3ad2229a3a0641d5aa35a66a1af7a1cd HTTP/1.1" 200 OK
+INFO:trainers_server.dp_worker.api.server:submit: op=optim_step operation_id=992dd48b09044c8695f6f39c9a641204 enqueued (qsize=1) 
+INFO:     127.0.0.1:50842 - "POST /optim_step HTTP/1.1" 202 Accepted
+INFO:trainers_server.dp_worker.api.dispatcher_worker:dispatcher_worker: op=optim_step operation_id=992dd48b09044c8695f6f39c9a641204 done in 0.52s step=1.0 learning_rate=0.0001 lr=0.0001 grad_norm=31.1087589263916 tps=20.741261594603298 train_mean_nll=8.585878499348958 num_tokens=16.0 num_loss_tokens=15.0 step_seconds=0.771409199340269 peak_reserved_bytes=1379926016 peak_allocated_bytes=1338460160 device_total_bytes=287428771840
+INFO:trainers_server.dp_worker.api.server:retrieve: operation_id=992dd48b09044c8695f6f39c9a641204 done after 0.52s
+INFO:     127.0.0.1:50842 - "GET /operations/992dd48b09044c8695f6f39c9a641204 HTTP/1.1" 200 OK
+INFO:trainers_server.dp_worker.api.server:submit: op=save_weights_for_sampler operation_id=99ee98d8b6644839b359669c133faf46 enqueued (qsize=1) 
+INFO:     127.0.0.1:50854 - "POST /save_weights_for_sampler HTTP/1.1" 202 Accepted
+INFO:baseten_weight_sync.training:Wrote LoRA adapter (392 tensors, 10.1 MB) to checkpoint ref_pp1cp1 (version=1, bump_version=True, forked=True) in 0.14s
+INFO:trainers_server.dp_worker.api.dispatcher_worker:dispatcher_worker: op=save_weights_for_sampler operation_id=99ee98d8b6644839b359669c133faf46 done in 0.19s 
+INFO:trainers_server.dp_worker.api.server:retrieve: operation_id=99ee98d8b6644839b359669c133faf46 done after 0.19s
+INFO:     127.0.0.1:50854 - "GET /operations/99ee98d8b6644839b359669c133faf46 HTTP/1.1" 200 OK
+W0812 21:41:18.203000 43263 torch/distributed/elastic/agent/server/api.py:739] Received 15 death signal, shutting down workers
+W0812 21:41:18.204000 43263 torch/distributed/elastic/multiprocessing/api.py:1012] Sending process 43331 closing signal SIGTERM
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:trainers_server.dp_worker.api.dispatcher_worker:dispatcher_worker: shutdown sentinel received, exiting
+INFO:     Application shutdown complete.
+INFO:     Finished server process [43331]
+/usr/lib/python3.12/multiprocessing/resource_tracker.py:254: UserWarning: resource_tracker: There appear to be 19 leaked semaphore objects to clean up at shutdown
+  warnings.warn('resource_tracker: There appear to be %d '
+Traceback (most recent call last):
+  File "/root/.cache/user_artifacts/trainers_main/server/.venv/bin/torchrun", line 10, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py", line 362, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/torch/distributed/run.py", line 990, in main
+    run(args)
+  File "/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/torch/distributed/run.py", line 981, in run
+    elastic_launch(
+  File "/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/torch/distributed/launcher/api.py", line 170, in __call__
+    return launch_agent(self._config, self._entrypoint, list(args))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/torch/distributed/launcher/api.py", line 308, in launch_agent
+    result = agent.run()
+             ^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/torch/distributed/elastic/metrics/api.py", line 134, in wrapper
+    result = f(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/torch/distributed/elastic/agent/server/api.py", line 731, in run
+    result = self._invoke_run(role)
+             ^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/torch/distributed/elastic/agent/server/api.py", line 908, in _invoke_run
+    time.sleep(monitor_interval)
+  File "/root/.cache/user_artifacts/trainers_main/server/.venv/lib/python3.12/site-packages/torch/distributed/elastic/multiprocessing/api.py", line 86, in _terminate_process_handler
+    raise SignalException(f"Process {os.getpid()} got signal: {sigval}", sigval=sigval)
+torch.distributed.elastic.multiprocessing.api.SignalException: Process 43263 got signal: 15
