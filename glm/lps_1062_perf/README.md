@@ -14,9 +14,12 @@ repo. Large traces/memory snapshots are Mac-only and gitignored — see `DATA.md
 
 - `NOTEBOOK.md` — chronological lab notebook across all runs (the spine)
 - `REPORT.md` — headline report: the Aug-7 ship config (+51%, memory-flat)
+- `B300_HOST_OFFLOAD_BANDWIDTH.md` — measured 8xB300 host-memory topology,
+  NUMA-local/remote bandwidth, and activation-offload guidance
 - `DATA.md` — manifest of Mac-only large artifacts (traces, memory snapshots)
 - `tools/` — canonical reusable bench kit: `bench_driver2c.py`, `mfu.py`
-  (LoRA-corrected), `run_bench2c.sh`, `poll_gpu_mem.sh`, `fold_mem.py`
+  (LoRA-corrected), `run_bench2c.sh`, `poll_gpu_mem.sh`, `fold_mem.py`, and
+  `cuda_host_bw.cu` for pinned host/device NUMA bandwidth
 - `runs/` — one folder per run, self-contained (configs, results, patches,
   docs, and the as-used driver copies). New open runs: `runs/overnight_YYYYMMDD_<slug>/`
 
