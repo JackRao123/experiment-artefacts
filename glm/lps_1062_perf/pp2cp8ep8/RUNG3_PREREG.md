@@ -67,6 +67,30 @@ throughput and never memory — the safe direction. Read the telemetry
 (commits, drain firings, events drained, max pending per group) and only tune
 if the numbers or the memory read demand it, as a separate run.
 
+## SCOPE CHANGE (Jack, 2026-08-20): 3a is CANCELLED as a planned rung
+
+**Only 3b runs.** Jack's call, and it is the right one:
+
+- **3a cannot ship.** The phase-1 configuration of record is 3b — selective
+  recompute plus BOTH offloads. 3a is a waypoint that isolates the `moe_act`
+  offload's contribution on its own; that attribution changes no decision we
+  are going to take.
+- **3a costs a full boot** (~20 min weight load plus the run) on a scarce
+  box, and it is the configuration most likely to fail: it holds `attn_proj`
+  resident, which is ~14 GiB more on rank 0 than 3b, putting it at or past
+  the gate-#1 fail line and above the ceiling at the top of the glue band.
+- Spending the expensive slot on a configuration that cannot ship and may OOM
+  is a bad trade against spending it on the rung-5 matched d16 pair, which
+  IS the headline deliverable.
+
+**3a survives only as a CONDITIONAL DIAGNOSTIC.** Run it if and only if 3b's
+throughput disappoints AND the copy-exposure trace implicates `attn_proj`
+traffic — i.e. the hypothesis "offloading attn_proj costs more PCIe than it
+saves" is live and worth one boot to test. Otherwise it never runs.
+
+Everything below that reasons about arm order is superseded by this, and is
+kept because it is what established that 3a is the memory-tightest arm.
+
 ## Arm ORDER is decided by the census, not by the numbering
 
 Counter-intuitively **3a is the memory-tightest arm, not 3b**. In 3a
