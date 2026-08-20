@@ -89,7 +89,7 @@ def main() -> None:
     print("\n## Verdict")
     for arm, rows in worst.items():
         tight = max(rows, key=lambda r: r[1])
-        fails = [r for r in rows if r[1] == "FAIL"]
+        fails = [r for r in rows if r[2] == "FAIL"]
         gap = tight[1] - FAIL_LINE
         if fails:
             print(f"- **{arm}: GATE-#1 FAIL** — {tight[0]} projects {tight[1]:.1f} GiB, "
@@ -98,6 +98,9 @@ def main() -> None:
         else:
             print(f"- {arm}: clears. Tighter rank is {tight[0]} at {tight[1]:.1f} GiB, "
                   f"{FAIL_LINE - tight[1]:.1f} GiB below the fail line.")
+        if tight[1] >= EFFECTIVE_CEILING:
+            print(f"    ...and {tight[0]} is ABOVE the effective ceiling "
+                  f"({EFFECTIVE_CEILING:.1f} GiB): this arm is predicted to OOM, not merely to run tight.")
 
     print("\nGlue-alone is the primary projection; the conservative column adds "
           f"{S_CKPT} GiB/set of layer inputs that the base ALREADY contains, and is an "

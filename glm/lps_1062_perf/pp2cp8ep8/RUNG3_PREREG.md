@@ -120,7 +120,36 @@ rung 3 never has to debug its own tools mid-analysis.
 
 ## Memory bar
 
-[BAND: TO BE WRITTEN FROM THE RUNG-1 CENSUS BEFORE 3a BOOTS.] Standing rule
+**WRITTEN 2026-08-20 22:35Z, BEFORE ANY ARM BOOTS.**
+
+Measured base (nvidia-smi reserved, plateau declared — last two control
+windows identical on both nodes): **rank 0 = 152.5 GiB, rank 8 = 162.6 GiB.**
+
+The glue row is NOT measured — see the rung-1 report: a full-recompute boot
+cannot measure it, because under full recompute the eager per-layer sets are
+not resident at all. So the band below uses the plan's own glue range
+(0.64-1.14 GiB per MoE set, per AMENDMENT 1, which already absorbs the void
+combine bytes) against the measured base:
+
+| glue | 3a rank 0 | 3a rank 8 | 3b rank 0 | 3b rank 8 |
+|---|---|---|---|---|
+| 0.64 (low) | 216.3 clears | 201.2 clears | 202.3 clears | 193.2 clears |
+| 0.89 (mid) | **233.8 FAIL** | 211.2 clears | 219.8 clears | 203.2 clears |
+| 1.14 (high) | **251.3 — above the 247.7 ceiling, predicted OOM** | 221.2 clears | **237.3 FAIL** | 213.2 clears |
+
+Rank 0 is the binding rank at every point in the band; rank 8 clears
+throughout despite its higher base, because it holds 40 sets to rank 0's 70.
+
+**Consequence — the arm-order rule above fires: 3b boots FIRST.** 3a is at or
+past the fail line across most of the band and is predicted to OOM at the top
+of it, while 3b clears at low and mid glue. Burning the expensive
+first-mission-length slot on the arm most likely to OOM would confound
+bring-up failures with memory failures.
+
+**And 3b's measured peak MEASURES the glue row**, which is what gate #1
+wanted and could not get: glue = (peak_3b - base - prefetch) / sets. That
+number then decides whether 3a is worth a boot at all, from data rather than
+from a 78%-wide inherited band. Standing rule
 from the campaign: the projected band goes in this file BEFORE the boot, never
 after — that discipline caught a guaranteed-OOM boot earlier in this
 workstream. Effective ceiling ≈ 247.7 GiB (267.7 cap, verified by CUDA on this
