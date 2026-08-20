@@ -26,6 +26,10 @@ export MASTER_PORT="${MASTER_PORT:-29500}"
 # venv installs ../server-main editable, so the module resolves from it.
 export TORCHRUN=$SRC/server-megatron-bridge/.venv/bin/torchrun
 export PATH=$SRC/server-megatron-bridge/.venv/bin:$PATH
+# Same PYTHONPATH the in-tree workstation launcher uses
+# (dev_job/slurm_workstation/scripts/configure_remote.sh) — after the split the
+# packages live in five source dirs.
+export PYTHONPATH="$SRC/baseten-weight-sync:$SRC/models/src:$SRC/server-interface/src:$SRC/server-main/src:$SRC/server-megatron-bridge/src:${PYTHONPATH:-}"
 : "${BT_TRAINER_CONFIG_PATH:?set BT_TRAINER_CONFIG_PATH to a trainer config JSON on the shared FS}"
 export USE_HF=1 PORT=8001 PYTHONUNBUFFERED=1
 export GLOO_SOCKET_IFNAME=eth0
@@ -44,5 +48,10 @@ fi
 unset S3_MANIFEST_PATH
 echo "node $BT_NODE_RANK: env of record:"
 env | grep -E "^(NCCL_|BT_|NVTE_)" | sort | sed "s/^/  /"
-cd "$SRC/server-main"
-exec bash scripts/launch.sh
+# --backend is REQUIRED post-#1027: trainers_server_main.main dispatches to a
+# backend package, and argparse rejects the call without it (the failure is a
+# one-line "the following arguments are required: --backend" from all 16 ranks
+# and a ChildFailedError on the leader). cwd is the bridge dir, per the
+# in-tree workstation launcher.
+cd "$SRC/server-megatron-bridge"
+exec bash "$SRC/server-main/scripts/launch.sh" --backend=megatron_bridge
