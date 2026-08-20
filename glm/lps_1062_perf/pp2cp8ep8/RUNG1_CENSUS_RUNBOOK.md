@@ -139,8 +139,8 @@ git submodule update --init --recursive       # jacobi's gotcha: fresh checkouts
                                               # build fails without this
 ```
 
-**The pin: `405943b6`** (branch tip, 2026-08-20; supersedes the earlier
-`0c794d36` pin, which is now four commits behind). The whole ladder — rung 1
+**The pin: `7eec3054`** (branch tip, 2026-08-20; supersedes the earlier
+`0c794d36` pin, which is now six commits behind). The whole ladder — rung 1
 baseline through rungs 3a/3b — runs ONE tree. The four commits added since
 `0c794d36` are: `a102e596` (drops the `moe_combine` offload group — it
 captures no bytes), `f130cad8` (Megatron-Bridge pointer bump carrying the
@@ -161,6 +161,36 @@ the restructure the bridge venv must be built by hand:
 `uv pip install --python server-megatron-bridge/.venv/bin/python --no-deps
 nvidia-cudnn-frontend==1.27.0` from OUTSIDE the repo dir. Box-side script:
 `$PP2/prep_actplace_tree.sh`.
+
+**Instrument findings from the bring-up (conway, 2026-08-20) — read before the
+offload arms:**
+
+1. **The `env=1 latch=0` boot line did not exist.** The handoff and §8b treat
+   it as a built pass/fail item; it was only ever a docstring. Transformer
+   Engine's import-time latch was therefore unobservable, which is the exact
+   failure the trap describes: a late export passes the bridge validator while
+   TE keeps its pre-V1 path, and every surface reads as engaged. Added in
+   trainers `7eec3054` — the probe now logs
+   `activation-offload NVTE latch: env=<v> latch=<v> -> OK|MISMATCH`, reading
+   TE's own module-level `NVTE_CPU_OFFLOAD_V1` bool. **With offload enabled,
+   `latch=True` is the only passing state.**
+2. **Valve telemetry is env-gated OFF and its default cadence outruns our
+   runs.** `BT_OFFLOAD_VALVE_TELEMETRY` defaults to `0`, and
+   `BT_OFFLOAD_VALVE_TELEMETRY_EVERY` defaults to `100` *training iterations*
+   while a census/arm run is 12 steps. Left alone, every offload arm produces
+   zero valve data and the "valve counters report sane values" criterion
+   cannot be evaluated. **Set both** on the offload arms:
+   `BT_OFFLOAD_VALVE_TELEMETRY=1 BT_OFFLOAD_VALVE_TELEMETRY_EVERY=1`.
+3. Verified present in the vendored fork (so these really are only
+   never-booted, not missing): the pinned-pool fix
+   (`OffloadTensorGroup.use_cpu_pool = True` for all groups, with pad-to-bucket
+   for pool-key stability), in-allocator NUMA binding (`BT_OFFLOAD_NUMA_BIND`,
+   default on) and its page-placement check (`BT_OFFLOAD_NUMA_VERIFY`, default
+   on), and the `attn_proj` hook on the AbsorbedMLA path
+   (`absorbed_mla.py`/`multi_latent_attention.py`).
+4. **Boot-log strings to grep** (all three are pass/fail reads, not colour):
+   `activation-offload NVTE latch:` / `activation-offload engagement:` /
+   `BT_OFFLOAD_NUMA_BIND: GPU` and `BT_OFFLOAD_NUMA_VERIFY: pinned buffer`.
 
 Venv: the provisioner builds it. Verify, don't rebuild:
 
@@ -377,6 +407,18 @@ else:
     print("mlp_layer_types: ABSENT (flag it)")
 EOF
 ```
+
+**DONE PRE-BOOT (conway, 2026-08-20) — read straight off the checkpoint
+config, so §5a's boot-log half is now only a cross-check.** GLM-5.2-FP8
+snapshot `ba978f7d`, 78 layers:
+- `indexer_types`: 21 full / 57 shared overall; **stage 0 (layers 0-37) = 11
+  full + 27 shared, stage 1 (38-77) = 10 full + 30 shared.** Matches the
+  freq-4 sharing rule exactly (11 leaders / 10 leaders).
+- `mlp_layer_types`: 3 dense / 75 sparse; **all 3 dense layers on stage 0,
+  none on stage 1.** Matches the plan.
+So the census denominators stand as written: rank 0 = 70 MoE sets + 6 dense
+sets, rank 8 = 40 MoE sets. Expected DSA topk-stash counts at peak: 22 on
+rank 0 (11 leaders x 2 in-flight), 10 on rank 8.
 
 Report: per-stage full/shared indexer counts (expected from the topk-sharing
 rule: a layer computes its own topk iff 1-based layer ≤ 3 or (layer−3)%4==0)
