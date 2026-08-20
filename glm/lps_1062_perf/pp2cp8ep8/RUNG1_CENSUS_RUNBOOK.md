@@ -196,10 +196,32 @@ Venv: the provisioner builds it. Verify, don't rebuild:
 
 ```bash
 cd $CLONE/server-megatron-bridge && uv run --no-sync python -c \
-  "import torch, cudnn_frontend; print(torch.__version__, torch.version.cuda)"
-# cudnn-frontend must be 1.27.0 (the fixed-wheel rule):
+  "import torch, cudnn; print(torch.__version__, torch.version.cuda)"
+# NOTE (conway): the import name is `cudnn`, NOT `cudnn_frontend` — the old
+# line here failed on every box, healthy or not.
 uv pip list --no-index 2>/dev/null | grep -i cudnn   # or: uv pip show nvidia-cudnn-frontend
 ```
+
+**Do NOT run the `nvidia-cudnn-frontend==1.27.0` install as a routine step.**
+It is a repair for a venv that resolved the wrong build. On a healthy tree it
+REPLACES the vendored pin (`1.27.0.dev20260803+git7478516`, built `0cu130`,
+in `server-megatron-bridge/vendor/wheels/`) with the stock PyPI wheel, which
+does not ship the module at all. `uv sync` already installs the right one.
+
+**Verified on qed7z1w (conway, 2026-08-20):** torch 2.11.0+cu130,
+cudnn-frontend 1.27.0.dev20260803+git7478516 (cuDNN backend 9.19.0), TE
+2.16.0, megatron-core resolving to the vendored fork with
+`OffloadTensorGroup` present. **The venv build also needs the CUDA 13
+toolkit**, not just the cu13 wheels: source-built extensions compile against
+`torch.version.cuda == 13.0` and the image ships 12.8, which aborts the build
+(hit on `fast-hadamard-transform`, whose wheel 404s for this combination).
+`apt-get install -y cuda-nvcc-13-0 cuda-libraries-dev-13-0` on BOTH nodes,
+then `CUDA_HOME=/usr/local/cuda-13.0`.
+
+**GPU identity (settles the "L20D" scare):** `nvidia-smi` reports
+`NVIDIA L20D` / Ada / compute_cap 8.9 — cosmetic export-compliance masking.
+CUDA reports the truth: **sm_103, 267.7 GiB, 148 SMs** — Blackwell Ultra, and
+267.7 GiB is exactly the cap this plan's arithmetic assumes.
 
 If the venv is broken/missing, the known-good repair on B300/ali (from
 BOX_MECHANICS_HANDOFF): `apt-get install -y cuda-nvcc-13-0 cuda-libraries-dev-13-0`,
@@ -222,7 +244,11 @@ uv run --no-sync pytest \
 ```
 
 PASS bar: **5 passed** (campaign record: 5 passed / ~22–33 s). Any failure =
-STOP, report verbatim. (Old-tree path was `server/tests/unit/dp_worker/...`;
+STOP, report verbatim.
+
+**RESULT (conway, 2026-08-20, pin 7eec3054): 5 passed in 44.34 s — GATE
+GREEN.** (Slower than the campaign's 22–33 s but the bar is pass/fail, and
+this is a first-run cudnn autotune on a fresh venv.) (Old-tree path was `server/tests/unit/dp_worker/...`;
 the server restructure moved them to `server-megatron-bridge/tests/...`.)
 
 **Piggyback (jacobi's ask, ~1 min, pure Python, no GPU):** the bridge config
@@ -239,6 +265,10 @@ Report back to jacobi (cc banach): pass/fail counts for the file overall and
 specifically for class `TestActivationOffload` (expected 18 tests: 13 plumbing
 + 5 review-follow-up/valve). This is also a free tree-sanity check before the
 boot.
+
+**RESULT (conway, 2026-08-20): 29 passed for the file; `TestActivationOffload`
+20 passed, 9 deselected.** Twenty rather than the expected eighteen — the two
+extra come from commits landed after that expectation was written. All green.
 
 ## 3. Config (unchanged full-recompute golden config)
 
@@ -461,7 +491,10 @@ the topology is up, and allocator snapshots land where expected, with ONE
 d1-class driver pass:
 
 ```bash
-python3 $PP2/profile_driver_new.py --label rung1smoke-qed7z1w-d1-$(date -u +%Y%m%dT%H%M%SZ) \
+# INTERPRETER (conway): neither the system python3 nor $PP2/analysis-venv has
+# httpx, which the driver needs. Use the worker venv's python:
+PY=/root/.cache/user_artifacts/trainers_main/server-megatron-bridge/.venv/bin/python
+$PY $PP2/profile_driver_new.py --label rung1smoke-qed7z1w-d1-$(date -u +%Y%m%dT%H%M%SZ) \
   --datums 1 --control-repeats 1
 ```
 
