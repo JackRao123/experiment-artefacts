@@ -6,8 +6,14 @@
 # Order matters. The three boot checks come FIRST and are pass/fail: if the
 # offload did not actually engage, every timing number below is a measurement
 # of the baseline wearing an arm's label, which is the worst failure mode this
-# ladder can produce. Then the forward-only parity leg on fresh weights, then
-# the timed run.
+# ladder can produce. Then the parity leg on fresh weights, then the timed run.
+#
+# NOTE: the parity leg is NOT forward-only. parity_driver.py defaults to
+# /forward_backward and this script does not pass --forward-only (neither does
+# rung1_parity_and_smoke.sh, so the two are comparable). What the leg
+# guarantees is that the WEIGHTS NEVER MOVE — no optim_step — which is the
+# property the comparison needs. For memory it is a full-size training step,
+# and it is where the uncapped-valve 3b arm ran out of memory.
 #
 # NOTHING heavy runs on the box during the timed windows. The rung-1 pair
 # learned this the expensive way: a census analysis on the leader node cost
@@ -45,10 +51,12 @@ banner "3. BOOT CHECK 3/3 — NUMA-local pinned buffers"
 # Unbound placement is the process default and measured 15.6/16.8 GB/s per GPU
 # against a ~22/24 requirement: it runs, ~30% under what the design needs,
 # while looking healthy.
-grep -a "BT_OFFLOAD_NUMA_BIND:" "$L" | head -4 || echo "(no NUMA bind lines yet — they appear at first offload)"
-grep -a "BT_OFFLOAD_NUMA_VERIFY:" "$L" | head -4 || echo "(no NUMA verify lines yet)"
+BIND_LINES=$(grep -a "BT_OFFLOAD_NUMA_BIND:" "$L" | sed -n 1,4p); \
+  [ -n "$BIND_LINES" ] && echo "$BIND_LINES" || echo "(no NUMA bind lines yet — they appear at first offload)"
+VER_LINES=$(grep -a "BT_OFFLOAD_NUMA_VERIFY:" "$L" | sed -n 1,4p); \
+  [ -n "$VER_LINES" ] && echo "$VER_LINES" || echo "(no NUMA verify lines yet)"
 
-banner "4. parity leg, forward-only, fresh weights"
+banner "4. parity leg, fresh weights (no optim_step)"
 $PY "$PP2/parity_driver.py" --label "rung${ARM}-qed7z1w-p1-$STAMP"
 
 banner "5. judged against the rung-1 within-boot floor (ratios, no absolute bar)"
