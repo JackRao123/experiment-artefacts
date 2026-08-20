@@ -66,7 +66,7 @@ function call would have caught them. **Run** `offload_preflight.py` **in the
 worker venv on an idle GPU before every offload boot**; it exercises the TE
 latch, PCI/NUMA resolution, manager construction, pinned-pool allocation
 and a real device-to-host round trip in seconds. Exit non-zero means do not
-boot. Extend it whenever a new mechanism appears.
+boot.
 - **Commit on the laptop, push,** `git pull` **on the box. Never scp code.** Jack
 watches the PR evolve. (Configs and box-side tools under `tools/` are
 artefacts, not code — scp for those is fine.)
@@ -111,8 +111,6 @@ re-invoked at each 3-minute checkpoint. Never a blocking sleep loop.
 A bare `srun --overlap` queues behind the trainer and looks like a hang.
 - **The drivers need the worker venv's python** (`$VENV`); nothing else on the
 box has `httpx`.
-- **Never run heavy analysis on the box during a timed window.** It cost one
-census run 2.4% throughput and quadrupled its spread.
 - **Never call** `/save_state` — the async save path hangs under CP>1.
 - Rebuilding the venv: `make megatron-bridge-venv CUDA_FLAVOR=cu13`, and it
 needs the CUDA 13 toolkit apt-installed on BOTH nodes
@@ -232,10 +230,6 @@ phase seams.
 - No `qkv_linear` offload: its tensor is shared with the core-attention
 checkpoint, so offloading it either double-stores or puts a host-to-device
 transfer inside the critical path of the one thing we chose to recompute.
-- The valve (`max_inflight_offloads`) stays at its default (uncapped) for the
-arm. Tuning it in the same run as the arm change would break
-one-variable-at-a-time. It blocks the compute stream rather than skipping,
-so an undersized valve costs throughput and never memory.
 - No per-PR subagent reviews for this stack.
 
 
