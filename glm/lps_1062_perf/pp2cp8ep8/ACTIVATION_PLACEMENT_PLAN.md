@@ -8,6 +8,101 @@ recomputation tax. Stacks on checkpoint **PR #1070**.
 
 ---
 
+---
+
+# AMENDMENTS (banach, 2026-08-20 — read before acting on anything below)
+
+Current state, code locations and verification status live in
+**`ACTIVATION_PLACEMENT_STATE.md`**. Execution handed to **conway**.
+
+The body of this plan is still the design of record, but these numbers and
+decisions in it are now SUPERSEDED:
+
+**1. The offload set is `moe_act` + `attn_proj` only. There is no combine arm.**
+The `moe_combine` group captures ~0 bytes on this path. Its 0.20-0.25 GiB/layer
+census row was derived from tensor shapes, not measured against our dispatcher
+and Transformer Engine path: TE's mask-map unpermute with no merging probs saves
+only `row_id_map` + `pad_offsets`, sub-megabyte index tensors below
+`min_offloaded_tensor_size`. The big dispatcher-seam tensors (~1.6 GiB each) are
+transient — freed in forward, never saved — so there is no better hook site.
+`qkv_linear` is also deferred (its tensor is shared with the core-attention
+checkpoint; offloading it either double-stores or puts an H2D transfer inside
+core-attn's recompute path).
+So: **offloaded ~0.95-1.35 GiB/layer-mb, not 1.6.** Glue absorbs the combine
+bytes (it was derived by subtraction): **0.64-1.14, not 0.44-0.89.** Worst-case
+projected peak on the binding stage: **~227 GiB against a ~248 GiB effective
+ceiling — ~21 GiB margin**, versus ~35 GiB as planned. Gate #1 matters more now.
+
+**2. NUMA-local pinning is GATE-CLASS, not a placement detail.** All-8
+bidirectional, sustained, per GPU: local 27.5/28.8 GB/s (meets the ~22/24
+demand); **interleaved 15.6/16.8 — BELOW demand, and interleaved is what an
+unbound process gets by default**; remote 7.4/7.8. Cross-socket penalty is 73%
+at 8 GPUs vs <1% at 1 — the campaign's single-GPU figure does not generalize.
+Also structural: at 8 GPUs the node total caps near 450 GB/s *regardless of
+direction mix* (directions split one ceiling, unlike the additive single-GPU
+case). `numactl` is absent on these hosts, so binding is in-allocator.
+Data: `results/ALL8_BIDI_OFFLOAD_BW_BENCH.md`.
+
+**3. The 1F1B bandwidth model.** F and B compute do not overlap on a rank;
+"in-flight 2" means two microbatches' activations are HELD, not two phases
+running. Sustained regime is all-8 UNIdirectional (~2.4x margin); bidirectional
+occurs only at phase seams. Phase-2 core-attn offload is CONDITIONALLY alive —
+it fits unidirectional but not the seams, so it depends on phase discipline,
+decided by rung-3 exposed-stall measurement.
+
+**4. Ladder rescope.** Selective-recompute-only does NOT fit at 131k (~292 GiB
+vs ~248) — selective recompute and the offload are ONE PACKAGE and there is no
+selective-only fallback (block+K remains the fallback, a different mechanism).
+Rung 2a moved to 32k; rung 2b (deliberate 131k OOM) is conditional and probably
+skipped; **rung 2c added** — full phase-1 config at 32k as a pure BRING-UP pass
+(crashes and wiring only, NOT tuning; no throughput claim) that also smoke-runs
+every measurement instrument. Rung 2a/2c can run single-node at PP1.
+
+**5. Rung 5 is a MATCHED d16 PAIR on our own tree; the deliverable is the
+RATIO.** Not one run against the historical record band. TF32 is cancelled per
+Jack ("TF32. I don't want that.") — it cancels out of a matched pair anyway. No
+comparisons to the 984 / 1089-1103 band anywhere; absolute figures are context
+only. An absolute ship-config number is a separate follow-on, not this
+workstream.
+
+**6. Layer geometry.** GLM-5.2 is not uniform: `mlp_layer_types = 3 dense + 75
+sparse` over 78 layers, and `index_topk_freq = 4` (one leader computes DSA top-k,
+next three share it — 11 leaders on stage 0, 10 on stage 1). With the 38/40
+split, rank 0 = 3 dense + 35 MoE at in-flight 2 (70 MoE sets); rank 8 = 40 MoE at
+in-flight **1** (40 sets) plus loss/logits. The stages bind on DIFFERENT things:
+rank 0 on activation-set count (drives offload volume and PCIe demand), rank 8 on
+total peak (drives whether the resident bucket fits). Never average per-rank
+census figures; MoE-only denominators are 70 and 40.
+
+**7. Census hygiene.** Identify tensors in allocator snapshots by ALLOCATION
+SITE, never by size signature (the DSA topk stash, [1,16384,2048] int64 =
+268435456 B, aliases a different tensor at 256k/CP32). That stash is ~5.9 GB on
+rank 0 / ~2.7 GB on rank 8 and is paid TODAY under full recompute — it is not a
+cost of this change and must be its own census row, not folded into glue.
+Project net-new resident with GLUE ALONE: the 0.19 GiB/set inputs are already in
+today's peak (S_ckpt), so glue+input double-counts.
+
+**8. `NVTE_CPU_OFFLOAD_V1=1` must be in the LAUNCHER env.** TE latches it at
+import; the bridge validator reads it lazily. Set worker-side after TE imports
+and validation PASSES while TE silently keeps the V0 path. Absent entirely fails
+loud. Boot log reports env and latched value; `env=1 latch=0` is a FAILED boot.
+
+**9. Code is committed, not patched.** The vendored megatron-core changes are
+real commits on `basetenlabs/Megatron-LM` @ `jackrao/lps-1062-activation-offload`
+(the "frozen tree / freeze-exception" framing was over-cautious — it is our own
+fork and its current pin is already one of our commits), pointer-bumped through
+`basetenlabs/Megatron-Bridge`, surfaced in **trainers PR #1074** (draft). The
+`bt_offload_*` patch files are deleted. Workflow: commit on the laptop, push,
+`git pull` on the box — do not scp code.
+
+**10. Nothing has run on GPU.** Three provisions failed on GPU capacity
+(`FailedScheduling: Insufficient nvidia.com/gpu`, autoscaler cannot add nodes) —
+NOT the platform regression an earlier note claimed; that diagnosis is retracted.
+No fallback accelerator exists: B200's 180 GB is under the ~200-227 GiB projected
+peak even after offload.
+
+---
+
 # FOR HUMANS
 
 ## The picture
