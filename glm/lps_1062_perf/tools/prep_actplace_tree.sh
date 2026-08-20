@@ -31,10 +31,15 @@ echo "[$(ts)] make megatron-bridge-venv CUDA_FLAVOR=cu13"
 time make megatron-bridge-venv CUDA_FLAVOR=cu13
 echo "[$(ts)] pybind11"
 uv pip install --python "$C/server-megatron-bridge/.venv/bin/python" pybind11
-echo "[$(ts)] cudnn-frontend fixed-wheel pin (from outside the repo dir)"
-cd /tmp
-uv pip install --python "$C/server-megatron-bridge/.venv/bin/python" --no-deps nvidia-cudnn-frontend==1.27.0
+# NO cudnn-frontend "bump" here. The runbook's
+# `uv pip install --no-deps nvidia-cudnn-frontend==1.27.0` is a REPAIR for a
+# venv that resolved the wrong build; on a healthy tree it REPLACES the
+# vendored pin (1.27.0.dev20260803+git7478516, built 0cu130) with the stock
+# PyPI wheel, which does not even ship the module. `uv sync` already installs
+# the vendored wheel — leave it alone.
 echo "[$(ts)] verify"
 cd "$C/server-megatron-bridge"
-uv run --no-sync python -c "import torch, cudnn_frontend, transformer_engine, importlib.metadata as m; print(\"torch\", torch.__version__, \"cuda\", torch.version.cuda); print(\"cudnn-frontend\", m.version(\"nvidia-cudnn-frontend\")); print(\"TE\", m.version(\"transformer-engine\"))"
+# The import name is `cudnn`, NOT `cudnn_frontend` (the runbook's verify line
+# was wrong and would fail on any box).
+uv run --no-sync python -c "import torch, cudnn, transformer_engine, importlib.metadata as m; print(\"torch\", torch.__version__, \"cuda\", torch.version.cuda); print(\"cudnn-frontend\", m.version(\"nvidia-cudnn-frontend\")); print(\"TE\", m.version(\"transformer-engine\")); from megatron.core.pipeline_parallel import fine_grained_activation_offload as fo; print(\"offload module OK:\", hasattr(fo, \"OffloadTensorGroup\"))"
 echo "[$(ts)] DONE ok"
