@@ -26,6 +26,21 @@ One variable per arm. All parse-checked against TrainerControllerConfig
 | 3a | `trainer_pp2cp8ep8_131k_selective_offload_moe_act.json` | First config that runs at 131k at all — bring-up milestone, expect first-boot problems. |
 | 3b | `trainer_pp2cp8ep8_131k_selective_offload_moe_act_combine.json` | Adds moe_combine. Boots only once carnot's dispatcher hook + vendored vocabulary hunk land. |
 | 3c | `trainer_pp2cp8ep8_131k_selective_offload_moe_act_combine_attn_proj.json` | Adds attn_proj (legal under core_attn recompute; trainers 0c794d36). Same carnot-hunk boot dependency as 3b. |
+| 5 | `trainer_pp2cp8ep8_131k_rung5_control_full_recompute.json` + `trainer_pp2cp8ep8_131k_rung5_phase1_offload.json` | The headline MATCHED PAIR at d16: identical except recompute+offload, frozen under rung-5 names so later ladder-arm tuning cannot move the headline. Treatment arm intentionally mirrors rung 3c's content. |
+
+**Rung 5 reports a RATIO, not an absolute.** The pair runs on one tree, one
+seed, one data order, so TF32, the B/F caches, the wheel version, and the
+box cancel — they are on both sides or neither. The absolute
+tokens-per-second figures are context only and are NOT comparable to the
+historical record band (984–1103 tok/s/GPU): those numbers came from a
+different tree and environment, and comparing against them validly would
+require porting the backlogged TF32-head PR #995. Do not report a rung-5
+absolute number as if it were a record-band number.
+
+Observational bonus (hilbert; not a gate): rung 1's d2 baseline and rung 5's
+d16 control together give a microbatch-scaling read on one tree for free —
+d2 vs d16 at the same full-recompute config isolates the pipeline-bubble
+share of the step (~33% at d2 vs ~6% at d16).
 
 Boot env for ALL offload rungs: `NVTE_CPU_OFFLOAD_V1=1` must be in the
 LAUNCHER environment. NUMA: carnot's allocator binds NUMA-local by default;
