@@ -28,8 +28,26 @@ One variable per arm. All parse-checked against TrainerControllerConfig
 | 3c | `trainer_pp2cp8ep8_131k_selective_offload_moe_act_combine_attn_proj.json` | Adds attn_proj (legal under core_attn recompute; trainers 0c794d36). Same carnot-hunk boot dependency as 3b. |
 
 Boot env for ALL offload rungs: `NVTE_CPU_OFFLOAD_V1=1` must be in the
-LAUNCHER environment (Transformer Engine latches it at import time; a
-worker-side set after TE import passes the bridge validator but silently
-keeps TE's V0 path). NUMA: carnot's allocator binds NUMA-local by default;
+LAUNCHER environment. NUMA: carnot's allocator binds NUMA-local by default;
 `BT_OFFLOAD_NUMA_BIND=off` is the opt-out A/B switch — leave it unset for
 real arms.
+
+**THE TIMING TRAP (read before touching that env var):** Transformer Engine
+latches `NVTE_CPU_OFFLOAD_V1` at IMPORT time via a module-level
+`os.environ.get` (`transformer_engine/pytorch/cpu_offload.py:28`), while the
+bridge validator reads it lazily at boot config-validation. Consequences:
+
+- var UNSET or `=0` with offload enabled → the boot FAILS LOUDLY
+  (ValueError from `_validate_fine_grained_activation_offloading`). A
+  forgotten export cannot silently no-op.
+- var set WORKER-SIDE AFTER TE IMPORT (e.g. in trainer code, a late
+  sitecustomize, or any shell that starts after the trainer's Python
+  imports TE) → the validator passes (it sees the late value) but TE
+  already latched `0` and silently runs the V0 path — the
+  weights-offloading behavior the validator exists to prevent. The run
+  looks like "offload does not help" when offload never ran correctly.
+
+So: `NVTE_CPU_OFFLOAD_V1=1` belongs in the launcher environment of every
+offload rung, never in worker-side code. carnot's boot-time engagement probe
+logs both the env value and TE's latched value; `env=1 latch=0` is the
+signature of this trap — treat it as a failed boot, not a slow one.
