@@ -2,8 +2,9 @@
 
 Written BEFORE the arms boot (conway, 2026-08-20). Box qed7z1w, pin
 `7eec3054`. Jack has deferred the 32k rungs (2a parity, 2c bring-up), so the
-ladder here is: rung 1 census → 3a → 3b. Bars are fixed in this file first;
-numbers land in the report.
+ladder here is: rung 1 census → 3b, at d2 only. 3a is cancelled (see below)
+and no d16 pair is scheduled — Jack will decide that separately. Bars are
+fixed in this file first; numbers land in the report.
 
 ## What each arm changes (one variable per arm)
 

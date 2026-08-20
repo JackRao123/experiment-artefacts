@@ -27,7 +27,7 @@ offload adds Y".
 later). 3b is the phase-1 configuration of record: selective recompute +
 offload of `moe_act` and `attn_proj`.
 
-When it is healthy, run in this order:
+When it is healthy, run:
 
 ```bash
 bash $PP2/rung3_arm.sh 3b
@@ -37,21 +37,14 @@ That does the three boot checks first (they are pass/fail — see below), then
 a forward-only parity leg, then a timed d2 run matched to the baseline, then
 the plateau read and valve counters.
 
-**Then, on the SAME boot** (no reboot needed — d16 has the same peak memory
-as d2 because 1F1B caps in-flight microbatches at 2), run the d16 window that
-is half the headline:
+That is the whole run. **d2 only — do not run d16.** The result is 3b's
+control-window throughput against the d2 baseline of 645.1 tok/s/GPU, both
+measured the same way on the same tree.
 
-```bash
-$VENV/bin/python $PP2/profile_driver_new.py --label rung5-3b-qed7z1w-d16-$(date -u +%Y%m%dT%H%M%SZ) \
-  --datums 16 --control-repeats 6
-```
-
-## Then: the headline deliverable
-
-One more boot — the **full-recompute baseline at d16** — and the deliverable
-is the **ratio** between that and 3b's d16 number. d16 rather than d2 because
-d2's pipeline bubble is ~33% of the step versus ~6% at d16, which understates
-the win.
+Jack will decide separately whether a d16 pair is worth booting later. Do not
+schedule one. When reporting the d2 ratio, note once that d2 understates the
+win — its pipeline bubble is ~33% of the step versus ~6% at d16 — and leave
+it there.
 
 Absolute tokens/sec figures are context only, on our own tree. **Never
 compare anything to the historical 984 or 1089-1103 bands** — different tree
