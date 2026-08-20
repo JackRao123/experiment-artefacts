@@ -92,6 +92,32 @@ Pre-registered rule, decided from the rung-1 census before either arm boots:
   contingency activates (largest glue tensors move into the offload bucket)
   and that is a design change to raise before spending box time.
 
+## Instruments validated before the arms (conway, 2026-08-20)
+
+Both analysis instruments were exercised on real data before any arm boots, so
+rung 3 never has to debug its own tools mid-analysis.
+
+- **`memory_census.py`** runs and parses real snapshots. Its smoke run on an
+  older 131k snapshot immediately earned its keep: the replay peak read
+  23.1 GiB against 123.8 GiB live at dump time, because the allocator event
+  ring (server default 100,000 events) covered only 10.2 s — under half a d2
+  step — so the per-bucket composition was window-local rather than a step's
+  peak instant. The tool detects and warns about this. Fixed at the source:
+  the driver now takes `--max-entries`, default 1,000,000 (~4 steps of
+  headroom, ~126 MB per rank at ~0.13 KB/event).
+  It also confirmed the size-alias hazard is real — on that snapshot the
+  exact-size DSA topk match caught 2 tensors whose alloc sites were
+  `gemm.py`/`graph.py`/`functional.py`, nothing to do with the indexer. **The
+  printed alloc sites must be eyeballed on our data** (expect dsa.py/indexer
+  sites; expected counts 22 on rank 0, 10 on rank 8).
+- **`copy_exposure.py`** reproduces the reference trace exactly:
+  **a2a 28.55 s, p2p 8.55 s** over a 132.5 s window, matching the plan's
+  constants of record, with 66,126 background pinned device-to-host copies
+  fully hidden (0.23 s resident, no copy >=100 us). On this no-offload trace
+  exposed copy is 0.00 s and the tool correctly declares its host-sync
+  cross-check vacuous. That 66k-copy background is the baseline the offload
+  arms read their copy numbers as a DELTA against.
+
 ## Memory bar
 
 [BAND: TO BE WRITTEN FROM THE RUNG-1 CENSUS BEFORE 3a BOOTS.] Standing rule
