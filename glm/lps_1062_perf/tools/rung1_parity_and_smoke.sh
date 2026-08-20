@@ -39,9 +39,13 @@ banner "3. compare the pair — THIS IS THE NOISE FLOOR, not a pass/fail"
 # The driver's built-in 1e-6/1e-3 tolerances are the OLD absolute bars. We do
 # NOT judge against them; we record the three statistics as the floor that
 # later arms are judged relative to.
+# `|| true` is load-bearing: the driver exits non-zero when its OLD absolute
+# tolerances trip, and on this intrinsically-nondeterministic path they always
+# will. This step MEASURES the floor; it does not gate anything, and its exit
+# code must not abort the sequence (it did, and cost the smoke pass).
 $PY "$PP2/parity_driver.py" --compare \
   "$BENCH/parity_${LABEL_BASE}-p1-$STAMP.json" \
-  "$BENCH/parity_${LABEL_BASE}-p2-$STAMP.json"
+  "$BENCH/parity_${LABEL_BASE}-p2-$STAMP.json" || true
 
 banner "4. smoke: one d1 driver pass (steps the optimizer — after the parity legs)"
 $PY "$PP2/profile_driver_new.py" --label "rung1smoke-qed7z1w-d1-$STAMP" \

@@ -19,12 +19,20 @@ STAMP=$(date -u +%Y%m%dT%H%M%SZ)
 
 banner() { printf '\n=== %s ===\n' "$*"; }
 
+# Any srun that has to run ALONGSIDE the trainer must attach to the trainer's
+# allocation with --jobid. A bare `srun --overlap` queues behind it forever
+# (the trainer holds both nodes), which looks exactly like a hang.
+JID=$(squeue -h --name=devbox_trainer -o "%A" | head -1)
+[ -n "$JID" ] || { echo "!! no devbox_trainer job — is the trainer up?"; exit 1; }
+echo "attaching side-tasks to trainer job $JID"
+SR="srun --jobid=$JID --overlap"
+
 banner "0. per-GPU memory pollers on both nodes"
 # nvidia-smi reserved — the OOM-relevant metric. NEVER mixed against the
 # torch-reserved figure from /status; they differ by ~12 GiB of NCCL/driver
 # overhead. One sampler per node via srun, CSVs on the shared FS.
 mkdir -p "$PP2/mem"
-srun --overlap -N2 -n2 bash "$PP2/poll_gpu_mem.sh" "$PP2/mem" &
+$SR -N2 -n2 bash "$PP2/poll_gpu_mem.sh" "$PP2/mem" &
 POLLER_SRUN=$!
 echo "poller srun pid $POLLER_SRUN"
 
@@ -36,7 +44,7 @@ banner "2. preserve run A's artifacts BEFORE run B wipes them"
 # memory_profile/start wipes the pickle dir on each node and
 # runtime_profile/start clears the box trace dir — the campaign's
 # pull-immediately rule.
-srun --overlap -N2 -n2 --label bash -c \
+$SR -N2 -n2 --label bash -c \
   "mkdir -p $PP2/artifacts/runA/\$(hostname -s); \
    cp -a /tmp/checkpoints/profiles/latest/memory/. $PP2/artifacts/runA/\$(hostname -s)/ 2>/dev/null || true; \
    cp -a /tmp/checkpoints/profiles/torch_trace/. $PP2/artifacts/runA/\$(hostname -s)/ 2>/dev/null || true; \
@@ -47,7 +55,7 @@ $PY "$PP2/profile_driver_new.py" --label "rung1B-qed7z1w-d2-$STAMP" \
   --datums 2 --control-repeats 10
 
 banner "4. preserve run B's artifacts"
-srun --overlap -N2 -n2 --label bash -c \
+$SR -N2 -n2 --label bash -c \
   "mkdir -p $PP2/artifacts/runB/\$(hostname -s); \
    cp -a /tmp/checkpoints/profiles/latest/memory/. $PP2/artifacts/runB/\$(hostname -s)/ 2>/dev/null || true; \
    cp -a /tmp/checkpoints/profiles/torch_trace/. $PP2/artifacts/runB/\$(hostname -s)/ 2>/dev/null || true; \
