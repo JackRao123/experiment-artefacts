@@ -1,7 +1,8 @@
 # RUNG 1 — MEMORY CENSUS BOOT (gate #1 of the Activation Placement Plan)
 
-Owner: godel. Box: wn2m92w (2 nodes × 8 B300, ali) — **if the box is
-reprovisioned, one `sed -i '' s/wn2m92w/<new-id>/g` on this file updates every
+Owner: conway (handed off by banach 2026-08-20; originally godel).
+Box: qed7z1w (2 nodes × 8 B300, ali) — **if the box is
+reprovisioned, one `sed -i '' s/qed7z1w/<new-id>/g` on this file updates every
 command; nothing else is box-specific.** Branch:
 `jackrao/lps-1062-actplace` — pinned tip recorded at §1 (the branch moves as
 the ladder's PRs land; the boot checks out the RECORDED commit, never the
@@ -111,13 +112,13 @@ so loudly; do not report a number and let the reader infer it.**
 Box (provisioned by banach — do NOT provision another):
 
 ```
-ssh training-job-wn2m92w-0.ssh.baseten.co   # leader:  node rank 0, global ranks 0-7,  pp_rank 0 (38 layers + embedding)
-ssh training-job-wn2m92w-1.ssh.baseten.co   # worker:  node rank 1, global ranks 8-15, pp_rank 1 (40 layers + loss head)
+ssh training-job-qed7z1w-0.ssh.baseten.co   # leader:  node rank 0, global ranks 0-7,  pp_rank 0 (38 layers + embedding)
+ssh training-job-qed7z1w-1.ssh.baseten.co   # worker:  node rank 1, global ranks 8-15, pp_rank 1 (40 layers + loss head)
 ```
 
 Per-node env already set by the platform: BT_LEADER_ADDR, BT_NODE_RANK,
-BT_GROUP_SIZE. Logs from Mac: `truss train logs --job-id wn2m92w --tail`.
-Do NOT `truss train stop --job-id wn2m92w` without telling banach.
+BT_GROUP_SIZE. Logs from Mac: `truss train logs --job-id qed7z1w --tail`.
+Do NOT `truss train stop --job-id qed7z1w` without telling banach.
 
 On the leader (all phases idempotent):
 
@@ -138,12 +139,28 @@ git submodule update --init --recursive       # jacobi's gotcha: fresh checkouts
                                               # build fails without this
 ```
 
-**The pin: `0c794d36`** (pushed by jacobi 2026-08-20; includes the rung-3
-config surface b6894e56 + 0c794d36). The whole ladder — rung 1 baseline
-through rungs 3a/3b/3c — runs ONE tree. The two extra commits are
-config-surface-only (default-off, inert for the full-recompute census boot)
-and jacobi's piggyback test run (§2) validates the new surface BEFORE the
-boot. Record the actual booted commit in the report.
+**The pin: `405943b6`** (branch tip, 2026-08-20; supersedes the earlier
+`0c794d36` pin, which is now four commits behind). The whole ladder — rung 1
+baseline through rungs 3a/3b — runs ONE tree. The four commits added since
+`0c794d36` are: `a102e596` (drops the `moe_combine` offload group — it
+captures no bytes), `f130cad8` (Megatron-Bridge pointer bump carrying the
+pinned-buffer pooling, in-allocator NUMA binding, boot page-placement
+verification, valve telemetry, the conditional `attn_proj` guard relaxation
+and the AbsorbedMLA `attn_proj` hook), `85900ca4` (offload hook-engagement
+report from the first MoE layer), and `405943b6` (lint/format fixes). All are
+inert for the full-recompute census boot. Record the actual booted commit in
+the report.
+
+**Tree note (conway, 2026-08-20):** trainers main was restructured on
+2026-08-19 (#1027, "extract backend packages") — `server/` is now
+`server-megatron-bridge/` plus `server-main`/`server-interface`/
+`server-automodel`. `devbox-up`'s venv step still builds the OLD layout
+(`make server-venv` → `server/.venv`), so on a box whose shared clone predates
+the restructure the bridge venv must be built by hand:
+`make megatron-bridge-venv CUDA_FLAVOR=cu13` (cu13 is the B300 flavor), then
+`uv pip install --python server-megatron-bridge/.venv/bin/python --no-deps
+nvidia-cudnn-frontend==1.27.0` from OUTSIDE the repo dir. Box-side script:
+`$PP2/prep_actplace_tree.sh`.
 
 Venv: the provisioner builds it. Verify, don't rebuild:
 
@@ -201,7 +218,7 @@ Boot artifact (staged from the campaign dir, Mac side):
 # Mac:
 cd ~/Documents/trainers/experiment_artefacts/glm/lps_1062_perf
 scp pp2cp8ep8/configs/trainer_pp2cp8ep8_131k.json pp2cp8ep8/configs/trainer_server.json \
-    training-job-wn2m92w-0.ssh.baseten.co:$PP2/
+    training-job-qed7z1w-0.ssh.baseten.co:$PP2/
 # (also stage tools: profile_driver_new.py, mfu.py, poll_gpu_mem.sh from tools/)
 ```
 
@@ -381,11 +398,11 @@ UTC (the parity-collision lesson — the JSON carries the label):
 
 ```bash
 STAMP=$(date -u +%Y%m%dT%H%M%SZ)
-python3 $PP2/parity_driver.py --label rung1A-wn2m92w-p1-$STAMP
-python3 $PP2/parity_driver.py --label rung1A-wn2m92w-p2-$STAMP
+python3 $PP2/parity_driver.py --label rung1A-qed7z1w-p1-$STAMP
+python3 $PP2/parity_driver.py --label rung1A-qed7z1w-p2-$STAMP
 python3 $PP2/parity_driver.py --compare \
-  /root/.cache/user_artifacts/lps1062_bench/parity_rung1A-wn2m92w-p1-$STAMP.json \
-  /root/.cache/user_artifacts/lps1062_bench/parity_rung1A-wn2m92w-p2-$STAMP.json
+  /root/.cache/user_artifacts/lps1062_bench/parity_rung1A-qed7z1w-p1-$STAMP.json \
+  /root/.cache/user_artifacts/lps1062_bench/parity_rung1A-qed7z1w-p2-$STAMP.json
 ```
 
 Record the compare output's three statistics: per-token max-abs diff, %
@@ -402,7 +419,7 @@ the topology is up, and allocator snapshots land where expected, with ONE
 d1-class driver pass:
 
 ```bash
-python3 $PP2/profile_driver_new.py --label rung1smoke-wn2m92w-d1-$(date -u +%Y%m%dT%H%M%SZ) \
+python3 $PP2/profile_driver_new.py --label rung1smoke-qed7z1w-d1-$(date -u +%Y%m%dT%H%M%SZ) \
   --datums 1 --control-repeats 1
 ```
 
@@ -449,7 +466,7 @@ and satisfying the read rule (plateau = poller-max over the LAST TWO mains,
 which must agree within ~2 GiB):
 
 ```bash
-python3 $PP2/profile_driver_new.py --label rung1A-wn2m92w-d2-$(date -u +%Y%m%dT%H%M%SZ) \
+python3 $PP2/profile_driver_new.py --label rung1A-qed7z1w-d2-$(date -u +%Y%m%dT%H%M%SZ) \
   --datums 2 --control-repeats 10
 ```
 
@@ -463,7 +480,7 @@ plateau sample, and its per-window loss/gn trajectory against run A's is the
 stepping-side noise floor:
 
 ```bash
-python3 $PP2/profile_driver_new.py --label rung1B-wn2m92w-d2-$(date -u +%Y%m%dT%H%M%SZ) \
+python3 $PP2/profile_driver_new.py --label rung1B-qed7z1w-d2-$(date -u +%Y%m%dT%H%M%SZ) \
   --datums 2 --control-repeats 10
 ```
 
@@ -504,7 +521,7 @@ BT_PROFILE_RANKS unset on this boot to keep it trace-tax-free):
 
 1. Sweep + squeue check + boot (same as §5). READY.
 2. One parity leg (fresh weights): `parity_driver.py --label
-   rung1B2-wn2m92w-p1-$STAMP`. Cross-boot cell = compare vs boot 1's p1:
+   rung1B2-qed7z1w-p1-$STAMP`. Cross-boot cell = compare vs boot 1's p1:
    `parity_driver.py --compare parity_rung1A-...-p1-... parity_rung1B2-...-p1-...`.
 3. One d1 driver step (mirrors boot 1's smoke, so the driver runs on both
    boots sit at the same weight offset — matched-step comparability for the
@@ -523,17 +540,17 @@ call, made explicitly, not by omission.
 
 ```bash
 # Mac side — pull from BOTH nodes (paths are pod-local):
-STAMP=wn2m92w-$(date -u +%Y%m%dT%H%M%SZ)
+STAMP=qed7z1w-$(date -u +%Y%m%dT%H%M%SZ)
 for N in 0 1; do
-  scp -C training-job-wn2m92w-$N.ssh.baseten.co:'/tmp/checkpoints/profiles/latest/memory/memory.rank*.pickle' \
+  scp -C training-job-qed7z1w-$N.ssh.baseten.co:'/tmp/checkpoints/profiles/latest/memory/memory.rank*.pickle' \
     ~/perf_profiles/lps-1062/pp2cp8ep8/rung1_census/node$N/
-  scp -C training-job-wn2m92w-$N.ssh.baseten.co:'/tmp/checkpoints/profiles/torch_trace/*.pt.trace.json' \
+  scp -C training-job-qed7z1w-$N.ssh.baseten.co:'/tmp/checkpoints/profiles/torch_trace/*.pt.trace.json' \
     ~/perf_profiles/lps-1062/pp2cp8ep8/rung1_census/node$N/
 done
-scp training-job-wn2m92w-0.ssh.baseten.co:'/root/.cache/user_artifacts/lps1062_bench/rung1census-*.json' \
+scp training-job-qed7z1w-0.ssh.baseten.co:'/root/.cache/user_artifacts/lps1062_bench/rung1census-*.json' \
   ~/Documents/trainers/experiment_artefacts/glm/lps_1062_perf/pp2cp8ep8/results/
 # poller CSVs:
-scp training-job-wn2m92w-0.ssh.baseten.co:'/root/.cache/user_artifacts/lps1062_pp2/mem/mem.*.csv' \
+scp training-job-qed7z1w-0.ssh.baseten.co:'/root/.cache/user_artifacts/lps1062_pp2/mem/mem.*.csv' \
   ~/Documents/trainers/experiment_artefacts/glm/lps_1062_perf/pp2cp8ep8/results/rung1_census_mem/
 ```
 
