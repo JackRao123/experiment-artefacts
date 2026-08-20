@@ -67,6 +67,31 @@ throughput and never memory — the safe direction. Read the telemetry
 (commits, drain firings, events drained, max pending per group) and only tune
 if the numbers or the memory read demand it, as a separate run.
 
+## Arm ORDER is decided by the census, not by the numbering
+
+Counter-intuitively **3a is the memory-tightest arm, not 3b**. In 3a
+`attn_proj` is neither recomputed (selective recompute keeps only core
+attention) nor offloaded (the module list is `moe_act` alone), so it stays
+resident: ~0.20 GiB per set, about **14 GiB on rank 0** at 70 sets and
+**8 GiB on rank 8** at 40. 3b offloads it and gives that back. So the
+projected deltas over the measured base are:
+
+- 3a: `sets_r x (glue + attn_proj)`  ← the peak of the ladder
+- 3b: `sets_r x glue`
+
+Pre-registered rule, decided from the rung-1 census before either arm boots:
+
+- Both projections clear the FAIL line (< ~227.7 GiB on both ranks) → run
+  3a then 3b as numbered, one variable at a time.
+- 3a projects at or over the line but 3b clears it → **run 3b first**, and
+  treat 3a as a deliberately-skipped or after-the-fact point. Burning the
+  first mission-length boot on the configuration most likely to OOM would
+  waste the expensive slot and confound bring-up failures with memory
+  failures. Say plainly in the report that the arms ran out of order and why.
+- Both project over the line → neither arm boots as designed; the plan's
+  contingency activates (largest glue tensors move into the offload bucket)
+  and that is a design change to raise before spending box time.
+
 ## Memory bar
 
 [BAND: TO BE WRITTEN FROM THE RUNG-1 CENSUS BEFORE 3a BOOTS.] Standing rule
