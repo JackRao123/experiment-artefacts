@@ -6,9 +6,20 @@ exec 2>&1
 source /root/.cache/user_artifacts/env.sh
 export PATH=/root/.cache/user_artifacts/bin:$PATH
 export UV_PYTHON=/usr/bin/python3.12
+# CUDA 13 toolkit. The cu13 torch wheels make source builds compile against
+# torch.version.cuda == 13.0, and this image ships only 12.8; the mismatch
+# aborts the build (hit on fast-hadamard-transform, whose wheel 404s for this
+# combination so it falls back to source). Install on BOTH nodes:
+#   apt-get install -y cuda-nvcc-13-0 cuda-libraries-dev-13-0
+export CUDA_HOME=/usr/local/cuda-13.0
+export PATH=$CUDA_HOME/bin:$PATH
 C=/root/.cache/user_artifacts/trainers_main
 ts() { date -u +%FT%TZ; }
 cd "$C"
+PIN=${PIN:-7eec3054}
+echo "[$(ts)] fetch + checkout $PIN"
+git fetch origin jackrao/lps-1062-actplace
+git checkout --quiet "$PIN"
 echo "[$(ts)] pin: $(git log --oneline -1)"
 echo "[$(ts)] submodule sync"
 git submodule sync --recursive
