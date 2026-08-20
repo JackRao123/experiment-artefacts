@@ -121,6 +121,13 @@ def main() -> None:
     ap.add_argument("--num-gpus", type=int, default=16)
     ap.add_argument("--lora-rank", type=int, default=32,
                     help="LoRA rank of the run (mfu.py: adapter FLOPs scale with rank)")
+    ap.add_argument("--max-entries", type=int, default=1_000_000,
+                    help="allocator event-ring size for memory_profile/start. The "
+                         "server default (100,000) covered only ~10 s on a 131k "
+                         "snapshot — under half a d2 step — so the replay peak came "
+                         "out far below dump-time live and the composition was "
+                         "window-local. 1M events is ~4 steps of headroom at ~126 MB "
+                         "per rank.")
     ap.add_argument("--control-repeats", type=int, default=1,
                     help="untraced control windows; >1 for a variance estimate on the headline")
     args = ap.parse_args()
@@ -141,8 +148,10 @@ def main() -> None:
         out["initial_status"] = status
         print(f"[status] world_size={status.get('world_size')} dp={status.get('data_parallel_size')}", flush=True)
 
-        print("[profile] memory_profile/start", flush=True)
-        out["memory_profile_start"] = submit_and_wait(client, "/memory_profile/start", {}, OP_TIMEOUT_S)
+        print(f"[profile] memory_profile/start max_entries={args.max_entries}", flush=True)
+        out["memory_profile_start"] = submit_and_wait(
+            client, "/memory_profile/start", {"max_entries": args.max_entries}, OP_TIMEOUT_S
+        )
 
         windows = [drive_window(client, args.label, 0, make_datums(rng, args),
                                 args.seq_len, args.num_gpus, "warmup")]
