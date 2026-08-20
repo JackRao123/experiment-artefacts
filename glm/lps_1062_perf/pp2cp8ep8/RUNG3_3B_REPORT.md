@@ -207,9 +207,42 @@ That last one was not a formality. After attempt 1 died, three orphaned
 process. Booting on top of that would have produced an out-of-memory failure
 with a completely misleading cause.
 
+### Decision rules — written 2026-08-20 23:41Z, BEFORE attempt 2's result
+
+Fixed here first so the reading of the result is not chosen after seeing it.
+Attempt 2 was dispatched 23:35Z.
+
+- **Fits and plateaus.** Report the throughput ratio against the d2 baseline of
+  record (645.1 tok/s/GPU, 1.4% within-run spread) from untraced control
+  windows only, and note once that d2 understates the win because its pipeline
+  bubble is ~33% of the step against ~6% at d16. Read the plateau as
+  poller-max over the last two control windows, which must agree within ~2 GiB.
+  Then compute the glue row **both ways** — 70 sets (the projection's stated
+  denominator) and 140 sets (one per in-flight microbatch at PP2/d2) — and say
+  which the valve counters support, rather than picking one silently.
+- **OOMs again.** Then the copy-in-flight pile was not the binding term and the
+  resident glue itself exceeds the budget. That is the plan's contingency
+  (move the largest resident glue tensors into the offload bucket), which is a
+  **design change to raise with Jack, not another boot.** The now-working
+  counters still pay for the boot: `max_pending` from the warmup iterations
+  says whether the cap of 4 was ever even reached, which distinguishes "the cap
+  was too loose" from "the valve was never the problem".
+- **Fits but throughput is at or below the 645.1 baseline.** Read
+  `drain_firings` and `events_drained`. Heavy draining means the compute stream
+  is spending its time waiting on copies, i.e. the cap of 4 is too tight — raise
+  it in a **separate** run, memory permitting, and say so. Light draining with
+  poor throughput means the cost is elsewhere (copy bandwidth or the recompute
+  itself) and the next instrument is `copy_exposure.py` against the 66,126
+  background-copy baseline, not another valve setting.
+- **Parity.** Judge as ratios against `floor_withinboot.json`, never an
+  absolute bar. Inside the within-boot floor = pass, no extra boot. Outside it =
+  ambiguous, not failed; that is when the §6b cross-boot baseline boot gets
+  spent. Far outside any plausible floor = stop and escalate (the LPS-1063
+  shape).
+
 ### Results
 
-*(pending — attempt 2 in flight)*
+*(pending — attempt 2 in flight, dispatched 23:35Z)*
 
 ---
 
