@@ -1,0 +1,11 @@
+[status] world_size=16 dp=1
+[profile] memory_profile/start max_entries=1000000
+[R1-main262k-d2 warmup0] fb=120.9s (271 tok/s/GPU) optim=4.7s loss=12.345775015926423 gn=0.4326206147670746
+[profile] runtime_profile/start
+[R1-main262k-d2 traced0] fb=101.5s (323 tok/s/GPU) optim=0.1s loss=12.328780474779032 gn=0.448176771402359
+[profile] runtime_profile/stop (sync kineto flush, can take minutes)
+[R1-main262k-d2 control0] fb=107.6s (305 tok/s/GPU) optim=0.6s loss=12.328705134220636 gn=0.44194427132606506
+[R1-main262k-d2 control1] fb=102.6s (319 tok/s/GPU) optim=0.6s loss=12.321866309609641 gn=0.36407142877578735
+[profile] memory_profile/stop (snapshot dump, can take minutes)
+[done] -> /root/.cache/user_artifacts/lps1062_bench/R1-main262k-d2.json
+SUMMARY R1-main262k-d2: 312 tok/s/GPU | step 105.1s (524288 tok) | mfu3x 3.3% | hfu 4.7% | traced 101.5s (+-3.5% kineto overhead) | peak_mem 180 GiB

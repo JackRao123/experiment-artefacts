@@ -2,9 +2,15 @@
 __pycache__/
 glm/lps1003_loss_spikes/pr910_256k_soak_20260806/full_logprobs_100rep.jsonl.gz
 glm/lps1003_loss_spikes/pr910_256k_soak_20260806/full_logprobs_100rep.npz
-glm/lps_1062_perf/runs/overnight_20260809_dispatcher_hostsync/traces/patched-ABF-4mb131k.pt.trace.json
-glm/lps_1062_perf/runs/overnight_20260809_dispatcher_hostsync/traces/unpatched-4mb-steady_qr4ggv3-gatesoff-step3.pt.trace.json
-glm/lps_1062_perf/runs/overnight_20260809_dispatcher_hostsync/traces/gated-v2-4mb-steady_qr4ggv3-step8.pt.trace.json
-glm/lps_1062_perf/pp2cp8ep8/cutlass_dsl_src_snapshot/
 glm/lps_1062_perf/pp2cp8ep8/kernel_src_snapshot/
-glm/lps_1062_perf/pp2cp8ep8/logs/box_a/unfused_pp2_watchdog_death_20260813.log
+
+# Large profiler artifacts stay local on Jack's Mac (policy + manifest:
+# glm/lps_1062_perf/DATA.md). Never commit kineto traces or memory snapshots.
+*.pt.trace.json
+*.pt.trace.json.gz
+*.pickle
+*.pickle.gz
+
+# Large local logs (kept for forensics, not for git)
+glm/lps_1062_perf/**/*.log
+glm/lps_1062_perf/**/*.log.gz

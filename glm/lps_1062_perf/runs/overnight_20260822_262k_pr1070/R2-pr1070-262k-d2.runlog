@@ -1,0 +1,11 @@
+[status] world_size=16 dp=1
+[profile] memory_profile/start max_entries=1000000
+[R2-pr1070-262k-d2 warmup0] fb=83.1s (394 tok/s/GPU) optim=3.1s loss=12.3447297848884 gn=0.4402207136154175
+[profile] runtime_profile/start
+[R2-pr1070-262k-d2 traced0] fb=105.5s (311 tok/s/GPU) optim=0.0s loss=12.32880145569403 gn=0.4534737467765808
+[profile] runtime_profile/stop (sync kineto flush, can take minutes)
+[R2-pr1070-262k-d2 control0] fb=92.1s (356 tok/s/GPU) optim=0.1s loss=12.328385652105911 gn=0.43670645356178284
+[R2-pr1070-262k-d2 control1] fb=78.9s (415 tok/s/GPU) optim=0.0s loss=12.320998462671138 gn=0.36859387159347534
+[profile] memory_profile/stop (snapshot dump, can take minutes)
+[done] -> /root/.cache/user_artifacts/lps1062_bench/R2-pr1070-262k-d2.json
+SUMMARY R2-pr1070-262k-d2: 383 tok/s/GPU | step 85.5s (524288 tok) | mfu3x 4.0% | hfu 5.8% | traced 105.5s (+23.4% kineto overhead) | peak_mem 187 GiB

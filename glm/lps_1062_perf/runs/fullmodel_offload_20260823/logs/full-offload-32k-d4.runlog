@@ -1,0 +1,17 @@
+[status] world_size=16 dp=1
+[profile] memory_profile/start max_entries=1000000
+[full-offload-32k-d4 warmup0] fb=88.5s (93 tok/s/GPU) optim=5.6s loss=12.30193678090762 gn=0.35980647802352905
+[profile] runtime_profile/start
+[full-offload-32k-d4 traced0] fb=30.3s (270 tok/s/GPU) optim=0.7s loss=12.303878521073031 gn=0.34143009781837463
+[profile] runtime_profile/stop (sync kineto flush, can take minutes)
+[full-offload-32k-d4 control0] fb=22.3s (367 tok/s/GPU) optim=0.0s loss=12.29430524613178 gn=0.3628929853439331
+[full-offload-32k-d4 control1] fb=21.5s (382 tok/s/GPU) optim=0.7s loss=12.302717864009521 gn=0.44138944149017334
+[full-offload-32k-d4 control2] fb=28.4s (289 tok/s/GPU) optim=0.1s loss=12.293047311319315 gn=0.44322553277015686
+[full-offload-32k-d4 control3] fb=17.4s (471 tok/s/GPU) optim=0.1s loss=12.290025025177771 gn=0.41482892632484436
+[full-offload-32k-d4 control4] fb=15.7s (522 tok/s/GPU) optim=1.7s loss=12.27747810296945 gn=0.37998902797698975
+[full-offload-32k-d4 control5] fb=17.4s (471 tok/s/GPU) optim=0.1s loss=12.270960493789483 gn=0.36891940236091614
+[full-offload-32k-d4 control6] fb=19.6s (418 tok/s/GPU) optim=0.1s loss=12.266419911801508 gn=0.34089040756225586
+[full-offload-32k-d4 control7] fb=17.2s (477 tok/s/GPU) optim=0.7s loss=12.253511535996582 gn=0.3703579604625702
+[profile] memory_profile/stop (snapshot dump, can take minutes)
+[done] -> /root/.cache/user_artifacts/lps1062_bench/full-offload-32k-d4.json
+SUMMARY full-offload-32k-d4: 411 tok/s/GPU | step 19.9s (131072 tok) | mfu3x 3.3% | hfu 4.9% | traced 30.3s (+52.2% kineto overhead) | peak_mem 233 GiB

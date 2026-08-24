@@ -1,0 +1,100 @@
+{
+  "label": "patched-04-knobsoff-v1",
+  "seq_len": 8192,
+  "started": "2026-08-23 02:01:28",
+  "windows": [
+    {
+      "phase": "warmup",
+      "window_index": 0,
+      "num_tokens": 8192,
+      "fb_elapsed_s": 1.2134785526432097,
+      "fb_tps_per_gpu": 6750.840368918028,
+      "optim_elapsed_s": 0.14881501998752356,
+      "loss": 11.950344699975583,
+      "grad_norm": 0.0008416623459197581
+    },
+    {
+      "phase": "main",
+      "window_index": 0,
+      "num_tokens": 8192,
+      "fb_elapsed_s": 0.9412721279077232,
+      "fb_tps_per_gpu": 8703.11545101131,
+      "optim_elapsed_s": 0.006119381170719862,
+      "loss": 11.951389100842388,
+      "grad_norm": 0.0008220671443268657
+    },
+    {
+      "phase": "main",
+      "window_index": 1,
+      "num_tokens": 8192,
+      "fb_elapsed_s": 0.889551670756191,
+      "fb_tps_per_gpu": 9209.13339754186,
+      "optim_elapsed_s": 0.005723514128476381,
+      "loss": 11.95070046392382,
+      "grad_norm": 0.0008379297214560211
+    },
+    {
+      "phase": "main",
+      "window_index": 2,
+      "num_tokens": 8192,
+      "fb_elapsed_s": 0.8920944780111313,
+      "fb_tps_per_gpu": 9182.883878245217,
+      "optim_elapsed_s": 0.00584920821711421,
+      "loss": 11.951415806983274,
+      "grad_norm": 0.0008332136203534901
+    },
+    {
+      "phase": "traced",
+      "window_index": 0,
+      "num_tokens": 8192,
+      "fb_elapsed_s": 0.8767463099211454,
+      "fb_tps_per_gpu": 9343.637842897551,
+      "optim_elapsed_s": 0.006519494112581015,
+      "loss": 11.95069569497009,
+      "grad_norm": 0.0008130178321152925
+    },
+    {
+      "phase": "posttrace",
+      "window_index": 0,
+      "num_tokens": 8192,
+      "fb_elapsed_s": 0.8919006269425154,
+      "fb_tps_per_gpu": 9184.879741684485,
+      "optim_elapsed_s": 0.005780476611107588,
+      "loss": 11.950947495727018,
+      "grad_norm": 0.000796194770373404
+    }
+  ],
+  "initial_status": {
+    "mode": "training",
+    "step": 0,
+    "model_id": "/root/.cache/user_artifacts/glm52-debug-0d4m",
+    "device": "cuda:0",
+    "last_loss": null,
+    "grad_norm": null,
+    "gpu_memory": {
+      "cuda:0": 106438852608
+    },
+    "world_size": 1,
+    "tensor_parallel_size": 1,
+    "pipeline_parallel_size": 1,
+    "expert_parallel_size": 1,
+    "context_parallel_size": 1,
+    "expert_tensor_parallel_size": 1,
+    "data_parallel_size": 1,
+    "max_seq_len": 8192
+  },
+  "profile_start": {
+    "mode": "torch",
+    "recording": true,
+    "local_path": "/tmp/checkpoints/profiles/torch_trace"
+  },
+  "profile_stop": {
+    "mode": "torch",
+    "local_path": "/tmp/checkpoints/profiles/torch_trace",
+    "remote_path": null,
+    "files": [
+      "baseten-training-job-wdpok4w-multinode-0_168191.1787450493992887771.pt.trace.json"
+    ],
+    "size_bytes": 8864533
+  }
+}

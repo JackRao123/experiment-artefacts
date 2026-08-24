@@ -1,0 +1,102 @@
+direction: right
+
+classes: {
+  tensor: {
+    shape: rectangle
+    style.fill: "#EAF2FF"
+    style.stroke: "#2563EB"
+    style.stroke-width: 2
+    style.border-radius: 8
+  }
+  norm: {
+    shape: rectangle
+    style.fill: "#F5F3FF"
+    style.stroke: "#7C3AED"
+    style.stroke-width: 2
+    style.border-radius: 8
+  }
+  module: {
+    shape: rectangle
+    style.fill: "#F0F9FF"
+    style.stroke: "#0369A1"
+    style.stroke-width: 2
+    style.border-radius: 8
+  }
+  moe: {
+    shape: rectangle
+    style.fill: "#ECFDF5"
+    style.stroke: "#047857"
+    style.stroke-width: 2
+    style.border-radius: 8
+  }
+  add: {
+    shape: circle
+    width: 54
+    height: 54
+    style.fill: "#FFFFFF"
+    style.stroke: "#0F172A"
+    style.stroke-width: 2
+  }
+  note: {
+    shape: rectangle
+    style.fill: "#FFFBEB"
+    style.stroke: "#D97706"
+    style.stroke-dash: 4
+    style.border-radius: 8
+  }
+}
+
+title: "GLM-5.2: One MoE Decoder Layer" {
+  shape: text
+  style.font-size: 30
+  style.bold: true
+}
+
+layer: "model.layers.<layer_idx>" {
+  direction: right
+  style.fill: "#FFFFFF"
+  style.stroke: "#0F172A"
+  style.stroke-width: 3
+  style.border-radius: 14
+
+  input: "Layer input X_l\n[L, 6144] BF16\n[BWD SAVE: input_layernorm]\n2L*6144/G\n0.0938 | 0.1875 GiB" {
+    class: tensor
+    style.stroke: "#DC2626"
+    style.stroke-width: 3
+  }
+  norm1: "input_layernorm\neps = 1e-5\nOutput [L, 6144]\n[BWD SAVE: LoRA inputs]\n2L*6144/G\n0.0938 | 0.1875 GiB" {
+    class: norm
+    style.stroke: "#DC2626"
+    style.stroke-width: 3
+  }
+  attention: "self_attn\n64 heads\nabsorbed MLA + cuDNN DSA\nOutput [L, 6144]\n[BWD SAVES: see attention PDF]\n1.1582 | 2.0352 GiB fused bundle" {class: module}
+  add_attn: "+" {class: add}
+  attn_state: "Post-attention X'_l\n[L, 6144] BF16\n[BWD SAVE: post_attention_layernorm]\n2L*6144/G\n0.0938 | 0.1875 GiB" {
+    class: tensor
+    style.stroke: "#DC2626"
+    style.stroke-width: 3
+  }
+  norm2: "post_attention_layernorm\neps = 1e-5\nOutput [L, 6144]\n[BWD SAVE: router/shared LoRA]\n2L*6144/G\n0.0938 | 0.1875 GiB" {
+    class: norm
+    style.stroke: "#DC2626"
+    style.stroke-width: 3
+  }
+  mlp: "mlp\n256 routed experts\n1 shared expert\nTop-8 per token\nOutput [L, 6144]\n[BWD SAVES: see MoE PDF]" {class: moe}
+  add_mlp: "+" {class: add}
+  output: "Layer output X_(l+1)\n[L, 6144]\nBF16\nNot itself saved by residual add" {class: tensor}
+
+  input -> norm1 -> attention -> add_attn -> attn_state -> norm2 -> mlp -> add_mlp -> output
+  input -> add_attn: "residual" {
+    style.stroke: "#DC2626"
+    style.stroke-width: 2
+  }
+  attn_state -> add_mlp: "residual" {
+    style.stroke: "#DC2626"
+    style.stroke-width: 2
+  }
+}
+
+note: "NO-RECOMPUTE COUNTERFACTUAL | G=2^30 | values are B200 CP32 | B300 CP16 at S=262144\nL=S/CP: 8192 | 16384 local tokens/rank. Red border = activation retained for backward. Aliases are not additive." {class: note}
+
+title -> layer.input: {style.opacity: 0}
+layer.output -> note: {style.opacity: 0}

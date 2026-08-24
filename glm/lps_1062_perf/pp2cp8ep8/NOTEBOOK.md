@@ -4457,3 +4457,27 @@ now written into BOX_SCHEDULE.md; bench-kit env-dump papercut filed.
   read-first) + F1 escalation strengthened, both staged for Jack's
   forward; blockK closed mechanism-explained; seam named; next lever =
   balance (roadmap). Fleet stood down. o7
+
+## 2026-08-22/23 overnight — 262k on PR #1070 vs tip of main (box wgm8row)
+
+Jack's ask: does the PP2 stack (#1070, head `d8b9648f`, rebased onto main tip
+`9b039d6b`) work at 262k; profile 262k on both tips with the campaign driver.
+Full writeup, prereg, driver JSONs, rank-0 traces + memory pickles:
+**`runs/overnight_20260822_262k_pr1070/`** (ANALYSIS.md is the deliverable).
+
+Verdict: **#1070 WORKS at 262k** (boots, steps, canaries clean, worst GPU
+≤207/268.6 GiB) and beats main tip: **383 vs 312 tok/s/GPU at d2 (+23%),
+522 (~590 tight-cluster) at d4 (+67%)**; main's 262k layout (EP16/CP16)
+spends **54% of its step in cross-node EP a2a (55 s/step)**. Same-layout
+131k↔262k (d4): per-token cost ×1.76, all of it wait (PP bubble ×1.6, a2a
+×1.54 — arrival-skew tail, p50 per-call bandwidth-flat; compute ~flat, DSA
+top-2048 keeps attention linear). M=2 bubble measured 28.7 s ≈ theoretical
+1/3 exactly; d4 collapses the a2a p99 tail 1.26→0.34 s. Flags: main@262k is
+2× slower + 60 GiB leaner than the Aug-9 anchor (recompute default "full"
+suspected, unconfirmed — needs a one-variable A/B); single 3.8 s coalesced
+allreduce at step end at d4; 8×117 ms f32 SIMT GEMMs on main; R3's one slow
+control window (464 vs 588-596 cluster) unexplained. Ops notes: new devbox-up
+provisions without venvs (built via make megatron-bridge-venv CUDA_FLAVOR=cu13
+on both nodes); sbatch = InvalidAccount on these boxes (use nohup setsid
+srun); current main requires BT_TRAINER_SERVER_CONFIG_PATH or boot dies at
+~2 min; profiles are rank-0-only on main (no BT_PROFILE_RANKS).

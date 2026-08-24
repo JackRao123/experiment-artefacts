@@ -1,0 +1,116 @@
+{
+  "label": "lps1062-ladder-04-core-attn-moe-act-qkv-linear-attn-proj",
+  "seq_len": 8192,
+  "num_gpus": 1,
+  "datums_per_window": 1,
+  "started": "2026-08-22 03:21:33",
+  "initial_status": {
+    "mode": "training",
+    "step": 0,
+    "model_id": "/root/.cache/user_artifacts/glm52-debug-0d2m",
+    "device": "cuda:0",
+    "last_loss": null,
+    "grad_norm": null,
+    "gpu_memory": {
+      "cuda:0": 67048046592
+    },
+    "world_size": 1,
+    "tensor_parallel_size": 1,
+    "pipeline_parallel_size": 1,
+    "expert_parallel_size": 1,
+    "context_parallel_size": 1,
+    "expert_tensor_parallel_size": 1,
+    "data_parallel_size": 1,
+    "max_seq_len": 8192
+  },
+  "final_status": {
+    "mode": "training",
+    "step": 4,
+    "model_id": "/root/.cache/user_artifacts/glm52-debug-0d2m",
+    "device": "cuda:0",
+    "last_loss": null,
+    "grad_norm": null,
+    "gpu_memory": {
+      "cuda:0": 72374812672
+    },
+    "world_size": 1,
+    "tensor_parallel_size": 1,
+    "pipeline_parallel_size": 1,
+    "expert_parallel_size": 1,
+    "context_parallel_size": 1,
+    "expert_tensor_parallel_size": 1,
+    "data_parallel_size": 1,
+    "max_seq_len": 8192
+  },
+  "windows": [
+    {
+      "label": "lps1062-ladder-04-core-attn-moe-act-qkv-linear-attn-proj",
+      "window_index": 0,
+      "phase": "warmup",
+      "num_tokens": 8192,
+      "fb_elapsed_s": 0.8798433188349009,
+      "fb_tps_per_gpu": 9310.748657895074,
+      "optim_elapsed_s": 0.05860629817470908,
+      "loss": 11.950261720180686,
+      "grad_norm": 0.0007250242633745074,
+      "peak_reserved_bytes": 72299315200,
+      "peak_allocated_bytes": 66810661376,
+      "device_total_bytes": 287428771840
+    },
+    {
+      "label": "lps1062-ladder-04-core-attn-moe-act-qkv-linear-attn-proj",
+      "window_index": 0,
+      "phase": "main",
+      "num_tokens": 8192,
+      "fb_elapsed_s": 0.7327668219804764,
+      "fb_tps_per_gpu": 11179.54546285157,
+      "optim_elapsed_s": 0.005894629750400782,
+      "loss": 11.951190712367232,
+      "grad_norm": 0.0007247391622513533,
+      "peak_reserved_bytes": 72311898112,
+      "peak_allocated_bytes": 66929560064,
+      "device_total_bytes": 287428771840
+    },
+    {
+      "label": "lps1062-ladder-04-core-attn-moe-act-qkv-linear-attn-proj",
+      "window_index": 1,
+      "phase": "main",
+      "num_tokens": 8192,
+      "fb_elapsed_s": 0.6605422431603074,
+      "fb_tps_per_gpu": 12401.932026036795,
+      "optim_elapsed_s": 0.015303418971598148,
+      "loss": 11.950593639360273,
+      "grad_norm": 0.0007244029548019171,
+      "peak_reserved_bytes": 72374812672,
+      "peak_allocated_bytes": 66929560064,
+      "device_total_bytes": 287428771840
+    },
+    {
+      "label": "lps1062-ladder-04-core-attn-moe-act-qkv-linear-attn-proj",
+      "window_index": 2,
+      "phase": "main",
+      "num_tokens": 8192,
+      "fb_elapsed_s": 0.683812309987843,
+      "fb_tps_per_gpu": 11979.895477672286,
+      "optim_elapsed_s": 0.10418584709987044,
+      "loss": 11.951530261872787,
+      "grad_norm": 0.0007243241416290402,
+      "peak_reserved_bytes": 72374812672,
+      "peak_allocated_bytes": 66929560064,
+      "device_total_bytes": 287428771840
+    }
+  ],
+  "aggregates": {
+    "step_s_mean": 0.6923737917095423,
+    "tokens_per_step": 8192,
+    "tps": 11831.759229033074,
+    "tps_per_gpu": 11831.759229033074,
+    "mfu3x": 0.9270102922701634,
+    "hfu": 1.3631586239988065,
+    "optim_s_mean": 0.04179463194062313,
+    "peak_gpu_memory_bytes": 72374812672,
+    "peak_gpu_memory_reserved_bytes": 72374812672,
+    "peak_gpu_memory_allocated_bytes": 66929560064,
+    "device_total_bytes": 287428771840
+  }
+}

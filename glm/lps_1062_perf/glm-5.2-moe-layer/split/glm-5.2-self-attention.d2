@@ -1,0 +1,182 @@
+direction: right
+
+classes: {
+  tensor: {
+    shape: rectangle
+    style.fill: "#EAF2FF"
+    style.stroke: "#2563EB"
+    style.stroke-width: 2
+    style.border-radius: 8
+  }
+  norm: {
+    shape: rectangle
+    style.fill: "#F5F3FF"
+    style.stroke: "#7C3AED"
+    style.border-radius: 8
+  }
+  projection: {
+    shape: rectangle
+    style.fill: "#FFF7ED"
+    style.stroke: "#EA580C"
+    style.border-radius: 8
+  }
+  operation: {
+    shape: rectangle
+    style.fill: "#F8FAFC"
+    style.stroke: "#64748B"
+    style.border-radius: 8
+  }
+  attention: {
+    shape: rectangle
+    style.fill: "#E0F2FE"
+    style.stroke: "#0284C7"
+    style.stroke-width: 2
+    style.border-radius: 8
+  }
+  note: {
+    shape: rectangle
+    style.fill: "#FFFBEB"
+    style.stroke: "#D97706"
+    style.stroke-dash: 4
+    style.border-radius: 8
+  }
+}
+
+title: "GLM-5.2 self_attn" {
+  shape: text
+  style.font-size: 30
+  style.bold: true
+}
+
+attention: "self_attn expansion; module paths relative to model.layers.<layer_idx>" {
+  direction: right
+  style.fill: "#F8FBFF"
+  style.stroke: "#0369A1"
+  style.stroke-width: 3
+  style.border-radius: 14
+
+  input: "Normalized hidden states H\n[L,6144] BF16\n[BWD SAVE: shared LoRA input]\n2L*6144/G\n0.0938 | 0.1875 GiB" {
+    class: tensor
+    style.stroke: "#DC2626"
+    style.stroke-width: 3
+  }
+
+  projections: "Q and KV latent paths" {
+    direction: down
+    style.fill: "#FFFFFF"
+    style.stroke: "#94A3B8"
+    style.border-radius: 10
+
+    q: "Query path" {
+      direction: right
+      style.fill: "#FFF7ED"
+      style.stroke: "#FDBA74"
+
+      q_a: "self_attn.q_a_proj [LoRA]\n6144 -> 2048\n[BWD SAVE] output [L,2048]: 2L*2048/G\n0.03125 | 0.0625 GiB\nLoRA z [L,r]: 2Lr/G\n0.00195 | 0.00391 GiB @ r=128" {
+        class: projection
+        style.stroke: "#DC2626"
+        style.stroke-width: 3
+      }
+      q_norm: "self_attn.q_a_layernorm\n[BWD SAVE] output [L,2048]\nLoRA input for q_b\n2L*2048/G\n0.03125 | 0.0625 GiB" {
+        class: norm
+        style.stroke: "#DC2626"
+        style.stroke-width: 3
+      }
+      q_b: "self_attn.q_b_proj [LoRA]\n2048 -> 64 x 256\nlogical Q [L,64,256]\n[BWD SAVE] LoRA z [L,r]\n2Lr/G = 0.00195 | 0.00391 GiB @ r=128" {
+        class: projection
+        style.stroke: "#DC2626"
+        style.stroke-width: 3
+      }
+      q_split: "split(...)\nQ_NoPE [L,64,192]\nQ_RoPE [L,64,64]\nNo independent save; absorbed below" {class: operation}
+      q_a -> q_norm -> q_b -> q_split
+    }
+
+    kv: "Key/value path" {
+      direction: right
+      style.fill: "#FFF7ED"
+      style.stroke: "#FDBA74"
+
+      kv_a: "self_attn.kv_a_proj_with_mqa [LoRA]\n6144 -> 576\n[BWD SAVE] combined [L,576]\n2L*576/G = 0.00879 | 0.01758 GiB\nLoRA z [L,r]: 0.00195 | 0.00391 GiB @ r=128" {
+        class: projection
+        style.stroke: "#DC2626"
+        style.stroke-width: 3
+      }
+      kv_split: "split(...) (views)\nKV_lat [L,512]\nK_RoPE [L,1,64]\nAliases kv_a output; no extra allocation" {class: operation}
+      kv_norm: "self_attn.kv_a_layernorm\n[BWD SAVE] pre-norm KV_lat [L,512]\n2L*512/G\n0.00781 | 0.01563 GiB" {
+        class: norm
+        style.stroke: "#DC2626"
+        style.stroke-width: 3
+      }
+      kv_b: "self_attn.kv_b_proj\nNOT CALLED by trainer absorbed MLA\nWeight is absorbed into Q/V math\nNo activation save" {
+        class: projection
+        style.stroke: "#64748B"
+        style.stroke-dash: 5
+      }
+      kv_out: "Expanded K/V\nNOT MATERIALIZED in trainer\nNo activation save" {
+        class: operation
+        style.stroke-dash: 5
+      }
+      kv_a -> kv_split -> kv_norm
+      kv_b -> kv_out: "HF logical path only" {style.stroke-dash: 5}
+    }
+  }
+
+  rope: "model.rotary_emb + absorbed MLA\nQ_abs [L,64,576] BF16\nKV_compressed [S,576] BF16 after CP all-gather\nBoth saved by fused DSA below" {
+    class: norm
+    style.stroke: "#DC2626"
+    style.stroke-width: 3
+  }
+
+  indexer: "self_attn.indexer" {
+    direction: right
+    style.fill: "#EFF6FF"
+    style.stroke: "#3B82F6"
+    style.border-radius: 10
+
+    q: "self_attn.indexer.wq_b\nQ_idx [L,32,128]\nNO BWD SAVE: indexer runs no_grad" {class: projection}
+    k: "self_attn.indexer.wk\nK_idx local [L,128]\nNO BWD SAVE: indexer runs no_grad" {class: projection}
+    k_norm: "self_attn.indexer.k_norm\nK_idx gathered [S,128]\nNO BWD SAVE" {class: norm}
+    w: "self_attn.indexer.weights_proj\nweights [L,32]\nNO BWD SAVE: x/qr detached" {class: projection}
+    score: "interleaved RoPE + fused top-k\nNO dense [L,S] score retained\nIndexer loss coeff = 0" {class: operation}
+    topk: "top-k indices [L,2048] INT32\n[BWD SAVE by fused DSA]\n4L*2048/G\n0.0625 | 0.125 GiB" {
+      class: attention
+      style.stroke: "#DC2626"
+      style.stroke-width: 3
+    }
+
+    q -> score
+    k -> k_norm -> score
+    w -> score
+    score -> topk
+  }
+
+  sparse: "cuDNN fused absorbed DSA: EXACT ctx saves\nQ [L,64,576] BF16: 2L*64*576/G = 0.5625 | 1.125 GiB\nKV [S,576] BF16: 2S*576/G = 0.28125 GiB\nindices [L,2048] INT32: 0.0625 | 0.125 GiB\nout [L,64,256] BF16: 0.25 | 0.50 GiB\nLSE [L,64] FP32: 0.00195 | 0.00391 GiB\nTOTAL = 1.1582 | 2.0352 GiB (+ negligible sink)" {
+    class: attention
+    style.stroke: "#DC2626"
+    style.stroke-width: 3
+  }
+  o: "self_attn.o_proj [LoRA]\n16384 -> 6144\nInput aliases saved DSA out [L,16384]\n[BWD SAVE] LoRA z [L,r]\n2Lr/G = 0.00195 | 0.00391 GiB @ r=128" {
+    class: projection
+    style.stroke: "#DC2626"
+    style.stroke-width: 3
+  }
+  output: "Attention output\n[L,6144]\nNot independently saved" {class: tensor}
+
+  shared_note: "NO-RECOMPUTE | G=2^30 | values B200 CP32 | B300 CP16 at S=262144\nL=S/CP = 8192 | 16384. Red border = retained for backward. r is LoRA rank (example r=128).\nShared-indexer layers receive top-k from the source layer, but each DSA backward still retains its own sanitized indices." {class: note}
+
+  input -> projections.q.q_a
+  input -> projections.kv.kv_a
+  projections.q.q_split -> rope: "Q_RoPE"
+  projections.kv.kv_split -> rope: "K_RoPE"
+  projections.kv.kv_norm -> rope: "KV latent"
+  projections.kv.kv_b -> rope: "weight only" {style.stroke-dash: 5}
+  projections.q.q_norm -> indexer.q: "Q latent"
+  input -> indexer.k
+  input -> indexer.w
+  rope -> sparse: "Q, K"
+  indexer.topk -> sparse: "selected positions"
+  shared_note -> sparse: "alternate indices" {style.stroke-dash: 5}
+  sparse -> o -> output
+}
+
+title -> attention.input: {style.opacity: 0}

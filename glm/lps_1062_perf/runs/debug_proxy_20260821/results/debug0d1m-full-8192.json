@@ -1,0 +1,101 @@
+{
+  "label": "debug0d1m-full-8192",
+  "seq_len": 8192,
+  "num_gpus": 1,
+  "datums_per_window": 1,
+  "started": "2026-08-21 19:24:11",
+  "initial_status": {
+    "mode": "training",
+    "step": 0,
+    "model_id": "/root/.cache/user_artifacts/glm52-debug-0d1m",
+    "device": "cuda:0",
+    "last_loss": null,
+    "grad_norm": null,
+    "gpu_memory": {
+      "cuda:0": 27858567168
+    },
+    "world_size": 1,
+    "tensor_parallel_size": 1,
+    "pipeline_parallel_size": 1,
+    "expert_parallel_size": 1,
+    "context_parallel_size": 1,
+    "expert_tensor_parallel_size": 1,
+    "data_parallel_size": 1,
+    "max_seq_len": 8192
+  },
+  "final_status": {
+    "mode": "training",
+    "step": 4,
+    "model_id": "/root/.cache/user_artifacts/glm52-debug-0d1m",
+    "device": "cuda:0",
+    "last_loss": null,
+    "grad_norm": null,
+    "gpu_memory": {
+      "cuda:0": 45581598720
+    },
+    "world_size": 1,
+    "tensor_parallel_size": 1,
+    "pipeline_parallel_size": 1,
+    "expert_parallel_size": 1,
+    "context_parallel_size": 1,
+    "expert_tensor_parallel_size": 1,
+    "data_parallel_size": 1,
+    "max_seq_len": 8192
+  },
+  "windows": [
+    {
+      "label": "debug0d1m-full-8192",
+      "window_index": 0,
+      "phase": "warmup",
+      "num_tokens": 8192,
+      "fb_elapsed_s": 2.6670846762135625,
+      "fb_tps_per_gpu": 3071.5185284743616,
+      "optim_elapsed_s": 0.2570743691176176,
+      "loss": 11.950264581552924,
+      "grad_norm": 0.0007202252163551748
+    },
+    {
+      "label": "debug0d1m-full-8192",
+      "window_index": 0,
+      "phase": "main",
+      "num_tokens": 8192,
+      "fb_elapsed_s": 0.6615282772108912,
+      "fb_tps_per_gpu": 12383.446456043843,
+      "optim_elapsed_s": 0.0043021137826144695,
+      "loss": 11.951154468318887,
+      "grad_norm": 0.000720879586879164
+    },
+    {
+      "label": "debug0d1m-full-8192",
+      "window_index": 1,
+      "phase": "main",
+      "num_tokens": 8192,
+      "fb_elapsed_s": 0.6236474737524986,
+      "fb_tps_per_gpu": 13135.626046408208,
+      "optim_elapsed_s": 0.0049123079515993595,
+      "loss": 11.9506108075937,
+      "grad_norm": 0.0007198737584985793
+    },
+    {
+      "label": "debug0d1m-full-8192",
+      "window_index": 2,
+      "phase": "main",
+      "num_tokens": 8192,
+      "fb_elapsed_s": 0.6306063141673803,
+      "fb_tps_per_gpu": 12990.672335427356,
+      "optim_elapsed_s": 0.0037420308217406273,
+      "loss": 11.9515741362471,
+      "grad_norm": 0.0007191480253823102
+    }
+  ],
+  "aggregates": {
+    "step_s_mean": 0.6385940217102567,
+    "tokens_per_step": 8192,
+    "tps": 12828.181476019015,
+    "tps_per_gpu": 12828.181476019015,
+    "mfu3x": 1.005079297945697,
+    "hfu": 1.4779582537774594,
+    "optim_s_mean": 0.0043188175186514854,
+    "peak_gpu_memory_bytes": 45581598720
+  }
+}

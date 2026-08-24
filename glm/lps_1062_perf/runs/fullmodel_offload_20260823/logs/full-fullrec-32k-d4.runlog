@@ -1,0 +1,13 @@
+[status] world_size=16 dp=1
+[profile] memory_profile/start max_entries=1000000
+[full-fullrec-32k-d4 warmup0] fb=18.3s (449 tok/s/GPU) optim=6.3s loss=12.302796067690053 gn=0.36228010058403015
+[profile] runtime_profile/start
+[full-fullrec-32k-d4 traced0] fb=15.0s (545 tok/s/GPU) optim=0.9s loss=12.30321760460219 gn=0.3434653580188751
+[profile] runtime_profile/stop (sync kineto flush, can take minutes)
+[full-fullrec-32k-d4 control0] fb=14.1s (582 tok/s/GPU) optim=0.8s loss=12.294897495956297 gn=0.36991894245147705
+[full-fullrec-32k-d4 control1] fb=14.1s (580 tok/s/GPU) optim=0.0s loss=12.302348780785547 gn=0.44575273990631104
+[full-fullrec-32k-d4 control2] fb=14.2s (578 tok/s/GPU) optim=0.1s loss=12.293099765007478 gn=0.45302343368530273
+[full-fullrec-32k-d4 control3] fb=14.0s (584 tok/s/GPU) optim=0.0s loss=12.290349284340953 gn=0.4087282419204712
+[profile] memory_profile/stop (snapshot dump, can take minutes)
+[done] -> /root/.cache/user_artifacts/lps1062_bench/full-fullrec-32k-d4.json
+SUMMARY full-fullrec-32k-d4: 581 tok/s/GPU | step 14.1s (131072 tok) | mfu3x 4.7% | hfu 6.9% | traced 15.0s (+6.6% kineto overhead) | peak_mem 110 GiB

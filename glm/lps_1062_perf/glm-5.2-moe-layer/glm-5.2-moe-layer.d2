@@ -1,0 +1,462 @@
+direction: down
+
+classes: {
+  tensor: {
+    shape: rectangle
+    style.fill: "#EAF2FF"
+    style.stroke: "#2563EB"
+    style.stroke-width: 2
+    style.border-radius: 8
+  }
+  norm: {
+    shape: rectangle
+    style.fill: "#F5F3FF"
+    style.stroke: "#7C3AED"
+    style.border-radius: 8
+  }
+  projection: {
+    shape: rectangle
+    style.fill: "#FFF7ED"
+    style.stroke: "#EA580C"
+    style.border-radius: 8
+  }
+  operation: {
+    shape: rectangle
+    style.fill: "#F8FAFC"
+    style.stroke: "#64748B"
+    style.border-radius: 8
+  }
+  router: {
+    shape: rectangle
+    style.fill: "#FFF1F2"
+    style.stroke: "#E11D48"
+    style.stroke-width: 2
+    style.border-radius: 8
+  }
+  expert: {
+    shape: rectangle
+    style.fill: "#ECFDF5"
+    style.stroke: "#059669"
+    style.stroke-width: 2
+    style.border-radius: 8
+  }
+  shared: {
+    shape: rectangle
+    style.fill: "#F0FDFA"
+    style.stroke: "#0F766E"
+    style.stroke-width: 2
+    style.border-radius: 8
+  }
+  add: {
+    shape: circle
+    width: 54
+    height: 54
+    style.fill: "#FFFFFF"
+    style.stroke: "#0F172A"
+    style.stroke-width: 2
+  }
+  note: {
+    shape: rectangle
+    style.fill: "#FFFBEB"
+    style.stroke: "#D97706"
+    style.stroke-dash: 4
+    style.border-radius: 8
+    style.font-size: 13
+  }
+}
+
+title: "GLM-5.2: One MoE Decoder Layer" {
+  shape: text
+  style.font-size: 30
+  style.bold: true
+  near: top-center
+}
+
+subtitle: "Representative sparse layer with a full DSA indexer (for example, layer 7 of 78, 1-based); batch size fixed at 1\nModule paths are relative to model.layers.<layer_idx> unless prefixed with model." {
+  shape: text
+  style.font-size: 17
+}
+
+layer: "model.layers.<layer_idx>: GlmMoeDsaDecoderLayer" {
+  direction: right
+  style.fill: "#FFFFFF"
+  style.stroke: "#0F172A"
+  style.stroke-width: 3
+  style.border-radius: 14
+
+  input: "Layer input X_l\n[S, 6144]\nBF16 activations" {
+    class: tensor
+  }
+
+  norm1: "input_layernorm\nGlmMoeDsaRMSNorm\neps = 1e-5\n[S, 6144]" {
+    class: norm
+  }
+
+  attention: "self_attn\nGlmMoeDsaAttention\n64 heads; Q/K head = 256\nV head = 256\nOutput [S, 6144]" {
+    class: operation
+    style.stroke: "#0369A1"
+    style.stroke-width: 2
+    style.fill: "#F0F9FF"
+  }
+
+  add_attn: "+" {
+    class: add
+  }
+
+  attn_state: "Post-attention state\nX'_l [S, 6144]" {
+    class: tensor
+  }
+
+  norm2: "post_attention_layernorm\nGlmMoeDsaRMSNorm\neps = 1e-5\n[S, 6144]" {
+    class: norm
+  }
+
+  moe: "mlp\nGlmMoeDsaMoE\n256 routed + 1 shared expert\nTop-8 routed experts/token\nOutput [S, 6144]" {
+    class: operation
+    style.stroke: "#047857"
+    style.stroke-width: 2
+    style.fill: "#ECFDF5"
+  }
+
+  add_moe: "+" {
+    class: add
+  }
+
+  output: "Layer output X_(l+1)\n[S, 6144]\nBF16 activations" {
+    class: tensor
+  }
+
+  input -> norm1 -> attention -> add_attn -> attn_state -> norm2 -> moe -> add_moe -> output
+  input -> add_attn: "residual" {
+    style.stroke: "#DC2626"
+    style.stroke-width: 2
+  }
+  attn_state -> add_moe: "residual" {
+    style.stroke: "#DC2626"
+    style.stroke-width: 2
+  }
+}
+
+same_shape_note: "X_l and X_(l+1) have the same shape so layers compose directly.\nThey are not the same values: attention, MoE transformations, and residual additions update the tensor." {
+  class: note
+}
+
+attention_detail: "A. DeepSeek Sparse Attention (DSA) + Multi-head Latent Attention (MLA)" {
+  direction: down
+  style.fill: "#F8FBFF"
+  style.stroke: "#0369A1"
+  style.stroke-width: 3
+  style.border-radius: 14
+
+  a_in: "Normalized hidden states H\n[S, 6144]" {
+    class: tensor
+  }
+
+  projections: "Q and KV latent projections" {
+    direction: right
+    style.fill: "#FFFFFF"
+    style.stroke: "#94A3B8"
+    style.border-radius: 10
+
+    q_path: "Query path" {
+      direction: down
+      style.fill: "#FFF7ED"
+      style.stroke: "#FDBA74"
+
+      q_a: "self_attn.q_a_proj\nnn.Linear(6144, 2048, bias=False)\nQ_lat [S, 2048]" {
+        class: projection
+      }
+      q_norm: "self_attn.q_a_layernorm\nGlmMoeDsaRMSNorm(2048)\n[S, 2048]" {
+        class: norm
+      }
+      q_b: "self_attn.q_b_proj\nnn.Linear(2048, 64 x 256, bias=False)\nreshape/transpose [64,S,256]" {
+        class: projection
+      }
+      q_split: "Split each Q head\nQ_NoPE [64,S,192]\nQ_RoPE [64,S,64]" {
+        class: operation
+      }
+      q_a -> q_norm -> q_b -> q_split
+    }
+
+    kv_path: "Key/value path" {
+      direction: down
+      style.fill: "#FFF7ED"
+      style.stroke: "#FDBA74"
+
+      kv_a: "self_attn.kv_a_proj_with_mqa\nnn.Linear(6144, 512 + 64, bias=False)\n[S, 576]" {
+        class: projection
+      }
+      kv_split: "Split\nKV_lat [S,512]\nK_RoPE [1,S,64] after reshape" {
+        class: operation
+      }
+      kv_norm: "self_attn.kv_a_layernorm\nGlmMoeDsaRMSNorm(512)\n[S, 512]" {
+        class: norm
+      }
+      kv_b: "self_attn.kv_b_proj\nnn.Linear(512, 64 x (192 + 256), bias=False)\n[64, S, 448]" {
+        class: projection
+      }
+      kv_out: "Split expanded latent\nK_NoPE [64,S,192]\nV [64,S,256]" {
+        class: operation
+      }
+      kv_a -> kv_split -> kv_norm -> kv_b -> kv_out
+    }
+  }
+
+  rope: "model.rotary_emb: GlmMoeDsaRotaryEmbedding\napply_rotary_pos_emb_interleave(...) (function)\ntheta = 8,000,000; apply to Q_RoPE and shared K_RoPE\nBroadcast K_RoPE over 64 heads; Q,K [64,S,256]" {
+    class: operation
+    style.fill: "#F5F3FF"
+    style.stroke: "#7C3AED"
+  }
+
+  indexer: "self_attn.indexer: GlmMoeDsaIndexer (full-indexer layer)" {
+    direction: right
+    style.fill: "#EFF6FF"
+    style.stroke: "#3B82F6"
+    style.border-radius: 10
+
+    idx_q: "self_attn.indexer.wq_b\nnn.Linear(2048, 32 x 128, bias=False)" {
+      class: projection
+    }
+    idx_k: "self_attn.indexer.wk\nnn.Linear(6144, 128, bias=False)\nthen self_attn.indexer.k_norm\nnn.LayerNorm(128)" {
+      class: projection
+    }
+    idx_weights: "self_attn.indexer.weights_proj\nnn.Linear(6144, 32, bias=False)" {
+      class: projection
+    }
+    idx_score: "Interleaved RoPE on 64 dims\nReLU(Q_idx K_idx^T / sqrt(128))\nWeighted sum across 32 heads\n[S, T] scores" {
+      class: operation
+    }
+    idx_topk: "Apply causal mask\nSelect top 2048 key positions/query\nindices [S, min(2048,T)]\nINT32" {
+      class: operation
+      style.fill: "#DBEAFE"
+      style.stroke: "#2563EB"
+    }
+    idx_q -> idx_score
+    idx_k -> idx_score
+    idx_weights -> idx_score
+    idx_score -> idx_topk
+  }
+
+  reused: "Shared-indexer variant only:\nreceive top-k indices from the previous\nfull-indexer layer instead of recomputing" {
+    class: note
+  }
+
+  sparse_attn: "Sparse scaled dot-product attention\nAttend only to selected causal K/V positions\nsoftmax(QK^T / sqrt(256)) V\n[64,S,256] -> transpose/reshape [S,16384]" {
+    class: operation
+    style.fill: "#E0F2FE"
+    style.stroke: "#0284C7"
+    style.stroke-width: 2
+  }
+
+  o_proj: "self_attn.o_proj\nnn.Linear(16384, 6144, bias=False)\nAttention output [S, 6144]" {
+    class: projection
+  }
+
+  a_in -> projections.q_path.q_a
+  a_in -> projections.kv_path.kv_a
+  projections.q_path.q_split -> rope
+  projections.kv_path.kv_out -> rope
+  a_in -> indexer.idx_k
+  a_in -> indexer.idx_weights
+  projections.q_path.q_norm -> indexer.idx_q: "Q latent"
+  indexer.idx_topk -> sparse_attn: "selected positions"
+  reused -> sparse_attn: "alternate indices" {
+    style.stroke-dash: 5
+  }
+  rope -> sparse_attn: "Q, K"
+  projections.kv_path.kv_out -> sparse_attn: "V"
+  sparse_attn -> o_proj
+}
+
+moe_detail: "B. mlp: GlmMoeDsaMoE" {
+  direction: down
+  style.fill: "#F7FFFB"
+  style.stroke: "#047857"
+  style.stroke-width: 3
+  style.border-radius: 14
+
+  m_in: "Normalized post-attention states M\n[S, 6144]\nOne row per sequence token" {
+    class: tensor
+  }
+
+  branches: "Parallel routed and shared branches" {
+    direction: right
+    style.fill: "#FFFFFF"
+    style.stroke: "#94A3B8"
+    style.border-radius: 10
+
+    routed: "Routed-expert branch" {
+      direction: down
+      style.fill: "#FFF8F8"
+      style.stroke: "#FDA4AF"
+
+      router_linear: "mlp.gate\nGlmMoeDsaTopkRouter\nF.linear with mlp.gate.weight [256,6144], FP32\n[S,6144] -> logits [S,256]" {
+        class: router
+      }
+      sigmoid: "scores = sigmoid(logits)\nselection_scores = scores + mlp.gate.e_score_correction_bias\ne_score_correction_bias [256] is a non-parameter buffer" {
+        class: router
+      }
+      top8: "Select 8 of 256 experts per token\nindices [S,8]\nGather uncorrected sigmoid scores" {
+        class: router
+      }
+      weights: "Normalize 8 gathered scores to sum to 1\nMultiply by routed scaling factor 2.5\nrouting weights [S,8]" {
+        class: router
+      }
+      dispatch: "Dispatch each token to its 8 selected experts\nExpert token batches [S_i,6144]\n(sum_i S_i = 8S)" {
+        class: operation
+      }
+
+      expert_bank: "mlp.experts: GlmMoeDsaExperts; 256 routed experts, execute 8 per token" {
+        direction: right
+        style.fill: "#ECFDF5"
+        style.stroke: "#6EE7B7"
+
+        e0: "Selected parameter slice i\nfrom mlp.experts\ni in [0,255]" {
+          class: expert
+        }
+        gate: "mlp.experts.gate_up_proj[i, :2048, :]\nparameter slice [2048,6144]\nF.linear -> SiLU" {
+          class: expert
+        }
+        up: "mlp.experts.gate_up_proj[i, 2048:, :]\nparameter slice [2048,6144]\nF.linear" {
+          class: expert
+        }
+        product: "elementwise product\n[S_i,2048]" {
+          class: operation
+        }
+        down: "mlp.experts.down_proj[i]\nparameter slice [6144,2048]\nF.linear -> E_i(x) [S_i,6144]" {
+          class: expert
+        }
+        e0 -> gate
+        e0 -> up
+        gate -> product
+        up -> product
+        product -> down
+      }
+
+      weighted: "Multiply each expert output by its token/expert weight\nScatter-add 8 selected outputs per token\nRouted output [S,6144]" {
+        class: operation
+        style.fill: "#D1FAE5"
+        style.stroke: "#059669"
+      }
+
+      router_linear -> sigmoid -> top8 -> weights -> dispatch -> expert_bank.e0
+      weights -> weighted: "w_i"
+      expert_bank.down -> weighted: "E_i(x)"
+    }
+
+    shared: "mlp.shared_experts: GlmMoeDsaMLP (always active)" {
+      direction: down
+      style.fill: "#F0FDFA"
+      style.stroke: "#5EEAD4"
+
+      s_gate: "mlp.shared_experts.gate_proj\nnn.Linear(6144, 2048, bias=False)\nSiLU" {
+        class: shared
+      }
+      s_up: "mlp.shared_experts.up_proj\nnn.Linear(6144, 2048, bias=False)" {
+        class: shared
+      }
+      s_product: "elementwise product\n[S,2048]" {
+        class: operation
+      }
+      s_down: "mlp.shared_experts.down_proj\nnn.Linear(2048, 6144, bias=False)\nShared output [S,6144]" {
+        class: shared
+      }
+      s_gate -> s_product
+      s_up -> s_product
+      s_product -> s_down
+    }
+  }
+
+  merge: "+" {
+    class: add
+  }
+
+  m_out: "MoE output\nRouted weighted sum + shared expert\n[S,6144]" {
+    class: tensor
+  }
+
+  m_in -> branches.routed.router_linear
+  m_in -> branches.routed.dispatch: "token values"
+  m_in -> branches.shared.s_gate
+  m_in -> branches.shared.s_up
+  branches.routed.weighted -> merge
+  branches.shared.s_down -> merge
+  merge -> m_out
+}
+
+stats: "Per-layer architecture facts" {
+  direction: right
+  style.fill: "#FFFBEB"
+  style.stroke: "#D97706"
+  style.border-radius: 10
+
+  expert_params: "Each SwiGLU expert\n3 x 6144 x 2048\n= 37,748,736 weights" {
+    class: note
+  }
+  moe_params: "One MoE block\n256 routed experts + 1 shared + router\n= 9,702,998,016 weights (~9.703B)" {
+    class: note
+  }
+  active_params: "Expert/router weights exercised per token\n(8 routed + 1 shared) x 37,748,736 + router\n= 341,311,488 (~341M)" {
+    class: note
+  }
+  model_pattern: "GLM-5.2 has 78 decoder layers\nLayers 1-3 use dense FFNs\nLayers 4-78 use this MoE FFN (75 layers)" {
+    class: note
+  }
+}
+
+legend: "Legend" {
+  direction: right
+  style.fill: "#FFFFFF"
+  style.stroke: "#CBD5E1"
+  t: "Tensor" {class: tensor}
+  n: "Normalization" {class: norm}
+  p: "Learned projection" {class: projection}
+  r: "Router" {class: router}
+  e: "Routed expert" {class: expert}
+  s: "Shared expert" {class: shared}
+  residual: "Red edge = residual path" {
+    shape: text
+    style.font-color: "#DC2626"
+  }
+}
+
+source: "Architecture source: zai-org/GLM-5.2 config.json and Hugging Face Transformers GlmMoeDsa implementation (accessed 2026-08-21)." {
+  shape: text
+  style.font-size: 12
+  style.font-color: "#475569"
+}
+
+layer.attention -> attention_detail.a_in: "expanded below" {
+  style.stroke-dash: 5
+  style.stroke: "#0369A1"
+}
+layer.moe -> moe_detail.m_in: "expanded below" {
+  style.stroke-dash: 5
+  style.stroke: "#047857"
+}
+
+# Invisible ordering edges keep disconnected annotations in a readable vertical hierarchy.
+title -> subtitle: {
+  style.opacity: 0
+}
+subtitle -> layer.input: {
+  style.opacity: 0
+}
+layer.output -> same_shape_note: {
+  style.opacity: 0
+}
+same_shape_note -> attention_detail.a_in: {
+  style.opacity: 0
+}
+attention_detail.o_proj -> stats.expert_params: {
+  style.opacity: 0
+}
+moe_detail.m_out -> stats.active_params: {
+  style.opacity: 0
+}
+stats.model_pattern -> legend.t: {
+  style.opacity: 0
+}
+legend.s -> source: {
+  style.opacity: 0
+}

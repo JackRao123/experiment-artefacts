@@ -1,0 +1,284 @@
+diff --git a/megatron/core/pipeline_parallel/fine_grained_activation_offload.py b/megatron/core/pipeline_parallel/fine_grained_activation_offload.py
+index ca688262a..60d168d3c 100644
+--- a/megatron/core/pipeline_parallel/fine_grained_activation_offload.py
++++ b/megatron/core/pipeline_parallel/fine_grained_activation_offload.py
+@@ -809,6 +809,24 @@ class PipelineOffloadManager:
+             if self._valve_telemetry_iter % max(self._valve_telemetry_every, 1) == 0:
+                 self._dump_valve_telemetry()
+ 
++    def on_backward_entry(self):
++        """LPS-1062: start reload prefetch at backward entry, before the
++        first offload-group autograd node fires. Trace evidence: the first
++        commit-node in backward runs only after the loss/LM-head backward
++        region (~120 ms on the 0D4M proxy), so without this the H2D stream
++        idles through that region. Inert unless BT_OFFLOAD_PREFETCH_DEPTH
++        is set (top_up_reloads no-ops at depth 0) and during warmup, where
++        the backward group order is not known yet."""
++        if not self.do_offload or self._is_warmup or is_graph_capturing():
++            return
++        chunk = self.front_backward_chunk()
++        if (
++            chunk is not None
++            and not chunk.is_warmup
++            and chunk._offloaded_group_index == chunk._max_group_size
++        ):
++            chunk.top_up_reloads()
++
+     def get_valve_telemetry(self):
+         """LPS-1062: aggregate per-group-name valve counters across all
+         cached chunk handlers (microbatches). Returns
+@@ -1225,10 +1243,30 @@ class ChunkOffloadHandler:
+             )
+             copy_dst = cpu_backup
+ 
+-        copy_dst.copy_(src_tensor, non_blocking=pin_memory)
++        self._chunked_copy(copy_dst, src_tensor, non_blocking=pin_memory)
+         state = (src_tensor.device, cpu_backup, use_cpu_pool, real_shape)
+         return state
+ 
++    def _chunked_copy(self, dst, src, non_blocking):
++        """LPS-1062: copy ``src`` into ``dst`` in ``_copy_chunk_bytes``
++        pieces (0 = one copy) so the copy engine can interleave other
++        streams' small transfers between chunks. Both sides are contiguous
++        here: ``src`` was made contiguous in offload(), pool buffers and
++        fresh reload destinations are allocated contiguous, and dim-0
++        slices of contiguous tensors stay contiguous."""
++        chunk = self._copy_chunk_bytes
++        nbytes = src.numel() * src.element_size()
++        if not chunk or nbytes <= chunk:
++            dst.copy_(src, non_blocking=non_blocking)
++            return
++        flat_src = src.view(-1)
++        flat_dst = dst.view(-1)
++        step = max(1, chunk // src.element_size())
++        for off in range(0, flat_src.numel(), step):
++            flat_dst[off:off + step].copy_(
++                flat_src[off:off + step], non_blocking=non_blocking
++            )
++
+     def reload(self, state, non_blocking=None):
+         """Reload."""
+         debug_rank("------reload")
+@@ -1243,7 +1281,7 @@ class ChunkOffloadHandler:
+         copy_src = (
+             cpu_backup[: real_shape[0]] if tuple(cpu_backup.shape) != real_shape else cpu_backup
+         )
+-        gpu_tensor.copy_(copy_src, non_blocking=non_blocking)
++        self._chunked_copy(gpu_tensor, copy_src, non_blocking=non_blocking)
+         if use_cpu_pool:
+             # CUDA graphs rely on deterministic pool reuse to replay captured
+             # D2H/H2D nodes against the same host addresses. An ordinary event
+@@ -1311,6 +1349,59 @@ class ChunkOffloadHandler:
+         self._valve_stats = defaultdict(lambda: [0, 0, 0, 0])
+         # group name -> [prefetched tensor hits, demand-reload tensor misses]
+         self._reload_stats = defaultdict(lambda: [0, 0])
++        # ------------------------------------------------------------------
++        # LPS-1062 change (backward reload pipelining). Trace evidence
++        # (debug_proxy_20260821/results/overlap_trace_20260822): reloads are
++        # issued one per group-start backward node, so the first H2D lands
++        # only after loss/head + retained-layer backward, and the offloaded
++        # layers' backward is copy-bound. Two independently gated knobs:
++        #   BT_OFFLOAD_PREFETCH_DEPTH=K (default 0 = legacy): at every group
++        #     boundary in backward, top up H2D so up to K groups are in
++        #     flight ahead of their consumers. The group-start reload is
++        #     gated once top-up is at depth, so early re-residency is
++        #     bounded by ~K+1 groups of GPU memory (one extra for a
++        #     cross-chunk pre-reload). Warmup keeps the legacy 1-deep
++        #     behavior: the backward group order is not known yet and a
++        #     K-deep blind prefetch would just manufacture demand misses.
++        #   BT_OFFLOAD_H2D_UNCHAINED=1 (default 0 = legacy): drop the
++        #     h2d_stream.wait_stream(main) issued before each reload. The
++        #     ordering it enforces is not a lifetime edge: the pinned source
++        #     is guarded by the group offload event (wait_offload_event on
++        #     h2d), the reload destination is a fresh allocation from the
++        #     h2d stream's allocator pool, consumers join via the group
++        #     reload event, and pinned-buffer reuse waits the pool reuse
++        #     event. What it does cost is prefetch: it delays every H2D
++        #     until all main-stream work queued so far has drained.
++        # ------------------------------------------------------------------
++        self._prefetch_depth = int(_os.environ.get("BT_OFFLOAD_PREFETCH_DEPTH") or "0")
++        self._h2d_unchained = _env_flag("BT_OFFLOAD_H2D_UNCHAINED", "0")
++        # ------------------------------------------------------------------
++        # LPS-1062 change (copy chunking). Trace evidence (gap ledger,
++        # overlap_trace_20260822): the copy engine executes a queued
++        # multi-GiB offload copy to completion, so every small host readback
++        # issued meanwhile (MoE dispatcher metadata, .item()) waits behind
++        # the whole backlog — measured +62 ms/step on the 0D4M proxy.
++        # BT_OFFLOAD_COPY_CHUNK_BYTES=N (default 0 = single copy) splits
++        # each offload/reload copy into N-byte pieces so the engine can
++        # interleave other streams' copies between chunks, bounding any
++        # bystander's wait to ~one chunk. 64 MiB ≈ 1.2 ms per chunk at the
++        # measured 53 GiB/s.
++        # ------------------------------------------------------------------
++        self._copy_chunk_bytes = int(_os.environ.get("BT_OFFLOAD_COPY_CHUNK_BYTES") or "0")
++        # ------------------------------------------------------------------
++        # LPS-1062 change (D2H pacing). Chunking was refuted by A/B (the
++        # copy engine does not interleave another stream's transfer between
++        # one stream's queued chunks; readback waits were unchanged at
++        # ~70 ms). Pacing attacks the queue depth instead: with
++        # BT_OFFLOAD_D2H_PACED=1 the d2h stream waits (device-side) for the
++        # previous group's offload event before starting the next group's
++        # copies, capping the engine backlog ahead of any bystander host
++        # readback at ~one group instead of a layer. Never blocks the main
++        # stream or the CPU; the only cost is D2H finishing later, and its
++        # real deadline is the same data's reload in backward.
++        # ------------------------------------------------------------------
++        self._d2h_paced = _env_flag("BT_OFFLOAD_D2H_PACED", "0")
++        self._last_offload_event = None
+ 
+     def reset(self):
+         """Reset the chunk offload handler."""
+@@ -1322,6 +1413,8 @@ class ChunkOffloadHandler:
+         # Clear the pending-event FIFO at iter boundary so we never wait on
+         # an event recorded in a previous (non-captured) iteration.
+         self._offload_pending_by_name.clear()
++        # LPS-1062 (D2H pacing): same iteration-boundary rule for the chain.
++        self._last_offload_event = None
+ 
+     def find_group_with_name(
+         self, groups: list[OffloadTensorGroup], name: str, start_index: int = 0
+@@ -1445,6 +1538,17 @@ class ChunkOffloadHandler:
+         nvtx_msg = "activation offloading " + group_to_offload._name
+         nvtx_range_push(nvtx_msg)
+         with torch.cuda.stream(self.d2h_stream):
++            # LPS-1062 (D2H pacing): chain this group's copies behind the
++            # previous group's completion so the engine queue stays ~one
++            # group deep. Device-side wait on the d2h stream only. Skipped
++            # under CUDA graph capture (cross-iteration events cannot be
++            # captured) and reset per iteration in reset().
++            if (
++                self._d2h_paced
++                and self._last_offload_event is not None
++                and not is_graph_capturing()
++            ):
++                self.d2h_stream.wait_event(self._last_offload_event)
+             for tensor_tag, tensor_on_device in group_to_offload._tensors.items():
+                 if self.tensor_need_offloading_checker(tensor_on_device):
+                     state = self.offload(
+@@ -1455,6 +1559,8 @@ class ChunkOffloadHandler:
+                     tensor_on_device.record_stream(self.d2h_stream)
+                     group_to_offload.push_tensor(tensor_tag, state)
+             group_to_offload.record_offload_event(self.d2h_stream)
++            if self._d2h_paced and not is_graph_capturing():
++                self._last_offload_event = group_to_offload._offload_event
+         nvtx_range_pop(nvtx_msg)
+         # Under full-iteration CG capture, the main stream may not wait on d2h
+         # events; optional max-inflight enqueues each group's offload event and
+@@ -1515,6 +1621,18 @@ class ChunkOffloadHandler:
+         self._reloading_group.append(group_to_reload)
+         nvtx_range_pop(nvtx_msg)
+ 
++    def top_up_reloads(self):
++        """LPS-1062: keep up to ``_prefetch_depth`` groups' H2D in flight.
++
++        ``_reloading_group`` holds groups whose reload is enqueued but whose
++        backward commit node has not joined yet — the natural in-flight
++        count. No-op at the legacy default depth 0.
++        """
++        if self._prefetch_depth <= 0 or self.is_warmup:
++            return
++        while self._groups_to_reload and len(self._reloading_group) < self._prefetch_depth:
++            self.bulk_reload_group()
++
+     def pre_reload_last_layer(self):
+         """Pre-reload the last layer of this chunk to hide reload latency."""
+         debug_rank("pre_reload_last_layer")
+@@ -1640,6 +1758,11 @@ class ChunkOffloadHandler:
+         ):
+             group.wait_reload_event(torch.cuda.current_stream())
+             self._reloading_group.remove(group)
++        # LPS-1062: a commit node is the earliest backward point where the
++        # exact reload order is known (retained-layer commits fire before any
++        # offloaded group is consumed), so top up the H2D pipeline here too.
++        if not is_graph_capturing():
++            cur_backward_chunk.top_up_reloads()
+ 
+     def on_group_start_forward(self, name):
+         """
+@@ -1673,9 +1796,31 @@ class ChunkOffloadHandler:
+         if not self.do_offload:
+             return
+         debug_rank(f"--on_group_start_backward {self}")
+-        # Wait for compute to finish before starting reload
+-        self.h2d_stream.wait_stream(torch.cuda.current_stream())
+-        self.bulk_reload()
++        # Wait for compute to finish before starting reload. LPS-1062: in
++        # eager mode this is an ordering choice, not a lifetime edge (see the
++        # knob comment in __init__); BT_OFFLOAD_H2D_UNCHAINED=1 drops it so
++        # reloads start as soon as the copy engine is free instead of after
++        # the entire queued main-stream backlog. Under CUDA graph capture the
++        # wait MUST stay: bulk_reload_group skips wait_offload_event during
++        # capture, so this wait_stream is both the h2d stream's only join
++        # into the capture and the only ordering edge for the captured H2D.
++        if not self._h2d_unchained or is_graph_capturing():
++            self.h2d_stream.wait_stream(torch.cuda.current_stream())
++        # With prefetch at depth, skip the unconditional per-start reload —
++        # otherwise steady state runs at K+1 and, once this chunk's pending
++        # list empties, each remaining start node falls through to
++        # pre_reload_last_layer and drags ~K extra next-chunk groups back
++        # onto the GPU early.
++        if (
++            self._prefetch_depth > 0
++            and not self.is_warmup
++            and len(self._reloading_group) >= self._prefetch_depth
++        ):
++            pass
++        else:
++            self.bulk_reload()
++        if not is_graph_capturing():
++            self.top_up_reloads()
+ 
+ 
+ def fine_grained_offloading_disable_offload():
+@@ -1960,6 +2105,11 @@ class FineGrainedActivationOffloadingInterface:
+         """Flush the delayed groups."""
+         PipelineOffloadManager.get_instance().flush_delayed_groups()
+ 
++    @staticmethod
++    def on_backward_entry():
++        """Kick reload prefetch at backward entry (see manager method)."""
++        PipelineOffloadManager.get_instance().on_backward_entry()
++
+     @staticmethod
+     def get_valve_telemetry():
+         """LPS-1062: aggregated valve counters (for profile-stop dumps)."""
+diff --git a/megatron/core/pipeline_parallel/schedules.py b/megatron/core/pipeline_parallel/schedules.py
+index e67c498e2..5c31c7d2b 100644
+--- a/megatron/core/pipeline_parallel/schedules.py
++++ b/megatron/core/pipeline_parallel/schedules.py
+@@ -567,6 +567,12 @@ def backward_step(input_tensor, output_tensor, output_tensor_grad, config):
+     # will not participate in the computation.
+     # This results in a tensor that does not require gradients.
+     # In such cases, we intentionally skip the backward pass while preserving zero gradients.
++    # LPS-1062: kick reload prefetch at backward entry so H2D overlaps the
++    # loss/LM-head backward region instead of idling until the first
++    # offload-group node fires. No-op unless BT_OFFLOAD_PREFETCH_DEPTH is set.
++    if getattr(config, "fine_grained_activation_offloading", False):
++        off_interface.on_backward_entry()
++
+     if output_tensor[0].requires_grad:
+         if config.deallocate_pipeline_outputs:
+             custom_backward(output_tensor[0], output_tensor_grad[0])
+diff --git a/megatron/core/transformer/moe/token_dispatcher.py b/megatron/core/transformer/moe/token_dispatcher.py
+index 9d55cacce..1ed72c272 100644
+--- a/megatron/core/transformer/moe/token_dispatcher.py
++++ b/megatron/core/transformer/moe/token_dispatcher.py
+@@ -459,7 +459,17 @@ class MoEAlltoAllTokenDispatcher(MoETokenDispatcher):
+         ):
+             self.cuda_dtoh_point = "before_ep_alltoall"
+         if MoEAlltoAllTokenDispatcher.cuda_dtoh_stream is None:
+-            MoEAlltoAllTokenDispatcher.cuda_dtoh_stream = torch.cuda.Stream()
++            # LPS-1062 (env-gated): create the metadata-readback stream at
++            # high priority so its few-byte DtoH copies are scheduled ahead
++            # of bulk activation-offload transfers queued on the same copy
++            # engine. BT_MOE_DTOH_HIGH_PRIORITY=1 to enable; default keeps
++            # the upstream default-priority stream.
++            import os as _os
++
++            if _os.environ.get("BT_MOE_DTOH_HIGH_PRIORITY") == "1":
++                MoEAlltoAllTokenDispatcher.cuda_dtoh_stream = torch.cuda.Stream(priority=-1)
++            else:
++                MoEAlltoAllTokenDispatcher.cuda_dtoh_stream = torch.cuda.Stream()
+ 
+         # Attributes that need to be captured in cudagraph. These attributes are returned
+         # as cudagraph outputs when the cuda_graph_modules contains moe_preprocess.

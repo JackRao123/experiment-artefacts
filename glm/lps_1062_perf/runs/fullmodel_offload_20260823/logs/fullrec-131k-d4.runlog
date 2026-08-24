@@ -1,0 +1,13 @@
+[status] world_size=16 dp=1
+[profile] memory_profile/start max_entries=1000000
+[fullrec-131k-d4 warmup0] fb=43.8s (748 tok/s/GPU) optim=5.3s loss=12.317097222116258 gn=0.427839994430542
+[profile] runtime_profile/start
+[fullrec-131k-d4 traced0] fb=42.1s (778 tok/s/GPU) optim=0.1s loss=12.318325564007294 gn=0.46531355381011963
+[profile] runtime_profile/stop (sync kineto flush, can take minutes)
+[fullrec-131k-d4 control0] fb=41.4s (792 tok/s/GPU) optim=0.1s loss=12.319178155350917 gn=0.35600796341896057
+[fullrec-131k-d4 control1] fb=41.4s (791 tok/s/GPU) optim=0.7s loss=12.308896514103044 gn=0.3550543189048767
+[fullrec-131k-d4 control2] fb=41.4s (792 tok/s/GPU) optim=0.9s loss=12.315102120224916 gn=0.4309670627117157
+[fullrec-131k-d4 control3] fb=41.6s (787 tok/s/GPU) optim=0.0s loss=12.298151383601255 gn=0.3533637225627899
+[profile] memory_profile/stop (snapshot dump, can take minutes)
+[done] -> /root/.cache/user_artifacts/lps1062_bench/fullrec-131k-d4.json
+SUMMARY fullrec-131k-d4: 790 tok/s/GPU | step 41.5s (524288 tok) | mfu3x 7.2% | hfu 10.4% | traced 42.1s (+1.6% kineto overhead) | peak_mem 145 GiB

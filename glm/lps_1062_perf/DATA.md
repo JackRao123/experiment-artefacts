@@ -5,38 +5,56 @@ Jack's Mac**, gitignored — no upload to CPFS/object storage. This file is the
 manifest; if the Mac copy is lost, the numbers derived from them remain in the
 run docs but the raw evidence is gone.
 
-## In-repo (gitignored by explicit path in experiment_artefacts/.gitignore)
+**Prune policy (ratified 2026-08-24):** a concluded run's traces are deleted
+once its verdicts are banked in run docs and the lever has shipped or been
+refuted; the current-state reference is re-recorded on merged main instead of
+hoarding historical traces. Active-bug evidence stays until the fix verifies.
 
-`runs/overnight_20260809_dispatcher_hostsync/traces/`:
+## In-repo (gitignored by pattern: `*.pt.trace.json[.gz]`, `memory.rank*.pickle[.gz]`, `glm/lps_1062_perf/**/*.log[.gz]`)
 
-| file | size | md5 |
-|---|---:|---|
-| patched-ABF-4mb131k.pt.trace.json | 617M | 9045359766bf08af3089c84f947cf4ba |
-| unpatched-4mb-steady_qr4ggv3-gatesoff-step3.pt.trace.json | 1.9G | e5bbe1770d0dee87d5a6501f10904a32 |
-| gated-v2-4mb-steady_qr4ggv3-step8.pt.trace.json | 676M | 4c8f2038681dc0938bcf026776a72850 |
-
-## Outside the repo: `~/perf_profiles/lps-1062/` (~8.5 GB)
-
-| path | size | what | md5 (files only) |
+| path | size | status | what |
 |---|---:|---|---|
-| `kimi27/traces/b300-1-78ref8i2-0016_4347.1786820197615552255.pt.trace.json` | 248M | Kimi-K2.7-Code rank-0 kineto trace, 131k×d4, golden B300 TP8/EP16/CP1, main @ 29b59564 (sha256 dd62e603…) | — |
-| `kimi27/traces/mem/memory.rank{0..15}.pickle` | — | Kimi memory snapshots (16 ranks) | — |
-| `kimi27/kimi27-131k-d4.json` | 4K | Kimi bench JSON (sha256 7b59da3a…): 641 tok/s/GPU, mfu3x 15.9%, peak 170 GiB | — |
-| `opt-night/exp05d.pt.trace.json` | 1.0G | canonical post-optimization baseline trace (Aug-7, cited across NOTEBOOK/REPORT/ATTRIBUTION) | 32d30aa15c467db6f19caf2fedebef80 |
-| `glm52-b300-s256k/node0/*.pt.trace.json` | 1.0G | Aug-6 baseline rank-0 kineto trace | 0358280caf35a307108955e3ba7cca13 |
-| `glm52-b300-s256k/node0/memory.rank0.pickle` | — | baseline memory snapshot rank 0 | 6488c4fe43e8e9b23021fa82914590c9 |
-| `glm52-b300-s256k/node1/memory.rank8.pickle` | — | baseline memory snapshot rank 8 | 81e0f702c53793bd16caca07267c2abd |
-| `round3/arm-cprime-318g61w/` | 1.2G | C′ timed-arm trace bundle | — |
-| `round3/arm2-w1-318g61w/` | 1.2G | W1 timed-arm trace bundle | — |
-| `round3/arm-w3-318g61w/` | 1.4G | W3 canary trace bundle + mem_snapshot | — |
-| `round3/anchor-318g61w/` | 1.2G | round-3 anchor trace bundle | — |
-| `incoming/av3_final_rank0.pt.trace.json` | 676M | A-v3 final leg trace | 5c46ee7dabb340a9192f41e5357b82b7 |
-| `incoming/w3v3_rank0.pt.trace.json` | 633M | W3-v3 canary trace | 8acd46a6175d7c7b0b3139756aee847f |
-| `incoming/w3v3_memsnap/` | 202M | W3-v3 memory snapshots (16 ranks) | — |
-| `incoming/av3-soak-trainer_srun_persistent.log` | 14M | A-v3 persistent soak log (kept local: size) | — |
+| `runs/overnight_20260822_262k_pr1070/traces/R1-main262k-d2_rank0.pt.trace.json.gz` | 78M | keep | pre-merge main @ 9b039d6b, 262k d2 (evidence for the open 312-vs-417 clean-main regression flag) |
+| `runs/overnight_20260822_262k_pr1070/traces/R2-pr1070-262k-d2_rank0.pt.trace.json.gz` | 28M | keep | PR #1070 @ d8b9648f, 262k d2 — tree-identical to merged main's 1070 content |
+| `runs/overnight_20260822_262k_pr1070/traces/R3-pr1070-262k-d4_rank0.pt.trace.json.gz` | 56M | keep | PR #1070, 262k d4 |
+| `runs/overnight_20260822_262k_pr1070/traces/R{1,2,3}_memory.rank0.pickle.gz` | 22M | keep | rank-0 CUDA memory snapshots for the above |
+| `runs/fullmodel_offload_20260823/traces/b300-1-5abzeeir-0002_27461.*.pt.trace.json.gz` | 31M | **active** | offload_32k arm — PP2 reload-miss bug evidence |
+| `runs/fullmodel_offload_20260823/traces/baseline/b300-1-5abzeeir-0002_24007.*.pt.trace.json.gz` | 30M | **active** | baseline_32k arm (the "before" pair) |
+| `runs/fullmodel_offload_20260823/traces/diag/*.pt.trace.json.gz` (2 files) | 63M | **active** | diag captures incl. stage-1 attempt. **Delete all four fullmodel traces once the offload fix verifies.** |
+| `pp2cp8ep8/logs/box_a/unfused_pp2_watchdog_death_20260813.log.gz` | 1.9M | keep | watchdog-death forensics, concluded campaign |
+| `pp2cp8ep8/kernel_src_snapshot/{kernel_src_snapshot,cutlass_dsl_src_snapshot}.tar.gz` | 72M | keep | DSA cuDNN-binding + CUTLASS DSL source snapshots (see MANIFEST.md there); extracted trees deleted 2026-08-24, restore via untar |
+
+## Deleted 2026-08-24 (conclusions banked, raw evidence dropped)
+
+| what | was | where the conclusions live |
+|---|---:|---|
+| `runs/overnight_20260809_dispatcher_hostsync/traces/` (3 traces) | 3.2G | `runs/overnight_20260809_dispatcher_hostsync/ATTRIBUTION.md`, root NOTEBOOK.md; B/F shipped + P4-validated |
+| `runs/debug_proxy_20260821/results/overlap_trace_20260822/traces/` (10 traces) | 84M | `.../overlap_trace_20260822/MISSION_WITHIN2PCT.md`, `PATCHED_RESULTS.md` (E1–E7 verdicts); analysis CSVs/JSONs kept in `raw/` + `stat_ab/` |
+| `runs/fullmodel_offload_20260823/traces/` uncompressed `.json` (3 files) | 1.2G | exact duplicates — md5-verified identical to the retained `.gz` copies |
+
+## Outside the repo: `~/perf_profiles/lps-1062/` (~36 GB)
+
+| path | size | status | what |
+|---|---:|---|---|
+| `pp2cp8ep8/` | 27G | **concluded — prunable** | activation-placement workstream traces; superseded by full-model-scale runs. Largest single prune candidate |
+| `round3/` | 5.0G | concluded — prunable | round-3 arm trace bundles (C′, W1, W3, anchor); verdicts in `runs/overnight_20260810_round3/verdicts/` |
+| `incoming/` | 1.6G | concluded — prunable | A-v3 final leg + W3-v3 canary traces/memsnaps; adjudicated in NOTEBOOK |
+| `opt-night/exp05d.pt.trace.json` | 1.0G | concluded | canonical post-optimization baseline trace (Aug-7), md5 32d30aa15c467db6f19caf2fedebef80 |
+| `glm52-b300-s256k/` | 1.0G | concluded | Aug-6 baseline rank-0 trace + memory snapshots, md5s in git history |
+| `kimi27/` | 461M | concluded | Kimi-K2.7-Code rank-0 trace + 16-rank memory snapshots; comparison banked in `runs/kimi_k27_20260815/COMPARE.md` |
+| `w4_parity/`, `debug-proxy/`, `s1_soak_mem/` | ~40M | concluded | small evidence dirs |
 
 Small text evidence that USED to live only in `~/perf_profiles/` was imported
 into the repo on 2026-08-10: round-3 verdicts/adjudications →
 `runs/overnight_20260810_round3/verdicts/`; round-3 bench JSONs, arm logs, FAIL
 logs → `runs/overnight_20260810_round3/results/`; Aug-6 baseline report/driver
 → `runs/overnight_20260807_baseline_shipconfig/`. Originals left in place.
+
+## Planned
+
+- **Fresh 131k trace on merged main** (post-#1070, `71a9f3b75`): 131k×d4,
+  PP2/CP8/EP8, LoRA r32, clean env, campaign driver protocol (warmup → traced →
+  ≥2 controls), rank-0 kineto + memory pickle + nvidia-smi pollers. Lands in a
+  new run dir and becomes the current-state 131k reference; pairs with R3 for
+  the same-tree 131k↔262k comparison. Known blind spot: rank-0-only profiling
+  on main (no `BT_PROFILE_RANKS`) — PP2 stage 1 invisible.

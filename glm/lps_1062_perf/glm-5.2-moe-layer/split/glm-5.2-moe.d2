@@ -1,0 +1,203 @@
+direction: right
+
+classes: {
+  tensor: {
+    shape: rectangle
+    style.fill: "#EAF2FF"
+    style.stroke: "#2563EB"
+    style.stroke-width: 2
+    style.border-radius: 8
+  }
+  router: {
+    shape: rectangle
+    style.fill: "#FFF1F2"
+    style.stroke: "#E11D48"
+    style.stroke-width: 2
+    style.border-radius: 8
+  }
+  expert: {
+    shape: rectangle
+    style.fill: "#ECFDF5"
+    style.stroke: "#059669"
+    style.stroke-width: 2
+    style.border-radius: 8
+  }
+  shared: {
+    shape: rectangle
+    style.fill: "#F0FDFA"
+    style.stroke: "#0F766E"
+    style.stroke-width: 2
+    style.border-radius: 8
+  }
+  operation: {
+    shape: rectangle
+    style.fill: "#F8FAFC"
+    style.stroke: "#64748B"
+    style.border-radius: 8
+  }
+  add: {
+    shape: circle
+    width: 54
+    height: 54
+    style.fill: "#FFFFFF"
+    style.stroke: "#0F172A"
+    style.stroke-width: 2
+  }
+  note: {
+    shape: rectangle
+    style.fill: "#FFFBEB"
+    style.stroke: "#D97706"
+    style.stroke-dash: 4
+    style.border-radius: 8
+  }
+}
+
+title: "GLM-5.2 mlp" {
+  shape: text
+  style.font-size: 30
+  style.bold: true
+}
+
+moe: "mlp expansion; module paths relative to model.layers.<layer_idx>" {
+  direction: right
+  style.fill: "#F7FFFB"
+  style.stroke: "#047857"
+  style.stroke-width: 3
+  style.border-radius: 14
+
+  input: "Normalized post-attention states M\n[L,6144] BF16\n[BWD SAVE: router + shared FC1 LoRA input]\n2L*6144/G\n0.0938 | 0.1875 GiB" {
+    class: tensor
+    style.stroke: "#DC2626"
+    style.stroke-width: 3
+  }
+
+  branches: "Routed and shared branches execute in parallel" {
+    direction: down
+    style.fill: "#FFFFFF"
+    style.stroke: "#94A3B8"
+    style.border-radius: 10
+
+    routed: "Routed branch" {
+      direction: right
+      style.fill: "#FFF8F8"
+      style.stroke: "#FDA4AF"
+
+      gate: "mlp.gate\nweight [256,6144], FP32\nlogits [L,256]\n[BWD SAVE] input M is alias of red input box" {
+        class: router
+        style.stroke: "#DC2626"
+        style.stroke-width: 3
+      }
+      scores: "sigmoid router scores [L,256] FP32\nrouting_map [L,256] BOOL\n[BWD SAVE]\n(4L*256 + L*256)/G\n0.00977 | 0.01953 GiB" {
+        class: router
+        style.stroke: "#DC2626"
+        style.stroke-width: 3
+      }
+      top8: "topk(..., k=8)\nindices [L,8]\n[BWD SAVE metadata]\n< 0.001 GiB/rank" {
+        class: router
+        style.stroke: "#DC2626"
+        style.stroke-width: 3
+      }
+      weights: "normalize selected scores; scale 2.5\nweights [8L] FP32\n[BWD SAVE]\n4*8L/G\n0.00024 | 0.00049 GiB" {
+        class: router
+        style.stroke: "#DC2626"
+        style.stroke-width: 3
+      }
+      dispatch: "All-to-all + sort by local expert\nA=8S/EP average rows/rank\n[BWD SAVE] expert input [A,6144] BF16\n2A*6144/G\n0.75 | 1.50 GiB\nPermutation metadata < 0.001 GiB" {
+        class: operation
+        style.stroke: "#DC2626"
+        style.stroke-width: 3
+      }
+
+      experts: "mlp.experts (256 packed experts)" {
+        direction: right
+        style.fill: "#ECFDF5"
+        style.stroke: "#6EE7B7"
+
+        selected: "Selected expert inputs\n[A,6144] BF16\nSaved by dispatcher/grouped GEMM\n0.75 | 1.50 GiB\n(alias of dispatch save)" {
+          class: expert
+          style.stroke: "#DC2626"
+          style.stroke-width: 3
+        }
+        gate: "mlp.experts.gate_up_proj gate half\n[BWD SAVE] preactivation [A,2048] BF16\n2A*2048/G\n0.25 | 0.50 GiB" {
+          class: expert
+          style.stroke: "#DC2626"
+          style.stroke-width: 3
+        }
+        up: "mlp.experts.gate_up_proj up half\n[BWD SAVE] activation [A,2048] BF16\n2A*2048/G\n0.25 | 0.50 GiB" {
+          class: expert
+          style.stroke: "#DC2626"
+          style.stroke-width: 3
+        }
+        product: "SwiGLU product\n[BWD SAVE: FC2 input] [A,2048] BF16\n2A*2048/G\n0.25 | 0.50 GiB" {
+          class: operation
+          style.stroke: "#DC2626"
+          style.stroke-width: 3
+        }
+        down: "mlp.experts.down_proj\n[BWD SAVE: router-weight multiply]\nExpert output [A,6144] BF16\n2A*6144/G\n0.75 | 1.50 GiB\nRouted experts have NO LoRA" {
+          class: expert
+          style.stroke: "#DC2626"
+          style.stroke-width: 3
+        }
+
+        selected -> gate
+        selected -> up
+        gate -> product
+        up -> product
+        product -> down
+      }
+
+      aggregate: "multiply E_i(x) by w_i + scatter-add\nUses saved expert output and routing weights\nRouted output [L,6144]\nOutput is not independently saved" {class: expert}
+
+      gate -> scores -> top8 -> weights -> dispatch -> experts.selected
+      experts.down -> aggregate: "E_i(x)"
+      weights -> aggregate: "w_i"
+    }
+
+    shared: "mlp.shared_experts (always active; LoRA targets packed FC1 + FC2)" {
+      direction: right
+      style.fill: "#F0FDFA"
+      style.stroke: "#5EEAD4"
+
+      gate: "mlp.shared_experts.gate_proj\n[BWD SAVE] gate half [L,2048] BF16\n2L*2048/G = 0.03125 | 0.0625 GiB\nPacked-FC1 LoRA z [L,r]\n0.00195 | 0.00391 GiB @ r=128" {
+        class: shared
+        style.stroke: "#DC2626"
+        style.stroke-width: 3
+      }
+      up: "mlp.shared_experts.up_proj\n[BWD SAVE] up half [L,2048] BF16\n2L*2048/G\n0.03125 | 0.0625 GiB" {
+        class: shared
+        style.stroke: "#DC2626"
+        style.stroke-width: 3
+      }
+      product: "SwiGLU product\n[BWD SAVE: FC2 LoRA input] [L,2048]\n2L*2048/G\n0.03125 | 0.0625 GiB" {
+        class: operation
+        style.stroke: "#DC2626"
+        style.stroke-width: 3
+      }
+      down: "mlp.shared_experts.down_proj\nShared output [L,6144]\n[BWD SAVE] FC2 LoRA z [L,r]\n2Lr/G = 0.00195 | 0.00391 GiB @ r=128\nOutput itself not saved by final add" {
+        class: shared
+        style.stroke: "#DC2626"
+        style.stroke-width: 3
+      }
+
+      gate -> product
+      up -> product
+      product -> down
+    }
+  }
+
+  merge: "+" {class: add}
+  output: "MoE output\nrouted weighted sum + shared expert\n[L,6144]\nNot independently saved" {class: tensor}
+
+  input -> branches.routed.gate
+  input -> branches.routed.dispatch: "token values"
+  input -> branches.shared.gate
+  input -> branches.shared.up
+  branches.routed.aggregate -> merge
+  branches.shared.down -> merge
+  merge -> output
+}
+
+facts: "NO-RECOMPUTE | G=2^30 | values B200 CP32/EP32 | B300 CP16/EP16 at S=262144\nL=S/CP = 8192 | 16384; A=8S/EP = 65536 | 131072. Red border = retained for backward.\nRaw tensor payloads only; dispatcher/grouped-GEMM workspace and routing imbalance are excluded. Aliases are not additive." {class: note}
+
+title -> moe.input: {style.opacity: 0}
+moe.output -> facts: {style.opacity: 0}

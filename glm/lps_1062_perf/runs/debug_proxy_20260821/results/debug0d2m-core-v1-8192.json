@@ -1,0 +1,88 @@
+{
+  "label": "debug0d2m-core-v1-8192",
+  "seq_len": 8192,
+  "num_gpus": 1,
+  "datums_per_window": 1,
+  "started": "2026-08-21 21:29:12",
+  "initial_status": {
+    "mode": "training",
+    "step": 0,
+    "model_id": "/root/.cache/user_artifacts/glm52-debug-0d2m",
+    "device": "cuda:0",
+    "last_loss": null,
+    "grad_norm": null,
+    "gpu_memory": {
+      "cuda:0": 65944944640
+    },
+    "world_size": 1,
+    "tensor_parallel_size": 1,
+    "pipeline_parallel_size": 1,
+    "expert_parallel_size": 1,
+    "context_parallel_size": 1,
+    "expert_tensor_parallel_size": 1,
+    "data_parallel_size": 1,
+    "max_seq_len": 8192
+  },
+  "final_status": {
+    "mode": "training",
+    "step": 2,
+    "model_id": "/root/.cache/user_artifacts/glm52-debug-0d2m",
+    "device": "cuda:0",
+    "last_loss": null,
+    "grad_norm": null,
+    "gpu_memory": {
+      "cuda:0": 72081211392
+    },
+    "world_size": 1,
+    "tensor_parallel_size": 1,
+    "pipeline_parallel_size": 1,
+    "expert_parallel_size": 1,
+    "context_parallel_size": 1,
+    "expert_tensor_parallel_size": 1,
+    "data_parallel_size": 1,
+    "max_seq_len": 8192
+  },
+  "windows": [
+    {
+      "label": "debug0d2m-core-v1-8192",
+      "window_index": 0,
+      "phase": "warmup",
+      "num_tokens": 8192,
+      "fb_elapsed_s": 0.893336362671107,
+      "fb_tps_per_gpu": 9170.118157404488,
+      "optim_elapsed_s": 0.08198307175189257,
+      "loss": 11.950261720180686,
+      "grad_norm": 0.0007250242051668465,
+      "peak_reserved_bytes": 71978450944,
+      "peak_allocated_bytes": 66891958784,
+      "device_total_bytes": 287428771840
+    },
+    {
+      "label": "debug0d2m-core-v1-8192",
+      "window_index": 0,
+      "phase": "main",
+      "num_tokens": 8192,
+      "fb_elapsed_s": 0.7399787092581391,
+      "fb_tps_per_gpu": 11070.5887852001,
+      "optim_elapsed_s": 0.004268174059689045,
+      "loss": 11.951192619948724,
+      "grad_norm": 0.0007247424218803644,
+      "peak_reserved_bytes": 72081211392,
+      "peak_allocated_bytes": 67010857472,
+      "device_total_bytes": 287428771840
+    }
+  ],
+  "aggregates": {
+    "step_s_mean": 0.7399787092581391,
+    "tokens_per_step": 8192,
+    "tps": 11070.5887852001,
+    "tps_per_gpu": 11070.5887852001,
+    "mfu3x": 0.8673731054456069,
+    "hfu": 1.2754627847952975,
+    "optim_s_mean": 0.004268174059689045,
+    "peak_gpu_memory_bytes": 72081211392,
+    "peak_gpu_memory_reserved_bytes": 72081211392,
+    "peak_gpu_memory_allocated_bytes": 67010857472,
+    "device_total_bytes": 287428771840
+  }
+}

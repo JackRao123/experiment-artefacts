@@ -1,9 +1,10 @@
 # LPS-1062 — GLM-5.2 B300 throughput optimization
 
-Multi-night optimization campaign: GLM-5.2-FP8, golden config TP1/PP1/EP16/CP16,
-256k, LoRA r32, on 2×8 B300 (ali RoCE). **416 → 715 tok/s/GPU @131k** across the
-campaign; the Aug-7 ship config (+51%) and the round-3 lever stack are documented
-per-run below.
+Multi-night optimization campaign: GLM-5.2-FP8 on 2×8 B300 (ali RoCE), LoRA r32.
+**416 → 715 tok/s/GPU @131k** across the early campaign (Aug-7 ship config +51%,
+round-3 lever stack), then **1103 tok/s/GPU @d16/131k** from the Aug-13/14
+overlap campaign. PR #1070 (PP2 + THD-CP microbatch pipelining) merged
+2026-08-24 (`71a9f3b75`); current work: activation offload at full-model scale.
 
 **Path convention:** all relative paths in these docs are relative to this
 folder (`glm/lps_1062_perf/`) unless absolute. On-box paths (`/root/.cache/...`,
@@ -20,6 +21,11 @@ repo. Large traces/memory snapshots are Mac-only and gitignored — see `DATA.md
 - `tools/` — canonical reusable bench kit: `bench_driver2c.py`, `mfu.py`
   (LoRA-corrected), `run_bench2c.sh`, `poll_gpu_mem.sh`, `fold_mem.py`, and
   `cuda_host_bw.cu` for pinned host/device NUMA bandwidth
+- `pp2cp8ep8/` — the PP2/CP8/EP8 activation-placement workstream (rung reports,
+  parity evidence, census runbooks; concluded at proxy scale, continues at
+  full-model scale in `runs/fullmodel_offload_20260823/`)
+- `glm-5.2-moe-layer/` — editable D2 architecture diagrams of one GLM-5.2
+  sparse decoder layer (`.d2` sources + rendered svg/png/pdf)
 - `runs/` — one folder per run, self-contained (configs, results, patches,
   docs, and the as-used driver copies). New open runs: `runs/overnight_YYYYMMDD_<slug>/`
 
@@ -32,6 +38,11 @@ repo. Large traces/memory snapshots are Mac-only and gitignored — see `DATA.md
 | `runs/overnight_20260809_mfu_sweep/` | parallelism/MFU sweep of the customer regime (A/B/C boxes) | anchors: 645 @131k-d4, 734 @16k-d32; LoRA-corrected MFU convention landed here |
 | `runs/overnight_20260809_dispatcher_hostsync/` | MoE dispatcher host-sync elimination (FIX A/B/F + C′ + A-v3) | 26.7k `nonzero`/step class eliminated; B/F shipped into golden config |
 | `runs/overnight_20260810_round3/` | overlap levers W1/W2/W3 + F2 phantom partitions | W1 + C′ shipped-as-v1; W2 hung (imbalance deadlock, STOPPED); W3 v2/v3 refuted; F2 validated. `overlap/`, `f2/`, `verdicts/`, `results/` |
+| `runs/overnight_20260813_overlap_campaign/` | 48h overlap campaign (B/F validation, W1 legs, P4 soak, blockK) | **number of record 1103 tok/s/GPU @d16/131k**; ship stack (mission + B/F) VALIDATED. `CAMPAIGN_REPORT.md` is the final word |
+| `runs/kimi_k27_20260815/` | GLM-5.2 vs Kimi-K2.7-Code, same box shape + driver | GLM ~10% faster in tok/s/GPU; Kimi extracts ~2.6× the MFU. `COMPARE.md` |
+| `runs/overnight_20260822_262k_pr1070/` | does PR #1070 work at 262k + 131k↔262k trace comparison | **#1070 works at 262k: +23% (d2) / +67% (d4) vs main tip**; merged 2026-08-24. `ANALYSIS.md` is the deliverable |
+| `runs/debug_proxy_20260821/` | single-B300 real-code GLM activation-placement proxy | 0D1M boots in ~70s; mission closed at −17.6% (forward host-sync × saturated-copy-engine collision = proven floor) |
+| `runs/fullmodel_offload_20260823/` | full-model activation offload at PP2/CP8/EP8 (**active**) | offload −40% vs baseline at 32k/d4; root cause = PP2 backward-order reload-miss bug (12.8% uniform misses). Fix in flight — `HANDOFF_WEIL.md` |
 
 ## Headline (2026-08-07, devbox q480z53 → round-3 boxes 318g61w/wxlgv5w)
 
