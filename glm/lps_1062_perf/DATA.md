@@ -50,11 +50,9 @@ into the repo on 2026-08-10: round-3 verdicts/adjudications →
 logs → `runs/overnight_20260810_round3/results/`; Aug-6 baseline report/driver
 → `runs/overnight_20260807_baseline_shipconfig/`. Originals left in place.
 
-## Planned
+## In-repo (added 2026-08-24, post-merge reference)
 
-- **Fresh 131k trace on merged main** (post-#1070, `71a9f3b75`): 131k×d4,
-  PP2/CP8/EP8, LoRA r32, clean env, campaign driver protocol (warmup → traced →
-  ≥2 controls), rank-0 kineto + memory pickle + nvidia-smi pollers. Lands in a
-  new run dir and becomes the current-state 131k reference; pairs with R3 for
-  the same-tree 131k↔262k comparison. Known blind spot: rank-0-only profiling
-  on main (no `BT_PROFILE_RANKS`) — PP2 stage 1 invisible.
+| path | size | status | what |
+|---|---:|---|---|
+| `runs/postmerge_20260824_131k/traces/b300-1-izksekdp-0001_5641.*.pt.trace.json.gz` | 73M | keep | rank-0 kineto trace, merged main @ 71a9f3b7, 131k×d4 PP2/EP8/CP8 — the current-state 131k reference |
+| `runs/postmerge_20260824_131k/traces/memory.rank0.pickle.gz` | 9.6M | keep | rank-0 memory snapshot for the same window |

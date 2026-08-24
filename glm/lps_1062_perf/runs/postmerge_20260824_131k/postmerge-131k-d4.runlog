@@ -1,0 +1,11 @@
+[status] world_size=16 dp=1
+[profile] memory_profile/start max_entries=1000000
+[postmerge-131k-d4 warmup0] fb=106.0s (309 tok/s/GPU) optim=7.2s loss=12.3168149323649 gn=0.42672041058540344
+[profile] runtime_profile/start
+[postmerge-131k-d4 traced0] fb=106.5s (308 tok/s/GPU) optim=0.8s loss=12.316970382464465 gn=0.4606550931930542
+[profile] runtime_profile/stop (sync kineto flush, can take minutes)
+[postmerge-131k-d4 control0] fb=93.9s (349 tok/s/GPU) optim=0.9s loss=12.317089592663518 gn=0.3502654433250427
+[postmerge-131k-d4 control1] fb=83.0s (395 tok/s/GPU) optim=0.1s loss=12.309795835844694 gn=0.35644835233688354
+[profile] memory_profile/stop (snapshot dump, can take minutes)
+[done] -> /root/.cache/user_artifacts/lps1062_bench/postmerge-131k-d4.json
+SUMMARY postmerge-131k-d4: 371 tok/s/GPU | step 88.4s (524288 tok) | mfu3x 3.4% | hfu 4.9% | traced 106.5s (+20.5% kineto overhead) | peak_mem 143 GiB

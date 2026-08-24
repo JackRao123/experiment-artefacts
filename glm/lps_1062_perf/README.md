@@ -43,6 +43,7 @@ repo. Large traces/memory snapshots are Mac-only and gitignored — see `DATA.md
 | `runs/overnight_20260822_262k_pr1070/` | does PR #1070 work at 262k + 131k↔262k trace comparison | **#1070 works at 262k: +23% (d2) / +67% (d4) vs main tip**; merged 2026-08-24. `ANALYSIS.md` is the deliverable |
 | `runs/debug_proxy_20260821/` | single-B300 real-code GLM activation-placement proxy | 0D1M boots in ~70s; mission closed at −17.6% (forward host-sync × saturated-copy-engine collision = proven floor) |
 | `runs/fullmodel_offload_20260823/` | full-model activation offload at PP2/CP8/EP8 (**active**) | offload −40% vs baseline at 32k/d4; root cause = PP2 backward-order reload-miss bug (12.8% uniform misses). Fix in flight — `HANDOFF_WEIL.md` |
+| `runs/postmerge_20260824_131k/` | 131k/d4 PP2/EP8/CP8 on merged main (post-#1070) | **~330±40 tok/s/GPU, noisy** — 68% of the traced window is NCCL wait (stage-1-bound); compute healthy (DSA halves vs R3 per-call). The new current-state 131k reference |
 
 ## Headline (2026-08-07, devbox q480z53 → round-3 boxes 318g61w/wxlgv5w)
 
