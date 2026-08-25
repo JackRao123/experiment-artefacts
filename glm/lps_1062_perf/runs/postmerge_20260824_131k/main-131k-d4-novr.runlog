@@ -1,0 +1,12 @@
+[status] world_size=16 dp=1
+[profile] memory_profile/start max_entries=1000000
+[main-131k-d4-novr warmup0] fb=93.0s (352 tok/s/GPU) optim=8.7s loss=12.316710027389735 gn=0.42384135723114014
+[profile] runtime_profile/start
+[main-131k-d4-novr traced0] fb=43.5s (753 tok/s/GPU) optim=0.7s loss=12.317249811171045 gn=0.4511534571647644
+[profile] runtime_profile/stop (sync kineto flush, can take minutes)
+[main-131k-d4-novr control0] fb=43.0s (762 tok/s/GPU) optim=0.7s loss=12.317787687589169 gn=0.3538123071193695
+[main-131k-d4-novr control1] fb=42.2s (776 tok/s/GPU) optim=0.7s loss=12.310158234849814 gn=0.3556438982486725
+[main-131k-d4-novr control2] fb=42.3s (775 tok/s/GPU) optim=0.1s loss=12.313494213060098 gn=0.3903074860572815
+[profile] memory_profile/stop (snapshot dump, can take minutes)
+[done] -> /root/.cache/user_artifacts/lps1062_bench/main-131k-d4-novr.json
+SUMMARY main-131k-d4-novr: 771 tok/s/GPU | step 42.5s (524288 tok) | mfu3x 7.0% | hfu 10.2% | traced 43.5s (+2.4% kineto overhead) | peak_mem 144 GiB

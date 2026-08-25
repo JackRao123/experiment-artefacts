@@ -53,6 +53,56 @@ R3 522 @262k/d4 (PR tree, 2× tokens).
   Needs the stage-1 view (rank-8 trace — main has no BT_PROFILE_RANKS) or a
   scale-branch 131k trace to diff against.
 
+## Debug-model bisect (2026-08-24 late) — `release_cached_vram` is the regression
+
+Vehicle: `glm52-debug-1d1m` (1 dense + 1 MoE layer, everything else
+full-size), 1 GPU, PP1/CP1/EP1, 8192×d4 = 32,768 tok/step (matches the full
+run's per-GPU token load), full recompute, driver = profile_driver_new.py,
+3 controls. Boot ~75 s per arm. Kit on box: `/root/.cache/user_artifacts/lps1062_debug_ab/`.
+
+| arm | tok/s/GPU | fb step |
+|---|---:|---:|
+| main @ 71a9f3b7 | 8,041 (noisy: 6965/8810/8621) | ~4.1 s |
+| branch c226338a (lps1062-scale) | 10,812 (tight) | 3.0 s |
+| **main + `BT_DISABLE_VRAM_RELEASE=1`** | **10,810 (tight: 10938/10697/10796)** | **3.0 s** |
+
+**`release_cached_vram` is the regression.** It exists only on main (added
+after the branch forked, LPS-1065): it wraps `finalize_model_grads`, so every
+step does `torch.cuda.synchronize()` + `torch.cuda.empty_cache()` (also once
+after `dp_loss_gather`). The branch never had it. Disabling it on main closes
+the ENTIRE debug-scale gap to the branch (10,810 vs 10,812).
+
+Box patches (box `q4grmdq` checkout only, NOT committed anywhere):
+`models/src/loops_models/profiling.py` reads `BT_PROFILE_RANKS` into
+`rank_set`; `server-interface/.../cuda_memory.py` early-returns when
+`BT_DISABLE_VRAM_RELEASE=1`.
+
+Full-model verification (main + `BT_DISABLE_VRAM_RELEASE=1` at 131k
+PP2/EP8/CP8): see below.
+
+## Full-model confirmation — 771 tok/s/GPU
+
+Main @ 71a9f3b7 + `BT_DISABLE_VRAM_RELEASE=1`, 131k×d4 PP2/EP8/CP8, same box,
+same driver (`main-131k-d4-novr`): **771 tok/s/GPU** (controls 762/776/775,
+tight; peak 144 GiB; canaries clean) vs 330 broken / 794 branch. The per-step
+flush accounts for **97% of the gap**; the residual ~3% is noise-level (the
+loss-path divergence may or may not be real — not worth chasing at this size).
+
+The rank-8 "stage 1 is slow" picture was the convoy: the per-step
+`empty_cache()`+`synchronize()` stalls every rank's allocator at each step
+boundary; the pipeline then amplifies it, and stage 1's loss-path host reads
+park on the stalled GPU. Stage 1 was never the root cause.
+
+Also measured on the branch recheck: 794 tok/s/GPU reproduces exactly on this
+box (controls 795/794/794). And the campaign-era env knobs are confirmed
+immaterial at 131k PP2 (ship env 552 vs 550 without, campaign tree).
+
+**Fix for main (separate PR):** `release_cached_vram` must not run per step.
+Options: run once after boot/warmup only; gate on actual free-memory pressure;
+or make it opt-in via env. It exists for LPS-1065 (NCCL/cuBLAS out-of-pool
+allocations) so the safety case needs preserving — but at 131k PP2 the peak
+was identical with it off (144 GiB).
+
 ## Rank-8 (stage 1) trace — why stage 1 is slow
 
 Captured via a box-local patch: `ProfilingConfig.from_env` now reads
