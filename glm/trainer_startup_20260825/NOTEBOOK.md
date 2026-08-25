@@ -47,7 +47,9 @@ measurement model. Iterate on reduced-layer GLM proxies and reserve the full
 - Shape: one dense layer plus one MoE layer.
 - Preserved production dimensions: hidden size, attention geometry, vocabulary,
   256 routed experts, top-k 8, and shared expert count.
-- Topology: TP1/PP1/CP1/EP1 on one B300.
+- Topology: TP1/PP1/CP1/EP8 on one 8-GPU B300 node. EP8 preserves the
+  production expert sharding and all-to-all path without paying for the second
+  pipeline node.
 - Max sequence length and startup warmup: 8,192 tokens unless an A/B explicitly
   tests warmup behavior.
 - Snapshot is random BF16 and therefore does not model production FP8
@@ -116,3 +118,14 @@ safe optimization decision.
   provider, LoRA config, Megatron config, distributed runtime initialization,
   JIT fusion warmup, model build/load/wrap, optimizer, and final stack setup.
 - No startup behavior has been optimized yet.
+
+### 2026-08-25 10:25 PDT - instrumentation validation
+
+- Diagnostic trainers commit: `41b0e63335b3ccfb10440ad42b35645d92635d79`.
+- Ruff, formatting, and type checking passed across all trainers packages.
+- Focused B300 unit suite passed: 20 tests in
+  `test_init_trainer_server.py`.
+- Staged a clean devbox worktree at the exact commit and initialized its Bridge
+  and Megatron-LM submodules. The existing dirty checkout remains untouched.
+- The generated devbox-up lifecycle scripts remain unmodified. Their CUDA venv
+  is reused while `PYTHONPATH` selects the clean worktree source packages.
