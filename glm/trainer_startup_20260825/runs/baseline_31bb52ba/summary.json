@@ -1,0 +1,19 @@
+{
+  "trainers_commit": "31bb52bab9c648e19772ae045661dc43350a7136",
+  "model": "glm52-debug-1d1m",
+  "topology": "TP1_PP1_CP1_EP8",
+  "warmup_tokens": 8192,
+  "launch_to_health_seconds": 153,
+  "max_rank_phase_seconds": {
+    "bridge_provider": 0.054,
+    "lora_config": 0.0,
+    "build_config": 0.002,
+    "initialize_runtime": 19.535,
+    "jit_fusion": 3.807,
+    "model_build_load_wrap": 8.733,
+    "optimizer": 2.906,
+    "training_stack": 0.079,
+    "warmup_forward_backward": 92.918,
+    "warmup_finalize": 0.002
+  }
+}

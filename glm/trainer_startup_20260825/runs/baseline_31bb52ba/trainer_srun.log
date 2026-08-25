@@ -1,0 +1,374 @@
+node 0: rendezvous master=b300-1-izksekdp-0001 (10.1.77.46)
+node 0: NCCL_IB_HCA=mlx5_bond
+/root/.cache/user_artifacts/devboxes/q4grmdq/trainers/server-megatron-bridge/.venv/lib/python3.12/site-packages/torch/cuda/__init__.py:61: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+W0825 17:37:35.838000 262504 /root/.devbox-venvs/server/lib/python3.12/site-packages/torch/distributed/run.py:851] 
+W0825 17:37:35.838000 262504 /root/.devbox-venvs/server/lib/python3.12/site-packages/torch/distributed/run.py:851] *****************************************
+W0825 17:37:35.838000 262504 /root/.devbox-venvs/server/lib/python3.12/site-packages/torch/distributed/run.py:851] Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+W0825 17:37:35.838000 262504 /root/.devbox-venvs/server/lib/python3.12/site-packages/torch/distributed/run.py:851] *****************************************
+/root/.cache/user_artifacts/devboxes/q4grmdq/trainers/server-megatron-bridge/.venv/lib/python3.12/site-packages/torch/cuda/__init__.py:61: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/root/.cache/user_artifacts/devboxes/q4grmdq/trainers/server-megatron-bridge/.venv/lib/python3.12/site-packages/torch/cuda/__init__.py:61: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/root/.cache/user_artifacts/devboxes/q4grmdq/trainers/server-megatron-bridge/.venv/lib/python3.12/site-packages/torch/cuda/__init__.py:61: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/root/.cache/user_artifacts/devboxes/q4grmdq/trainers/server-megatron-bridge/.venv/lib/python3.12/site-packages/torch/cuda/__init__.py:61: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/root/.cache/user_artifacts/devboxes/q4grmdq/trainers/server-megatron-bridge/.venv/lib/python3.12/site-packages/torch/cuda/__init__.py:61: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/root/.cache/user_artifacts/devboxes/q4grmdq/trainers/server-megatron-bridge/.venv/lib/python3.12/site-packages/torch/cuda/__init__.py:61: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/root/.cache/user_artifacts/devboxes/q4grmdq/trainers/server-megatron-bridge/.venv/lib/python3.12/site-packages/torch/cuda/__init__.py:61: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/root/.cache/user_artifacts/devboxes/q4grmdq/trainers/server-megatron-bridge/.venv/lib/python3.12/site-packages/torch/cuda/__init__.py:61: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/root/.cache/user_artifacts/devboxes/q4grmdq/trainers/server-megatron-bridge/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/backends.py:34: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/devboxes/q4grmdq/trainers/server-megatron-bridge/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/backends.py:34: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/devboxes/q4grmdq/trainers/server-megatron-bridge/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/backends.py:34: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/devboxes/q4grmdq/trainers/server-megatron-bridge/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/backends.py:34: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/devboxes/q4grmdq/trainers/server-megatron-bridge/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/gpt/gpt_layer_specs.py:74: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/devboxes/q4grmdq/trainers/server-megatron-bridge/.venv/lib/python3.12/site-packages/modelopt/torch/__init__.py:53: UserWarning: transformers>=5.0 support is experimental. Unified Hugging Face checkpoint export for quantized checkpoints may not work for some models yet.
+  _warnings.warn(
+/root/.cache/user_artifacts/devboxes/q4grmdq/trainers/server-megatron-bridge/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/gpt/heterogeneous/heterogeneous_layer_specs.py:68: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/devboxes/q4grmdq/trainers/server-megatron-bridge/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/backends.py:34: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/devboxes/q4grmdq/trainers/server-megatron-bridge/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/backends.py:34: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/devboxes/q4grmdq/trainers/server-megatron-bridge/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/backends.py:34: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/devboxes/q4grmdq/trainers/server-megatron-bridge/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/vision/vit_layer_specs.py:31: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/devboxes/q4grmdq/trainers/server-megatron-bridge/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/backends.py:34: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/devboxes/q4grmdq/trainers/server-megatron-bridge/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/mimo/config/base_configs.py:12: UserWarning: MimoModelConfig is experimental and still under active development. The API may change without notice in future releases.
+  class MimoModelConfig:
+WARNING:megatron.bridge.models.conversion.auto_bridge:Loading a model with trust_remote_code=True allows arbitrary code execution from the model repository. Only use this with models you trust.
+/root/.cache/user_artifacts/devboxes/q4grmdq/trainers/server-megatron-bridge/vendor/megatron-bridge/src/megatron/bridge/models/glm_moe_dsa/glm5_bridge.py:90: FutureWarning: GLM5Bridge.provider_bridge() and AutoBridge.to_megatron_provider() are deprecated for builder-backed models. Use AutoBridge.get_model_config() for training recipes or AutoBridge.get_model() to construct a model. Legacy provider support will be removed in a future release.
+  provider = super().provider_bridge(hf_pretrained)
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+INFO:trainers_server_interface.startup:trainer startup phase=bridge_provider rank=7 duration_s=0.005 cumulative_s=0.005
+INFO:trainers_server_interface.startup:trainer startup phase=lora_config rank=7 duration_s=0.000 cumulative_s=0.005
+/root/.cache/user_artifacts/devboxes/q4grmdq/trainers/server-megatron-bridge/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/transformer/transformer_config.py:2696: UserWarning: full scope is deprecated. Use empty cuda_graph_modules to capture the whole layer.
+  warnings.warn(
+INFO:trainers_server_interface.startup:trainer startup phase=build_config rank=7 duration_s=0.002 cumulative_s=0.007
+/root/.cache/user_artifacts/devboxes/q4grmdq/trainers/server-megatron-bridge/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/gpt/gpt_layer_specs.py:74: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/devboxes/q4grmdq/trainers/server-megatron-bridge/.venv/lib/python3.12/site-packages/modelopt/torch/__init__.py:53: UserWarning: transformers>=5.0 support is experimental. Unified Hugging Face checkpoint export for quantized checkpoints may not work for some models yet.
+  _warnings.warn(
+/root/.cache/user_artifacts/devboxes/q4grmdq/trainers/server-megatron-bridge/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/gpt/heterogeneous/heterogeneous_layer_specs.py:68: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/devboxes/q4grmdq/trainers/server-megatron-bridge/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/vision/vit_layer_specs.py:31: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/devboxes/q4grmdq/trainers/server-megatron-bridge/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/gpt/gpt_layer_specs.py:74: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/devboxes/q4grmdq/trainers/server-megatron-bridge/.venv/lib/python3.12/site-packages/modelopt/torch/__init__.py:53: UserWarning: transformers>=5.0 support is experimental. Unified Hugging Face checkpoint export for quantized checkpoints may not work for some models yet.
+  _warnings.warn(
+/root/.cache/user_artifacts/devboxes/q4grmdq/trainers/server-megatron-bridge/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/gpt/heterogeneous/heterogeneous_layer_specs.py:68: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/devboxes/q4grmdq/trainers/server-megatron-bridge/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/gpt/gpt_layer_specs.py:74: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/devboxes/q4grmdq/trainers/server-megatron-bridge/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/gpt/gpt_layer_specs.py:74: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/devboxes/q4grmdq/trainers/server-megatron-bridge/.venv/lib/python3.12/site-packages/modelopt/torch/__init__.py:53: UserWarning: transformers>=5.0 support is experimental. Unified Hugging Face checkpoint export for quantized checkpoints may not work for some models yet.
+  _warnings.warn(
+/root/.cache/user_artifacts/devboxes/q4grmdq/trainers/server-megatron-bridge/.venv/lib/python3.12/site-packages/modelopt/torch/__init__.py:53: UserWarning: transformers>=5.0 support is experimental. Unified Hugging Face checkpoint export for quantized checkpoints may not work for some models yet.
+  _warnings.warn(
+/root/.cache/user_artifacts/devboxes/q4grmdq/trainers/server-megatron-bridge/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/gpt/heterogeneous/heterogeneous_layer_specs.py:68: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/devboxes/q4grmdq/trainers/server-megatron-bridge/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/gpt/heterogeneous/heterogeneous_layer_specs.py:68: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/devboxes/q4grmdq/trainers/server-megatron-bridge/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/vision/vit_layer_specs.py:31: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/devboxes/q4grmdq/trainers/server-megatron-bridge/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/vision/vit_layer_specs.py:31: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/devboxes/q4grmdq/trainers/server-megatron-bridge/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/vision/vit_layer_specs.py:31: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/devboxes/q4grmdq/trainers/server-megatron-bridge/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/mimo/config/base_configs.py:12: UserWarning: MimoModelConfig is experimental and still under active development. The API may change without notice in future releases.
+  class MimoModelConfig:
+/root/.cache/user_artifacts/devboxes/q4grmdq/trainers/server-megatron-bridge/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/gpt/gpt_layer_specs.py:74: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+WARNING:megatron.bridge.models.conversion.auto_bridge:Loading a model with trust_remote_code=True allows arbitrary code execution from the model repository. Only use this with models you trust.
+/root/.cache/user_artifacts/devboxes/q4grmdq/trainers/server-megatron-bridge/vendor/megatron-bridge/src/megatron/bridge/models/glm_moe_dsa/glm5_bridge.py:90: FutureWarning: GLM5Bridge.provider_bridge() and AutoBridge.to_megatron_provider() are deprecated for builder-backed models. Use AutoBridge.get_model_config() for training recipes or AutoBridge.get_model() to construct a model. Legacy provider support will be removed in a future release.
+  provider = super().provider_bridge(hf_pretrained)
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+INFO:trainers_server_interface.startup:trainer startup phase=bridge_provider rank=0 duration_s=0.003 cumulative_s=0.003
+INFO:trainers_server_interface.startup:trainer startup phase=lora_config rank=0 duration_s=0.000 cumulative_s=0.003
+/root/.cache/user_artifacts/devboxes/q4grmdq/trainers/server-megatron-bridge/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/transformer/transformer_config.py:2696: UserWarning: full scope is deprecated. Use empty cuda_graph_modules to capture the whole layer.
+  warnings.warn(
+INFO:trainers_server_interface.startup:trainer startup phase=build_config rank=0 duration_s=0.002 cumulative_s=0.005
+WARNING:megatron.core.rerun_state_machine:RerunStateMachine initialized in mode RerunMode.DISABLED
+> initializing torch distributed ...
+/root/.cache/user_artifacts/devboxes/q4grmdq/trainers/server-megatron-bridge/.venv/lib/python3.12/site-packages/modelopt/torch/__init__.py:53: UserWarning: transformers>=5.0 support is experimental. Unified Hugging Face checkpoint export for quantized checkpoints may not work for some models yet.
+  _warnings.warn(
+/root/.cache/user_artifacts/devboxes/q4grmdq/trainers/server-megatron-bridge/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/gpt/heterogeneous/heterogeneous_layer_specs.py:68: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/devboxes/q4grmdq/trainers/server-megatron-bridge/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/gpt/gpt_layer_specs.py:74: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/devboxes/q4grmdq/trainers/server-megatron-bridge/.venv/lib/python3.12/site-packages/modelopt/torch/__init__.py:53: UserWarning: transformers>=5.0 support is experimental. Unified Hugging Face checkpoint export for quantized checkpoints may not work for some models yet.
+  _warnings.warn(
+/root/.cache/user_artifacts/devboxes/q4grmdq/trainers/server-megatron-bridge/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/gpt/heterogeneous/heterogeneous_layer_specs.py:68: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/devboxes/q4grmdq/trainers/server-megatron-bridge/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/vision/vit_layer_specs.py:31: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/devboxes/q4grmdq/trainers/server-megatron-bridge/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/vision/vit_layer_specs.py:31: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/devboxes/q4grmdq/trainers/server-megatron-bridge/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/mimo/config/base_configs.py:12: UserWarning: MimoModelConfig is experimental and still under active development. The API may change without notice in future releases.
+  class MimoModelConfig:
+WARNING:megatron.bridge.models.conversion.auto_bridge:Loading a model with trust_remote_code=True allows arbitrary code execution from the model repository. Only use this with models you trust.
+/root/.cache/user_artifacts/devboxes/q4grmdq/trainers/server-megatron-bridge/vendor/megatron-bridge/src/megatron/bridge/models/glm_moe_dsa/glm5_bridge.py:90: FutureWarning: GLM5Bridge.provider_bridge() and AutoBridge.to_megatron_provider() are deprecated for builder-backed models. Use AutoBridge.get_model_config() for training recipes or AutoBridge.get_model() to construct a model. Legacy provider support will be removed in a future release.
+  provider = super().provider_bridge(hf_pretrained)
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+INFO:trainers_server_interface.startup:trainer startup phase=bridge_provider rank=5 duration_s=0.004 cumulative_s=0.004
+INFO:trainers_server_interface.startup:trainer startup phase=lora_config rank=5 duration_s=0.000 cumulative_s=0.004
+/root/.cache/user_artifacts/devboxes/q4grmdq/trainers/server-megatron-bridge/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/transformer/transformer_config.py:2696: UserWarning: full scope is deprecated. Use empty cuda_graph_modules to capture the whole layer.
+  warnings.warn(
+INFO:trainers_server_interface.startup:trainer startup phase=build_config rank=5 duration_s=0.002 cumulative_s=0.005
+/root/.cache/user_artifacts/devboxes/q4grmdq/trainers/server-megatron-bridge/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/mimo/config/base_configs.py:12: UserWarning: MimoModelConfig is experimental and still under active development. The API may change without notice in future releases.
+  class MimoModelConfig:
+/root/.cache/user_artifacts/devboxes/q4grmdq/trainers/server-megatron-bridge/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/mimo/config/base_configs.py:12: UserWarning: MimoModelConfig is experimental and still under active development. The API may change without notice in future releases.
+  class MimoModelConfig:
+/root/.cache/user_artifacts/devboxes/q4grmdq/trainers/server-megatron-bridge/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/gpt/gpt_layer_specs.py:74: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/devboxes/q4grmdq/trainers/server-megatron-bridge/.venv/lib/python3.12/site-packages/modelopt/torch/__init__.py:53: UserWarning: transformers>=5.0 support is experimental. Unified Hugging Face checkpoint export for quantized checkpoints may not work for some models yet.
+  _warnings.warn(
+WARNING:megatron.bridge.models.conversion.auto_bridge:Loading a model with trust_remote_code=True allows arbitrary code execution from the model repository. Only use this with models you trust.
+WARNING:megatron.bridge.models.conversion.auto_bridge:Loading a model with trust_remote_code=True allows arbitrary code execution from the model repository. Only use this with models you trust.
+/root/.cache/user_artifacts/devboxes/q4grmdq/trainers/server-megatron-bridge/vendor/megatron-bridge/src/megatron/bridge/models/glm_moe_dsa/glm5_bridge.py:90: FutureWarning: GLM5Bridge.provider_bridge() and AutoBridge.to_megatron_provider() are deprecated for builder-backed models. Use AutoBridge.get_model_config() for training recipes or AutoBridge.get_model() to construct a model. Legacy provider support will be removed in a future release.
+  provider = super().provider_bridge(hf_pretrained)
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+INFO:trainers_server_interface.startup:trainer startup phase=bridge_provider rank=1 duration_s=0.004 cumulative_s=0.004
+INFO:trainers_server_interface.startup:trainer startup phase=lora_config rank=1 duration_s=0.000 cumulative_s=0.004
+/root/.cache/user_artifacts/devboxes/q4grmdq/trainers/server-megatron-bridge/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/transformer/transformer_config.py:2696: UserWarning: full scope is deprecated. Use empty cuda_graph_modules to capture the whole layer.
+  warnings.warn(
+INFO:trainers_server_interface.startup:trainer startup phase=build_config rank=1 duration_s=0.002 cumulative_s=0.005
+/root/.cache/user_artifacts/devboxes/q4grmdq/trainers/server-megatron-bridge/vendor/megatron-bridge/src/megatron/bridge/models/glm_moe_dsa/glm5_bridge.py:90: FutureWarning: GLM5Bridge.provider_bridge() and AutoBridge.to_megatron_provider() are deprecated for builder-backed models. Use AutoBridge.get_model_config() for training recipes or AutoBridge.get_model() to construct a model. Legacy provider support will be removed in a future release.
+  provider = super().provider_bridge(hf_pretrained)
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+INFO:trainers_server_interface.startup:trainer startup phase=bridge_provider rank=3 duration_s=0.054 cumulative_s=0.054
+INFO:trainers_server_interface.startup:trainer startup phase=lora_config rank=3 duration_s=0.000 cumulative_s=0.054
+/root/.cache/user_artifacts/devboxes/q4grmdq/trainers/server-megatron-bridge/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/transformer/transformer_config.py:2696: UserWarning: full scope is deprecated. Use empty cuda_graph_modules to capture the whole layer.
+  warnings.warn(
+INFO:trainers_server_interface.startup:trainer startup phase=build_config rank=3 duration_s=0.002 cumulative_s=0.056
+/root/.cache/user_artifacts/devboxes/q4grmdq/trainers/server-megatron-bridge/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/gpt/heterogeneous/heterogeneous_layer_specs.py:68: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/devboxes/q4grmdq/trainers/server-megatron-bridge/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/vision/vit_layer_specs.py:31: UserWarning: Apex is not installed. Falling back to Torch Norm
+  warnings.warn("Apex is not installed. Falling back to Torch Norm")
+/root/.cache/user_artifacts/devboxes/q4grmdq/trainers/server-megatron-bridge/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/mimo/config/base_configs.py:12: UserWarning: MimoModelConfig is experimental and still under active development. The API may change without notice in future releases.
+  class MimoModelConfig:
+WARNING:megatron.bridge.models.conversion.auto_bridge:Loading a model with trust_remote_code=True allows arbitrary code execution from the model repository. Only use this with models you trust.
+/root/.cache/user_artifacts/devboxes/q4grmdq/trainers/server-megatron-bridge/vendor/megatron-bridge/src/megatron/bridge/models/glm_moe_dsa/glm5_bridge.py:90: FutureWarning: GLM5Bridge.provider_bridge() and AutoBridge.to_megatron_provider() are deprecated for builder-backed models. Use AutoBridge.get_model_config() for training recipes or AutoBridge.get_model() to construct a model. Legacy provider support will be removed in a future release.
+  provider = super().provider_bridge(hf_pretrained)
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+INFO:trainers_server_interface.startup:trainer startup phase=bridge_provider rank=6 duration_s=0.003 cumulative_s=0.003
+INFO:trainers_server_interface.startup:trainer startup phase=lora_config rank=6 duration_s=0.000 cumulative_s=0.004
+/root/.cache/user_artifacts/devboxes/q4grmdq/trainers/server-megatron-bridge/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/transformer/transformer_config.py:2696: UserWarning: full scope is deprecated. Use empty cuda_graph_modules to capture the whole layer.
+  warnings.warn(
+INFO:trainers_server_interface.startup:trainer startup phase=build_config rank=6 duration_s=0.002 cumulative_s=0.005
+/root/.cache/user_artifacts/devboxes/q4grmdq/trainers/server-megatron-bridge/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/mimo/config/base_configs.py:12: UserWarning: MimoModelConfig is experimental and still under active development. The API may change without notice in future releases.
+  class MimoModelConfig:
+WARNING:megatron.bridge.models.conversion.auto_bridge:Loading a model with trust_remote_code=True allows arbitrary code execution from the model repository. Only use this with models you trust.
+/root/.cache/user_artifacts/devboxes/q4grmdq/trainers/server-megatron-bridge/vendor/megatron-bridge/src/megatron/bridge/models/glm_moe_dsa/glm5_bridge.py:90: FutureWarning: GLM5Bridge.provider_bridge() and AutoBridge.to_megatron_provider() are deprecated for builder-backed models. Use AutoBridge.get_model_config() for training recipes or AutoBridge.get_model() to construct a model. Legacy provider support will be removed in a future release.
+  provider = super().provider_bridge(hf_pretrained)
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+INFO:trainers_server_interface.startup:trainer startup phase=bridge_provider rank=4 duration_s=0.003 cumulative_s=0.003
+INFO:trainers_server_interface.startup:trainer startup phase=lora_config rank=4 duration_s=0.000 cumulative_s=0.004
+/root/.cache/user_artifacts/devboxes/q4grmdq/trainers/server-megatron-bridge/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/transformer/transformer_config.py:2696: UserWarning: full scope is deprecated. Use empty cuda_graph_modules to capture the whole layer.
+  warnings.warn(
+INFO:trainers_server_interface.startup:trainer startup phase=build_config rank=4 duration_s=0.002 cumulative_s=0.005
+/root/.cache/user_artifacts/devboxes/q4grmdq/trainers/server-megatron-bridge/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/models/mimo/config/base_configs.py:12: UserWarning: MimoModelConfig is experimental and still under active development. The API may change without notice in future releases.
+  class MimoModelConfig:
+WARNING:megatron.bridge.models.conversion.auto_bridge:Loading a model with trust_remote_code=True allows arbitrary code execution from the model repository. Only use this with models you trust.
+/root/.cache/user_artifacts/devboxes/q4grmdq/trainers/server-megatron-bridge/vendor/megatron-bridge/src/megatron/bridge/models/glm_moe_dsa/glm5_bridge.py:90: FutureWarning: GLM5Bridge.provider_bridge() and AutoBridge.to_megatron_provider() are deprecated for builder-backed models. Use AutoBridge.get_model_config() for training recipes or AutoBridge.get_model() to construct a model. Legacy provider support will be removed in a future release.
+  provider = super().provider_bridge(hf_pretrained)
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+INFO:trainers_server_interface.startup:trainer startup phase=bridge_provider rank=2 duration_s=0.004 cumulative_s=0.004
+INFO:trainers_server_interface.startup:trainer startup phase=lora_config rank=2 duration_s=0.000 cumulative_s=0.004
+/root/.cache/user_artifacts/devboxes/q4grmdq/trainers/server-megatron-bridge/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/transformer/transformer_config.py:2696: UserWarning: full scope is deprecated. Use empty cuda_graph_modules to capture the whole layer.
+  warnings.warn(
+INFO:trainers_server_interface.startup:trainer startup phase=build_config rank=2 duration_s=0.002 cumulative_s=0.006
+> initialized tensor model parallel with size 1
+> initialized pipeline model parallel with size 1
+> setting random seeds to 1234 ...
+> compiling dataset index builder ...
+make: Entering directory '/root/.cache/user_artifacts/devboxes/q4grmdq/trainers/server-megatron-bridge/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/datasets'
+make: Nothing to be done for 'default'.
+make: Leaving directory '/root/.cache/user_artifacts/devboxes/q4grmdq/trainers/server-megatron-bridge/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/datasets'
+>>> done with dataset index builder. Compilation time: 0.039 seconds
+/root/.cache/user_artifacts/devboxes/q4grmdq/trainers/server-megatron-bridge/.venv/lib/python3.12/site-packages/torch/distributed/c10d_logger.py:83: UserWarning: barrier(): using the device under current context. You can specify `device_id` in `init_process_group` to mute this warning.
+  return func(*args, **kwargs)
+INFO:trainers_server_interface.startup:trainer startup phase=initialize_runtime rank=2 duration_s=14.160 cumulative_s=14.166
+INFO:trainers_server_interface.startup:trainer startup phase=initialize_runtime rank=6 duration_s=14.844 cumulative_s=14.849
+INFO:trainers_server_interface.startup:trainer startup phase=initialize_runtime rank=7 duration_s=19.535 cumulative_s=19.541
+INFO:trainers_server_interface.startup:trainer startup phase=initialize_runtime rank=5 duration_s=15.557 cumulative_s=15.562
+INFO:trainers_server_interface.startup:trainer startup phase=initialize_runtime rank=3 duration_s=15.348 cumulative_s=15.404
+INFO:trainers_server_interface.startup:trainer startup phase=initialize_runtime rank=1 duration_s=15.398 cumulative_s=15.404
+INFO:trainers_server_interface.startup:trainer startup phase=initialize_runtime rank=4 duration_s=14.727 cumulative_s=14.732
+INFO:trainers_server_interface.startup:trainer startup phase=initialize_runtime rank=0 duration_s=16.107 cumulative_s=16.112
+INFO:trainers_server_interface.startup:trainer startup phase=jit_fusion rank=7 duration_s=3.607 cumulative_s=23.148
+INFO:trainers_server_interface.startup:trainer startup phase=jit_fusion rank=4 duration_s=3.627 cumulative_s=18.359
+INFO:trainers_server_interface.startup:trainer startup phase=jit_fusion rank=1 duration_s=3.632 cumulative_s=19.036
+INFO:trainers_server_interface.startup:trainer startup phase=jit_fusion rank=2 duration_s=3.708 cumulative_s=17.874
+INFO:trainers_server_interface.startup:trainer startup phase=jit_fusion rank=0 duration_s=3.708 cumulative_s=19.820
+WARNING:megatron.core.models.gpt.gpt_model:GPTModel IS DEPRECATED. GPTModel is only accepting critical bug fixes, no new features. Please reference the migration guide `docs/user-guide/hybrid-model-migration.md` for details on how to use `HybridModel`
+INFO:trainers_server_interface.startup:trainer startup phase=jit_fusion rank=3 duration_s=3.713 cumulative_s=19.116
+INFO:trainers_server_interface.startup:trainer startup phase=jit_fusion rank=6 duration_s=3.719 cumulative_s=18.568
+INFO:trainers_server_interface.startup:trainer startup phase=jit_fusion rank=5 duration_s=3.807 cumulative_s=19.369
+WARNING:megatron.bridge.models.conversion.model_bridge:WARNING: Can't find model.layers.1.self_attn.indexer.wq_b.weight in hf_keys
+WARNING:megatron.bridge.models.conversion.model_bridge:WARNING: Can't find model.layers.1.self_attn.indexer.wk.weight in hf_keys
+WARNING:megatron.bridge.models.conversion.model_bridge:WARNING: Can't find model.layers.1.self_attn.indexer.k_norm.weight in hf_keys
+WARNING:megatron.bridge.models.conversion.model_bridge:WARNING: Can't find model.layers.1.self_attn.indexer.k_norm.bias in hf_keys
+WARNING:megatron.bridge.models.conversion.model_bridge:WARNING: Can't find model.layers.1.self_attn.indexer.weights_proj.weight in hf_keys
+WARNING:megatron.bridge.models.conversion.model_bridge:WARNING: Can't find model.layers.1.self_attn.indexer.wq_b.weight in hf_keys
+WARNING:megatron.bridge.models.conversion.model_bridge:WARNING: Can't find model.layers.1.self_attn.indexer.wk.weight in hf_keys
+WARNING:megatron.bridge.models.conversion.model_bridge:WARNING: Can't find model.layers.1.self_attn.indexer.k_norm.weight in hf_keys
+WARNING:megatron.bridge.models.conversion.model_bridge:WARNING: Can't find model.layers.1.self_attn.indexer.k_norm.bias in hf_keys
+WARNING:megatron.bridge.models.conversion.model_bridge:WARNING: Can't find model.layers.1.self_attn.indexer.weights_proj.weight in hf_keys
+WARNING:megatron.bridge.models.conversion.model_bridge:WARNING: Can't find model.layers.1.self_attn.indexer.wq_b.weight in hf_keys
+WARNING:megatron.bridge.models.conversion.model_bridge:WARNING: Can't find model.layers.1.self_attn.indexer.wk.weight in hf_keys
+WARNING:megatron.bridge.models.conversion.model_bridge:WARNING: Can't find model.layers.1.self_attn.indexer.k_norm.weight in hf_keys
+WARNING:megatron.bridge.models.conversion.model_bridge:WARNING: Can't find model.layers.1.self_attn.indexer.k_norm.bias in hf_keys
+WARNING:megatron.bridge.models.conversion.model_bridge:WARNING: Can't find model.layers.1.self_attn.indexer.weights_proj.weight in hf_keys
+WARNING:megatron.bridge.models.conversion.model_bridge:WARNING: Can't find model.layers.1.self_attn.indexer.wq_b.weight in hf_keys
+WARNING:megatron.bridge.models.conversion.model_bridge:WARNING: Can't find model.layers.1.self_attn.indexer.wk.weight in hf_keys
+WARNING:megatron.bridge.models.conversion.model_bridge:WARNING: Can't find model.layers.1.self_attn.indexer.k_norm.weight in hf_keys
+WARNING:megatron.bridge.models.conversion.model_bridge:WARNING: Can't find model.layers.1.self_attn.indexer.k_norm.bias in hf_keys
+WARNING:megatron.bridge.models.conversion.model_bridge:WARNING: Can't find model.layers.1.self_attn.indexer.weights_proj.weight in hf_keys
+WARNING:megatron.bridge.models.conversion.model_bridge:WARNING: Can't find model.layers.1.self_attn.indexer.wq_b.weight in hf_keys
+WARNING:megatron.bridge.models.conversion.model_bridge:WARNING: Can't find model.layers.1.self_attn.indexer.wk.weight in hf_keys
+WARNING:megatron.bridge.models.conversion.model_bridge:WARNING: Can't find model.layers.1.self_attn.indexer.k_norm.weight in hf_keys
+WARNING:megatron.bridge.models.conversion.model_bridge:WARNING: Can't find model.layers.1.self_attn.indexer.k_norm.bias in hf_keys
+WARNING:megatron.bridge.models.conversion.model_bridge:WARNING: Can't find model.layers.1.self_attn.indexer.weights_proj.weight in hf_keys
+WARNING:megatron.bridge.models.conversion.model_bridge:WARNING: Can't find model.layers.1.self_attn.indexer.wq_b.weight in hf_keys
+WARNING:megatron.bridge.models.conversion.model_bridge:WARNING: Can't find model.layers.1.self_attn.indexer.wk.weight in hf_keys
+WARNING:megatron.bridge.models.conversion.model_bridge:WARNING: Can't find model.layers.1.self_attn.indexer.k_norm.weight in hf_keys
+WARNING:megatron.bridge.models.conversion.model_bridge:WARNING: Can't find model.layers.1.self_attn.indexer.k_norm.bias in hf_keys
+WARNING:megatron.bridge.models.conversion.model_bridge:WARNING: Can't find model.layers.1.self_attn.indexer.weights_proj.weight in hf_keys
+
+
+
+
+INFO:trainers_server_interface.startup:trainer startup phase=model_build_load_wrap rank=1 duration_s=6.187 cumulative_s=25.223
+INFO:trainers_server_interface.startup:trainer startup phase=model_build_load_wrap rank=7 duration_s=6.234 cumulative_s=29.382
+INFO:trainers_server_interface.startup:trainer startup phase=model_build_load_wrap rank=5 duration_s=6.057 cumulative_s=25.426
+INFO:trainers_server_interface.startup:trainer startup phase=model_build_load_wrap rank=2 duration_s=6.170 cumulative_s=24.044
+WARNING:megatron.bridge.models.conversion.model_bridge:WARNING: Can't find model.layers.1.self_attn.indexer.wq_b.weight in hf_keys
+WARNING:megatron.bridge.models.conversion.model_bridge:WARNING: Can't find model.layers.1.self_attn.indexer.wk.weight in hf_keys
+WARNING:megatron.bridge.models.conversion.model_bridge:WARNING: Can't find model.layers.1.self_attn.indexer.k_norm.weight in hf_keys
+WARNING:megatron.bridge.models.conversion.model_bridge:WARNING: Can't find model.layers.1.self_attn.indexer.k_norm.bias in hf_keys
+WARNING:megatron.bridge.models.conversion.model_bridge:WARNING: Can't find model.layers.1.self_attn.indexer.weights_proj.weight in hf_keys
+Loading from /root/.cache/user_artifacts/glm52-debug-1d… 10… (101/101) GLM5Brid…
+[PEFT+Recompute] Patched decoder block forward to enable grad on hidden_states input. This ensures checkpoint backward is called when only adapters are trainable (PP=1 with frozen base model).
+ > number of parameters on (tensor, gtp_remat, pipeline) model parallel rank (0, 0, 0): 3736649216
+INFO:trainers_server_interface.startup:trainer startup phase=model_build_load_wrap rank=0 duration_s=6.893 cumulative_s=26.713
+WARNING:megatron.bridge.models.conversion.model_bridge:WARNING: Can't find model.layers.1.self_attn.indexer.wq_b.weight in hf_keys
+WARNING:megatron.bridge.models.conversion.model_bridge:WARNING: Can't find model.layers.1.self_attn.indexer.wk.weight in hf_keys
+WARNING:megatron.bridge.models.conversion.model_bridge:WARNING: Can't find model.layers.1.self_attn.indexer.k_norm.weight in hf_keys
+WARNING:megatron.bridge.models.conversion.model_bridge:WARNING: Can't find model.layers.1.self_attn.indexer.k_norm.bias in hf_keys
+WARNING:megatron.bridge.models.conversion.model_bridge:WARNING: Can't find model.layers.1.self_attn.indexer.weights_proj.weight in hf_keys
+
+INFO:trainers_server_interface.startup:trainer startup phase=model_build_load_wrap rank=3 duration_s=7.444 cumulative_s=26.560
+
+INFO:trainers_server_interface.startup:trainer startup phase=model_build_load_wrap rank=6 duration_s=8.480 cumulative_s=27.048
+
+INFO:trainers_server_interface.startup:trainer startup phase=model_build_load_wrap rank=4 duration_s=8.733 cumulative_s=27.092
+INFO:trainers_server_interface.startup:trainer startup phase=optimizer rank=0 duration_s=2.122 cumulative_s=28.835
+INFO:trainers_server_interface.startup:trainer startup phase=optimizer rank=7 duration_s=2.885 cumulative_s=32.266
+INFO:trainers_server_interface.startup:trainer startup phase=optimizer rank=3 duration_s=1.569 cumulative_s=28.129
+INFO:trainers_server_interface.startup:trainer startup phase=optimizer rank=4 duration_s=0.365 cumulative_s=27.457
+INFO:trainers_server_interface.startup:trainer startup phase=optimizer rank=1 duration_s=2.906 cumulative_s=28.129
+INFO:trainers_server_interface.startup:trainer startup phase=optimizer rank=6 duration_s=0.527 cumulative_s=27.575
+INFO:trainers_server_interface.startup:trainer startup phase=optimizer rank=2 duration_s=2.849 cumulative_s=26.892
+INFO:trainers_server_interface.startup:trainer startup phase=optimizer rank=5 duration_s=2.863 cumulative_s=28.289
+INFO:trainers_server_interface.startup:trainer startup phase=training_stack rank=4 duration_s=0.063 cumulative_s=27.520
+INFO:trainers_server_interface.startup:trainer startup phase=training_stack rank=6 duration_s=0.063 cumulative_s=27.638
+INFO:trainers_server_interface.dp_worker.controller.checkpoints.manager:weight_sync disabled
+INFO:trainers_server_interface.startup:trainer startup phase=training_stack rank=1 duration_s=0.063 cumulative_s=28.193
+INFO:trainers_server_interface.startup:trainer startup phase=training_stack rank=3 duration_s=0.064 cumulative_s=28.192
+INFO:trainers_server_interface.startup:trainer startup phase=training_stack rank=0 duration_s=0.067 cumulative_s=28.901
+INFO:trainers_server_interface.dp_worker.controller.checkpoints.manager:weight_sync disabled
+INFO:trainers_server_interface.dp_worker.controller.checkpoints.manager:weight_sync disabled
+INFO:trainers_server_interface.dp_worker.controller.checkpoints.manager:weight_sync disabled
+INFO:trainers_server_interface.dp_worker.controller.checkpoints.manager:weight_sync disabled
+INFO:trainers_server_interface.startup:trainer startup phase=training_stack rank=7 duration_s=0.065 cumulative_s=32.332
+/root/.cache/user_artifacts/devboxes/q4grmdq/trainers/server-megatron-bridge/.venv/lib/python3.12/site-packages/torch/distributed/c10d_logger.py:83: UserWarning: barrier(): using the device under current context. You can specify `device_id` in `init_process_group` to mute this warning.
+  return func(*args, **kwargs)
+INFO:trainers_server_interface.dp_worker.controller.checkpoints.manager:weight_sync disabled
+INFO:trainers_server_interface.startup:trainer startup phase=training_stack rank=5 duration_s=0.065 cumulative_s=28.354
+INFO:trainers_server_interface.dp_worker.controller.checkpoints.manager:weight_sync disabled
+INFO:trainers_server_interface.startup:trainer startup phase=training_stack rank=2 duration_s=0.079 cumulative_s=26.971
+INFO:trainers_server_interface.dp_worker.controller.checkpoints.manager:weight_sync disabled
+/root/.cache/user_artifacts/devboxes/q4grmdq/trainers/server-megatron-bridge/.venv/lib/python3.12/site-packages/torch/cuda/__init__.py:61: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/root/.cache/user_artifacts/devboxes/q4grmdq/trainers/server-megatron-bridge/.venv/lib/python3.12/site-packages/torch/cuda/__init__.py:61: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/root/.cache/user_artifacts/devboxes/q4grmdq/trainers/server-megatron-bridge/.venv/lib/python3.12/site-packages/torch/cuda/__init__.py:61: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/root/.cache/user_artifacts/devboxes/q4grmdq/trainers/server-megatron-bridge/.venv/lib/python3.12/site-packages/torch/cuda/__init__.py:61: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/root/.cache/user_artifacts/devboxes/q4grmdq/trainers/server-megatron-bridge/.venv/lib/python3.12/site-packages/torch/cuda/__init__.py:61: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/root/.cache/user_artifacts/devboxes/q4grmdq/trainers/server-megatron-bridge/.venv/lib/python3.12/site-packages/torch/cuda/__init__.py:61: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/root/.cache/user_artifacts/devboxes/q4grmdq/trainers/server-megatron-bridge/.venv/lib/python3.12/site-packages/torch/cuda/__init__.py:61: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/root/.cache/user_artifacts/devboxes/q4grmdq/trainers/server-megatron-bridge/.venv/lib/python3.12/site-packages/torch/cuda/__init__.py:61: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/root/.cache/user_artifacts/devboxes/q4grmdq/trainers/server-megatron-bridge/.venv/lib/python3.12/site-packages/torch/autograd/graph.py:869: UserWarning: The AccumulateGrad node's stream does not match the stream of the node that produced the incoming gradient. This may incur unnecessary synchronization and break CUDA graph capture if the AccumulateGrad node's stream is the default stream. This mismatch is caused by an AccumulateGrad node created prior to the current iteration being kept alive. This can happen if the autograd graph is still being kept alive by tensors such as the loss, or if you are using DDP, which will stash a reference to the node. To resolve the mismatch, delete all references to the autograd graph or ensure that DDP initialization is performed under the same stream as subsequent forwards. If the mismatch is intentional, you can use torch.autograd.graph.set_warn_on_accumulate_grad_stream_mismatch(False) to suppress this warning. (Triggered internally at /pytorch/torch/csrc/autograd/input_buffer.cpp:240.)
+  return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+/root/.cache/user_artifacts/devboxes/q4grmdq/trainers/server-megatron-bridge/.venv/lib/python3.12/site-packages/torch/autograd/graph.py:869: UserWarning: The AccumulateGrad node's stream does not match the stream of the node that produced the incoming gradient. This may incur unnecessary synchronization and break CUDA graph capture if the AccumulateGrad node's stream is the default stream. This mismatch is caused by an AccumulateGrad node created prior to the current iteration being kept alive. This can happen if the autograd graph is still being kept alive by tensors such as the loss, or if you are using DDP, which will stash a reference to the node. To resolve the mismatch, delete all references to the autograd graph or ensure that DDP initialization is performed under the same stream as subsequent forwards. If the mismatch is intentional, you can use torch.autograd.graph.set_warn_on_accumulate_grad_stream_mismatch(False) to suppress this warning. (Triggered internally at /pytorch/torch/csrc/autograd/input_buffer.cpp:240.)
+  return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+/root/.cache/user_artifacts/devboxes/q4grmdq/trainers/server-megatron-bridge/.venv/lib/python3.12/site-packages/torch/autograd/graph.py:869: UserWarning: The AccumulateGrad node's stream does not match the stream of the node that produced the incoming gradient. This may incur unnecessary synchronization and break CUDA graph capture if the AccumulateGrad node's stream is the default stream. This mismatch is caused by an AccumulateGrad node created prior to the current iteration being kept alive. This can happen if the autograd graph is still being kept alive by tensors such as the loss, or if you are using DDP, which will stash a reference to the node. To resolve the mismatch, delete all references to the autograd graph or ensure that DDP initialization is performed under the same stream as subsequent forwards. If the mismatch is intentional, you can use torch.autograd.graph.set_warn_on_accumulate_grad_stream_mismatch(False) to suppress this warning. (Triggered internally at /pytorch/torch/csrc/autograd/input_buffer.cpp:240.)
+  return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+/root/.cache/user_artifacts/devboxes/q4grmdq/trainers/server-megatron-bridge/.venv/lib/python3.12/site-packages/torch/autograd/graph.py:869: UserWarning: The AccumulateGrad node's stream does not match the stream of the node that produced the incoming gradient. This may incur unnecessary synchronization and break CUDA graph capture if the AccumulateGrad node's stream is the default stream. This mismatch is caused by an AccumulateGrad node created prior to the current iteration being kept alive. This can happen if the autograd graph is still being kept alive by tensors such as the loss, or if you are using DDP, which will stash a reference to the node. To resolve the mismatch, delete all references to the autograd graph or ensure that DDP initialization is performed under the same stream as subsequent forwards. If the mismatch is intentional, you can use torch.autograd.graph.set_warn_on_accumulate_grad_stream_mismatch(False) to suppress this warning. (Triggered internally at /pytorch/torch/csrc/autograd/input_buffer.cpp:240.)
+  return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+/root/.cache/user_artifacts/devboxes/q4grmdq/trainers/server-megatron-bridge/.venv/lib/python3.12/site-packages/torch/autograd/graph.py:869: UserWarning: The AccumulateGrad node's stream does not match the stream of the node that produced the incoming gradient. This may incur unnecessary synchronization and break CUDA graph capture if the AccumulateGrad node's stream is the default stream. This mismatch is caused by an AccumulateGrad node created prior to the current iteration being kept alive. This can happen if the autograd graph is still being kept alive by tensors such as the loss, or if you are using DDP, which will stash a reference to the node. To resolve the mismatch, delete all references to the autograd graph or ensure that DDP initialization is performed under the same stream as subsequent forwards. If the mismatch is intentional, you can use torch.autograd.graph.set_warn_on_accumulate_grad_stream_mismatch(False) to suppress this warning. (Triggered internally at /pytorch/torch/csrc/autograd/input_buffer.cpp:240.)
+  return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+INFO:trainers_server_interface.dp_worker.cuda_memory:release_cached_vram(finalize_model_grads): reserved 19.2 GiB, active 7.3 GiB, reclaimed 11.7 GiB
+/root/.cache/user_artifacts/devboxes/q4grmdq/trainers/server-megatron-bridge/.venv/lib/python3.12/site-packages/torch/autograd/graph.py:869: UserWarning: The AccumulateGrad node's stream does not match the stream of the node that produced the incoming gradient. This may incur unnecessary synchronization and break CUDA graph capture if the AccumulateGrad node's stream is the default stream. This mismatch is caused by an AccumulateGrad node created prior to the current iteration being kept alive. This can happen if the autograd graph is still being kept alive by tensors such as the loss, or if you are using DDP, which will stash a reference to the node. To resolve the mismatch, delete all references to the autograd graph or ensure that DDP initialization is performed under the same stream as subsequent forwards. If the mismatch is intentional, you can use torch.autograd.graph.set_warn_on_accumulate_grad_stream_mismatch(False) to suppress this warning. (Triggered internally at /pytorch/torch/csrc/autograd/input_buffer.cpp:240.)
+  return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+/root/.cache/user_artifacts/devboxes/q4grmdq/trainers/server-megatron-bridge/.venv/lib/python3.12/site-packages/torch/autograd/graph.py:869: UserWarning: The AccumulateGrad node's stream does not match the stream of the node that produced the incoming gradient. This may incur unnecessary synchronization and break CUDA graph capture if the AccumulateGrad node's stream is the default stream. This mismatch is caused by an AccumulateGrad node created prior to the current iteration being kept alive. This can happen if the autograd graph is still being kept alive by tensors such as the loss, or if you are using DDP, which will stash a reference to the node. To resolve the mismatch, delete all references to the autograd graph or ensure that DDP initialization is performed under the same stream as subsequent forwards. If the mismatch is intentional, you can use torch.autograd.graph.set_warn_on_accumulate_grad_stream_mismatch(False) to suppress this warning. (Triggered internally at /pytorch/torch/csrc/autograd/input_buffer.cpp:240.)
+  return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+INFO:trainers_server_interface.dp_worker.cuda_memory:release_cached_vram(finalize_model_grads): reserved 27.4 GiB, active 7.3 GiB, reclaimed 19.8 GiB
+/root/.cache/user_artifacts/devboxes/q4grmdq/trainers/server-megatron-bridge/.venv/lib/python3.12/site-packages/torch/autograd/graph.py:869: UserWarning: The AccumulateGrad node's stream does not match the stream of the node that produced the incoming gradient. This may incur unnecessary synchronization and break CUDA graph capture if the AccumulateGrad node's stream is the default stream. This mismatch is caused by an AccumulateGrad node created prior to the current iteration being kept alive. This can happen if the autograd graph is still being kept alive by tensors such as the loss, or if you are using DDP, which will stash a reference to the node. To resolve the mismatch, delete all references to the autograd graph or ensure that DDP initialization is performed under the same stream as subsequent forwards. If the mismatch is intentional, you can use torch.autograd.graph.set_warn_on_accumulate_grad_stream_mismatch(False) to suppress this warning. (Triggered internally at /pytorch/torch/csrc/autograd/input_buffer.cpp:240.)
+  return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+INFO:trainers_server_interface.dp_worker.cuda_memory:release_cached_vram(finalize_model_grads): reserved 15.1 GiB, active 7.3 GiB, reclaimed 7.5 GiB
+INFO:trainers_server_interface.dp_worker.cuda_memory:release_cached_vram(finalize_model_grads): reserved 23.0 GiB, active 7.3 GiB, reclaimed 15.5 GiB
+INFO:trainers_server_interface.dp_worker.cuda_memory:release_cached_vram(finalize_model_grads): reserved 15.4 GiB, active 7.3 GiB, reclaimed 7.8 GiB
+INFO:trainers_server_interface.dp_worker.cuda_memory:release_cached_vram(finalize_model_grads): reserved 15.7 GiB, active 7.3 GiB, reclaimed 8.2 GiB
+INFO:trainers_server_interface.dp_worker.cuda_memory:release_cached_vram(finalize_model_grads): reserved 15.0 GiB, active 7.3 GiB, reclaimed 7.4 GiB
+INFO:trainers_server_interface.dp_worker.cuda_memory:release_cached_vram(finalize_model_grads): reserved 15.0 GiB, active 7.3 GiB, reclaimed 7.4 GiB
+INFO:trainers_server_interface.dp_worker.cuda_memory:release_cached_vram(dp_loss_gather): reserved 7.6 GiB, active 7.3 GiB, reclaimed 0.0 GiB
+INFO:trainers_server_interface.dp_worker.cuda_memory:release_cached_vram(dp_loss_gather): reserved 7.6 GiB, active 7.3 GiB, reclaimed 0.0 GiB
+INFO:trainers_server_interface.dp_worker.cuda_memory:release_cached_vram(dp_loss_gather): reserved 7.6 GiB, active 7.3 GiB, reclaimed 0.0 GiB
+INFO:trainers_server_interface.dp_worker.cuda_memory:release_cached_vram(dp_loss_gather): reserved 7.6 GiB, active 7.3 GiB, reclaimed 0.0 GiB
+INFO:trainers_server_interface.dp_worker.cuda_memory:release_cached_vram(dp_loss_gather): reserved 7.6 GiB, active 7.3 GiB, reclaimed 0.0 GiB
+INFO:trainers_server_interface.dp_worker.cuda_memory:release_cached_vram(dp_loss_gather): reserved 7.6 GiB, active 7.3 GiB, reclaimed 0.0 GiB
+INFO:trainers_server_interface.dp_worker.cuda_memory:release_cached_vram(dp_loss_gather): reserved 7.6 GiB, active 7.3 GiB, reclaimed 0.0 GiB
+INFO:trainers_server_interface.dp_worker.cuda_memory:release_cached_vram(dp_loss_gather): reserved 7.6 GiB, active 7.3 GiB, reclaimed 0.0 GiB
+INFO:trainers_server_interface.startup:trainer startup phase=warmup_forward_backward rank=5 duration_s=92.916
+INFO:trainers_server_interface.startup:trainer startup phase=warmup_forward_backward rank=6 duration_s=92.918
+INFO:trainers_server_interface.startup:trainer startup phase=warmup_forward_backward rank=2 duration_s=92.917
+INFO:trainers_server_interface.startup:trainer startup phase=warmup_forward_backward rank=4 duration_s=92.918
+INFO:trainers_server_interface.startup:trainer startup phase=warmup_forward_backward rank=7 duration_s=92.918
+INFO:trainers_server_interface.startup:trainer startup phase=warmup_forward_backward rank=1 duration_s=92.917
+INFO:trainers_server_interface.startup:trainer startup phase=warmup_forward_backward rank=3 duration_s=92.917
+INFO:trainers_server_interface.startup:trainer startup phase=warmup_forward_backward rank=0 duration_s=92.918
+INFO:trainers_server_interface.startup:trainer startup phase=warmup_finalize rank=5 duration_s=0.002 cumulative_s=92.918
+INFO:trainers_server_interface.startup:trainer startup phase=warmup_finalize rank=6 duration_s=0.002 cumulative_s=92.919
+INFO:trainers_server_interface.startup:trainer startup phase=warmup_finalize rank=2 duration_s=0.002 cumulative_s=92.918
+INFO:trainers_server_interface.startup:trainer startup phase=warmup_finalize rank=0 duration_s=0.001 cumulative_s=92.919
+INFO:trainers_server_interface.startup:trainer startup phase=warmup_finalize rank=1 duration_s=0.001 cumulative_s=92.919
+INFO:trainers_server_interface.startup:trainer startup phase=warmup_finalize rank=4 duration_s=0.001 cumulative_s=92.919
+INFO:trainers_server_interface.startup:trainer startup phase=warmup_finalize rank=7 duration_s=0.001 cumulative_s=92.919
+INFO:trainers_server_interface.startup:trainer startup phase=warmup_finalize rank=3 duration_s=0.001 cumulative_s=92.918
+INFO:     Started server process [262587]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8001 (Press CTRL+C to quit)
+INFO:     10.1.77.49:40084 - "GET /health HTTP/1.1" 200 OK

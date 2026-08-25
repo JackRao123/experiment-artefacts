@@ -159,3 +159,32 @@ safe optimization decision.
 - The run also exposed that one-node Slurm scheduling can place the trainer on
   the non-SSH node. Generated `wait_trainer_health.sh` supports this via
   `TRAINER_HEALTH_URL`; subsequent runs target the scheduled node address.
+
+### 2026-08-25 10:55 PDT - 8,192-token diagnostic baseline
+
+Commit `31bb52bab`, 1D1M, TP1/PP1/CP1/EP8, warm caches, one 8-GPU B300 node.
+
+- Launch to `/health`: 153 seconds.
+- Complete log: `runs/baseline_31bb52ba/trainer_srun.log`.
+- Structured result: `runs/baseline_31bb52ba/summary.json`.
+
+Slowest rank per phase:
+
+| phase | seconds |
+|---|---:|
+| distributed runtime and process groups | 19.535 |
+| JIT fusion setup/warmup | 3.807 |
+| model build, checkpoint load, LoRA, and DDP wrap | 8.733 |
+| optimizer | 2.906 |
+| final stack setup | 0.079 |
+| startup forward+backward | 92.918 |
+| warmup zero-grad and final barrier | 0.002 |
+
+The slowest backend rebuild rank completed in 32.332 seconds. Approximately 28
+seconds of launch-to-health elapsed before backend rebuild or between rebuild
+and HTTP readiness. At 8,192 tokens, startup forward+backward dominates at
+60.7% of total launch time.
+
+This is a diagnostic stress baseline, not the production baseline. The trainer
+defaults `BT_WARMUP_SEQ` to 64. The next run removes the explicit 8,192-token
+override so optimization decisions reflect the real startup contract.
