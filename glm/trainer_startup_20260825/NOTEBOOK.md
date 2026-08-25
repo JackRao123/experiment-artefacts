@@ -317,3 +317,45 @@ Build result:
 - 1,595 tensors;
 - 13.12 GiB tensor payload, 14 GiB on disk;
 - source snapshot: `ba978f7d347eaf65d22f1a86833408afdb953541`.
+
+### 2026-08-25 12:40 PDT - CPU-thread startup sweep
+
+The assigned B300 node exposes 256 logical CPUs to the Slurm task. Torchrun
+defaults to `OMP_NUM_THREADS=1`; eight ranks therefore use only eight CPU
+threads during CPU-bound FP8 conversion and CuTe compilation.
+
+Matched faithful-FP8 1D1M results:
+
+| OMP threads/rank | launch to health | FP8 checkpoint load | startup F+B |
+|---:|---:|---:|---:|
+| 1 | ~192s | 18.008s | 113.380s |
+| 8 | 128s | 6.765s | 71.799s |
+| 16 | 112s | 4.810s | 63.494s |
+| 32 | 128s | 6.899s | 77.038s |
+
+OMP16 is the clear winner. Relative to OMP1:
+
+- launch-to-health improves approximately 42%;
+- checkpoint load/dequantization improves 73%;
+- cold forward/backward improves 44% because CuTe host compilation also uses
+  the additional CPU parallelism.
+
+OMP32 saturates all 256 logical CPUs across eight ranks and regresses, consistent
+with SMT/compiler contention. The production change therefore computes physical
+cores per local GPU rank (`logical_cpus / (2 * NUM_GPUS)`), caps at 16, floors
+at 1, and preserves an explicit `OMP_NUM_THREADS` override.
+
+Structured result: `runs/omp_sweep_summary.json`. Raw logs are under
+`runs/debug_fp8_{baseline,omp8,omp16,omp32}_59633080/`.
+
+### 2026-08-25 12:50 PDT - pre-dequantized checkpoint estimate
+
+At OMP16, the existing BF16 1D1M snapshot's checkpoint hook took 4.635 seconds,
+versus 4.810 seconds for the faithful FP8 snapshot. The 0.175-second (3.6%)
+checkpoint-phase difference is small because the BF16 file is larger and OMP16
+already makes FP8 dequantization cheap.
+
+Conclusion: a full pre-dequantized BF16 artifact is not the current priority.
+It would consume roughly twice the checkpoint storage and likely save only
+seconds or low tens of seconds after the OMP fix. Revisit only if the optimized
+full-model run contradicts this proxy.
