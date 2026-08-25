@@ -249,3 +249,44 @@ Full-run contract:
 - full forward+backward safety gate retained;
 - additional nested timers split model construction, checkpoint
   load/dequantization, LoRA application, and post-hook CUDA/DDP wrapping.
+
+### 2026-08-25 11:55 PDT - full-model baseline result
+
+Commit `f7e8bc9c6`, full GLM-5.2-FP8, TP1/PP2/CP8/EP8, warm team HF cache,
+2 nodes x 8 B300, default 64-token startup warmup.
+
+- Approximate launch to `/health`: 783 seconds (13:03).
+- Complete log: `runs/full_baseline_f7e8bc9c/trainer_srun.log`.
+- Structured result: `runs/full_baseline_f7e8bc9c/summary.json`.
+- All 16 ranks reached `/health`; no startup failure or OOM.
+
+Slowest rank per phase:
+
+| phase | seconds | scaling interpretation |
+|---|---:|---|
+| bridge/provider config | 5.827 | mostly fixed/config-sized |
+| distributed runtime/process groups | 14.541 | topology-sized |
+| JIT fusion setup | 3.094 | mostly fixed |
+| full model construction | 25.522 | layer/module-scaled |
+| composed checkpoint load/dequantization + LoRA apply | 449.614 | parameter/layer-scaled |
+| post-hook CUDA/DDP wrap | 0.709 | parameter traversal, small here |
+| optimizer, including collective skew | 76.441 | mostly waiting on slower load ranks |
+| full startup forward+backward | 263.153 | fixed compile + layer compute |
+| final warmup cleanup/barrier | 6.211 | rank skew |
+
+The backend rebuild converged at 493.312 seconds on the slowest rank. The
+largest phase by far is the composed pre-wrap hook at 449.614 seconds (57.4%
+of launch-to-health), followed by warmup forward/backward at 263.153 seconds
+(33.6%). Together they account for approximately 91% of startup.
+
+The nested timer saw one composed provider hook because Megatron Bridge's
+`pre_wrap_hook` property combines its internal checkpoint-load and LoRA hooks.
+The next instrumentation revision wraps the underlying registered hooks so the
+debug iteration can separate FP8 load/dequantization from LoRA traversal before
+optimizing the 7.5-minute phase.
+
+This validates Jack's concern about debug-only profiling. The debug model's
+model-build/load/wrap phase was 8.061 seconds; the full model's equivalent was
+471.356 seconds, a 58.5x increase. Fixed initialization stayed near the same
+10-20 second range and would have looked disproportionately important on the
+debug proxy.
