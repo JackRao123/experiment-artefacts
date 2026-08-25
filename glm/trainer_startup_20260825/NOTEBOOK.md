@@ -290,3 +290,23 @@ model-build/load/wrap phase was 8.061 seconds; the full model's equivalent was
 471.356 seconds, a 58.5x increase. Fixed initialization stayed near the same
 10-20 second range and would have looked disproportionately important on the
 debug proxy.
+
+### 2026-08-25 12:10 PDT - faithful iteration proxy correction
+
+The existing 1D1M debug snapshot stores random BF16 tensors and removes
+`quantization_config`. It cannot reproduce the full baseline's dominant FP8
+checkpoint I/O/dequantization path, so it is not a valid optimization proxy for
+the 449.614-second pre-wrap phase.
+
+The next iteration proxy is a real-weight FP8 1D1M snapshot built from the same
+cached GLM-5.2-FP8 checkpoint:
+
+- production dense layer 0 remains layer 0;
+- production MoE layer 6, which owns a complete DSA indexer, becomes layer 1;
+- embeddings, final norm, LM head, tokenizer, FP8 weights, and
+  `weight_scale_inv` tensors are preserved byte-for-byte;
+- hidden, attention, expert, vocabulary, and quantization dimensions remain
+  unchanged;
+- MTP is disabled because its transformer layer is not retained.
+
+Builder: `scripts/build_fp8_debug_snapshot.py`.
