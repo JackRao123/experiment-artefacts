@@ -359,3 +359,28 @@ Conclusion: a full pre-dequantized BF16 artifact is not the current priority.
 It would consume roughly twice the checkpoint storage and likely save only
 seconds or low tens of seconds after the OMP fix. Revisit only if the optimized
 full-model run contradicts this proxy.
+
+### 2026-08-25 13:00 PDT - first optimization implementation
+
+Trainer commit `4c159e40c` adds a bounded launcher default for CPU-bound startup
+work:
+
+```text
+threads_per_rank = clamp(logical_cpus / (2 * local_gpu_ranks), 1, 16)
+```
+
+An explicit `OMP_NUM_THREADS` is preserved. The factor of two maps SMT logical
+CPUs to physical cores and the cap encodes the measured OMP16 knee.
+
+Validation before commit:
+
+- 7 focused launcher tests passed, including computed bounds and override
+  preservation;
+- Ruff and formatting passed;
+- all trainers package type checks passed;
+- pre-push `make check` passed;
+- branch pushed to `origin/jack-optimise-trainer-startup`.
+
+The run-specific devbox wrapper mirrors the same calculation because the
+generated lifecycle script's shell entrypoint is rooted in the pre-existing
+checkout; Python package imports still point at the clean branch worktree.
