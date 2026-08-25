@@ -310,3 +310,10 @@ cached GLM-5.2-FP8 checkpoint:
 - MTP is disabled because its transformer layer is not retained.
 
 Builder: `scripts/build_fp8_debug_snapshot.py`.
+
+Build result:
+
+- remote path: `/root/.cache/user_artifacts/glm52-debug-fp8-1d1m`;
+- 1,595 tensors;
+- 13.12 GiB tensor payload, 14 GiB on disk;
+- source snapshot: `ba978f7d347eaf65d22f1a86833408afdb953541`.
