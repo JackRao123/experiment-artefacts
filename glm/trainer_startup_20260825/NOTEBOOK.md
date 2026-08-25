@@ -1,0 +1,118 @@
+# Trainer startup optimization notebook
+
+Date: 2026-08-25
+
+Status: baseline instrumentation in progress.
+
+## Objective
+
+Reduce trainer launch-to-`/health` latency, using GLM-5.2-FP8 as the primary
+measurement model. Iterate on reduced-layer GLM proxies and reserve the full
+78-layer model for final end-to-end validation.
+
+## Source and hardware
+
+- Trainers baseline: `74c5f22744873f639bdf8f9ed5811a584a0d00f9`.
+- Branch: `jack-optimise-trainer-startup`.
+- Local worktree: `/Users/jackrao/Documents/trainers-wt-startup`.
+- Devbox: `tj-q4grmdq`.
+- Hardware: 2 nodes x 8 B300 GPUs. `nvidia-smi` reports B300 as `NVIDIA L20D`.
+- Devbox state at adoption: GPUs idle; no `devbox_trainer` Slurm job.
+- The pre-existing devbox trainer checkout is detached at `71a9f3b7` and has
+  unrelated modifications. It will not be cleaned or reused. This campaign
+  uses a separate remote worktree and run-specific copies of devbox-up's
+  generated lifecycle scripts.
+
+## Measurement contract
+
+- Startup begins immediately before dispatching the generated
+  `start_trainer.sh` lifecycle script.
+- Startup ends at the first successful HTTP 200 response from `/health`.
+- Use generated devbox-up `start_trainer.sh`, `wait_trainer_health.sh`, and
+  `stop_trainer.sh`; do not manually launch or poll.
+- Keep model, snapshot, topology, warmup length, code revision, and cache state
+  fixed within each A/B comparison.
+- Record warm/cold cache state explicitly.
+- Do not disable startup warmup. It is a forward+backward connectivity and
+  kernel-compilation gate and is part of time-to-ready.
+- Phase timers use host wall time and add no CUDA synchronization or distributed
+  barriers. They are diagnostic timings, not device-kernel timings.
+- Log every rank so the collective straggler is visible.
+
+## Model ladder
+
+### Iteration proxy
+
+- Snapshot: `/root/.cache/user_artifacts/glm52-debug-1d1m`.
+- Shape: one dense layer plus one MoE layer.
+- Preserved production dimensions: hidden size, attention geometry, vocabulary,
+  256 routed experts, top-k 8, and shared expert count.
+- Topology: TP1/PP1/CP1/EP1 on one B300.
+- Max sequence length and startup warmup: 8,192 tokens unless an A/B explicitly
+  tests warmup behavior.
+- Snapshot is random BF16 and therefore does not model production FP8
+  checkpoint dequantization or full checkpoint I/O.
+
+### Scaling proxies
+
+Use the existing 0D1M/0D2M/0D4M/0D6M snapshots when a suspected cost needs a
+layer-scaling curve. The 0D1M family uses production MoE layer 6, which owns a
+complete DSA indexer. The 1D1M snapshot's MoE layer was derived from an
+index-sharing layer and emits missing-indexer warnings, so indexer-sensitive
+conclusions require the 0D1M family.
+
+### Final validation
+
+- Model: full `zai-org/GLM-5.2-FP8` checkpoint.
+- Snapshot currently present on the devbox cluster:
+  `/root/.cache/team_artifacts/huggingface/hub/models--zai-org--GLM-5.2-FP8/snapshots/ba978f7d347eaf65d22f1a86833408afdb953541`.
+- Production B300 topology: 2 nodes x 8 GPUs, TP1/PP2/CP8/EP8.
+- Full model is used only after the winning changes pass the debug ladder.
+
+## Prior evidence
+
+Historical 1D1M warm launches were approximately 70-75 seconds; a cold launch
+was 158.1 seconds. One coarse instrumented restart measured:
+
+| phase | seconds |
+|---|---:|
+| imports and provider setup | 48.6 |
+| construct 12.19B-parameter model | 18.4 |
+| load 24.3 GB BF16 checkpoint | 8.4 |
+| optimizer/checkpoint setup | 0.8 |
+| startup forward+backward | 27.5 |
+| HTTP server startup | 0.2 |
+| total | 103.9 |
+
+This evidence suggests imports, model construction, and warmup are large on the
+proxy, but cache variability was high and the categories were too coarse for a
+safe optimization decision.
+
+## Scaling interpretation
+
+- Import/runtime initialization is largely fixed per rank.
+- Model construction, checkpoint conversion/loading, LoRA module traversal,
+  and much of DDP registration are expected to scale approximately with layer
+  count or parameter count.
+- Startup forward+backward scales with both layer count and warmup sequence
+  length, with additional fixed compilation/collective setup costs.
+- Any per-layer proxy phase is projected to the full model using 3 dense and 75
+  MoE layers. A small proxy duration is not dismissed when its scaling curve is
+  linear.
+- Production FP8 checkpoint loading/dequantization must be measured on the full
+  model because the BF16 proxy intentionally omits that mechanism.
+
+## Session log
+
+### 2026-08-25 10:00 PDT - setup
+
+- Fetched the requested baseline and created/pushed
+  `jack-optimise-trainer-startup` at exactly `74c5f2274`.
+- Full repository pre-push checks passed after initializing submodules.
+- Read the devbox-up lifecycle rules and verified the assigned B300 devbox is
+  reachable and idle.
+- Located existing debug snapshots and prior timing evidence.
+- Started a diagnostic-only code change that records backend import, bridge
+  provider, LoRA config, Megatron config, distributed runtime initialization,
+  JIT fusion warmup, model build/load/wrap, optimizer, and final stack setup.
+- No startup behavior has been optimized yet.
