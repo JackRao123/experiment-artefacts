@@ -438,3 +438,11 @@ raw diagnostic log is retained locally at
 not committed). A future CuTe AOT/persistent-cache project could target part of
 the remaining 231-second warmup, but it requires dependency-level artifact
 versioning and correctness validation and is not a safe extension of this patch.
+
+### 2026-08-25 13:25 PDT - production cleanup
+
+Final review removed the diagnostic wrapper around Megatron Bridge's private
+registered-hook list. It had completed its purpose, and retaining it would
+couple trainer behavior to a private upstream implementation detail. The final
+branch keeps top-level phase timing and the OMP optimization; all detailed
+checkpoint/LoRA evidence remains in the committed logs above.
