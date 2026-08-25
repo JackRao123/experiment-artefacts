@@ -66,6 +66,11 @@ run's per-GPU token load), full recompute, driver = profile_driver_new.py,
 | branch c226338a (lps1062-scale) | 10,812 (tight) | 3.0 s |
 | **main + `BT_DISABLE_VRAM_RELEASE=1`** | **10,810 (tight: 10938/10697/10796)** | **3.0 s** |
 
+Driver JSONs + trainer logs: `debug_ab/`. The `main-131k-d4-novr` run below is
+the benchmark for the revert PR — **trainers PR #1146**
+(`revert-1064-vram-release`, a plain revert of #1064; the env-guard box patch
+made the function a no-op, the PR removes the call sites — same behavior).
+
 **`release_cached_vram` is the regression.** It exists only on main (added
 after the branch forked, LPS-1065): it wraps `finalize_model_grads`, so every
 step does `torch.cuda.synchronize()` + `torch.cuda.empty_cache()` (also once
