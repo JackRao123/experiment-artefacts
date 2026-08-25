@@ -53,6 +53,39 @@ R3 522 @262k/d4 (PR tree, 2× tokens).
   Needs the stage-1 view (rank-8 trace — main has no BT_PROFILE_RANKS) or a
   scale-branch 131k trace to diff against.
 
+## Rank-8 (stage 1) trace — why stage 1 is slow
+
+Captured via a box-local patch: `ProfilingConfig.from_env` now reads
+`BT_PROFILE_RANKS` (comma-separated) into `rank_set` (main has no knob;
+patch lives only in the box checkout `devboxes/q4grmdq/trainers`). Run
+`postmerge-131k-d4-r08` (334 tok/s/GPU — same regime) recorded ranks 0+8.
+
+Rank 8 (stage 1: 40 layers + LM head + loss), 97.6 s wall, 79.7 s busy:
+
+- **Same host-sync storm as rank 0, plus its own extras.** `aten::nonzero`
+  32.9 s CPU-blocked (rank 0: 32.2 s — the dispatcher/DSA host-sync class,
+  B/F never merged). On top: `aten::to`+`_to_copy` 21.2 s (rank 0: 8.4 s),
+  `aten::copy_` 8.2 s (3.5 s), `cudaMemcpyAsync` 7.0 s, and **242
+  `aten::item` scalar reads, 6.6 s** — the loss-path host round-trips only
+  the last stage does.
+- **The FP32 SIMT LM head lives here**: 32 `cutlass3x_sm100_simt_sgemm_f32…`
+  calls, 3.7 s GPU (the "8×117 ms" class the 262k analysis flagged on main).
+- Rank 8's own Broadcast time is 0.36 s vs rank 0's 6.6 s — i.e. rank 8
+  posts the step-end scalar broadcast ~6.6 s **late**; rank 0 just waits.
+  The lateness is the CPU-bound loss path, not network.
+- Every PP handshake is wrapped in `cudaDeviceSynchronize` (12 calls,
+  19.8 s on rank 8 / 30.3 s on rank 0) — a device-wide sync per stage-boundary
+  send/recv; one slow handshake stalls the whole node.
+
+Mechanism: stage 1's per-microbatch cost = its layers' compute **plus** a
+fixed host-roundtrip block (loss reads, dtype shuffles, FP32 head). Those
+fixed costs sit on the pipeline critical path (stage 0 can't get grads until
+stage 1's CPU finishes), and they amortize 2× better at R3's 262k — which is
+why per-token throughput fell 2.3× at 131k while compute kernels stayed
+healthy. Candidates that attack exactly this: the B/F dispatcher host-sync
+caches (never merged), the TF32 LM head (still deferred), and whatever else
+lps1062-scale carries that #1070 didn't.
+
 ## Artifacts
 
 - `postmerge-131k-d4.json` — driver output (windows + aggregates).
