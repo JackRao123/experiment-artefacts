@@ -423,7 +423,9 @@ Trainer branch `jack-optimise-trainer-startup` contains:
 - `31bb52bab`: visible startup timing logger;
 - `f7e8bc9c6`: model startup sub-phase timing;
 - `596330802`: separate registered checkpoint and LoRA hook timing;
-- `4c159e40c`: bounded CPU parallelism for startup.
+- `4c159e40c`: bounded CPU parallelism for startup;
+- `7ae148a4d`: remove private diagnostic hook wrapping;
+- `699149760`: pin the measured B300 thread calculation in tests.
 
 All trainer commits are pushed. The full repository pre-push check passed on
 every code commit. The devbox trainer was stopped after evidence capture and no
