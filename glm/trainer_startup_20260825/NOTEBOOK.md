@@ -188,3 +188,38 @@ and HTTP readiness. At 8,192 tokens, startup forward+backward dominates at
 This is a diagnostic stress baseline, not the production baseline. The trainer
 defaults `BT_WARMUP_SEQ` to 64. The next run removes the explicit 8,192-token
 override so optimization decisions reflect the real startup contract.
+
+### 2026-08-25 11:05 PDT - production-default baseline
+
+Commit `31bb52bab`, 1D1M, TP1/PP1/CP1/EP8, warm caches, one 8-GPU B300 node,
+default 64-token startup warmup.
+
+- Launch to `/health`: 112 seconds.
+- Complete log: `runs/baseline_default64_31bb52ba/trainer_srun.log`.
+- Structured result: `runs/baseline_default64_31bb52ba/summary.json`.
+
+Slowest rank per phase:
+
+| phase | seconds |
+|---|---:|
+| distributed runtime and process groups | 10.659 |
+| JIT fusion setup/warmup | 2.848 |
+| model build, checkpoint load, LoRA, and DDP wrap | 8.061 |
+| optimizer | 3.855 |
+| final stack setup | 0.074 |
+| startup forward+backward | 68.003 |
+| warmup zero-grad and final barrier | 0.001 |
+
+The slowest backend rebuild rank completed in 21.324 seconds. Approximately
+22.7 seconds elapsed outside backend rebuild and warmup. Startup warmup remains
+the dominant phase at 60.7% of launch-to-health.
+
+The 8,192-token run's warmup was 92.918 seconds. Increasing the token count by
+128x added only 24.915 seconds, so most of the default warmup is fixed one-time
+kernel compilation and communication initialization rather than token compute.
+
+The warmup cannot be removed without replacing its safety function. Git history
+documents the original failure: the first real backward crashed while compiling
+backward kernels, and asymmetric cold compilation could exceed the NCCL watchdog
+timeout. The optimization target is therefore reusable compilation/cache state,
+not deferring warmup until after `/health`.
