@@ -223,3 +223,29 @@ documents the original failure: the first real backward crashed while compiling
 backward kernels, and asymmetric cold compilation could exceed the NCCL watchdog
 timeout. The optimization target is therefore reusable compilation/cache state,
 not deferring warmup until after `/health`.
+
+### 2026-08-25 11:20 PDT - full-model profiling decision
+
+The debug profile identifies fixed costs but cannot rank full-model work. The
+following phases can scale differently with 78 layers and the 800B FP8
+checkpoint:
+
+- model module construction;
+- FP8 checkpoint I/O, dequantization, conversion, and distributed copies;
+- LoRA module matching and adapter allocation;
+- CUDA placement and DDP registration;
+- forward/backward compute after kernel compilation.
+
+Per Jack's correction, the next measurement is the full production-shaped
+GLM-5.2 model before any optimization. The debug model remains the iteration
+vehicle only after that run identifies the dominant scalable bottleneck.
+
+Full-run contract:
+
+- model: `zai-org/GLM-5.2-FP8` from the warm team HF cache;
+- topology: 2 nodes x 8 B300, TP1/PP2/CP8/EP8;
+- max sequence length: 131,072;
+- startup warmup: production default 64 tokens;
+- full forward+backward safety gate retained;
+- additional nested timers split model construction, checkpoint
+  load/dequantization, LoRA application, and post-hook CUDA/DDP wrapping.
