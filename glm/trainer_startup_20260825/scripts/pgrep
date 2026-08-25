@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+/usr/bin/pgrep "$@" && exit 0
+
+if command -v squeue >/dev/null 2>&1 \
+  && [ -n "$(squeue -h --name=devbox_trainer --states=RUNNING -o %A 2>/dev/null)" ]; then
+  exit 0
+fi
+
+exit 1

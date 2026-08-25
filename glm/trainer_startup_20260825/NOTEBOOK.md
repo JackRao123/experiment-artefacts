@@ -129,3 +129,20 @@ safe optimization decision.
   and Megatron-LM submodules. The existing dirty checkout remains untouched.
 - The generated devbox-up lifecycle scripts remain unmodified. Their CUDA venv
   is reused while `PYTHONPATH` selects the clean worktree source packages.
+
+### 2026-08-25 10:35 PDT - rejected launch and lifecycle corrections
+
+- Rejected the first launch before recording a baseline. Slurm replaced the
+  exported `PYTHONPATH` with `/mnt/baseten-pystartup`, so ranks imported the
+  old checkout instead of commit `41b0e6333`.
+- The generated health waiter also falsely declared the trainer dead because
+  leader-side `pgrep` cannot see processes inside the Slurm job PID namespace.
+  The Slurm job and all eight ranks were still running.
+- Stopped the rejected run with generated `stop_trainer.sh`; both nodes returned
+  to idle GPU state.
+- Added a run-specific wrapper around generated `run_trainer_node.sh` that sets
+  the clean-worktree `PYTHONPATH` inside the Slurm step.
+- Added a run-specific `pgrep` shim for the otherwise-unmodified generated
+  waiter. It accepts an active `devbox_trainer` Slurm job as process liveness.
+- These are lifecycle corrections only. They do not change trainer startup
+  behavior.
