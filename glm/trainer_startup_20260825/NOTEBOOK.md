@@ -384,3 +384,57 @@ Validation before commit:
 The run-specific devbox wrapper mirrors the same calculation because the
 generated lifecycle script's shell entrypoint is rooted in the pre-existing
 checkout; Python package imports still point at the clean branch worktree.
+
+### 2026-08-25 13:15 PDT - optimized full-model validation
+
+Commit `4c159e40c`, full GLM-5.2-FP8, TP1/PP2/CP8/EP8, warm team HF cache,
+2 nodes x 8 B300, default 64-token startup warmup, computed OMP16.
+
+- Approximate launch to `/health`: 418 seconds (6:58).
+- Baseline: 783 seconds (13:03).
+- Improvement: 365 seconds, 46.6% lower startup latency (1.87x faster).
+- Complete log: `runs/full_optimized_4c159e40/trainer_srun.log`.
+- Structured result: `runs/full_optimized_4c159e40/summary.json`.
+- All 16 ranks reached `/health`; full forward+backward warmup retained; no OOM
+  or startup failure.
+
+Phase comparison:
+
+| phase | baseline | optimized | change |
+|---|---:|---:|---:|
+| checkpoint load/dequant + LoRA | 449.614s | 101.155s | -77.5% |
+| model build/load/wrap total | 471.356s | 129.199s | -72.6% |
+| backend rebuild cumulative | 493.312s | 160.828s | -67.4% |
+| startup forward+backward | 263.153s | 231.263s | -12.1% |
+| launch to health | ~783s | ~418s | -46.6% |
+
+The optimized full checkpoint phase confirms that CPU threading, not a
+pre-dequantized BF16 artifact, is the highest-return change. The remaining
+dominant phase is the 231-second full-model safety warmup. Removing or deferring
+it is not acceptable because it protects against real backward-compile and NCCL
+watchdog failures. Persisting/AOT-compiling the CuTe DSA kernels is a separate,
+larger dependency project; the current branch does not take that risk.
+
+### Final code state
+
+Trainer branch `jack-optimise-trainer-startup` contains:
+
+- `41b0e6333`: structured per-rank startup timing;
+- `31bb52bab`: visible startup timing logger;
+- `f7e8bc9c6`: model startup sub-phase timing;
+- `596330802`: separate registered checkpoint and LoRA hook timing;
+- `4c159e40c`: bounded CPU parallelism for startup.
+
+All trainer commits are pushed. The full repository pre-push check passed on
+every code commit. The devbox trainer was stopped after evidence capture and no
+`devbox_trainer` Slurm job remains.
+
+### Residual opportunity
+
+CuTe diagnostic logging confirmed a 0% cross-process JIT cache hit rate and one
+DSA backward `build_ir_module` call of approximately 46.7 seconds per rank. The
+raw diagnostic log is retained locally at
+`runs/cute_profile_default64_31bb52ba/trainer_srun.log` (475 MiB, intentionally
+not committed). A future CuTe AOT/persistent-cache project could target part of
+the remaining 231-second warmup, but it requires dependency-level artifact
+versioning and correctness validation and is not a safe extension of this patch.

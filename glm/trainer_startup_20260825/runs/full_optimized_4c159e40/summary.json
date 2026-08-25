@@ -1,0 +1,26 @@
+{
+  "trainers_commit": "4c159e40c0c8641974ecfc66448f527e0a8e665d",
+  "model": "zai-org/GLM-5.2-FP8",
+  "topology": "TP1_PP2_CP8_EP8",
+  "warmup_tokens": 64,
+  "omp_threads_per_rank": 16,
+  "launch_to_health_seconds_approx": 418,
+  "baseline_launch_to_health_seconds_approx": 783,
+  "seconds_saved": 365,
+  "startup_reduction_percent": 46.6,
+  "max_rank_phase_seconds": {
+    "bridge_provider": 4.917,
+    "initialize_runtime": 25.489,
+    "jit_fusion": 3.523,
+    "model_construct": 30.08,
+    "checkpoint_load": 98.151,
+    "lora_apply": 3.004,
+    "model_post_wrap": 0.631,
+    "model_build_load_wrap": 129.199,
+    "optimizer_including_collective_wait": 28.48,
+    "training_stack": 0.104,
+    "warmup_forward_backward": 231.263,
+    "warmup_finalize": 7.725
+  },
+  "max_backend_rebuild_cumulative_seconds": 160.828
+}
