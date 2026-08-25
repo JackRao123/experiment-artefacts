@@ -146,3 +146,16 @@ safe optimization decision.
   waiter. It accepts an active `devbox_trainer` Slurm job as process liveness.
 - These are lifecycle corrections only. They do not change trainer startup
   behavior.
+
+### 2026-08-25 10:45 PDT - rejected instrumentation run
+
+- Rejected the next launch because backend phase records were not emitted.
+- Root cause: logging setup enables INFO for `trainers_server_interface`, while
+  `trainers_server_megatron_bridge` inherits the WARNING root level. Existing
+  backend INFO banners are suppressed for the same reason.
+- Changed only the timing records to use a dedicated
+  `trainers_server_interface.startup` logger. This preserves INFO severity
+  without enabling all backend INFO logs.
+- The run also exposed that one-node Slurm scheduling can place the trainer on
+  the non-SSH node. Generated `wait_trainer_health.sh` supports this via
+  `TRAINER_HEALTH_URL`; subsequent runs target the scheduled node address.
