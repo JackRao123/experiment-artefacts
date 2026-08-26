@@ -448,3 +448,58 @@ registered-hook list. It had completed its purpose, and retaining it would
 couple trainer behavior to a private upstream implementation detail. The final
 branch keeps top-level phase timing and the OMP optimization; all detailed
 checkpoint/LoRA evidence remains in the committed logs above.
+
+### 2026-08-25 14:10 PDT - checkpoint load component profile
+
+An env-gated diagnostic loader split the optimized checkpoint hook into task
+planning, safetensors source access, FP8 dequantization plus mmap first-touch,
+Megatron layout mapping, host-to-device copy, and final broadcasts. It emitted
+aggregate counters per rank and left the warmup behavior unchanged.
+
+Full GLM-5.2-FP8, TP1/PP2/CP8/EP8, OMP16, warm team HF cache:
+
+| critical-rank checkpoint component | seconds | share |
+|---|---:|---:|
+| conversion task and mapping plan | 14.374 | 13.7% |
+| safetensors source API | 23.333 | 22.3% |
+| FP8 dequantization and mmap first-touch | 47.508 | 45.4% |
+| Megatron layout mapping | 4.079 | 3.9% |
+| CPU BF16 to GPU copy | 15.107 | 14.4% |
+| residual/final broadcast | 0.188 | 0.2% |
+| total checkpoint hook | 104.627 | 100% |
+
+The critical rank read 58.57 GB through 8,632 source calls, produced 115.08 GB
+of converted tensors, and copied 113.47 GB from host to GPU. Effective observed
+rates were 2.51 GB/s for source access and 7.51 GB/s for host-to-device copies.
+These are end-to-end effective rates, not raw device link benchmarks.
+
+Pipeline stage 1 was imbalanced: ranks 8-15 averaged 97.56 seconds in the
+checkpoint hook versus 77.73 seconds for ranks 0-7. Stage 1 handled 58.57 GB of
+source tensors and 115.08 GB converted per rank; stage 0 handled 52.68 GB and
+103.32 GB respectively.
+
+Matched 1D1M diagnostic controls:
+
+| proxy | critical total | max data path excluding plan | mean dequant/first-touch | mean source | mean H2D |
+|---|---:|---:|---:|---:|---:|
+| faithful FP8 | 8.121s | 3.595s | 1.157s | 0.649s | 1.085s |
+| pre-dequantized BF16 | 5.775s | 1.661s | 0.047s | 0.206s | 0.966s |
+
+The BF16 proxy is not byte-identical: it has random BF16 weights, no scale
+tensors, and five fewer executed conversion tasks. It nevertheless confirms
+that dequantization is real work. A full BF16 artifact would trade that work for
+roughly twice the stored/read bytes, so it is not automatically the best design.
+
+The stronger optimization direction is to read FP8 plus scales, transfer the
+smaller FP8 representation to the GPU, and fuse scale expansion,
+dequantization, and final placement on GPU. That targets the 47.5-second CPU
+phase while also reducing the 113.5 GB host-to-device payload. Independently,
+the loader should stop reopening/loading individual safetensor entries through
+8,632 source calls and should investigate caching file handles or batching
+tensors by shard. Layout mapping and final broadcasts are not priorities.
+
+Artifacts:
+
+- full raw log and summary: `runs/checkpoint_profile_full_fp8/`;
+- FP8 proxy raw log: `runs/checkpoint_profile_fp8_1d1m/`;
+- pre-dequantized BF16 proxy raw log: `runs/checkpoint_profile_bf16_1d1m/`.
