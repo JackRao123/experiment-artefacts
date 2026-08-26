@@ -8,10 +8,10 @@ Protocol:
      shape, NCCL channel setup, allocator warmup, optimizer lazy init).
   2. control (unprofiled): clean steady-state timing. Profilers add overhead,
      so the headline tok/s/GPU + MFU come from these windows alone.
-  3. memory profile: memory_profile/start -> fb+optim -> memory_profile/stop.
-     Records forward/backward and optimizer wall time separately.
-  4. runtime profile: runtime_profile/start -> fb+optim -> runtime_profile/stop.
-     Records forward/backward and optimizer wall time separately. The
+  3. optional memory profile (--memory-profile):
+     memory_profile/start -> fb+optim -> memory_profile/stop.
+  4. optional runtime profile (--runtime-profile):
+     runtime_profile/start -> fb+optim -> runtime_profile/stop. The
      .pt.trace.json covers exactly one full step.
 
 Kineto historically added ~5-8% overhead so the runtime-profiled window is for attribution,
@@ -19,7 +19,8 @@ not the timing headline.
 
 Usage (on the node where the trainer HTTP is up, port 8001):
     python3 profile_driver.py --label expX-131k-d1 [--seq-len 131072] \
-        [--datums 1] [--num-gpus 16] [--control-repeats 1]
+        [--datums 1] [--num-gpus 16] [--control-repeats 1] \
+        [--memory-profile] [--runtime-profile]
 
 Writes /root/.cache/user_artifacts/lps1062_bench/<label>.json + SUMMARY line.
 """
@@ -123,6 +124,10 @@ def main() -> None:
                     help="LoRA rank of the run (mfu.py: adapter FLOPs scale with rank)")
     ap.add_argument("--control-repeats", type=int, default=1,
                     help="untraced control windows; >1 for a variance estimate on the headline")
+    ap.add_argument("--memory-profile", action="store_true",
+                    help="capture one memory-profiled fb+optim step")
+    ap.add_argument("--runtime-profile", action="store_true",
+                    help="capture one runtime-profiled fb+optim step")
     args = ap.parse_args()
 
     rng = random.Random(0xB300)
@@ -133,6 +138,8 @@ def main() -> None:
         "num_gpus": args.num_gpus,
         "datums_per_window": args.datums,
         "tokens_per_step": tokens_per_step,
+        "memory_profile_enabled": args.memory_profile,
+        "runtime_profile_enabled": args.runtime_profile,
         "started": time.strftime("%F %T"),
     }
 
@@ -148,53 +155,59 @@ def main() -> None:
             windows.append(drive_window(client, args.label, i, make_datums(rng, args),
                                         args.seq_len, args.num_gpus, "control"))
 
-        print(
-            f"[profile] memory_profile/start max_entries={MEMORY_PROFILE_MAX_ENTRIES}",
-            flush=True,
-        )
-        out["memory_profile_start"] = submit_and_wait(
-            client,
-            "/memory_profile/start",
-            {"max_entries": MEMORY_PROFILE_MAX_ENTRIES},
-            OP_TIMEOUT_S,
-        )
-        try:
-            windows.append(drive_window(
-                client, args.label, 0, make_datums(rng, args),
-                args.seq_len, args.num_gpus, "memory_profile",
-            ))
-        finally:
-            print("[profile] memory_profile/stop (snapshot dump can take minutes)", flush=True)
-            out["memory_profile_stop"] = submit_and_wait(
-                client, "/memory_profile/stop", {}, OP_TIMEOUT_S
+        if args.memory_profile:
+            print(
+                f"[profile] memory_profile/start max_entries={MEMORY_PROFILE_MAX_ENTRIES}",
+                flush=True,
             )
+            out["memory_profile_start"] = submit_and_wait(
+                client,
+                "/memory_profile/start",
+                {"max_entries": MEMORY_PROFILE_MAX_ENTRIES},
+                OP_TIMEOUT_S,
+            )
+            try:
+                windows.append(drive_window(
+                    client, args.label, 0, make_datums(rng, args),
+                    args.seq_len, args.num_gpus, "memory_profile",
+                ))
+            finally:
+                print(
+                    "[profile] memory_profile/stop (snapshot dump can take minutes)",
+                    flush=True,
+                )
+                out["memory_profile_stop"] = submit_and_wait(
+                    client, "/memory_profile/stop", {}, OP_TIMEOUT_S
+                )
 
-        print("[profile] runtime_profile/start", flush=True)
-        out["runtime_profile_start"] = submit_and_wait(
-            client, "/runtime_profile/start", {}, OP_TIMEOUT_S
-        )
-        try:
-            windows.append(drive_window(
-                client, args.label, 0, make_datums(rng, args),
-                args.seq_len, args.num_gpus, "runtime_profile",
-            ))
-        finally:
-            print("[profile] runtime_profile/stop (kineto flush can take minutes)", flush=True)
-            out["runtime_profile_stop"] = submit_and_wait(
-                client, "/runtime_profile/stop", {}, OP_TIMEOUT_S
+        if args.runtime_profile:
+            print("[profile] runtime_profile/start", flush=True)
+            out["runtime_profile_start"] = submit_and_wait(
+                client, "/runtime_profile/start", {}, OP_TIMEOUT_S
             )
+            try:
+                windows.append(drive_window(
+                    client, args.label, 0, make_datums(rng, args),
+                    args.seq_len, args.num_gpus, "runtime_profile",
+                ))
+            finally:
+                print(
+                    "[profile] runtime_profile/stop (kineto flush can take minutes)",
+                    flush=True,
+                )
+                out["runtime_profile_stop"] = submit_and_wait(
+                    client, "/runtime_profile/stop", {}, OP_TIMEOUT_S
+                )
 
         # /status can queue behind the profile flushes; be patient.
         out["final_status"] = client.get("/status", timeout=600.0).json()
 
     controls = [w for w in windows if w["phase"] == "control"]
-    memory_profile = next(w for w in windows if w["phase"] == "memory_profile")
-    runtime_profile = next(w for w in windows if w["phase"] == "runtime_profile")
     ctrl_fb = [w["fb_elapsed_s"] for w in controls]
     control_fb_s = sum(ctrl_fb) / len(ctrl_fb)
     tps_per_gpu = tokens_per_step / control_fb_s / args.num_gpus
     out["windows"] = windows
-    out["aggregates"] = {
+    aggregates = {
         "tokens_per_step": tokens_per_step,
         "control_fb_seconds_mean": control_fb_s,
         "control_optim_seconds_mean": (
@@ -203,11 +216,16 @@ def main() -> None:
         "control_tps_per_gpu": tps_per_gpu,
         "mfu3x": mfu3x(tps_per_gpu, args.seq_len, args.lora_rank),
         "hfu": hfu(tps_per_gpu, args.seq_len, args.lora_rank),
-        "memory_profile_fb_seconds": memory_profile["fb_elapsed_s"],
-        "memory_profile_optim_seconds": memory_profile["optim_elapsed_s"],
-        "runtime_profile_fb_seconds": runtime_profile["fb_elapsed_s"],
-        "runtime_profile_optim_seconds": runtime_profile["optim_elapsed_s"],
     }
+    if args.memory_profile:
+        memory_profile = next(w for w in windows if w["phase"] == "memory_profile")
+        aggregates["memory_profile_fb_seconds"] = memory_profile["fb_elapsed_s"]
+        aggregates["memory_profile_optim_seconds"] = memory_profile["optim_elapsed_s"]
+    if args.runtime_profile:
+        runtime_profile = next(w for w in windows if w["phase"] == "runtime_profile")
+        aggregates["runtime_profile_fb_seconds"] = runtime_profile["fb_elapsed_s"]
+        aggregates["runtime_profile_optim_seconds"] = runtime_profile["optim_elapsed_s"]
+    out["aggregates"] = aggregates
     out["total_elapsed_seconds"] = time.perf_counter() - total_started
 
     OUT_DIR.mkdir(parents=True, exist_ok=True)
@@ -215,18 +233,24 @@ def main() -> None:
     path.write_text(json.dumps(out, indent=2))
     print(f"[done] -> {path}", flush=True)
     agg = out["aggregates"]
-    print(
+    summary = (
         f"SUMMARY {args.label}: {agg['control_tps_per_gpu']:.0f} tok/s/GPU | "
         f"control fb={agg['control_fb_seconds_mean']:.1f}s "
         f"optim={agg['control_optim_seconds_mean']:.1f}s "
         f"({agg['tokens_per_step']} tok) | "
-        f"mfu3x {100 * agg['mfu3x']:.1f}% | hfu {100 * agg['hfu']:.1f}% | "
-        f"memory-profile fb={agg['memory_profile_fb_seconds']:.1f}s "
-        f"optim={agg['memory_profile_optim_seconds']:.1f}s | "
-        f"runtime-profile fb={agg['runtime_profile_fb_seconds']:.1f}s "
-        f"optim={agg['runtime_profile_optim_seconds']:.1f}s",
-        flush=True,
+        f"mfu3x {100 * agg['mfu3x']:.1f}% | hfu {100 * agg['hfu']:.1f}%"
     )
+    if args.memory_profile:
+        summary += (
+            f" | memory-profile fb={agg['memory_profile_fb_seconds']:.1f}s "
+            f"optim={agg['memory_profile_optim_seconds']:.1f}s"
+        )
+    if args.runtime_profile:
+        summary += (
+            f" | runtime-profile fb={agg['runtime_profile_fb_seconds']:.1f}s "
+            f"optim={agg['runtime_profile_optim_seconds']:.1f}s"
+        )
+    print(summary, flush=True)
 
 
 if __name__ == "__main__":
