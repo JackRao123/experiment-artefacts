@@ -1,5 +1,4 @@
-#!/usr/bin/env python3
-"""Lightweight trace+timing driver: warmup -> kineto-traced step -> untraced control.
+"""Lightweight timing and profiling driver.
 
 All windows are the same shape: --datums datums x --seq-len tokens each
 (defaults 1 x 131,072), synthetic random tokens, rng seed 0xB300.
@@ -7,20 +6,16 @@ All windows are the same shape: --datums datums x --seq-len tokens each
 Protocol:
   1. warmup  (untraced): absorbs one-time costs (cudnn/DSA autotune at the
      shape, NCCL channel setup, allocator warmup, optimizer lazy init).
-  2. traced  (kineto on): runtime_profile/start -> fb+optim -> runtime_profile/stop.
-     The .pt.trace.json covers exactly one full step. This window is for
-     attribution, NOT for the timing headline.
-  3. control (untraced): clean steady-state timing. Kineto adds ~5-8% overhead
-     (Aug-6 262k baseline: 76.2s traced vs 70.8s untraced = 7.6%), so the
-     headline tok/s/GPU + MFU come from THIS window alone.
+  2. control (unprofiled): clean steady-state timing. Profilers add overhead,
+     so the headline tok/s/GPU + MFU come from these windows alone.
+  3. memory profile: memory_profile/start -> fb+optim -> memory_profile/stop.
+     Records forward/backward and optimizer wall time separately.
+  4. runtime profile: runtime_profile/start -> fb+optim -> runtime_profile/stop.
+     Records forward/backward and optimizer wall time separately. The
+     .pt.trace.json covers exactly one full step.
 
-memory_profile spans all windows (start before warmup, stop after the last
-control) so the allocator HWM reflects steady state.
-
-NOTE: with the default --datums 1, 1 datum x 131,072 = 131,072 tokens/step —
-a different operating point from the ~524,288-token standard of the existing
-LPS-1062 rows. Pass --datums 4 at 131k for the 524,288-token/step standard
-operating point (comparable to the anchor table).
+Kineto historically added ~5-8% overhead so the runtime-profiled window is for attribution,
+not the timing headline.
 
 Usage (on the node where the trainer HTTP is up, port 8001):
     python3 profile_driver.py --label expX-131k-d1 [--seq-len 131072] \
@@ -39,8 +34,7 @@ import uuid
 from pathlib import Path
 
 import httpx
-
-from mfu import PEAK_FLOPS_GPU, hfu, mfu3x
+from mfu import hfu, mfu3x
 
 BASE_URL = "http://127.0.0.1:8001"
 VOCAB_SIZE = 154_880  # GLM-5.2 vocab
@@ -124,10 +118,8 @@ def main() -> None:
     ap.add_argument("--max-entries", type=int, default=1_000_000,
                     help="allocator event-ring size for memory_profile/start. The "
                          "server default (100,000) covered only ~10 s on a 131k "
-                         "snapshot — under half a d2 step — so the replay peak came "
-                         "out far below dump-time live and the composition was "
-                         "window-local. 1M events is ~4 steps of headroom at ~126 MB "
-                         "per rank.")
+                         "snapshot. 1M entries covers the isolated memory-profile "
+                         "step with headroom at ~126 MB per rank.")
     ap.add_argument("--control-repeats", type=int, default=1,
                     help="untraced control windows; >1 for a variance estimate on the headline")
     args = ap.parse_args()
@@ -148,50 +140,66 @@ def main() -> None:
         out["initial_status"] = status
         print(f"[status] world_size={status.get('world_size')} dp={status.get('data_parallel_size')}", flush=True)
 
-        print(f"[profile] memory_profile/start max_entries={args.max_entries}", flush=True)
-        out["memory_profile_start"] = submit_and_wait(
-            client, "/memory_profile/start", {"max_entries": args.max_entries}, OP_TIMEOUT_S
-        )
-
         windows = [drive_window(client, args.label, 0, make_datums(rng, args),
                                 args.seq_len, args.num_gpus, "warmup")]
-
-        print("[profile] runtime_profile/start", flush=True)
-        out["runtime_profile_start"] = submit_and_wait(client, "/runtime_profile/start", {}, OP_TIMEOUT_S)
-
-        windows.append(drive_window(client, args.label, 0, make_datums(rng, args),
-                                    args.seq_len, args.num_gpus, "traced"))
-
-        print("[profile] runtime_profile/stop (sync kineto flush, can take minutes)", flush=True)
-        out["runtime_profile_stop"] = submit_and_wait(client, "/runtime_profile/stop", {}, OP_TIMEOUT_S)
 
         for i in range(args.control_repeats):
             windows.append(drive_window(client, args.label, i, make_datums(rng, args),
                                         args.seq_len, args.num_gpus, "control"))
 
-        print("[profile] memory_profile/stop (snapshot dump, can take minutes)", flush=True)
-        out["memory_profile_stop"] = submit_and_wait(client, "/memory_profile/stop", {}, OP_TIMEOUT_S)
+        print(f"[profile] memory_profile/start max_entries={args.max_entries}", flush=True)
+        out["memory_profile_start"] = submit_and_wait(
+            client, "/memory_profile/start", {"max_entries": args.max_entries}, OP_TIMEOUT_S
+        )
+        try:
+            windows.append(drive_window(
+                client, args.label, 0, make_datums(rng, args),
+                args.seq_len, args.num_gpus, "memory_profile",
+            ))
+        finally:
+            print("[profile] memory_profile/stop (snapshot dump can take minutes)", flush=True)
+            out["memory_profile_stop"] = submit_and_wait(
+                client, "/memory_profile/stop", {}, OP_TIMEOUT_S
+            )
+
+        print("[profile] runtime_profile/start", flush=True)
+        out["runtime_profile_start"] = submit_and_wait(
+            client, "/runtime_profile/start", {}, OP_TIMEOUT_S
+        )
+        try:
+            windows.append(drive_window(
+                client, args.label, 0, make_datums(rng, args),
+                args.seq_len, args.num_gpus, "runtime_profile",
+            ))
+        finally:
+            print("[profile] runtime_profile/stop (kineto flush can take minutes)", flush=True)
+            out["runtime_profile_stop"] = submit_and_wait(
+                client, "/runtime_profile/stop", {}, OP_TIMEOUT_S
+            )
 
         # /status can queue behind the profile flushes; be patient.
         out["final_status"] = client.get("/status", timeout=600.0).json()
 
     controls = [w for w in windows if w["phase"] == "control"]
-    traced = next(w for w in windows if w["phase"] == "traced")
+    memory_profile = next(w for w in windows if w["phase"] == "memory_profile")
+    runtime_profile = next(w for w in windows if w["phase"] == "runtime_profile")
     ctrl_fb = [w["fb_elapsed_s"] for w in controls]
     control_fb_s = sum(ctrl_fb) / len(ctrl_fb)
     tps_per_gpu = tokens_per_step / control_fb_s / args.num_gpus
-    overhead_pct = (traced["fb_elapsed_s"] - control_fb_s) / control_fb_s * 100
     out["windows"] = windows
     out["aggregates"] = {
         "tokens_per_step": tokens_per_step,
         "control_fb_seconds_mean": control_fb_s,
+        "control_optim_seconds_mean": (
+            sum(w["optim_elapsed_s"] for w in controls) / len(controls)
+        ),
         "control_tps_per_gpu": tps_per_gpu,
         "mfu3x": mfu3x(tps_per_gpu, args.seq_len, args.lora_rank),
         "hfu": hfu(tps_per_gpu, args.seq_len, args.lora_rank),
-        "traced_fb_seconds": traced["fb_elapsed_s"],
-        "kineto_overhead_pct": overhead_pct,
-        "optim_s_mean": sum(w["optim_elapsed_s"] for w in controls) / len(controls),
-        "peak_gpu_memory_bytes": max((out["final_status"].get("gpu_memory") or {}).values(), default=0),
+        "memory_profile_fb_seconds": memory_profile["fb_elapsed_s"],
+        "memory_profile_optim_seconds": memory_profile["optim_elapsed_s"],
+        "runtime_profile_fb_seconds": runtime_profile["fb_elapsed_s"],
+        "runtime_profile_optim_seconds": runtime_profile["optim_elapsed_s"],
     }
 
     OUT_DIR.mkdir(parents=True, exist_ok=True)
@@ -201,10 +209,14 @@ def main() -> None:
     agg = out["aggregates"]
     print(
         f"SUMMARY {args.label}: {agg['control_tps_per_gpu']:.0f} tok/s/GPU | "
-        f"step {agg['control_fb_seconds_mean']:.1f}s ({agg['tokens_per_step']} tok) | "
+        f"control fb={agg['control_fb_seconds_mean']:.1f}s "
+        f"optim={agg['control_optim_seconds_mean']:.1f}s "
+        f"({agg['tokens_per_step']} tok) | "
         f"mfu3x {100 * agg['mfu3x']:.1f}% | hfu {100 * agg['hfu']:.1f}% | "
-        f"traced {agg['traced_fb_seconds']:.1f}s (+{agg['kineto_overhead_pct']:.1f}% kineto overhead) | "
-        f"peak_mem {agg['peak_gpu_memory_bytes'] / 2**30:.0f} GiB",
+        f"memory-profile fb={agg['memory_profile_fb_seconds']:.1f}s "
+        f"optim={agg['memory_profile_optim_seconds']:.1f}s | "
+        f"runtime-profile fb={agg['runtime_profile_fb_seconds']:.1f}s "
+        f"optim={agg['runtime_profile_optim_seconds']:.1f}s",
         flush=True,
     )
 

@@ -1,41 +1,15 @@
 #!/usr/bin/env python3
-"""MFU / HFU for GLM-5.2 LoRA SFT on B300 (LPS-1062) — LoRA-corrected revision.
+"""Estimate MFU and HFU for GLM-5.2 LoRA SFT on B300.
 
-Supersedes the full-FT pass model (flat 3x useful / 4x executed of forward).
-Under LoRA the frozen base weights run the full forward but a dgrad-only
-backward: the wgrad GEMM is guarded on weight.requires_grad in every linear
-impl in the stack (TE _Linear / _LayerNormLinear / GroupedLinear, mcore
-LinearWithFrozenWeight — verified at the bench-commit dependency pins,
-trainers @ 0e0b65a6). The step's pass structure is therefore:
+Frozen base weights run forward and input-gradient passes, while attention and
+LoRA adapters run full forward/backward passes:
 
-  useful/token   = 2*F_matmul          (fwd + dgrad; no wgrad needed or run)
-                 + 3*F_attn(L)         (attn/indexer inputs are all activations,
-                                         so the full 2x backward survives)
-                 + 3*F_lora(r)         (tiny adapters: full fwd + 2x bwd)
+  useful/token   = 2*F_matmul + 3*F_attn(L) + 3*F_lora(r)
+  executed/token = 3*F_matmul + 4*F_attn(L) + 4*F_lora(r)  # full recompute
 
-  executed/token = 3*F_matmul + 4*F_attn(L) + 4*F_lora(r)   (full recompute)
-
-The old flat multipliers overstated useful FLOPs by x1.30-1.39 and executed by
-x1.21-1.27 over 32K-262K (e.g. the B-131k-d4 headline, 691 tok/s/GPU @131K:
-mfu3x 8.5% -> 6.3%, HFU 11.3% -> 9.1%). Numbers from this file are NOT
-comparable with pre-2026-08-09 LPS-1062 tables, which used the full-FT model.
-
-LoRA target set (pinned at bench commit; lora_targets.py GLM-5.2 branch):
-q_down/q_up/kv_down/o in all 78 layers (kv_up deliberately excluded — vLLM
-absorbs it at decode), dense-MLP fc1/fc2 (3 layers), shared-expert fc1/fc2
-(75 layers), and the LM head. The notebook shorthand "attention-only LoRA"
-was wrong; the adapter term below uses the real target set.
-
-MFU is a function of architecture + sequence-length distribution +
-trainable-param scheme + recompute policy + measured tok/s + peak — never of
-data VALUES (MoE top-8+1 and DSA top-2048 are fixed-count; there is no
-data-dependent compute). Under THD packing of shorter docs, evaluate
-attn/useful/executed per DOCUMENT length and token-weight the average:
-FWD(packed_L) overstates real data because the indexer context is per-doc
-causal. For single synthetic sequences of length L the formulas are exact.
-
-PEAK: B300 dense bf16 = 2.5e15 FLOP/s/GPU — the LPS-1062 convention
-(datasheet reporting scatters 2.25-2.8 PF; pass peak_flops_gpu to override).
+For packed data, compute sequence-dependent FLOPs per document length and take
+a token-weighted average. The default B300 BF16 peak is 2.5e15 FLOP/s/GPU and
+can be overridden with ``peak_flops_gpu``.
 """
 
 # --- architecture constants (verified vs cached HF config 2026-08-09; see
