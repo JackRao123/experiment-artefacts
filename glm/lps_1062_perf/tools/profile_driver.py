@@ -41,6 +41,11 @@ VOCAB_SIZE = 154_880  # GLM-5.2 vocab
 FB_TIMEOUT_S = 3600.0  # warmup step includes cudnn/DSA autotune
 OP_TIMEOUT_S = 3600.0
 OUT_DIR = Path("/root/.cache/user_artifacts/lps1062_bench")
+# The server default of 100K entries retained only ~10 seconds on a 131K
+# snapshot. The trade-off is intentionally asymmetric: exhausting this ring
+# silently discards the oldest events and can invalidate the memory timeline,
+# while 5M entries cost only ~630 MB/rank on hosts with ~2 TB of RAM.
+MEMORY_PROFILE_MAX_ENTRIES = 5_000_000
 
 
 def make_datum(rng: random.Random, seq_len: int) -> dict:
@@ -106,6 +111,7 @@ def drive_window(client: httpx.Client, label: str, index: int, datums: list[dict
 
 
 def main() -> None:
+    total_started = time.perf_counter()
     ap = argparse.ArgumentParser()
     ap.add_argument("--label", required=True)
     ap.add_argument("--seq-len", type=int, default=131_072)
@@ -115,11 +121,6 @@ def main() -> None:
     ap.add_argument("--num-gpus", type=int, default=16)
     ap.add_argument("--lora-rank", type=int, default=32,
                     help="LoRA rank of the run (mfu.py: adapter FLOPs scale with rank)")
-    ap.add_argument("--max-entries", type=int, default=1_000_000,
-                    help="allocator event-ring size for memory_profile/start. The "
-                         "server default (100,000) covered only ~10 s on a 131k "
-                         "snapshot. 1M entries covers the isolated memory-profile "
-                         "step with headroom at ~126 MB per rank.")
     ap.add_argument("--control-repeats", type=int, default=1,
                     help="untraced control windows; >1 for a variance estimate on the headline")
     args = ap.parse_args()
@@ -147,9 +148,15 @@ def main() -> None:
             windows.append(drive_window(client, args.label, i, make_datums(rng, args),
                                         args.seq_len, args.num_gpus, "control"))
 
-        print(f"[profile] memory_profile/start max_entries={args.max_entries}", flush=True)
+        print(
+            f"[profile] memory_profile/start max_entries={MEMORY_PROFILE_MAX_ENTRIES}",
+            flush=True,
+        )
         out["memory_profile_start"] = submit_and_wait(
-            client, "/memory_profile/start", {"max_entries": args.max_entries}, OP_TIMEOUT_S
+            client,
+            "/memory_profile/start",
+            {"max_entries": MEMORY_PROFILE_MAX_ENTRIES},
+            OP_TIMEOUT_S,
         )
         try:
             windows.append(drive_window(
@@ -201,6 +208,7 @@ def main() -> None:
         "runtime_profile_fb_seconds": runtime_profile["fb_elapsed_s"],
         "runtime_profile_optim_seconds": runtime_profile["optim_elapsed_s"],
     }
+    out["total_elapsed_seconds"] = time.perf_counter() - total_started
 
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     path = OUT_DIR / f"{args.label}.json"
