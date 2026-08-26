@@ -23,7 +23,7 @@ LPS-1062 rows. Pass --datums 4 at 131k for the 524,288-token/step standard
 operating point (comparable to the anchor table).
 
 Usage (on the node where the trainer HTTP is up, port 8001):
-    python3 profile_driver_new.py --label expX-131k-d1 [--seq-len 131072] \
+    python3 profile_driver.py --label expX-131k-d1 [--seq-len 131072] \
         [--datums 1] [--num-gpus 16] [--control-repeats 1]
 
 Writes /root/.cache/user_artifacts/lps1062_bench/<label>.json + SUMMARY line.
