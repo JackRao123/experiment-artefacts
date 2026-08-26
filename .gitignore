@@ -14,3 +14,6 @@ glm/lps_1062_perf/pp2cp8ep8/kernel_src_snapshot/
 # Large local logs (kept for forensics, not for git)
 glm/lps_1062_perf/**/*.log
 glm/lps_1062_perf/**/*.log.gz
+
+# Portable Git snapshots are reproducible handoff artifacts, not source data.
+glm/lps_1062_perf/*.bundle

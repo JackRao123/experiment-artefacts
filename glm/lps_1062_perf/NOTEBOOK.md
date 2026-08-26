@@ -680,3 +680,80 @@ A trainer srun using MY `lps1062/ctl/run_trainer_node.sh` was submitted at 20:21
 ### exp00 — baseline re-anchor (2026-08-07 ~01:45)
 
 Box tj-qzlr0o3 inherited the baseline session's shared-FS state: trainers_main @ 0e0b65a6 + LPS-1003 full-footprint-warmup patch, fabric-aware run_trainer_node.sh, GLM-5.2-FP8 HF cache. Trainer boot ~13 min. Loss canaries match the q480z53 baseline to ≤2e-3 → correctness anchor holds. Rank-0 reserved peak 260.2 GB (matches baseline 260.2). Mem-poller srun queued behind the trainer job (fresh srun ≠ --jobid attach) — fixed in runs/overnight_20260807_baseline_shipconfig/run_bench.sh by attaching to the devbox_trainer allocation; exp00b-memprobe (warmup + 1 main window on the hot trainer) captures per-GPU peaks for the baseline config.
+
+---
+
+## 2026-08-24 overnight - DeepEP and HybridEP Flex validation
+
+Canonical task text: `ORIGINAL_PROMPT.md`.
+
+### Setup
+
+- Baseline: `revert-1064-vram-release` at `6d66d40a6`.
+- Branches already existed locally and on origin at the exact baseline with no branch-specific commits: `lps1062-deepep-test`, `lps1062-hybridep-test`.
+- Isolated worktrees created at `/Users/jackrao/Documents/wt-lps1062-deepep` and `/Users/jackrao/Documents/wt-lps1062-hybridep`.
+- Devbox `q4grmdq`: 2 nodes x 8 B300 GPUs (reported as `NVIDIA L20D`), ali RoCE fabric. An inherited two-node `devbox_trainer` Slurm job was still running at discovery and must be stopped before new runs.
+- Existing full-dimension debug snapshot: `/root/.cache/user_artifacts/glm52-debug-1d1m` (one dense + one MoE layer; all non-layer dimensions preserved).
+- Existing full-model benchmark pair and canonical driver are under `pp2cp8ep8/configs/` and `tools/profile_driver_new.py`.
+
+### Initial code findings
+
+- Runtime `moe_token_dispatcher="flex"` currently hardcodes the backend to DeepEP.
+- HybridEP needs explicit backend/SMS plumbing; prior implementation reference is trainers commit `447c74e9c`.
+- The pinned Bridge rejects B300 devices named `NVIDIA L20D`; capability-major 10 acceptance must be restored.
+- GLM provider defaults Flex to HybridEP with 16 SMs, but trainer wiring overwrites the dispatcher/backend. DeepEP therefore also inherits 16 SMs unless explicitly overridden.
+- Historical current-topology DeepEP result was correct but slower than alltoall: 802 vs 918 tok/s/GPU (-12.6%). This campaign will remeasure on the requested baseline and investigate the Flex-specific trace.
+
+### Debug EP8 results
+
+All runs use the full-dimension one-dense/one-MoE snapshot at 8K, EP8 on one B300 node, eight datums, one traced window, and three untraced controls.
+
+| Dispatcher | SMs | control tok/s/GPU | control FB mean | peak memory | correctness |
+|---|---:|---:|---:|---:|---|
+| alltoall | n/a | 7,558 | 1.084 s | 28 GiB | anchor |
+| DeepEP | 16 | 8,419 | 0.973 s | 29 GiB | max loss spread vs anchor 2.86e-6; grad-norm spread 0.0013% |
+| DeepEP | 20 | 9,604 | 0.853 s | 29 GiB | same parity |
+
+- Control timing favors 20 SMs; the single traced window favored 16 SMs (945 ms vs 1,174 ms) because the 20-SM capture contained 151 ms of unrelated NCCL arrival skew. Full-model validation should retain both settings until a stable winner emerges.
+- Trace analysis: compute kernels are unchanged; DeepEP still serializes dispatch/combine around `nonzero`/scalar reads and is dominated by notify/polling (77 ms at 16 SMs, 87 ms at 20 SMs). No compute/communication overlap was observed.
+- Memory analysis: DeepEP reduces dispatcher-attributed live allocations by 1.64 GiB/rank (46%) but does not move the model-wide peak on this two-layer proxy. No leak across five optimizer steps.
+- Correctness: no NaN/Inf, token-drop signal, CUDA error, or NCCL warning. Loss and gradient norms match alltoall.
+- Detailed reports: `runs/flex_20260824/DEBUG_TRACE_ANALYSIS.md`, `DEBUG_MEMORY_ANALYSIS.md`, `DEBUG_CORRECTNESS.md`.
+
+### HybridEP bring-up
+
+- First EP8/16-SM boot reached `HybridEPDispatch.apply`, proving backend selection worked, then failed in the HybridEP JIT compiler.
+- Generated compile command used `/bin/nvcc`, `-I/include`, and `-L/lib64`; the devbox had CUDA 13 at `/usr/local/cuda` but exported neither `CUDA_HOME` nor `CUDA_PATH`.
+- Launch artifact fixed to export both CUDA roots before trainer import. Failed log retained under `runs/flex_20260824/artifacts/debug-ep8-hybridep-sms16-failed/`.
+
+### Final full-model results
+
+Canonical shape: GLM-5.2-FP8, 2x8 B300, TP1/PP2/EP8/CP8, 131072 sequence length, four datums (524288 tokens/step), LoRA r32, one traced step plus three untraced controls.
+
+| Dispatcher | SMs | tok/s/GPU | delta vs alltoall | control FB |
+|---|---:|---:|---:|---:|
+| HybridEP | 16 | **837.55** | **+8.86%** | **39.124 s** |
+| alltoall | n/a | 769.38 | baseline | 42.590 s |
+| DeepEP | 20 | 734.86 | -4.49% | 44.591 s |
+| DeepEP | 16 | 708.37 | -7.93% | 46.258 s |
+
+- **Decision: HybridEP 16 SMs wins and should be used for this topology.**
+- HybridEP exposed dispatcher time is 7.008 s vs 10.822 s alltoall, 12.375 s DeepEP20, and 13.044 s DeepEP16.
+- DeepEP 16->20 improves payload by 18.3%, but notify/polling worsens by 18.9%; additional SM tuning cannot plausibly catch HybridEP.
+- HybridEP lowers mean allocator reserve by 2.96 GiB/rank vs alltoall. Fleet live peak remains ~153 GiB because PP1 dominates.
+- All 64 full-run rank snapshots show zero live-byte growth across the final steady marker interval. No OOM or PyTorch-managed leak.
+- All completed runs have finite loss/gradients and no backend-specific token drops or CUDA/NCCL failures. Full-run scalar parity is operational rather than bitwise (loss spread <=0.016%; grad-norm spread up to ~5.3%).
+- Full report: `runs/flex_20260824/REPORT.md`.
+- Raw rank-0 traces and all-rank memory pickles are under `runs/flex_20260824/artifacts/` (11 GiB total campaign artifacts).
+- Final branch heads are pushed: DeepEP `e974ba793`, HybridEP `bbdaa1410`.
+- Devbox left with no trainer Slurm job and no trainer/torchrun/profiler child holding a GPU.
+
+### Productionization follow-up
+
+- Jack correctly identified that PR #1150 initially omitted requirements used outside the branch: golden-config publication and the HybridEP CUDA JIT environment.
+- DeepEP PR #1151 was intentionally left unchanged. Only HybridEP was productionized.
+- HybridEP branch head `fb605182a` now publishes GLM-5.2 B300 131K as `flex + hybridep + 16 SMs` through the golden schema, reconcile payload, runtime schema, provider, and benchmark defaults. The unvalidated 256K row remains alltoall.
+- The production Docker image now sets `CUDA_HOME`/`CUDA_PATH`, retains `nvcc` and headers for first-use JIT, and explicitly imports `Buffer` and `HybridEPBuffer` during image build. Build-only NVML headers are removed afterward so the NVIDIA runtime supplies host-compatible NVML.
+- The pinned CUDA 13 wheel was retained byte-for-byte: it is the HybridEP-capable `sm_103a` wheel used by the successful experiment. Cross-node HybridEP mode is unnecessary for this topology because PP2 places EP ranks 0-7 on node 0 and ranks 8-15 on node 1, making each EP8 communicator node-local.
+- Validation: 161 model/config tests, scoped benchmark propagation, image contracts, lint, all-package type checks, and pre-push checks passed.
+- The actual production images built and published successfully without using the devbox: `baseten/trainers-server:lps1062-hybridep-fb60518` and `baseten/trainers-server:lps1062-hybridep-fb60518-cu13`. CI run: https://github.com/basetenlabs/trainers/actions/runs/32880233823.

@@ -52,6 +52,7 @@ repo. Large traces/memory snapshots are Mac-only and gitignored — see `DATA.md
 | `runs/fullmodel_offload_20260823/` | full-model activation offload at PP2/CP8/EP8 (**active**) | offload −40% vs baseline at 32k/d4; root cause = PP2 backward-order reload-miss bug (12.8% uniform misses). Fix in flight — `HANDOFF_WEIL.md` |
 | `runs/postmerge_20260824_131k/` | 131k/d4 PP2/EP8/CP8 on merged main (post-#1070) | **~330±40 tok/s/GPU, noisy** — 68% of the traced window is NCCL wait (stage-1-bound); compute healthy (DSA halves vs R3 per-call). The new current-state 131k reference |
 | `runs/progress_checkpoint_20260825_main_95fe75e9_d4_d8/` | current main checkpoint, 131k d4+d8 on 2x8 B300 | **756 tok/s/GPU d4; 847 d8**; LoRA-corrected MFU 6.9% / 7.7%; d8 is +12.1% |
+| `runs/cross_node_p2p_20260826/` | direct cross-node GPU P2P fabric ceiling on 2x8 B300 | **74.83 GB/s one pair; 515.59 GB/s eight pairs one way; 771.72 GB/s full-duplex combined** |
 
 ## Headline (2026-08-07, devbox q480z53 → round-3 boxes 318g61w/wxlgv5w)
 
