@@ -1,9 +1,0 @@
-blockK K=25 warm-pool probe boot — curie driving (turing GO; hertz rulings applied)
-UTC: 20260814T233756Z
-tree: trainers 73c24b00 + TF32-only applied diff sha256 f503c9bf1baccbd260bfa531525f6f3f4de2c7bd6b114b73fda9a4a06697e801 (db5d1826 hunk REVERTED per hertz ruling 1)
-bridge: 20fcf2ea | mcore: 57efae08b + gate-stack dirty-diff sha256 e1e46818dfc684566815fdf482574c08bc275451d4471706dc89d0154eee3653 EXACT
-wheel: cudnn-frontend 1.27.0 (verified in-venv)
-config: /root/.cache/user_artifacts/trainer_config.json = canonical blockK25 sha256 ddc75eed241b79eba85bb8b19ebfd29fafcb56af4083868d5ec63ab47ad9a82f (verified leader+worker)
-env: canonical mission block (BT_TRAINER_CONFIG_PATH, BT_TRAINER_SERVER_CONFIG_PATH, BT_SAVE_STATE_SYNC=1, BT_TF32_LM_HEAD=1, NCCL_IB_QPS_PER_CONNECTION=8, NCCL_IB_SPLIT_DATA_ON_QPS=1, NCCL_NCHANNELS_PER_NET_PEER=8) + BT_SKIP_WARMUP=1; BT_PROFILE_RANKS UNSET
-DECLARED DELTA vs S3-era boot: B/F gates UNSET (BT_DSA_CP_LAYOUT_CACHE / BT_THD_ROPE_HOST_CACHE absent) per hertz ruling 3 — reference-comparable (W1b K=25 ran B/F-off); sole variable vs the reference basis = the warm-pool protocol itself
-probe: BLOCKK_WARMPOOL_PREREG.md verbatim — d1 warmup (--warmup-datums 1) then d2 mains x6; ONE boot, fail-closed, no retries

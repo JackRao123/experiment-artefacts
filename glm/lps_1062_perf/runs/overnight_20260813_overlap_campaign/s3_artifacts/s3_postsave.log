@@ -1,6 +1,0 @@
-[status] world_size=16
-[s3-postsave-d2 warmup0] fb=12.8s (640 tok/s/GPU) optim=0.0s loss=12.300651936736578 gn=0.39565932750701904
-[s3-postsave-d2 main0] fb=19.7s (832 tok/s/GPU) optim=0.0s loss=12.280352824041932 gn=0.3740028440952301
-[done] -> /root/.cache/user_artifacts/lps1062_bench/s3-postsave-d2.json
-SUMMARY s3-postsave-d2: 832 tok/s/GPU | step 19.7s (262144 tok) | mfu3x 7.6% | hfu 11.0% | peak_mem 144 GiB
-MEM s3-postsave-d2: max 168685 MiB, min 150547 MiB across 16 GPUs (cap 275040)
