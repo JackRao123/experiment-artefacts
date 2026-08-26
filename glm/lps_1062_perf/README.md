@@ -6,6 +6,13 @@ round-3 lever stack), then **1103 tok/s/GPU @d16/131k** from the Aug-13/14
 overlap campaign. PR #1070 (PP2 + THD-CP microbatch pipelining) merged
 2026-08-24 (`71a9f3b75`); current work: activation offload at full-model scale.
 
+## Current progress checkpoint
+
+**2026-08-25, main `95fe75e9`: 756 tok/s/GPU at d4 and 847 tok/s/GPU at d8
+for GLM-5.2 131k TP1/PP2/EP8/CP8 on 2x8 B300.** Full provenance, control
+windows, MFU/HFU, memory, and config:
+[`runs/progress_checkpoint_20260825_main_95fe75e9_d4_d8/`](runs/progress_checkpoint_20260825_main_95fe75e9_d4_d8/).
+
 **Path convention:** all relative paths in these docs are relative to this
 folder (`glm/lps_1062_perf/`) unless absolute. On-box paths (`/root/.cache/...`,
 `lps1062/`, `lps1062_bench/`) refer to the flat kit staged on devboxes, not this
@@ -44,6 +51,7 @@ repo. Large traces/memory snapshots are Mac-only and gitignored — see `DATA.md
 | `runs/debug_proxy_20260821/` | single-B300 real-code GLM activation-placement proxy | 0D1M boots in ~70s; mission closed at −17.6% (forward host-sync × saturated-copy-engine collision = proven floor) |
 | `runs/fullmodel_offload_20260823/` | full-model activation offload at PP2/CP8/EP8 (**active**) | offload −40% vs baseline at 32k/d4; root cause = PP2 backward-order reload-miss bug (12.8% uniform misses). Fix in flight — `HANDOFF_WEIL.md` |
 | `runs/postmerge_20260824_131k/` | 131k/d4 PP2/EP8/CP8 on merged main (post-#1070) | **~330±40 tok/s/GPU, noisy** — 68% of the traced window is NCCL wait (stage-1-bound); compute healthy (DSA halves vs R3 per-call). The new current-state 131k reference |
+| `runs/progress_checkpoint_20260825_main_95fe75e9_d4_d8/` | current main checkpoint, 131k d4+d8 on 2x8 B300 | **756 tok/s/GPU d4; 847 d8**; LoRA-corrected MFU 6.9% / 7.7%; d8 is +12.1% |
 
 ## Headline (2026-08-07, devbox q480z53 → round-3 boxes 318g61w/wxlgv5w)
 

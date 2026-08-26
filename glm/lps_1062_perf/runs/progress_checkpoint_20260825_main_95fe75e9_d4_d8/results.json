@@ -1,0 +1,213 @@
+{
+  "checkpoint": "progress_checkpoint_20260825_main_95fe75e9_d4_d8",
+  "trainers_commit": "95fe75e9f893c635616ba150586979e16946740e",
+  "started": "2026-08-25 23:36:54",
+  "hardware": {
+    "nodes": 2,
+    "gpus_per_node": 8,
+    "gpu": "NVIDIA B300",
+    "num_gpus": 16
+  },
+  "model": {
+    "id": "zai-org/GLM-5.2-FP8",
+    "seq_len": 131072,
+    "lora_rank": 32,
+    "lora_alpha": 32
+  },
+  "parallelism": {
+    "tensor_parallel_size": 1,
+    "pipeline_parallel_size": 2,
+    "expert_parallel_size": 8,
+    "context_parallel_size": 8,
+    "expert_tensor_parallel_size": 1,
+    "data_parallel_size": 1,
+    "world_size": 16
+  },
+  "method": {
+    "driver": "tools/profile_driver_new.py",
+    "driver_sha256": "5702c0dd0ae5ec78d74e78dd582ce79f31b95112789fa3801abb515bd49adad7",
+    "mfu_calculator": "tools/mfu.py",
+    "mfu_calculator_sha256": "5513fd08381629e4331b5ec2c79619b23d1e1be6865f414fbc4e8838d701c21b",
+    "control_repeats": 3,
+    "tps_excludes_optimizer": true,
+    "mfu_peak_flops_per_gpu": 2500000000000000.0,
+    "mfu_convention": "LoRA-corrected useful FLOPs",
+    "hfu_convention": "analytic full-recompute executed FLOPs"
+  },
+  "runs": [
+    {
+      "label": "main-95fe75e9-131k-d4",
+      "datums_per_window": 4,
+      "tokens_per_step": 524288,
+      "initial_step": 0,
+      "final_step": 5,
+      "windows": [
+        {
+          "phase": "warmup",
+          "fb_elapsed_s": 86.89928133971989,
+          "fb_tps_per_gpu": 377.08021855668,
+          "optim_elapsed_s": 8.31395461782813,
+          "loss": 12.316661389628521,
+          "grad_norm": 0.42528653144836426
+        },
+        {
+          "phase": "traced",
+          "fb_elapsed_s": 44.22672062413767,
+          "fb_tps_per_gpu": 740.9095573348065,
+          "optim_elapsed_s": 1.1218145568855107,
+          "loss": 12.316811117638531,
+          "grad_norm": 0.458188533782959
+        },
+        {
+          "phase": "control",
+          "index": 0,
+          "fb_elapsed_s": 43.81528821634129,
+          "fb_tps_per_gpu": 747.866813935025,
+          "optim_elapsed_s": 0.9783472260460258,
+          "loss": 12.318946410723958,
+          "grad_norm": 0.35431382060050964
+        },
+        {
+          "phase": "control",
+          "index": 1,
+          "fb_elapsed_s": 43.78280792804435,
+          "fb_tps_per_gpu": 748.4216191399411,
+          "optim_elapsed_s": 1.0507465656846762,
+          "loss": 12.307621441813978,
+          "grad_norm": 0.3525010943412781
+        },
+        {
+          "phase": "control",
+          "index": 2,
+          "fb_elapsed_s": 42.47405387600884,
+          "fb_tps_per_gpu": 771.4827526389886,
+          "optim_elapsed_s": 0.12155564874410629,
+          "loss": 12.313285356791358,
+          "grad_norm": 0.4018882215023041
+        }
+      ],
+      "aggregates": {
+        "control_fb_seconds_mean": 43.35738334013149,
+        "control_tps_per_gpu": 755.765165599143,
+        "total_control_tps": 12092.242649586288,
+        "mfu3x": 0.0687994913334578,
+        "hfu": 0.09985415972255575,
+        "traced_fb_seconds": 44.22672062413767,
+        "kineto_overhead_pct": 2.005050159937862,
+        "optim_s_mean": 0.716883146824936,
+        "rank0_final_live_memory_bytes": 152983044096
+      },
+      "trace": {
+        "filename": "b300-1-izksekdp-0001_359186.1787701163563213923.pt.trace.json",
+        "size_bytes": 740071541
+      },
+      "memory_snapshot": {
+        "filename": "memory.rank0.pickle",
+        "size_bytes": 129951869
+      }
+    },
+    {
+      "label": "main-95fe75e9-131k-d8",
+      "datums_per_window": 8,
+      "tokens_per_step": 1048576,
+      "initial_step": 5,
+      "final_step": 10,
+      "windows": [
+        {
+          "phase": "warmup",
+          "fb_elapsed_s": 83.66742469416931,
+          "fb_tps_per_gpu": 783.2917080877611,
+          "optim_elapsed_s": 0.09849256882444024,
+          "loss": 12.29947032524357,
+          "grad_norm": 0.4174403250217438
+        },
+        {
+          "phase": "traced",
+          "fb_elapsed_s": 76.78864290937781,
+          "fb_tps_per_gpu": 853.4595418927037,
+          "optim_elapsed_s": 0.13442687084898353,
+          "loss": 12.296098107132776,
+          "grad_norm": 0.3626510500907898
+        },
+        {
+          "phase": "control",
+          "index": 0,
+          "fb_elapsed_s": 76.1917318799533,
+          "fb_tps_per_gpu": 860.1458240017129,
+          "optim_elapsed_s": 0.045165288262069225,
+          "loss": 12.286354342303026,
+          "grad_norm": 0.38230544328689575
+        },
+        {
+          "phase": "control",
+          "index": 1,
+          "fb_elapsed_s": 75.98376685380936,
+          "fb_tps_per_gpu": 862.5000143266052,
+          "optim_elapsed_s": 0.13241872284561396,
+          "loss": 12.276183328119874,
+          "grad_norm": 0.3586042821407318
+        },
+        {
+          "phase": "control",
+          "index": 2,
+          "fb_elapsed_s": 79.97062058793381,
+          "fb_tps_per_gpu": 819.500955703328,
+          "optim_elapsed_s": 0.09848670521751046,
+          "loss": 12.268658780355684,
+          "grad_norm": 0.37904343008995056
+        }
+      ],
+      "aggregates": {
+        "control_fb_seconds_mean": 77.38203977389882,
+        "control_tps_per_gpu": 846.9148679911831,
+        "total_control_tps": 13550.63788785893,
+        "mfu3x": 0.07709711266507469,
+        "hfu": 0.1118971558218834,
+        "traced_fb_seconds": 76.78864290937781,
+        "kineto_overhead_pct": -0.7668405566134557,
+        "optim_s_mean": 0.09202357210839789,
+        "rank0_final_live_memory_bytes": 161398915072
+      },
+      "trace": {
+        "filename": "b300-1-izksekdp-0001_359186.1787701499589145808.pt.trace.json",
+        "size_bytes": 1485858688
+      },
+      "memory_snapshot": {
+        "filename": "memory.rank0.pickle",
+        "size_bytes": 131480548
+      }
+    }
+  ],
+  "scaling": {
+    "d8_vs_d4_tps_ratio": 1.1206058529037655,
+    "d8_vs_d4_tps_improvement_pct": 12.06058529037655,
+    "d8_vs_d4_fb_time_ratio": 1.784748843509525,
+    "mfu_absolute_improvement": 0.00829762133161689
+  },
+  "all_rank_session_memory_max_mib": {
+    "b300-1-izksekdp-0001": {
+      "gpu0": 161721,
+      "gpu1": 160343,
+      "gpu2": 158785,
+      "gpu3": 163965,
+      "gpu4": 162005,
+      "gpu5": 166465,
+      "gpu6": 163765,
+      "gpu7": 159805
+    },
+    "b300-1-pjps8ep6-0013": {
+      "gpu0": 174489,
+      "gpu1": 174849,
+      "gpu2": 174629,
+      "gpu3": 174689,
+      "gpu4": 174509,
+      "gpu5": 174589,
+      "gpu6": 174649,
+      "gpu7": 174869
+    }
+  },
+  "box_side_driver_jsons": [
+    "/root/.cache/user_artifacts/lps1062_bench/main-95fe75e9-131k-d4.json",
+    "/root/.cache/user_artifacts/lps1062_bench/main-95fe75e9-131k-d8.json"
+  ]
+}
