@@ -1,0 +1,17 @@
+[status] world_size=32 dp=1
+[gc-stress35-256k warmup0] fb=88.3s (93 tok/s/GPU) optim=6.9s loss=12.356904437654258 gn=0.46932101249694824
+[gc-stress35-256k control0] fb=31.7s (259 tok/s/GPU) optim=0.1s loss=12.332538919597319 gn=0.4132792353630066
+[gc-stress35-256k control1] fb=28.0s (292 tok/s/GPU) optim=0.9s loss=12.344247223843475 gn=0.5641394257545471
+[gc-stress35-256k control2] fb=27.6s (297 tok/s/GPU) optim=0.7s loss=12.306977489385565 gn=0.36896616220474243
+[gc-stress35-256k control3] fb=25.9s (316 tok/s/GPU) optim=0.7s loss=12.31670881923225 gn=0.37685588002204895
+[gc-stress35-256k control4] fb=25.8s (318 tok/s/GPU) optim=0.1s loss=12.316846148857685 gn=0.5348889827728271
+[gc-stress35-256k control5] fb=26.5s (310 tok/s/GPU) optim=0.1s loss=12.305624220368273 gn=0.3688432276248932
+[gc-stress35-256k control6] fb=25.7s (319 tok/s/GPU) optim=1.0s loss=12.294394662455225 gn=0.3713708221912384
+[profile] memory_profile/start max_entries=5000000
+[gc-stress35-256k memory_profile0] fb=29.0s (283 tok/s/GPU) optim=1.0s loss=12.28283608564791 gn=0.36069804430007935
+[profile] memory_profile/stop (snapshot dump can take minutes)
+[profile] runtime_profile/start
+[gc-stress35-256k runtime_profile0] fb=26.8s (306 tok/s/GPU) optim=0.2s loss=12.28037559652556 gn=0.4769369661808014
+[profile] runtime_profile/stop (kineto flush can take minutes)
+[done] -> /root/.cache/user_artifacts/lps1062_bench/gc-stress35-256k.json
+SUMMARY gc-stress35-256k: 300 tok/s/GPU | control fb=27.3s optim=0.5s (262144 tok) | mfu3x 3.1% | hfu 4.5% | memory-profile fb=29.0s optim=1.0s | runtime-profile fb=26.8s optim=0.2s

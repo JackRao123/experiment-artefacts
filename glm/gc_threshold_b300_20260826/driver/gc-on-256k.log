@@ -1,0 +1,17 @@
+[status] world_size=32 dp=1
+[gc-on-256k warmup0] fb=88.5s (93 tok/s/GPU) optim=6.7s loss=12.356727053554739 gn=0.4696580767631531
+[gc-on-256k control0] fb=30.9s (265 tok/s/GPU) optim=0.1s loss=12.33479150692561 gn=0.4078308045864105
+[gc-on-256k control1] fb=28.8s (284 tok/s/GPU) optim=1.0s loss=12.347051037029408 gn=0.5750901699066162
+[gc-on-256k control2] fb=28.3s (289 tok/s/GPU) optim=0.1s loss=12.3051531034588 gn=0.3662956953048706
+[gc-on-256k control3] fb=26.8s (305 tok/s/GPU) optim=0.8s loss=12.314828166306176 gn=0.37116166949272156
+[gc-on-256k control4] fb=31.0s (264 tok/s/GPU) optim=0.1s loss=12.316509500539782 gn=0.5295419096946716
+[gc-on-256k control5] fb=27.8s (294 tok/s/GPU) optim=0.1s loss=12.307120541078724 gn=0.37648889422416687
+[gc-on-256k control6] fb=26.6s (307 tok/s/GPU) optim=0.1s loss=12.294251610762066 gn=0.3684481978416443
+[profile] memory_profile/start max_entries=5000000
+[gc-on-256k memory_profile0] fb=30.4s (269 tok/s/GPU) optim=0.8s loss=12.28261960075226 gn=0.36122947931289673
+[profile] memory_profile/stop (snapshot dump can take minutes)
+[profile] runtime_profile/start
+[gc-on-256k runtime_profile0] fb=28.5s (287 tok/s/GPU) optim=0.1s loss=12.281016468110916 gn=0.47554969787597656
+[profile] runtime_profile/stop (kineto flush can take minutes)
+[done] -> /root/.cache/user_artifacts/lps1062_bench/gc-on-256k.json
+SUMMARY gc-on-256k: 286 tok/s/GPU | control fb=28.6s optim=0.3s (262144 tok) | mfu3x 3.0% | hfu 4.3% | memory-profile fb=30.4s optim=0.8s | runtime-profile fb=28.5s optim=0.1s

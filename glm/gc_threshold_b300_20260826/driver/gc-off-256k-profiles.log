@@ -1,0 +1,11 @@
+[status] world_size=32 dp=1
+[gc-off-256k-profiles warmup0] fb=76.0s (108 tok/s/GPU) optim=5.4s loss=12.357931548811145 gn=0.47604742646217346
+[gc-off-256k-profiles control0] fb=33.3s (246 tok/s/GPU) optim=0.7s loss=12.33368142578669 gn=0.410897821187973
+[profile] memory_profile/start max_entries=5000000
+[gc-off-256k-profiles memory_profile0] fb=33.2s (247 tok/s/GPU) optim=0.1s loss=12.349103351987274 gn=0.5693325996398926
+[profile] memory_profile/stop (snapshot dump can take minutes)
+[profile] runtime_profile/start
+[gc-off-256k-profiles runtime_profile0] fb=29.2s (281 tok/s/GPU) optim=0.1s loss=12.304397790518916 gn=0.3690367341041565
+[profile] runtime_profile/stop (kineto flush can take minutes)
+[done] -> /root/.cache/user_artifacts/lps1062_bench/gc-off-256k-profiles.json
+SUMMARY gc-off-256k-profiles: 246 tok/s/GPU | control fb=33.3s optim=0.7s (262144 tok) | mfu3x 2.6% | hfu 3.7% | memory-profile fb=33.2s optim=0.1s | runtime-profile fb=29.2s optim=0.1s
