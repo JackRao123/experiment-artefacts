@@ -1,15 +1,9 @@
 {
-  "architectures": [
-    "GlmMoeDsaForCausalLM"
-  ],
+  "architectures": ["GlmMoeDsaForCausalLM"],
   "attention_bias": false,
   "attention_dropout": 0.0,
   "dtype": "bfloat16",
-  "eos_token_id": [
-    154820,
-    154827,
-    154829
-  ],
+  "eos_token_id": [154820, 154827, 154829],
   "ep_size": 1,
   "first_k_dense_replace": 0,
   "head_dim": 192,
@@ -23,16 +17,12 @@
   "index_topk_freq": 4,
   "index_topk_pattern": null,
   "indexer_rope_interleave": true,
-  "indexer_types": [
-    "full"
-  ],
+  "indexer_types": ["full"],
   "initializer_range": 0.02,
   "intermediate_size": 12288,
   "kv_lora_rank": 512,
   "max_position_embeddings": 1048576,
-  "mlp_layer_types": [
-    "sparse"
-  ],
+  "mlp_layer_types": ["sparse"],
   "model_type": "glm_moe_dsa",
   "moe_intermediate_size": 2048,
   "moe_layer_freq": 1,
@@ -52,6 +42,12 @@
   "qk_head_dim": 256,
   "qk_nope_head_dim": 192,
   "qk_rope_head_dim": 64,
+  "quantization_config": {
+    "activation_scheme": "dynamic",
+    "fmt": "e4m3",
+    "quant_method": "fp8",
+    "weight_block_size": [128, 128]
+  },
   "rms_norm_eps": 1e-05,
   "rope_interleave": true,
   "rope_parameters": {

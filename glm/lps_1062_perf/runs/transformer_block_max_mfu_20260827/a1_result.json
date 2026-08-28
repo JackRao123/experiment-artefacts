@@ -1,0 +1,192 @@
+{
+  "label": "a1-d471834cd-no-recompute-debug0d1m-131k-cp8ep8-d1",
+  "seq_len": 131072,
+  "num_gpus": 8,
+  "datums_per_window": 1,
+  "tokens_per_step": 131072,
+  "memory_profile_enabled": false,
+  "runtime_profile_enabled": true,
+  "started": "2026-08-27 15:54:04",
+  "initial_status": {
+    "mode": "training",
+    "step": 0,
+    "model_id": "/root/.cache/user_artifacts/glm52-debug-0d1m",
+    "device": "cuda:0",
+    "last_loss": null,
+    "grad_norm": null,
+    "gpu_memory": {
+      "cuda:0": 11974737920
+    },
+    "world_size": 8,
+    "tensor_parallel_size": 1,
+    "pipeline_parallel_size": 1,
+    "expert_parallel_size": 8,
+    "context_parallel_size": 8,
+    "expert_tensor_parallel_size": 1,
+    "data_parallel_size": 1,
+    "max_seq_len": 131072
+  },
+  "runtime_profile_start": {
+    "mode": "torch",
+    "recording": true,
+    "local_path": "/tmp/checkpoints/profiles/torch_trace"
+  },
+  "runtime_profile_stop": {
+    "mode": "torch",
+    "local_path": "/tmp/checkpoints/profiles/torch_trace",
+    "remote_path": null,
+    "files": [
+      "b300-1-5x4eyifb-0008_233608.1787846093371057417.pt.trace.json"
+    ],
+    "size_bytes": 4465349
+  },
+  "final_status": {
+    "mode": "training",
+    "step": 9,
+    "model_id": "/root/.cache/user_artifacts/glm52-debug-0d1m",
+    "device": "cuda:0",
+    "last_loss": null,
+    "grad_norm": null,
+    "gpu_memory": {
+      "cuda:0": 53250883584
+    },
+    "world_size": 8,
+    "tensor_parallel_size": 1,
+    "pipeline_parallel_size": 1,
+    "expert_parallel_size": 8,
+    "context_parallel_size": 8,
+    "expert_tensor_parallel_size": 1,
+    "data_parallel_size": 1,
+    "max_seq_len": 131072
+  },
+  "windows": [
+    {
+      "label": "a1-d471834cd-no-recompute-debug0d1m-131k-cp8ep8-d1",
+      "window_index": 0,
+      "phase": "warmup",
+      "datums": 1,
+      "num_tokens": 131072,
+      "fb_elapsed_s": 33.10060468688607,
+      "fb_tps_per_gpu": 494.97585180040767,
+      "optim_elapsed_s": 3.547159980982542,
+      "loss": 11.950922591572507,
+      "grad_norm": 0.00017995289817918092,
+      "server_step_seconds": 36.51641805283725
+    },
+    {
+      "label": "a1-d471834cd-no-recompute-debug0d1m-131k-cp8ep8-d1",
+      "window_index": 0,
+      "phase": "control",
+      "datums": 1,
+      "num_tokens": 131072,
+      "fb_elapsed_s": 2.0463608778081834,
+      "fb_tps_per_gpu": 8006.407949681181,
+      "optim_elapsed_s": 0.009356734808534384,
+      "loss": 11.950957877791426,
+      "grad_norm": 0.0001800041936803609,
+      "server_step_seconds": 1.8530502626672387
+    },
+    {
+      "label": "a1-d471834cd-no-recompute-debug0d1m-131k-cp8ep8-d1",
+      "window_index": 1,
+      "phase": "control",
+      "datums": 1,
+      "num_tokens": 131072,
+      "fb_elapsed_s": 1.2494705962017179,
+      "fb_tps_per_gpu": 13112.753553229613,
+      "optim_elapsed_s": 0.01081016007810831,
+      "loss": 11.950833899184412,
+      "grad_norm": 0.00018002867000177503,
+      "server_step_seconds": 1.1460286597721279
+    },
+    {
+      "label": "a1-d471834cd-no-recompute-debug0d1m-131k-cp8ep8-d1",
+      "window_index": 2,
+      "phase": "control",
+      "datums": 1,
+      "num_tokens": 131072,
+      "fb_elapsed_s": 1.2379476497881114,
+      "fb_tps_per_gpu": 13234.808437016141,
+      "optim_elapsed_s": 0.01473942631855607,
+      "loss": 11.950879675900847,
+      "grad_norm": 0.00018008217739406973,
+      "server_step_seconds": 1.133926925715059
+    },
+    {
+      "label": "a1-d471834cd-no-recompute-debug0d1m-131k-cp8ep8-d1",
+      "window_index": 3,
+      "phase": "control",
+      "datums": 1,
+      "num_tokens": 131072,
+      "fb_elapsed_s": 1.303555472753942,
+      "fb_tps_per_gpu": 12568.701787110389,
+      "optim_elapsed_s": 0.044581152964383364,
+      "loss": 11.95088825903518,
+      "grad_norm": 0.00018008961342275143,
+      "server_step_seconds": 1.202738179359585
+    },
+    {
+      "label": "a1-d471834cd-no-recompute-debug0d1m-131k-cp8ep8-d1",
+      "window_index": 4,
+      "phase": "control",
+      "datums": 1,
+      "num_tokens": 131072,
+      "fb_elapsed_s": 1.2370349881239235,
+      "fb_tps_per_gpu": 13244.572835282397,
+      "optim_elapsed_s": 0.010370137169957161,
+      "loss": 11.950902564259065,
+      "grad_norm": 0.00017993034271057695,
+      "server_step_seconds": 1.1359653589315712
+    },
+    {
+      "label": "a1-d471834cd-no-recompute-debug0d1m-131k-cp8ep8-d1",
+      "window_index": 5,
+      "phase": "control",
+      "datums": 1,
+      "num_tokens": 131072,
+      "fb_elapsed_s": 1.272411399986595,
+      "fb_tps_per_gpu": 12876.33858056648,
+      "optim_elapsed_s": 0.011760617140680552,
+      "loss": 11.950842482318743,
+      "grad_norm": 0.00018003555305767804,
+      "server_step_seconds": 1.1631930251605809
+    },
+    {
+      "label": "a1-d471834cd-no-recompute-debug0d1m-131k-cp8ep8-d1",
+      "window_index": 6,
+      "phase": "control",
+      "datums": 1,
+      "num_tokens": 131072,
+      "fb_elapsed_s": 1.2306047431193292,
+      "fb_tps_per_gpu": 13313.779336222888,
+      "optim_elapsed_s": 0.008016510866582394,
+      "loss": 11.950757604657017,
+      "grad_norm": 0.0001800827303668484,
+      "server_step_seconds": 1.130268425680697
+    },
+    {
+      "label": "a1-d471834cd-no-recompute-debug0d1m-131k-cp8ep8-d1",
+      "window_index": 0,
+      "phase": "runtime_profile",
+      "datums": 1,
+      "num_tokens": 131072,
+      "fb_elapsed_s": 1.2404043641872704,
+      "fb_tps_per_gpu": 13208.595900688415,
+      "optim_elapsed_s": 0.007515199016779661,
+      "loss": 11.950893027443142,
+      "grad_norm": 0.00018002648721449077,
+      "server_step_seconds": 1.1375442687422037
+    }
+  ],
+  "aggregates": {
+    "tokens_per_step": 131072,
+    "control_fb_seconds_mean": 1.3681979611116861,
+    "control_optim_seconds_mean": 0.01566210562097175,
+    "control_tps_per_gpu": 11974.875321907144,
+    "mfu3x": 1.0901075736610033,
+    "hfu": 1.5821596012611503,
+    "runtime_profile_fb_seconds": 1.2404043641872704,
+    "runtime_profile_optim_seconds": 0.007515199016779661
+  },
+  "total_elapsed_seconds": 48.83224759623408
+}

@@ -1,0 +1,23 @@
+{
+  "base_model": "/root/.cache/user_artifacts/glm52-debug-0d1m",
+  "max_seq_len": 131072,
+  "tensor_parallel_size": 1,
+  "pipeline_parallel_size": 1,
+  "expert_parallel_size": 8,
+  "context_parallel_size": 8,
+  "expert_tensor_parallel_size": 1,
+  "trust_remote_code": true,
+  "attention_backend": "flash",
+  "lora_rank": 32,
+  "lora_alpha": 32,
+  "moe_flex_dispatcher_backend": "hybridep",
+  "moe_flex_dispatcher_num_sms": 20,
+  "moe_permute_fusion_into_hybridep": true,
+  "moe_router_fusion": true,
+  "weight_sync": {"type": "disabled"},
+  "recompute": {
+    "granularity": "full",
+    "method": "uniform",
+    "num_layers": 1
+  }
+}

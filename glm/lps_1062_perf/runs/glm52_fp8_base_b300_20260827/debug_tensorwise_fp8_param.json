@@ -1,0 +1,22 @@
+{
+  "base_model": "/root/.cache/user_artifacts/glm52-debug-0d1m",
+  "max_seq_len": 8192,
+  "tensor_parallel_size": 1,
+  "pipeline_parallel_size": 1,
+  "expert_parallel_size": 8,
+  "context_parallel_size": 8,
+  "expert_tensor_parallel_size": 1,
+  "trust_remote_code": true,
+  "attention_backend": "flash",
+  "lora_rank": 32,
+  "lora_alpha": 32,
+  "fp8_recipe": "tensorwise",
+  "fp8_param": true,
+  "moe_flex_dispatcher_backend": "hybridep",
+  "weight_sync": {"type": "disabled"},
+  "recompute": {
+    "granularity": "full",
+    "method": "uniform",
+    "num_layers": 1
+  }
+}

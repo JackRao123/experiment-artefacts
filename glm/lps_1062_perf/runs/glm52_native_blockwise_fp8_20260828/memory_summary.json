@@ -1,0 +1,40 @@
+{
+  "units": "bytes",
+  "debug_0d1m": {
+    "blockwise": {
+      "rank_count": 8,
+      "max_peak_allocated": 39555304916,
+      "max_final_reserved": 42075160576
+    },
+    "tensorwise": {
+      "rank_count": 8,
+      "max_peak_allocated": 38134054868,
+      "max_final_reserved": 40540045312
+    },
+    "blockwise_minus_tensorwise": {
+      "max_peak_allocated": 1421250048,
+      "max_final_reserved": 1535115264
+    }
+  },
+  "full_glm52": {
+    "device_total": 287428771840,
+    "blockwise": {
+      "rank_count": 8,
+      "max_start_allocated": 223213462528,
+      "max_peak_allocated": 273909374420,
+      "max_final_reserved": 278023634944,
+      "reserved_headroom": 9405136896
+    },
+    "tensorwise": {
+      "rank_count": 8,
+      "max_start_allocated": 115987844608,
+      "max_peak_allocated": 166683756500,
+      "max_final_reserved": 170462806016,
+      "reserved_headroom": 116965965824
+    },
+    "blockwise_minus_tensorwise": {
+      "max_peak_allocated": 107225617920,
+      "max_final_reserved": 107560828928
+    }
+  }
+}

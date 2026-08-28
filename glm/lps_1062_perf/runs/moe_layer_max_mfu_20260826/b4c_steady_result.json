@@ -1,0 +1,163 @@
+{
+  "label": "b4c-steady-569bfb45-hybridep20-router-fusedblocks108-debug0d1m-131k-d1",
+  "seq_len": 131072,
+  "num_gpus": 8,
+  "datums_per_window": 1,
+  "tokens_per_step": 131072,
+  "memory_profile_enabled": false,
+  "runtime_profile_enabled": false,
+  "started": "2026-08-27 08:24:23",
+  "initial_status": {
+    "mode": "training",
+    "step": 7,
+    "model_id": "/root/.cache/user_artifacts/glm52-debug-0d1m",
+    "device": "cuda:0",
+    "last_loss": null,
+    "grad_norm": null,
+    "gpu_memory": {
+      "cuda:0": 42471522304
+    },
+    "world_size": 8,
+    "tensor_parallel_size": 1,
+    "pipeline_parallel_size": 1,
+    "expert_parallel_size": 8,
+    "context_parallel_size": 8,
+    "expert_tensor_parallel_size": 1,
+    "data_parallel_size": 1,
+    "max_seq_len": 131072
+  },
+  "final_status": {
+    "mode": "training",
+    "step": 15,
+    "model_id": "/root/.cache/user_artifacts/glm52-debug-0d1m",
+    "device": "cuda:0",
+    "last_loss": null,
+    "grad_norm": null,
+    "gpu_memory": {
+      "cuda:0": 42471522304
+    },
+    "world_size": 8,
+    "tensor_parallel_size": 1,
+    "pipeline_parallel_size": 1,
+    "expert_parallel_size": 8,
+    "context_parallel_size": 8,
+    "expert_tensor_parallel_size": 1,
+    "data_parallel_size": 1,
+    "max_seq_len": 131072
+  },
+  "windows": [
+    {
+      "label": "b4c-steady-569bfb45-hybridep20-router-fusedblocks108-debug0d1m-131k-d1",
+      "window_index": 0,
+      "phase": "warmup",
+      "datums": 1,
+      "num_tokens": 131072,
+      "fb_elapsed_s": 1.323887926992029,
+      "fb_tps_per_gpu": 12375.669923379131,
+      "optim_elapsed_s": 0.020178799983114004,
+      "loss": 11.950914962119768,
+      "grad_norm": 0.00017999744159169495,
+      "server_step_seconds": 1.2182265808805823
+    },
+    {
+      "label": "b4c-steady-569bfb45-hybridep20-router-fusedblocks108-debug0d1m-131k-d1",
+      "window_index": 0,
+      "phase": "control",
+      "datums": 1,
+      "num_tokens": 131072,
+      "fb_elapsed_s": 1.3084025289863348,
+      "fb_tps_per_gpu": 12522.140271842227,
+      "optim_elapsed_s": 0.009106664918363094,
+      "loss": 11.950952155701872,
+      "grad_norm": 0.00018012168584391475,
+      "server_step_seconds": 1.202422857284546
+    },
+    {
+      "label": "b4c-steady-569bfb45-hybridep20-router-fusedblocks108-debug0d1m-131k-d1",
+      "window_index": 1,
+      "phase": "control",
+      "datums": 1,
+      "num_tokens": 131072,
+      "fb_elapsed_s": 1.3066305718384683,
+      "fb_tps_per_gpu": 12539.121885803745,
+      "optim_elapsed_s": 0.009224535431712866,
+      "loss": 11.950828177094857,
+      "grad_norm": 0.00018026125326287001,
+      "server_step_seconds": 1.2006961009465158
+    },
+    {
+      "label": "b4c-steady-569bfb45-hybridep20-router-fusedblocks108-debug0d1m-131k-d1",
+      "window_index": 2,
+      "phase": "control",
+      "datums": 1,
+      "num_tokens": 131072,
+      "fb_elapsed_s": 1.305777346715331,
+      "fb_tps_per_gpu": 12547.315238094592,
+      "optim_elapsed_s": 0.006762519013136625,
+      "loss": 11.950875861174477,
+      "grad_norm": 0.00018044307944364846,
+      "server_step_seconds": 1.2025701734237373
+    },
+    {
+      "label": "b4c-steady-569bfb45-hybridep20-router-fusedblocks108-debug0d1m-131k-d1",
+      "window_index": 3,
+      "phase": "control",
+      "datums": 1,
+      "num_tokens": 131072,
+      "fb_elapsed_s": 1.30233298195526,
+      "fb_tps_per_gpu": 12580.499938964804,
+      "optim_elapsed_s": 0.011390838772058487,
+      "loss": 11.950885397990403,
+      "grad_norm": 0.0001805905340006575,
+      "server_step_seconds": 1.2014398011378944
+    },
+    {
+      "label": "b4c-steady-569bfb45-hybridep20-router-fusedblocks108-debug0d1m-131k-d1",
+      "window_index": 4,
+      "phase": "control",
+      "datums": 1,
+      "num_tokens": 131072,
+      "fb_elapsed_s": 1.3360766991972923,
+      "fb_tps_per_gpu": 12262.76905348579,
+      "optim_elapsed_s": 0.007767092902213335,
+      "loss": 11.950898749532696,
+      "grad_norm": 0.00018057177658192813,
+      "server_step_seconds": 1.230102718807757
+    },
+    {
+      "label": "b4c-steady-569bfb45-hybridep20-router-fusedblocks108-debug0d1m-131k-d1",
+      "window_index": 5,
+      "phase": "control",
+      "datums": 1,
+      "num_tokens": 131072,
+      "fb_elapsed_s": 1.3139501679688692,
+      "fb_tps_per_gpu": 12469.270448305295,
+      "optim_elapsed_s": 0.010390295181423426,
+      "loss": 11.950839621273966,
+      "grad_norm": 0.00018081736925523728,
+      "server_step_seconds": 1.2100041192024946
+    },
+    {
+      "label": "b4c-steady-569bfb45-hybridep20-router-fusedblocks108-debug0d1m-131k-d1",
+      "window_index": 6,
+      "phase": "control",
+      "datums": 1,
+      "num_tokens": 131072,
+      "fb_elapsed_s": 1.303840677253902,
+      "fb_tps_per_gpu": 12565.952486240372,
+      "optim_elapsed_s": 0.006894684862345457,
+      "loss": 11.950757604657017,
+      "grad_norm": 0.00018100706802215427,
+      "server_step_seconds": 1.2039533890783787
+    }
+  ],
+  "aggregates": {
+    "tokens_per_step": 131072,
+    "control_fb_seconds_mean": 1.3110015677022082,
+    "control_optim_seconds_mean": 0.008790947297321898,
+    "control_tps_per_gpu": 12497.315337857473,
+    "mfu3x": 1.1376668010317588,
+    "hfu": 1.6511860808777412
+  },
+  "total_elapsed_seconds": 10.87264481605962
+}

@@ -1,0 +1,137 @@
+{
+  "label": "bf16-5877ad3a-glm52-131k-d4",
+  "seq_len": 131072,
+  "num_gpus": 16,
+  "datums_per_window": 4,
+  "tokens_per_step": 524288,
+  "memory_profile_enabled": false,
+  "runtime_profile_enabled": false,
+  "started": "2026-08-28 03:51:32",
+  "initial_status": {
+    "mode": "training",
+    "step": 0,
+    "model_id": "zai-org/GLM-5.2-FP8",
+    "device": "cuda:0",
+    "last_loss": null,
+    "grad_norm": null,
+    "gpu_memory": {
+      "cuda:0": 104345894912
+    },
+    "world_size": 16,
+    "tensor_parallel_size": 1,
+    "pipeline_parallel_size": 2,
+    "expert_parallel_size": 8,
+    "context_parallel_size": 8,
+    "expert_tensor_parallel_size": 1,
+    "data_parallel_size": 1,
+    "max_seq_len": 131072
+  },
+  "final_status": {
+    "mode": "training",
+    "step": 6,
+    "model_id": "zai-org/GLM-5.2-FP8",
+    "device": "cuda:0",
+    "last_loss": null,
+    "grad_norm": null,
+    "gpu_memory": {
+      "cuda:0": 149099118592
+    },
+    "world_size": 16,
+    "tensor_parallel_size": 1,
+    "pipeline_parallel_size": 2,
+    "expert_parallel_size": 8,
+    "context_parallel_size": 8,
+    "expert_tensor_parallel_size": 1,
+    "data_parallel_size": 1,
+    "max_seq_len": 131072
+  },
+  "windows": [
+    {
+      "label": "bf16-5877ad3a-glm52-131k-d4",
+      "window_index": 0,
+      "phase": "warmup",
+      "datums": 4,
+      "num_tokens": 524288,
+      "fb_elapsed_s": 120.68015100760385,
+      "fb_tps_per_gpu": 271.5276681907312,
+      "optim_elapsed_s": 6.677239645738155,
+      "loss": 12.316729101021584,
+      "grad_norm": 0.40738680958747864,
+      "server_step_seconds": 126.18171522719786
+    },
+    {
+      "label": "bf16-5877ad3a-glm52-131k-d4",
+      "window_index": 0,
+      "phase": "control",
+      "datums": 4,
+      "num_tokens": 524288,
+      "fb_elapsed_s": 36.631497585680336,
+      "fb_tps_per_gpu": 894.5307224569868,
+      "optim_elapsed_s": 0.05294734425842762,
+      "loss": 12.31820158540028,
+      "grad_norm": 0.4698813855648041,
+      "server_step_seconds": 36.22754360595718
+    },
+    {
+      "label": "bf16-5877ad3a-glm52-131k-d4",
+      "window_index": 1,
+      "phase": "control",
+      "datums": 4,
+      "num_tokens": 524288,
+      "fb_elapsed_s": 36.75902414508164,
+      "fb_tps_per_gpu": 891.4273640853537,
+      "optim_elapsed_s": 0.0753684900701046,
+      "loss": 12.318861533062233,
+      "grad_norm": 0.3533957898616791,
+      "server_step_seconds": 36.36948449444026
+    },
+    {
+      "label": "bf16-5877ad3a-glm52-131k-d4",
+      "window_index": 2,
+      "phase": "control",
+      "datums": 4,
+      "num_tokens": 524288,
+      "fb_elapsed_s": 36.38594535831362,
+      "fb_tps_per_gpu": 900.5675042194011,
+      "optim_elapsed_s": 0.054682217072695494,
+      "loss": 12.309117768232484,
+      "grad_norm": 0.3567679226398468,
+      "server_step_seconds": 35.90813381364569
+    },
+    {
+      "label": "bf16-5877ad3a-glm52-131k-d4",
+      "window_index": 3,
+      "phase": "control",
+      "datums": 4,
+      "num_tokens": 524288,
+      "fb_elapsed_s": 36.137359101790935,
+      "fb_tps_per_gpu": 906.7624423716134,
+      "optim_elapsed_s": 0.10050249705091119,
+      "loss": 12.312995437587261,
+      "grad_norm": 0.38309046626091003,
+      "server_step_seconds": 35.74370878515765
+    },
+    {
+      "label": "bf16-5877ad3a-glm52-131k-d4",
+      "window_index": 4,
+      "phase": "control",
+      "datums": 4,
+      "num_tokens": 524288,
+      "fb_elapsed_s": 36.1605857340619,
+      "fb_tps_per_gpu": 906.1800116012444,
+      "optim_elapsed_s": 0.12749130791053176,
+      "loss": 12.299338717183817,
+      "grad_norm": 0.3558359742164612,
+      "server_step_seconds": 35.77761018835008
+    }
+  ],
+  "aggregates": {
+    "tokens_per_step": 524288,
+    "control_fb_seconds_mean": 36.41488238498569,
+    "control_optim_seconds_mean": 0.08219837127253413,
+    "control_tps_per_gpu": 899.851869726501,
+    "mfu3x": 0.08191612121149396,
+    "hfu": 0.1188913652233198
+  },
+  "total_elapsed_seconds": 310.60502608213574
+}

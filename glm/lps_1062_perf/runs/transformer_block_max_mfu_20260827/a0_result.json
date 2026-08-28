@@ -1,0 +1,192 @@
+{
+  "label": "a0-d471834cd-full-recompute-debug0d1m-131k-cp8ep8-d1",
+  "seq_len": 131072,
+  "num_gpus": 8,
+  "datums_per_window": 1,
+  "tokens_per_step": 131072,
+  "memory_profile_enabled": false,
+  "runtime_profile_enabled": true,
+  "started": "2026-08-27 16:00:24",
+  "initial_status": {
+    "mode": "training",
+    "step": 0,
+    "model_id": "/root/.cache/user_artifacts/glm52-debug-0d1m",
+    "device": "cuda:0",
+    "last_loss": null,
+    "grad_norm": null,
+    "gpu_memory": {
+      "cuda:0": 11955863552
+    },
+    "world_size": 8,
+    "tensor_parallel_size": 1,
+    "pipeline_parallel_size": 1,
+    "expert_parallel_size": 8,
+    "context_parallel_size": 8,
+    "expert_tensor_parallel_size": 1,
+    "data_parallel_size": 1,
+    "max_seq_len": 131072
+  },
+  "runtime_profile_start": {
+    "mode": "torch",
+    "recording": true,
+    "local_path": "/tmp/checkpoints/profiles/torch_trace"
+  },
+  "runtime_profile_stop": {
+    "mode": "torch",
+    "local_path": "/tmp/checkpoints/profiles/torch_trace",
+    "remote_path": null,
+    "files": [
+      "b300-1-5x4eyifb-0008_240993.1787846471014091574.pt.trace.json"
+    ],
+    "size_bytes": 6701007
+  },
+  "final_status": {
+    "mode": "training",
+    "step": 9,
+    "model_id": "/root/.cache/user_artifacts/glm52-debug-0d1m",
+    "device": "cuda:0",
+    "last_loss": null,
+    "grad_norm": null,
+    "gpu_memory": {
+      "cuda:0": 43687870464
+    },
+    "world_size": 8,
+    "tensor_parallel_size": 1,
+    "pipeline_parallel_size": 1,
+    "expert_parallel_size": 8,
+    "context_parallel_size": 8,
+    "expert_tensor_parallel_size": 1,
+    "data_parallel_size": 1,
+    "max_seq_len": 131072
+  },
+  "windows": [
+    {
+      "label": "a0-d471834cd-full-recompute-debug0d1m-131k-cp8ep8-d1",
+      "window_index": 0,
+      "phase": "warmup",
+      "datums": 1,
+      "num_tokens": 131072,
+      "fb_elapsed_s": 32.249813911970705,
+      "fb_tps_per_gpu": 508.0339391948701,
+      "optim_elapsed_s": 2.7170798080042005,
+      "loss": 11.950922591572507,
+      "grad_norm": 0.00017995291273109615,
+      "server_step_seconds": 34.83596009481698
+    },
+    {
+      "label": "a0-d471834cd-full-recompute-debug0d1m-131k-cp8ep8-d1",
+      "window_index": 0,
+      "phase": "control",
+      "datums": 1,
+      "num_tokens": 131072,
+      "fb_elapsed_s": 1.614689925685525,
+      "fb_tps_per_gpu": 10146.839798386733,
+      "optim_elapsed_s": 0.016132918186485767,
+      "loss": 11.950957877791426,
+      "grad_norm": 0.00018000415002461523,
+      "server_step_seconds": 1.50612375093624
+    },
+    {
+      "label": "a0-d471834cd-full-recompute-debug0d1m-131k-cp8ep8-d1",
+      "window_index": 1,
+      "phase": "control",
+      "datums": 1,
+      "num_tokens": 131072,
+      "fb_elapsed_s": 1.3138419231399894,
+      "fb_tps_per_gpu": 12470.297766753703,
+      "optim_elapsed_s": 0.014396898914128542,
+      "loss": 11.95083294550282,
+      "grad_norm": 0.00018002894648816437,
+      "server_step_seconds": 1.207335103303194
+    },
+    {
+      "label": "a0-d471834cd-full-recompute-debug0d1m-131k-cp8ep8-d1",
+      "window_index": 2,
+      "phase": "control",
+      "datums": 1,
+      "num_tokens": 131072,
+      "fb_elapsed_s": 1.302416690159589,
+      "fb_tps_per_gpu": 12579.691372038866,
+      "optim_elapsed_s": 0.01011769287288189,
+      "loss": 11.950879675900847,
+      "grad_norm": 0.00018008243932854384,
+      "server_step_seconds": 1.1999070807360113
+    },
+    {
+      "label": "a0-d471834cd-full-recompute-debug0d1m-131k-cp8ep8-d1",
+      "window_index": 3,
+      "phase": "control",
+      "datums": 1,
+      "num_tokens": 131072,
+      "fb_elapsed_s": 1.3125994028523564,
+      "fb_tps_per_gpu": 12482.10228070849,
+      "optim_elapsed_s": 0.010799344629049301,
+      "loss": 11.950889212716772,
+      "grad_norm": 0.00018008932238444686,
+      "server_step_seconds": 1.2086820481345057
+    },
+    {
+      "label": "a0-d471834cd-full-recompute-debug0d1m-131k-cp8ep8-d1",
+      "window_index": 4,
+      "phase": "control",
+      "datums": 1,
+      "num_tokens": 131072,
+      "fb_elapsed_s": 1.2980359457433224,
+      "fb_tps_per_gpu": 12622.146600584067,
+      "optim_elapsed_s": 0.0119725470431149,
+      "loss": 11.950902564259065,
+      "grad_norm": 0.00017993069195654243,
+      "server_step_seconds": 1.1964340968988836
+    },
+    {
+      "label": "a0-d471834cd-full-recompute-debug0d1m-131k-cp8ep8-d1",
+      "window_index": 5,
+      "phase": "control",
+      "datums": 1,
+      "num_tokens": 131072,
+      "fb_elapsed_s": 1.4031479940749705,
+      "fb_tps_per_gpu": 11676.601519714392,
+      "optim_elapsed_s": 0.009931368753314018,
+      "loss": 11.950842482318743,
+      "grad_norm": 0.00018003572768066078,
+      "server_step_seconds": 1.299547400791198
+    },
+    {
+      "label": "a0-d471834cd-full-recompute-debug0d1m-131k-cp8ep8-d1",
+      "window_index": 6,
+      "phase": "control",
+      "datums": 1,
+      "num_tokens": 131072,
+      "fb_elapsed_s": 1.2995824562385678,
+      "fb_tps_per_gpu": 12607.12617452597,
+      "optim_elapsed_s": 0.009110779967159033,
+      "loss": 11.950757604657017,
+      "grad_norm": 0.0001800828758860007,
+      "server_step_seconds": 1.198953480925411
+    },
+    {
+      "label": "a0-d471834cd-full-recompute-debug0d1m-131k-cp8ep8-d1",
+      "window_index": 0,
+      "phase": "runtime_profile",
+      "datums": 1,
+      "num_tokens": 131072,
+      "fb_elapsed_s": 1.3148226491175592,
+      "fb_tps_per_gpu": 12460.996173891659,
+      "optim_elapsed_s": 0.011435887776315212,
+      "loss": 11.950893027443142,
+      "grad_norm": 0.0001800262398319319,
+      "server_step_seconds": 1.2080126297660172
+    }
+  ],
+  "aggregates": {
+    "tokens_per_step": 131072,
+    "control_fb_seconds_mean": 1.3634734768420458,
+    "control_optim_seconds_mean": 0.011780221480876207,
+    "control_tps_per_gpu": 12016.368692368804,
+    "mfu3x": 1.0938848353176847,
+    "hfu": 1.5876418407584167,
+    "runtime_profile_fb_seconds": 1.3148226491175592,
+    "runtime_profile_optim_seconds": 0.011435887776315212
+  },
+  "total_elapsed_seconds": 46.750618908088654
+}
