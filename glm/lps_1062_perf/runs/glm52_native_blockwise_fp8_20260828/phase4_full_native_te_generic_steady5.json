@@ -1,0 +1,137 @@
+{
+  "label": "phase4-full-native-te-generic-steady5",
+  "seq_len": 131072,
+  "num_gpus": 8,
+  "datums_per_window": 1,
+  "tokens_per_step": 131072,
+  "memory_profile_enabled": false,
+  "runtime_profile_enabled": false,
+  "started": "2026-08-29 04:14:25",
+  "initial_status": {
+    "mode": "training",
+    "step": 2,
+    "model_id": "zai-org/GLM-5.2-FP8",
+    "device": "cuda:0",
+    "last_loss": null,
+    "grad_norm": null,
+    "gpu_memory": {
+      "cuda:0": 187003043840
+    },
+    "world_size": 8,
+    "tensor_parallel_size": 1,
+    "pipeline_parallel_size": 1,
+    "expert_parallel_size": 8,
+    "context_parallel_size": 8,
+    "expert_tensor_parallel_size": 1,
+    "data_parallel_size": 1,
+    "max_seq_len": 131072
+  },
+  "final_status": {
+    "mode": "training",
+    "step": 8,
+    "model_id": "zai-org/GLM-5.2-FP8",
+    "device": "cuda:0",
+    "last_loss": null,
+    "grad_norm": null,
+    "gpu_memory": {
+      "cuda:0": 187212759040
+    },
+    "world_size": 8,
+    "tensor_parallel_size": 1,
+    "pipeline_parallel_size": 1,
+    "expert_parallel_size": 8,
+    "context_parallel_size": 8,
+    "expert_tensor_parallel_size": 1,
+    "data_parallel_size": 1,
+    "max_seq_len": 131072
+  },
+  "windows": [
+    {
+      "label": "phase4-full-native-te-generic-steady5",
+      "window_index": 0,
+      "phase": "warmup",
+      "datums": 1,
+      "num_tokens": 131072,
+      "fb_elapsed_s": 14.697716178838164,
+      "fb_tps_per_gpu": 1114.731009950359,
+      "optim_elapsed_s": 0.0888444660231471,
+      "loss": 12.322914679830015,
+      "grad_norm": 0.4153780937194824,
+      "server_step_seconds": 14.608872095122933
+    },
+    {
+      "label": "phase4-full-native-te-generic-steady5",
+      "window_index": 0,
+      "phase": "control",
+      "datums": 1,
+      "num_tokens": 131072,
+      "fb_elapsed_s": 14.630946067161858,
+      "fb_tps_per_gpu": 1119.8182212408499,
+      "optim_elapsed_s": 0.06293817982077599,
+      "loss": 12.303819113305003,
+      "grad_norm": 0.3987632989883423,
+      "server_step_seconds": 14.540303705260158
+    },
+    {
+      "label": "phase4-full-native-te-generic-steady5",
+      "window_index": 1,
+      "phase": "control",
+      "datums": 1,
+      "num_tokens": 131072,
+      "fb_elapsed_s": 14.67241679597646,
+      "fb_tps_per_gpu": 1116.6531204656685,
+      "optim_elapsed_s": 0.04636623617261648,
+      "loss": 12.307821714948387,
+      "grad_norm": 0.3903251588344574,
+      "server_step_seconds": 14.53071239264682
+    },
+    {
+      "label": "phase4-full-native-te-generic-steady5",
+      "window_index": 2,
+      "phase": "control",
+      "datums": 1,
+      "num_tokens": 131072,
+      "fb_elapsed_s": 14.591360334306955,
+      "fb_tps_per_gpu": 1122.8562398995946,
+      "optim_elapsed_s": 0.04165848111733794,
+      "loss": 12.298895255243341,
+      "grad_norm": 0.4349018335342407,
+      "server_step_seconds": 14.510214339010417
+    },
+    {
+      "label": "phase4-full-native-te-generic-steady5",
+      "window_index": 3,
+      "phase": "control",
+      "datums": 1,
+      "num_tokens": 131072,
+      "fb_elapsed_s": 14.612960225902498,
+      "fb_tps_per_gpu": 1121.1965095859366,
+      "optim_elapsed_s": 0.048218321055173874,
+      "loss": 12.307299097435742,
+      "grad_norm": 0.4727325737476349,
+      "server_step_seconds": 14.535299877636135
+    },
+    {
+      "label": "phase4-full-native-te-generic-steady5",
+      "window_index": 4,
+      "phase": "control",
+      "datums": 1,
+      "num_tokens": 131072,
+      "fb_elapsed_s": 14.578046630136669,
+      "fb_tps_per_gpu": 1123.881711705459,
+      "optim_elapsed_s": 0.07236273214221,
+      "loss": 12.277666302996087,
+      "grad_norm": 0.4073721468448639,
+      "server_step_seconds": 14.522661237046123
+    }
+  ],
+  "aggregates": {
+    "tokens_per_step": 131072,
+    "control_fb_seconds_mean": 14.617146010696889,
+    "control_optim_seconds_mean": 0.054308790061622855,
+    "control_tps_per_gpu": 1120.875442306598,
+    "mfu3x": 0.1020365369945623,
+    "hfu": 0.14809372082721495
+  },
+  "total_elapsed_seconds": 88.3821268142201
+}

@@ -1,0 +1,16 @@
+{
+  "base_model": "zai-org/GLM-5.2-FP8",
+  "max_seq_len": 131072,
+  "tensor_parallel_size": 1,
+  "pipeline_parallel_size": 1,
+  "expert_parallel_size": 8,
+  "context_parallel_size": 8,
+  "expert_tensor_parallel_size": 1,
+  "trust_remote_code": true,
+  "attention_backend": "flash",
+  "lora_rank": 32,
+  "lora_alpha": 32,
+  "expert_weight_storage": "native_fp8",
+  "moe_flex_dispatcher_backend": "hybridep",
+  "weight_sync": {"type": "disabled"}
+}

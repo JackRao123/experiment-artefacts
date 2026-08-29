@@ -1,0 +1,85 @@
+{
+  "label": "phase4-full-native-te-generic-smoke",
+  "seq_len": 131072,
+  "num_gpus": 8,
+  "datums_per_window": 1,
+  "tokens_per_step": 131072,
+  "memory_profile_enabled": false,
+  "runtime_profile_enabled": false,
+  "started": "2026-08-29 04:12:41",
+  "initial_status": {
+    "mode": "training",
+    "step": 0,
+    "model_id": "zai-org/GLM-5.2-FP8",
+    "device": "cuda:0",
+    "last_loss": null,
+    "grad_norm": null,
+    "gpu_memory": {
+      "cuda:0": 135136280576
+    },
+    "world_size": 8,
+    "tensor_parallel_size": 1,
+    "pipeline_parallel_size": 1,
+    "expert_parallel_size": 8,
+    "context_parallel_size": 8,
+    "expert_tensor_parallel_size": 1,
+    "data_parallel_size": 1,
+    "max_seq_len": 131072
+  },
+  "final_status": {
+    "mode": "training",
+    "step": 2,
+    "model_id": "zai-org/GLM-5.2-FP8",
+    "device": "cuda:0",
+    "last_loss": null,
+    "grad_norm": null,
+    "gpu_memory": {
+      "cuda:0": 187003043840
+    },
+    "world_size": 8,
+    "tensor_parallel_size": 1,
+    "pipeline_parallel_size": 1,
+    "expert_parallel_size": 8,
+    "context_parallel_size": 8,
+    "expert_tensor_parallel_size": 1,
+    "data_parallel_size": 1,
+    "max_seq_len": 131072
+  },
+  "windows": [
+    {
+      "label": "phase4-full-native-te-generic-smoke",
+      "window_index": 0,
+      "phase": "warmup",
+      "datums": 1,
+      "num_tokens": 131072,
+      "fb_elapsed_s": 63.347318639047444,
+      "fb_tps_per_gpu": 258.6376243224423,
+      "optim_elapsed_s": 6.003503018990159,
+      "loss": 12.323941794905052,
+      "grad_norm": 0.4031820297241211,
+      "server_step_seconds": 69.21115008182824
+    },
+    {
+      "label": "phase4-full-native-te-generic-smoke",
+      "window_index": 0,
+      "phase": "control",
+      "datums": 1,
+      "num_tokens": 131072,
+      "fb_elapsed_s": 16.059959130827338,
+      "fb_tps_per_gpu": 1020.1769423279951,
+      "optim_elapsed_s": 0.06651311181485653,
+      "loss": 12.307260950172044,
+      "grad_norm": 0.3946022391319275,
+      "server_step_seconds": 15.983938113320619
+    }
+  ],
+  "aggregates": {
+    "tokens_per_step": 131072,
+    "control_fb_seconds_mean": 16.059959130827338,
+    "control_optim_seconds_mean": 0.06651311181485653,
+    "control_tps_per_gpu": 1020.1769423279951,
+    "mfu3x": 0.09286966097021179,
+    "hfu": 0.1347891064332533
+  },
+  "total_elapsed_seconds": 85.62400029087439
+}

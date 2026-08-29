@@ -1,0 +1,21 @@
+{
+  "arm": "bf16",
+  "trace": "/root/.cache/user_artifacts/lps1062_native_blockwise_20260828/phase2/one_gpu_profiles/bf16.pt.trace.json",
+  "memory_snapshot": "/root/.cache/user_artifacts/lps1062_native_blockwise_20260828/phase2/one_gpu_profiles/bf16.memory.pickle",
+  "memory_allocated_bytes": 10603204608,
+  "peak_memory_allocated_bytes": 12750688256,
+  "output_dtype": "torch.bfloat16",
+  "dgrad_dtype": "torch.bfloat16",
+  "storage_after": {
+    "fc1": {
+      "dtype": "torch.bfloat16",
+      "parameter_bytes": 1610612736,
+      "all_grad_none": true
+    },
+    "fc2": {
+      "dtype": "torch.bfloat16",
+      "parameter_bytes": 805306368,
+      "all_grad_none": true
+    }
+  }
+}

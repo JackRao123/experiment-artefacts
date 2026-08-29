@@ -1,0 +1,425 @@
+{
+  "scope": "full BF16 weight materialization followed by BF16 torch.mm",
+  "checkpoint": "/root/.cache/team_artifacts/huggingface/hub/models--zai-org--GLM-5.2-FP8/snapshots/ba978f7d347eaf65d22f1a86833408afdb953541",
+  "layer": 6,
+  "expert": 0,
+  "m_values": [
+    4096
+  ],
+  "arms": [
+    "repeat_interleave",
+    "broadcast",
+    "compiled_broadcast"
+  ],
+  "warmup": 10,
+  "iterations": 50,
+  "repeats": 5,
+  "environment": {
+    "torch": "2.11.0+cu130",
+    "cuda": "13.0",
+    "device_name": "NVIDIA L20D",
+    "compute_capability": [
+      10,
+      3
+    ]
+  },
+  "projections": {
+    "fc1_gate_up": {
+      "qweight_shape": [
+        4096,
+        6144
+      ],
+      "scale_shape": [
+        32,
+        48
+      ],
+      "m_sweep": [
+        {
+          "m": 4096,
+          "old_reference": {
+            "gpu_operation_duration_ms": 0.12320704460144043,
+            "repeat_mean_ms": 0.12340095901489258,
+            "repeat_min_ms": 0.12294079780578614,
+            "repeat_max_ms": 0.1238771152496338,
+            "repeat_ms": [
+              0.12378111839294434,
+              0.1238771152496338,
+              0.1231987190246582,
+              0.12320704460144043,
+              0.12294079780578614
+            ]
+          },
+          "arms": {
+            "repeat_interleave": {
+              "weight_correctness": {
+                "bitwise_equal": true,
+                "max_absolute_error": 0.0,
+                "mean_absolute_error": 0.0,
+                "ulp_histogram": {
+                  "0": 25165824
+                }
+              },
+              "output_correctness": {
+                "bitwise_equal": true,
+                "max_absolute_error": 0.0,
+                "mean_absolute_error": 0.0,
+                "ulp_histogram": {
+                  "0": 16777216
+                }
+              },
+              "dequantization": {
+                "gpu_operation_duration_ms": 0.20155839920043944,
+                "repeat_mean_ms": 0.20158272171020508,
+                "repeat_min_ms": 0.20149824142456055,
+                "repeat_max_ms": 0.20171327590942384,
+                "repeat_ms": [
+                  0.2016320037841797,
+                  0.20155839920043944,
+                  0.20171327590942384,
+                  0.20149824142456055,
+                  0.20151168823242188
+                ]
+              },
+              "dequant_plus_gemm": {
+                "gpu_operation_duration_ms": 0.3213555145263672,
+                "repeat_mean_ms": 0.321333122253418,
+                "repeat_min_ms": 0.32103553771972654,
+                "repeat_max_ms": 0.3215283203125,
+                "repeat_ms": [
+                  0.32103553771972654,
+                  0.32129024505615233,
+                  0.3213555145263672,
+                  0.32145599365234373,
+                  0.3215283203125
+                ]
+              },
+              "ratio_vs_persistent_bf16": 2.608256009759122,
+              "memory": {
+                "baseline_allocated_bytes": 289553408,
+                "baseline_reserved_bytes": 350224384,
+                "peak_allocated_bytes": 591543296,
+                "peak_reserved_bytes": 652214272,
+                "incremental_peak_allocated_bytes": 301989888,
+                "incremental_peak_reserved_bytes": 301989888
+              }
+            },
+            "broadcast": {
+              "weight_correctness": {
+                "bitwise_equal": true,
+                "max_absolute_error": 0.0,
+                "mean_absolute_error": 0.0,
+                "ulp_histogram": {
+                  "0": 25165824
+                }
+              },
+              "output_correctness": {
+                "bitwise_equal": true,
+                "max_absolute_error": 0.0,
+                "mean_absolute_error": 0.0,
+                "ulp_histogram": {
+                  "0": 16777216
+                }
+              },
+              "dequantization": {
+                "gpu_operation_duration_ms": 0.17033279418945313,
+                "repeat_mean_ms": 0.1703303680419922,
+                "repeat_min_ms": 0.17016319274902345,
+                "repeat_max_ms": 0.17046464920043947,
+                "repeat_ms": [
+                  0.17033279418945313,
+                  0.1702604866027832,
+                  0.17016319274902345,
+                  0.17043071746826172,
+                  0.17046464920043947
+                ]
+              },
+              "dequant_plus_gemm": {
+                "gpu_operation_duration_ms": 0.28980800628662107,
+                "repeat_mean_ms": 0.2898272018432617,
+                "repeat_min_ms": 0.2896857643127441,
+                "repeat_max_ms": 0.2899539184570312,
+                "repeat_ms": [
+                  0.2897465515136719,
+                  0.28980800628662107,
+                  0.2899539184570312,
+                  0.2896857643127441,
+                  0.2899417686462402
+                ]
+              },
+              "ratio_vs_persistent_bf16": 2.352203213899937,
+              "memory": {
+                "baseline_allocated_bytes": 289553408,
+                "baseline_reserved_bytes": 450887680,
+                "peak_allocated_bytes": 541211648,
+                "peak_reserved_bytes": 652214272,
+                "incremental_peak_allocated_bytes": 251658240,
+                "incremental_peak_reserved_bytes": 201326592
+              }
+            },
+            "compiled_broadcast": {
+              "weight_correctness": {
+                "bitwise_equal": true,
+                "max_absolute_error": 0.0,
+                "mean_absolute_error": 0.0,
+                "ulp_histogram": {
+                  "0": 25165824
+                }
+              },
+              "output_correctness": {
+                "bitwise_equal": true,
+                "max_absolute_error": 0.0,
+                "mean_absolute_error": 0.0,
+                "ulp_histogram": {
+                  "0": 16777216
+                }
+              },
+              "dequantization": {
+                "gpu_operation_duration_ms": 0.03190592050552368,
+                "repeat_mean_ms": 0.03238630390167236,
+                "repeat_min_ms": 0.03152767896652222,
+                "repeat_max_ms": 0.034497280120849606,
+                "repeat_ms": [
+                  0.034497280120849606,
+                  0.032328319549560544,
+                  0.03190592050552368,
+                  0.03167232036590576,
+                  0.03152767896652222
+                ]
+              },
+              "dequant_plus_gemm": {
+                "gpu_operation_duration_ms": 0.13726016044616698,
+                "repeat_mean_ms": 0.13732083129882813,
+                "repeat_min_ms": 0.13722559928894043,
+                "repeat_max_ms": 0.137455997467041,
+                "repeat_ms": [
+                  0.1372531223297119,
+                  0.13722559928894043,
+                  0.13740927696228028,
+                  0.137455997467041,
+                  0.13726016044616698
+                ]
+              },
+              "ratio_vs_persistent_bf16": 1.114060976709462,
+              "memory": {
+                "baseline_allocated_bytes": 289553408,
+                "baseline_reserved_bytes": 350224384,
+                "peak_allocated_bytes": 373439488,
+                "peak_reserved_bytes": 383778816,
+                "incremental_peak_allocated_bytes": 83886080,
+                "incremental_peak_reserved_bytes": 33554432
+              }
+            }
+          }
+        }
+      ]
+    },
+    "fc2_down": {
+      "qweight_shape": [
+        6144,
+        2048
+      ],
+      "scale_shape": [
+        48,
+        16
+      ],
+      "m_sweep": [
+        {
+          "m": 4096,
+          "old_reference": {
+            "gpu_operation_duration_ms": 0.06214399814605713,
+            "repeat_mean_ms": 0.06213081550598144,
+            "repeat_min_ms": 0.062044801712036135,
+            "repeat_max_ms": 0.06222591876983643,
+            "repeat_ms": [
+              0.06206463813781738,
+              0.062174720764160155,
+              0.062044801712036135,
+              0.06222591876983643,
+              0.06214399814605713
+            ]
+          },
+          "arms": {
+            "repeat_interleave": {
+              "weight_correctness": {
+                "bitwise_equal": true,
+                "max_absolute_error": 0.0,
+                "mean_absolute_error": 0.0,
+                "ulp_histogram": {
+                  "0": 12582912
+                }
+              },
+              "output_correctness": {
+                "bitwise_equal": true,
+                "max_absolute_error": 0.0,
+                "mean_absolute_error": 0.0,
+                "ulp_histogram": {
+                  "0": 25165824
+                }
+              },
+              "dequantization": {
+                "gpu_operation_duration_ms": 0.10239808082580566,
+                "repeat_mean_ms": 0.10240089416503906,
+                "repeat_min_ms": 0.1022662353515625,
+                "repeat_max_ms": 0.1025318431854248,
+                "repeat_ms": [
+                  0.10239808082580566,
+                  0.1025318431854248,
+                  0.10233663558959961,
+                  0.1022662353515625,
+                  0.10247167587280273
+                ]
+              },
+              "dequant_plus_gemm": {
+                "gpu_operation_duration_ms": 0.1632659149169922,
+                "repeat_mean_ms": 0.16324543380737305,
+                "repeat_min_ms": 0.16302143096923827,
+                "repeat_max_ms": 0.16338623046875,
+                "repeat_ms": [
+                  0.1632659149169922,
+                  0.16331520080566406,
+                  0.16302143096923827,
+                  0.16338623046875,
+                  0.1632383918762207
+                ]
+              },
+              "ratio_vs_persistent_bf16": 2.6272193580668572,
+              "memory": {
+                "baseline_allocated_bytes": 239221760,
+                "baseline_reserved_bytes": 299892736,
+                "peak_allocated_bytes": 390216704,
+                "peak_reserved_bytes": 450887680,
+                "incremental_peak_allocated_bytes": 150994944,
+                "incremental_peak_reserved_bytes": 150994944
+              }
+            },
+            "broadcast": {
+              "weight_correctness": {
+                "bitwise_equal": true,
+                "max_absolute_error": 0.0,
+                "mean_absolute_error": 0.0,
+                "ulp_histogram": {
+                  "0": 12582912
+                }
+              },
+              "output_correctness": {
+                "bitwise_equal": true,
+                "max_absolute_error": 0.0,
+                "mean_absolute_error": 0.0,
+                "ulp_histogram": {
+                  "0": 25165824
+                }
+              },
+              "dequantization": {
+                "gpu_operation_duration_ms": 0.08213055610656739,
+                "repeat_mean_ms": 0.08215449333190918,
+                "repeat_min_ms": 0.08210751533508301,
+                "repeat_max_ms": 0.08220928192138671,
+                "repeat_ms": [
+                  0.08220928192138671,
+                  0.0821951961517334,
+                  0.08210751533508301,
+                  0.08213055610656739,
+                  0.0821299171447754
+                ]
+              },
+              "dequant_plus_gemm": {
+                "gpu_operation_duration_ms": 0.14257920265197754,
+                "repeat_mean_ms": 0.14731020736694336,
+                "repeat_min_ms": 0.1423046398162842,
+                "repeat_max_ms": 0.16635839462280275,
+                "repeat_ms": [
+                  0.14238847732543947,
+                  0.14257920265197754,
+                  0.1423046398162842,
+                  0.1429203224182129,
+                  0.16635839462280275
+                ]
+              },
+              "ratio_vs_persistent_bf16": 2.294335847475945,
+              "memory": {
+                "baseline_allocated_bytes": 239221760,
+                "baseline_reserved_bytes": 299892736,
+                "peak_allocated_bytes": 365050880,
+                "peak_reserved_bytes": 400556032,
+                "incremental_peak_allocated_bytes": 125829120,
+                "incremental_peak_reserved_bytes": 100663296
+              }
+            },
+            "compiled_broadcast": {
+              "weight_correctness": {
+                "bitwise_equal": true,
+                "max_absolute_error": 0.0,
+                "mean_absolute_error": 0.0,
+                "ulp_histogram": {
+                  "0": 12582912
+                }
+              },
+              "output_correctness": {
+                "bitwise_equal": true,
+                "max_absolute_error": 0.0,
+                "mean_absolute_error": 0.0,
+                "ulp_histogram": {
+                  "0": 25165824
+                }
+              },
+              "dequantization": {
+                "gpu_operation_duration_ms": 0.031203200817108156,
+                "repeat_mean_ms": 0.03134988880157471,
+                "repeat_min_ms": 0.030732800960540773,
+                "repeat_max_ms": 0.03270080089569092,
+                "repeat_ms": [
+                  0.03270080089569092,
+                  0.03123584032058716,
+                  0.030732800960540773,
+                  0.030876801013946534,
+                  0.031203200817108156
+                ]
+              },
+              "dequant_plus_gemm": {
+                "gpu_operation_duration_ms": 0.07064511775970458,
+                "repeat_mean_ms": 0.07063667201995849,
+                "repeat_min_ms": 0.07059328079223633,
+                "repeat_max_ms": 0.07068736076354981,
+                "repeat_ms": [
+                  0.07068736076354981,
+                  0.07064511775970458,
+                  0.07059328079223633,
+                  0.07065919876098632,
+                  0.07059840202331542
+                ]
+              },
+              "ratio_vs_persistent_bf16": 1.1367971142388886,
+              "memory": {
+                "baseline_allocated_bytes": 239221760,
+                "baseline_reserved_bytes": 299892736,
+                "peak_allocated_bytes": 314719232,
+                "peak_reserved_bytes": 350224384,
+                "incremental_peak_allocated_bytes": 75497472,
+                "incremental_peak_reserved_bytes": 50331648
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "combined_fc1_fc2": {
+    "4096": {
+      "old_reference_ms": 0.18535104274749756,
+      "arms": {
+        "repeat_interleave": {
+          "gpu_operation_duration_ms": 0.4846214294433594,
+          "ratio_vs_persistent_bf16": 2.614613990079116
+        },
+        "broadcast": {
+          "gpu_operation_duration_ms": 0.4323872089385986,
+          "ratio_vs_persistent_bf16": 2.3328015992207645
+        },
+        "compiled_broadcast": {
+          "gpu_operation_duration_ms": 0.20790527820587157,
+          "ratio_vs_persistent_bf16": 1.1216838876331519
+        }
+      }
+    }
+  }
+}

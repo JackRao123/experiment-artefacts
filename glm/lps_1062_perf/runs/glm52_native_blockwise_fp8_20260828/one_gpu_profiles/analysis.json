@@ -1,0 +1,56 @@
+{
+  "kernel_trace": {
+    "bf16": {
+      "grouped_gemm_ms": 21.469038,
+      "custom_materialization_ms": 0.0,
+      "generic_dequantization_ms": 0.0,
+      "common_activation_ms": 4.729714,
+      "total_kernel_busy_ms": 26.198752
+    },
+    "custom": {
+      "grouped_gemm_ms": 21.628005,
+      "custom_materialization_ms": 1.62593,
+      "generic_dequantization_ms": 0.0,
+      "common_activation_ms": 4.726929,
+      "total_kernel_busy_ms": 27.980864
+    },
+    "generic": {
+      "grouped_gemm_ms": 21.566246,
+      "custom_materialization_ms": 0.0,
+      "generic_dequantization_ms": 16.31376,
+      "common_activation_ms": 4.726162,
+      "total_kernel_busy_ms": 42.606168
+    }
+  },
+  "allocator_history": {
+    "bf16": {
+      "event_count": 42,
+      "allocation_count": 14,
+      "free_count": 12,
+      "peak_allocated_bytes": 12750688256
+    },
+    "custom": {
+      "event_count": 57,
+      "allocation_count": 18,
+      "free_count": 16,
+      "peak_allocated_bytes": 13958942720,
+      "materialized_group_allocations": {
+        "fc1_bytes": 1610612736,
+        "fc1_count": 2,
+        "fc2_bytes": 805306368,
+        "fc2_count": 2
+      }
+    },
+    "generic": {
+      "event_count": 1226,
+      "allocation_count": 398,
+      "free_count": 396,
+      "peak_allocated_bytes": 13958942720,
+      "dequantization_allocations": [
+        {"bytes": 100663296, "count": 128},
+        {"bytes": 50331648, "count": 192},
+        {"bytes": 25165824, "count": 64}
+      ]
+    }
+  }
+}

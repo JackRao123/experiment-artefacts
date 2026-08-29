@@ -1,0 +1,903 @@
+{
+  "phase": "1A",
+  "scope": "old persistent BF16 and naive temporary dequantization only",
+  "checkpoint": "/root/.cache/team_artifacts/huggingface/hub/models--zai-org--GLM-5.2-FP8/snapshots/ba978f7d347eaf65d22f1a86833408afdb953541",
+  "layer": 6,
+  "expert": 0,
+  "seed": 1062,
+  "block_size": 128,
+  "m_values": [
+    256,
+    512,
+    1024,
+    2048,
+    4096,
+    8192
+  ],
+  "warmup": 10,
+  "iterations": 50,
+  "repeats": 5,
+  "assumed_peak_bf16_tflops": 2250.0,
+  "environment": {
+    "torch": "2.11.0+cu130",
+    "cuda": "13.0",
+    "device_name": "NVIDIA L20D",
+    "compute_capability": [
+      10,
+      3
+    ],
+    "total_memory_bytes": 287428771840
+  },
+  "projections": {
+    "fc1_gate_up": {
+      "qweight_shape": [
+        4096,
+        6144
+      ],
+      "scale_shape": [
+        32,
+        48
+      ],
+      "qweight_dtype": "torch.float8_e4m3fn",
+      "scale_dtype": "torch.float32",
+      "reference_weight_dtype": "torch.bfloat16",
+      "persistent_storage": {
+        "old_reference_bytes": 50331648,
+        "native_fp8_bytes": 25171968,
+        "native_saving_bytes": 25159680,
+        "native_saving_percent": 49.98779296875
+      },
+      "m_sweep": [
+        {
+          "m": 256,
+          "activation_shape": [
+            256,
+            6144
+          ],
+          "output_shape": [
+            256,
+            4096
+          ],
+          "output_dtype": "torch.bfloat16",
+          "correctness": {
+            "bitwise_equal": true,
+            "max_absolute_error": 0.0,
+            "mean_absolute_error": 0.0,
+            "ulp_histogram": {
+              "0": 1048576
+            }
+          },
+          "old_reference": {
+            "gpu_operation_duration_ms": 0.012661759853363036,
+            "repeat_mean_ms": 0.01268172812461853,
+            "repeat_min_ms": 0.012592639923095703,
+            "repeat_max_ms": 0.012812800407409668,
+            "repeat_ms": [
+              0.012812800407409668,
+              0.012658560276031494,
+              0.012592639923095703,
+              0.01268288016319275,
+              0.012661759853363036
+            ],
+            "useful_flops": 12884901888,
+            "useful_tflops": 1017.6233033339117,
+            "useful_mfu_percent": 45.22770237039608,
+            "memory": {
+              "baseline_allocated_bytes": 99755008,
+              "baseline_reserved_bytes": 165675008,
+              "peak_allocated_bytes": 101852160,
+              "peak_reserved_bytes": 165675008,
+              "incremental_peak_allocated_bytes": 2097152,
+              "incremental_peak_reserved_bytes": 0
+            }
+          },
+          "naive_temporary": {
+            "gpu_operation_duration_ms": 0.21736320495605468,
+            "repeat_mean_ms": 0.21735500717163087,
+            "repeat_min_ms": 0.21720767974853517,
+            "repeat_max_ms": 0.217457275390625,
+            "repeat_ms": [
+              0.21720767974853517,
+              0.21736320495605468,
+              0.21739456176757813,
+              0.217457275390625,
+              0.21735231399536134
+            ],
+            "useful_flops": 12884901888,
+            "useful_tflops": 59.27821082047902,
+            "useful_mfu_percent": 2.634587147576845,
+            "memory": {
+              "baseline_allocated_bytes": 99755008,
+              "baseline_reserved_bytes": 165675008,
+              "peak_allocated_bytes": 401744896,
+              "peak_reserved_bytes": 467664896,
+              "incremental_peak_allocated_bytes": 301989888,
+              "incremental_peak_reserved_bytes": 301989888
+            }
+          },
+          "naive_overhead_percent": 1616.6903137743666
+        },
+        {
+          "m": 512,
+          "activation_shape": [
+            512,
+            6144
+          ],
+          "output_shape": [
+            512,
+            4096
+          ],
+          "output_dtype": "torch.bfloat16",
+          "correctness": {
+            "bitwise_equal": true,
+            "max_absolute_error": 0.0,
+            "mean_absolute_error": 0.0,
+            "ulp_histogram": {
+              "0": 2097152
+            }
+          },
+          "old_reference": {
+            "gpu_operation_duration_ms": 0.016709760427474976,
+            "repeat_mean_ms": 0.01675763201713562,
+            "repeat_min_ms": 0.016680959463119507,
+            "repeat_max_ms": 0.016870399713516237,
+            "repeat_ms": [
+              0.016709760427474976,
+              0.016870399713516237,
+              0.016680959463119507,
+              0.01684159994125366,
+              0.01668544054031372
+            ],
+            "useful_flops": 25769803776,
+            "useful_tflops": 1542.200672944902,
+            "useful_mfu_percent": 68.54225213088453,
+            "memory": {
+              "baseline_allocated_bytes": 102900736,
+              "baseline_reserved_bytes": 165675008,
+              "peak_allocated_bytes": 107095040,
+              "peak_reserved_bytes": 165675008,
+              "incremental_peak_allocated_bytes": 4194304,
+              "incremental_peak_reserved_bytes": 0
+            }
+          },
+          "naive_temporary": {
+            "gpu_operation_duration_ms": 0.22141439437866212,
+            "repeat_mean_ms": 0.23872908401489257,
+            "repeat_min_ms": 0.22137983322143553,
+            "repeat_max_ms": 0.30778879165649414,
+            "repeat_ms": [
+              0.30778879165649414,
+              0.22167680740356446,
+              0.22138559341430664,
+              0.22137983322143553,
+              0.22141439437866212
+            ],
+            "useful_flops": 25769803776,
+            "useful_tflops": 116.38721072455918,
+            "useful_mfu_percent": 5.172764921091519,
+            "memory": {
+              "baseline_allocated_bytes": 102900736,
+              "baseline_reserved_bytes": 165675008,
+              "peak_allocated_bytes": 404890624,
+              "peak_reserved_bytes": 467664896,
+              "incremental_peak_allocated_bytes": 301989888,
+              "incremental_peak_reserved_bytes": 301989888
+            }
+          },
+          "naive_overhead_percent": 1225.060256486994
+        },
+        {
+          "m": 1024,
+          "activation_shape": [
+            1024,
+            6144
+          ],
+          "output_shape": [
+            1024,
+            4096
+          ],
+          "output_dtype": "torch.bfloat16",
+          "correctness": {
+            "bitwise_equal": true,
+            "max_absolute_error": 0.0,
+            "mean_absolute_error": 0.0,
+            "ulp_histogram": {
+              "0": 4194304
+            }
+          },
+          "old_reference": {
+            "gpu_operation_duration_ms": 0.03171072006225586,
+            "repeat_mean_ms": 0.03169356822967529,
+            "repeat_min_ms": 0.03163968086242676,
+            "repeat_max_ms": 0.03172863960266113,
+            "repeat_ms": [
+              0.03163968086242676,
+              0.03172863960266113,
+              0.03171072006225586,
+              0.03166016101837158,
+              0.03172863960266113
+            ],
+            "useful_flops": 51539607552,
+            "useful_tflops": 1625.3054945083306,
+            "useful_mfu_percent": 72.23579975592581,
+            "memory": {
+              "baseline_allocated_bytes": 109192192,
+              "baseline_reserved_bytes": 153092096,
+              "peak_allocated_bytes": 117580800,
+              "peak_reserved_bytes": 153092096,
+              "incremental_peak_allocated_bytes": 8388608,
+              "incremental_peak_reserved_bytes": 0
+            }
+          },
+          "naive_temporary": {
+            "gpu_operation_duration_ms": 0.2336844825744629,
+            "repeat_mean_ms": 0.23368153381347656,
+            "repeat_min_ms": 0.23356159210205077,
+            "repeat_max_ms": 0.2337945556640625,
+            "repeat_ms": [
+              0.2337945556640625,
+              0.23366464614868165,
+              0.233702392578125,
+              0.2336844825744629,
+              0.23356159210205077
+            ],
+            "useful_flops": 51539607552,
+            "useful_tflops": 220.5521178993006,
+            "useful_mfu_percent": 9.802316351080027,
+            "memory": {
+              "baseline_allocated_bytes": 109192192,
+              "baseline_reserved_bytes": 153092096,
+              "peak_allocated_bytes": 411182080,
+              "peak_reserved_bytes": 455081984,
+              "incremental_peak_allocated_bytes": 301989888,
+              "incremental_peak_reserved_bytes": 301989888
+            }
+          },
+          "naive_overhead_percent": 636.9258159880426
+        },
+        {
+          "m": 2048,
+          "activation_shape": [
+            2048,
+            6144
+          ],
+          "output_shape": [
+            2048,
+            4096
+          ],
+          "output_dtype": "torch.bfloat16",
+          "correctness": {
+            "bitwise_equal": true,
+            "max_absolute_error": 0.0,
+            "mean_absolute_error": 0.0,
+            "ulp_histogram": {
+              "0": 8388608
+            }
+          },
+          "old_reference": {
+            "gpu_operation_duration_ms": 0.061021437644958494,
+            "repeat_mean_ms": 0.06099532794952393,
+            "repeat_min_ms": 0.06079552173614502,
+            "repeat_max_ms": 0.06111743927001953,
+            "repeat_ms": [
+              0.06079552173614502,
+              0.06100800037384033,
+              0.061021437644958494,
+              0.06103424072265625,
+              0.06111743927001953
+            ],
+            "useful_flops": 103079215104,
+            "useful_tflops": 1689.2295409974868,
+            "useful_mfu_percent": 75.0768684887772,
+            "memory": {
+              "baseline_allocated_bytes": 121775104,
+              "baseline_reserved_bytes": 153092096,
+              "peak_allocated_bytes": 138552320,
+              "peak_reserved_bytes": 169869312,
+              "incremental_peak_allocated_bytes": 16777216,
+              "incremental_peak_reserved_bytes": 16777216
+            }
+          },
+          "naive_temporary": {
+            "gpu_operation_duration_ms": 0.26302591323852537,
+            "repeat_mean_ms": 0.26352742767333986,
+            "repeat_min_ms": 0.2623891258239746,
+            "repeat_max_ms": 0.26661760330200196,
+            "repeat_ms": [
+              0.2623891258239746,
+              0.26661760330200196,
+              0.26302591323852537,
+              0.2631577682495117,
+              0.26244672775268557
+            ],
+            "useful_flops": 103079215104,
+            "useful_tflops": 391.8975656612301,
+            "useful_mfu_percent": 17.41766958494356,
+            "memory": {
+              "baseline_allocated_bytes": 121775104,
+              "baseline_reserved_bytes": 153092096,
+              "peak_allocated_bytes": 423764992,
+              "peak_reserved_bytes": 455081984,
+              "incremental_peak_allocated_bytes": 301989888,
+              "incremental_peak_reserved_bytes": 301989888
+            }
+          },
+          "naive_overhead_percent": 331.03853889659416
+        },
+        {
+          "m": 4096,
+          "activation_shape": [
+            4096,
+            6144
+          ],
+          "output_shape": [
+            4096,
+            4096
+          ],
+          "output_dtype": "torch.bfloat16",
+          "correctness": {
+            "bitwise_equal": true,
+            "max_absolute_error": 0.0,
+            "mean_absolute_error": 0.0,
+            "ulp_histogram": {
+              "0": 16777216
+            }
+          },
+          "old_reference": {
+            "gpu_operation_duration_ms": 0.12391103744506836,
+            "repeat_mean_ms": 0.12389132881164551,
+            "repeat_min_ms": 0.12359104156494141,
+            "repeat_max_ms": 0.12428992271423339,
+            "repeat_ms": [
+              0.12428992271423339,
+              0.12391103744506836,
+              0.12402432441711425,
+              0.12359104156494141,
+              0.12364031791687012
+            ],
+            "useful_flops": 206158430208,
+            "useful_tflops": 1663.76163462753,
+            "useful_mfu_percent": 73.94496153900133,
+            "memory": {
+              "baseline_allocated_bytes": 146940928,
+              "baseline_reserved_bytes": 253755392,
+              "peak_allocated_bytes": 180495360,
+              "peak_reserved_bytes": 253755392,
+              "incremental_peak_allocated_bytes": 33554432,
+              "incremental_peak_reserved_bytes": 0
+            }
+          },
+          "naive_temporary": {
+            "gpu_operation_duration_ms": 0.34092609405517577,
+            "repeat_mean_ms": 0.34769984436035156,
+            "repeat_min_ms": 0.3402239990234375,
+            "repeat_max_ms": 0.35895809173583987,
+            "repeat_ms": [
+              0.3402239990234375,
+              0.35895809173583987,
+              0.3576998519897461,
+              0.34069118499755857,
+              0.34092609405517577
+            ],
+            "useful_flops": 206158430208,
+            "useful_tflops": 604.7012352613735,
+            "useful_mfu_percent": 26.875610456061047,
+            "memory": {
+              "baseline_allocated_bytes": 146940928,
+              "baseline_reserved_bytes": 253755392,
+              "peak_allocated_bytes": 448930816,
+              "peak_reserved_bytes": 555745280,
+              "incremental_peak_allocated_bytes": 301989888,
+              "incremental_peak_reserved_bytes": 301989888
+            }
+          },
+          "naive_overhead_percent": 175.13779327875733
+        },
+        {
+          "m": 8192,
+          "activation_shape": [
+            8192,
+            6144
+          ],
+          "output_shape": [
+            8192,
+            4096
+          ],
+          "output_dtype": "torch.bfloat16",
+          "correctness": {
+            "bitwise_equal": true,
+            "max_absolute_error": 0.0,
+            "mean_absolute_error": 0.0,
+            "ulp_histogram": {
+              "0": 33554432
+            }
+          },
+          "old_reference": {
+            "gpu_operation_duration_ms": 0.24718143463134765,
+            "repeat_mean_ms": 0.2556733474731445,
+            "repeat_min_ms": 0.23945280075073241,
+            "repeat_max_ms": 0.2784864044189453,
+            "repeat_ms": [
+              0.23945280075073241,
+              0.240947208404541,
+              0.24718143463134765,
+              0.2784864044189453,
+              0.27229888916015627
+            ],
+            "useful_flops": 412316860416,
+            "useful_tflops": 1668.0737411810046,
+            "useful_mfu_percent": 74.13661071915577,
+            "memory": {
+              "baseline_allocated_bytes": 197272576,
+              "baseline_reserved_bytes": 253755392,
+              "peak_allocated_bytes": 264381440,
+              "peak_reserved_bytes": 320864256,
+              "incremental_peak_allocated_bytes": 67108864,
+              "incremental_peak_reserved_bytes": 67108864
+            }
+          },
+          "naive_temporary": {
+            "gpu_operation_duration_ms": 0.4677107238769531,
+            "repeat_mean_ms": 0.48303642272949215,
+            "repeat_min_ms": 0.44962368011474607,
+            "repeat_max_ms": 0.5277632141113281,
+            "repeat_ms": [
+              0.5277632141113281,
+              0.514513931274414,
+              0.4677107238769531,
+              0.4555705642700195,
+              0.44962368011474607
+            ],
+            "useful_flops": 412316860416,
+            "useful_tflops": 881.5638371474964,
+            "useful_mfu_percent": 39.180614984333175,
+            "memory": {
+              "baseline_allocated_bytes": 197272576,
+              "baseline_reserved_bytes": 253755392,
+              "peak_allocated_bytes": 499262464,
+              "peak_reserved_bytes": 555745280,
+              "incremental_peak_allocated_bytes": 301989888,
+              "incremental_peak_reserved_bytes": 301989888
+            }
+          },
+          "naive_overhead_percent": 89.21757800075405
+        }
+      ]
+    },
+    "fc2_down": {
+      "qweight_shape": [
+        6144,
+        2048
+      ],
+      "scale_shape": [
+        48,
+        16
+      ],
+      "qweight_dtype": "torch.float8_e4m3fn",
+      "scale_dtype": "torch.float32",
+      "reference_weight_dtype": "torch.bfloat16",
+      "persistent_storage": {
+        "old_reference_bytes": 25165824,
+        "native_fp8_bytes": 12585984,
+        "native_saving_bytes": 12579840,
+        "native_saving_percent": 49.98779296875
+      },
+      "m_sweep": [
+        {
+          "m": 256,
+          "activation_shape": [
+            256,
+            2048
+          ],
+          "output_shape": [
+            256,
+            6144
+          ],
+          "output_dtype": "torch.bfloat16",
+          "correctness": {
+            "bitwise_equal": true,
+            "max_absolute_error": 0.0,
+            "mean_absolute_error": 0.0,
+            "ulp_histogram": {
+              "0": 1572864
+            }
+          },
+          "old_reference": {
+            "gpu_operation_duration_ms": 0.009779199957847595,
+            "repeat_mean_ms": 0.009723007917404176,
+            "repeat_min_ms": 0.009578239917755128,
+            "repeat_max_ms": 0.00984511971473694,
+            "repeat_ms": [
+              0.009779199957847595,
+              0.00984511971473694,
+              0.009578239917755128,
+              0.009797760248184205,
+              0.00961471974849701
+            ],
+            "useful_flops": 6442450944,
+            "useful_tflops": 658.7912070281448,
+            "useful_mfu_percent": 29.279609201250874,
+            "memory": {
+              "baseline_allocated_bytes": 72492032,
+              "baseline_reserved_bytes": 153092096,
+              "peak_allocated_bytes": 76555264,
+              "peak_reserved_bytes": 153092096,
+              "incremental_peak_allocated_bytes": 4063232,
+              "incremental_peak_reserved_bytes": 0
+            }
+          },
+          "naive_temporary": {
+            "gpu_operation_duration_ms": 0.12069952011108398,
+            "repeat_mean_ms": 0.1201825294494629,
+            "repeat_min_ms": 0.11799296379089355,
+            "repeat_max_ms": 0.12125120162963868,
+            "repeat_ms": [
+              0.12069952011108398,
+              0.12079296112060547,
+              0.12125120162963868,
+              0.12017600059509277,
+              0.11799296379089355
+            ],
+            "useful_flops": 6442450944,
+            "useful_tflops": 53.37594497534694,
+            "useful_mfu_percent": 2.372264221126531,
+            "memory": {
+              "baseline_allocated_bytes": 72492032,
+              "baseline_reserved_bytes": 153092096,
+              "peak_allocated_bytes": 223486976,
+              "peak_reserved_bytes": 253755392,
+              "incremental_peak_allocated_bytes": 150994944,
+              "incremental_peak_reserved_bytes": 100663296
+            }
+          },
+          "naive_overhead_percent": 1134.2473886549917
+        },
+        {
+          "m": 512,
+          "activation_shape": [
+            512,
+            2048
+          ],
+          "output_shape": [
+            512,
+            6144
+          ],
+          "output_dtype": "torch.bfloat16",
+          "correctness": {
+            "bitwise_equal": true,
+            "max_absolute_error": 0.0,
+            "mean_absolute_error": 0.0,
+            "ulp_histogram": {
+              "0": 3145728
+            }
+          },
+          "old_reference": {
+            "gpu_operation_duration_ms": 0.010013439655303956,
+            "repeat_mean_ms": 0.010024192094802858,
+            "repeat_min_ms": 0.010006400346755982,
+            "repeat_max_ms": 0.010046080350875855,
+            "repeat_ms": [
+              0.010006400346755982,
+              0.0100108802318573,
+              0.010013439655303956,
+              0.010046080350875855,
+              0.010044159889221192
+            ],
+            "useful_flops": 12884901888,
+            "useful_tflops": 1286.760826603182,
+            "useful_mfu_percent": 57.18937007125253,
+            "memory": {
+              "baseline_allocated_bytes": 73540608,
+              "baseline_reserved_bytes": 153092096,
+              "peak_allocated_bytes": 79832064,
+              "peak_reserved_bytes": 153092096,
+              "incremental_peak_allocated_bytes": 6291456,
+              "incremental_peak_reserved_bytes": 0
+            }
+          },
+          "naive_temporary": {
+            "gpu_operation_duration_ms": 0.11552831649780274,
+            "repeat_mean_ms": 0.11521433448791504,
+            "repeat_min_ms": 0.11355839729309082,
+            "repeat_max_ms": 0.11575679779052735,
+            "repeat_ms": [
+              0.11552767753601074,
+              0.11552831649780274,
+              0.11570048332214355,
+              0.11575679779052735,
+              0.11355839729309082
+            ],
+            "useful_flops": 12884901888,
+            "useful_tflops": 111.53024884808272,
+            "useful_mfu_percent": 4.9568999488036765,
+            "memory": {
+              "baseline_allocated_bytes": 73540608,
+              "baseline_reserved_bytes": 153092096,
+              "peak_allocated_bytes": 224535552,
+              "peak_reserved_bytes": 253755392,
+              "incremental_peak_allocated_bytes": 150994944,
+              "incremental_peak_reserved_bytes": 100663296
+            }
+          },
+          "naive_overhead_percent": 1053.732588148262
+        },
+        {
+          "m": 1024,
+          "activation_shape": [
+            1024,
+            2048
+          ],
+          "output_shape": [
+            1024,
+            6144
+          ],
+          "output_dtype": "torch.bfloat16",
+          "correctness": {
+            "bitwise_equal": true,
+            "max_absolute_error": 0.0,
+            "mean_absolute_error": 0.0,
+            "ulp_histogram": {
+              "0": 6291456
+            }
+          },
+          "old_reference": {
+            "gpu_operation_duration_ms": 0.01602944016456604,
+            "repeat_mean_ms": 0.016024448156356813,
+            "repeat_min_ms": 0.015983359813690187,
+            "repeat_max_ms": 0.016075520515441893,
+            "repeat_ms": [
+              0.016075520515441893,
+              0.01600383996963501,
+              0.016030080318450927,
+              0.015983359813690187,
+              0.01602944016456604
+            ],
+            "useful_flops": 25769803776,
+            "useful_tflops": 1607.6546349363823,
+            "useful_mfu_percent": 71.45131710828366,
+            "memory": {
+              "baseline_allocated_bytes": 75637760,
+              "baseline_reserved_bytes": 153092096,
+              "peak_allocated_bytes": 88220672,
+              "peak_reserved_bytes": 153092096,
+              "incremental_peak_allocated_bytes": 12582912,
+              "incremental_peak_reserved_bytes": 0
+            }
+          },
+          "naive_temporary": {
+            "gpu_operation_duration_ms": 0.12014592170715332,
+            "repeat_mean_ms": 0.1200636157989502,
+            "repeat_min_ms": 0.11978303909301757,
+            "repeat_max_ms": 0.1203007984161377,
+            "repeat_ms": [
+              0.12017919540405274,
+              0.1203007984161377,
+              0.12014592170715332,
+              0.11978303909301757,
+              0.11990912437438965
+            ],
+            "useful_flops": 25769803776,
+            "useful_tflops": 214.48754489404948,
+            "useful_mfu_percent": 9.532779773068865,
+            "memory": {
+              "baseline_allocated_bytes": 75637760,
+              "baseline_reserved_bytes": 153092096,
+              "peak_allocated_bytes": 226632704,
+              "peak_reserved_bytes": 253755392,
+              "incremental_peak_allocated_bytes": 150994944,
+              "incremental_peak_reserved_bytes": 100663296
+            }
+          },
+          "naive_overhead_percent": 649.5328624934917
+        },
+        {
+          "m": 2048,
+          "activation_shape": [
+            2048,
+            2048
+          ],
+          "output_shape": [
+            2048,
+            6144
+          ],
+          "output_dtype": "torch.bfloat16",
+          "correctness": {
+            "bitwise_equal": true,
+            "max_absolute_error": 0.0,
+            "mean_absolute_error": 0.0,
+            "ulp_histogram": {
+              "0": 12582912
+            }
+          },
+          "old_reference": {
+            "gpu_operation_duration_ms": 0.03204479932785034,
+            "repeat_mean_ms": 0.0320479998588562,
+            "repeat_min_ms": 0.0320358395576477,
+            "repeat_max_ms": 0.03206271886825562,
+            "repeat_ms": [
+              0.032052481174468996,
+              0.0320358395576477,
+              0.03206271886825562,
+              0.03204416036605835,
+              0.03204479932785034
+            ],
+            "useful_flops": 51539607552,
+            "useful_tflops": 1608.361064293094,
+            "useful_mfu_percent": 71.48271396858195,
+            "memory": {
+              "baseline_allocated_bytes": 79832064,
+              "baseline_reserved_bytes": 153092096,
+              "peak_allocated_bytes": 104997888,
+              "peak_reserved_bytes": 153092096,
+              "incremental_peak_allocated_bytes": 25165824,
+              "incremental_peak_reserved_bytes": 0
+            }
+          },
+          "naive_temporary": {
+            "gpu_operation_duration_ms": 0.13321151733398437,
+            "repeat_mean_ms": 0.13435225677490234,
+            "repeat_min_ms": 0.13305215835571288,
+            "repeat_max_ms": 0.13904640197753906,
+            "repeat_ms": [
+              0.13325504302978516,
+              0.13321151733398437,
+              0.13319616317749022,
+              0.13305215835571288,
+              0.13904640197753906
+            ],
+            "useful_flops": 51539607552,
+            "useful_tflops": 386.9005367064566,
+            "useful_mfu_percent": 17.19557940917585,
+            "memory": {
+              "baseline_allocated_bytes": 79832064,
+              "baseline_reserved_bytes": 153092096,
+              "peak_allocated_bytes": 230827008,
+              "peak_reserved_bytes": 253755392,
+              "incremental_peak_allocated_bytes": 150994944,
+              "incremental_peak_reserved_bytes": 100663296
+            }
+          },
+          "naive_overhead_percent": 315.704014779738
+        },
+        {
+          "m": 4096,
+          "activation_shape": [
+            4096,
+            2048
+          ],
+          "output_shape": [
+            4096,
+            6144
+          ],
+          "output_dtype": "torch.bfloat16",
+          "correctness": {
+            "bitwise_equal": true,
+            "max_absolute_error": 0.0,
+            "mean_absolute_error": 0.0,
+            "ulp_histogram": {
+              "0": 25165824
+            }
+          },
+          "old_reference": {
+            "gpu_operation_duration_ms": 0.06188032150268555,
+            "repeat_mean_ms": 0.061899904251098634,
+            "repeat_min_ms": 0.06182271957397461,
+            "repeat_max_ms": 0.06198272228240967,
+            "repeat_ms": [
+              0.061873278617858886,
+              0.06182271957397461,
+              0.061940479278564456,
+              0.06188032150268555,
+              0.06198272228240967
+            ],
+            "useful_flops": 103079215104,
+            "useful_tflops": 1665.783444572544,
+            "useful_mfu_percent": 74.03481975877975,
+            "memory": {
+              "baseline_allocated_bytes": 88220672,
+              "baseline_reserved_bytes": 153092096,
+              "peak_allocated_bytes": 138552320,
+              "peak_reserved_bytes": 203423744,
+              "incremental_peak_allocated_bytes": 50331648,
+              "incremental_peak_reserved_bytes": 50331648
+            }
+          },
+          "naive_temporary": {
+            "gpu_operation_duration_ms": 0.1726950454711914,
+            "repeat_mean_ms": 0.17152742767333984,
+            "repeat_min_ms": 0.16292224884033202,
+            "repeat_max_ms": 0.18459264755249025,
+            "repeat_ms": [
+              0.16292224884033202,
+              0.1644153594970703,
+              0.17301183700561523,
+              0.1726950454711914,
+              0.18459264755249025
+            ],
+            "useful_flops": 103079215104,
+            "useful_tflops": 596.885769494733,
+            "useful_mfu_percent": 26.528256421988136,
+            "memory": {
+              "baseline_allocated_bytes": 88220672,
+              "baseline_reserved_bytes": 153092096,
+              "peak_allocated_bytes": 239215616,
+              "peak_reserved_bytes": 304087040,
+              "incremental_peak_allocated_bytes": 150994944,
+              "incremental_peak_reserved_bytes": 150994944
+            }
+          },
+          "naive_overhead_percent": 179.0791018493603
+        },
+        {
+          "m": 8192,
+          "activation_shape": [
+            8192,
+            2048
+          ],
+          "output_shape": [
+            8192,
+            6144
+          ],
+          "output_dtype": "torch.bfloat16",
+          "correctness": {
+            "bitwise_equal": true,
+            "max_absolute_error": 0.0,
+            "mean_absolute_error": 0.0,
+            "ulp_histogram": {
+              "0": 50331648
+            }
+          },
+          "old_reference": {
+            "gpu_operation_duration_ms": 0.11756095886230469,
+            "repeat_mean_ms": 0.1171408634185791,
+            "repeat_min_ms": 0.11534015655517578,
+            "repeat_max_ms": 0.11765055656433106,
+            "repeat_ms": [
+              0.11534015655517578,
+              0.11755200386047364,
+              0.11756095886230469,
+              0.11760064125061036,
+              0.11765055656433106
+            ],
+            "useful_flops": 206158430208,
+            "useful_tflops": 1753.6300503423645,
+            "useful_mfu_percent": 77.93911334854953,
+            "memory": {
+              "baseline_allocated_bytes": 104997888,
+              "baseline_reserved_bytes": 153092096,
+              "peak_allocated_bytes": 205661184,
+              "peak_reserved_bytes": 253755392,
+              "incremental_peak_allocated_bytes": 100663296,
+              "incremental_peak_reserved_bytes": 100663296
+            }
+          },
+          "naive_temporary": {
+            "gpu_operation_duration_ms": 0.24834304809570312,
+            "repeat_mean_ms": 0.245963134765625,
+            "repeat_min_ms": 0.23698751449584962,
+            "repeat_max_ms": 0.2533024024963379,
+            "repeat_ms": [
+              0.23698751449584962,
+              0.24834304809570312,
+              0.2533024024963379,
+              0.25297983169555666,
+              0.23820287704467774
+            ],
+            "useful_flops": 206158430208,
+            "useful_tflops": 830.135700551414,
+            "useful_mfu_percent": 36.894920024507286,
+            "memory": {
+              "baseline_allocated_bytes": 104997888,
+              "baseline_reserved_bytes": 153092096,
+              "peak_allocated_bytes": 255992832,
+              "peak_reserved_bytes": 404750336,
+              "incremental_peak_allocated_bytes": 150994944,
+              "incremental_peak_reserved_bytes": 251658240
+            }
+          },
+          "naive_overhead_percent": 111.24619133685295
+        }
+      ]
+    }
+  }
+}
