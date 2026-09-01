@@ -1,0 +1,6 @@
+[status] world_size=8 dp=1
+[d0295ede0-debug-prewarm warmup0] fb=40.5s (405 tok/s/GPU) optim=4.8s loss=13.530466312151429 gn=0.03000231646001339
+[d0295ede0-debug-prewarm control0] fb=0.9s (18024 tok/s/GPU) optim=0.1s loss=13.519971046226853 gn=0.028743749484419823
+[d0295ede0-debug-prewarm control1] fb=0.4s (38338 tok/s/GPU) optim=0.0s loss=13.525350764089692 gn=0.02994372695684433
+[done] -> /root/.cache/user_artifacts/lps1062_bench/d0295ede0-debug-prewarm.json
+SUMMARY d0295ede0-debug-prewarm: 24520 tok/s/GPU | control fb=0.7s optim=0.0s (131072 tok) | mfu3x 223.2% | hfu 324.0%

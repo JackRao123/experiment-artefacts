@@ -1,0 +1,1958 @@
+{
+  "131k-memory": {
+    "aggregate": {
+      "ranks": 8,
+      "initial_active_bytes": {
+        "min": 132964605180,
+        "mean": 132965670140.0,
+        "max": 132973124860
+      },
+      "peak_active_bytes": {
+        "min": 183612333336,
+        "mean": 183619421263.0,
+        "max": 183669036752
+      },
+      "peak_growth_bytes": {
+        "min": 50647728156,
+        "mean": 50653751123.0,
+        "max": 50695911892
+      },
+      "final_active_bytes": {
+        "min": 132964605180,
+        "mean": 132965670140.0,
+        "max": 132973124860
+      },
+      "final_reserved_bytes": {
+        "min": 186940129280,
+        "mean": 187147223040.0,
+        "max": 187443445760
+      },
+      "final_inactive_bytes": {
+        "min": 53975356416,
+        "mean": 54181385216.0,
+        "max": 54478672896
+      },
+      "max_peak_rank": 0,
+      "max_peak_transient_categories": {
+        "logits_and_loss": 51768719808,
+        "input_and_packing": 933904,
+        "other": 4
+      },
+      "max_peak_transient_sites": [
+        {
+          "site": "_bias_dropout_add_func@fused_bias_dropout.py:58",
+          "bytes": 15703474176
+        },
+        {
+          "site": "_project_logits@chunked_lm_head.py:183",
+          "bytes": 15225323520
+        },
+        {
+          "site": "_project_logits@chunked_lm_head.py:197",
+          "bytes": 12686530560
+        },
+        {
+          "site": "sort_topk_by_index@dsa_masking.py:124",
+          "bytes": 2818572288
+        },
+        {
+          "site": "_linear_forward@layers.py:475",
+          "bytes": 2537982912
+        },
+        {
+          "site": "forward@utils.py:1312",
+          "bytes": 1268467200
+        },
+        {
+          "site": "get_emb@yarn_rotary_pos_embedding.py:154",
+          "bytes": 1073741824
+        },
+        {
+          "site": "op_forward@rmsnorm.py:187",
+          "bytes": 201392128
+        },
+        {
+          "site": "embedding@functional.py:2567",
+          "bytes": 201326592
+        },
+        {
+          "site": "chunked_lm_head_loss_from_hidden@chunked_lm_head.py:486",
+          "bytes": 50319360
+        },
+        {
+          "site": "_compact_valid_topk_indices@dsa_cudnn_kernels.py:1024",
+          "bytes": 1376256
+        },
+        {
+          "site": "__post_init__@packed_seq_params.py:67",
+          "bytes": 524288
+        },
+        {
+          "site": "cp_shard_thd_row@thd_cp.py:474",
+          "bytes": 409600
+        },
+        {
+          "site": "prepare_cross_entropy_weighting@cross_entropy.py:34",
+          "bytes": 65536
+        },
+        {
+          "site": "chunked_lm_head_loss_from_hidden@chunked_lm_head.py:408",
+          "bytes": 65536
+        }
+      ],
+      "oom_events": 0
+    },
+    "per_rank": [
+      {
+        "file": "memory.rank0.pickle",
+        "rank": 0,
+        "initial_active_bytes": 132973124860,
+        "peak_active_bytes": 183669036752,
+        "peak_growth_bytes": 50695911892,
+        "final_active_bytes": 132973124860,
+        "final_reserved_bytes": 187212759040,
+        "final_inactive_bytes": 54239466496,
+        "final_inactive_fraction": 0.28972099323856,
+        "peak_time_seconds": 4.136386,
+        "event_count": 371710,
+        "oom_events": 0,
+        "peak_transient_categories": {
+          "logits_and_loss": 51768719808,
+          "input_and_packing": 933904,
+          "other": 4
+        },
+        "peak_transient_sites": [
+          {
+            "site": "_bias_dropout_add_func@fused_bias_dropout.py:58",
+            "bytes": 15703474176
+          },
+          {
+            "site": "_project_logits@chunked_lm_head.py:183",
+            "bytes": 15225323520
+          },
+          {
+            "site": "_project_logits@chunked_lm_head.py:197",
+            "bytes": 12686530560
+          },
+          {
+            "site": "sort_topk_by_index@dsa_masking.py:124",
+            "bytes": 2818572288
+          },
+          {
+            "site": "_linear_forward@layers.py:475",
+            "bytes": 2537982912
+          },
+          {
+            "site": "forward@utils.py:1312",
+            "bytes": 1268467200
+          },
+          {
+            "site": "get_emb@yarn_rotary_pos_embedding.py:154",
+            "bytes": 1073741824
+          },
+          {
+            "site": "op_forward@rmsnorm.py:187",
+            "bytes": 201392128
+          },
+          {
+            "site": "embedding@functional.py:2567",
+            "bytes": 201326592
+          },
+          {
+            "site": "chunked_lm_head_loss_from_hidden@chunked_lm_head.py:486",
+            "bytes": 50319360
+          },
+          {
+            "site": "_compact_valid_topk_indices@dsa_cudnn_kernels.py:1024",
+            "bytes": 1376256
+          },
+          {
+            "site": "__post_init__@packed_seq_params.py:67",
+            "bytes": 524288
+          },
+          {
+            "site": "cp_shard_thd_row@thd_cp.py:474",
+            "bytes": 409600
+          },
+          {
+            "site": "prepare_cross_entropy_weighting@cross_entropy.py:34",
+            "bytes": 65536
+          },
+          {
+            "site": "chunked_lm_head_loss_from_hidden@chunked_lm_head.py:408",
+            "bytes": 65536
+          }
+        ],
+        "allocator_settings": {
+          "PYTORCH_CUDA_ALLOC_CONF": "expandable_segments:True,garbage_collection_threshold:0.95",
+          "max_split_size": -1,
+          "garbage_collection_threshold": 0.95,
+          "expandable_segments": true,
+          "pinned_num_register_threads": 1,
+          "release_lock_on_cudamalloc": false,
+          "pinned_use_cuda_host_register": false,
+          "graph_capture_record_stream_reuse": false,
+          "roundup_power2_divisions": {
+            "1": 0,
+            "2": 0,
+            "4": 0,
+            "8": 0,
+            "16": 0,
+            "32": 0,
+            "64": 0,
+            "128": 0,
+            "256": 0,
+            "512": 0,
+            "1024": 0,
+            "2048": 0,
+            "4096": 0,
+            "8192": 0,
+            "16384": 0,
+            "32768": 0
+          }
+        }
+      },
+      {
+        "file": "memory.rank1.pickle",
+        "rank": 1,
+        "initial_active_bytes": 132964605180,
+        "peak_active_bytes": 183612333336,
+        "peak_growth_bytes": 50647728156,
+        "final_active_bytes": 132964605180,
+        "final_reserved_bytes": 187024015360,
+        "final_inactive_bytes": 54059242496,
+        "final_inactive_fraction": 0.28904973723263344,
+        "peak_time_seconds": 4.178196,
+        "event_count": 371638,
+        "oom_events": 0,
+        "peak_transient_categories": {
+          "logits_and_loss": 51720536072,
+          "input_and_packing": 933904,
+          "other": 4
+        },
+        "peak_transient_sites": [
+          {
+            "site": "_bias_dropout_add_func@fused_bias_dropout.py:58",
+            "bytes": 15703474176
+          },
+          {
+            "site": "_project_logits@chunked_lm_head.py:183",
+            "bytes": 15225323520
+          },
+          {
+            "site": "_project_logits@chunked_lm_head.py:197",
+            "bytes": 12687769600
+          },
+          {
+            "site": "sort_topk_by_index@dsa_masking.py:124",
+            "bytes": 2818572288
+          },
+          {
+            "site": "_linear_forward@layers.py:475",
+            "bytes": 2538602496
+          },
+          {
+            "site": "forward@utils.py:1312",
+            "bytes": 1268776960
+          },
+          {
+            "site": "get_emb@yarn_rotary_pos_embedding.py:154",
+            "bytes": 1073741824
+          },
+          {
+            "site": "op_forward@rmsnorm.py:187",
+            "bytes": 201392128
+          },
+          {
+            "site": "embedding@functional.py:2567",
+            "bytes": 201326592
+          },
+          {
+            "site": "_compact_valid_topk_indices@dsa_cudnn_kernels.py:1024",
+            "bytes": 1376256
+          },
+          {
+            "site": "__post_init__@packed_seq_params.py:67",
+            "bytes": 524288
+          },
+          {
+            "site": "cp_shard_thd_row@thd_cp.py:474",
+            "bytes": 409600
+          },
+          {
+            "site": "prepare_cross_entropy_weighting@cross_entropy.py:34",
+            "bytes": 65536
+          },
+          {
+            "site": "chunked_lm_head_loss_from_hidden@chunked_lm_head.py:408",
+            "bytes": 65536
+          },
+          {
+            "site": "prepare_cross_entropy_weighting@cross_entropy.py:31",
+            "bytes": 16384
+          }
+        ],
+        "allocator_settings": {
+          "PYTORCH_CUDA_ALLOC_CONF": "expandable_segments:True,garbage_collection_threshold:0.95",
+          "max_split_size": -1,
+          "garbage_collection_threshold": 0.95,
+          "expandable_segments": true,
+          "pinned_num_register_threads": 1,
+          "release_lock_on_cudamalloc": false,
+          "pinned_use_cuda_host_register": false,
+          "graph_capture_record_stream_reuse": false,
+          "roundup_power2_divisions": {
+            "1": 0,
+            "2": 0,
+            "4": 0,
+            "8": 0,
+            "16": 0,
+            "32": 0,
+            "64": 0,
+            "128": 0,
+            "256": 0,
+            "512": 0,
+            "1024": 0,
+            "2048": 0,
+            "4096": 0,
+            "8192": 0,
+            "16384": 0,
+            "32768": 0
+          }
+        }
+      },
+      {
+        "file": "memory.rank2.pickle",
+        "rank": 2,
+        "initial_active_bytes": 132964605180,
+        "peak_active_bytes": 183612333336,
+        "peak_growth_bytes": 50647728156,
+        "final_active_bytes": 132964605180,
+        "final_reserved_bytes": 187065958400,
+        "final_inactive_bytes": 54101185536,
+        "final_inactive_fraction": 0.2892091431211463,
+        "peak_time_seconds": 4.178083,
+        "event_count": 371638,
+        "oom_events": 0,
+        "peak_transient_categories": {
+          "logits_and_loss": 51720536072,
+          "input_and_packing": 933904,
+          "other": 4
+        },
+        "peak_transient_sites": [
+          {
+            "site": "_bias_dropout_add_func@fused_bias_dropout.py:58",
+            "bytes": 15703474176
+          },
+          {
+            "site": "_project_logits@chunked_lm_head.py:183",
+            "bytes": 15225323520
+          },
+          {
+            "site": "_project_logits@chunked_lm_head.py:197",
+            "bytes": 12687769600
+          },
+          {
+            "site": "sort_topk_by_index@dsa_masking.py:124",
+            "bytes": 2818572288
+          },
+          {
+            "site": "_linear_forward@layers.py:475",
+            "bytes": 2538602496
+          },
+          {
+            "site": "forward@utils.py:1312",
+            "bytes": 1268776960
+          },
+          {
+            "site": "get_emb@yarn_rotary_pos_embedding.py:154",
+            "bytes": 1073741824
+          },
+          {
+            "site": "op_forward@rmsnorm.py:187",
+            "bytes": 201392128
+          },
+          {
+            "site": "embedding@functional.py:2567",
+            "bytes": 201326592
+          },
+          {
+            "site": "_compact_valid_topk_indices@dsa_cudnn_kernels.py:1024",
+            "bytes": 1376256
+          },
+          {
+            "site": "__post_init__@packed_seq_params.py:67",
+            "bytes": 524288
+          },
+          {
+            "site": "cp_shard_thd_row@thd_cp.py:474",
+            "bytes": 409600
+          },
+          {
+            "site": "prepare_cross_entropy_weighting@cross_entropy.py:34",
+            "bytes": 65536
+          },
+          {
+            "site": "chunked_lm_head_loss_from_hidden@chunked_lm_head.py:408",
+            "bytes": 65536
+          },
+          {
+            "site": "prepare_cross_entropy_weighting@cross_entropy.py:31",
+            "bytes": 16384
+          }
+        ],
+        "allocator_settings": {
+          "PYTORCH_CUDA_ALLOC_CONF": "expandable_segments:True,garbage_collection_threshold:0.95",
+          "max_split_size": -1,
+          "garbage_collection_threshold": 0.95,
+          "expandable_segments": true,
+          "pinned_num_register_threads": 1,
+          "release_lock_on_cudamalloc": false,
+          "pinned_use_cuda_host_register": false,
+          "graph_capture_record_stream_reuse": false,
+          "roundup_power2_divisions": {
+            "1": 0,
+            "2": 0,
+            "4": 0,
+            "8": 0,
+            "16": 0,
+            "32": 0,
+            "64": 0,
+            "128": 0,
+            "256": 0,
+            "512": 0,
+            "1024": 0,
+            "2048": 0,
+            "4096": 0,
+            "8192": 0,
+            "16384": 0,
+            "32768": 0
+          }
+        }
+      },
+      {
+        "file": "memory.rank3.pickle",
+        "rank": 3,
+        "initial_active_bytes": 132964605180,
+        "peak_active_bytes": 183612333336,
+        "peak_growth_bytes": 50647728156,
+        "final_active_bytes": 132964605180,
+        "final_reserved_bytes": 187443445760,
+        "final_inactive_bytes": 54478672896,
+        "final_inactive_fraction": 0.29064058588505537,
+        "peak_time_seconds": 4.532203,
+        "event_count": 371639,
+        "oom_events": 0,
+        "peak_transient_categories": {
+          "logits_and_loss": 51720536072,
+          "input_and_packing": 933904,
+          "other": 4
+        },
+        "peak_transient_sites": [
+          {
+            "site": "_bias_dropout_add_func@fused_bias_dropout.py:58",
+            "bytes": 15703474176
+          },
+          {
+            "site": "_project_logits@chunked_lm_head.py:183",
+            "bytes": 15225323520
+          },
+          {
+            "site": "_project_logits@chunked_lm_head.py:197",
+            "bytes": 12687769600
+          },
+          {
+            "site": "sort_topk_by_index@dsa_masking.py:124",
+            "bytes": 2818572288
+          },
+          {
+            "site": "_linear_forward@layers.py:475",
+            "bytes": 2538602496
+          },
+          {
+            "site": "forward@utils.py:1312",
+            "bytes": 1268776960
+          },
+          {
+            "site": "get_emb@yarn_rotary_pos_embedding.py:154",
+            "bytes": 1073741824
+          },
+          {
+            "site": "op_forward@rmsnorm.py:187",
+            "bytes": 201392128
+          },
+          {
+            "site": "embedding@functional.py:2567",
+            "bytes": 201326592
+          },
+          {
+            "site": "_compact_valid_topk_indices@dsa_cudnn_kernels.py:1024",
+            "bytes": 1376256
+          },
+          {
+            "site": "__post_init__@packed_seq_params.py:67",
+            "bytes": 524288
+          },
+          {
+            "site": "cp_shard_thd_row@thd_cp.py:474",
+            "bytes": 409600
+          },
+          {
+            "site": "prepare_cross_entropy_weighting@cross_entropy.py:34",
+            "bytes": 65536
+          },
+          {
+            "site": "chunked_lm_head_loss_from_hidden@chunked_lm_head.py:408",
+            "bytes": 65536
+          },
+          {
+            "site": "prepare_cross_entropy_weighting@cross_entropy.py:31",
+            "bytes": 16384
+          }
+        ],
+        "allocator_settings": {
+          "PYTORCH_CUDA_ALLOC_CONF": "expandable_segments:True,garbage_collection_threshold:0.95",
+          "max_split_size": -1,
+          "garbage_collection_threshold": 0.95,
+          "expandable_segments": true,
+          "pinned_num_register_threads": 1,
+          "release_lock_on_cudamalloc": false,
+          "pinned_use_cuda_host_register": false,
+          "graph_capture_record_stream_reuse": false,
+          "roundup_power2_divisions": {
+            "1": 0,
+            "2": 0,
+            "4": 0,
+            "8": 0,
+            "16": 0,
+            "32": 0,
+            "64": 0,
+            "128": 0,
+            "256": 0,
+            "512": 0,
+            "1024": 0,
+            "2048": 0,
+            "4096": 0,
+            "8192": 0,
+            "16384": 0,
+            "32768": 0
+          }
+        }
+      },
+      {
+        "file": "memory.rank4.pickle",
+        "rank": 4,
+        "initial_active_bytes": 132964605180,
+        "peak_active_bytes": 183612333336,
+        "peak_growth_bytes": 50647728156,
+        "final_active_bytes": 132964605180,
+        "final_reserved_bytes": 187107901440,
+        "final_inactive_bytes": 54143128576,
+        "final_inactive_fraction": 0.2893684775432218,
+        "peak_time_seconds": 4.176843,
+        "event_count": 372142,
+        "oom_events": 0,
+        "peak_transient_categories": {
+          "logits_and_loss": 51720536072,
+          "input_and_packing": 933904,
+          "other": 4
+        },
+        "peak_transient_sites": [
+          {
+            "site": "_bias_dropout_add_func@fused_bias_dropout.py:58",
+            "bytes": 15703474176
+          },
+          {
+            "site": "_project_logits@chunked_lm_head.py:183",
+            "bytes": 15225323520
+          },
+          {
+            "site": "_project_logits@chunked_lm_head.py:197",
+            "bytes": 12687769600
+          },
+          {
+            "site": "sort_topk_by_index@dsa_masking.py:124",
+            "bytes": 2818572288
+          },
+          {
+            "site": "_linear_forward@layers.py:475",
+            "bytes": 2538602496
+          },
+          {
+            "site": "forward@utils.py:1312",
+            "bytes": 1268776960
+          },
+          {
+            "site": "get_emb@yarn_rotary_pos_embedding.py:154",
+            "bytes": 1073741824
+          },
+          {
+            "site": "op_forward@rmsnorm.py:187",
+            "bytes": 201392128
+          },
+          {
+            "site": "embedding@functional.py:2567",
+            "bytes": 201326592
+          },
+          {
+            "site": "_compact_valid_topk_indices@dsa_cudnn_kernels.py:1024",
+            "bytes": 1376256
+          },
+          {
+            "site": "__post_init__@packed_seq_params.py:67",
+            "bytes": 524288
+          },
+          {
+            "site": "cp_shard_thd_row@thd_cp.py:474",
+            "bytes": 409600
+          },
+          {
+            "site": "prepare_cross_entropy_weighting@cross_entropy.py:34",
+            "bytes": 65536
+          },
+          {
+            "site": "chunked_lm_head_loss_from_hidden@chunked_lm_head.py:408",
+            "bytes": 65536
+          },
+          {
+            "site": "prepare_cross_entropy_weighting@cross_entropy.py:31",
+            "bytes": 16384
+          }
+        ],
+        "allocator_settings": {
+          "PYTORCH_CUDA_ALLOC_CONF": "expandable_segments:True,garbage_collection_threshold:0.95",
+          "max_split_size": -1,
+          "garbage_collection_threshold": 0.95,
+          "expandable_segments": true,
+          "pinned_num_register_threads": 1,
+          "release_lock_on_cudamalloc": false,
+          "pinned_use_cuda_host_register": false,
+          "graph_capture_record_stream_reuse": false,
+          "roundup_power2_divisions": {
+            "1": 0,
+            "2": 0,
+            "4": 0,
+            "8": 0,
+            "16": 0,
+            "32": 0,
+            "64": 0,
+            "128": 0,
+            "256": 0,
+            "512": 0,
+            "1024": 0,
+            "2048": 0,
+            "4096": 0,
+            "8192": 0,
+            "16384": 0,
+            "32768": 0
+          }
+        }
+      },
+      {
+        "file": "memory.rank5.pickle",
+        "rank": 5,
+        "initial_active_bytes": 132964605180,
+        "peak_active_bytes": 183612333336,
+        "peak_growth_bytes": 50647728156,
+        "final_active_bytes": 132964605180,
+        "final_reserved_bytes": 186940129280,
+        "final_inactive_bytes": 53975356416,
+        "final_inactive_fraction": 0.28873071086387986,
+        "peak_time_seconds": 4.177546,
+        "event_count": 372142,
+        "oom_events": 0,
+        "peak_transient_categories": {
+          "logits_and_loss": 51720536072,
+          "input_and_packing": 933904,
+          "other": 4
+        },
+        "peak_transient_sites": [
+          {
+            "site": "_bias_dropout_add_func@fused_bias_dropout.py:58",
+            "bytes": 15703474176
+          },
+          {
+            "site": "_project_logits@chunked_lm_head.py:183",
+            "bytes": 15225323520
+          },
+          {
+            "site": "_project_logits@chunked_lm_head.py:197",
+            "bytes": 12687769600
+          },
+          {
+            "site": "sort_topk_by_index@dsa_masking.py:124",
+            "bytes": 2818572288
+          },
+          {
+            "site": "_linear_forward@layers.py:475",
+            "bytes": 2538602496
+          },
+          {
+            "site": "forward@utils.py:1312",
+            "bytes": 1268776960
+          },
+          {
+            "site": "get_emb@yarn_rotary_pos_embedding.py:154",
+            "bytes": 1073741824
+          },
+          {
+            "site": "op_forward@rmsnorm.py:187",
+            "bytes": 201392128
+          },
+          {
+            "site": "embedding@functional.py:2567",
+            "bytes": 201326592
+          },
+          {
+            "site": "_compact_valid_topk_indices@dsa_cudnn_kernels.py:1024",
+            "bytes": 1376256
+          },
+          {
+            "site": "__post_init__@packed_seq_params.py:67",
+            "bytes": 524288
+          },
+          {
+            "site": "cp_shard_thd_row@thd_cp.py:474",
+            "bytes": 409600
+          },
+          {
+            "site": "prepare_cross_entropy_weighting@cross_entropy.py:34",
+            "bytes": 65536
+          },
+          {
+            "site": "chunked_lm_head_loss_from_hidden@chunked_lm_head.py:408",
+            "bytes": 65536
+          },
+          {
+            "site": "prepare_cross_entropy_weighting@cross_entropy.py:31",
+            "bytes": 16384
+          }
+        ],
+        "allocator_settings": {
+          "PYTORCH_CUDA_ALLOC_CONF": "expandable_segments:True,garbage_collection_threshold:0.95",
+          "max_split_size": -1,
+          "garbage_collection_threshold": 0.95,
+          "expandable_segments": true,
+          "pinned_num_register_threads": 1,
+          "release_lock_on_cudamalloc": false,
+          "pinned_use_cuda_host_register": false,
+          "graph_capture_record_stream_reuse": false,
+          "roundup_power2_divisions": {
+            "1": 0,
+            "2": 0,
+            "4": 0,
+            "8": 0,
+            "16": 0,
+            "32": 0,
+            "64": 0,
+            "128": 0,
+            "256": 0,
+            "512": 0,
+            "1024": 0,
+            "2048": 0,
+            "4096": 0,
+            "8192": 0,
+            "16384": 0,
+            "32768": 0
+          }
+        }
+      },
+      {
+        "file": "memory.rank6.pickle",
+        "rank": 6,
+        "initial_active_bytes": 132964605180,
+        "peak_active_bytes": 183612333336,
+        "peak_growth_bytes": 50647728156,
+        "final_active_bytes": 132964605180,
+        "final_reserved_bytes": 187107901440,
+        "final_inactive_bytes": 54143128576,
+        "final_inactive_fraction": 0.2893684775432218,
+        "peak_time_seconds": 4.529243,
+        "event_count": 371639,
+        "oom_events": 0,
+        "peak_transient_categories": {
+          "logits_and_loss": 51720536072,
+          "input_and_packing": 933904,
+          "other": 4
+        },
+        "peak_transient_sites": [
+          {
+            "site": "_bias_dropout_add_func@fused_bias_dropout.py:58",
+            "bytes": 15703474176
+          },
+          {
+            "site": "_project_logits@chunked_lm_head.py:183",
+            "bytes": 15225323520
+          },
+          {
+            "site": "_project_logits@chunked_lm_head.py:197",
+            "bytes": 12687769600
+          },
+          {
+            "site": "sort_topk_by_index@dsa_masking.py:124",
+            "bytes": 2818572288
+          },
+          {
+            "site": "_linear_forward@layers.py:475",
+            "bytes": 2538602496
+          },
+          {
+            "site": "forward@utils.py:1312",
+            "bytes": 1268776960
+          },
+          {
+            "site": "get_emb@yarn_rotary_pos_embedding.py:154",
+            "bytes": 1073741824
+          },
+          {
+            "site": "op_forward@rmsnorm.py:187",
+            "bytes": 201392128
+          },
+          {
+            "site": "embedding@functional.py:2567",
+            "bytes": 201326592
+          },
+          {
+            "site": "_compact_valid_topk_indices@dsa_cudnn_kernels.py:1024",
+            "bytes": 1376256
+          },
+          {
+            "site": "__post_init__@packed_seq_params.py:67",
+            "bytes": 524288
+          },
+          {
+            "site": "cp_shard_thd_row@thd_cp.py:474",
+            "bytes": 409600
+          },
+          {
+            "site": "prepare_cross_entropy_weighting@cross_entropy.py:34",
+            "bytes": 65536
+          },
+          {
+            "site": "chunked_lm_head_loss_from_hidden@chunked_lm_head.py:408",
+            "bytes": 65536
+          },
+          {
+            "site": "prepare_cross_entropy_weighting@cross_entropy.py:31",
+            "bytes": 16384
+          }
+        ],
+        "allocator_settings": {
+          "PYTORCH_CUDA_ALLOC_CONF": "expandable_segments:True,garbage_collection_threshold:0.95",
+          "max_split_size": -1,
+          "garbage_collection_threshold": 0.95,
+          "expandable_segments": true,
+          "pinned_num_register_threads": 1,
+          "release_lock_on_cudamalloc": false,
+          "pinned_use_cuda_host_register": false,
+          "graph_capture_record_stream_reuse": false,
+          "roundup_power2_divisions": {
+            "1": 0,
+            "2": 0,
+            "4": 0,
+            "8": 0,
+            "16": 0,
+            "32": 0,
+            "64": 0,
+            "128": 0,
+            "256": 0,
+            "512": 0,
+            "1024": 0,
+            "2048": 0,
+            "4096": 0,
+            "8192": 0,
+            "16384": 0,
+            "32768": 0
+          }
+        }
+      },
+      {
+        "file": "memory.rank7.pickle",
+        "rank": 7,
+        "initial_active_bytes": 132964605180,
+        "peak_active_bytes": 183612333336,
+        "peak_growth_bytes": 50647728156,
+        "final_active_bytes": 132964605180,
+        "final_reserved_bytes": 187275673600,
+        "final_inactive_bytes": 54310900736,
+        "final_inactive_fraction": 0.2900051015275056,
+        "peak_time_seconds": 4.531662,
+        "event_count": 371639,
+        "oom_events": 0,
+        "peak_transient_categories": {
+          "logits_and_loss": 51720536072,
+          "input_and_packing": 933904,
+          "other": 4
+        },
+        "peak_transient_sites": [
+          {
+            "site": "_bias_dropout_add_func@fused_bias_dropout.py:58",
+            "bytes": 15703474176
+          },
+          {
+            "site": "_project_logits@chunked_lm_head.py:183",
+            "bytes": 15225323520
+          },
+          {
+            "site": "_project_logits@chunked_lm_head.py:197",
+            "bytes": 12687769600
+          },
+          {
+            "site": "sort_topk_by_index@dsa_masking.py:124",
+            "bytes": 2818572288
+          },
+          {
+            "site": "_linear_forward@layers.py:475",
+            "bytes": 2538602496
+          },
+          {
+            "site": "forward@utils.py:1312",
+            "bytes": 1268776960
+          },
+          {
+            "site": "get_emb@yarn_rotary_pos_embedding.py:154",
+            "bytes": 1073741824
+          },
+          {
+            "site": "op_forward@rmsnorm.py:187",
+            "bytes": 201392128
+          },
+          {
+            "site": "embedding@functional.py:2567",
+            "bytes": 201326592
+          },
+          {
+            "site": "_compact_valid_topk_indices@dsa_cudnn_kernels.py:1024",
+            "bytes": 1376256
+          },
+          {
+            "site": "__post_init__@packed_seq_params.py:67",
+            "bytes": 524288
+          },
+          {
+            "site": "cp_shard_thd_row@thd_cp.py:474",
+            "bytes": 409600
+          },
+          {
+            "site": "prepare_cross_entropy_weighting@cross_entropy.py:34",
+            "bytes": 65536
+          },
+          {
+            "site": "chunked_lm_head_loss_from_hidden@chunked_lm_head.py:408",
+            "bytes": 65536
+          },
+          {
+            "site": "prepare_cross_entropy_weighting@cross_entropy.py:31",
+            "bytes": 16384
+          }
+        ],
+        "allocator_settings": {
+          "PYTORCH_CUDA_ALLOC_CONF": "expandable_segments:True,garbage_collection_threshold:0.95",
+          "max_split_size": -1,
+          "garbage_collection_threshold": 0.95,
+          "expandable_segments": true,
+          "pinned_num_register_threads": 1,
+          "release_lock_on_cudamalloc": false,
+          "pinned_use_cuda_host_register": false,
+          "graph_capture_record_stream_reuse": false,
+          "roundup_power2_divisions": {
+            "1": 0,
+            "2": 0,
+            "4": 0,
+            "8": 0,
+            "16": 0,
+            "32": 0,
+            "64": 0,
+            "128": 0,
+            "256": 0,
+            "512": 0,
+            "1024": 0,
+            "2048": 0,
+            "4096": 0,
+            "8192": 0,
+            "16384": 0,
+            "32768": 0
+          }
+        }
+      }
+    ]
+  },
+  "262k-memory": {
+    "aggregate": {
+      "ranks": 8,
+      "initial_active_bytes": {
+        "min": 134038347004,
+        "mean": 134039411964.0,
+        "max": 134046866684
+      },
+      "peak_active_bytes": {
+        "min": 228989885720,
+        "mean": 228996973647.0,
+        "max": 229046589136
+      },
+      "peak_growth_bytes": {
+        "min": 94951538716,
+        "mean": 94957561683.0,
+        "max": 94999722452
+      },
+      "final_active_bytes": {
+        "min": 134038347004,
+        "mean": 134039411964.0,
+        "max": 134046866684
+      },
+      "final_reserved_bytes": {
+        "min": 234084106240,
+        "mean": 234440622080.0,
+        "max": 234881024000
+      },
+      "final_inactive_bytes": {
+        "min": 100045591552,
+        "mean": 100401042432.0,
+        "max": 100833989632
+      },
+      "max_peak_rank": 0,
+      "max_peak_transient_categories": {
+        "logits_and_loss": 97145338304,
+        "input_and_packing": 1867792,
+        "other": 4
+      },
+      "max_peak_transient_sites": [
+        {
+          "site": "_bias_dropout_add_func@fused_bias_dropout.py:58",
+          "bytes": 31406948352
+        },
+        {
+          "site": "_project_logits@chunked_lm_head.py:183",
+          "bytes": 30450647040
+        },
+        {
+          "site": "_project_logits@chunked_lm_head.py:197",
+          "bytes": 22836746240
+        },
+        {
+          "site": "sort_topk_by_index@dsa_masking.py:124",
+          "bytes": 5637144576
+        },
+        {
+          "site": "_linear_forward@layers.py:475",
+          "bytes": 2539031488
+        },
+        {
+          "site": "get_emb@yarn_rotary_pos_embedding.py:154",
+          "bytes": 2147483648
+        },
+        {
+          "site": "forward@utils.py:1312",
+          "bytes": 1268467200
+        },
+        {
+          "site": "op_forward@rmsnorm.py:187",
+          "bytes": 402784256
+        },
+        {
+          "site": "embedding@functional.py:2567",
+          "bytes": 402653184
+        },
+        {
+          "site": "chunked_lm_head_loss_from_hidden@chunked_lm_head.py:486",
+          "bytes": 50319360
+        },
+        {
+          "site": "_compact_valid_topk_indices@dsa_cudnn_kernels.py:1024",
+          "bytes": 2752512
+        },
+        {
+          "site": "__post_init__@packed_seq_params.py:67",
+          "bytes": 1048576
+        },
+        {
+          "site": "cp_shard_thd_row@thd_cp.py:474",
+          "bytes": 819200
+        },
+        {
+          "site": "prepare_cross_entropy_weighting@cross_entropy.py:34",
+          "bytes": 131072
+        },
+        {
+          "site": "chunked_lm_head_loss_from_hidden@chunked_lm_head.py:408",
+          "bytes": 131072
+        }
+      ],
+      "oom_events": 0
+    },
+    "per_rank": [
+      {
+        "file": "memory.rank0.pickle",
+        "rank": 0,
+        "initial_active_bytes": 134046866684,
+        "peak_active_bytes": 229046589136,
+        "peak_growth_bytes": 94999722452,
+        "final_active_bytes": 134046866684,
+        "final_reserved_bytes": 234881024000,
+        "final_inactive_bytes": 100833989632,
+        "final_inactive_fraction": 0.42929815237862723,
+        "peak_time_seconds": 8.460302,
+        "event_count": 378133,
+        "oom_events": 0,
+        "peak_transient_categories": {
+          "logits_and_loss": 97145338304,
+          "input_and_packing": 1867792,
+          "other": 4
+        },
+        "peak_transient_sites": [
+          {
+            "site": "_bias_dropout_add_func@fused_bias_dropout.py:58",
+            "bytes": 31406948352
+          },
+          {
+            "site": "_project_logits@chunked_lm_head.py:183",
+            "bytes": 30450647040
+          },
+          {
+            "site": "_project_logits@chunked_lm_head.py:197",
+            "bytes": 22836746240
+          },
+          {
+            "site": "sort_topk_by_index@dsa_masking.py:124",
+            "bytes": 5637144576
+          },
+          {
+            "site": "_linear_forward@layers.py:475",
+            "bytes": 2539031488
+          },
+          {
+            "site": "get_emb@yarn_rotary_pos_embedding.py:154",
+            "bytes": 2147483648
+          },
+          {
+            "site": "forward@utils.py:1312",
+            "bytes": 1268467200
+          },
+          {
+            "site": "op_forward@rmsnorm.py:187",
+            "bytes": 402784256
+          },
+          {
+            "site": "embedding@functional.py:2567",
+            "bytes": 402653184
+          },
+          {
+            "site": "chunked_lm_head_loss_from_hidden@chunked_lm_head.py:486",
+            "bytes": 50319360
+          },
+          {
+            "site": "_compact_valid_topk_indices@dsa_cudnn_kernels.py:1024",
+            "bytes": 2752512
+          },
+          {
+            "site": "__post_init__@packed_seq_params.py:67",
+            "bytes": 1048576
+          },
+          {
+            "site": "cp_shard_thd_row@thd_cp.py:474",
+            "bytes": 819200
+          },
+          {
+            "site": "prepare_cross_entropy_weighting@cross_entropy.py:34",
+            "bytes": 131072
+          },
+          {
+            "site": "chunked_lm_head_loss_from_hidden@chunked_lm_head.py:408",
+            "bytes": 131072
+          }
+        ],
+        "allocator_settings": {
+          "PYTORCH_CUDA_ALLOC_CONF": "expandable_segments:True,garbage_collection_threshold:0.95",
+          "max_split_size": -1,
+          "garbage_collection_threshold": 0.95,
+          "expandable_segments": true,
+          "pinned_num_register_threads": 1,
+          "release_lock_on_cudamalloc": false,
+          "pinned_use_cuda_host_register": false,
+          "graph_capture_record_stream_reuse": false,
+          "roundup_power2_divisions": {
+            "1": 0,
+            "2": 0,
+            "4": 0,
+            "8": 0,
+            "16": 0,
+            "32": 0,
+            "64": 0,
+            "128": 0,
+            "256": 0,
+            "512": 0,
+            "1024": 0,
+            "2048": 0,
+            "4096": 0,
+            "8192": 0,
+            "16384": 0,
+            "32768": 0
+          }
+        }
+      },
+      {
+        "file": "memory.rank1.pickle",
+        "rank": 1,
+        "initial_active_bytes": 134038347004,
+        "peak_active_bytes": 228989885720,
+        "peak_growth_bytes": 94951538716,
+        "final_active_bytes": 134038347004,
+        "final_reserved_bytes": 234126049280,
+        "final_inactive_bytes": 100087534592,
+        "final_inactive_fraction": 0.4274942275744021,
+        "peak_time_seconds": 8.543388,
+        "event_count": 378559,
+        "oom_events": 0,
+        "peak_transient_categories": {
+          "logits_and_loss": 97097154568,
+          "input_and_packing": 1867792,
+          "other": 4
+        },
+        "peak_transient_sites": [
+          {
+            "site": "_bias_dropout_add_func@fused_bias_dropout.py:58",
+            "bytes": 31406948352
+          },
+          {
+            "site": "_project_logits@chunked_lm_head.py:183",
+            "bytes": 30450647040
+          },
+          {
+            "site": "_project_logits@chunked_lm_head.py:197",
+            "bytes": 22837985280
+          },
+          {
+            "site": "sort_topk_by_index@dsa_masking.py:124",
+            "bytes": 5637144576
+          },
+          {
+            "site": "_linear_forward@layers.py:475",
+            "bytes": 2539651072
+          },
+          {
+            "site": "get_emb@yarn_rotary_pos_embedding.py:154",
+            "bytes": 2147483648
+          },
+          {
+            "site": "forward@utils.py:1312",
+            "bytes": 1268776960
+          },
+          {
+            "site": "op_forward@rmsnorm.py:187",
+            "bytes": 402784256
+          },
+          {
+            "site": "embedding@functional.py:2567",
+            "bytes": 402653184
+          },
+          {
+            "site": "_compact_valid_topk_indices@dsa_cudnn_kernels.py:1024",
+            "bytes": 2752512
+          },
+          {
+            "site": "__post_init__@packed_seq_params.py:67",
+            "bytes": 1048576
+          },
+          {
+            "site": "cp_shard_thd_row@thd_cp.py:474",
+            "bytes": 819200
+          },
+          {
+            "site": "prepare_cross_entropy_weighting@cross_entropy.py:34",
+            "bytes": 131072
+          },
+          {
+            "site": "chunked_lm_head_loss_from_hidden@chunked_lm_head.py:408",
+            "bytes": 131072
+          },
+          {
+            "site": "prepare_cross_entropy_weighting@cross_entropy.py:31",
+            "bytes": 32768
+          }
+        ],
+        "allocator_settings": {
+          "PYTORCH_CUDA_ALLOC_CONF": "expandable_segments:True,garbage_collection_threshold:0.95",
+          "max_split_size": -1,
+          "garbage_collection_threshold": 0.95,
+          "expandable_segments": true,
+          "pinned_num_register_threads": 1,
+          "release_lock_on_cudamalloc": false,
+          "pinned_use_cuda_host_register": false,
+          "graph_capture_record_stream_reuse": false,
+          "roundup_power2_divisions": {
+            "1": 0,
+            "2": 0,
+            "4": 0,
+            "8": 0,
+            "16": 0,
+            "32": 0,
+            "64": 0,
+            "128": 0,
+            "256": 0,
+            "512": 0,
+            "1024": 0,
+            "2048": 0,
+            "4096": 0,
+            "8192": 0,
+            "16384": 0,
+            "32768": 0
+          }
+        }
+      },
+      {
+        "file": "memory.rank2.pickle",
+        "rank": 2,
+        "initial_active_bytes": 134038347004,
+        "peak_active_bytes": 228989885720,
+        "peak_growth_bytes": 94951538716,
+        "final_active_bytes": 134038347004,
+        "final_reserved_bytes": 234419650560,
+        "final_inactive_bytes": 100381135872,
+        "final_inactive_fraction": 0.4282112682627147,
+        "peak_time_seconds": 8.540536,
+        "event_count": 379567,
+        "oom_events": 0,
+        "peak_transient_categories": {
+          "logits_and_loss": 97097154568,
+          "input_and_packing": 1867792,
+          "other": 4
+        },
+        "peak_transient_sites": [
+          {
+            "site": "_bias_dropout_add_func@fused_bias_dropout.py:58",
+            "bytes": 31406948352
+          },
+          {
+            "site": "_project_logits@chunked_lm_head.py:183",
+            "bytes": 30450647040
+          },
+          {
+            "site": "_project_logits@chunked_lm_head.py:197",
+            "bytes": 22837985280
+          },
+          {
+            "site": "sort_topk_by_index@dsa_masking.py:124",
+            "bytes": 5637144576
+          },
+          {
+            "site": "_linear_forward@layers.py:475",
+            "bytes": 2539651072
+          },
+          {
+            "site": "get_emb@yarn_rotary_pos_embedding.py:154",
+            "bytes": 2147483648
+          },
+          {
+            "site": "forward@utils.py:1312",
+            "bytes": 1268776960
+          },
+          {
+            "site": "op_forward@rmsnorm.py:187",
+            "bytes": 402784256
+          },
+          {
+            "site": "embedding@functional.py:2567",
+            "bytes": 402653184
+          },
+          {
+            "site": "_compact_valid_topk_indices@dsa_cudnn_kernels.py:1024",
+            "bytes": 2752512
+          },
+          {
+            "site": "__post_init__@packed_seq_params.py:67",
+            "bytes": 1048576
+          },
+          {
+            "site": "cp_shard_thd_row@thd_cp.py:474",
+            "bytes": 819200
+          },
+          {
+            "site": "prepare_cross_entropy_weighting@cross_entropy.py:34",
+            "bytes": 131072
+          },
+          {
+            "site": "chunked_lm_head_loss_from_hidden@chunked_lm_head.py:408",
+            "bytes": 131072
+          },
+          {
+            "site": "prepare_cross_entropy_weighting@cross_entropy.py:31",
+            "bytes": 32768
+          }
+        ],
+        "allocator_settings": {
+          "PYTORCH_CUDA_ALLOC_CONF": "expandable_segments:True,garbage_collection_threshold:0.95",
+          "max_split_size": -1,
+          "garbage_collection_threshold": 0.95,
+          "expandable_segments": true,
+          "pinned_num_register_threads": 1,
+          "release_lock_on_cudamalloc": false,
+          "pinned_use_cuda_host_register": false,
+          "graph_capture_record_stream_reuse": false,
+          "roundup_power2_divisions": {
+            "1": 0,
+            "2": 0,
+            "4": 0,
+            "8": 0,
+            "16": 0,
+            "32": 0,
+            "64": 0,
+            "128": 0,
+            "256": 0,
+            "512": 0,
+            "1024": 0,
+            "2048": 0,
+            "4096": 0,
+            "8192": 0,
+            "16384": 0,
+            "32768": 0
+          }
+        }
+      },
+      {
+        "file": "memory.rank3.pickle",
+        "rank": 3,
+        "initial_active_bytes": 134038347004,
+        "peak_active_bytes": 228989885720,
+        "peak_growth_bytes": 94951538716,
+        "final_active_bytes": 134038347004,
+        "final_reserved_bytes": 234755194880,
+        "final_inactive_bytes": 100716680192,
+        "final_inactive_fraction": 0.4290285471360215,
+        "peak_time_seconds": 9.08221,
+        "event_count": 379568,
+        "oom_events": 0,
+        "peak_transient_categories": {
+          "logits_and_loss": 97097154568,
+          "input_and_packing": 1867792,
+          "other": 4
+        },
+        "peak_transient_sites": [
+          {
+            "site": "_bias_dropout_add_func@fused_bias_dropout.py:58",
+            "bytes": 31406948352
+          },
+          {
+            "site": "_project_logits@chunked_lm_head.py:183",
+            "bytes": 30450647040
+          },
+          {
+            "site": "_project_logits@chunked_lm_head.py:197",
+            "bytes": 22837985280
+          },
+          {
+            "site": "sort_topk_by_index@dsa_masking.py:124",
+            "bytes": 5637144576
+          },
+          {
+            "site": "_linear_forward@layers.py:475",
+            "bytes": 2539651072
+          },
+          {
+            "site": "get_emb@yarn_rotary_pos_embedding.py:154",
+            "bytes": 2147483648
+          },
+          {
+            "site": "forward@utils.py:1312",
+            "bytes": 1268776960
+          },
+          {
+            "site": "op_forward@rmsnorm.py:187",
+            "bytes": 402784256
+          },
+          {
+            "site": "embedding@functional.py:2567",
+            "bytes": 402653184
+          },
+          {
+            "site": "_compact_valid_topk_indices@dsa_cudnn_kernels.py:1024",
+            "bytes": 2752512
+          },
+          {
+            "site": "__post_init__@packed_seq_params.py:67",
+            "bytes": 1048576
+          },
+          {
+            "site": "cp_shard_thd_row@thd_cp.py:474",
+            "bytes": 819200
+          },
+          {
+            "site": "prepare_cross_entropy_weighting@cross_entropy.py:34",
+            "bytes": 131072
+          },
+          {
+            "site": "chunked_lm_head_loss_from_hidden@chunked_lm_head.py:408",
+            "bytes": 131072
+          },
+          {
+            "site": "prepare_cross_entropy_weighting@cross_entropy.py:31",
+            "bytes": 32768
+          }
+        ],
+        "allocator_settings": {
+          "PYTORCH_CUDA_ALLOC_CONF": "expandable_segments:True,garbage_collection_threshold:0.95",
+          "max_split_size": -1,
+          "garbage_collection_threshold": 0.95,
+          "expandable_segments": true,
+          "pinned_num_register_threads": 1,
+          "release_lock_on_cudamalloc": false,
+          "pinned_use_cuda_host_register": false,
+          "graph_capture_record_stream_reuse": false,
+          "roundup_power2_divisions": {
+            "1": 0,
+            "2": 0,
+            "4": 0,
+            "8": 0,
+            "16": 0,
+            "32": 0,
+            "64": 0,
+            "128": 0,
+            "256": 0,
+            "512": 0,
+            "1024": 0,
+            "2048": 0,
+            "4096": 0,
+            "8192": 0,
+            "16384": 0,
+            "32768": 0
+          }
+        }
+      },
+      {
+        "file": "memory.rank4.pickle",
+        "rank": 4,
+        "initial_active_bytes": 134038347004,
+        "peak_active_bytes": 228989885720,
+        "peak_growth_bytes": 94951538716,
+        "final_active_bytes": 134038347004,
+        "final_reserved_bytes": 234188963840,
+        "final_inactive_bytes": 100150449152,
+        "final_inactive_fraction": 0.42764803050422,
+        "peak_time_seconds": 8.54312,
+        "event_count": 380575,
+        "oom_events": 0,
+        "peak_transient_categories": {
+          "logits_and_loss": 97097154568,
+          "input_and_packing": 1867792,
+          "other": 4
+        },
+        "peak_transient_sites": [
+          {
+            "site": "_bias_dropout_add_func@fused_bias_dropout.py:58",
+            "bytes": 31406948352
+          },
+          {
+            "site": "_project_logits@chunked_lm_head.py:183",
+            "bytes": 30450647040
+          },
+          {
+            "site": "_project_logits@chunked_lm_head.py:197",
+            "bytes": 22837985280
+          },
+          {
+            "site": "sort_topk_by_index@dsa_masking.py:124",
+            "bytes": 5637144576
+          },
+          {
+            "site": "_linear_forward@layers.py:475",
+            "bytes": 2539651072
+          },
+          {
+            "site": "get_emb@yarn_rotary_pos_embedding.py:154",
+            "bytes": 2147483648
+          },
+          {
+            "site": "forward@utils.py:1312",
+            "bytes": 1268776960
+          },
+          {
+            "site": "op_forward@rmsnorm.py:187",
+            "bytes": 402784256
+          },
+          {
+            "site": "embedding@functional.py:2567",
+            "bytes": 402653184
+          },
+          {
+            "site": "_compact_valid_topk_indices@dsa_cudnn_kernels.py:1024",
+            "bytes": 2752512
+          },
+          {
+            "site": "__post_init__@packed_seq_params.py:67",
+            "bytes": 1048576
+          },
+          {
+            "site": "cp_shard_thd_row@thd_cp.py:474",
+            "bytes": 819200
+          },
+          {
+            "site": "prepare_cross_entropy_weighting@cross_entropy.py:34",
+            "bytes": 131072
+          },
+          {
+            "site": "chunked_lm_head_loss_from_hidden@chunked_lm_head.py:408",
+            "bytes": 131072
+          },
+          {
+            "site": "prepare_cross_entropy_weighting@cross_entropy.py:31",
+            "bytes": 32768
+          }
+        ],
+        "allocator_settings": {
+          "PYTORCH_CUDA_ALLOC_CONF": "expandable_segments:True,garbage_collection_threshold:0.95",
+          "max_split_size": -1,
+          "garbage_collection_threshold": 0.95,
+          "expandable_segments": true,
+          "pinned_num_register_threads": 1,
+          "release_lock_on_cudamalloc": false,
+          "pinned_use_cuda_host_register": false,
+          "graph_capture_record_stream_reuse": false,
+          "roundup_power2_divisions": {
+            "1": 0,
+            "2": 0,
+            "4": 0,
+            "8": 0,
+            "16": 0,
+            "32": 0,
+            "64": 0,
+            "128": 0,
+            "256": 0,
+            "512": 0,
+            "1024": 0,
+            "2048": 0,
+            "4096": 0,
+            "8192": 0,
+            "16384": 0,
+            "32768": 0
+          }
+        }
+      },
+      {
+        "file": "memory.rank5.pickle",
+        "rank": 5,
+        "initial_active_bytes": 134038347004,
+        "peak_active_bytes": 228989885720,
+        "peak_growth_bytes": 94951538716,
+        "final_active_bytes": 134038347004,
+        "final_reserved_bytes": 234084106240,
+        "final_inactive_bytes": 100045591552,
+        "final_inactive_fraction": 0.4273916463573396,
+        "peak_time_seconds": 8.542271,
+        "event_count": 381079,
+        "oom_events": 0,
+        "peak_transient_categories": {
+          "logits_and_loss": 97097154568,
+          "input_and_packing": 1867792,
+          "other": 4
+        },
+        "peak_transient_sites": [
+          {
+            "site": "_bias_dropout_add_func@fused_bias_dropout.py:58",
+            "bytes": 31406948352
+          },
+          {
+            "site": "_project_logits@chunked_lm_head.py:183",
+            "bytes": 30450647040
+          },
+          {
+            "site": "_project_logits@chunked_lm_head.py:197",
+            "bytes": 22837985280
+          },
+          {
+            "site": "sort_topk_by_index@dsa_masking.py:124",
+            "bytes": 5637144576
+          },
+          {
+            "site": "_linear_forward@layers.py:475",
+            "bytes": 2539651072
+          },
+          {
+            "site": "get_emb@yarn_rotary_pos_embedding.py:154",
+            "bytes": 2147483648
+          },
+          {
+            "site": "forward@utils.py:1312",
+            "bytes": 1268776960
+          },
+          {
+            "site": "op_forward@rmsnorm.py:187",
+            "bytes": 402784256
+          },
+          {
+            "site": "embedding@functional.py:2567",
+            "bytes": 402653184
+          },
+          {
+            "site": "_compact_valid_topk_indices@dsa_cudnn_kernels.py:1024",
+            "bytes": 2752512
+          },
+          {
+            "site": "__post_init__@packed_seq_params.py:67",
+            "bytes": 1048576
+          },
+          {
+            "site": "cp_shard_thd_row@thd_cp.py:474",
+            "bytes": 819200
+          },
+          {
+            "site": "prepare_cross_entropy_weighting@cross_entropy.py:34",
+            "bytes": 131072
+          },
+          {
+            "site": "chunked_lm_head_loss_from_hidden@chunked_lm_head.py:408",
+            "bytes": 131072
+          },
+          {
+            "site": "prepare_cross_entropy_weighting@cross_entropy.py:31",
+            "bytes": 32768
+          }
+        ],
+        "allocator_settings": {
+          "PYTORCH_CUDA_ALLOC_CONF": "expandable_segments:True,garbage_collection_threshold:0.95",
+          "max_split_size": -1,
+          "garbage_collection_threshold": 0.95,
+          "expandable_segments": true,
+          "pinned_num_register_threads": 1,
+          "release_lock_on_cudamalloc": false,
+          "pinned_use_cuda_host_register": false,
+          "graph_capture_record_stream_reuse": false,
+          "roundup_power2_divisions": {
+            "1": 0,
+            "2": 0,
+            "4": 0,
+            "8": 0,
+            "16": 0,
+            "32": 0,
+            "64": 0,
+            "128": 0,
+            "256": 0,
+            "512": 0,
+            "1024": 0,
+            "2048": 0,
+            "4096": 0,
+            "8192": 0,
+            "16384": 0,
+            "32768": 0
+          }
+        }
+      },
+      {
+        "file": "memory.rank6.pickle",
+        "rank": 6,
+        "initial_active_bytes": 134038347004,
+        "peak_active_bytes": 228989885720,
+        "peak_growth_bytes": 94951538716,
+        "final_active_bytes": 134038347004,
+        "final_reserved_bytes": 234734223360,
+        "final_inactive_bytes": 100695708672,
+        "final_inactive_fraction": 0.4289775356598432,
+        "peak_time_seconds": 9.274145,
+        "event_count": 379064,
+        "oom_events": 0,
+        "peak_transient_categories": {
+          "logits_and_loss": 97097154568,
+          "input_and_packing": 1867792,
+          "other": 4
+        },
+        "peak_transient_sites": [
+          {
+            "site": "_bias_dropout_add_func@fused_bias_dropout.py:58",
+            "bytes": 31406948352
+          },
+          {
+            "site": "_project_logits@chunked_lm_head.py:183",
+            "bytes": 30450647040
+          },
+          {
+            "site": "_project_logits@chunked_lm_head.py:197",
+            "bytes": 22837985280
+          },
+          {
+            "site": "sort_topk_by_index@dsa_masking.py:124",
+            "bytes": 5637144576
+          },
+          {
+            "site": "_linear_forward@layers.py:475",
+            "bytes": 2539651072
+          },
+          {
+            "site": "get_emb@yarn_rotary_pos_embedding.py:154",
+            "bytes": 2147483648
+          },
+          {
+            "site": "forward@utils.py:1312",
+            "bytes": 1268776960
+          },
+          {
+            "site": "op_forward@rmsnorm.py:187",
+            "bytes": 402784256
+          },
+          {
+            "site": "embedding@functional.py:2567",
+            "bytes": 402653184
+          },
+          {
+            "site": "_compact_valid_topk_indices@dsa_cudnn_kernels.py:1024",
+            "bytes": 2752512
+          },
+          {
+            "site": "__post_init__@packed_seq_params.py:67",
+            "bytes": 1048576
+          },
+          {
+            "site": "cp_shard_thd_row@thd_cp.py:474",
+            "bytes": 819200
+          },
+          {
+            "site": "prepare_cross_entropy_weighting@cross_entropy.py:34",
+            "bytes": 131072
+          },
+          {
+            "site": "chunked_lm_head_loss_from_hidden@chunked_lm_head.py:408",
+            "bytes": 131072
+          },
+          {
+            "site": "prepare_cross_entropy_weighting@cross_entropy.py:31",
+            "bytes": 32768
+          }
+        ],
+        "allocator_settings": {
+          "PYTORCH_CUDA_ALLOC_CONF": "expandable_segments:True,garbage_collection_threshold:0.95",
+          "max_split_size": -1,
+          "garbage_collection_threshold": 0.95,
+          "expandable_segments": true,
+          "pinned_num_register_threads": 1,
+          "release_lock_on_cudamalloc": false,
+          "pinned_use_cuda_host_register": false,
+          "graph_capture_record_stream_reuse": false,
+          "roundup_power2_divisions": {
+            "1": 0,
+            "2": 0,
+            "4": 0,
+            "8": 0,
+            "16": 0,
+            "32": 0,
+            "64": 0,
+            "128": 0,
+            "256": 0,
+            "512": 0,
+            "1024": 0,
+            "2048": 0,
+            "4096": 0,
+            "8192": 0,
+            "16384": 0,
+            "32768": 0
+          }
+        }
+      },
+      {
+        "file": "memory.rank7.pickle",
+        "rank": 7,
+        "initial_active_bytes": 134038347004,
+        "peak_active_bytes": 228989885720,
+        "peak_growth_bytes": 94951538716,
+        "final_active_bytes": 134038347004,
+        "final_reserved_bytes": 234335764480,
+        "final_inactive_bytes": 100297249792,
+        "final_inactive_fraction": 0.42800658283878873,
+        "peak_time_seconds": 9.214283,
+        "event_count": 379064,
+        "oom_events": 0,
+        "peak_transient_categories": {
+          "logits_and_loss": 97097154568,
+          "input_and_packing": 1867792,
+          "other": 4
+        },
+        "peak_transient_sites": [
+          {
+            "site": "_bias_dropout_add_func@fused_bias_dropout.py:58",
+            "bytes": 31406948352
+          },
+          {
+            "site": "_project_logits@chunked_lm_head.py:183",
+            "bytes": 30450647040
+          },
+          {
+            "site": "_project_logits@chunked_lm_head.py:197",
+            "bytes": 22837985280
+          },
+          {
+            "site": "sort_topk_by_index@dsa_masking.py:124",
+            "bytes": 5637144576
+          },
+          {
+            "site": "_linear_forward@layers.py:475",
+            "bytes": 2539651072
+          },
+          {
+            "site": "get_emb@yarn_rotary_pos_embedding.py:154",
+            "bytes": 2147483648
+          },
+          {
+            "site": "forward@utils.py:1312",
+            "bytes": 1268776960
+          },
+          {
+            "site": "op_forward@rmsnorm.py:187",
+            "bytes": 402784256
+          },
+          {
+            "site": "embedding@functional.py:2567",
+            "bytes": 402653184
+          },
+          {
+            "site": "_compact_valid_topk_indices@dsa_cudnn_kernels.py:1024",
+            "bytes": 2752512
+          },
+          {
+            "site": "__post_init__@packed_seq_params.py:67",
+            "bytes": 1048576
+          },
+          {
+            "site": "cp_shard_thd_row@thd_cp.py:474",
+            "bytes": 819200
+          },
+          {
+            "site": "prepare_cross_entropy_weighting@cross_entropy.py:34",
+            "bytes": 131072
+          },
+          {
+            "site": "chunked_lm_head_loss_from_hidden@chunked_lm_head.py:408",
+            "bytes": 131072
+          },
+          {
+            "site": "prepare_cross_entropy_weighting@cross_entropy.py:31",
+            "bytes": 32768
+          }
+        ],
+        "allocator_settings": {
+          "PYTORCH_CUDA_ALLOC_CONF": "expandable_segments:True,garbage_collection_threshold:0.95",
+          "max_split_size": -1,
+          "garbage_collection_threshold": 0.95,
+          "expandable_segments": true,
+          "pinned_num_register_threads": 1,
+          "release_lock_on_cudamalloc": false,
+          "pinned_use_cuda_host_register": false,
+          "graph_capture_record_stream_reuse": false,
+          "roundup_power2_divisions": {
+            "1": 0,
+            "2": 0,
+            "4": 0,
+            "8": 0,
+            "16": 0,
+            "32": 0,
+            "64": 0,
+            "128": 0,
+            "256": 0,
+            "512": 0,
+            "1024": 0,
+            "2048": 0,
+            "4096": 0,
+            "8192": 0,
+            "16384": 0,
+            "32768": 0
+          }
+        }
+      }
+    ]
+  }
+}

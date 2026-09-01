@@ -1,0 +1,137 @@
+{
+  "label": "qjke943-glm53-512k-393k-repeat",
+  "seq_len": 393216,
+  "num_gpus": 8,
+  "datums_per_window": 1,
+  "tokens_per_step": 393216,
+  "memory_profile_enabled": false,
+  "runtime_profile_enabled": false,
+  "started": "2026-08-31 21:15:43",
+  "initial_status": {
+    "mode": "training",
+    "step": 20,
+    "model_id": "/root/.cache/team_artifacts/huggingface/hub/models--zai-org--GLM-5.3/snapshots/187fb9fff6319062325ff825627ef6db084d9bc6",
+    "device": "cuda:0",
+    "last_loss": null,
+    "grad_norm": null,
+    "gpu_memory": {
+      "cuda:0": 276316553216
+    },
+    "world_size": 8,
+    "tensor_parallel_size": 1,
+    "pipeline_parallel_size": 1,
+    "expert_parallel_size": 8,
+    "context_parallel_size": 8,
+    "expert_tensor_parallel_size": 1,
+    "data_parallel_size": 1,
+    "max_seq_len": 524288
+  },
+  "final_status": {
+    "mode": "training",
+    "step": 26,
+    "model_id": "/root/.cache/team_artifacts/huggingface/hub/models--zai-org--GLM-5.3/snapshots/187fb9fff6319062325ff825627ef6db084d9bc6",
+    "device": "cuda:0",
+    "last_loss": null,
+    "grad_norm": null,
+    "gpu_memory": {
+      "cuda:0": 276442382336
+    },
+    "world_size": 8,
+    "tensor_parallel_size": 1,
+    "pipeline_parallel_size": 1,
+    "expert_parallel_size": 8,
+    "context_parallel_size": 8,
+    "expert_tensor_parallel_size": 1,
+    "data_parallel_size": 1,
+    "max_seq_len": 524288
+  },
+  "windows": [
+    {
+      "label": "qjke943-glm53-512k-393k-repeat",
+      "window_index": 0,
+      "phase": "warmup",
+      "datums": 1,
+      "num_tokens": 393216,
+      "fb_elapsed_s": 58.90202106162906,
+      "fb_tps_per_gpu": 834.4705175493447,
+      "optim_elapsed_s": 0.07095869723707438,
+      "loss": 12.157361748661673,
+      "grad_norm": 0.27247631549835205,
+      "server_step_seconds": 58.62259966135025
+    },
+    {
+      "label": "qjke943-glm53-512k-393k-repeat",
+      "window_index": 0,
+      "phase": "control",
+      "datums": 1,
+      "num_tokens": 393216,
+      "fb_elapsed_s": 81.170392930042,
+      "fb_tps_per_gpu": 605.5409888475276,
+      "optim_elapsed_s": 0.08215443231165409,
+      "loss": 12.149631880777692,
+      "grad_norm": 0.270891934633255,
+      "server_step_seconds": 80.8959107589908
+    },
+    {
+      "label": "qjke943-glm53-512k-393k-repeat",
+      "window_index": 1,
+      "phase": "control",
+      "datums": 1,
+      "num_tokens": 393216,
+      "fb_elapsed_s": 75.9161334852688,
+      "fb_tps_per_gpu": 647.4513090098001,
+      "optim_elapsed_s": 0.07955311378464103,
+      "loss": 12.136655519245197,
+      "grad_norm": 0.27316609025001526,
+      "server_step_seconds": 75.63529348187149
+    },
+    {
+      "label": "qjke943-glm53-512k-393k-repeat",
+      "window_index": 2,
+      "phase": "control",
+      "datums": 1,
+      "num_tokens": 393216,
+      "fb_elapsed_s": 74.10948320990428,
+      "fb_tps_per_gpu": 663.2349582142429,
+      "optim_elapsed_s": 0.20245095901191235,
+      "loss": 12.13315107511158,
+      "grad_norm": 0.255937397480011,
+      "server_step_seconds": 73.83305600145832
+    },
+    {
+      "label": "qjke943-glm53-512k-393k-repeat",
+      "window_index": 3,
+      "phase": "control",
+      "datums": 1,
+      "num_tokens": 393216,
+      "fb_elapsed_s": 78.52571355225518,
+      "fb_tps_per_gpu": 625.9350953530865,
+      "optim_elapsed_s": 0.18200504500418901,
+      "loss": 12.120837201022342,
+      "grad_norm": 0.23588162660598755,
+      "server_step_seconds": 78.25938718300313
+    },
+    {
+      "label": "qjke943-glm53-512k-393k-repeat",
+      "window_index": 4,
+      "phase": "control",
+      "datums": 1,
+      "num_tokens": 393216,
+      "fb_elapsed_s": 63.392005193047225,
+      "fb_tps_per_gpu": 775.3659132617396,
+      "optim_elapsed_s": 0.049678963143378496,
+      "loss": 12.11462050023524,
+      "grad_norm": 0.24304652214050293,
+      "server_step_seconds": 63.12158109387383
+    }
+  ],
+  "aggregates": {
+    "tokens_per_step": 393216,
+    "control_fb_seconds_mean": 74.6227456741035,
+    "control_optim_seconds_mean": 0.119168502651155,
+    "control_tps_per_gpu": 658.6731640063109,
+    "mfu3x": 0.07778349739814447,
+    "hfu": 0.11078947712778338
+  },
+  "total_elapsed_seconds": 433.2512661530636
+}
