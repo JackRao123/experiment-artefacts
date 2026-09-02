@@ -1,0 +1,195 @@
+{
+  "label": "glm53-b200-cp16-ep16-131k",
+  "seq_len": 131072,
+  "num_gpus": 16,
+  "datums_per_window": 1,
+  "tokens_per_step": 131072,
+  "memory_profile_enabled": true,
+  "runtime_profile_enabled": true,
+  "started": "2026-09-01 17:16:03",
+  "initial_status": {
+    "mode": "training",
+    "step": 0,
+    "model_id": "/root/.cache/team_artifacts/huggingface/hub/models--zai-org--GLM-5.3/snapshots/187fb9fff6319062325ff825627ef6db084d9bc6",
+    "device": "cuda:0",
+    "last_loss": null,
+    "grad_norm": null,
+    "gpu_memory": {
+      "cuda:0": 88296390656
+    },
+    "world_size": 16,
+    "tensor_parallel_size": 1,
+    "pipeline_parallel_size": 1,
+    "expert_parallel_size": 16,
+    "context_parallel_size": 16,
+    "expert_tensor_parallel_size": 1,
+    "data_parallel_size": 1,
+    "max_seq_len": 524288
+  },
+  "memory_profile_start": {
+    "mode": "memory",
+    "recording": true,
+    "local_path": "/root/.cache/user_artifacts/glm53_b200_cp16_ep16_512k/checkpoints/profiles/latest/memory"
+  },
+  "memory_profile_stop": {
+    "mode": "memory",
+    "local_path": "/root/.cache/user_artifacts/glm53_b200_cp16_ep16_512k/checkpoints/profiles/latest/memory",
+    "remote_path": null,
+    "files": [
+      "memory.rank0.pickle"
+    ],
+    "size_bytes": 75600963
+  },
+  "runtime_profile_start": {
+    "mode": "torch",
+    "recording": true,
+    "local_path": "/tmp/checkpoints/profiles/torch_trace"
+  },
+  "runtime_profile_stop": {
+    "mode": "torch",
+    "local_path": "/tmp/checkpoints/profiles/torch_trace",
+    "remote_path": null,
+    "files": [
+      "baseten-training-job-qv1xjxq-multinode-0_10167.1788283135188852083.pt.trace.json"
+    ],
+    "size_bytes": 534752942
+  },
+  "final_status": {
+    "mode": "training",
+    "step": 8,
+    "model_id": "/root/.cache/team_artifacts/huggingface/hub/models--zai-org--GLM-5.3/snapshots/187fb9fff6319062325ff825627ef6db084d9bc6",
+    "device": "cuda:0",
+    "last_loss": null,
+    "grad_norm": null,
+    "gpu_memory": {
+      "cuda:0": 119168565248
+    },
+    "world_size": 16,
+    "tensor_parallel_size": 1,
+    "pipeline_parallel_size": 1,
+    "expert_parallel_size": 16,
+    "context_parallel_size": 16,
+    "expert_tensor_parallel_size": 1,
+    "data_parallel_size": 1,
+    "max_seq_len": 524288
+  },
+  "windows": [
+    {
+      "label": "glm53-b200-cp16-ep16-131k",
+      "window_index": 0,
+      "phase": "warmup",
+      "datums": 1,
+      "num_tokens": 131072,
+      "fb_elapsed_s": 24.21673967386596,
+      "fb_tps_per_gpu": 338.2784020608927,
+      "optim_elapsed_s": 1.825924210017547,
+      "loss": 12.307058769674452,
+      "grad_norm": 0.5544328093528748,
+      "server_step_seconds": 25.784648578148335
+    },
+    {
+      "label": "glm53-b200-cp16-ep16-131k",
+      "window_index": 0,
+      "phase": "control",
+      "datums": 1,
+      "num_tokens": 131072,
+      "fb_elapsed_s": 19.008341748965904,
+      "fb_tps_per_gpu": 430.96868249676027,
+      "optim_elapsed_s": 0.05379153601825237,
+      "loss": 12.326136216249209,
+      "grad_norm": 0.7002447843551636,
+      "server_step_seconds": 18.940651819109917
+    },
+    {
+      "label": "glm53-b200-cp16-ep16-131k",
+      "window_index": 1,
+      "phase": "control",
+      "datums": 1,
+      "num_tokens": 131072,
+      "fb_elapsed_s": 18.898442776873708,
+      "fb_tps_per_gpu": 433.4748686291056,
+      "optim_elapsed_s": 0.04446269595064223,
+      "loss": 12.315800215150567,
+      "grad_norm": 0.46806201338768005,
+      "server_step_seconds": 18.82969456491992
+    },
+    {
+      "label": "glm53-b200-cp16-ep16-131k",
+      "window_index": 2,
+      "phase": "control",
+      "datums": 1,
+      "num_tokens": 131072,
+      "fb_elapsed_s": 19.10943282302469,
+      "fb_tps_per_gpu": 428.688809127269,
+      "optim_elapsed_s": 0.04092506505548954,
+      "loss": 12.303953582409534,
+      "grad_norm": 0.44825440645217896,
+      "server_step_seconds": 19.043340035015717
+    },
+    {
+      "label": "glm53-b200-cp16-ep16-131k",
+      "window_index": 3,
+      "phase": "control",
+      "datums": 1,
+      "num_tokens": 131072,
+      "fb_elapsed_s": 19.33686128514819,
+      "fb_tps_per_gpu": 423.64683074454916,
+      "optim_elapsed_s": 0.05985833704471588,
+      "loss": 12.296262140366672,
+      "grad_norm": 0.3921307325363159,
+      "server_step_seconds": 19.29082435928285
+    },
+    {
+      "label": "glm53-b200-cp16-ep16-131k",
+      "window_index": 4,
+      "phase": "control",
+      "datums": 1,
+      "num_tokens": 131072,
+      "fb_elapsed_s": 19.130579099059105,
+      "fb_tps_per_gpu": 428.214951444042,
+      "optim_elapsed_s": 0.04524615593254566,
+      "loss": 12.294613224893379,
+      "grad_norm": 0.8721814751625061,
+      "server_step_seconds": 19.06298227305524
+    },
+    {
+      "label": "glm53-b200-cp16-ep16-131k",
+      "window_index": 0,
+      "phase": "memory_profile",
+      "datums": 1,
+      "num_tokens": 131072,
+      "fb_elapsed_s": 21.075606167083606,
+      "fb_tps_per_gpu": 388.69581899829126,
+      "optim_elapsed_s": 0.6796756451949477,
+      "loss": 12.274118607472285,
+      "grad_norm": 0.4029490053653717,
+      "server_step_seconds": 19.587142295902595
+    },
+    {
+      "label": "glm53-b200-cp16-ep16-131k",
+      "window_index": 0,
+      "phase": "runtime_profile",
+      "datums": 1,
+      "num_tokens": 131072,
+      "fb_elapsed_s": 20.543811853975058,
+      "fb_tps_per_gpu": 398.7575459816585,
+      "optim_elapsed_s": 0.04948499193415046,
+      "loss": 12.285837446879935,
+      "grad_norm": 0.5359432697296143,
+      "server_step_seconds": 20.486399269895628
+    }
+  ],
+  "aggregates": {
+    "tokens_per_step": 131072,
+    "control_fb_seconds_mean": 19.09673154661432,
+    "control_optim_seconds_mean": 0.04885675800032914,
+    "control_tps_per_gpu": 428.97393095795854,
+    "mfu3x": 0.03905073902397237,
+    "hfu": 0.056677435489806825,
+    "memory_profile_fb_seconds": 21.075606167083606,
+    "memory_profile_optim_seconds": 0.6796756451949477,
+    "runtime_profile_fb_seconds": 20.543811853975058,
+    "runtime_profile_optim_seconds": 0.04948499193415046
+  },
+  "total_elapsed_seconds": 174.3407094371505
+}

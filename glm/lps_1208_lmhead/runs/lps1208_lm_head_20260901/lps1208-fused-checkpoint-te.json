@@ -1,0 +1,58 @@
+{
+  "method": "checkpoint-te",
+  "shape": {
+    "seq_len": 16384,
+    "chunk_size": 4096,
+    "vocab_size": 154880,
+    "hidden_size": 6144,
+    "tp": 1,
+    "cp": 1,
+    "lora_rank": 0
+  },
+  "environment": {
+    "torch": "2.11.0+cu130",
+    "cuda": "13.0",
+    "gpu": "NVIDIA L20D"
+  },
+  "runtime": {
+    "controls_ms": [
+      1404.694580078125,
+      1402.040771484375,
+      1401.8892822265625,
+      1401.96435546875,
+      1401.769775390625,
+      1402.1788330078125,
+      1401.8038330078125
+    ],
+    "mean_ms": 1402.3344900948662,
+    "median_ms": 1401.96435546875,
+    "min_ms": 1401.769775390625,
+    "max_ms": 1404.694580078125,
+    "tokens_per_second": 11683.375197376514
+  },
+  "memory": {
+    "baseline_allocated_bytes": 2122714112,
+    "peak_allocated_bytes": 8768606208,
+    "incremental_peak_bytes": 6645892096,
+    "snapshot_incremental_peak_bytes": 6645892096,
+    "snapshot_path": "/root/.cache/user_artifacts/lps1062_bench/lps1208-fused-checkpoint-te.memory.pickle"
+  },
+  "correctness": {
+    "losses": [
+      13.155660629272461,
+      13.155660629272461,
+      13.155660629272461,
+      13.155660629272461,
+      13.155660629272461,
+      13.155660629272461,
+      13.155660629272461
+    ],
+    "hidden_grad": {
+      "dtype": "torch.bfloat16",
+      "sum": -0.1569974422454834,
+      "abs_sum": 96.82401275634766,
+      "square_sum": 0.00015939980221446604
+    }
+  },
+  "completed_at": "2026-09-01 22:10:16"
+}

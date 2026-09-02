@@ -1,0 +1,71 @@
+{
+  "label": "hoist-recompute",
+  "shape": {
+    "seq_len": 16384,
+    "chunk_size": 4096,
+    "chunks": 4,
+    "vocab_size": 154880,
+    "hidden_size": 6144,
+    "lora_rank": 32,
+    "tp": 1,
+    "cp": 1
+  },
+  "environment": {
+    "torch": "2.11.0+cu130",
+    "cuda": "13.0",
+    "gpu": "NVIDIA L20D"
+  },
+  "runtime": {
+    "controls_ms": [
+      1433.3319091796875,
+      1433.3109130859375,
+      1433.6209716796875,
+      1433.133544921875,
+      1433.32568359375,
+      1433.2177734375,
+      1436.7987060546875
+    ],
+    "mean_ms": 1433.8199288504463,
+    "median_ms": 1433.32568359375,
+    "min_ms": 1433.133544921875,
+    "max_ms": 1436.7987060546875,
+    "tokens_per_second": 11426.818438167296
+  },
+  "memory": {
+    "baseline_allocated_bytes": 2133036032,
+    "peak_allocated_bytes": 15032783360,
+    "incremental_peak_bytes": 12899747328,
+    "snapshot_incremental_peak_bytes": 12899747328,
+    "snapshot_path": "/root/.cache/user_artifacts/lps1062_bench/lps1208-standalone-hoist-recompute.memory.pickle"
+  },
+  "correctness": {
+    "losses": [
+      13.147058486938477,
+      13.147058486938477,
+      13.147058486938477,
+      13.147058486938477,
+      13.147058486938477,
+      13.147058486938477,
+      13.147058486938477
+    ],
+    "hidden_grad": {
+      "dtype": "torch.bfloat16",
+      "sum": -0.1590450406074524,
+      "abs_sum": 96.69210815429688,
+      "square_sum": 0.0001591000473126769
+    },
+    "lora_a_grad": {
+      "dtype": "torch.bfloat16",
+      "sum": 0.08638764917850494,
+      "abs_sum": 12.246194839477539,
+      "square_sum": 0.0011986998142674565
+    },
+    "lora_b_grad": {
+      "dtype": "torch.bfloat16",
+      "sum": 0.00029941368848085403,
+      "abs_sum": 20.028366088867188,
+      "square_sum": 0.0012076731072738767
+    }
+  },
+  "completed_at": "2026-09-01 21:55:33"
+}

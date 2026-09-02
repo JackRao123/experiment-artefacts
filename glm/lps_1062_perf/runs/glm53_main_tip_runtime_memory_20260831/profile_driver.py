@@ -102,9 +102,6 @@ def drive_window(client: httpx.Client, label: str, index: int, datums: list[dict
         "loss": (fb or {}).get("loss"),
         "grad_norm": metrics.get("grad_norm"),
         "server_step_seconds": metrics.get("step_seconds"),
-        "peak_reserved_bytes": metrics.get("peak_reserved_bytes"),
-        "peak_allocated_bytes": metrics.get("peak_allocated_bytes"),
-        "device_total_bytes": metrics.get("device_total_bytes"),
     }
     print(
         f"[{label} {tag}{index}] fb={fb_s:.1f}s ({rec['fb_tps_per_gpu']:.0f} tok/s/GPU) "
@@ -219,21 +216,6 @@ def main() -> None:
         "control_tps_per_gpu": tps_per_gpu,
         "mfu3x": mfu3x(tps_per_gpu, args.seq_len, args.lora_rank),
         "hfu": hfu(tps_per_gpu, args.seq_len, args.lora_rank),
-        "peak_reserved_bytes": max(
-            int(w["peak_reserved_bytes"])
-            for w in windows
-            if w.get("peak_reserved_bytes") is not None
-        ),
-        "peak_allocated_bytes": max(
-            int(w["peak_allocated_bytes"])
-            for w in windows
-            if w.get("peak_allocated_bytes") is not None
-        ),
-        "device_total_bytes": max(
-            int(w["device_total_bytes"])
-            for w in windows
-            if w.get("device_total_bytes") is not None
-        ),
     }
     if args.memory_profile:
         memory_profile = next(w for w in windows if w["phase"] == "memory_profile")

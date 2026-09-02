@@ -1,0 +1,117 @@
+{
+  "environment": {
+    "torch": "2.11.0+cu130",
+    "cuda": "13.0",
+    "gpu": "NVIDIA L20D",
+    "world_size": 8,
+    "float32_matmul_precision": "highest",
+    "allow_tf32": false
+  },
+  "shape": {
+    "vocab_size": 154880,
+    "hidden_size": 6144,
+    "vocab_per_rank": 19360
+  },
+  "cases": [
+    {
+      "tokens": 1,
+      "tp1_vs_tp8_bf16": {
+        "different_logits": 251,
+        "total_logits": 154880,
+        "different_fraction": 0.0016206095460802317,
+        "logit_max_abs_error": 0.03125,
+        "logit_mean_abs_error": 3.1969993870006874e-06,
+        "kl_mean": -5.624924597213976e-07,
+        "kl_max": -5.624924597213976e-07,
+        "top1_mismatches": 0,
+        "elapsed_seconds": 0.9541507461108267
+      },
+      "tp1_vs_tp8_fp32": {
+        "different_logits": 130128,
+        "total_logits": 154880,
+        "different_fraction": 0.8401859402656555,
+        "logit_max_abs_error": 2.1457672119140625e-06,
+        "logit_mean_abs_error": 2.055241310472411e-07,
+        "kl_mean": 4.783837539434899e-07,
+        "kl_max": 4.783837539434899e-07,
+        "top1_mismatches": 0,
+        "elapsed_seconds": 0.4619443188421428
+      }
+    },
+    {
+      "tokens": 32,
+      "tp1_vs_tp8_bf16": {
+        "different_logits": 0,
+        "total_logits": 4956160,
+        "different_fraction": 0.0,
+        "logit_max_abs_error": 0.0,
+        "logit_mean_abs_error": 0.0,
+        "kl_mean": 0.0,
+        "kl_max": 0.0,
+        "top1_mismatches": 0,
+        "elapsed_seconds": 0.015600065933540463
+      },
+      "tp1_vs_tp8_fp32": {
+        "different_logits": 0,
+        "total_logits": 4956160,
+        "different_fraction": 0.0,
+        "logit_max_abs_error": 0.0,
+        "logit_mean_abs_error": 0.0,
+        "kl_mean": 0.0,
+        "kl_max": 0.0,
+        "top1_mismatches": 0,
+        "elapsed_seconds": 0.012084954883903265
+      }
+    },
+    {
+      "tokens": 256,
+      "tp1_vs_tp8_bf16": {
+        "different_logits": 0,
+        "total_logits": 39649280,
+        "different_fraction": 0.0,
+        "logit_max_abs_error": 0.0,
+        "logit_mean_abs_error": 0.0,
+        "kl_mean": 0.0,
+        "kl_max": 0.0,
+        "top1_mismatches": 0,
+        "elapsed_seconds": 0.010424502892419696
+      },
+      "tp1_vs_tp8_fp32": {
+        "different_logits": 0,
+        "total_logits": 39649280,
+        "different_fraction": 0.0,
+        "logit_max_abs_error": 0.0,
+        "logit_mean_abs_error": 0.0,
+        "kl_mean": 0.0,
+        "kl_max": 0.0,
+        "top1_mismatches": 0,
+        "elapsed_seconds": 0.03232018183916807
+      }
+    },
+    {
+      "tokens": 4096,
+      "tp1_vs_tp8_bf16": {
+        "different_logits": 0,
+        "total_logits": 634388480,
+        "different_fraction": 0.0,
+        "logit_max_abs_error": 0.0,
+        "logit_mean_abs_error": 0.0,
+        "kl_mean": 0.0,
+        "kl_max": 0.0,
+        "top1_mismatches": 0,
+        "elapsed_seconds": 0.05212931800633669
+      },
+      "tp1_vs_tp8_fp32": {
+        "different_logits": 0,
+        "total_logits": 634388480,
+        "different_fraction": 0.0,
+        "logit_max_abs_error": 0.0,
+        "logit_mean_abs_error": 0.0,
+        "kl_mean": 0.0,
+        "kl_max": 0.0,
+        "top1_mismatches": 0,
+        "elapsed_seconds": 0.16602816502563655
+      }
+    }
+  ]
+}

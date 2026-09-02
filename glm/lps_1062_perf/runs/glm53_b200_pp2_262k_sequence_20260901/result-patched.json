@@ -1,0 +1,88 @@
+{
+  "status": {
+    "mode": "training",
+    "step": 0,
+    "model_id": "/root/.cache/team_artifacts/huggingface/hub/models--zai-org--GLM-5.3/snapshots/187fb9fff6319062325ff825627ef6db084d9bc6",
+    "device": "cuda:0",
+    "last_loss": null,
+    "grad_norm": null,
+    "gpu_memory": {
+      "cuda:0": 71999422464
+    },
+    "world_size": 16,
+    "tensor_parallel_size": 1,
+    "pipeline_parallel_size": 2,
+    "expert_parallel_size": 8,
+    "context_parallel_size": 8,
+    "expert_tensor_parallel_size": 1,
+    "data_parallel_size": 1,
+    "max_seq_len": 262144
+  },
+  "records": [
+    {
+      "index": 0,
+      "datums": 4,
+      "tokens": 1048576,
+      "fb_seconds": 110.34883003984578,
+      "tps_per_gpu": 593.8984579749115,
+      "loss": 12.3153860679095,
+      "grad_norm": 0.4378649890422821,
+      "step_seconds": 111.88675664598122,
+      "peak_allocated_bytes": 166114476032,
+      "peak_reserved_bytes": 172685787136,
+      "device_total_bytes": 191503138816
+    },
+    {
+      "index": 1,
+      "datums": 4,
+      "tokens": 1048576,
+      "fb_seconds": 83.85237188613974,
+      "tps_per_gpu": 781.5640574722095,
+      "loss": 12.324804591387144,
+      "grad_norm": 0.49952664971351624,
+      "step_seconds": 83.1008508040104,
+      "peak_allocated_bytes": 167676631040,
+      "peak_reserved_bytes": 174025867264,
+      "device_total_bytes": 191503138816
+    },
+    {
+      "index": 2,
+      "datums": 4,
+      "tokens": 1048576,
+      "fb_seconds": 83.22807004093193,
+      "tps_per_gpu": 787.4266454547019,
+      "loss": 12.306041931312299,
+      "grad_norm": 0.4324508011341095,
+      "step_seconds": 82.49467503209598,
+      "peak_allocated_bytes": 167676631040,
+      "peak_reserved_bytes": 174025867264,
+      "device_total_bytes": 191503138816
+    },
+    {
+      "index": 3,
+      "datums": 5,
+      "tokens": 1310720,
+      "fb_seconds": 100.52157874894328,
+      "tps_per_gpu": 814.9493971299289,
+      "loss": 12.309484517992088,
+      "grad_norm": 0.46515750885009766,
+      "step_seconds": 99.59108484210446,
+      "peak_allocated_bytes": 167676631040,
+      "peak_reserved_bytes": 175745531904,
+      "device_total_bytes": 191503138816
+    },
+    {
+      "index": 4,
+      "datums": 6,
+      "tokens": 1572864,
+      "fb_seconds": 117.61635818099603,
+      "tps_per_gpu": 835.8021071246155,
+      "loss": 12.31296658693919,
+      "grad_norm": 0.47697189450263977,
+      "step_seconds": 116.49117087596096,
+      "peak_allocated_bytes": 168614766592,
+      "peak_reserved_bytes": 175747629056,
+      "device_total_bytes": 191503138816
+    }
+  ]
+}

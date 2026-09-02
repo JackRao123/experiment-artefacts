@@ -1,0 +1,67 @@
+{
+  "method": "cce-exact-weighted",
+  "shape": {
+    "seq_len": 16384,
+    "chunk_size": 4096,
+    "vocab_size": 154880,
+    "hidden_size": 6144,
+    "tp": 1,
+    "cp": 1,
+    "lora_rank": 0
+  },
+  "environment": {
+    "torch": "2.11.0+cu130",
+    "cuda": "13.0",
+    "gpu": "NVIDIA L20D"
+  },
+  "runtime": {
+    "controls_ms": [
+      347.586669921875,
+      348.81884765625,
+      349.8397521972656,
+      346.86322021484375,
+      349.2615051269531,
+      346.89111328125,
+      350.0010986328125
+    ],
+    "mean_ms": 348.46602957589283,
+    "median_ms": 348.81884765625,
+    "min_ms": 346.86322021484375,
+    "max_ms": 350.0010986328125,
+    "tokens_per_second": 47017.49556460484
+  },
+  "memory": {
+    "baseline_allocated_bytes": 2105740288,
+    "peak_allocated_bytes": 2709901312,
+    "incremental_peak_bytes": 604161024,
+    "snapshot_incremental_peak_bytes": 604161024,
+    "snapshot_path": "/root/.cache/user_artifacts/lps1062_bench/lps1208-fused-cce-exact-weighted.memory.pickle"
+  },
+  "correctness": {
+    "losses": [
+      13.160064697265625,
+      13.160064697265625,
+      13.160065650939941,
+      13.160065650939941,
+      13.160064697265625,
+      13.160064697265625,
+      13.160065650939941
+    ],
+    "hidden_grad": {
+      "dtype": "torch.bfloat16",
+      "sum": -0.15547804534435272,
+      "abs_sum": 96.88449096679688,
+      "square_sum": 0.00017359710182063282
+    },
+    "precision_probe": {
+      "tokens": 256,
+      "nll_max_abs_error": 0.0001220703125,
+      "nll_mean_abs_error": 1.5914440155029297e-05,
+      "nll_p99_abs_error": 6.680474325548857e-05,
+      "hidden_grad_max_abs_error": 0.0009765625,
+      "hidden_grad_mean_abs_error": 1.6925656382227316e-05,
+      "hidden_grad_p99_abs_error": 0.000244140625
+    }
+  },
+  "completed_at": "2026-09-01 22:19:31"
+}

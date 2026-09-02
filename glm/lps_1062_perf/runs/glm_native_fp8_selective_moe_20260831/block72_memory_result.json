@@ -1,0 +1,140 @@
+{
+  "label": "pr1251-glm53-block72-131k-memory",
+  "seq_len": 131072,
+  "num_gpus": 8,
+  "datums_per_window": 1,
+  "tokens_per_step": 131072,
+  "memory_profile_enabled": true,
+  "runtime_profile_enabled": false,
+  "started": "2026-09-01 05:38:20",
+  "initial_status": {
+    "mode": "training",
+    "step": 15,
+    "model_id": "/root/.cache/team_artifacts/huggingface/hub/models--zai-org--GLM-5.3/snapshots/187fb9fff6319062325ff825627ef6db084d9bc6",
+    "device": "cuda:0",
+    "last_loss": null,
+    "grad_norm": null,
+    "gpu_memory": {
+      "cuda:0": 243026362368
+    },
+    "world_size": 8,
+    "tensor_parallel_size": 1,
+    "pipeline_parallel_size": 1,
+    "expert_parallel_size": 8,
+    "context_parallel_size": 8,
+    "expert_tensor_parallel_size": 1,
+    "data_parallel_size": 1,
+    "max_seq_len": 131072
+  },
+  "memory_profile_start": {
+    "mode": "memory",
+    "recording": true,
+    "local_path": "/tmp/glm53-native-fp8-block72/checkpoints/profiles/latest/memory"
+  },
+  "memory_profile_stop": {
+    "mode": "memory",
+    "local_path": "/tmp/glm53-native-fp8-block72/checkpoints/profiles/latest/memory",
+    "remote_path": null,
+    "files": [
+      "memory.rank0.pickle"
+    ],
+    "size_bytes": 47824783
+  },
+  "final_status": {
+    "mode": "training",
+    "step": 20,
+    "model_id": "/root/.cache/team_artifacts/huggingface/hub/models--zai-org--GLM-5.3/snapshots/187fb9fff6319062325ff825627ef6db084d9bc6",
+    "device": "cuda:0",
+    "last_loss": null,
+    "grad_norm": null,
+    "gpu_memory": {
+      "cuda:0": 243026362368
+    },
+    "world_size": 8,
+    "tensor_parallel_size": 1,
+    "pipeline_parallel_size": 1,
+    "expert_parallel_size": 8,
+    "context_parallel_size": 8,
+    "expert_tensor_parallel_size": 1,
+    "data_parallel_size": 1,
+    "max_seq_len": 131072
+  },
+  "windows": [
+    {
+      "label": "pr1251-glm53-block72-131k-memory",
+      "window_index": 0,
+      "phase": "warmup",
+      "datums": 1,
+      "num_tokens": 131072,
+      "fb_elapsed_s": 13.769034990807995,
+      "fb_tps_per_gpu": 1189.9163602197043,
+      "optim_elapsed_s": 0.04625430703163147,
+      "loss": 12.186239709775618,
+      "grad_norm": 0.33961132168769836,
+      "server_step_seconds": 13.67907124524936
+    },
+    {
+      "label": "pr1251-glm53-block72-131k-memory",
+      "window_index": 0,
+      "phase": "control",
+      "datums": 1,
+      "num_tokens": 131072,
+      "fb_elapsed_s": 13.667672379175201,
+      "fb_tps_per_gpu": 1198.741054472709,
+      "optim_elapsed_s": 0.07543592411093414,
+      "loss": 12.176453982955803,
+      "grad_norm": 0.35894015431404114,
+      "server_step_seconds": 13.59172947681509
+    },
+    {
+      "label": "pr1251-glm53-block72-131k-memory",
+      "window_index": 1,
+      "phase": "control",
+      "datums": 1,
+      "num_tokens": 131072,
+      "fb_elapsed_s": 13.739906091010198,
+      "fb_tps_per_gpu": 1192.4390087876795,
+      "optim_elapsed_s": 0.06630990304984152,
+      "loss": 12.171689389720076,
+      "grad_norm": 0.3417656421661377,
+      "server_step_seconds": 13.667398523073643
+    },
+    {
+      "label": "pr1251-glm53-block72-131k-memory",
+      "window_index": 2,
+      "phase": "control",
+      "datums": 1,
+      "num_tokens": 131072,
+      "fb_elapsed_s": 13.735393543960527,
+      "fb_tps_per_gpu": 1192.830765828626,
+      "optim_elapsed_s": 0.05036714090965688,
+      "loss": 12.157183892699377,
+      "grad_norm": 0.35254693031311035,
+      "server_step_seconds": 13.66100174584426
+    },
+    {
+      "label": "pr1251-glm53-block72-131k-memory",
+      "window_index": 0,
+      "phase": "memory_profile",
+      "datums": 1,
+      "num_tokens": 131072,
+      "fb_elapsed_s": 14.791248972993344,
+      "fb_tps_per_gpu": 1107.6819834426956,
+      "optim_elapsed_s": 0.04505781386978924,
+      "loss": 12.164174378771811,
+      "grad_norm": 0.34529387950897217,
+      "server_step_seconds": 13.828879894921556
+    }
+  ],
+  "aggregates": {
+    "tokens_per_step": 131072,
+    "control_fb_seconds_mean": 13.714324004715309,
+    "control_optim_seconds_mean": 0.06403765602347751,
+    "control_tps_per_gpu": 1194.6633311541125,
+    "mfu3x": 0.10875366216829825,
+    "hfu": 0.15784281746985898,
+    "memory_profile_fb_seconds": 14.791248972993344,
+    "memory_profile_optim_seconds": 0.04505781386978924
+  },
+  "total_elapsed_seconds": 71.12774840416387
+}

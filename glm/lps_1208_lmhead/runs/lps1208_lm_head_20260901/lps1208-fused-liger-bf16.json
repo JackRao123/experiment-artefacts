@@ -1,0 +1,58 @@
+{
+  "method": "liger-bf16",
+  "shape": {
+    "seq_len": 16384,
+    "chunk_size": 4096,
+    "vocab_size": 154880,
+    "hidden_size": 6144,
+    "tp": 1,
+    "cp": 1,
+    "lora_rank": 0
+  },
+  "environment": {
+    "torch": "2.11.0+cu130",
+    "cuda": "13.0",
+    "gpu": "NVIDIA L20D"
+  },
+  "runtime": {
+    "controls_ms": [
+      46.4667854309082,
+      46.90089416503906,
+      45.914878845214844,
+      45.83302307128906,
+      45.93552017211914,
+      46.027809143066406,
+      46.74639892578125
+    ],
+    "mean_ms": 46.260758536202566,
+    "median_ms": 46.027809143066406,
+    "min_ms": 45.83302307128906,
+    "max_ms": 46.90089416503906,
+    "tokens_per_second": 354166.26355528244
+  },
+  "memory": {
+    "baseline_allocated_bytes": 2114194432,
+    "peak_allocated_bytes": 2949991424,
+    "incremental_peak_bytes": 835796992,
+    "snapshot_incremental_peak_bytes": 835796992,
+    "snapshot_path": "/root/.cache/user_artifacts/lps1062_bench/lps1208-fused-liger-bf16.memory.pickle"
+  },
+  "correctness": {
+    "losses": [
+      13.155645370483398,
+      13.155645370483398,
+      13.155645370483398,
+      13.155645370483398,
+      13.155645370483398,
+      13.155645370483398,
+      13.155645370483398
+    ],
+    "hidden_grad": {
+      "dtype": "torch.bfloat16",
+      "sum": -0.1570756584405899,
+      "abs_sum": 96.8092041015625,
+      "square_sum": 0.00015934331167954952
+    }
+  },
+  "completed_at": "2026-09-01 22:15:27"
+}

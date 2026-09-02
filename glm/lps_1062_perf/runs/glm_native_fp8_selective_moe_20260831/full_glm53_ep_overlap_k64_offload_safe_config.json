@@ -1,0 +1,27 @@
+{
+  "base_model": "/root/.cache/team_artifacts/huggingface/hub/models--zai-org--GLM-5.3/snapshots/187fb9fff6319062325ff825627ef6db084d9bc6",
+  "checkpoint_dir": "/tmp/glm53-native-fp8-ep-overlap-k64-offload-safe/checkpoints",
+  "max_seq_len": 131072,
+  "tensor_parallel_size": 1,
+  "pipeline_parallel_size": 1,
+  "expert_parallel_size": 8,
+  "context_parallel_size": 8,
+  "expert_tensor_parallel_size": 1,
+  "trust_remote_code": true,
+  "attention_backend": "flash",
+  "lora_rank": 32,
+  "lora_alpha": 32,
+  "expert_weight_storage": "native_fp8",
+  "moe_flex_dispatcher_backend": "hybridep",
+  "weight_sync": {"type": "disabled"},
+  "recompute": {"granularity": "selective", "modules": []},
+  "comm_overlap": {
+    "overlap_moe_expert_parallel_comm": true,
+    "moe_ep_overlap_checkpoint_num_layers": 64
+  },
+  "activation_offload": {
+    "enabled": true,
+    "modules": ["core_attn", "expert_fc1", "moe_act"],
+    "fraction": 1.0
+  }
+}

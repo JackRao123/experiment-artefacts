@@ -1,0 +1,58 @@
+{
+  "method": "cce-exact",
+  "shape": {
+    "seq_len": 16384,
+    "chunk_size": 4096,
+    "vocab_size": 154880,
+    "hidden_size": 6144,
+    "tp": 1,
+    "cp": 1,
+    "lora_rank": 0
+  },
+  "environment": {
+    "torch": "2.11.0+cu130",
+    "cuda": "13.0",
+    "gpu": "NVIDIA L20D"
+  },
+  "runtime": {
+    "controls_ms": [
+      348.6882019042969,
+      348.54962158203125,
+      346.01287841796875,
+      350.9566345214844,
+      346.6447448730469,
+      351.30010986328125,
+      349.0816955566406
+    ],
+    "mean_ms": 348.74769810267856,
+    "median_ms": 348.6882019042969,
+    "min_ms": 346.01287841796875,
+    "max_ms": 351.30010986328125,
+    "tokens_per_second": 46979.52155422173
+  },
+  "memory": {
+    "baseline_allocated_bytes": 2105674752,
+    "peak_allocated_bytes": 2709770240,
+    "incremental_peak_bytes": 604095488,
+    "snapshot_incremental_peak_bytes": 604095488,
+    "snapshot_path": "/root/.cache/user_artifacts/lps1062_bench/lps1208-fused-cce-exact.memory.pickle"
+  },
+  "correctness": {
+    "losses": [
+      13.155644416809082,
+      13.155644416809082,
+      13.155644416809082,
+      13.155644416809082,
+      13.155644416809082,
+      13.155643463134766,
+      13.155644416809082
+    ],
+    "hidden_grad": {
+      "dtype": "torch.bfloat16",
+      "sum": -0.15709561109542847,
+      "abs_sum": 96.80946350097656,
+      "square_sum": 0.0001593475171830505
+    }
+  },
+  "completed_at": "2026-09-01 22:11:59"
+}

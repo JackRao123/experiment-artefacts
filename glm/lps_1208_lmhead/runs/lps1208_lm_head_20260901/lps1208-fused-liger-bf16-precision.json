@@ -1,0 +1,55 @@
+{
+  "method": "liger-bf16",
+  "shape": {
+    "seq_len": 16384,
+    "chunk_size": 4096,
+    "vocab_size": 154880,
+    "hidden_size": 6144,
+    "tp": 1,
+    "cp": 1,
+    "lora_rank": 0
+  },
+  "environment": {
+    "torch": "2.11.0+cu130",
+    "cuda": "13.0",
+    "gpu": "NVIDIA L20D"
+  },
+  "runtime": {
+    "controls_ms": [
+      9203.2431640625
+    ],
+    "mean_ms": 9203.2431640625,
+    "median_ms": 9203.2431640625,
+    "min_ms": 9203.2431640625,
+    "max_ms": 9203.2431640625,
+    "tokens_per_second": 1780.2419981661951
+  },
+  "memory": {
+    "baseline_allocated_bytes": 2105671680,
+    "peak_allocated_bytes": 2949988352,
+    "incremental_peak_bytes": 844316672,
+    "snapshot_incremental_peak_bytes": null,
+    "snapshot_path": null
+  },
+  "correctness": {
+    "losses": [
+      13.155645370483398
+    ],
+    "hidden_grad": {
+      "dtype": "torch.bfloat16",
+      "sum": -0.1570756584405899,
+      "abs_sum": 96.8092041015625,
+      "square_sum": 0.00015934331167954952
+    },
+    "precision_probe": {
+      "tokens": 256,
+      "nll_max_abs_error": 0.009220123291015625,
+      "nll_mean_abs_error": 0.001759316772222519,
+      "nll_p99_abs_error": 0.007684612181037664,
+      "hidden_grad_max_abs_error": 0.3955078125,
+      "hidden_grad_mean_abs_error": 0.019260119646787643,
+      "hidden_grad_p99_abs_error": 0.106201171875
+    }
+  },
+  "completed_at": "2026-09-01 22:17:28"
+}

@@ -1,0 +1,166 @@
+{
+  "label": "glm53-b200-pp2-cp8-ep8-131k",
+  "seq_len": 131072,
+  "num_gpus": 16,
+  "datums_per_window": 1,
+  "tokens_per_step": 131072,
+  "memory_profile_enabled": true,
+  "runtime_profile_enabled": false,
+  "started": "2026-09-01 18:07:43",
+  "initial_status": {
+    "mode": "training",
+    "step": 0,
+    "model_id": "/root/.cache/team_artifacts/huggingface/hub/models--zai-org--GLM-5.3/snapshots/187fb9fff6319062325ff825627ef6db084d9bc6",
+    "device": "cuda:0",
+    "last_loss": null,
+    "grad_norm": null,
+    "gpu_memory": {
+      "cuda:0": 71999422464
+    },
+    "world_size": 16,
+    "tensor_parallel_size": 1,
+    "pipeline_parallel_size": 2,
+    "expert_parallel_size": 8,
+    "context_parallel_size": 8,
+    "expert_tensor_parallel_size": 1,
+    "data_parallel_size": 1,
+    "max_seq_len": 524288
+  },
+  "memory_profile_start": {
+    "mode": "memory",
+    "recording": true,
+    "local_path": "/tmp/glm53-b200-pp2-cp8-ep8-512k/checkpoints/profiles/latest/memory"
+  },
+  "memory_profile_stop": {
+    "mode": "memory",
+    "local_path": "/tmp/glm53-b200-pp2-cp8-ep8-512k/checkpoints/profiles/latest/memory",
+    "remote_path": null,
+    "files": [
+      "memory.rank0.pickle"
+    ],
+    "size_bytes": 26918366
+  },
+  "final_status": {
+    "mode": "training",
+    "step": 7,
+    "model_id": "/root/.cache/team_artifacts/huggingface/hub/models--zai-org--GLM-5.3/snapshots/187fb9fff6319062325ff825627ef6db084d9bc6",
+    "device": "cuda:0",
+    "last_loss": null,
+    "grad_norm": null,
+    "gpu_memory": {
+      "cuda:0": 112472358912
+    },
+    "world_size": 16,
+    "tensor_parallel_size": 1,
+    "pipeline_parallel_size": 2,
+    "expert_parallel_size": 8,
+    "context_parallel_size": 8,
+    "expert_tensor_parallel_size": 1,
+    "data_parallel_size": 1,
+    "max_seq_len": 524288
+  },
+  "windows": [
+    {
+      "label": "glm53-b200-pp2-cp8-ep8-131k",
+      "window_index": 0,
+      "phase": "warmup",
+      "datums": 1,
+      "num_tokens": 131072,
+      "fb_elapsed_s": 27.27011257200502,
+      "fb_tps_per_gpu": 300.4021335947748,
+      "optim_elapsed_s": 1.5287587221246213,
+      "loss": 12.308641881117868,
+      "grad_norm": 0.5892543196678162,
+      "server_step_seconds": 28.68167598498985
+    },
+    {
+      "label": "glm53-b200-pp2-cp8-ep8-131k",
+      "window_index": 0,
+      "phase": "control",
+      "datums": 1,
+      "num_tokens": 131072,
+      "fb_elapsed_s": 16.88380799605511,
+      "fb_tps_per_gpu": 485.19859986053234,
+      "optim_elapsed_s": 0.0286730770021677,
+      "loss": 12.32664166749319,
+      "grad_norm": 0.7419037818908691,
+      "server_step_seconds": 16.800924744922668
+    },
+    {
+      "label": "glm53-b200-pp2-cp8-ep8-131k",
+      "window_index": 1,
+      "phase": "control",
+      "datums": 1,
+      "num_tokens": 131072,
+      "fb_elapsed_s": 16.614852820988744,
+      "fb_tps_per_gpu": 493.05281775661837,
+      "optim_elapsed_s": 0.025382089195773005,
+      "loss": 12.313732633458201,
+      "grad_norm": 0.49084776639938354,
+      "server_step_seconds": 16.536979987984523
+    },
+    {
+      "label": "glm53-b200-pp2-cp8-ep8-131k",
+      "window_index": 2,
+      "phase": "control",
+      "datums": 1,
+      "num_tokens": 131072,
+      "fb_elapsed_s": 16.57264452497475,
+      "fb_tps_per_gpu": 494.30855695086973,
+      "optim_elapsed_s": 0.0330437368247658,
+      "loss": 12.305131379176173,
+      "grad_norm": 0.5580700039863586,
+      "server_step_seconds": 16.492097209906206
+    },
+    {
+      "label": "glm53-b200-pp2-cp8-ep8-131k",
+      "window_index": 3,
+      "phase": "control",
+      "datums": 1,
+      "num_tokens": 131072,
+      "fb_elapsed_s": 16.70208378112875,
+      "fb_tps_per_gpu": 490.47772166344464,
+      "optim_elapsed_s": 0.02445509983226657,
+      "loss": 12.294226030166856,
+      "grad_norm": 0.41077327728271484,
+      "server_step_seconds": 16.624220315832645
+    },
+    {
+      "label": "glm53-b200-pp2-cp8-ep8-131k",
+      "window_index": 4,
+      "phase": "control",
+      "datums": 1,
+      "num_tokens": 131072,
+      "fb_elapsed_s": 16.5871749878861,
+      "fb_tps_per_gpu": 493.87553974578304,
+      "optim_elapsed_s": 0.026101079070940614,
+      "loss": 12.29178365160867,
+      "grad_norm": 0.8708497285842896,
+      "server_step_seconds": 16.510105879046023
+    },
+    {
+      "label": "glm53-b200-pp2-cp8-ep8-131k",
+      "window_index": 0,
+      "phase": "memory_profile",
+      "datums": 1,
+      "num_tokens": 131072,
+      "fb_elapsed_s": 17.218333781929687,
+      "fb_tps_per_gpu": 475.77193610901816,
+      "optim_elapsed_s": 0.028168894816190004,
+      "loss": 12.270787397669965,
+      "grad_norm": 0.3904704749584198,
+      "server_step_seconds": 16.748313400894403
+    }
+  ],
+  "aggregates": {
+    "tokens_per_step": 131072,
+    "control_fb_seconds_mean": 16.672112822206692,
+    "control_optim_seconds_mean": 0.02753101638518274,
+    "control_tps_per_gpu": 491.35943880421274,
+    "mfu3x": 0.044729872439706234,
+    "hfu": 0.06492001234886878,
+    "memory_profile_fb_seconds": 17.218333781929687,
+    "memory_profile_optim_seconds": 0.028168894816190004
+  },
+  "total_elapsed_seconds": 130.29478602693416
+}
