@@ -1,5 +1,0 @@
-# Full GLM-5.2 Nsight Systems trace
-
-20260902 16:20 PDT - Started on `tj-w7xgz63`, one 8xB300 node, with the isolated trainers worktree at `origin/main` commit `f5840c2fd`. The target is the full 78-layer `zai-org/GLM-5.2-FP8` checkpoint at snapshot `ba978f7d347eaf65d22f1a86833408afdb953541`, sequence length 131072, one datum, TP1/PP1/CP8/EP8/ETP1/DP1, native FP8 routed-expert storage, HybridEP, LoRA r32, FlashAttention, and full one-layer recompute. The exact shape will be warmed before collecting one forward/backward operation. This capture enables CUDA, NVTX, OS-runtime tracing, PyTorch autograd NVTX labels, CPU sampling, and CPU context switches.
-
-20260902 16:29 PDT - Aborted during full-model startup at Jack's request, before the trainer became healthy and before the requested forward/backward capture. Stopped all trainer and nsys processes, verified that no GPU compute processes remained, and restored the standard generated devbox lifecycle helper. No full-model `.nsys-rep` was retained. The independent `NSYS_GUIDE.md` remains complete and records the nsys 2025.3.2 interactive-session behavior observed during this run.
