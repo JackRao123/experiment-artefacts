@@ -1,8 +1,0 @@
-[status] world_size=8 dp=1
-[d0295ede0-debug-runtime warmup0] fb=0.4s (38770 tok/s/GPU) optim=0.0s loss=13.528134560657964 gn=0.06201203912496567
-[d0295ede0-debug-runtime control0] fb=0.4s (40481 tok/s/GPU) optim=0.0s loss=13.517626896872688 gn=0.06102979928255081
-[profile] runtime_profile/start
-[d0295ede0-debug-runtime runtime_profile0] fb=0.4s (39588 tok/s/GPU) optim=0.0s loss=13.52273672284487 gn=0.06483050435781479
-[profile] runtime_profile/stop (kineto flush can take minutes)
-[done] -> /root/.cache/user_artifacts/lps1062_bench/d0295ede0-debug-runtime.json
-SUMMARY d0295ede0-debug-runtime: 40481 tok/s/GPU | control fb=0.4s optim=0.0s (131072 tok) | mfu3x 368.5% | hfu 534.9% | runtime-profile fb=0.4s optim=0.0s
