@@ -1,0 +1,17 @@
+group,key,wait_s_all_gpus
+by_laggard,gpu0,4.845
+by_laggard,gpu1,3.696
+by_laggard,gpu2,1.663
+by_laggard,gpu3,3.013
+by_laggard,gpu4,2.975
+by_laggard,gpu5,1.629
+by_laggard,gpu6,4.034
+by_laggard,gpu7,1.26
+by_kind,laggard_gpu_busy,19.26
+by_kind,laggard_gpu_idle(host),3.817
+by_kind,mixed,0.036
+by_laggard_top_category,gemm,19.791
+by_laggard_top_category,hybridep_meta,3.186
+by_laggard_top_category,moe_permute,0.137
+total,long_waits>=5.0ms_all_gpus_s,23.114
+total,all_sync_all_gpus_s,24.965

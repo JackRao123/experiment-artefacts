@@ -1,0 +1,10 @@
+kernel,instances_all_gpus,s_per_gpu,max_ms
+scan,1200,0.012,0.108
+searchsorted_cuda_kernel,4416,0.001,0.003
+compute_cuda_kernel,144,0.0,0.006
+indexing_backward_kernel,1,0.0,0.06
+ln_fwd_general_kernel,336,0.0,0.012
+pad_tokens_per_expert_kernel,1200,0.0,0.004
+thd_partition_indices_kernel,64,0.0,0.002
+triton_poi_fused__to_copy_all_reduce_scalar_tensor_stack_0,1200,0.0,0.002
+write_indices,5,0.0,0.003

@@ -261,3 +261,88 @@ identical node labels, `baseten.co/gpu-type: nvidia-b300`). Running
 `pod_setup.sh` (apt deps, nsight-systems, node-local venv build) as
 `pod_setup2.log`; then restart the trainer (nsys launcher still linked) and
 run `ab/b4_chain.sh`.
+
+07:51 UTC - **B4 (fix 1 + 3 + 4 + allocator reserve)**, new pod
+e02-sg-e1n4vn65z0f, same launcher, fresh start: controls 22.8 / 22.7 / 25.0 s,
+mean **23.5 s (1394 tok/s/GPU)**; two controls are the fastest steps measured
+so far, the third is a 25.0 s outlier with **no** reserved-memory growth
+(peak reserved 245.78 GiB constant across warmup and all controls; the
+reserve worked: 255 GB in use per GPU right after startup). So allocator
+growth is not the only cause of slow steps; the capture will say what this
+one was (candidates: a badly imbalanced routing draw, a long DSA backward
+drain). Step-0 loss/gn 12.3319 / 0.5624; B3 (numerically identical code) gave
+12.3282 / 0.5506, so fresh-start run-to-run variation is ~2% on grad_norm,
+which softens (not removes) the fix-4 grad_norm flag: fused-SwiGLU builds
+0.5506 / 0.5624 vs unfused 0.5665 / 0.5675 / 0.5745 / 0.5760. The pod-only
+DSA-flag diagnostic did not fire: the runtime path is not
+`FusedIndexerSparseAttnFunc`; the backward node in the traces is
+`FusedSparseAttentionFuncBackward`, so the compaction decision lives in that
+Function (dsa.py). Log `ab/B4-fix1348.log`.
+
+07:58 UTC - **Finding 1b root cause (read, then confirmed by the kernel
+neighbourhood in the traces).** All 78 layers run the absorbed-MLA sparse
+attention through `dsa_cudnn_kernels.run_fused_absorbed_sparse_attention` ->
+`FusedSparseAttentionFunc` (backward node `FusedSparseAttentionFuncBackward`
+in every capture). That Function's backward calls
+`_run_sparse_attention_backward(...)` without `all_rows_nonempty`, so the
+flag defaults to False and the backward always takes the compaction path:
+`torch.nonzero(topk_length > 0)` (the 78 host syncs, up to 780 ms each
+because they drain the layer backward), then six `torch.cat`s and six
+`index_select`s over q / out / dO / lse / global_idxs / topk_length per layer
+(part of the 1.5 s/GPU of `cat_copy` in `layer_backward_proper`). The sibling
+`FusedIndexerSparseAttnFunc` computes the flag (`query_valid_rows is None and
+use_local_indexer_varlen and varlen bounds present and key_positions is None`,
+line ~2322) but is not the path taken here (`run_fused_dsa_attention` is
+skipped when the indexer/top-k run separately). Fix: thread an
+`all_rows_nonempty` argument from the dsa.py caller (which has the same
+inputs) through `run_fused_absorbed_sparse_attention` into
+`FusedSparseAttentionFunc.forward`/ctx. That is a Megatron-LM fork change
+(two pointer bumps), so it is left as the top next step, not done here.
+Guarantee needed: every query row has at least one top-k key, true for
+causal attention on real tokens (a token attends to itself); padded rows must
+keep the compaction path, so the trainer must pass the flag only when the
+packer produced no padding rows (host-known).
+
+08:05 UTC - **B4 capture (`analysis_fix1348/`)**: `cuMem*` driver calls inside
+the step window: **none** (fix 1 capture: 252 calls / 1.1 s host; fix134: dozens
+of 19-57 ms). Largest GPU idle gap 101 ms (was 445-674 ms). `laggard_gpu_idle
+(host)` collective lateness 3.8 s summed (fix13b 6.9 s). Instrumented step
+23.6 s (fix134 22.9 s; same capture datum, different routing draw because
+the stack is nondeterministic). **Four more controls** (`ab/B4b-fix1348-more.json`):
+23.1 / 23.0 / 23.5 / 23.6 s. All seven B4 controls: 22.8 22.7 25.0 23.1 23.0
+23.5 23.6, mean **23.4 s**, median 23.1, vs B3 23.2 s (n=3). Verdict per the
+pre-registered rule: mechanism removed (both capture criteria met), no
+regression, but no demonstrated step-time gain at this sample size; it
+cannot change numerics. Kept in the PR, flagged as such.
+Remaining 100 ms gaps: (a) a `.item()` sync in a forward MoE layer right
+after an NCCL all-reduce (GPU3, 91 ms); (b) a single `cuLaunchKernel` of an
+inductor kernel (`triton_poi_fused__to_copy_mul_unsqueeze_view_0`) that took
+106 ms on the host (GPU0). Long launches (>5 ms) are rare: 3 in this capture,
+0 in fix134 and fix1, so not a systematic lazy-loading cost. Hypothesis for
+the 25.0 s outlier steps that have no allocator growth: torch.compile
+recompiles of the MoE compiled region on new per-expert token counts
+(`Torch-Compiled Region: 4/2`, 66 calls per rank per step, 4.1 s host wall vs
+0.2 s GPU). Not measured; measure with `TORCH_LOGS=recompiles` or
+`torch._dynamo.utils.counters` on a slow step before believing it.
+
+## State at handoff (08:10 UTC)
+
+- PR https://github.com/basetenlabs/trainers/pull/1301 (draft): fix 1, fix 3 (+1c),
+  fix 4, fix 8 (allocator reserve). Measured chain: 26.9 -> 26.0 -> 24.0 -> 23.2 s
+  (B4 23.4 s, n=7, no gain demonstrated). Cumulative +15.7% tok/s/GPU at B3.
+- Open numerics question: fix 4 step-0 grad_norm 0.5506 / 0.5624 (two fresh
+  starts) vs 0.5665-0.5760 (four fresh starts without it); loss unchanged;
+  op-level evidence in `swiglu_probe.py`. Jack's call.
+- Top next steps, ranked: (1) finding 1b fork change (78 backward syncs + the
+  compaction copies); (2) real-data expert-imbalance measurement
+  (`range_imbalance.py` on a capture with customer-shaped data) before any
+  EPLB-style work, HybridEP waiting is 2.7-3.1 s/GPU; (3) recompile
+  hypothesis above; (4) HybridEP `.item()` (150/step) and indexer `.item()`
+  (42/step) via a host-side count path; (5) copies in the true layer backward
+  (1.5 s/GPU, spread over autograd nodes).
+- Pod `jackrao-glm-nsys-b300` on e02-sg-e1n4vn65z0f: trainer stopped, stock
+  launcher restored, pod-only diagnostic removed from the checkout; it carries
+  SYS_ADMIN and can be deleted. Persistent `$REMOTE_RUN` keeps every capture,
+  sqlite export and analysis dir; laptop copies of the analysis dirs and logs
+  are in this folder (the new .nsys-rep files are on the pod volume only:
+  glm53-fix1 / fix13 / fix13b / fix134 / fix1348 -b300-262k-nvtx-all-ranks-gpu-metrics.nsys-rep).
