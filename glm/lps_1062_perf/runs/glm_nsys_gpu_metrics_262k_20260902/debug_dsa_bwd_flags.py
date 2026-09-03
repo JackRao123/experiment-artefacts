@@ -25,7 +25,9 @@ def install():
             bound.update(kwargs)
             pick = {n: bound.get(n) for n in ("varlen_starts", "varlen_ends", "key_positions", "query_valid_rows", "use_local_indexer_varlen", "single_packed_thd_sequence")}
             desc = {n: (None if v is None else (v if isinstance(v, (bool, int)) else f"Tensor{tuple(v.shape)}")) for n, v in pick.items()}
-            print(f"[DSA_BWD_FLAGS rank={os.environ.get('RANK')}] {desc}", flush=True)
+            out = f"/root/.cache/user_artifacts/lps1062_bench/glm_nsys_gpu_metrics_262k_20260902/ab/dsa_bwd_flags.rank{os.environ.get('RANK')}.txt"
+            with open(out, "a") as fh:
+                fh.write(f"sq={bound.get('query').shape if bound.get('query') is not None else None} {desc}\n")
         return fn(*args, **kwargs)
 
     k.FusedIndexerSparseAttnFunc.forward = staticmethod(wrapped)

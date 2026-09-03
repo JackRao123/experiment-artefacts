@@ -193,3 +193,58 @@ session `glm53fix134`. Pre-registered rule for fix 4: ships if the control
 mean drops by >= 0.3 s with step-0 loss/gn inside the unchanged-code spread,
 and the capture shows the `activation` category and the moe_experts
 elementwise launches (5,095 per GPU per pass) shrink.
+
+07:05 UTC - **B3 (fix 1 + 3 + 4)**, same launcher, fresh start: controls 23.3 /
+22.6 / 23.7 s, mean **23.2 s (1411 tok/s/GPU)**; vs B2 24.0 s: **-0.8 s** for
+the fused SwiGLU; cumulative vs A0 26.9 s: **-3.7 s (-13.8%, +15.7% tok/s/GPU)**.
+Step-0 loss 12.3282 (references 12.3303-12.3322, probe noise ~4e-3: fine).
+Step-0 grad_norm **0.5506** vs references 0.5665 / 0.5675 / 0.5745 / 0.5760:
+2.9% below the lowest, outside the 1.7% spread. Not accepting this as noise
+without a measurement: (a) op-level probe of fused vs unfused SwiGLU vs fp64
+(forward output and input gradient) to see whether the unfused bf16 chain adds
+rounding noise that inflates gradients; (b) more step-0 grad_norm samples on
+this build via `/init_trainer_server` + one step. Log `ab/B3-fix134.log`.
+
+07:15 UTC - **SwiGLU op-level probe** (`swiglu_probe.py`, 65536 x 4096 bf16
+inputs, fp32 probs, one B300, fp64 reference): forward output rel-L2 error
+unfused bf16 chain 2.93e-3 vs fused 1.66e-3 (ratio 1.76); input gradient
+2.90e-3 vs 1.66e-3 (1.75); gradient norms fp64 28.71544 / unfused 28.71329 /
+fused 28.71542 (identical to 1e-4). Probs gradient: unfused rel-L2 2.4e-3
+(computed from bf16-rounded activations), fused 1.1e-7 (fp32). So the fused
+kernel is strictly closer to the exact math; at the op level it does not
+inflate or deflate gradient norms. The step-0 grad_norm shift therefore needs
+the trainer-level sampling (`gn_probe.py`: re-init LoRA, one step, N=3).
+
+07:20 UTC - **fix134 capture (clean)**: instrumented step 22.9 s (window 22.6;
+fix13b 24.8). Categories (s/GPU, fix13b -> fix134): elementwise 2.17 -> 1.24,
+activation 0.37 -> 0.18, hybridep_sync 4.38 -> **2.66**, moe range GPU 8.35 ->
+6.29; moe_experts elementwise launches per GPU per pass 5,095 -> 4,800
+(the silu / mul / probs-mul / cast chain became one kernel) and its time 0.334
+-> 0.059 s. The imbalance wait fell because the heaviest rank does 1.6-2.5x
+the mean expert work, so it saves the most from the fusion. nccl 0.63 -> 1.22
+and topk_router 0.14 -> 0.36 grew (waiting inside collectives / small kernels
+that now sit at the sync points; not investigated). GPU0/GPU2 again have
+~445 ms idle gaps on a step whose reserved memory grew (allocator, finding 8).
+
+07:27 UTC - **Step-0 grad_norm sampling on the fix134 build** (`gn_probe.py`:
+`/init_trainer_server` then one step, three times): loss 12.3308 / 12.3298 /
+12.3316 (inside the reference spread); grad_norm **0.5550 / 0.5097 / 0.6128**.
+The re-init evidently draws a new LoRA-A each time, so step-0 grad_norm moves
++-10% with the adapter init; the fresh-start references (0.5665-0.5760) share
+one seeded init and are the sharper comparison. Against them B3's 0.5506
+(same init) is a 2.9% shift, outside the 1.7% spread but a third of the
+init sensitivity. Op level (`swiglu_probe.py`): the fused kernel is 1.75x
+closer to fp64 than the bf16 chain and computes the router-probability
+gradient in fp32 instead of from bf16-rounded activations. Reading: the fused
+path changes the gradient slightly and in the direction of the exact math;
+loss unchanged. Recommendation: ship, flagged; Jack decides.
+Logs `ab/gn-fix134.log`, `ab/B3-fix134.log`, capture `analysis_fix134/`.
+
+07:28 UTC - **B4 deployed**: `allocator_reserve.py` (reserve free minus
+16 GiB after the startup warmup) + `backend.py` call; pod-only DSA-flag
+diagnostic now writes `ab/dsa_bwd_flags.rank*.txt`. Trainer restarted,
+session `glm53fix1348`. Pre-registered rule for B4: ships if captures show no
+cuMem* driver calls inside the step window and no allocator idle gaps, the
+control mean does not regress, and step-0 loss/gn are unchanged (it cannot
+change numerics). Expected gain is only on the steps that previously grew the
+pool (0.15-0.7 s each); the control mean may move little.
