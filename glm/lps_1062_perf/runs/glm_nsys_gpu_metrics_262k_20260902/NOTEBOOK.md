@@ -166,3 +166,30 @@ absent (0 s; 1.85 s in tip of main and fix 1), i.e. the SIMT GEMMs are gone.
 Rule added to the protocol: after any `/init_trainer_server`, run at least one
 plain forward+backward before capturing or timing. Re-capturing as `fix13b`
 after a warmup + 2 controls.
+
+06:50 UTC - **fix13b capture (clean, after a warm step)**: instrumented step
+25.1 s (window 24.8 s; tip of main 27.4, fix 1 26.56). `lm_head` range GPU
+time 0.957 -> **0.070 s**; `fp32_simt_head` category gone; forward phase 8.2
+-> 7.35 s GPU. Host syncs unchanged from fix 1 (~280 + ~254 on a second
+thread per rank). GPU idle 0.33 s on six GPUs; GPU6 1.02 s (674 ms gap) and
+GPU1 0.62 s (258 ms gap): `gap_context.py` shows both are again the allocator
+(`cuMemCreate` calls of 19-57 ms each, dozens of them) at the first backward
+recompute inside `moe_experts > _GroupedLinear`, on a step whose peak
+reserved memory set a new high (226.9 GiB). GPU6 was the laggard for 10.7 s
+of the 33.3 s summed collective waiting. Categories now (s/GPU): gemm 5.01,
+hybridep_sync 4.38, dsa_backward 3.71, cat_copy 2.93, elementwise 2.17,
+dsa_forward 1.24, dsa_indexer 1.10, hybridep dispatch+combine 1.76,
+moe_permute 0.78, nccl 0.63, activation 0.37, norm 0.31.
+Re-warm timing after the probe's LoRA reset: controls 23.8 s and 26.7 s; the
+slow one coincides with reserved memory growing 208.5 -> 210.4 GiB (finding
+8 again).
+
+06:51 UTC - **Fix 4 deployed** (commit on the PR branch: `_enable_fused_swiglu`
+in `megatron_config.py`, sets `bias_activation_fusion=True` for gated SiLU
+without GLU interleaving) together with the pod-only diagnostic
+`debug_dsa_bwd_flags.py` (prints the five inputs that decide the DSA backward
+compaction path, once per rank). Trainer restarted under `nsys launch`
+session `glm53fix134`. Pre-registered rule for fix 4: ships if the control
+mean drops by >= 0.3 s with step-0 loss/gn inside the unchanged-code spread,
+and the capture shows the `activation` category and the moe_experts
+elementwise launches (5,095 per GPU per pass) shrink.

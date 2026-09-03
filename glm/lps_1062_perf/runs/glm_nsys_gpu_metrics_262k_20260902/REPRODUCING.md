@@ -139,3 +139,21 @@ Notes:
 - nsys records every CUDA runtime call twice (`cudaStreamSynchronize` and `cudaStreamSynchronize_v3020`); only the unversioned row carries the callchain. Scripts dedupe on that.
 - `--pytorch=autograd-nvtx` emits millions of per-op ranges named `aten::x, op_id = N`; the scripts strip the id so they collapse into per-op names (useful: `aten::cat`, `aten::copy_` GPU time per step).
 - Python frames in the CUDA callchains are unresolved addresses even with `--python-backtrace=cuda`; the libtorch frames are enough to name the op (`nonzero` from `index_Tensor`, `_local_scalar_dense` from `.item()`), and the enclosing NVTX range names the module.
+
+## A/B and parity protocol used by the optimisation PR (added 2026-09-03, session cauchy)
+
+Scripts in this folder (copies live on the pod under `$REMOTE_RUN`):
+
+- `capture_and_analyze.sh <nsys-session> <tag>`: one profiled 262k step under an already-launched `nsys launch` session, then sqlite export and all analysis scripts into `analysis_<tag>/`. Takes ~15 min. Never run it as the first step after `/init_trainer_server` (see below).
+- `parity_probe.py`: `--reinit` resets the LoRA adapter (B = 0, model == frozen base), then `--runs N` forwards (`/forward`, no gradient side effects) of the seed-0xB300 datum, saving loss and per-token logprobs; `--compare A B` prints the logprob delta distribution. Two runs on the same build give the noise floor, which is large on this stack (mean |delta| 0.08-0.11 even warm-vs-warm), so cross-build comparisons are statistical.
+- `gap_context.py <sqlite> --gpu N --window-from analysis_<tag>/step_window.csv`: explains the largest GPU-idle gaps (kernels around them, NVTX ranges open, CUDA runtime/driver calls the host was in). This is how the allocator-growth stalls (finding 8) were found.
+- `lm_head_gemm_probe.py`: standalone numerics + timing of the LM-head GEMM variants on one GPU (fix 3 evidence).
+- `debug_dsa_bwd_flags.py`: pod-only diagnostic wrapper printing the inputs that decide the DSA backward compaction path; installed by hand in the pod's `backend.py`, never committed.
+
+Timing A/B: same launcher for both arms (the `nsys launch` wrapper without collection adds ~1%; the stock launcher is only needed for headline numbers), fresh start, `profile_driver.py --control-repeats 3`, report the control mean and the individual controls. Parity per fix: step-0 (warmup) loss / grad_norm against the unchanged-code fresh-start references (12.3311 / 0.5745 and 12.3303 / 0.5675), never step-1 grad_norm (Adam's first update amplifies any gradient flip).
+
+Gotchas learned:
+- After `/init_trainer_server` the next forward+backward behaves like a warmup (plans/autotune rebuilt, 50 s step, 2 s host syncs). Run one plain step before timing or capturing.
+- Peak reserved memory grows step to step (routing variance); a step that sets a new high pays 0.15-0.7 s of allocator mapping on the laggard rank. Check `peak_reserved_bytes` per window in the driver JSON when a control looks slow.
+- `wait_trainer_health.sh` exits early with a false "process died" in the first minutes; rerun it, do not poll by hand (a hook blocks ad-hoc polling).
+- Do not force-push the PR branch: a bot pushes `fix(trainers): applied check fixes` formatting commits onto it.
