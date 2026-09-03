@@ -1,0 +1,359 @@
+diff --git a/server-interface/src/trainers_server_interface/dp_worker/worker.py b/server-interface/src/trainers_server_interface/dp_worker/worker.py
+index 6b7e5a716..b12beae79 100644
+--- a/server-interface/src/trainers_server_interface/dp_worker/worker.py
++++ b/server-interface/src/trainers_server_interface/dp_worker/worker.py
+@@ -18,6 +18,7 @@ Shutdown:
+ from __future__ import annotations
+ 
+ import asyncio
++import contextlib
+ import json
+ import logging
+ import os
+@@ -158,6 +159,28 @@ def _execute(
+         takes_ownership=takes_ownership,
+         op_type=getattr(op, "type", type(op).__name__),
+     )
++    with _nvtx_request_range(op):
++        return _execute_op(controller, profiler_manager, op)
++
++
++@contextlib.contextmanager
++def _nvtx_request_range(op):
++    """NVTX range naming the op so nsys captures show request boundaries."""
++    if not torch.cuda.is_available():
++        yield
++        return
++    torch.cuda.nvtx.range_push(f"request:{type(op).__name__}")
++    try:
++        yield
++    finally:
++        torch.cuda.nvtx.range_pop()
++
++
++def _execute_op(
++    controller: TrainingController,
++    profiler_manager: ProfilerManager,
++    op,
++) -> OpResult:
+     if isinstance(op, ForwardBackwardOp):
+         profiler_manager.on_runtime_profile_step_start()
+         try:
+diff --git a/server-megatron-bridge/src/trainers_server_megatron_bridge/backend.py b/server-megatron-bridge/src/trainers_server_megatron_bridge/backend.py
+index 6e074e294..c2ba33f17 100644
+--- a/server-megatron-bridge/src/trainers_server_megatron_bridge/backend.py
++++ b/server-megatron-bridge/src/trainers_server_megatron_bridge/backend.py
+@@ -77,6 +77,7 @@ from trainers_server_megatron_bridge.mb_patches import (
+ from trainers_server_megatron_bridge.megatron_config import (
+     _build_config,
+ )
++from trainers_server_megatron_bridge.nvtx_ranges import install_nvtx_patches
+ from trainers_server_megatron_bridge.packer import MegatronBridgePacker
+ from trainers_server_megatron_bridge.training_runner import (
+     ForwardBackwardSchedule,
+@@ -252,6 +253,7 @@ class MegatronBridgeBackend:
+         startup = _StartupPhaseLogger(rank=int(os.environ.get("RANK", "0")))
+ 
+         config = self._config
++        install_nvtx_patches()
+         hf_path = config.load_checkpoint_dir or config.base_model
+         bridge = AutoBridge.from_hf_pretrained(
+             hf_path,
+diff --git a/server-megatron-bridge/src/trainers_server_megatron_bridge/chunked_lm_head.py b/server-megatron-bridge/src/trainers_server_megatron_bridge/chunked_lm_head.py
+index dd772c082..460ed82f7 100644
+--- a/server-megatron-bridge/src/trainers_server_megatron_bridge/chunked_lm_head.py
++++ b/server-megatron-bridge/src/trainers_server_megatron_bridge/chunked_lm_head.py
+@@ -11,13 +11,13 @@ from megatron.core.extensions.transformer_engine import te_parallel_cross_entrop
+ from megatron.core.tensor_parallel import gather_from_sequence_parallel_region
+ from megatron.core.utils import unwrap_model
+ 
+-from trainers_server_megatron_bridge.vocab_parallel_target_logprobs import (
+-    vocab_parallel_target_logprobs,
+-)
++from trainers_server_megatron_bridge.nvtx_ranges import nvtx_decorated
+ from trainers_server_megatron_bridge.topk_logprobs import (
+     select_topk_logprobs,
+ )
+-
++from trainers_server_megatron_bridge.vocab_parallel_target_logprobs import (
++    vocab_parallel_target_logprobs,
++)
+ 
+ # Cap on per-call seq length passed through the LM head and
+ # te_parallel_cross_entropy. The TE CE kernel upcasts logits to fp32
+@@ -127,6 +127,7 @@ def fp32_output_head_enabled(language_model: ChunkedOutputLanguageModel) -> bool
+     )
+ 
+ 
++@nvtx_decorated("lm_head_gemm")
+ def _project_logits(
+     output_layer: ChunkedOutputHead,
+     hidden: torch.Tensor,
+@@ -350,6 +351,7 @@ def _gather_sequence_parallel_hidden(
+     return hidden_states, _disable_sequence_parallel(output_layer)
+ 
+ 
++@nvtx_decorated("lm_head")
+ def chunked_lm_head_loss_from_hidden(
+     language_model: ChunkedOutputLanguageModel,
+     hidden_states: torch.Tensor,
+diff --git a/server-megatron-bridge/src/trainers_server_megatron_bridge/megatron_config.py b/server-megatron-bridge/src/trainers_server_megatron_bridge/megatron_config.py
+index 9c32cd042..54eece8e7 100644
+--- a/server-megatron-bridge/src/trainers_server_megatron_bridge/megatron_config.py
++++ b/server-megatron-bridge/src/trainers_server_megatron_bridge/megatron_config.py
+@@ -17,6 +17,7 @@ from megatron.bridge.training.config import (
+     DistributedDataParallelConfig,
+     LoggerConfig,
+     OptimizerConfig,
++    ProfilingConfig,
+     SchedulerConfig,
+     TokenizerConfig,
+     TrainingConfig,
+@@ -356,6 +357,9 @@ def _build_config(provider, config: TrainerControllerConfig) -> ConfigContainer:
+         logger=LoggerConfig(),
+         dataset=cast(Any, None),
+         comm_overlap=comm_overlap,
++        # Turns on Megatron-LM's built-in NVTX ranges (self_attention, mlp, ...)
++        # so nsys captures carry step structure; see nvtx_ranges.py.
++        profiling=ProfilingConfig(nvtx_ranges=True),
+     )
+     # Long-sequence RL/probe forward_backward (e.g. 131k) runs multi-minute
+     # collectives; lift the process-group timeout so they don't trip the default.
+diff --git a/server-megatron-bridge/src/trainers_server_megatron_bridge/nvtx_ranges.py b/server-megatron-bridge/src/trainers_server_megatron_bridge/nvtx_ranges.py
+new file mode 100644
+index 000000000..3093c2024
+--- /dev/null
++++ b/server-megatron-bridge/src/trainers_server_megatron_bridge/nvtx_ranges.py
+@@ -0,0 +1,204 @@
++"""Coarse NVTX ranges for Nsight Systems attribution of one training step.
++
++The trainer has no step-level structure visible to ``nsys`` today: a capture is a
++flat list of ~150k kernels per rank, and attributing them to forward / backward /
++recompute / attention / MoE / HybridEP has to be reverse-engineered from kernel
++names. These ranges make the structure explicit. They are always on; an NVTX
++push/pop costs about a microsecond and is a no-op when no tool is attached, so a
++262k-token step (~3k ranges per rank) pays well under 10 ms.
++
++Two mechanisms:
++
++* Megatron-LM's own ``nvtx_range_push``/``nvtx_range_pop`` framework
++  (``self_attention``, ``mlp``, ``self_attn_bda``, ``mlp_bda`` ...) is enabled from
++  ``megatron_config.py`` via ``ProfilingConfig(nvtx_ranges=True)``.
++* Everything that framework does not cover is added here by wrapping the relevant
++  Python entry points with ``install_nvtx_patches()``. Wrapping is done on the class
++  or module attribute, so it reaches both the forward and (for
++  ``torch.autograd.Function`` subclasses) the backward side, and it works on the
++  recompute-forward that runs inside checkpoint backward. No submodule changes.
++
++Range names (what they contain):
++
++    request:<OpType>       one HTTP op on the DP worker (worker.py)
++    forward_backward       one forward_backward request inside the Megatron runner
++    forward / backward     Megatron schedule forward_step / backward_step (per microbatch)
++    optimizer              optimizer.step + scheduler + zero_grad_buffer
++    recompute              activation-checkpoint backward: re-runs the layer forward
++    layer:<n>              TransformerLayer.forward (also fires inside recompute)
++    attention              DSAttention.forward
++    dsa_indexer            DSA indexer (q/k projection + top-k selection)
++    dsa_core               the sparse attention kernel call
++    moe                    MoELayer.forward
++    moe_route / moe_dispatch / moe_experts / moe_combine / moe_shared_experts
++    hybridep_dispatch / hybridep_combine            forward-side all-to-all
++    hybridep_dispatch_bwd / hybridep_combine_bwd    backward-side all-to-all
++    lm_head / lm_head_gemm                          chunked output head (chunked_lm_head.py)
++"""
++
++from __future__ import annotations
++
++import contextlib
++import functools
++import logging
++from collections.abc import Callable, Iterator
++from typing import Any, cast
++
++import torch
++
++logger = logging.getLogger(__name__)
++
++_NVTX_AVAILABLE = torch.cuda.is_available()
++
++
++@contextlib.contextmanager
++def nvtx_range(name: str) -> Iterator[None]:
++    """Push an NVTX range for the duration of the block (no-op without CUDA)."""
++    if not _NVTX_AVAILABLE:
++        yield
++        return
++    torch.cuda.nvtx.range_push(name)
++    try:
++        yield
++    finally:
++        torch.cuda.nvtx.range_pop()
++
++
++def nvtx_decorated(name: str) -> Callable[[Callable[..., Any]], Callable[..., Any]]:
++    """Decorator form of :func:`nvtx_range` for functions and methods."""
++
++    def deco(fn: Callable[..., Any]) -> Callable[..., Any]:
++        @functools.wraps(fn)
++        def inner(*args: Any, **kwargs: Any) -> Any:
++            with nvtx_range(name):
++                return fn(*args, **kwargs)
++
++        return inner
++
++    return deco
++
++
++def _wrap(
++    owner: Any, attr: str, name_fn: Callable[..., str], *, static: bool = False
++) -> bool:
++    """Replace ``owner.attr`` with a version that runs inside an NVTX range.
++
++    ``name_fn`` receives the call's positional args (``self`` first for methods,
++    ``ctx`` first for autograd static methods) and returns the range name.
++    Returns False when the attribute does not exist, so callers can log gaps.
++    """
++    original = getattr(owner, attr, None)
++    if original is None:
++        return False
++    if getattr(original, "_bt_nvtx_wrapped", False):
++        return True
++    # For staticmethods on classes, getattr already returns the plain function.
++    target = original
++
++    @functools.wraps(target)
++    def wrapped(*args: Any, **kwargs: Any) -> Any:
++        with nvtx_range(name_fn(*args)):
++            return target(*args, **kwargs)
++
++    cast(Any, wrapped)._bt_nvtx_wrapped = True
++    setattr(owner, attr, staticmethod(wrapped) if static else wrapped)
++    return True
++
++
++def _const(name: str) -> Callable[..., str]:
++    return lambda *args: name
++
++
++def _layer_name(self: Any, *args: Any) -> str:
++    return f"layer:{getattr(self, 'layer_number', '?')}"
++
++
++_installed = False
++
++
++def install_nvtx_patches() -> None:
++    """Wrap Megatron-LM / TE entry points with NVTX ranges. Idempotent.
++
++    Every wrap is best-effort: a missing symbol is logged and skipped so a
++    Megatron/TE version bump never breaks trainer startup over profiling.
++    """
++    global _installed
++    if _installed:
++        return
++    _installed = True
++    missing: list[str] = []
++
++    def wrap(
++        module_path: str,
++        qualname: str,
++        name_fn: Callable[..., str],
++        *,
++        static: bool = False,
++    ) -> None:
++        try:
++            module = __import__(module_path, fromlist=["_"])
++            owner: Any = module
++            parts = qualname.split(".")
++            for part in parts[:-1]:
++                owner = getattr(owner, part)
++            if not _wrap(owner, parts[-1], name_fn, static=static):
++                missing.append(f"{module_path}:{qualname}")
++        except (
++            ImportError,
++            AttributeError,
++        ) as exc:  # pragma: no cover - vendored versions
++            missing.append(f"{module_path}:{qualname} ({exc})")
++
++    sched = "megatron.core.pipeline_parallel.schedules"
++    wrap(sched, "forward_step", _const("forward"))
++    wrap(sched, "backward_step", _const("backward"))
++
++    wrap(
++        "megatron.core.transformer.transformer_layer",
++        "TransformerLayer.forward",
++        _layer_name,
++    )
++
++    dsa = "megatron.core.transformer.experimental_attention_variant.dsa"
++    wrap(dsa, "DSAttention.forward", _const("attention"))
++    wrap(dsa, "DSAIndexer.forward", _const("dsa_indexer"))
++    wrap(dsa, "DSAIndexer.forward_before_topk", _const("dsa_indexer"))
++    wrap(dsa, "_run_sparse_attention", _const("dsa_core"))
++
++    moe = "megatron.core.transformer.moe.moe_layer"
++    wrap(moe, "MoELayer.forward", _const("moe"))
++    wrap(moe, "MoELayer.route", _const("moe_route"))
++    wrap(moe, "MoELayer.dispatch", _const("moe_dispatch"))
++    wrap(moe, "MoELayer.routed_experts_compute", _const("moe_experts"))
++    wrap(moe, "MoELayer.combine", _const("moe_combine"))
++    wrap(moe, "MoELayer.shared_experts_compute", _const("moe_shared_experts"))
++
++    disp = "megatron.core.transformer.moe.token_dispatcher"
++    wrap(disp, "_HybridEPManager.dispatch", _const("hybridep_dispatch"))
++    wrap(disp, "_HybridEPManager.combine", _const("hybridep_combine"))
++
++    a2a = "megatron.core.transformer.moe.fused_a2a"
++    wrap(a2a, "HybridEPDispatch.backward", _const("hybridep_dispatch_bwd"), static=True)
++    wrap(a2a, "HybridEPCombine.backward", _const("hybridep_combine_bwd"), static=True)
++
++    # Activation recompute: Megatron's checkpoint under bf16, TE's under fp8/fp4.
++    wrap(
++        "megatron.core.tensor_parallel.random",
++        "CheckpointFunction.backward",
++        _const("recompute"),
++        static=True,
++    )
++    wrap(
++        "transformer_engine.pytorch.distributed",
++        "_CheckpointFunction.backward",
++        _const("recompute"),
++        static=True,
++    )
++
++    if missing:
++        logger.info(
++            "NVTX patches installed; skipped unavailable targets: %s",
++            ", ".join(missing),
++        )
++    else:
++        logger.info("NVTX patches installed")
+diff --git a/server-megatron-bridge/src/trainers_server_megatron_bridge/training_runner.py b/server-megatron-bridge/src/trainers_server_megatron_bridge/training_runner.py
+index 2c64e040c..090db35d3 100644
+--- a/server-megatron-bridge/src/trainers_server_megatron_bridge/training_runner.py
++++ b/server-megatron-bridge/src/trainers_server_megatron_bridge/training_runner.py
+@@ -66,6 +66,7 @@ from trainers_server_megatron_bridge.loss import (
+     _forward_batch_seq_length,
+     _sum_over_microbatches,
+ )
++from trainers_server_megatron_bridge.nvtx_ranges import nvtx_decorated
+ from trainers_server_megatron_bridge.packer import (
+     MegatronBridgeBatch,
+     MegatronBridgePacker,
+@@ -398,6 +399,7 @@ class MegatronTrainingRunner:
+             per_datum_images=per_datum,
+         )
+ 
++    @nvtx_decorated("forward_backward")
+     def _run_forward_backward(
+         self,
+         packed: PackedMicrobatches,
+@@ -876,6 +878,7 @@ class MegatronTrainingRunner:
+             )
+         return ForwardBackwardOutcome(result=result, telemetry=telemetry)
+ 
++    @nvtx_decorated("optimizer")
+     def optim_step(
+         self, details: OptimStepDetails, *, loss_tokens: float
+     ) -> OptimStepOutcome:

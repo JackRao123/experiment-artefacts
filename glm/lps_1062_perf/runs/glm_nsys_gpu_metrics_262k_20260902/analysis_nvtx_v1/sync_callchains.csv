@@ -1,0 +1,27 @@
+api,signature,phase,inner_range,calls_all_pids,total_s_all_pids,max_ms
+cudaStreamSynchronize,(unresolved),forward,layer+attention,28080,26.094,112.669
+cudaStreamSynchronize_v3020,(no callchain),forward,layer+attention,28080,26.09,112.669
+cudaStreamSynchronize,(unresolved),backward,recompute+layer+attention,28080,49.163,123.969
+cudaStreamSynchronize_v3020,(no callchain),backward,recompute+layer+attention,28080,49.159,123.968
+cudaStreamSynchronize,(unresolved),backward,recompute,624,54.5,436.831
+cudaStreamSynchronize_v3020,(no callchain),backward,recompute,624,54.499,436.831
+cudaStreamSynchronize,(unresolved),forward,layer,600,17.023,75.864
+cudaStreamSynchronize_v3020,(no callchain),forward,layer,600,17.023,75.864
+cudaStreamSynchronize,(unresolved),forward,layer+moe_dispatch+hybridep_dispatch,600,0.312,1.743
+cudaStreamSynchronize_v3020,(no callchain),forward,layer+moe_dispatch+hybridep_dispatch,600,0.312,1.743
+cudaStreamSynchronize,(unresolved),backward,recompute+layer,600,8.588,35.492
+cudaStreamSynchronize_v3020,(no callchain),backward,recompute+layer,600,8.588,35.492
+cudaStreamSynchronize,(unresolved),backward,recompute+layer+moe_dispatch+hybridep_dispatch,600,0.307,2.086
+cudaStreamSynchronize_v3020,(no callchain),backward,recompute+layer+moe_dispatch+hybridep_dispatch,600,0.307,2.086
+cudaStreamSynchronize,(unresolved),forward,layer+attention+dsa_indexer,336,0.38,16.851
+cudaStreamSynchronize_v3020,(no callchain),forward,layer+attention+dsa_indexer,336,0.38,16.851
+cudaStreamSynchronize,(unresolved),backward,recompute+layer+attention+dsa_indexer,336,0.244,2.784
+cudaStreamSynchronize_v3020,(no callchain),backward,recompute+layer+attention+dsa_indexer,336,0.244,2.784
+cudaStreamSynchronize,(unresolved),forward,lm_head,140,7.118,122.446
+cudaStreamSynchronize_v3020,(no callchain),forward,lm_head,140,7.118,122.446
+cudaStreamSynchronize,(unresolved),-,-,101,0.423,62.34
+cudaStreamSynchronize_v3020,(no callchain),-,-,101,0.423,62.34
+cudaStreamSynchronize,(unresolved),backward,-,65,6.623,118.728
+cudaStreamSynchronize_v3020,(no callchain),backward,-,65,6.623,118.727
+cudaStreamSynchronize,(unresolved),forward,-,8,0.825,123.21
+cudaStreamSynchronize_v3020,(no callchain),forward,-,8,0.825,123.21

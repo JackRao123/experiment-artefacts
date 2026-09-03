@@ -17,3 +17,7 @@ glm/lps_1062_perf/**/*.log.gz
 
 # Portable Git snapshots are reproducible handoff artifacts, not source data.
 glm/lps_1062_perf/*.bundle
+
+# Nsight Systems reports (300+ MB each) stay local; sqlite exports live on the pod.
+*.nsys-rep
+*.sqlite
