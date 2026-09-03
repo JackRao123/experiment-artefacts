@@ -248,3 +248,16 @@ cuMem* driver calls inside the step window and no allocator idle gaps, the
 control mean does not regress, and step-0 loss/gn are unchanged (it cannot
 change numerics). Expected gain is only on the steps that previously grew the
 pool (0.15-0.7 s each); the control mean may move little.
+
+07:38 UTC - **Pod preempted.** `jackrao-glm-nsys-b300` on e02-sg-e1n4vn65z0c was
+preempted by another pod on the node ("Preempted by a pod on node", pod
+deleted) while the B4 trainer was starting; B4 is therefore unmeasured. The
+allocator-reserve commit is pushed to the PR branch and labelled unmeasured in
+the description. Persistent volume kept `$REMOTE_RUN` (captures, sqlite,
+analysis dirs, ab/ logs) and the checkout with the pod-side edits; the
+node-local venv is gone. Re-applied `profiler-pod.yaml`; it scheduled at once
+on e02-sg-e1n4vn65z0f (the driver reports these B300s as "NVIDIA L20D";
+identical node labels, `baseten.co/gpu-type: nvidia-b300`). Running
+`pod_setup.sh` (apt deps, nsight-systems, node-local venv build) as
+`pod_setup2.log`; then restart the trainer (nsys launcher still linked) and
+run `ab/b4_chain.sh`.
