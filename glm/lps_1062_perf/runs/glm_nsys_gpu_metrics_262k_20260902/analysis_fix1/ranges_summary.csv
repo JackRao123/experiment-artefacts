@@ -1,0 +1,201 @@
+range,instances_all_pids,instances_in_window,wall_s_per_pid_mean,gpu_kernel_s_per_gpu_mean
+forward_backward,8,8,26.567,26.487
+backward,8,8,18.274,18.287
+recompute,624,624,17.429,17.33
+autograd::engine::evaluate_function: CheckpointFunctionBackward,546,546,17.432,17.311
+CheckpointFunctionBackward,546,546,17.431,17.311
+megatron.core.transformer.transformer_layer._run_mlp.mlp,1248,1248,11.847,8.526
+moe,1200,1200,11.814,8.45
+forward,8,8,8.22,8.198
+CheckpointFunction,546,546,7.198,7.239
+hybrid-ep combine with unpermute phase,1800,1800,0.018,5.648
+combine_core in hybrid-ep,1800,1800,0.007,5.225
+megatron.core.transformer.transformer_layer._forward_attention.self_attention,1248,1248,3.881,5.19
+autograd::engine::evaluate_function: FusedSparseAttentionFuncBackward,546,546,7.589,4.865
+FusedSparseAttentionFuncBackward,546,546,7.587,4.865
+nvte_cublas_gemm_v2,139104,139104,0.949,4.473
+moe_combine,1200,1200,0.022,3.872
+hybridep_combine,1200,1200,0.021,3.872
+HybridEPCombine,1050,1050,0.016,3.84
+flash_attn_bwd_sm100_kernel,624,624,0.005,3.705
+attention,1248,1248,3.188,3.1
+nvte_multi_tensor_gemm,3600,3600,0.933,2.819
+moe_experts,1200,1200,1.162,2.803
+aten::matmul,17920,17920,0.115,2.066
+aten::mm,17920,17920,0.102,2.066
+hybridep_dispatch_bwd,600,600,0.007,1.776
+autograd::engine::evaluate_function: HybridEPDispatchBackward,525,525,0.01,1.767
+HybridEPDispatchBackward,525,525,0.01,1.767
+dsa_core,1248,1248,0.06,1.525
+hybrid-ep dispatch with permute phase,1800,1800,0.147,1.483
+aten::cat,19838,19838,0.04,1.328
+FusedSparseAttentionFunc,1092,1092,0.027,1.255
+flash_mla_sparse_fwd,1248,1248,0.007,1.237
+aten::mul,43708,43701,0.09,1.071
+HybridEPDispatch,1050,1050,0.147,1.056
+moe_dispatch,1200,1200,0.156,1.054
+hybridep_dispatch,1200,1200,0.155,1.054
+dispatch_core in hybrid-ep,1800,1800,0.008,1.032
+autograd::engine::evaluate_function: _GroupedLinearBackward,1050,1050,0.517,0.964
+_GroupedLinearBackward,1050,1050,0.511,0.964
+lm_head,8,8,0.907,0.957
+aten::copy_,48391,35203,0.907,0.949
+lm_head_gemm,64,64,0.009,0.944
+autograd::engine::evaluate_function: LinearWithFrozenWeightBackward,56,56,0.001,0.936
+LinearWithFrozenWeightBackward,56,56,0.001,0.936
+_GroupedLinear,1050,1050,0.346,0.936
+LinearWithFrozenWeight,56,56,0.001,0.917
+indexer_fwd_kernel,3318,3318,0.044,0.874
+layer:78,16,16,0.323,0.754
+autograd::engine::evaluate_function: _LinearBackward,5439,5439,0.117,0.64
+aten::contiguous,4914,4914,0.019,0.613
+aten::clone,6265,6265,0.024,0.613
+record_param_comms,4109,4060,0.103,0.545
+aten::add,28119,28070,0.062,0.539
+_LinearBackward,5439,5439,0.099,0.539
+autograd::engine::evaluate_function: MulBackward0,7707,7707,0.034,0.515
+_Linear,5439,5439,0.077,0.507
+layer:76,16,16,0.231,0.501
+MulBackward0,7707,7707,0.023,0.443
+autograd::engine::evaluate_function: HybridEPCombineBackward,525,525,0.009,0.429
+HybridEPCombineBackward,525,525,0.008,0.429
+hybridep_combine_bwd,600,600,0.007,0.428
+combine_preprocess in hybrid-ep,1800,1800,0.003,0.423
+moe_shared_experts,1200,1200,0.252,0.358
+dispatch_postprocess in hybrid-ep,1800,1800,0.002,0.357
+aten::to,54187,47509,0.896,0.303
+aten::_to_copy,25200,18578,0.89,0.303
+ncclReduceScatter,624,624,0.014,0.278
+aten::gather,7056,7056,0.016,0.268
+autograd::engine::evaluate_function: _GatherFromSequenceParallelRegionBackward,546,546,0.026,0.26
+_GatherFromSequenceParallelRegionBackward,546,546,0.025,0.26
+c10d::_reduce_scatter_base_,546,546,0.021,0.26
+nccl:_reduce_scatter_base,546,546,0.018,0.26
+aten::index_copy_,546,546,0.002,0.252
+aten::index_select,4893,4893,0.023,0.245
+aten::silu,2142,2142,0.009,0.238
+layer:23,16,16,0.267,0.237
+layer:19,16,16,0.261,0.231
+layer:43,16,16,0.255,0.227
+layer:59,16,16,0.253,0.227
+layer:55,16,16,0.263,0.221
+layer:47,16,16,0.255,0.22
+layer:31,16,16,0.264,0.219
+aten::bmm,3276,3276,0.027,0.218
+megatron.core.transformer.mlp.forward.linear_fc1,1248,1248,0.1,0.218
+layer:63,16,16,0.258,0.218
+layer:75,16,16,0.259,0.217
+layer:51,16,16,0.28,0.216
+layer:67,16,16,0.266,0.216
+layer:71,16,16,0.262,0.215
+layer:15,16,16,0.261,0.214
+layer:11,16,16,0.249,0.213
+layer:27,16,16,0.247,0.212
+layer:39,16,16,0.249,0.21
+layer:35,16,16,0.265,0.205
+## Call CompiledFxGraph fnvtskg5gtczk57au7ulhoryz2n5azih2rvn7wbbtwmldw4qt6bx ##,150,150,0.065,0.202
+layer:7,16,16,0.265,0.2
+autograd::engine::evaluate_function: SplitWithSizesBackward0,1092,1092,0.004,0.188
+SplitWithSizesBackward0,1092,1092,0.003,0.188
+layer:50,16,16,0.179,0.186
+moe_route,1200,1200,0.124,0.18
+## Call CompiledFxGraph fq5rkxaougchgl7tlyebji2lrfbrt2fqhjf4wrfpr5jftzwiu3ua ##,150,150,0.067,0.179
+layer:2,16,16,0.199,0.175
+## Call CompiledFxGraph fze5ipmclv66vh7labgqeaqr2ffhsug23vafzzo4tjgt7klmc6v5 ##,150,150,0.064,0.175
+layer:54,16,16,0.185,0.174
+autograd::engine::evaluate_function: _OperationFuserAutogradFunctionBackward,2170,2170,0.047,0.172
+layer:37,16,16,0.188,0.168
+layer:13,16,16,0.18,0.167
+layer:18,16,16,0.183,0.167
+## Call CompiledFxGraph frzmr5nfro6bqgfrvf6dim66s54g5odnf53g7v64khols4m45cfp ##,150,150,0.063,0.165
+layer:21,16,16,0.178,0.165
+layer:66,16,16,0.179,0.165
+layer:30,16,16,0.184,0.163
+layer:52,16,16,0.175,0.162
+layer:48,16,16,0.186,0.161
+nvte_rmsnorm_fwd,10000,10000,0.009,0.16
+layer:22,16,16,0.196,0.16
+layer:34,16,16,0.179,0.16
+ncclAllReduce,1232,1216,0.01,0.159
+layer:6,16,16,0.174,0.158
+layer:8,16,16,0.172,0.158
+layer:16,16,16,0.181,0.158
+layer:40,16,16,0.179,0.158
+layer:60,16,16,0.183,0.157
+layer:14,16,16,0.19,0.156
+## Call CompiledFxGraph faokvef6wrpaiuf2llu2jtlnlxiqrxxd3j4gs246nmwxx4l3k5z4 ##,150,150,0.064,0.155
+layer:44,16,16,0.188,0.155
+layer:17,16,16,0.184,0.154
+layer:4,16,16,0.236,0.153
+layer:29,16,16,0.18,0.153
+layer:32,16,16,0.181,0.152
+layer:46,16,16,0.175,0.152
+layer:62,16,16,0.172,0.152
+layer:53,16,16,0.191,0.151
+layer:9,16,16,0.179,0.15
+layer:77,16,16,0.189,0.15
+layer:3,16,16,0.224,0.148
+layer:33,16,16,0.19,0.148
+layer:49,16,16,0.188,0.148
+layer:70,16,16,0.184,0.148
+layer:42,16,16,0.182,0.147
+layer:73,16,16,0.18,0.147
+aten::add_,14903,14903,0.025,0.147
+aten::fill_,26677,26642,0.032,0.146
+c10d::allreduce_,1071,1057,0.038,0.146
+nccl:all_reduce,1071,1057,0.019,0.146
+layer:20,16,16,0.187,0.146
+layer:57,16,16,0.183,0.146
+layer:72,16,16,0.177,0.146
+aten::topk,3150,3150,0.014,0.145
+layer:28,16,16,0.18,0.145
+layer:41,16,16,0.192,0.145
+layer:58,16,16,0.183,0.145
+nvte_rmsnorm_bwd,5008,5008,0.007,0.145
+_OperationFuserAutogradFunctionBackward,2170,2170,0.042,0.145
+aten::einsum,2184,2184,0.032,0.144
+layer:12,16,16,0.18,0.144
+layer:74,16,16,0.177,0.144
+ncclAllGather,1592,1592,0.026,0.143
+megatron.core.transformer.mlp.forward.linear_fc2,1248,1248,0.109,0.143
+_c10d_functional::all_reduce_,1050,1050,0.039,0.143
+layer:69,16,16,0.173,0.143
+layer:1,16,16,0.135,0.142
+layer:56,16,16,0.18,0.142
+layer:38,16,16,0.193,0.141
+layer:68,16,16,0.178,0.141
+layer:26,16,16,0.175,0.14
+layer:24,16,16,0.194,0.139
+_GatherFromSequenceParallelRegion,1386,1386,0.055,0.138
+c10d::_allgather_base_,1393,1393,0.044,0.138
+nccl:_all_gather_base,1393,1393,0.037,0.138
+layer:36,16,16,0.172,0.138
+layer:45,16,16,0.186,0.138
+autograd::engine::evaluate_function: SiluBackward0,1071,1071,0.004,0.137
+SiluBackward0,1071,1071,0.003,0.137
+aten::silu_backward,1071,1071,0.003,0.137
+layer:65,16,16,0.176,0.136
+layer:64,16,16,0.178,0.135
+layer:10,16,16,0.183,0.133
+layer:25,16,16,0.179,0.132
+Torch-Compiled Region: 3/2,525,525,4.494,0.131
+Torch-Compiled Region: 4/2,525,525,4.483,0.131
+layer:61,16,16,0.185,0.13
+layer:5,16,16,0.179,0.128
+triton_poi_fused__to_copy_mul_unsqueeze_view_0,67200,67200,0.091,0.118
+autograd::engine::evaluate_function: SplitBackward0,2163,2163,0.007,0.118
+SplitBackward0,2163,2163,0.006,0.118
+autograd::engine::evaluate_function: ToCopyBackward0,637,637,0.005,0.113
+ToCopyBackward0,637,637,0.004,0.113
+dsa_indexer,336,336,2.795,0.111
+autograd::engine::evaluate_function: LinearWithGradAccumulationAndAsyncCommunicationBackward,4480,4480,0.096,0.107
+LinearWithGradAccumulationAndAsyncCommunicationBackward,4480,4480,0.083,0.107
+LinearWithGradAccumulationAndAsyncCommunication,8848,8848,0.09,0.106
+autograd::engine::evaluate_function: IndexSelectBackward0,546,546,0.004,0.103
+IndexSelectBackward0,546,546,0.003,0.103
+aten::index_select_backward,546,546,0.003,0.103
+aten::index_add_,546,546,0.001,0.097
+aten::zero_,17577,17542,0.025,0.095
+autograd::engine::evaluate_function: RouterGatingLinearFunctionBackward,525,525,0.024,0.094
+## Call CompiledFxGraph fj33vj65sa5gcdlvyjuhnrp26o4mw5ljdfddbizseffffu4gqozm ##,150,150,0.066,0.083
+_OperationFuserAutogradFunction,2170,2170,0.037,0.082
