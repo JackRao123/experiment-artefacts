@@ -1,0 +1,11 @@
+{
+  "base_model": "Qwen/Qwen3-30B-A3B",
+  "load_checkpoint_dir": "/root/.cache/qwen-staging/hub/models--Qwen--Qwen3-30B-A3B/snapshots/ad44e777bcd18fa416d9da3bd8f70d33ebb85d39",
+  "max_seq_len": 40960,
+  "lora_rank": 32,
+  "tensor_parallel_size": 1,
+  "pipeline_parallel_size": 1,
+  "context_parallel_size": 1,
+  "expert_parallel_size": 1,
+  "weight_sync": {"type": "disabled"}
+}

@@ -1,0 +1,24 @@
+{
+  "model": "qwen3_moe",
+  "seq_len": 40960,
+  "lora_rank": 32,
+  "checkpoint_parameters": 30532122624,
+  "unique_base_parameters": 30532122624,
+  "adapter_parameters_ep1_shared_experts": 35205120,
+  "active_base_gemm_weights_per_token": 3041656832,
+  "forward_components_flops_per_token": {
+    "attention_projections": 1811939328,
+    "mlp": 3623878656,
+    "router": 25165824,
+    "output_head": 622329856,
+    "causal_attention": 16106520576,
+    "block_lora": 198180864,
+    "head_lora": 9854976
+  },
+  "forward_flops_per_token": 22397870080,
+  "useful_lora_sft_flops_per_token": 61110296576,
+  "full_block_recompute_flops_per_token": 21765685248,
+  "executed_pass_model_flops_per_token": 82875981824,
+  "executed_flash_model_flops_per_token": 90929242112.0,
+  "useful_flops_per_sequence": 2503077747752960
+}

@@ -1,0 +1,21 @@
+{
+  "main_commit": "33d19a3542c3d67553e9dc9d30381d2bdf6db31b",
+  "control_count": 5,
+  "seq_len": 262144,
+  "gpus": 8,
+  "fb_mean_s": 22.132862094556913,
+  "fb_sample_sd_s": 1.1899404249345298,
+  "tps_per_gpu": 1480.5134491873314,
+  "peak_control_allocated_gib": 191.95931482315063,
+  "peak_control_reserved_gib": 194.27734375,
+  "artifacts": {
+    "runtime/baseten-training-job-32vj99q-multinode-0_47142.1788990007547624189.pt.trace.json": {
+      "bytes": 188961130,
+      "sha256": "4a938829305bffd3b5c0a149dea4fdbf3342c5fa0afb93e01ba7d88c5bf4ec22"
+    },
+    "memory/memory.rank0.pickle": {
+      "bytes": 19332130,
+      "sha256": "d23eba63bf4d7230db80a343e4de844cf59f219df0738df67f185fd0216ce7f5"
+    }
+  }
+}

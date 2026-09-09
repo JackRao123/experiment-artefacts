@@ -8,7 +8,7 @@ LoRA adapters run full forward/backward passes:
   executed/token = 3*F_matmul + 4*F_attn(L) + 4*F_lora(r)  # full recompute
 
 For packed data, compute sequence-dependent FLOPs per document length and take
-a token-weighted average. The default B300 BF16 peak is 2.5e15 FLOP/s/GPU and
+a token-weighted average. The default HGX B300 dense BF16 peak is 2.25e15 FLOP/s/GPU and
 can be overridden with ``peak_flops_gpu``.
 """
 
@@ -34,7 +34,9 @@ DENSE_INTER = 12288
 VOCAB = 154880
 FULL_IDX_LAYERS = 21  # indexer_types: layers 0,1,2 then every 4th from 6
 
-PEAK_FLOPS_GPU = 2.5e15  # B300 dense bf16 (convention, see header)
+# Dense BF16 per GPU: 2.25 PFLOP/s for HGX B300 (our usual platform);
+# 2.5 PFLOP/s for GB300 NVL72. Override peak_flops_gpu for GB300.
+PEAK_FLOPS_GPU = 2.25e15
 
 # --- base-model parameter counts -> F_matmul ---
 _attn = H * Q_LORA + Q_LORA * (N_HEADS * (QK_NOPE + QK_ROPE)) \

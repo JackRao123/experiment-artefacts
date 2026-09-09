@@ -1,0 +1,101 @@
+"category","name","calls","inclusive_ms","max_ms"
+"user_annotation","ProfilerStep#0",1,1091.352742,1091.352742
+"cpu_op","autograd::engine::evaluate_function: CheckpointFunctionBackward",28,515.412448,27.888386
+"cpu_op","CheckpointFunctionBackward",28,515.233402,27.881544
+"cuda_runtime","cudaStreamSynchronize",31,381.080348,225.298342
+"cpu_op","aten::item",60,361.132320,225.339627
+"cpu_op","aten::_local_scalar_dense",60,361.039924,225.336388
+"cpu_op","aten::matmul",916,225.439755,12.968345
+"cpu_op","aten::mm",916,221.158274,12.963175
+"cpu_op","LinearWithGradAccumulationAndAsyncCommunication",448,213.191949,12.981235
+"cuda_runtime","cudaLaunchKernel",4200,136.785614,3.876928
+"cpu_op","CheckpointFunction",28,88.944291,3.651679
+"cpu_op","autograd::engine::evaluate_function: _LayerNormLinearBackward",56,72.236483,4.076515
+"cpu_op","aten::add",543,68.928686,3.883187
+"cpu_op","aten::mul",924,36.417170,0.553784
+"cuda_runtime","cudaMemGetInfo",1,36.378630,36.378630
+"cpu_op","autograd::engine::evaluate_function: LinearWithGradAccumulationAndAsyncCommunicationBackward",224,28.861013,0.362921
+"cpu_op","LinearWithGradAccumulationAndAsyncCommunicationBackward",224,26.549329,0.354448
+"cpu_op","autograd::engine::evaluate_function: MulBackward0",236,21.039052,0.641894
+"cpu_op","aten::copy_",953,18.170901,1.394666
+"cpu_op","aten::to",750,17.174493,1.429868
+"cpu_op","aten::_to_copy",486,16.768928,1.415766
+"cpu_op","aten::add_",431,15.417468,0.519527
+"cpu_op","aten::cat",314,14.501124,0.396984
+"cpu_op","aten::nonzero",5,12.788607,10.395517
+"cpu_op","aten::index",3,11.881892,10.445254
+"cpu_op","MulBackward0",236,11.450306,0.480092
+"cpu_op","autograd::engine::evaluate_function: _LinearBackward",56,10.562791,0.361044
+"cpu_op","_LayerNormLinearBackward",56,9.665777,0.191448
+"cpu_op","SwiGLUFunction",56,9.165934,0.259947
+"cpu_op","_LayerNormLinear",56,8.991449,0.192777
+"cpu_op","autograd::engine::evaluate_function: CrossEntropyFunctionBackward",10,8.530216,1.036611
+"cpu_op","CrossEntropyFunctionBackward",10,8.481013,1.032225
+"cpu_op","autograd::engine::evaluate_function: FusedAttnFuncBackward",28,8.449236,0.420056
+"cpu_op","FusedAttnFunc",56,8.206350,0.187137
+"cpu_op","FusedAttnFuncBackward",28,8.095414,0.407436
+"cpu_op","_OperationFuserAutogradFunction",57,7.193680,0.257432
+"cpu_op","autograd::engine::evaluate_function: torch::autograd::AccumulateGrad",253,6.844281,0.058222
+"cpu_op","aten::empty",1873,6.570363,0.019505
+"cpu_op","_LinearBackward",56,6.105238,0.139255
+"cpu_op","aten::neg",208,5.804310,0.243143
+"cuda_runtime","cudaLaunchKernelExC",224,5.645744,0.277010
+"cpu_op","autograd::engine::evaluate_function: _OperationFuserAutogradFunctionBackward",57,5.639899,0.141417
+"cpu_op","_Linear",56,5.549116,0.119885
+"cpu_op","_OperationFuserAutogradFunctionBackward",57,5.252409,0.135408
+"cpu_op","autograd::engine::evaluate_function: SwiGLUFunctionBackward",28,4.716928,0.186510
+"cpu_op","SwiGLUFunctionBackward",28,4.525227,0.179739
+"cpu_op","aten::view",3895,3.999743,0.014499
+"cpu_op","aten::reshape",1458,3.918758,0.032208
+"cpu_op","aten::clone",168,3.374362,0.036477
+"cpu_op","Torch-Compiled Region: 2/2",28,3.326527,0.190875
+"cpu_op","## Call CompiledFxGraph fi3yfad7g7owrozzym4asrme23tyquou3visp7plpq2odyi2pj3h ##",56,3.296886,0.096222
+"cpu_op","Torch-Compiled Region: 2/3",28,3.195408,0.125594
+"cpu_op","Torch-Compiled Region: 3/1",28,3.179055,0.131223
+"cpu_op","aten::sin",112,3.088947,0.102783
+"cpu_op","autograd::engine::evaluate_function: SplitBackward0",56,2.821272,0.136325
+"cuda_runtime","cudaEventQuery",3578,2.666096,0.015343
+"cpu_op","aten::t",687,2.656350,0.020856
+"cpu_op","SplitBackward0",56,2.650320,0.133629
+"cpu_op","_CopyToModelParallelRegion",346,2.563309,0.024541
+"cpu_op","aten::cos",112,2.449399,0.084639
+"cpu_op","aten::empty_strided",713,2.323284,0.018993
+"cpu_op","aten::contiguous",112,2.268843,0.037748
+"cpu_op","aten::empty_like",397,2.255937,0.023507
+"cpu_op","autograd::engine::evaluate_function: SliceBackward0",66,1.836947,0.053903
+"cpu_op","_GatherFromModelParallelRegion",224,1.819661,0.020105
+"cpu_op","aten::slice",804,1.682501,0.021390
+"cpu_op","CrossEntropyFunction",10,1.672089,0.274320
+"cpu_op","## Call CompiledFxGraph fpqjw5udhhgl36a5lojnn44xxvz7wlnjk5q6pjeng6i2obsf6dhm ##",28,1.663043,0.069742
+"cpu_op","TorchDynamo Cache Lookup",84,1.609518,0.031535
+"user_annotation","Optimizer.step#FusedAdam.step",1,1.559409,1.559409
+"cpu_op","SliceBackward0",66,1.538120,0.044384
+"cpu_op","aten::transpose",730,1.487146,0.011579
+"cpu_op","aten::slice_backward",66,1.441688,0.041991
+"cpu_op","aten::zeros",101,1.410113,0.039530
+"cpu_op","autograd::engine::evaluate_function: _CopyToModelParallelRegionBackward",178,1.362850,0.023334
+"cpu_op","aten::_index_put_impl_",2,1.248816,1.171122
+"cpu_op","autograd::engine::evaluate_function: IndexBackward0",1,1.207703,1.207703
+"cpu_op","IndexBackward0",1,1.200859,1.200859
+"cpu_op","aten::narrow",452,1.179051,0.024561
+"cpu_op","triton_poi_fused_mul_silu_split_0",56,1.169778,0.038300
+"cpu_op","autograd::engine::evaluate_function: CatBackward0",112,1.160816,0.032801
+"cpu_op","_ReduceFromModelParallelRegion",112,1.109503,0.016916
+"cpu_op","aten::view_as",738,1.101778,0.019321
+"cpu_op","aten::as_strided",1840,1.091225,0.002275
+"cpu_op","autograd::engine::evaluate_function: ViewBackward0",233,1.082674,0.006468
+"cpu_op","aten::chunk",112,1.065253,0.024264
+"cpu_op","autograd::engine::evaluate_function: NegBackward0",76,1.017900,0.017727
+"cpu_op","torch::autograd::AccumulateGrad",253,0.999131,0.021501
+"cpu_op","aten::zero_",104,0.923510,0.025907
+"cpu_op","autograd::engine::evaluate_function: AddBackward0",234,0.889295,0.008963
+"cpu_op","aten::split",112,0.870917,0.016451
+"cpu_op","aten::sum",46,0.868344,0.039411
+"cpu_op","CatBackward0",112,0.857755,0.029728
+"cpu_op","NegBackward0",76,0.837428,0.015294
+"cpu_op","aten::fill_",162,0.830616,0.023672
+"cpu_op","_CopyToModelParallelRegionBackward",178,0.796030,0.016654
+"cpu_op","autograd::engine::evaluate_function: LinearWithFrozenWeightBackward",10,0.766163,0.134961
+"cpu_op","aten::detach",556,0.750184,0.018631
+"cpu_op","autograd::engine::evaluate_function: _GatherFromModelParallelRegionBackward",112,0.740084,0.009674
+"cpu_op","aten::all",56,0.734766,0.025182

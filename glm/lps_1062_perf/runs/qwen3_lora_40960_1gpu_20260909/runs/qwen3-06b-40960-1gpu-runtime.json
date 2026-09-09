@@ -1,0 +1,156 @@
+{
+  "label": "qwen3-06b-40960-1gpu-runtime",
+  "seq_len": 40960,
+  "num_gpus": 1,
+  "datums_per_window": 1,
+  "tokens_per_step": 40960,
+  "memory_profile_enabled": false,
+  "runtime_profile_enabled": true,
+  "started": "2026-09-09 18:07:42",
+  "initial_status": {
+    "mode": "training",
+    "step": 4,
+    "model_id": "Qwen/Qwen3-0.6B",
+    "device": "cuda:0",
+    "last_loss": null,
+    "grad_norm": null,
+    "gpu_memory": {
+      "cuda:0": 16645095424
+    },
+    "world_size": 1,
+    "tensor_parallel_size": 1,
+    "pipeline_parallel_size": 1,
+    "expert_parallel_size": 1,
+    "context_parallel_size": 1,
+    "expert_tensor_parallel_size": 1,
+    "data_parallel_size": 1,
+    "max_seq_len": 40960
+  },
+  "runtime_profile_start": {
+    "mode": "torch",
+    "recording": true,
+    "local_path": "/tmp/checkpoints/profiles/torch_trace"
+  },
+  "runtime_profile_stop": {
+    "mode": "torch",
+    "local_path": "/tmp/checkpoints/profiles/torch_trace",
+    "remote_path": null,
+    "files": [
+      "baseten-training-job-32vj99q-multinode-0_11695.1788977267930702037.pt.trace.json"
+    ],
+    "size_bytes": 17655763
+  },
+  "final_status": {
+    "mode": "training",
+    "step": 9,
+    "model_id": "Qwen/Qwen3-0.6B",
+    "device": "cuda:0",
+    "last_loss": null,
+    "grad_norm": null,
+    "gpu_memory": {
+      "cuda:0": 16645095424
+    },
+    "world_size": 1,
+    "tensor_parallel_size": 1,
+    "pipeline_parallel_size": 1,
+    "expert_parallel_size": 1,
+    "context_parallel_size": 1,
+    "expert_tensor_parallel_size": 1,
+    "data_parallel_size": 1,
+    "max_seq_len": 40960
+  },
+  "windows": [
+    {
+      "label": "qwen3-06b-40960-1gpu-runtime",
+      "window_index": 0,
+      "phase": "warmup",
+      "datums": 1,
+      "num_tokens": 40960,
+      "fb_elapsed_s": 1.0388946100138128,
+      "fb_tps_per_gpu": 39426.52084743746,
+      "optim_elapsed_s": 0.014102644054219127,
+      "loss": 13.302831795209844,
+      "grad_norm": 5.362750053405762,
+      "server_step_seconds": 1.0105097859632224,
+      "peak_reserved_bytes": 16645095424,
+      "peak_allocated_bytes": 16593905152,
+      "device_total_bytes": 287428771840
+    },
+    {
+      "label": "qwen3-06b-40960-1gpu-runtime",
+      "window_index": 0,
+      "phase": "control",
+      "datums": 1,
+      "num_tokens": 40960,
+      "fb_elapsed_s": 1.0317418610211462,
+      "fb_tps_per_gpu": 39699.85279017432,
+      "optim_elapsed_s": 0.010991493007168174,
+      "loss": 13.264749505603165,
+      "grad_norm": 5.166715145111084,
+      "server_step_seconds": 1.004146602237597,
+      "peak_reserved_bytes": 16645095424,
+      "peak_allocated_bytes": 16593905152,
+      "device_total_bytes": 287428771840
+    },
+    {
+      "label": "qwen3-06b-40960-1gpu-runtime",
+      "window_index": 1,
+      "phase": "control",
+      "datums": 1,
+      "num_tokens": 40960,
+      "fb_elapsed_s": 1.0206258189864457,
+      "fb_tps_per_gpu": 40132.23968866103,
+      "optim_elapsed_s": 0.01022156490944326,
+      "loss": 13.22825569471911,
+      "grad_norm": 4.951111316680908,
+      "server_step_seconds": 0.9933629862498492,
+      "peak_reserved_bytes": 16645095424,
+      "peak_allocated_bytes": 16593905152,
+      "device_total_bytes": 287428771840
+    },
+    {
+      "label": "qwen3-06b-40960-1gpu-runtime",
+      "window_index": 2,
+      "phase": "control",
+      "datums": 1,
+      "num_tokens": 40960,
+      "fb_elapsed_s": 1.0312605469953269,
+      "fb_tps_per_gpu": 39718.38166343196,
+      "optim_elapsed_s": 0.011160430032759905,
+      "loss": 13.191545203740326,
+      "grad_norm": 4.741389751434326,
+      "server_step_seconds": 1.0045657730661333,
+      "peak_reserved_bytes": 16645095424,
+      "peak_allocated_bytes": 16593905152,
+      "device_total_bytes": 287428771840
+    },
+    {
+      "label": "qwen3-06b-40960-1gpu-runtime",
+      "window_index": 0,
+      "phase": "runtime_profile",
+      "datums": 1,
+      "num_tokens": 40960,
+      "fb_elapsed_s": 1.0384326160419732,
+      "fb_tps_per_gpu": 39444.061528152546,
+      "optim_elapsed_s": 0.015726648969575763,
+      "loss": 13.14697624453722,
+      "grad_norm": 4.467643737792969,
+      "server_step_seconds": 1.0124130849726498,
+      "peak_reserved_bytes": 16645095424,
+      "peak_allocated_bytes": 16593905152,
+      "device_total_bytes": 287428771840
+    }
+  ],
+  "aggregates": {
+    "tokens_per_step": 40960,
+    "control_fb_seconds_mean": 1.0278760756676395,
+    "control_optim_seconds_mean": 0.010791162649790445,
+    "control_tps_per_gpu": 39849.161751717125,
+    "peak_reserved_bytes": 16645095424,
+    "peak_allocated_bytes": 16593905152,
+    "device_total_bytes": 287428771840,
+    "runtime_profile_fb_seconds": 1.0384326160419732,
+    "runtime_profile_optim_seconds": 0.015726648969575763
+  },
+  "total_elapsed_seconds": 5.716961466008797
+}

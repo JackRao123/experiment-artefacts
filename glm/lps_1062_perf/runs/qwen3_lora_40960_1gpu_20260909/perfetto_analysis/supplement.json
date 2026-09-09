@@ -1,0 +1,94 @@
+{
+  "06b": {
+    "gap_buckets_ms": {
+      "100us-1ms": 4.754904296875,
+      "10-100us": 2.926145507812502,
+      "<10us": 11.123768554687482,
+      ">=1ms": 30.873945312500002
+    },
+    "gap_next_cpu_owner_ms": {
+      "aten::mul_": 29.6089072265625,
+      "aten::copy_": 4.666214843749997,
+      "aten::mul": 2.821122070312501,
+      "aten::add": 2.1419306640625,
+      "unknown": 1.7480537109374998,
+      "aten::fill_": 1.5120830078125,
+      "aten::cat": 0.8146113281249996,
+      "CrossEntropyFunctionBackward": 0.7873701171875,
+      "CheckpointFunction": 0.6663876953125002,
+      "aten::add_": 0.5799472656250003,
+      "aten::neg": 0.5648066406250002,
+      "aten::mm": 0.4734785156249998,
+      "FusedAttnFuncBackward": 0.30803515624999994,
+      "aten::gather": 0.2819873046875,
+      "_OperationFuserAutogradFunctionBackward": 0.2700136718750001,
+      "aten::cos": 0.2559052734375,
+      "aten::nonzero": 0.2527392578125,
+      "FusedAttnFunc": 0.24739453125000005,
+      "_LayerNormLinearBackward": 0.24089941406250004,
+      "aten::sin": 0.22127832031249997
+    },
+    "runtime_malloc_free_calls": [],
+    "memory_actions": {
+      "alloc": 5726,
+      "free_requested": 5726,
+      "free_completed": 5726,
+      "snapshot": 1
+    },
+    "rope_cumulative_allocation_bytes": {
+      "_apply_rotary_pos_emb_bshd:150": 5872025600,
+      "_apply_rotary_pos_emb_bshd:151": 5872025600,
+      "_apply_rotary_pos_emb_bshd:155": 42278584320,
+      "_rotate_half:92": 21139292160,
+      "_apply_rotary_pos_emb_bshd:164": 14092861440
+    },
+    "attention_forward_tflops_estimate": 1900.090212492591,
+    "attention_backward_tflops_with_score_recompute_estimate": 1372.4176379966873
+  },
+  "30b-a3b": {
+    "gap_buckets_ms": {
+      "100us-1ms": 121.97251464843731,
+      "10-100us": 370.8910966796859,
+      "<10us": 51.9216220703129,
+      ">=1ms": 43.6821142578125
+    },
+    "gap_next_cpu_owner_ms": {
+      "CheckpointFunction": 215.21769335937526,
+      "_GroupedLinearBackward": 174.7642900390627,
+      "_GroupedLinear": 65.33032910156243,
+      "aten::mm": 44.19746874999997,
+      "aten::mul_": 32.6235283203125,
+      "aten::add_": 15.14101660156249,
+      "aten::copy_": 10.71028320312498,
+      "aten::mul": 5.288604492187519,
+      "unknown": 3.9486269531250007,
+      "aten::add": 3.914751953125001,
+      "aten::fill_": 3.0703232421875035,
+      "aten::scatter": 1.7523720703125,
+      "aten::cat": 1.3311416015625013,
+      "CrossEntropyFunctionBackward": 0.9050996093749999,
+      "aten::neg": 0.8769697265625006,
+      "aten::sum": 0.8525820312499998,
+      "_OperationFuserAutogradFunctionBackward": 0.7046875000000002,
+      "FusedAttnFuncBackward": 0.5878330078125003,
+      "aten::gather": 0.5068476562500001,
+      "GeneratedBackwardFor_te_moe_chunk_sort_fwd_default": 0.46727246093749997
+    },
+    "runtime_malloc_free_calls": [],
+    "memory_actions": {
+      "alloc": 13082,
+      "free_requested": 13082,
+      "free_completed": 13082,
+      "snapshot": 1
+    },
+    "rope_cumulative_allocation_bytes": {
+      "_apply_rotary_pos_emb_bshd:150": 10066329600,
+      "_apply_rotary_pos_emb_bshd:151": 10066329600,
+      "_apply_rotary_pos_emb_bshd:155": 108716359680,
+      "_rotate_half:92": 54358179840,
+      "_apply_rotary_pos_emb_bshd:164": 36238786560
+    },
+    "attention_forward_tflops_estimate": 1937.7152203043877,
+    "attention_backward_tflops_with_score_recompute_estimate": 1431.7318615153433
+  }
+}

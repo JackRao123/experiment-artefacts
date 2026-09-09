@@ -1,0 +1,40 @@
+{
+  "0.6b": {
+    "runtime": {
+      "path": "qwen3-06b.pt.trace.json",
+      "bytes": 17675088,
+      "sha256": "aa388ea618dd14a85354b6278864727c8630c514d3a4c735c4c291d26a3e1765",
+      "trace_events": 70693,
+      "cuda_kernel_events": 5986,
+      "summed_kernel_seconds": 0.99270521
+    },
+    "memory": {
+      "path": "qwen3-06b.memory.rank0.pickle",
+      "bytes": 2222391,
+      "sha256": "02b542919a188a7248fd03f66dcc4ec15d6fc427ce34b5a28d6484d0f55caab2",
+      "segments": 3,
+      "allocator_history_events": 17179
+    },
+    "protocol_verified": true,
+    "tensor_census_verified": true
+  },
+  "30b-a3b": {
+    "runtime": {
+      "path": "qwen3-30b-a3b.pt.trace.json",
+      "bytes": 90131581,
+      "sha256": "69770698f71c7a013bcb4fd0b7e31ef96ef289c8b786f771b6ef51669a0d7890",
+      "trace_events": 379712,
+      "cuda_kernel_events": 43928,
+      "summed_kernel_seconds": 4.046466368
+    },
+    "memory": {
+      "path": "qwen3-30b-a3b.memory.rank0.pickle",
+      "bytes": 5577014,
+      "sha256": "3bb0c6b562421d0370a9b7a9303303f4f4f6f4446dc3c329365e6df7a49db07a",
+      "segments": 3,
+      "allocator_history_events": 39247
+    },
+    "protocol_verified": true,
+    "tensor_census_verified": true
+  }
+}

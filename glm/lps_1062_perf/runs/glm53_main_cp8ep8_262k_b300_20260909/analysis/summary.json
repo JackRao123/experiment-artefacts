@@ -1,0 +1,33 @@
+{
+  "trace_scope": "rank0_only",
+  "profile_step_s": 23.128798,
+  "gpu_active_union_s": 22.535498,
+  "moe_communication_union_s": 6.241214,
+  "moe_compute_overlap_s": 0.0,
+  "cp_communication_observed_union_s": 1.177544,
+  "cp_bulk_transport_s": 0.797098,
+  "cp_scalar_barrier_wait_s": 0.380446,
+  "ideal_zero_moe_comm_profile_step_s": 16.887584,
+  "ideal_zero_moe_comm_control_step_s": 15.891648,
+  "ideal_zero_moe_comm_control_tps_per_gpu": 2061.964,
+  "per_layer_ms": {
+    "dense": {
+      "forward": 109.969,
+      "recompute_forward": 38.492,
+      "actual_backward": 81.866,
+      "total_backward": 120.357
+    },
+    "moe": {
+      "forward": 88.484,
+      "recompute_forward": 65.744,
+      "actual_backward": 121.964,
+      "total_backward": 187.708
+    },
+    "moe_zero_communication": {
+      "forward": 58.669,
+      "recompute_forward": 44.157,
+      "actual_backward": 90.150,
+      "total_backward": 134.307
+    }
+  }
+}

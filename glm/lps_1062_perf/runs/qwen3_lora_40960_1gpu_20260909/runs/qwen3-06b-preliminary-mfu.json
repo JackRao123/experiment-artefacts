@@ -1,0 +1,56 @@
+{
+  "model": "qwen3",
+  "seq_len": 40960,
+  "lora_rank": 32,
+  "checkpoint_parameters": 751632384,
+  "unique_base_parameters": 596049920,
+  "adapter_parameters_ep1_shared_experts": 17432576,
+  "active_base_gemm_weights_per_token": 595984384,
+  "forward_components_flops_per_token": {
+    "attention_projections": 352321536,
+    "mlp": 528482304,
+    "router": 0,
+    "output_head": 311164928,
+    "causal_attention": 4697735168,
+    "block_lora": 34865152,
+    "head_lora": 0
+  },
+  "forward_flops_per_token": 5924569088,
+  "useful_lora_sft_flops_per_token": 16581738496,
+  "full_block_recompute_flops_per_token": 5613404160,
+  "executed_pass_model_flops_per_token": 22195142656,
+  "executed_flash_model_flops_per_token": 24544010240.0,
+  "useful_flops_per_sequence": 679188008796160,
+  "benchmark": {
+    "control_count": 3,
+    "num_gpus": 1,
+    "control_fb_seconds": [
+      1.0317418610211462,
+      1.0206258189864457,
+      1.0312605469953269
+    ],
+    "control_fb_seconds_mean": 1.0278760756676395,
+    "control_fb_seconds_stdev": 0.0062835167108284415,
+    "control_optim_seconds_mean": 0.010791162649790445,
+    "control_fb_tps_per_gpu": 39849.161751717125,
+    "control_step_tps_per_gpu": 39435.151595185,
+    "peak_bf16_dense_flops_per_gpu": 2250000000000000.0,
+    "mfu_fb": 0.29367483531190164,
+    "mfu_including_optim": 0.29062372057843333,
+    "hfu_pass_model_estimate": 0.39309236880061355,
+    "hfu_flash_model_estimate": 0.43469254848424954,
+    "control_losses": [
+      13.264749505603165,
+      13.22825569471911,
+      13.191545203740326
+    ],
+    "control_grad_norms": [
+      5.166715145111084,
+      4.951111316680908,
+      4.741389751434326
+    ],
+    "peak_allocated_gib": 15.454278469085693,
+    "peak_reserved_gib": 15.501953125,
+    "runtime_profile_fb_seconds": 1.0384326160419732
+  }
+}
