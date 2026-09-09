@@ -1,0 +1,5 @@
+[status] world_size=8 dp=1
+[glm53-pr1327-b300-262k-cp8ep8-pre-nsys warmup0] fb=82.6s (397 tok/s/GPU) optim=7.4s loss=12.33168728518404 gn=0.5732491612434387
+[glm53-pr1327-b300-262k-cp8ep8-pre-nsys control0] fb=26.6s (1234 tok/s/GPU) optim=0.1s loss=12.315054187981369 gn=0.44216209650039673
+[done] -> /root/.cache/user_artifacts/lps1062_bench/glm53-pr1327-b300-262k-cp8ep8-pre-nsys.json
+SUMMARY glm53-pr1327-b300-262k-cp8ep8-pre-nsys: 1234 tok/s/GPU | control fb=26.6s optim=0.1s (262144 tok) | mfu3x 12.9% | hfu 18.5%

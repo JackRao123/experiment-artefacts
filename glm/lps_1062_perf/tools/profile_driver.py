@@ -1,6 +1,6 @@
 """Lightweight timing and profiling driver.
 
-All windows are the same shape: --datums datums x --seq-len tokens each
+All windows reuse the same --datums datums x --seq-len tokens each
 (defaults 1 x 131,072), synthetic random tokens, rng seed 0xB300.
 
 Protocol:
@@ -134,6 +134,7 @@ def main() -> None:
     args = ap.parse_args()
 
     rng = random.Random(0xB300)
+    datums = make_datums(rng, args)
     tokens_per_step = args.seq_len * args.datums
     out: dict = {
         "label": args.label,
@@ -151,11 +152,11 @@ def main() -> None:
         out["initial_status"] = status
         print(f"[status] world_size={status.get('world_size')} dp={status.get('data_parallel_size')}", flush=True)
 
-        windows = [drive_window(client, args.label, 0, make_datums(rng, args),
+        windows = [drive_window(client, args.label, 0, datums,
                                 args.seq_len, args.num_gpus, "warmup")]
 
         for i in range(args.control_repeats):
-            windows.append(drive_window(client, args.label, i, make_datums(rng, args),
+            windows.append(drive_window(client, args.label, i, datums,
                                         args.seq_len, args.num_gpus, "control"))
 
         if args.memory_profile:
@@ -171,7 +172,7 @@ def main() -> None:
             )
             try:
                 windows.append(drive_window(
-                    client, args.label, 0, make_datums(rng, args),
+                    client, args.label, 0, datums,
                     args.seq_len, args.num_gpus, "memory_profile",
                 ))
             finally:
@@ -190,7 +191,7 @@ def main() -> None:
             )
             try:
                 windows.append(drive_window(
-                    client, args.label, 0, make_datums(rng, args),
+                    client, args.label, 0, datums,
                     args.seq_len, args.num_gpus, "runtime_profile",
                 ))
             finally:

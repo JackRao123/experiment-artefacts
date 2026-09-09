@@ -1,0 +1,17 @@
+[glm53-pr1327-b300-262k-cp8ep8-nvtx-all-ranks-gpu-metrics capture0] fb=29.2s (1123 tok/s/GPU) optim=0.1s loss=12.327836333604179 gn=0.5664335489273071
+{
+  "label": "glm53-pr1327-b300-262k-cp8ep8-nvtx-all-ranks-gpu-metrics",
+  "window_index": 0,
+  "phase": "capture",
+  "datums": 1,
+  "num_tokens": 262144,
+  "fb_elapsed_s": 29.185149773024023,
+  "fb_tps_per_gpu": 1122.7627836362046,
+  "optim_elapsed_s": 0.14382837293669581,
+  "loss": 12.327836333604179,
+  "grad_norm": 0.5664335489273071,
+  "server_step_seconds": 28.99194576125592,
+  "peak_reserved_bytes": 221710909440,
+  "peak_allocated_bytes": 213788287488,
+  "device_total_bytes": 287428771840
+}

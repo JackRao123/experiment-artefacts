@@ -1,0 +1,190 @@
+loading kernels
+devices [0, 1, 2, 3, 4, 5, 6, 7] pids {0: '0x10031e0000000', 1: '0x10031e1000000', 2: '0x10031e2000000', 3: '0x10031e3000000', 4: '0x10031e4000000', 5: '0x10031e5000000', 6: '0x10031e6000000', 7: '0x10031e7000000'}
+loading nvtx
+nvtx range names: 432 (autograd-like 207); phase ranges present: True
+window {0: 28.886, 1: 28.865, 2: 28.865, 3: 28.865, 4: 28.866, 5: 28.866, 6: 28.865, 7: 28.866}
+loading runtime launches
+launch time resolved for 100.0% of in-window kernels
+sync-wait attribution
+host syncs
+gpu metrics
+# Attribution summary
+
+sqlite: `glm53-pr1327-b300-262k-cp8ep8-nvtx-all-ranks-gpu-metrics.sqlite`
+
+## Step window per GPU (s)
+
+gpu0: 28.886, gpu1: 28.865, gpu2: 28.865, gpu3: 28.865, gpu4: 28.866, gpu5: 28.866, gpu6: 28.865, gpu7: 28.866
+
+## Kernel time by category (mean per GPU, s)
+
+| category | s/GPU | % of window |
+|---|---|---|
+| hybridep_sync | 6.851 | 23.7 |
+| gemm | 4.989 | 17.3 |
+| dsa_backward | 3.720 | 12.9 |
+| elementwise | 2.118 | 7.3 |
+| cat_copy | 2.038 | 7.1 |
+| fp32_simt_head | 1.854 | 6.4 |
+| dsa_forward | 1.240 | 4.3 |
+| dsa_indexer | 1.097 | 3.8 |
+| hybridep_dispatch | 0.928 | 3.2 |
+| hybridep_combine | 0.869 | 3.0 |
+| nccl | 0.793 | 2.7 |
+| moe_permute | 0.780 | 2.7 |
+| activation | 0.373 | 1.3 |
+| norm | 0.305 | 1.1 |
+| topk_router | 0.144 | 0.5 |
+| hybridep_meta | 0.105 | 0.4 |
+| cub_scan_sort | 0.076 | 0.3 |
+| other | 0.014 | 0.0 |
+| cross_entropy | 0.006 | 0.0 |
+| nonzero_cub | 0.000 | 0.0 |
+
+## GPU idle (no kernel resident) inside window
+
+| gpu | idle s | idle % | gaps >1ms | max gap ms |
+|---|---|---|---|---|
+| 0 | 0.63 | 2.18 | 19 | 80.592 |
+| 1 | 1.642 | 5.69 | 12 | 1215.415 |
+| 2 | 0.437 | 1.51 | 8 | 129.47 |
+| 3 | 0.576 | 2.0 | 18 | 60.558 |
+| 4 | 0.488 | 1.69 | 6 | 81.725 |
+| 5 | 1.339 | 4.64 | 13 | 472.454 |
+| 6 | 2.11 | 7.31 | 14 | 1476.329 |
+| 7 | 0.371 | 1.29 | 5 | 35.335 |
+
+## NVTX phases (wall s on host thread / GPU kernel s attributed by launch time), mean over GPUs
+
+| range | instances/GPU | wall s | gpu kernel s |
+|---|---|---|---|
+| forward | 1 | 8.461 | 8.399 |
+| backward | 1 | 20.300 | 19.902 |
+| optimizer | 1 | 0.000 | 0.000 |
+| attention | 156 | 6.362 | 3.214 |
+| moe | 150 | 18.233 | 10.900 |
+| hybridep_dispatch | 150 | 0.373 | 2.037 |
+| hybridep_combine | 150 | 0.033 | 5.307 |
+| recompute | 78 | 19.455 | 18.944 |
+| lm_head | 1 | 0.944 | 0.958 |
+| dsa_indexer | 42 | 5.934 | 0.111 |
+| dsa_core | 156 | 0.060 | 1.528 |
+| layer_forward | 78 | 7.304 | 7.332 |
+| layer_recompute_forward | 78 | 18.126 | 9.171 |
+| backward_minus_recompute_forward | 1 | nan | 10.730 |
+
+## HybridEP sync waits >= 5.0 ms: who is everyone waiting for?
+
+long waits total (all GPUs): 53.19 s of 54.81 s total sync time
+
+| group | key | wait s (all GPUs) |
+|---|---|---|
+| by_laggard | gpu0 | 5.546 |
+| by_laggard | gpu1 | 13.477 |
+| by_laggard | gpu2 | 2.036 |
+| by_laggard | gpu3 | 2.785 |
+| by_laggard | gpu4 | 4.938 |
+| by_laggard | gpu5 | 5.241 |
+| by_laggard | gpu6 | 17.106 |
+| by_laggard | gpu7 | 2.065 |
+| by_kind | laggard_gpu_idle(host) | 26.739 |
+| by_kind | laggard_gpu_busy | 26.456 |
+| by_laggard_top_category | gemm | 43.951 |
+| by_laggard_top_category | hybridep_meta | 7.493 |
+| by_laggard_top_category | elementwise | 1.346 |
+| by_laggard_top_category | moe_permute | 0.396 |
+| by_laggard_top_category | hybridep_dispatch | 0.008 |
+| total | long_waits>=5.0ms_all_gpus_s | 53.194 |
+| total | all_sync_all_gpus_s | 54.806 |
+
+## Host-side blocking API calls inside window (per GPU)
+
+| gpu | api | calls | total s | max ms |
+|---|---|---|---|---|
+| 0 | cudaStreamSynchronize | 470 | 24.408 | 1650.690 |
+| 1 | cudaStreamSynchronize | 468 | 23.111 | 1707.174 |
+| 2 | cudaStreamSynchronize | 468 | 24.040 | 1710.180 |
+| 3 | cudaStreamSynchronize | 468 | 24.252 | 1650.846 |
+| 4 | cudaStreamSynchronize | 468 | 24.395 | 1711.736 |
+| 5 | cudaStreamSynchronize | 468 | 23.391 | 1711.019 |
+| 6 | cudaStreamSynchronize | 468 | 21.483 | 354.558 |
+| 7 | cudaStreamSynchronize | 468 | 24.569 | 1711.416 |
+
+## Top call chains for blocking syncs
+
+- 1 calls, 0.000 s: `0x7f20bc8c27db < 0x7f20bc8c29ab < 0x7f20bc8bff05 < 0x7f20bc8c00ff < 0x7f216c2ae536 < cudaStreamSynchronize < at::native::_local_scalar_dense_cuda(at::Tensor const&)::{la < at::native::_local_scalar_dense_cuda(at::Tensor const&) < c10::impl::wrap_kernel_functor_unboxed_<c10::impl::detail::W < at::_ops::_local_scalar_dense::redispatch(c10::DispatchKeySe < c10::impl::wrap_kernel_functor_unboxed_<c10::impl::detail::W < at::_ops::_local_scalar_dense::call(at::Tensor const&)`
+
+## Top 'other' kernels (s per GPU)
+
+| kernel | instances (all GPUs) | s/GPU | max ms |
+|---|---|---|---|
+| `scan` | 1200 | 0.011 | 0.093 |
+| `searchsorted_cuda_kernel` | 4416 | 0.001 | 0.003 |
+| `compute_cuda_kernel` | 144 | 0.0 | 0.006 |
+| `indexing_backward_kernel` | 1 | 0.0 | 0.055 |
+| `ln_fwd_general_kernel` | 336 | 0.0 | 0.012 |
+| `pad_tokens_per_expert_kernel` | 1200 | 0.0 | 0.004 |
+| `thd_partition_indices_kernel` | 64 | 0.0 | 0.002 |
+| `triton_poi_fused__to_copy_all_reduce_scalar_tensor_stack_0` | 1200 | 0.0 | 0.002 |
+| `write_indices` | 5 | 0.0 | 0.003 |
+
+## GPU hardware metrics by phase (mean over GPUs)
+
+| phase | metric | avg |
+|---|---|---|
+| step | GR Active [Throughput %] | 97.05 |
+| step | SMs Active [Throughput %] | 63.52 |
+| step | SM Issue [Throughput %] | 20.11 |
+| step | Tensor Active [Throughput %] | 21.57 |
+| step | DRAM Read Bandwidth [Throughput %] | 10.56 |
+| step | DRAM Write Bandwidth [Throughput %] | 6.29 |
+| step | NVLink RX Requests Protocol Data [Throughput %] | 0.61 |
+| step | NVLink RX Requests User Data [Throughput %] | 1.63 |
+| step | NVLink RX Responses Protocol Data [Throughput %] | 0.42 |
+| step | NVLink RX Responses User Data [Throughput %] | 1.58 |
+| step | NVLink TX Requests Protocol Data [Throughput %] | 0.77 |
+| step | NVLink TX Requests User Data [Throughput %] | 1.62 |
+| step | NVLink TX Responses Protocol Data [Throughput %] | 0.26 |
+| step | NVLink TX Responses User Data [Throughput %] | 1.42 |
+| forward | GR Active [Throughput %] | 98.32 |
+| forward | SMs Active [Throughput %] | 70.99 |
+| forward | SM Issue [Throughput %] | 27.59 |
+| forward | Tensor Active [Throughput %] | 23.58 |
+| forward | DRAM Read Bandwidth [Throughput %] | 11.88 |
+| forward | DRAM Write Bandwidth [Throughput %] | 7.73 |
+| forward | NVLink RX Requests Protocol Data [Throughput %] | 0.68 |
+| forward | NVLink RX Requests User Data [Throughput %] | 1.92 |
+| forward | NVLink RX Responses Protocol Data [Throughput %] | 0.35 |
+| forward | NVLink RX Responses User Data [Throughput %] | 1.63 |
+| forward | NVLink TX Requests Protocol Data [Throughput %] | 0.76 |
+| forward | NVLink TX Requests User Data [Throughput %] | 1.92 |
+| forward | NVLink TX Responses Protocol Data [Throughput %] | 0.27 |
+| forward | NVLink TX Responses User Data [Throughput %] | 1.55 |
+| backward | GR Active [Throughput %] | 96.52 |
+| backward | SMs Active [Throughput %] | 60.28 |
+| backward | SM Issue [Throughput %] | 17.01 |
+| backward | Tensor Active [Throughput %] | 20.65 |
+| backward | DRAM Read Bandwidth [Throughput %] | 10.00 |
+| backward | DRAM Write Bandwidth [Throughput %] | 5.69 |
+| backward | NVLink RX Requests Protocol Data [Throughput %] | 0.58 |
+| backward | NVLink RX Requests User Data [Throughput %] | 1.52 |
+| backward | NVLink RX Responses Protocol Data [Throughput %] | 0.45 |
+| backward | NVLink RX Responses User Data [Throughput %] | 1.56 |
+| backward | NVLink TX Requests Protocol Data [Throughput %] | 0.78 |
+| backward | NVLink TX Requests User Data [Throughput %] | 1.51 |
+| backward | NVLink TX Responses Protocol Data [Throughput %] | 0.25 |
+| backward | NVLink TX Responses User Data [Throughput %] | 1.36 |
+| optimizer | GR Active [Throughput %] | 26.14 |
+| optimizer | SMs Active [Throughput %] | 10.61 |
+| optimizer | SM Issue [Throughput %] | 1.27 |
+| optimizer | Tensor Active [Throughput %] | 0.00 |
+| optimizer | DRAM Read Bandwidth [Throughput %] | 1.99 |
+| optimizer | DRAM Write Bandwidth [Throughput %] | 1.71 |
+| optimizer | NVLink RX Requests Protocol Data [Throughput %] | 0.00 |
+| optimizer | NVLink RX Requests User Data [Throughput %] | 0.00 |
+| optimizer | NVLink RX Responses Protocol Data [Throughput %] | 0.00 |
+| optimizer | NVLink RX Responses User Data [Throughput %] | 0.00 |
+| optimizer | NVLink TX Requests Protocol Data [Throughput %] | 0.00 |
+| optimizer | NVLink TX Requests User Data [Throughput %] | 0.00 |
+| optimizer | NVLink TX Responses Protocol Data [Throughput %] | 0.00 |
+| optimizer | NVLink TX Responses User Data [Throughput %] | 0.00 |

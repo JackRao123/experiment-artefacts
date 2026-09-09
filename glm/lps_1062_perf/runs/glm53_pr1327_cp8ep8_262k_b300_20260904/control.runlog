@@ -1,0 +1,7 @@
+[status] world_size=8 dp=1
+[glm53-pr1327-b300-262k-cp8ep8-control warmup0] fb=81.6s (402 tok/s/GPU) optim=7.2s loss=12.32979423444456 gn=0.5668261051177979
+[glm53-pr1327-b300-262k-cp8ep8-control control0] fb=28.1s (1166 tok/s/GPU) optim=0.3s loss=12.315779936904667 gn=0.4247934818267822
+[glm53-pr1327-b300-262k-cp8ep8-control control1] fb=26.9s (1218 tok/s/GPU) optim=0.1s loss=12.30954765147267 gn=0.371207058429718
+[glm53-pr1327-b300-262k-cp8ep8-control control2] fb=25.9s (1264 tok/s/GPU) optim=0.0s loss=12.292970821269307 gn=0.3889927864074707
+[done] -> /root/.cache/user_artifacts/lps1062_bench/glm53-pr1327-b300-262k-cp8ep8-control.json
+SUMMARY glm53-pr1327-b300-262k-cp8ep8-control: 1214 tok/s/GPU | control fb=27.0s optim=0.2s (262144 tok) | mfu3x 12.7% | hfu 18.2%

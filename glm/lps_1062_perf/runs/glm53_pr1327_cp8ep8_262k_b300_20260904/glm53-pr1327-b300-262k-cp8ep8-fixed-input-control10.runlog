@@ -1,0 +1,14 @@
+[status] world_size=8 dp=1
+[glm53-pr1327-b300-262k-cp8ep8-fixed-input-control10 warmup0] fb=73.2s (448 tok/s/GPU) optim=2.4s loss=12.32882529764289 gn=0.5557368397712708
+[glm53-pr1327-b300-262k-cp8ep8-fixed-input-control10 control0] fb=24.9s (1314 tok/s/GPU) optim=0.0s loss=12.329035106792857 gn=0.5817245841026306
+[glm53-pr1327-b300-262k-cp8ep8-fixed-input-control10 control1] fb=25.1s (1307 tok/s/GPU) optim=0.1s loss=12.328565897239294 gn=0.586535632610321
+[glm53-pr1327-b300-262k-cp8ep8-fixed-input-control10 control2] fb=24.8s (1324 tok/s/GPU) optim=0.0s loss=12.319279934997311 gn=0.5652766227722168
+[glm53-pr1327-b300-262k-cp8ep8-fixed-input-control10 control3] fb=24.8s (1323 tok/s/GPU) optim=0.1s loss=12.315646421991051 gn=0.5860030055046082
+[glm53-pr1327-b300-262k-cp8ep8-fixed-input-control10 control4] fb=24.8s (1322 tok/s/GPU) optim=0.1s loss=12.304689615972961 gn=0.5987538695335388
+[glm53-pr1327-b300-262k-cp8ep8-fixed-input-control10 control5] fb=24.8s (1322 tok/s/GPU) optim=0.1s loss=12.29109398305505 gn=0.5396692156791687
+[glm53-pr1327-b300-262k-cp8ep8-fixed-input-control10 control6] fb=24.8s (1323 tok/s/GPU) optim=0.0s loss=12.277835952132996 gn=0.4977218806743622
+[glm53-pr1327-b300-262k-cp8ep8-fixed-input-control10 control7] fb=24.8s (1319 tok/s/GPU) optim=0.1s loss=12.26696879184262 gn=0.46476587653160095
+[glm53-pr1327-b300-262k-cp8ep8-fixed-input-control10 control8] fb=24.8s (1321 tok/s/GPU) optim=0.0s loss=12.251540189896355 gn=0.5465084314346313
+[glm53-pr1327-b300-262k-cp8ep8-fixed-input-control10 control9] fb=25.7s (1277 tok/s/GPU) optim=0.1s loss=12.233595785506385 gn=0.430971622467041
+[done] -> /root/.cache/user_artifacts/lps1062_bench/glm53-pr1327-b300-262k-cp8ep8-fixed-input-control10.json
+SUMMARY glm53-pr1327-b300-262k-cp8ep8-fixed-input-control10: 1315 tok/s/GPU | control fb=24.9s optim=0.1s (262144 tok) | mfu3x 13.8% | hfu 19.7%
