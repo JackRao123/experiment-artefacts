@@ -1,4 +1,4 @@
-# Full GLM5.3 FSDP comparison — TE complete, grouped-MM pending
+# Full GLM5.3 FSDP comparison — final ablation pending
 
 131072 tokens, CP8, LoRA32, BF16 expert storage, full recompute. TPS/GPU below
 is measured from five unprofiled forward/backward controls, not extrapolated.
@@ -10,17 +10,38 @@ is measured from five unprofiled forward/backward controls, not extrapolated.
 | New devbox, current annotations | 1 | 11.9001 s | 1376.8 | 248.10 GiB |
 | New devbox, current annotations | 8 | 10.5694 s | 1550.1 | 213.62 GiB |
 
+EP1 with the current grouped-MM implementation: **11.7888 s, 1389.8 TPS/GPU,
+247.98 GiB**, five controls, SD0.0793s. This is only0.94% higher TPS than TE,
+within the observed variation; it does not establish a useful end-to-end gain.
+EP8 grouped-MM and a TE EP1 repeat are pending. The repeat removes the earlier
+TE profiler/allocator anomaly and mapped-libc setup difference.
+
 The current matched pair has **12.59% higher TPS/GPU with EP8**. Same source,
 venv/package versions, profiler and GPU UUIDs; exact checkpoint revision restored
 under a different cache root. The old pair independently showed a 9.46% advantage.
-Do not mix old and new rows into an A/B. Full-model grouped-MM ablation is starting;
-its end-to-end benefit remains unmeasured. See `devbox-te-comparison.md`.
+Do not mix old and new rows into an A/B. See `devbox-te-comparison.md` and
+`devbox-ep1-grouped-comparison.md`.
 Setup caveat: installing the debugger upgraded system libc while EP1 was already
 running; it retained the older mapped libc. This is an uncontrolled CPU-runtime
 difference, not an established cause of the performance gap.
 
 ## What the traces establish
 
+- **Grouped-MM is active, but its EP1 GPU kernels are not faster in situ.**
+  Rank0 forward+recompute expert GPU union: TE1.294s, grouped1.278s; real
+  input-gradient backward: TE0.878s, grouped1.018s. Total2.173→2.296s.
+  Kernel inventory confirms the256×256×64 CUTLASS grouped kernels. Host time
+  outside recorded CUDA APIs within expert scopes falls2.394→0.163s, but these
+  host durations are not additive critical-path costs. Thus the isolated
+  microbenchmark gain did not transfer to the full trainer.
+- EP1 grouped sampled Tensor Active rises to77–87% in exclusive expert samples,
+  despite no GPU-time win. Its metrics pass was~14.5% slower than control median
+  (timing pass only0.38% slower). Utilization is not useful-FLOP efficiency or
+  evidence of a speedup. Padding, weight traffic, overlapping work and clock
+  behavior require further controlled measurements to separate; do not claim
+  a quantified cause from this counter alone. The exported GPC clock unit is
+  inconsistent with its raw values; the analyzer now flags it rather than
+  reporting an impossible MHz value.
 - Current matched pair, rank0: **expert-path GPU union 2.173 s EP1 vs 1.244 s
   EP8**, attention 4.420 vs 4.020 s, GPU idle 1.725 vs 0.232 s. EP1 idle
   coincident with expert host scopes was 0.399 s vs 0.002 s. These differences

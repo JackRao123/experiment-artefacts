@@ -6,7 +6,7 @@ Ranked observed costs below are candidates for investigation, not guaranteed spe
 
 ## Capture quality
 
-- Input: `/Users/jackrao/Documents/trainers/experiment_artefacts/glm/lps_1062_perf/runs/nsys_workflow_20260911/devbox-ep1-te/metrics.sqlite`
+- Input: `devbox-ep1-te/metrics.sqlite`
 - Ranks: 0, 1, 4, 7, 6, 5, 2, 3; explicit NVTX rank/forward-backward anchors.
 - Rank coverage: {'captured': 8, 'world_size': 8}; observed CUDA graph launch calls: 0.
 - Same-run capture slowdown: 9.430733993006513%.
@@ -164,7 +164,7 @@ Category-exclusive samples only. Excludes launch preparation and gaps. Device-wi
 
 | Rank | Metric | Exclusive mean | Sample count | Exclusive fraction |
 |---|---|---:|---:|---:|
-| 0 | GPC Clock Frequency [MHz] | 1776198867.74 | 11232 | 51.6% |
+| 0 | GPC Clock Frequency [MHz] | unit mismatch: raw 1.78e+09 (not trustworthy as MHz) | 11232 | 51.6% |
 | 0 | SMs Active [Throughput %] | 83.98 | 11232 | 51.6% |
 | 0 | SM Issue [Throughput %] | 4.83 | 11232 | 51.6% |
 | 0 | Tensor Active [Throughput %] | 54.23 | 11232 | 51.6% |
@@ -178,7 +178,7 @@ Category-exclusive samples only. Excludes launch preparation and gaps. Device-wi
 | 0 | NVLink TX Requests User Data [Throughput %] | 0.00 | 11232 | 51.6% |
 | 0 | NVLink TX Responses Protocol Data [Throughput %] | 0.00 | 11232 | 51.6% |
 | 0 | NVLink TX Responses User Data [Throughput %] | 0.00 | 11232 | 51.6% |
-| 1 | GPC Clock Frequency [MHz] | 1736582342.28 | 12324 | 57.1% |
+| 1 | GPC Clock Frequency [MHz] | unit mismatch: raw 1.74e+09 (not trustworthy as MHz) | 12324 | 57.1% |
 | 1 | SMs Active [Throughput %] | 88.22 | 12324 | 57.1% |
 | 1 | SM Issue [Throughput %] | 5.15 | 12324 | 57.1% |
 | 1 | Tensor Active [Throughput %] | 57.57 | 12324 | 57.1% |
@@ -192,7 +192,7 @@ Category-exclusive samples only. Excludes launch preparation and gaps. Device-wi
 | 1 | NVLink TX Requests User Data [Throughput %] | 0.00 | 12324 | 57.1% |
 | 1 | NVLink TX Responses Protocol Data [Throughput %] | 0.00 | 12324 | 57.1% |
 | 1 | NVLink TX Responses User Data [Throughput %] | 0.00 | 12324 | 57.1% |
-| 4 | GPC Clock Frequency [MHz] | 1767671378.69 | 10995 | 50.7% |
+| 4 | GPC Clock Frequency [MHz] | unit mismatch: raw 1.77e+09 (not trustworthy as MHz) | 10995 | 50.7% |
 | 4 | SMs Active [Throughput %] | 87.54 | 10995 | 50.7% |
 | 4 | SM Issue [Throughput %] | 5.06 | 10995 | 50.7% |
 | 4 | Tensor Active [Throughput %] | 56.55 | 10995 | 50.7% |
@@ -206,7 +206,7 @@ Category-exclusive samples only. Excludes launch preparation and gaps. Device-wi
 | 4 | NVLink TX Requests User Data [Throughput %] | 0.00 | 10995 | 50.7% |
 | 4 | NVLink TX Responses Protocol Data [Throughput %] | 0.00 | 10995 | 50.7% |
 | 4 | NVLink TX Responses User Data [Throughput %] | 0.00 | 10995 | 50.7% |
-| 7 | GPC Clock Frequency [MHz] | 1704930989.21 | 12328 | 57.4% |
+| 7 | GPC Clock Frequency [MHz] | unit mismatch: raw 1.7e+09 (not trustworthy as MHz) | 12328 | 57.4% |
 | 7 | SMs Active [Throughput %] | 90.90 | 12328 | 57.4% |
 | 7 | SM Issue [Throughput %] | 5.36 | 12328 | 57.4% |
 | 7 | Tensor Active [Throughput %] | 59.73 | 12328 | 57.4% |
@@ -220,7 +220,7 @@ Category-exclusive samples only. Excludes launch preparation and gaps. Device-wi
 | 7 | NVLink TX Requests User Data [Throughput %] | 0.00 | 12328 | 57.4% |
 | 7 | NVLink TX Responses Protocol Data [Throughput %] | 0.00 | 12328 | 57.4% |
 | 7 | NVLink TX Responses User Data [Throughput %] | 0.00 | 12328 | 57.4% |
-| 6 | GPC Clock Frequency [MHz] | 1766948313.76 | 11238 | 52.5% |
+| 6 | GPC Clock Frequency [MHz] | unit mismatch: raw 1.77e+09 (not trustworthy as MHz) | 11238 | 52.5% |
 | 6 | SMs Active [Throughput %] | 89.44 | 11238 | 52.5% |
 | 6 | SM Issue [Throughput %] | 5.19 | 11238 | 52.5% |
 | 6 | Tensor Active [Throughput %] | 57.90 | 11238 | 52.5% |
@@ -234,7 +234,7 @@ Category-exclusive samples only. Excludes launch preparation and gaps. Device-wi
 | 6 | NVLink TX Requests User Data [Throughput %] | 0.00 | 11238 | 52.5% |
 | 6 | NVLink TX Responses Protocol Data [Throughput %] | 0.00 | 11238 | 52.5% |
 | 6 | NVLink TX Responses User Data [Throughput %] | 0.00 | 11238 | 52.5% |
-| 5 | GPC Clock Frequency [MHz] | 1761873854.66 | 11943 | 56.4% |
+| 5 | GPC Clock Frequency [MHz] | unit mismatch: raw 1.76e+09 (not trustworthy as MHz) | 11943 | 56.4% |
 | 5 | SMs Active [Throughput %] | 90.53 | 11943 | 56.4% |
 | 5 | SM Issue [Throughput %] | 5.30 | 11943 | 56.4% |
 | 5 | Tensor Active [Throughput %] | 58.66 | 11943 | 56.4% |
@@ -248,7 +248,7 @@ Category-exclusive samples only. Excludes launch preparation and gaps. Device-wi
 | 5 | NVLink TX Requests User Data [Throughput %] | 0.00 | 11943 | 56.4% |
 | 5 | NVLink TX Responses Protocol Data [Throughput %] | 0.00 | 11943 | 56.4% |
 | 5 | NVLink TX Responses User Data [Throughput %] | 0.00 | 11943 | 56.4% |
-| 2 | GPC Clock Frequency [MHz] | 1755079877.95 | 11501 | 52.9% |
+| 2 | GPC Clock Frequency [MHz] | unit mismatch: raw 1.76e+09 (not trustworthy as MHz) | 11501 | 52.9% |
 | 2 | SMs Active [Throughput %] | 85.84 | 11501 | 52.9% |
 | 2 | SM Issue [Throughput %] | 4.89 | 11501 | 52.9% |
 | 2 | Tensor Active [Throughput %] | 55.92 | 11501 | 52.9% |
@@ -262,7 +262,7 @@ Category-exclusive samples only. Excludes launch preparation and gaps. Device-wi
 | 2 | NVLink TX Requests User Data [Throughput %] | 0.00 | 11501 | 52.9% |
 | 2 | NVLink TX Responses Protocol Data [Throughput %] | 0.00 | 11501 | 52.9% |
 | 2 | NVLink TX Responses User Data [Throughput %] | 0.00 | 11501 | 52.9% |
-| 3 | GPC Clock Frequency [MHz] | 1776720755.77 | 11088 | 50.6% |
+| 3 | GPC Clock Frequency [MHz] | unit mismatch: raw 1.78e+09 (not trustworthy as MHz) | 11088 | 50.6% |
 | 3 | SMs Active [Throughput %] | 83.32 | 11088 | 50.6% |
 | 3 | SM Issue [Throughput %] | 4.81 | 11088 | 50.6% |
 | 3 | Tensor Active [Throughput %] | 53.73 | 11088 | 50.6% |

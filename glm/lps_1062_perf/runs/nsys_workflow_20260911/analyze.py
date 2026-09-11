@@ -284,6 +284,7 @@ def analyze(path, benchmark=None):
         # Sweep each CPU thread independently: async launches inherit their CPU
         # scopes, not whichever CPU range happens to overlap GPU execution.
         contexts, scope_keys, cursors, active = {}, {}, collections.defaultdict(int), collections.defaultdict(list)
+        scope_runtime = collections.defaultdict(list)
         for r in runtimes:
             tid, t = r["globalTid"], r["start"]
             ranges = nvtx[tid]
@@ -300,6 +301,8 @@ def analyze(path, benchmark=None):
                 raise ValueError(f"Duplicate runtime correlation in process {pid}: {key}")
             contexts[key] = (r, scopes)
             scope_keys[key] = [(tid, *x) for x in queue if x[2].startswith(("expert_gemm_", "expert_shape:", "fsdp_gather:"))]
+            for scope in scope_keys[key]:
+                scope_runtime[scope].append((r["start"], r["end"]))
         operations = []
         kernels = db.execute("SELECT start,end,correlationId,streamId,demangledName,deviceId,contextId FROM CUPTI_ACTIVITY_KIND_KERNEL "
                              "WHERE globalPid=? AND end>=? AND start<=? ORDER BY start", (pid, lo, hi))
@@ -392,6 +395,12 @@ def analyze(path, benchmark=None):
             row["gpu_idle_during_expert_host_scope_ms"] = duration(idle)-duration(subtract(idle, expert_host_ranges))
             row["mixed_category_overlap_ms"] = row["device_busy_ms"] - sum(v["exclusive_ms"] for v in budgets.values())
             row["expert_prefetch_readiness"] = prefetch_readiness(ops)
+            config = (benchmark or {}).get("config", {})
+            if (config.get("expert_parallel_size") == (benchmark or {}).get("num_gpus")
+                    and config.get("pipeline_parallel_size") == 1
+                    and config.get("expert_tensor_parallel_size") == 1
+                    and not any(o["category"] == "fsdp_gather:expert" for o in ops)):
+                row["expert_prefetch_readiness"]["status"] = "not applicable: expert-DP size one, no expert-weight gather expected"
             assert row["mixed_category_overlap_ms"] >= -1e-5
             assert abs(row["step_ms"]-row["device_busy_ms"]-row["device_idle_ms"]) < 1e-5
             assert abs(row["compute_absent_ms"]-row["next_compute_not_yet_issued_ms"]-row["issued_or_unresolved_ms"]-(row["resolved_event_blocking_communication_ms"] or 0)) < 1e-5
@@ -457,9 +466,11 @@ def analyze(path, benchmark=None):
             "dependency_quality": dependency_quality,
             "expert_scope_instances": [{"name": name, "cpu_start_ns": a, "cpu_end_ns": b,
                 "cpu_duration_ms": (b-a)/NS, "gpu_start_ns": min(x for x,y in spans), "gpu_end_ns": max(y for x,y in spans),
+                "host_before_first_cuda_api_ms": (min(x for x,y in scope_runtime[(tid,a,b,name)])-a)/NS,
+                "host_outside_cuda_api_ms": (b-a)/NS-duration(scope_runtime[(tid,a,b,name)]),
                 "gpu_union_ms": duration(spans), "gpu_span_ms": (max(y for x,y in spans)-min(x for x,y in spans))/NS,
                 "cpu_entry_to_first_kernel_ms": (min(x for x,y in spans)-a)/NS,
-                "warning": "Entry delay may include earlier GPU work; not isolated CPU overhead."}
+                "warning": "GPU entry delay may include earlier GPU work. Host outside recorded CUDA APIs includes scheduling/GIL/library work, not exclusively Python computation."}
                 for (tid,a,b,name), spans in scope_gpu.items()],
             "kernel_inventory": [{"category": c, "name": n, **v} for (c, n), v in
                                  sorted(material.items(), key=lambda kv: kv[1]["summed_ms"], reverse=True)]}
@@ -530,7 +541,10 @@ def markdown(result):
                 item = metric["categories"].get("expert_gemm_path", {})
                 samples = item.get("exclusive_samples")
                 if samples:
-                    lines.append(f"| {rank} | {name} | {samples['mean']:.2f} | {samples['n']} | {item['exclusive_fraction']:.1%} |")
+                    value = f"{samples['mean']:.2f}"
+                    if name.startswith("GPC Clock") and "MHz" in name and samples["mean"] > 1e6:
+                        value = f"unit mismatch: raw {samples['mean']:.3g} (not trustworthy as MHz)"
+                    lines.append(f"| {rank} | {name} | {value} | {samples['n']} | {item['exclusive_fraction']:.1%} |")
     lines += ["", "## Claim status", "", "- Interval budgets: trace-measured; overlapping category unions do not add to step time.",
               "- Communication taxonomy: NVTX scope plus kernel names; unclassified collectives remain unclassified.",
               "- Dispatch/combine includes packing and synchronization, not just network transfer.",

@@ -6,7 +6,7 @@ Ranked observed costs below are candidates for investigation, not guaranteed spe
 
 ## Capture quality
 
-- Input: `/Users/jackrao/Documents/trainers/experiment_artefacts/glm/lps_1062_perf/runs/nsys_workflow_20260911/devbox-ep8-te/timing.sqlite`
+- Input: `devbox-ep8-te/timing.sqlite`
 - Ranks: 0, 3, 1, 2, 7, 5, 4, 6; explicit NVTX rank/forward-backward anchors.
 - Rank coverage: {'captured': 8, 'world_size': 8}; observed CUDA graph launch calls: 0.
 - Same-run capture slowdown: 0.7131290291236381%.
@@ -48,14 +48,14 @@ Arrival relative to preceding-block compute completion; not a zero-communication
 
 | Rank | Step | Attributed gathers | Ready by preceding block end | Status |
 |---|---:|---:|---|---|
-| 0 | 0 | 0 | unknown | no attributed expert-weight gathers; check group annotation coverage |
-| 3 | 0 | 0 | unknown | no attributed expert-weight gathers; check group annotation coverage |
-| 1 | 0 | 0 | unknown | no attributed expert-weight gathers; check group annotation coverage |
-| 2 | 0 | 0 | unknown | no attributed expert-weight gathers; check group annotation coverage |
-| 7 | 0 | 0 | unknown | no attributed expert-weight gathers; check group annotation coverage |
-| 5 | 0 | 0 | unknown | no attributed expert-weight gathers; check group annotation coverage |
-| 4 | 0 | 0 | unknown | no attributed expert-weight gathers; check group annotation coverage |
-| 6 | 0 | 0 | unknown | no attributed expert-weight gathers; check group annotation coverage |
+| 0 | 0 | 0 | unknown | not applicable: expert-DP size one, no expert-weight gather expected |
+| 3 | 0 | 0 | unknown | not applicable: expert-DP size one, no expert-weight gather expected |
+| 1 | 0 | 0 | unknown | not applicable: expert-DP size one, no expert-weight gather expected |
+| 2 | 0 | 0 | unknown | not applicable: expert-DP size one, no expert-weight gather expected |
+| 7 | 0 | 0 | unknown | not applicable: expert-DP size one, no expert-weight gather expected |
+| 5 | 0 | 0 | unknown | not applicable: expert-DP size one, no expert-weight gather expected |
+| 4 | 0 | 0 | unknown | not applicable: expert-DP size one, no expert-weight gather expected |
+| 6 | 0 | 0 | unknown | not applicable: expert-DP size one, no expert-weight gather expected |
 
 ## Ranked observed costs
 

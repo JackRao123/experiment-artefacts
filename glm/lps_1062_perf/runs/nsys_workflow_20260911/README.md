@@ -92,6 +92,10 @@ GPU metrics use explicit physical GPU/rank mapping, resolve metric names, and
 report both all-resident and category-exclusive samples. Absent/unsampled values
 are unknown. Sampling is device-wide, so overlapping operations contaminate
 non-exclusive samples. These are not Nsight Compute kernel roofline measurements.
+Implausible exported GPC-clock units are flagged, not silently presented as MHz.
+JSON expert-scope records include host time before the first recorded CUDA API
+and time outside those APIs. These include scheduling/GIL/library work and must
+not be added to GPU durations or called exclusively Python overhead.
 
 The comparison validates workload/config/input/source compatibility and reports
 same-run capture slowdown. An EP1-vs-EP8 comparison alone cannot establish the

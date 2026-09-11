@@ -6,7 +6,7 @@ Ranked observed costs below are candidates for investigation, not guaranteed spe
 
 ## Capture quality
 
-- Input: `/Users/jackrao/Documents/trainers/experiment_artefacts/glm/lps_1062_perf/runs/nsys_workflow_20260911/devbox-ep8-te/metrics.sqlite`
+- Input: `devbox-ep8-te/metrics.sqlite`
 - Ranks: 0, 1, 4, 5, 7, 2, 3, 6; explicit NVTX rank/forward-backward anchors.
 - Rank coverage: {'captured': 8, 'world_size': 8}; observed CUDA graph launch calls: 0.
 - Same-run capture slowdown: 1.107204497560721%.
@@ -48,14 +48,14 @@ Arrival relative to preceding-block compute completion; not a zero-communication
 
 | Rank | Step | Attributed gathers | Ready by preceding block end | Status |
 |---|---:|---:|---|---|
-| 0 | 0 | 0 | unknown | no attributed expert-weight gathers; check group annotation coverage |
-| 1 | 0 | 0 | unknown | no attributed expert-weight gathers; check group annotation coverage |
-| 4 | 0 | 0 | unknown | no attributed expert-weight gathers; check group annotation coverage |
-| 5 | 0 | 0 | unknown | no attributed expert-weight gathers; check group annotation coverage |
-| 7 | 0 | 0 | unknown | no attributed expert-weight gathers; check group annotation coverage |
-| 2 | 0 | 0 | unknown | no attributed expert-weight gathers; check group annotation coverage |
-| 3 | 0 | 0 | unknown | no attributed expert-weight gathers; check group annotation coverage |
-| 6 | 0 | 0 | unknown | no attributed expert-weight gathers; check group annotation coverage |
+| 0 | 0 | 0 | unknown | not applicable: expert-DP size one, no expert-weight gather expected |
+| 1 | 0 | 0 | unknown | not applicable: expert-DP size one, no expert-weight gather expected |
+| 4 | 0 | 0 | unknown | not applicable: expert-DP size one, no expert-weight gather expected |
+| 5 | 0 | 0 | unknown | not applicable: expert-DP size one, no expert-weight gather expected |
+| 7 | 0 | 0 | unknown | not applicable: expert-DP size one, no expert-weight gather expected |
+| 2 | 0 | 0 | unknown | not applicable: expert-DP size one, no expert-weight gather expected |
+| 3 | 0 | 0 | unknown | not applicable: expert-DP size one, no expert-weight gather expected |
+| 6 | 0 | 0 | unknown | not applicable: expert-DP size one, no expert-weight gather expected |
 
 ## Ranked observed costs
 
@@ -163,7 +163,7 @@ Category-exclusive samples only. Excludes launch preparation and gaps. Device-wi
 
 | Rank | Metric | Exclusive mean | Sample count | Exclusive fraction |
 |---|---|---:|---:|---:|
-| 0 | GPC Clock Frequency [MHz] | 1574389370.22 | 12564 | 100.0% |
+| 0 | GPC Clock Frequency [MHz] | unit mismatch: raw 1.57e+09 (not trustworthy as MHz) | 12564 | 100.0% |
 | 0 | SMs Active [Throughput %] | 98.63 | 12564 | 100.0% |
 | 0 | SM Issue [Throughput %] | 5.08 | 12564 | 100.0% |
 | 0 | Tensor Active [Throughput %] | 91.37 | 12564 | 100.0% |
@@ -177,7 +177,7 @@ Category-exclusive samples only. Excludes launch preparation and gaps. Device-wi
 | 0 | NVLink TX Requests User Data [Throughput %] | 0.00 | 12564 | 100.0% |
 | 0 | NVLink TX Responses Protocol Data [Throughput %] | 0.42 | 12564 | 100.0% |
 | 0 | NVLink TX Responses User Data [Throughput %] | 0.42 | 12564 | 100.0% |
-| 1 | GPC Clock Frequency [MHz] | 1534819414.13 | 13083 | 100.0% |
+| 1 | GPC Clock Frequency [MHz] | unit mismatch: raw 1.53e+09 (not trustworthy as MHz) | 13083 | 100.0% |
 | 1 | SMs Active [Throughput %] | 98.63 | 13083 | 100.0% |
 | 1 | SM Issue [Throughput %] | 5.08 | 13083 | 100.0% |
 | 1 | Tensor Active [Throughput %] | 91.60 | 13083 | 100.0% |
@@ -191,7 +191,7 @@ Category-exclusive samples only. Excludes launch preparation and gaps. Device-wi
 | 1 | NVLink TX Requests User Data [Throughput %] | 0.00 | 13083 | 100.0% |
 | 1 | NVLink TX Responses Protocol Data [Throughput %] | 0.00 | 13083 | 100.0% |
 | 1 | NVLink TX Responses User Data [Throughput %] | 0.00 | 13083 | 100.0% |
-| 4 | GPC Clock Frequency [MHz] | 1582202453.34 | 12485 | 100.0% |
+| 4 | GPC Clock Frequency [MHz] | unit mismatch: raw 1.58e+09 (not trustworthy as MHz) | 12485 | 100.0% |
 | 4 | SMs Active [Throughput %] | 98.68 | 12485 | 100.0% |
 | 4 | SM Issue [Throughput %] | 5.06 | 12485 | 100.0% |
 | 4 | Tensor Active [Throughput %] | 91.29 | 12485 | 100.0% |
@@ -205,7 +205,7 @@ Category-exclusive samples only. Excludes launch preparation and gaps. Device-wi
 | 4 | NVLink TX Requests User Data [Throughput %] | 0.00 | 12485 | 100.0% |
 | 4 | NVLink TX Responses Protocol Data [Throughput %] | 0.00 | 12485 | 100.0% |
 | 4 | NVLink TX Responses User Data [Throughput %] | 0.00 | 12485 | 100.0% |
-| 5 | GPC Clock Frequency [MHz] | 1573317677.51 | 12330 | 100.0% |
+| 5 | GPC Clock Frequency [MHz] | unit mismatch: raw 1.57e+09 (not trustworthy as MHz) | 12330 | 100.0% |
 | 5 | SMs Active [Throughput %] | 98.61 | 12330 | 100.0% |
 | 5 | SM Issue [Throughput %] | 5.07 | 12330 | 100.0% |
 | 5 | Tensor Active [Throughput %] | 91.18 | 12330 | 100.0% |
@@ -219,7 +219,7 @@ Category-exclusive samples only. Excludes launch preparation and gaps. Device-wi
 | 5 | NVLink TX Requests User Data [Throughput %] | 0.00 | 12330 | 100.0% |
 | 5 | NVLink TX Responses Protocol Data [Throughput %] | 0.00 | 12330 | 100.0% |
 | 5 | NVLink TX Responses User Data [Throughput %] | 0.00 | 12330 | 100.0% |
-| 7 | GPC Clock Frequency [MHz] | 1501719401.67 | 12633 | 100.0% |
+| 7 | GPC Clock Frequency [MHz] | unit mismatch: raw 1.5e+09 (not trustworthy as MHz) | 12633 | 100.0% |
 | 7 | SMs Active [Throughput %] | 98.67 | 12633 | 100.0% |
 | 7 | SM Issue [Throughput %] | 5.03 | 12633 | 100.0% |
 | 7 | Tensor Active [Throughput %] | 91.50 | 12633 | 100.0% |
@@ -233,7 +233,7 @@ Category-exclusive samples only. Excludes launch preparation and gaps. Device-wi
 | 7 | NVLink TX Requests User Data [Throughput %] | 0.00 | 12633 | 100.0% |
 | 7 | NVLink TX Responses Protocol Data [Throughput %] | 0.00 | 12633 | 100.0% |
 | 7 | NVLink TX Responses User Data [Throughput %] | 0.00 | 12633 | 100.0% |
-| 2 | GPC Clock Frequency [MHz] | 1554388648.40 | 12820 | 100.0% |
+| 2 | GPC Clock Frequency [MHz] | unit mismatch: raw 1.55e+09 (not trustworthy as MHz) | 12820 | 100.0% |
 | 2 | SMs Active [Throughput %] | 98.71 | 12820 | 100.0% |
 | 2 | SM Issue [Throughput %] | 5.03 | 12820 | 100.0% |
 | 2 | Tensor Active [Throughput %] | 91.63 | 12820 | 100.0% |
@@ -247,7 +247,7 @@ Category-exclusive samples only. Excludes launch preparation and gaps. Device-wi
 | 2 | NVLink TX Requests User Data [Throughput %] | 0.00 | 12820 | 100.0% |
 | 2 | NVLink TX Responses Protocol Data [Throughput %] | 0.00 | 12820 | 100.0% |
 | 2 | NVLink TX Responses User Data [Throughput %] | 0.00 | 12820 | 100.0% |
-| 3 | GPC Clock Frequency [MHz] | 1588855916.33 | 12977 | 100.0% |
+| 3 | GPC Clock Frequency [MHz] | unit mismatch: raw 1.59e+09 (not trustworthy as MHz) | 12977 | 100.0% |
 | 3 | SMs Active [Throughput %] | 98.60 | 12977 | 100.0% |
 | 3 | SM Issue [Throughput %] | 5.03 | 12977 | 100.0% |
 | 3 | Tensor Active [Throughput %] | 91.60 | 12977 | 100.0% |
@@ -261,7 +261,7 @@ Category-exclusive samples only. Excludes launch preparation and gaps. Device-wi
 | 3 | NVLink TX Requests User Data [Throughput %] | 0.00 | 12977 | 100.0% |
 | 3 | NVLink TX Responses Protocol Data [Throughput %] | 0.00 | 12977 | 100.0% |
 | 3 | NVLink TX Responses User Data [Throughput %] | 0.00 | 12977 | 100.0% |
-| 6 | GPC Clock Frequency [MHz] | 1574463191.19 | 14504 | 100.0% |
+| 6 | GPC Clock Frequency [MHz] | unit mismatch: raw 1.57e+09 (not trustworthy as MHz) | 14504 | 100.0% |
 | 6 | SMs Active [Throughput %] | 98.83 | 14504 | 100.0% |
 | 6 | SM Issue [Throughput %] | 4.88 | 14504 | 100.0% |
 | 6 | Tensor Active [Throughput %] | 92.43 | 14504 | 100.0% |

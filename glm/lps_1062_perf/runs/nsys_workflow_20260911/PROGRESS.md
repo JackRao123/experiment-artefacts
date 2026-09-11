@@ -1,6 +1,35 @@
 # Work in progress
 
-## Current state: EP8 complete; EP1 grouped-MM starting
+## Current state: three captures complete; EP8 grouped-MM starting
+
+23:40 UTC: generated waiter confirms EP8 grouped healthy; capture.py
+devbox-ep8-grouped --metrics started. No duplicate requests. After finalization,
+collect/analyze, stop via lifecycle, then launch prepared devbox-ep1-te-repeat.
+The repeat config is staged remotely and preserves existing baseline artifacts.
+
+23:36 UTC: EP1 grouped analysis complete. Kernel inventory confirms actual
+PyTorch/CUTLASS grouped-MM, not fallback. Rank0 expert GPU union2.296s vs TE2.173s;
+forward+recompute1.278 vs1.294s; real dgrad1.018 vs0.878s. Host time outside CUDA
+APIs inside expert scopes0.163s vs2.394s (not critical-path time). Tensor Active
+exclusive77–87% vsTE54–60%; no meaningful end-to-end gain. No late steady expert
+prefetches. Add one TE EP1 repeat after EP8 grouped to remove the original TE
+allocator/profile anomaly and old mapped-libc confound. New case
+`devbox-ep1-te-repeat`, same settings, three warmups/five controls, timing/metrics.
+Current EP8 grouped waiter session54941; inspect and manually reinvoke if needed.
+
+23:32 UTC: EP1 grouped-MM completed all captures and five controls.
+Mean11.788758565 s, SD0.079326541 s, TPS/GPU1389.798587 (~0.9% above EP1 TE,
+within observed variability, not a compelling end-to-end gain). All four artifacts
+copied to Mac and SHA256 verified; local analysis running (session71766).
+Analyzer now also records expert host time before/outside recorded CUDA APIs.
+Re-analyzed both TE timing reports with this additive schema2 extension.
+EP1 grouped stopped. Launched EP8 grouped (pgid73526), generated waiter started.
+Inspect waiter/process state; do not duplicate launches. Still need full EP8
+grouped controls/captures, comparisons and final qualified conclusions.
+
+23:26 UTC: EP1 grouped-MM healthy via generated waiter. Started capture.py
+devbox-ep1-grouped --metrics (3 warmups/5 controls/1 timing/1 metrics).
+Inspect remote `devbox-ep1-grouped/capture.log`; do not duplicate requests.
 
 23:12 UTC: all EP8 artifacts copied, SHA256 verified, timing/metrics analyses
 finished. `devbox-te-comparison.md/json` generated with exact-revision relocation

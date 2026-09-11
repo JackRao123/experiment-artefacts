@@ -6,10 +6,10 @@ Ranked observed costs below are candidates for investigation, not guaranteed spe
 
 ## Capture quality
 
-- Input: `devbox-ep1-te/timing.sqlite`
-- Ranks: 0, 1, 6, 4, 2, 7, 3, 5; explicit NVTX rank/forward-backward anchors.
+- Input: `/Users/jackrao/Documents/trainers/experiment_artefacts/glm/lps_1062_perf/runs/nsys_workflow_20260911/devbox-ep1-grouped/timing.sqlite`
+- Ranks: 0, 7, 5, 6, 4, 3, 2, 1; explicit NVTX rank/forward-backward anchors.
 - Rank coverage: {'captured': 8, 'world_size': 8}; observed CUDA graph launch calls: 0.
-- Same-run capture slowdown: 6.66681312059243%.
+- Same-run capture slowdown: 0.3834373318774009%.
 - Hardware metrics present: False; this timing report does not infer saturation.
 - Warning/error records: 116; see diagnostics below before trusting event completeness.
 - Source call stacks not captured. NVTX scope attribution is distinct from call-stack coverage.
@@ -21,25 +21,24 @@ All times ms, means across captured forward/backward requests. Optimizer exclude
 
 | Rank | n | Step | GPU busy | GPU idle | Compute absent | Next compute unissued | Comm/dispatcher | Exposed upper bound | Event-linked blocking |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| 0 | 1 | 12491.14 | 10766.06 | 1725.08 | 3987.39 | 2563.42 | 5337.45 | 2243.46 | 392.28 |
-| 1 | 1 | 12475.43 | 10518.51 | 1956.92 | 3752.46 | 2177.23 | 4877.99 | 1776.92 | 623.53 |
-| 6 | 1 | 12451.35 | 11210.43 | 1240.92 | 3826.81 | 2232.51 | 5657.14 | 2568.12 | 584.51 |
-| 4 | 1 | 12467.17 | 11163.03 | 1304.14 | 3836.37 | 2251.15 | 5657.95 | 2514.55 | 532.48 |
-| 2 | 1 | 12469.26 | 11022.90 | 1446.36 | 3830.13 | 2381.52 | 5441.83 | 2365.33 | 461.86 |
-| 7 | 1 | 12461.65 | 11295.18 | 1166.47 | 3748.40 | 2142.93 | 5591.22 | 2563.83 | 645.96 |
-| 3 | 1 | 12462.52 | 10955.36 | 1507.16 | 3838.97 | 2431.23 | 5430.91 | 2313.16 | 425.91 |
-| 5 | 1 | 12463.43 | 11290.36 | 1173.07 | 3830.37 | 2186.15 | 5677.51 | 2639.80 | 699.89 |
+| 0 | 1 | 11682.66 | 10563.40 | 1119.26 | 2995.28 | 1421.89 | 5025.38 | 1857.11 | 466.12 |
+| 7 | 1 | 11634.16 | 10806.42 | 827.74 | 2469.49 | 1093.94 | 5053.66 | 1623.05 | 368.68 |
+| 5 | 1 | 11642.05 | 10776.46 | 865.59 | 2697.78 | 1197.45 | 5130.87 | 1814.04 | 430.15 |
+| 6 | 1 | 11623.60 | 10802.62 | 820.98 | 2712.22 | 1318.31 | 5077.36 | 1873.39 | 388.39 |
+| 4 | 1 | 11636.34 | 10815.01 | 821.33 | 2612.22 | 1049.61 | 5216.01 | 1772.72 | 490.08 |
+| 3 | 1 | 11645.08 | 10739.74 | 905.34 | 2788.92 | 1242.54 | 5122.86 | 1864.52 | 413.75 |
+| 2 | 1 | 11644.92 | 10692.86 | 952.05 | 2762.72 | 1398.63 | 4965.49 | 1791.90 | 324.66 |
+| 1 | 1 | 11648.68 | 10574.13 | 1074.55 | 2618.20 | 1380.26 | 4815.81 | 1524.83 | 298.27 |
 
 ### Capture diagnostics
 
-- Profile median is outside the observed control range: instrumentation, remaining warmup, or workload drift may affect attribution.
 - 25× on other/helper processes: Not all NVTX events might have been collected.
 - 25× on other/helper processes: No NVTX events collected. Does the process use NVTX?
 - 8× on captured trainer ranks: Not all NVTX events might have been collected.
 - 17× on other/helper processes: Not all CUDA events might have been collected.
 - 25× on other/helper processes: No CUDA events collected. Does the process use CUDA?
-- 8× on other/helper processes: CUDA profiling might have not been started correctly.
 - 8× on captured trainer ranks: Not all CUDA events might have been collected.
+- 8× on other/helper processes: CUDA profiling might have not been started correctly.
 
 Capture completeness is qualified by these warnings. Complete step anchors and runtime links do not prove zero event loss.
 
@@ -50,13 +49,13 @@ Arrival relative to preceding-block compute completion; not a zero-communication
 | Rank | Step | Attributed gathers | Ready by preceding block end | Status |
 |---|---:|---:|---|---|
 | 0 | 0 | 150 | 149/149 | source-scoped sequential full-recompute pattern verified |
-| 1 | 0 | 150 | 149/149 | source-scoped sequential full-recompute pattern verified |
+| 7 | 0 | 150 | 149/149 | source-scoped sequential full-recompute pattern verified |
+| 5 | 0 | 150 | 149/149 | source-scoped sequential full-recompute pattern verified |
 | 6 | 0 | 150 | 149/149 | source-scoped sequential full-recompute pattern verified |
 | 4 | 0 | 150 | 149/149 | source-scoped sequential full-recompute pattern verified |
-| 2 | 0 | 150 | 149/149 | source-scoped sequential full-recompute pattern verified |
-| 7 | 0 | 150 | 149/149 | source-scoped sequential full-recompute pattern verified |
 | 3 | 0 | 150 | 149/149 | source-scoped sequential full-recompute pattern verified |
-| 5 | 0 | 150 | 149/149 | source-scoped sequential full-recompute pattern verified |
+| 2 | 0 | 150 | 149/149 | source-scoped sequential full-recompute pattern verified |
+| 1 | 0 | 150 | 149/149 | source-scoped sequential full-recompute pattern verified |
 
 ## Ranked observed costs
 
@@ -68,59 +67,11 @@ Runtime correlation: 100.00%.
 
 | Category | Exclusive ms | Union ms |
 |---|---:|---:|
-| attention | 3007.40 | 4419.98 |
-| gpu_idle | 1725.08 | 1725.08 |
-| expert_gemm_path | 1142.73 | 2172.56 |
-| fsdp_gather:expert | 895.75 | 4192.93 |
-| cp_communication | 861.55 | 925.94 |
-
-### Rank 1
-
-Runtime correlation: 100.00%.
-
-| Category | Exclusive ms | Union ms |
-|---|---:|---:|
-| attention | 3148.92 | 4579.65 |
-| gpu_idle | 1956.92 | 1956.92 |
-| expert_gemm_path | 1228.68 | 2141.09 |
-| fsdp_gather:expert | 754.03 | 4318.72 |
-| other_compute | 528.60 | 998.31 |
-
-### Rank 6
-
-Runtime correlation: 100.00%.
-
-| Category | Exclusive ms | Union ms |
-|---|---:|---:|
-| attention | 3113.73 | 4536.35 |
-| gpu_idle | 1240.92 | 1240.92 |
-| expert_gemm_path | 1138.12 | 2134.09 |
-| fsdp_gather:expert | 910.30 | 4471.85 |
-| cp_communication | 757.08 | 1070.88 |
-
-### Rank 4
-
-Runtime correlation: 100.00%.
-
-| Category | Exclusive ms | Union ms |
-|---|---:|---:|
-| attention | 3122.32 | 4542.50 |
-| gpu_idle | 1304.14 | 1304.14 |
-| expert_gemm_path | 1102.45 | 2159.84 |
-| fsdp_gather:expert | 937.57 | 4488.82 |
-| cp_communication | 766.82 | 1078.01 |
-
-### Rank 2
-
-Runtime correlation: 100.00%.
-
-| Category | Exclusive ms | Union ms |
-|---|---:|---:|
-| attention | 3132.59 | 4563.05 |
-| gpu_idle | 1446.36 | 1446.36 |
-| expert_gemm_path | 1162.72 | 2169.27 |
-| fsdp_gather:expert | 898.44 | 4323.04 |
-| cp_communication | 755.58 | 957.86 |
+| attention | 3078.15 | 4508.87 |
+| expert_gemm_path | 1187.73 | 2295.99 |
+| gpu_idle | 1119.26 | 1119.26 |
+| fsdp_gather:expert | 829.63 | 4347.56 |
+| other_compute | 533.12 | 876.65 |
 
 ### Rank 7
 
@@ -128,23 +79,11 @@ Runtime correlation: 100.00%.
 
 | Category | Exclusive ms | Union ms |
 |---|---:|---:|
-| attention | 3161.21 | 4597.35 |
-| expert_gemm_path | 1238.58 | 2140.30 |
-| gpu_idle | 1166.47 | 1166.47 |
-| fsdp_gather:expert | 850.46 | 4400.82 |
-| cp_communication | 711.63 | 981.51 |
-
-### Rank 3
-
-Runtime correlation: 100.00%.
-
-| Category | Exclusive ms | Union ms |
-|---|---:|---:|
-| attention | 3124.92 | 4548.15 |
-| gpu_idle | 1507.16 | 1507.16 |
-| expert_gemm_path | 1124.58 | 2187.83 |
-| fsdp_gather:expert | 901.39 | 4330.35 |
-| cp_communication | 757.13 | 979.40 |
+| attention | 3255.64 | 4724.70 |
+| expert_gemm_path | 1168.34 | 2415.78 |
+| gpu_idle | 827.74 | 827.74 |
+| fsdp_gather:expert | 762.57 | 4470.46 |
+| other_compute | 543.95 | 966.38 |
 
 ### Rank 5
 
@@ -152,11 +91,71 @@ Runtime correlation: 100.00%.
 
 | Category | Exclusive ms | Union ms |
 |---|---:|---:|
-| attention | 3125.08 | 4540.34 |
-| expert_gemm_path | 1204.29 | 2108.24 |
-| gpu_idle | 1173.07 | 1173.07 |
-| fsdp_gather:expert | 841.85 | 4423.56 |
-| cp_communication | 758.25 | 1043.67 |
+| attention | 3193.66 | 4638.78 |
+| expert_gemm_path | 1150.88 | 2337.68 |
+| gpu_idle | 865.59 | 865.59 |
+| fsdp_gather:expert | 812.69 | 4455.31 |
+| other_compute | 534.84 | 934.69 |
+
+### Rank 6
+
+Runtime correlation: 100.00%.
+
+| Category | Exclusive ms | Union ms |
+|---|---:|---:|
+| attention | 3185.46 | 4629.21 |
+| expert_gemm_path | 1173.70 | 2260.65 |
+| gpu_idle | 820.98 | 820.98 |
+| fsdp_gather:expert | 775.31 | 4365.12 |
+| other_compute | 533.54 | 923.24 |
+
+### Rank 4
+
+Runtime correlation: 100.00%.
+
+| Category | Exclusive ms | Union ms |
+|---|---:|---:|
+| attention | 3194.50 | 4637.20 |
+| expert_gemm_path | 1108.26 | 2378.27 |
+| gpu_idle | 821.33 | 821.33 |
+| fsdp_gather:expert | 815.03 | 4554.60 |
+| other_compute | 533.25 | 978.59 |
+
+### Rank 3
+
+Runtime correlation: 100.00%.
+
+| Category | Exclusive ms | Union ms |
+|---|---:|---:|
+| attention | 3208.00 | 4651.63 |
+| expert_gemm_path | 1137.01 | 2315.12 |
+| gpu_idle | 905.34 | 905.34 |
+| fsdp_gather:expert | 878.22 | 4451.69 |
+| other_compute | 536.42 | 888.59 |
+
+### Rank 2
+
+Runtime correlation: 100.00%.
+
+| Category | Exclusive ms | Union ms |
+|---|---:|---:|
+| attention | 3229.23 | 4685.12 |
+| expert_gemm_path | 1189.67 | 2267.36 |
+| gpu_idle | 952.05 | 952.05 |
+| fsdp_gather:expert | 780.91 | 4302.29 |
+| other_compute | 537.76 | 892.00 |
+
+### Rank 1
+
+Runtime correlation: 100.00%.
+
+| Category | Exclusive ms | Union ms |
+|---|---:|---:|
+| attention | 3251.09 | 4708.45 |
+| expert_gemm_path | 1202.04 | 2288.37 |
+| gpu_idle | 1074.55 | 1074.55 |
+| fsdp_gather:expert | 684.58 | 4322.21 |
+| other_compute | 543.28 | 1002.54 |
 
 ## Claim status
 
