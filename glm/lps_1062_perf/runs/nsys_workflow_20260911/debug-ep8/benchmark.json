@@ -1,0 +1,164 @@
+{
+  "case": "debug-ep8",
+  "config": {
+    "base_model": "/root/glm53-1d2m-262k-20260909/model",
+    "checkpoint_dir": "/root/glm53-fsdp-nsys-131k-20260911/debug-ep8/checkpoints",
+    "max_seq_len": 131072,
+    "tensor_parallel_size": 1,
+    "pipeline_parallel_size": 1,
+    "expert_parallel_size": 8,
+    "context_parallel_size": 8,
+    "expert_tensor_parallel_size": 1,
+    "trust_remote_code": true,
+    "attention_backend": "flash",
+    "lora_rank": 32,
+    "lora_alpha": 32,
+    "recompute": {
+      "granularity": "full",
+      "method": "uniform",
+      "num_layers": 1
+    },
+    "moe_flex_dispatcher_backend": "hybridep",
+    "expert_weight_storage": "bf16",
+    "weight_sync": {
+      "type": "disabled"
+    },
+    "nsight_profiling": {
+      "record_nvtx_ranges": true
+    }
+  },
+  "sequence_length": 131072,
+  "num_gpus": 8,
+  "tokens_per_step": 131072,
+  "step_definition": "forward_backward HTTP request; optimizer separate",
+  "input_sha256": "5668c180e9d59789e9249798edab03f59f38eb32350bcba989d260070212714c",
+  "windows": [
+    {
+      "label": "debug-ep8",
+      "window_index": 0,
+      "phase": "warmup",
+      "datums": 1,
+      "num_tokens": 131072,
+      "fb_elapsed_s": 35.08011099882424,
+      "fb_tps_per_gpu": 467.045272477876,
+      "optim_elapsed_s": 5.3793575670570135,
+      "loss": 13.55343954803122,
+      "grad_norm": 0.10462690889835358,
+      "server_step_seconds": 40.33507450949401,
+      "peak_reserved_bytes": 32065454080,
+      "peak_allocated_bytes": 29204680192,
+      "device_total_bytes": 287428771840
+    },
+    {
+      "label": "debug-ep8",
+      "window_index": 1,
+      "phase": "warmup",
+      "datums": 1,
+      "num_tokens": 131072,
+      "fb_elapsed_s": 0.7209051297977567,
+      "fb_tps_per_gpu": 22726.984901045693,
+      "optim_elapsed_s": 0.02914473135024309,
+      "loss": 13.553233552807257,
+      "grad_norm": 0.10511666536331177,
+      "server_step_seconds": 0.5654578153043985,
+      "peak_reserved_bytes": 32088522752,
+      "peak_allocated_bytes": 29218885120,
+      "device_total_bytes": 287428771840
+    },
+    {
+      "label": "debug-ep8",
+      "window_index": 0,
+      "phase": "control",
+      "datums": 1,
+      "num_tokens": 131072,
+      "fb_elapsed_s": 0.6711611058562994,
+      "fb_tps_per_gpu": 24411.426492148275,
+      "optim_elapsed_s": 0.015904106199741364,
+      "loss": 13.5530018081803,
+      "grad_norm": 0.1080227717757225,
+      "server_step_seconds": 0.5242805555462837,
+      "peak_reserved_bytes": 32088522752,
+      "peak_allocated_bytes": 29218885120,
+      "device_total_bytes": 287428771840
+    },
+    {
+      "label": "debug-ep8",
+      "window_index": 1,
+      "phase": "control",
+      "datums": 1,
+      "num_tokens": 131072,
+      "fb_elapsed_s": 0.6750623797997832,
+      "fb_tps_per_gpu": 24270.34965992229,
+      "optim_elapsed_s": 0.01892075128853321,
+      "loss": 13.552697583752318,
+      "grad_norm": 0.12675034999847412,
+      "server_step_seconds": 0.5321861729025841,
+      "peak_reserved_bytes": 32088522752,
+      "peak_allocated_bytes": 29218885120,
+      "device_total_bytes": 287428771840
+    },
+    {
+      "label": "debug-ep8",
+      "window_index": 0,
+      "phase": "timing",
+      "datums": 1,
+      "num_tokens": 131072,
+      "fb_elapsed_s": 0.64566018152982,
+      "fb_tps_per_gpu": 25375.577538605423,
+      "optim_elapsed_s": 0.015080062672495842,
+      "loss": 13.55211488429935,
+      "grad_norm": 0.1338638961315155,
+      "server_step_seconds": 0.5451454073190689,
+      "peak_reserved_bytes": 32088522752,
+      "peak_allocated_bytes": 29218885120,
+      "device_total_bytes": 287428771840
+    }
+  ],
+  "nsys_version": "NVIDIA Nsight Systems version 2025.3.2.474-253236389321v0",
+  "initial_status": {
+    "mode": "training",
+    "step": 0,
+    "model_id": "/root/glm53-1d2m-262k-20260909/model",
+    "device": "cuda:0",
+    "last_loss": null,
+    "grad_norm": null,
+    "gpu_memory": {
+      "cuda:0": 13182697472
+    },
+    "world_size": 8,
+    "tensor_parallel_size": 1,
+    "pipeline_parallel_size": 1,
+    "expert_parallel_size": 8,
+    "context_parallel_size": 8,
+    "expert_tensor_parallel_size": 1,
+    "data_parallel_size": 1,
+    "max_seq_len": 131072
+  },
+  "control": {
+    "n": 2,
+    "mean_s": 0.6731117428280413,
+    "median_s": 0.6731117428280413,
+    "min_s": 0.6711611058562994,
+    "max_s": 0.6750623797997832,
+    "tps_per_gpu": 24340.683659987182
+  },
+  "final_status": {
+    "mode": "training",
+    "step": 5,
+    "model_id": "/root/glm53-1d2m-262k-20260909/model",
+    "device": "cuda:0",
+    "last_loss": null,
+    "grad_norm": null,
+    "gpu_memory": {
+      "cuda:0": 32088522752
+    },
+    "world_size": 8,
+    "tensor_parallel_size": 1,
+    "pipeline_parallel_size": 1,
+    "expert_parallel_size": 8,
+    "context_parallel_size": 8,
+    "expert_tensor_parallel_size": 1,
+    "data_parallel_size": 1,
+    "max_seq_len": 131072
+  }
+}
