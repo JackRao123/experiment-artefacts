@@ -41,6 +41,10 @@ for name, ep, grouped, debug in (
     (case / "run_options.json").write_text(json.dumps(options, indent=2))
     for filename in ("start_trainer.sh", "wait_trainer_health.sh", "run_trainer_node.sh"):
         text = (ROOT / "lifecycle-q9exk9w" / filename).read_text().replace(BOX, f"{REMOTE}/{name}")
+        if filename == "wait_trainer_health.sh":
+            # nsys/torchrun can take a few seconds to spawn the rank processes.
+            # Keep the generated 180s checkpoint, but avoid a false death at t=0.
+            text = text.replace("  if ! pgrep -f", '  if [ "$elapsed" -ge 30 ] && ! pgrep -f')
         if filename == "run_trainer_node.sh":
             text = text.replace(f"source {REMOTE}/{name}/env.sh", f"source {BOX}/env.sh")
             text = text.replace(f"SRC={REMOTE}/{name}/trainers", f"SRC={SOURCE}")

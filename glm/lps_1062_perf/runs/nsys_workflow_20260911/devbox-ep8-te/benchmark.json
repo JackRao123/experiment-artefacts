@@ -1,0 +1,294 @@
+{
+  "case": "devbox-ep8-te",
+  "config": {
+    "base_model": "/root/glm53-checkpoints-local/hub/models--zai-org--GLM-5.3/snapshots/187fb9fff6319062325ff825627ef6db084d9bc6",
+    "checkpoint_dir": "/root/glm53-fsdp-nsys-131k-20260911/devbox-ep8-te/checkpoints",
+    "max_seq_len": 131072,
+    "tensor_parallel_size": 1,
+    "pipeline_parallel_size": 1,
+    "expert_parallel_size": 8,
+    "context_parallel_size": 8,
+    "expert_tensor_parallel_size": 1,
+    "trust_remote_code": true,
+    "attention_backend": "flash",
+    "lora_rank": 32,
+    "lora_alpha": 32,
+    "recompute": {
+      "granularity": "full",
+      "method": "uniform",
+      "num_layers": 1
+    },
+    "moe_flex_dispatcher_backend": "hybridep",
+    "expert_weight_storage": "bf16",
+    "weight_sync": {
+      "type": "disabled"
+    },
+    "nsight_profiling": {
+      "record_nvtx_ranges": true
+    }
+  },
+  "sequence_length": 131072,
+  "num_gpus": 8,
+  "capture_complete": true,
+  "artifacts": {
+    "timing.nsys-rep": {
+      "sha256": "2fd00f3bbaae216aca8feb44144202807a3fcbf43e463721cf97643beff3a54b",
+      "bytes": 57977270
+    },
+    "timing.sqlite": {
+      "sha256": "9b55002fb69ab7a0a11ef17ec6618c3589fc24b1e3920bee188b41562cfbc84b",
+      "bytes": 135053312
+    },
+    "metrics.nsys-rep": {
+      "sha256": "55b1da9b07be004202c9f8487a433bfa842a4a5c4617d6299c915ae2f75c2e7c",
+      "bytes": 92180690
+    },
+    "metrics.sqlite": {
+      "sha256": "cab298fe819b568143018767db68926f66431c32b4a5323940b2414cf1adecaf",
+      "bytes": 1283276800
+    }
+  },
+  "physical_gpu_by_rank": {
+    "0": 0,
+    "1": 1,
+    "2": 2,
+    "3": 3,
+    "4": 4,
+    "5": 5,
+    "6": 6,
+    "7": 7
+  },
+  "tokens_per_step": 131072,
+  "step_definition": "forward_backward HTTP request; optimizer separate",
+  "input_sha256": "5668c180e9d59789e9249798edab03f59f38eb32350bcba989d260070212714c",
+  "windows": [
+    {
+      "label": "devbox-ep8-te",
+      "window_index": 0,
+      "phase": "warmup",
+      "datums": 1,
+      "num_tokens": 131072,
+      "fb_elapsed_s": 105.96428660210222,
+      "fb_tps_per_gpu": 154.61813149860774,
+      "optim_elapsed_s": 23.90055986493826,
+      "loss": 12.306922393206735,
+      "grad_norm": 0.528995931148529,
+      "server_step_seconds": 127.72645109705627,
+      "peak_reserved_bytes": 232123269120,
+      "peak_allocated_bytes": 229146750976,
+      "device_total_bytes": 287428771840
+    },
+    {
+      "label": "devbox-ep8-te",
+      "window_index": 1,
+      "phase": "warmup",
+      "datums": 1,
+      "num_tokens": 131072,
+      "fb_elapsed_s": 11.333876305259764,
+      "fb_tps_per_gpu": 1445.5778022208167,
+      "optim_elapsed_s": 0.13242702186107635,
+      "loss": 12.308269945296823,
+      "grad_norm": 0.5220292210578918,
+      "server_step_seconds": 11.330163832753897,
+      "peak_reserved_bytes": 232943255552,
+      "peak_allocated_bytes": 229368967168,
+      "device_total_bytes": 287428771840
+    },
+    {
+      "label": "devbox-ep8-te",
+      "window_index": 2,
+      "phase": "warmup",
+      "datums": 1,
+      "num_tokens": 131072,
+      "fb_elapsed_s": 10.449499891139567,
+      "fb_tps_per_gpu": 1567.921926473483,
+      "optim_elapsed_s": 0.12179575394839048,
+      "loss": 12.30575317957443,
+      "grad_norm": 0.5430876016616821,
+      "server_step_seconds": 10.450182611122727,
+      "peak_reserved_bytes": 232943255552,
+      "peak_allocated_bytes": 229368967168,
+      "device_total_bytes": 287428771840
+    },
+    {
+      "label": "devbox-ep8-te",
+      "window_index": 0,
+      "phase": "control",
+      "datums": 1,
+      "num_tokens": 131072,
+      "fb_elapsed_s": 10.524157665669918,
+      "fb_tps_per_gpu": 1556.7991777094944,
+      "optim_elapsed_s": 0.1587349958717823,
+      "loss": 12.300799757383404,
+      "grad_norm": 0.5991803407669067,
+      "server_step_seconds": 10.522735026665032,
+      "peak_reserved_bytes": 232943255552,
+      "peak_allocated_bytes": 229368967168,
+      "device_total_bytes": 287428771840
+    },
+    {
+      "label": "devbox-ep8-te",
+      "window_index": 1,
+      "phase": "control",
+      "datums": 1,
+      "num_tokens": 131072,
+      "fb_elapsed_s": 10.482829183340073,
+      "fb_tps_per_gpu": 1562.9368478157037,
+      "optim_elapsed_s": 0.24395699799060822,
+      "loss": 12.292275751310358,
+      "grad_norm": 0.5644546747207642,
+      "server_step_seconds": 10.484830096364021,
+      "peak_reserved_bytes": 232943255552,
+      "peak_allocated_bytes": 229368967168,
+      "device_total_bytes": 287428771840
+    },
+    {
+      "label": "devbox-ep8-te",
+      "window_index": 2,
+      "phase": "control",
+      "datums": 1,
+      "num_tokens": 131072,
+      "fb_elapsed_s": 10.95589169766754,
+      "fb_tps_per_gpu": 1495.4510734610567,
+      "optim_elapsed_s": 0.14202330261468887,
+      "loss": 12.285028724889564,
+      "grad_norm": 0.5781064033508301,
+      "server_step_seconds": 10.956117254681885,
+      "peak_reserved_bytes": 233272508416,
+      "peak_allocated_bytes": 229368967168,
+      "device_total_bytes": 287428771840
+    },
+    {
+      "label": "devbox-ep8-te",
+      "window_index": 3,
+      "phase": "control",
+      "datums": 1,
+      "num_tokens": 131072,
+      "fb_elapsed_s": 10.434267545118928,
+      "fb_tps_per_gpu": 1570.2108393477329,
+      "optim_elapsed_s": 0.13271856773644686,
+      "loss": 12.273494899710844,
+      "grad_norm": 0.5323839783668518,
+      "server_step_seconds": 10.433489087969065,
+      "peak_reserved_bytes": 233272508416,
+      "peak_allocated_bytes": 229368967168,
+      "device_total_bytes": 287428771840
+    },
+    {
+      "label": "devbox-ep8-te",
+      "window_index": 4,
+      "phase": "control",
+      "datums": 1,
+      "num_tokens": 131072,
+      "fb_elapsed_s": 10.449825352057815,
+      "fb_tps_per_gpu": 1567.8730933788868,
+      "optim_elapsed_s": 0.131656963378191,
+      "loss": 12.260458072342471,
+      "grad_norm": 0.4979892671108246,
+      "server_step_seconds": 10.447800557129085,
+      "peak_reserved_bytes": 233272508416,
+      "peak_allocated_bytes": 229368967168,
+      "device_total_bytes": 287428771840
+    },
+    {
+      "label": "devbox-ep8-te",
+      "window_index": 0,
+      "phase": "timing",
+      "datums": 1,
+      "num_tokens": 131072,
+      "fb_elapsed_s": 10.557585281319916,
+      "fb_tps_per_gpu": 1551.8700122639843,
+      "optim_elapsed_s": 0.17720768135040998,
+      "loss": 12.249271387263391,
+      "grad_norm": 0.4226212501525879,
+      "server_step_seconds": 10.58536384999752,
+      "peak_reserved_bytes": 233272508416,
+      "peak_allocated_bytes": 229368967168,
+      "device_total_bytes": 287428771840
+    },
+    {
+      "label": "devbox-ep8-te",
+      "window_index": 0,
+      "phase": "metrics",
+      "datums": 1,
+      "num_tokens": 131072,
+      "fb_elapsed_s": 10.598895539529622,
+      "fb_tps_per_gpu": 1545.821443271543,
+      "optim_elapsed_s": 0.16167446970939636,
+      "loss": 12.237955001487743,
+      "grad_norm": 0.4265868663787842,
+      "server_step_seconds": 10.598873243667185,
+      "peak_reserved_bytes": 233272508416,
+      "peak_allocated_bytes": 229368967168,
+      "device_total_bytes": 287428771840
+    }
+  ],
+  "nsys_version": "NVIDIA Nsight Systems version 2025.3.1.0",
+  "source_revisions": {
+    "trainers": "13137ef1a1b6031772dc4e7a2c6efeacc15f3e3d",
+    "bridge": "60b1570fbbcf52961f64df5794c8ed1256279754",
+    "core": "cf81782b23150362b761888277866ec1e758cde3"
+  },
+  "runtime_options": {
+    "fsdp": true,
+    "prefetch": true,
+    "persistent_buffers": true,
+    "grouped_mm": false,
+    "cuda_graphs": false,
+    "lm_head_chunk": 4096,
+    "memory_efficient_lm_head": false,
+    "capture": "software CUDA/NVTX; event tracing disabled; no CPU/callstack sampling"
+  },
+  "gpu_inventory": "index, name, uuid, memory.total [MiB], driver_version\n0, NVIDIA L20D, GPU-2aea51ed-948d-31f8-09bb-16b77584a2f2, 275040 MiB, 580.105.08\n1, NVIDIA L20D, GPU-ca7cf7a5-62b7-baa9-fb96-c90450fa8f1a, 275040 MiB, 580.105.08\n2, NVIDIA L20D, GPU-7bd3e12f-6568-bb26-f1af-34d4498c3a46, 275040 MiB, 580.105.08\n3, NVIDIA L20D, GPU-891a147c-66f7-96ea-3dfe-d0bac616802d, 275040 MiB, 580.105.08\n4, NVIDIA L20D, GPU-4775cde9-e8af-3672-5ec1-947a0b61c662, 275040 MiB, 580.105.08\n5, NVIDIA L20D, GPU-d2bd3868-9450-4558-40a8-ee334b395d42, 275040 MiB, 580.105.08\n6, NVIDIA L20D, GPU-7999961e-cc00-84c9-5684-94fe86105ca8, 275040 MiB, 580.105.08\n7, NVIDIA L20D, GPU-d0528bb0-eb01-9fed-a358-9a84303b3c3a, 275040 MiB, 580.105.08\n",
+  "resource_limits": {
+    "cpu.max": "18280000 100000",
+    "memory.max": "2662556762112"
+  },
+  "initial_status": {
+    "mode": "training",
+    "step": 0,
+    "model_id": "/root/glm53-checkpoints-local/hub/models--zai-org--GLM-5.3/snapshots/187fb9fff6319062325ff825627ef6db084d9bc6",
+    "device": "cuda:0",
+    "last_loss": null,
+    "grad_norm": null,
+    "gpu_memory": {
+      "cuda:0": 194575859712
+    },
+    "world_size": 8,
+    "tensor_parallel_size": 1,
+    "pipeline_parallel_size": 1,
+    "expert_parallel_size": 8,
+    "context_parallel_size": 8,
+    "expert_tensor_parallel_size": 1,
+    "data_parallel_size": 1,
+    "max_seq_len": 131072
+  },
+  "control": {
+    "n": 5,
+    "mean_s": 10.569394288770855,
+    "median_s": 10.482829183340073,
+    "min_s": 10.434267545118928,
+    "max_s": 10.95589169766754,
+    "sd_s": 0.21878990156559444,
+    "tps_per_gpu": 1550.1361338564786
+  },
+  "final_status": {
+    "mode": "training",
+    "step": 10,
+    "model_id": "/root/glm53-checkpoints-local/hub/models--zai-org--GLM-5.3/snapshots/187fb9fff6319062325ff825627ef6db084d9bc6",
+    "device": "cuda:0",
+    "last_loss": null,
+    "grad_norm": null,
+    "gpu_memory": {
+      "cuda:0": 232752414720
+    },
+    "world_size": 8,
+    "tensor_parallel_size": 1,
+    "pipeline_parallel_size": 1,
+    "expert_parallel_size": 8,
+    "context_parallel_size": 8,
+    "expert_tensor_parallel_size": 1,
+    "data_parallel_size": 1,
+    "max_seq_len": 131072
+  }
+}

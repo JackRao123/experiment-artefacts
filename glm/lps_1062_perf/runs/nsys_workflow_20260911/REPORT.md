@@ -1,4 +1,4 @@
-# Full GLM5.3 FSDP comparison — incomplete
+# Full GLM5.3 FSDP comparison — TE complete, grouped-MM pending
 
 131072 tokens, CP8, LoRA32, BF16 expert storage, full recompute. TPS/GPU below
 is measured from five unprofiled forward/backward controls, not extrapolated.
@@ -8,14 +8,30 @@ is measured from five unprofiled forward/backward controls, not extrapolated.
 | Old profiler pod, preliminary | 1 | 11.5838 s | 1414.4 | 248.10 GiB |
 | Old profiler pod, preliminary | 8 | 10.5831 s | 1548.1 | 213.62 GiB |
 | New devbox, current annotations | 1 | 11.9001 s | 1376.8 | 248.10 GiB |
-| New devbox, current annotations | 8 | pending | pending | pending |
+| New devbox, current annotations | 8 | 10.5694 s | 1550.1 | 213.62 GiB |
 
-The old pair is matched: EP8 was 9.46% faster in TPS. Do not combine the new
-EP1 measurement with old EP8 as a same-machine A/B. Full-model grouped-MM
-ablation has not run; its end-to-end benefit remains unmeasured.
+The current matched pair has **12.59% higher TPS/GPU with EP8**. Same source,
+venv/package versions, profiler and GPU UUIDs; exact checkpoint revision restored
+under a different cache root. The old pair independently showed a 9.46% advantage.
+Do not mix old and new rows into an A/B. Full-model grouped-MM ablation is starting;
+its end-to-end benefit remains unmeasured. See `devbox-te-comparison.md`.
+Setup caveat: installing the debugger upgraded system libc while EP1 was already
+running; it retained the older mapped libc. This is an uncontrolled CPU-runtime
+difference, not an established cause of the performance gap.
 
 ## What the traces establish
 
+- Current matched pair, rank0: **expert-path GPU union 2.173 s EP1 vs 1.244 s
+  EP8**, attention 4.420 vs 4.020 s, GPU idle 1.725 vs 0.232 s. EP1 idle
+  coincident with expert host scopes was 0.399 s vs 0.002 s. These differences
+  overlap and are not additive speedup estimates. The traced step difference
+  is 2.068 s while the unprofiled difference is 1.331 s: EP1's larger profiling
+  perturbation must not be mistaken for production time saved.
+- Current EP8 expert dispatcher/combine path occupies 2.950 s on rank0;
+  CP collectives occupy 0.342 s. EP1's local dispatch bookkeeping is 0.295 s
+  despite no expert cross-rank dispatch; CP collectives occupy 0.926 s.
+  Dispatcher time includes packing/metadata, and collective residence includes
+  waiting for peers. This does not measure raw network transfer time.
 - Old matched pair, rank0: expert-path GPU union was **2.161 s EP1 vs 1.279 s
   EP8**. These include forward, recompute and input-gradient backward. EP1
   attention was also slower (4.473 vs 4.046 s) and had more idle time (~1.5 vs
@@ -26,13 +42,15 @@ ablation has not run; its end-to-end benefit remains unmeasured.
   block to compare. This rules out late steady expert-weight delivery in this
   capture, not contention or all other synchronization.
 - New EP1 expert Tensor Active in category-exclusive samples: **53.7–59.7%**;
-  only ~51–57% of expert-resident samples were exclusive. Old EP8 was ~91–93%
-  with almost all samples exclusive. This supports a GEMM-efficiency issue,
-  but is a cross-machine/capture comparison, not a controlled NCU experiment.
+  only ~51–57% of expert-resident samples were exclusive. Current matched EP8
+  is **91.2–92.4%**, with all expert samples exclusive. This supports a real
+  execution-efficiency gap; these are sampled device metrics, not NCU rooflines
+  or proof that changing only the GEMM will recover the entire time difference.
 - New EP1 rank1 had **0.632 s of GPU idle intersecting allocation/VMM API
   calls**, with long calls in the output head. Other ranks had zero such
   intersection in this capture. This is not proof of equivalent unprofiled
-  allocator cost: the timing capture was **6.67% slower** than control median.
+  allocator cost: the timing capture was **6.67% slower** than control median,
+  versus **0.71%** for EP8. EP8 had no allocation-coincident idle on any rank.
 
 Nsight warns that some CUDA/NVTX events may not have been collected. All eight
 rank anchors and runtime correlations are present, but these do not prove zero
@@ -50,5 +68,6 @@ No tests were added or modified. Original tools remain unchanged by this workflo
 
 The new devbox uses the old venv and built-in nsys2025.3.1. The old profiler pod
 was deleted after migration. The shared full checkpoint disappeared before EP8
-startup; its exact HF revision has been restored to node-local disk. Resume EP8,
-then both grouped-MM variants, before claiming a final bottleneck comparison.
+startup; its exact HF revision has been restored to node-local disk. All EP1/EP8
+TE runtime and metrics artifacts are now on the Mac, SHA256 verified and analyzed.
+Finish both grouped-MM variants before claiming the proposed optimization gain.

@@ -1,6 +1,30 @@
 # Work in progress
 
-## Current state: EP8 startup (supersedes historical entries below)
+## Current state: EP8 complete; EP1 grouped-MM starting
+
+23:12 UTC: all EP8 artifacts copied, SHA256 verified, timing/metrics analyses
+finished. `devbox-te-comparison.md/json` generated with exact-revision relocation
+note. New EP8 expert Tensor Active91.2–92.4%, all category-exclusive samples;
+EP1 53.7–59.7%, exclusive fraction~51–57%. Full baseline report updated.
+EP1 grouped is alive and initializing. Its first waiter falsely declared death
+before nsys/torchrun spawned rank processes (no actual restart needed). Added
+30s startup grace to generated waiter copies, preserving180s checkpoints.
+Current generated waiter tool session90315; inspect logs before re-invoking.
+
+23:09 UTC: `devbox-ep8-te` completed all windows and finalized all four artifacts.
+Five controls: mean10.569394289 s, SD0.218789902 s, TPS/GPU1550.136134,
+peak allocated213.616497 GiB. Timing10.6s and metrics10.6s completed normally.
+Collect/analyze running on Mac (tool session34520); first three artifacts verified.
+EP8 stopped; subsequent GPU-process inventory empty. Launched `devbox-ep1-grouped`
+(pgid67207), generated waiter running. Do not duplicate launches/captures.
+EP8 and EP1 TE use identical trainer/Bridge/Core SHAs and nsys2025.3.1.
+Only HF cache-root relocation needs an audited compare note (exact same revision).
+Next: finish collection/analysis, compare baseline TE runs; capture EP1 grouped
+once healthy, then EP8 grouped. Full grouped-MM performance remains unmeasured.
+
+23:03 UTC: generated waiter confirms EP8 healthy. `capture.py devbox-ep8-te
+--metrics` started (three warmups, five controls, timing and GPU metrics).
+Remote output is `devbox-ep8-te/capture.log`. Do not issue duplicate requests.
 
 22:49 UTC: initial EP8 restart failed before Python because copied console
 launchers had shebangs targeting the removed old shared devbox worktree.
