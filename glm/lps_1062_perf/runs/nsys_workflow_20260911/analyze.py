@@ -80,9 +80,11 @@ def classify(name, scopes):
                 if group == "CONTEXT_PARALLEL_GROUP":
                     return "cp_communication"
                 if "EXPERT_DATA_PARALLEL_GROUP" in group:
-                    return "fsdp_gather:expert" if "gather" in function else "fsdp_gradient:expert"
+                    return "fsdp_gather:expert" if "gather" in function or "allgather" in low else "fsdp_gradient:expert"
                 if group in ("DATA_PARALLEL_GROUP_WITH_CP", "INTRA_PARTIAL_DATA_PARALLEL_GROUP_WITH_CP"):
-                    return "fsdp_gather:nonexpert" if "gather" in function else "fsdp_gradient:nonexpert"
+                    return "fsdp_gather:nonexpert" if "gather" in function or "allgather" in low else "fsdp_gradient:nonexpert"
+                if group == "EXPERT_TENSOR_AND_MODEL_PARALLEL_GROUP":
+                    return "expert_dispatch_combine"
         for scope in reversed(scopes):
             if scope.startswith("fsdp_gather:"):
                 return scope
@@ -164,6 +166,8 @@ def dependencies(db, tables, pid, contexts, operations):
     def resolve(node):
         if node is None:
             return None
+        if len(visiting) > 400:
+            return None  # Bound malformed or unusually deep relay chains.
         ident = id(node)
         if ident in cache:
             return cache[ident]
@@ -223,8 +227,11 @@ def analyze(path, benchmark=None):
                           "tables": sorted(tables)}, "ranks": {}}
     diagnostics = []
     if "DIAGNOSTIC_EVENT" in tables:
-        diagnostics = [dict(r) for r in db.execute("SELECT * FROM DIAGNOSTIC_EVENT WHERE severity>1 LIMIT 100")]
+        diagnostics = [dict(r) for r in db.execute("SELECT * FROM DIAGNOSTIC_EVENT WHERE severity>1")]
     result["quality"]["diagnostics"] = diagnostics
+    grouped_diagnostics = collections.Counter((d["severity"], d["text"], d.get("globalPid") in windows) for d in diagnostics)
+    result["quality"]["diagnostic_summary"] = [{"severity": sev, "text": text, "on_captured_rank": on_rank, "count": n}
+                                                for (sev,text,on_rank),n in grouped_diagnostics.items()]
     for pid, steps in windows.items():
         ranks = {w[2] for w in steps}
         assert len(ranks) == 1, ranks
@@ -335,12 +342,12 @@ def analyze(path, benchmark=None):
                    "issued_or_unresolved_ms": duration(issued_or_unknown),
                    "communication_dispatcher_union_ms": duration(comm),
                    "communication_dispatcher_exposed_upper_bound_ms": duration(subtract(comm, noncomm)),
-                   "resolved_event_blocking_communication_ms": duration(blocking_comm),
+                   "resolved_event_blocking_communication_ms": duration(blocking_comm) if "waits" in dependency_quality else None,
                    "allocation_api_coincident_idle_ms": alloc_idle, "categories": budgets}
             row["mixed_category_overlap_ms"] = row["device_busy_ms"] - sum(v["exclusive_ms"] for v in budgets.values())
             assert row["mixed_category_overlap_ms"] >= -1e-5
             assert abs(row["step_ms"]-row["device_busy_ms"]-row["device_idle_ms"]) < 1e-5
-            assert abs(row["compute_absent_ms"]-row["next_compute_not_yet_issued_ms"]-row["issued_or_unresolved_ms"]-row["resolved_event_blocking_communication_ms"]) < 1e-5
+            assert abs(row["compute_absent_ms"]-row["next_compute_not_yet_issued_ms"]-row["issued_or_unresolved_ms"]-(row["resolved_event_blocking_communication_ms"] or 0)) < 1e-5
             assert row["compute_busy_ms"] <= row["device_busy_ms"] + 1e-5
             summaries.append(row)
             for (layer, phase, cat), spans in by_layer.items():
@@ -382,6 +389,7 @@ def analyze(path, benchmark=None):
                 hardware[name] = {"whole_step": stats(sample_values(roi)), "categories": per_category}
         ranked = sorted(mean_categories.items(), key=lambda kv: kv[1]["exclusive_ms"]["mean"], reverse=True)[:5]
         result["ranks"][str(rank)] = {"global_pid": pid, "devices": sorted({o["device"] for o in operations}),
+            "graph_launch_api_calls": sum("GraphLaunch" in strings.get(r["nameId"], "") for r in runtimes),
             "kernel_count": kernel_count, "runtime_correlation_fraction": linked/kernel_count if kernel_count else None,
             "step_ms": stats([s["step_ms"] for s in summaries]), "steps": summaries, "layers": layers,
             "categories": mean_categories, "top_five_observed_costs": [
@@ -401,6 +409,8 @@ def analyze(path, benchmark=None):
         phases = [w["fb_elapsed_s"] for w in benchmark["windows"] if w["phase"] == path.stem]
         if phases:
             result["quality"]["same_run_capture_slowdown_pct"] = 100*(statistics.median(phases)/benchmark["control"]["median_s"]-1)
+    result["quality"]["rank_coverage"] = {"captured": len(result["ranks"]), "world_size": (benchmark or {}).get("num_gpus")}
+    result["quality"]["graph_launch_api_calls"] = sum(r["graph_launch_api_calls"] for r in result["ranks"].values())
     db.close()
     return result
 
@@ -411,8 +421,10 @@ def markdown(result):
              "Ranked observed costs below are candidates for investigation, not guaranteed speedups.", "",
              "## Capture quality", "", f"- Input: `{result['input']}`",
              f"- Ranks: {', '.join(result['ranks'])}; explicit NVTX rank/forward-backward anchors.",
+             f"- Rank coverage: {q['rank_coverage']}; observed CUDA graph launch calls: {q['graph_launch_api_calls']}.",
              f"- Same-run capture slowdown: {q.get('same_run_capture_slowdown_pct', 'unavailable')}%.",
              f"- Hardware metrics present: {q['hardware_metrics_present']}; this timing report does not infer saturation.",
+             f"- Warning/error records: {len(q['diagnostics'])}; see diagnostics below before trusting event completeness.",
              "- Source call stacks not captured. NVTX scope attribution is distinct from call-stack coverage.",
              "- Partial CUDA event dependency reconstruction; unresolved/ambiguous events are excluded, not guessed.", "",
              "## Per-step budget", "", "All times ms, means across captured forward/backward requests. Optimizer excluded.", "",
@@ -421,8 +433,14 @@ def markdown(result):
     for rank, r in result["ranks"].items():
         fields = ("step_ms", "device_busy_ms", "device_idle_ms", "compute_absent_ms", "next_compute_not_yet_issued_ms",
                   "communication_dispatcher_union_ms", "communication_dispatcher_exposed_upper_bound_ms", "resolved_event_blocking_communication_ms")
-        values = [statistics.mean(s[k] for s in r["steps"]) for k in fields]
-        lines.append(f"| {rank} | {len(r['steps'])} | " + " | ".join(f"{x:.2f}" for x in values) + " |")
+        values = [statistics.mean(s[k] for s in r["steps"]) if all(s[k] is not None for s in r["steps"]) else None for k in fields]
+        lines.append(f"| {rank} | {len(r['steps'])} | " + " | ".join(f"{x:.2f}" if x is not None else "unknown" for x in values) + " |")
+    lines += ["", "### Capture diagnostics", ""]
+    for d in q["diagnostic_summary"]:
+        who = "captured trainer ranks" if d["on_captured_rank"] else "other/helper processes"
+        lines.append(f"- {d['count']}× on {who}: {d['text']}")
+    if any(d["on_captured_rank"] for d in q["diagnostic_summary"]):
+        lines += ["", "Capture completeness is qualified by these warnings. Complete step anchors and runtime links do not prove zero event loss."]
     lines += ["", "## Ranked observed costs", "", "Exclusive time means no OTHER classified device category overlapped. It is not a causal gain estimate."]
     for rank, r in result["ranks"].items():
         lines += ["", f"### Rank {rank}", "", f"Runtime correlation: {r['runtime_correlation_fraction']:.2%}.", "",
@@ -459,12 +477,14 @@ def main():
     trace = args.trace
     if trace.suffix == ".nsys-rep":
         exported = trace.with_suffix(".sqlite")
+        if exported.exists() and exported.stat().st_mtime_ns < trace.stat().st_mtime_ns:
+            raise ValueError("SQLite export is older than the report; export to a fresh path instead of using stale data")
         if not exported.exists():
             subprocess.run(["nsys", "export", "--type=sqlite", f"--output={exported}", str(trace)], check=True)
         trace = exported
     benchmark = json.loads(args.benchmark.read_text()) if args.benchmark else None
     output = args.output or trace.with_suffix(".analysis.json")
-    fingerprint = {"size": trace.stat().st_size, "mtime_ns": trace.stat().st_mtime_ns,
+    fingerprint = {"path": str(trace.resolve()), "size": trace.stat().st_size, "mtime_ns": trace.stat().st_mtime_ns,
                    "analyzer_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
                    "benchmark_sha256": hashlib.sha256(json.dumps(benchmark, sort_keys=True).encode()).hexdigest()}
     if output.exists() and not args.force and json.loads(output.read_text()).get("cache_key") == fingerprint:

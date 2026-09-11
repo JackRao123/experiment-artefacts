@@ -19,7 +19,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument("case")
 parser.add_argument("--warmups", type=int, default=3)
 parser.add_argument("--controls", type=int, default=5)
-parser.add_argument("--trace-steps", type=int, default=3)
+parser.add_argument("--trace-steps", type=int, default=1)
 parser.add_argument("--metrics", action="store_true")
 args = parser.parse_args()
 root = Path(__file__).resolve().parent
@@ -41,10 +41,7 @@ source = Path("/root/glm53-pr1355-repro-20260910/trainers")
 result["source_revisions"] = {label: subprocess.check_output(["git", "-C", str(source / relative), "rev-parse", "HEAD"], text=True).strip()
                               for label, relative in (("trainers", "."), ("bridge", "server-megatron-bridge/vendor/megatron-bridge"),
                               ("core", "server-megatron-bridge/vendor/megatron-bridge/3rdparty/Megatron-LM"))}
-result["runtime_options"] = {"fsdp": True, "prefetch": True, "persistent_buffers": True,
-                             "grouped_mm": args.case.endswith("grouped"), "cuda_graphs": False,
-                             "lm_head_chunk": 4096, "memory_efficient_lm_head": False,
-                             "capture": "software CUDA/NVTX; event tracing enabled; no CPU/callstack sampling"}
+result["runtime_options"] = json.loads((folder / "run_options.json").read_text())
 result["gpu_inventory"] = subprocess.check_output(
     ["nvidia-smi", "--query-gpu=index,name,uuid,memory.total,driver_version", "--format=csv"], text=True)
 
@@ -80,12 +77,20 @@ with httpx.Client(base_url=driver.BASE_URL, timeout=60) as client:
                    "--backtrace=none", "--stats=false", f"--output={output}"]
         if metrics:
             command += ["--gpu-metrics-devices=all", "--gpu-metrics-frequency=10000"]
-        subprocess.run(command, check=True)
+        subprocess.run(command, check=True, timeout=180)
+        # A profiled request taking >5x the steady control is a failed capture,
+        # not an observation to average into model performance.
+        driver.FB_TIMEOUT_S = max(60.0, 5 * result["control"]["median_s"])
+        driver.OP_TIMEOUT_S = driver.FB_TIMEOUT_S
         try:
             for index in range(count):
                 window(label, index)
+        except BaseException as error:
+            result.setdefault("capture_failures", []).append({"phase": label, "error": repr(error)})
+            save()
+            raise
         finally:
-            subprocess.run(["nsys", "stop", f"--session={session}"], check=True)
+            subprocess.run(["nsys", "stop", f"--session={session}"], check=True, timeout=900)
         subprocess.run(["nsys", "export", "--type=sqlite", f"--output={output}.sqlite", f"{output}.nsys-rep"], check=True)
     result["final_status"] = client.get("/status").json()
     save()

@@ -3,9 +3,9 @@
 Single entry point, no SQL and no AI required for repeat analyses:
 
 ```bash
-python3 workflow.py analyze ep1-te/timing.sqlite --benchmark ep1-te/benchmark.json
-python3 workflow.py analyze ep8-te/timing.sqlite --benchmark ep8-te/benchmark.json
-python3 workflow.py compare ep1-te/timing.analysis.json ep8-te/timing.analysis.json --output comparison.md
+python3 workflow.py analyze v2-ep1-te/timing.sqlite --benchmark v2-ep1-te/benchmark.json
+python3 workflow.py analyze v2-ep8-te/timing.sqlite --benchmark v2-ep8-te/benchmark.json
+python3 workflow.py compare v2-ep1-te/timing.analysis.json v2-ep8-te/timing.analysis.json --output comparison.md
 ```
 
 `analyze` also accepts `.nsys-rep` and exports with `nsys` when SQLite is absent.
@@ -17,9 +17,9 @@ Unchanged inputs/analyzer are cached. First ingestion is not instantaneous.
 - GLM 5.3 full model, 131072 tokens, one identical synthetic datum, seed 0xB300.
 - LoRA rank/alpha 32, BF16 expert storage, full one-layer recompute, TP1/PP1/ETP1/CP8.
 - Megatron FSDP, persistent double buffers and parameter prefetch on.
-- Three warmups, five unprofiled controls, three timing-traced FB requests.
+- Three warmups, five unprofiled controls, one timing-traced FB request.
 - Separate one-request GPU-metrics pass; 10 kHz all-GPU sampling.
-- Timing: CUDA/NVTX plus CUDA event tracing, no CPU sampling or call stacks.
+- Timing: CUDA/NVTX, CUDA event tracing **off**, no CPU sampling or call stacks.
 - Head chunk 4096, memory-efficient head off, CUDA graphs off.
 - Controls include optimizer calls, but TPS uses FB duration only, as historically.
 - Collection is off during controls, although the nsys launcher is present.
@@ -30,11 +30,30 @@ Unchanged inputs/analyzer are cached. First ingestion is not instantaneous.
 Start with each case's `launch.sh`, run its generated health waiter, then on the pod:
 
 ```bash
-python workflow.py capture ep8-te --metrics
+python workflow.py capture v2-ep8-te --metrics
 ```
 
 Before stopping, close only that case's nsys session, then use its generated stop script.
 Keep node-local checkpoint copies safe; the team-cache write issue remains waived.
+
+## Preliminary versus v2 captures
+
+`ep1-te` and `ep8-te` are the preliminary, event-tracing-enabled runs (three
+timing steps each). Their controls completed. The subsequent EP1 hardware-metrics
+request stalled in FSDP recompute; see `ep1-te/FAILED_METRICS.md`. Its failed
+metrics pass is not a performance measurement.
+
+`v2-*` uses corrected coalesced-collective and backward CP annotations,
+CUDA-event tracing off, one timing step, and a bounded profiled-request deadline.
+Event tracing can introduce false cross-stream dependencies according to nsys
+help; disabling it is a mitigation, not proof of the stalled run's root cause.
+Keep formal comparisons within the same capture settings and source revision.
+The revised small debug run completed both timing and all-GPU metrics captures.
+
+The stop script identifies workers by the exact exported trainer-config path
+as well as stdout, because nsys replaces stdout with a pipe. Launch refuses to
+run while any GPU process is present. Large closed artifacts should be retrieved
+with resumable rsync and SHA256 verification; raw `kubectl cp` repeatedly timed out.
 
 ## What the report means
 

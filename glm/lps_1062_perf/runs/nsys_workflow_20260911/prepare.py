@@ -8,10 +8,16 @@ OLD = "/root/glm53-pr1355-repro-20260910"
 BASE = json.loads((ROOT / "base_config.json").read_text())
 for name, ep, debug, grouped in (
     ("debug-ep8", 8, True, False),
+    ("debug-ep8-annotated", 8, True, True),
     ("ep1-te", 1, False, False),
     ("ep8-te", 8, False, False),
     ("ep1-grouped", 1, False, True),
     ("ep8-grouped", 8, False, True),
+    ("v2-debug-ep8-grouped", 8, True, True),
+    ("v2-ep1-te", 1, False, False),
+    ("v2-ep8-te", 8, False, False),
+    ("v2-ep1-grouped", 1, False, True),
+    ("v2-ep8-grouped", 8, False, True),
 ):
     folder = ROOT / name
     lifecycle = folder / ".devbox_up"
@@ -22,6 +28,12 @@ for name, ep, debug, grouped in (
     if debug:
         config["base_model"] = "/root/glm53-1d2m-262k-20260909/model"
     (folder / "trainer-config.json").write_text(json.dumps(config, indent=2))
+    event_trace = not name.startswith("v2-")
+    options = {"fsdp": True, "prefetch": True, "persistent_buffers": True,
+               "grouped_mm": grouped, "cuda_graphs": False, "lm_head_chunk": 4096,
+               "memory_efficient_lm_head": False,
+               "capture": f"software CUDA/NVTX; event tracing {'enabled' if event_trace else 'disabled'}; no CPU/callstack sampling"}
+    (folder / "run_options.json").write_text(json.dumps(options, indent=2))
     for source in (ROOT / "lifecycle").glob("*.sh"):
         contents = source.read_text().replace(OLD, f"{REMOTE}/{name}")
         contents = contents.replace(f"SRC={REMOTE}/{name}/trainers", f"SRC={OLD}/trainers")
@@ -29,7 +41,7 @@ for name, ep, debug, grouped in (
             contents = contents.replace(
                 "exec bash scripts/launch.sh --backend megatron_bridge",
                 'exec nsys launch --session-new="$NSYS_SESSION_NAME" '
-                '--trace=cuda,nvtx --cuda-event-trace=true --show-output=true --wait=all '
+                f'--trace=cuda,nvtx --cuda-event-trace={str(event_trace).lower()} --show-output=true --wait=all '
                 'bash scripts/launch.sh --backend megatron_bridge')
         (lifecycle / source.name).write_text(contents)
     (folder / "launch.sh").write_text(f'''#!/usr/bin/env bash
@@ -46,5 +58,10 @@ export NUM_GPUS=8 CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7
 export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True,garbage_collection_threshold:0.95
 export BT_PROFILE_OUTPUT_DIR={REMOTE}/{name}/profiles
 unset BT_ROUTING_COUNTS_DIR
+active_gpu_pids=$(nvidia-smi --query-compute-apps=pid --format=csv,noheader)
+if [ -n "$active_gpu_pids" ]; then
+  echo "Refusing to benchmark with existing GPU processes: $active_gpu_pids" >&2
+  exit 1
+fi
 bash {REMOTE}/{name}/.devbox_up/start_trainer.sh
 ''')

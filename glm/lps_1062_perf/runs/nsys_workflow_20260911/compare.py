@@ -8,6 +8,7 @@ parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument("left", type=Path)
 parser.add_argument("right", type=Path)
 parser.add_argument("--output", type=Path, required=True)
+parser.add_argument("--source-change-note", help="Explicit audited explanation when comparing different source revisions")
 args = parser.parse_args()
 left, right = (json.loads(p.read_text()) for p in (args.left, args.right))
 bl, br = left["benchmark"], right["benchmark"]
@@ -19,7 +20,7 @@ for key in ("sequence_length", "num_gpus", "tokens_per_step", "input_sha256", "s
 for key in bl.get("runtime_options", {}).keys() | br.get("runtime_options", {}).keys():
     if key != "grouped_mm" and bl.get("runtime_options", {}).get(key) != br.get("runtime_options", {}).get(key):
         raise ValueError(f"Mismatched runtime option {key}")
-if bl.get("source_revisions") != br.get("source_revisions"):
+if bl.get("source_revisions") != br.get("source_revisions") and not args.source_change_note:
     raise ValueError("Source revisions differ; establish comparability before comparing")
 allowed = {"expert_parallel_size", "checkpoint_dir"}
 for key in bl["config"].keys() | br["config"].keys():
@@ -33,6 +34,9 @@ lines = ["# Matched Nsight comparison", "", f"Left: {bl['case']}; right: {br['ca
 for b in (bl, br):
     peak = max(w["peak_allocated_bytes"] for w in b["windows"] if w["phase"] == "control") / 2**30
     lines.append(f"| {b['case']} | {b['control']['n']} | {b['control']['mean_s']:.4f} | {b['control']['tps_per_gpu']:.1f} | {peak:.2f} |")
+if args.source_change_note:
+    lines += ["", "Source-change caveat: " + args.source_change_note,
+              "This is not a same-revision A/B; instrumentation overhead is a possible confound."]
 lines += ["", "## Per-rank reconciliation", "", "All deltas are right minus left, milliseconds per profiled FB.", "",
           "Exclusive categories + mixed-category overlap + GPU idle exactly reconcile to traced step time.", "",
           "| Rank | Step delta | Expert GEMM exclusive delta | Dispatcher exclusive delta | Other exclusive delta | Mixed overlap delta | Idle delta | Residual |",
@@ -63,5 +67,6 @@ lines += ["", "## Interpretation limits", "",
           "- FSDP EP8 on eight GPUs has expert-DP size one, whereas EP1 has expert-DP size eight.",
           "- Compare loss/gradients and profiler slowdown before accepting a performance conclusion."]
 args.output.write_text("\n".join(lines)+"\n")
-args.output.with_suffix(".json").write_text(json.dumps({"left": str(args.left), "right": str(args.right), "deltas": rows}, indent=2))
+args.output.with_suffix(".json").write_text(json.dumps({"left": str(args.left), "right": str(args.right),
+                                                       "source_change_note": args.source_change_note, "deltas": rows}, indent=2))
 print(args.output)

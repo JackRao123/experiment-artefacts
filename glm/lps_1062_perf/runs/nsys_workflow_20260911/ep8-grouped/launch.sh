@@ -12,4 +12,9 @@ export NUM_GPUS=8 CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7
 export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True,garbage_collection_threshold:0.95
 export BT_PROFILE_OUTPUT_DIR=/root/glm53-fsdp-nsys-131k-20260911/ep8-grouped/profiles
 unset BT_ROUTING_COUNTS_DIR
+active_gpu_pids=$(nvidia-smi --query-compute-apps=pid --format=csv,noheader)
+if [ -n "$active_gpu_pids" ]; then
+  echo "Refusing to benchmark with existing GPU processes: $active_gpu_pids" >&2
+  exit 1
+fi
 bash /root/glm53-fsdp-nsys-131k-20260911/ep8-grouped/.devbox_up/start_trainer.sh

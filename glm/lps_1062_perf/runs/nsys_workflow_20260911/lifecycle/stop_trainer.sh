@@ -6,11 +6,18 @@ LOG="$RUN/.devbox_up/trainer_srun.log"
 # when their stdout is the exact log owned by this lifecycle directory.
 owned_groups() {
   for pid in $(pgrep -f '[t]rainers_server_main.main|[m]ultiprocessing.spawn' || true); do
-    [ "$(readlink "/proc/$pid/fd/1" 2>/dev/null)" = "$LOG" ] || continue
+    if [ "$(readlink "/proc/$pid/fd/1" 2>/dev/null)" != "$LOG" ]; then
+      # Nsight routes stdout through a pipe. Match the exact run's exported
+      # trainer config instead of accidentally leaving its workers alive.
+      grep -zFxq "BT_TRAINER_CONFIG_PATH=$RUN/trainer-config.json" "/proc/$pid/environ" 2>/dev/null || continue
+    fi
     ps -o pgid= -p "$pid" 2>/dev/null
   done | awk '$1 > 1 {print $1}' | sort -u
 }
 groups=$(owned_groups)
+if command -v nsys >/dev/null 2>&1; then
+  timeout 20s nsys shutdown --session="glm53-${RUN##*/}-0911" 2>/dev/null || true
+fi
 if [ -f "$RUN/.devbox_up/trainer.pid" ]; then
   pgid=$(cat "$RUN/.devbox_up/trainer.pid")
   kill -TERM -- "-$pgid" 2>/dev/null || true
