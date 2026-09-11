@@ -1,4 +1,5 @@
 """Prepare experiments from tj-q9exk9w's generated lifecycle, using the old venv/code."""
+import argparse
 import json
 from pathlib import Path
 
@@ -7,6 +8,10 @@ REMOTE = "/root/glm53-fsdp-nsys-131k-20260911"
 BOX = "/root/.cache/user_artifacts/devboxes/q9exk9w"
 SOURCE = "/root/glm53-pr1355-repro-20260910/trainers"
 base = json.loads((ROOT / "base_config.json").read_text())
+parser = argparse.ArgumentParser(description=__doc__)
+parser.add_argument("--case", action="append", choices=("devbox-debug", "devbox-ep1-te", "devbox-ep8-te", "devbox-ep1-grouped", "devbox-ep8-grouped"))
+parser.add_argument("--base-model", help="Exact restored snapshot path; does not alter completed cases")
+args = parser.parse_args()
 for name, ep, grouped, debug in (
     ("devbox-debug", 8, True, True),
     ("devbox-ep1-te", 1, False, False),
@@ -14,13 +19,20 @@ for name, ep, grouped, debug in (
     ("devbox-ep1-grouped", 1, True, False),
     ("devbox-ep8-grouped", 8, True, False),
 ):
+    if args.case and name not in args.case:
+        continue
     case = ROOT / name
+    if (case / "benchmark.json").exists():
+        print(f"Preserving existing benchmark configuration: {name}")
+        continue
     lifecycle = case / ".devbox_up"
     lifecycle.mkdir(parents=True, exist_ok=True)
     config = {**base, "expert_parallel_size": ep, "checkpoint_dir": f"{REMOTE}/{name}/checkpoints",
               "nsight_profiling": {"record_nvtx_ranges": True}}
     if debug:
         config["base_model"] = "/root/glm53-1d2m-262k-20260909/model"
+    elif args.base_model:
+        config["base_model"] = args.base_model
     (case / "trainer-config.json").write_text(json.dumps(config, indent=2))
     options = {"fsdp": True, "prefetch": True, "persistent_buffers": True,
                "grouped_mm": grouped, "cuda_graphs": False, "lm_head_chunk": 4096,

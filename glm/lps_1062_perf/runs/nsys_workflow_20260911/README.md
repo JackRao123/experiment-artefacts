@@ -14,6 +14,12 @@ python3 workflow.py collect devbox-ep8-te --host tj-q9exk9w --analyze
 python3 workflow.py compare devbox-ep1-te/timing.analysis.json devbox-ep8-te/timing.analysis.json --output comparison.md
 ```
 
+If the checkpoint was restored under a different cache root, add
+`--checkpoint-relocation-note "Exact HF snapshot restored to node-local disk after shared-cache removal"`
+to `compare`. This still requires identical HF repository and snapshot hashes;
+it does not permit arbitrary model substitutions. Preserve completed configs.
+Prepare only pending cases with `prepare_devbox.py --case CASE --base-model SNAPSHOT`.
+
 `analyze` also accepts `.nsys-rep` and exports with `nsys` when SQLite is absent.
 SQLite analysis uses only Python's standard library and works on the Mac.
 Unchanged inputs/analyzer are cached. First ingestion is not instantaneous.

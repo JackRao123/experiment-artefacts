@@ -1,5 +1,30 @@
 # Work in progress
 
+## Current state: checkpoint restoration (supersedes historical entries below)
+
+`devbox-ep1-te` completed 3 warmups, 5 controls, timing and GPU-metrics captures.
+Mean FB 11.900133 s, SD 0.196359 s, 1376.791 TPS/GPU, peak allocated 248.10 GiB.
+All four raw artifacts are on the Mac with manifest SHA256 verification.
+Latest source is still trainer13137ef1a, built-in nsys2025.3.1 on tj-q9exk9w.
+
+EP8 startup failed because the entire shared `models--zai-org--GLM-5.3` directory
+disappeared after EP1. No checkpoint deletion was performed by this workflow.
+The shared mount remains healthy; no alternate exact checkpoint was found.
+The user does not know where it went. Exact HF revision remains accessible:
+`187fb9fff6319062325ff825627ef6db084d9bc6`, 154 files, 755663688736 bytes.
+`restore_checkpoint.py` is restoring it with HF/Xet to **node-local**
+`/root/glm53-checkpoints-local/hub`, not refilling the shared cache.
+The script checks all file sizes and atomically writes `hub/glm53-ready.json`
+only after completion. Do not start a reader before that sentinel exists.
+Remote log: `devbox_validation/restore-checkpoint.log`.
+No GPU workload is currently running. EP8 and full grouped-MM variants remain pending.
+
+Latest files were committed by another local session in artifact commit08eb757;
+do not assume the historical uncommitted-file notes below are current.
+See `REPORT.md` for qualified completed measurements. Check git status before edits.
+
+## Historical progress log
+
 Update~21:36 UTC: devbox-ep1-te finally became healthy without restart after
 long startup. Now running capture.py (3warmups/5controls/1timing/1metrics).
 Native debugging was inconclusive: installing gdb upgraded libc from .7 to .9

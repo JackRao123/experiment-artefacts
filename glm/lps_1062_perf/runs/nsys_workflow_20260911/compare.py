@@ -9,6 +9,7 @@ parser.add_argument("left", type=Path)
 parser.add_argument("right", type=Path)
 parser.add_argument("--output", type=Path, required=True)
 parser.add_argument("--source-change-note", help="Explicit audited explanation when comparing different source revisions")
+parser.add_argument("--checkpoint-relocation-note", help="Audit note for the same HF snapshot restored under another cache root")
 args = parser.parse_args()
 left, right = (json.loads(p.read_text()) for p in (args.left, args.right))
 if left.get("analysis_version") != right.get("analysis_version"):
@@ -25,6 +26,17 @@ for key in bl.get("runtime_options", {}).keys() | br.get("runtime_options", {}).
 if bl.get("source_revisions") != br.get("source_revisions") and not args.source_change_note:
     raise ValueError("Source revisions differ; establish comparability before comparing")
 allowed = {"expert_parallel_size", "checkpoint_dir"}
+if args.checkpoint_relocation_note:
+    def snapshot_identity(config):
+        path = Path(config["base_model"])
+        if path.parent.name != "snapshots" or not path.parent.parent.name.startswith("models--"):
+            raise ValueError("Checkpoint relocation requires canonical HF snapshot paths")
+        if len(path.name) != 40 or any(c not in "0123456789abcdef" for c in path.name):
+            raise ValueError("Checkpoint relocation requires exact HF commit hashes")
+        return path.parent.parent.name, path.name
+    if snapshot_identity(bl["config"]) != snapshot_identity(br["config"]):
+        raise ValueError("Relocated checkpoint identity differs")
+    allowed.add("base_model")
 for key in bl["config"].keys() | br["config"].keys():
     if key not in allowed and bl["config"].get(key) != br["config"].get(key):
         raise ValueError(f"Mismatched config {key}")
@@ -39,6 +51,9 @@ for b in (bl, br):
 if args.source_change_note:
     lines += ["", "Source-change caveat: " + args.source_change_note,
               "This is not a same-revision A/B; instrumentation overhead is a possible confound."]
+if args.checkpoint_relocation_note:
+    lines += ["", "Checkpoint relocation: " + args.checkpoint_relocation_note,
+              "Both paths identify the same HF repository and exact snapshot commit; startup is excluded from controls."]
 lines += ["", "## Per-rank reconciliation", "", "All deltas are right minus left, milliseconds per profiled FB.", "",
           "Exclusive categories + mixed-category overlap + GPU idle exactly reconcile to traced step time.", "",
           "| Rank | Step delta | Expert GEMM exclusive delta | Dispatcher exclusive delta | Other exclusive delta | Mixed overlap delta | Idle delta | Residual |",
@@ -80,5 +95,7 @@ lines += ["", "## Interpretation limits", "",
           "- Compare loss/gradients and profiler slowdown before accepting a performance conclusion."]
 args.output.write_text("\n".join(lines)+"\n")
 args.output.with_suffix(".json").write_text(json.dumps({"left": str(args.left), "right": str(args.right),
-                                                       "source_change_note": args.source_change_note, "deltas": rows}, indent=2))
+                                                       "source_change_note": args.source_change_note,
+                                                       "checkpoint_relocation_note": args.checkpoint_relocation_note,
+                                                       "deltas": rows}, indent=2))
 print(args.output)
