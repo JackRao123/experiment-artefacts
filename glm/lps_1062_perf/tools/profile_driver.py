@@ -10,9 +10,11 @@ Protocol:
      so the headline tok/s/GPU + MFU come from these windows alone.
   3. optional memory profile (--memory-profile):
      memory_profile/start -> fb+optim -> memory_profile/stop.
-  4. optional runtime profile (--runtime-profile):
-     runtime_profile/start -> fb+optim -> runtime_profile/stop. The
-     .pt.trace.json covers exactly one full step.
+  4. optional Kineto runtime profile (--kineto-runtime-profile):
+      runtime_profile/start -> fb+optim -> runtime_profile/stop. The
+      .pt.trace.json covers exactly one full step.
+  5. optional Nsight Systems runtime profile (--nsys-runtime-profile):
+     nsys start -> fb+optim -> nsys stop.
 
 Kineto historically added ~5-8% overhead so the runtime-profiled window is for attribution,
 not the timing headline.
@@ -20,7 +22,7 @@ not the timing headline.
 Usage (on the node where the trainer HTTP is up, port 8001):
     python3 profile_driver.py --label expX-131k-d1 [--seq-len 131072] \
         [--datums 1] [--num-gpus 16] [--control-repeats 1] \
-        [--memory-profile] [--runtime-profile]
+        [--memory-profile] [--kineto-runtime-profile | --nsys-runtime-profile SESSION]
 
 Writes /root/.cache/user_artifacts/lps1062_bench/<label>.json + SUMMARY line.
 """
@@ -30,6 +32,8 @@ from __future__ import annotations
 import argparse
 import json
 import random
+import shutil
+import subprocess
 import time
 import uuid
 from pathlib import Path
@@ -81,7 +85,7 @@ def submit_and_wait(client: httpx.Client, path: str, body: dict, timeout: float)
 
 
 def drive_window(client: httpx.Client, label: str, index: int, datums: list[dict],
-                 seq_len: int, num_gpus: int, tag: str) -> dict:
+                  seq_len: int, num_gpus: int, tag: str) -> dict:
     n_tokens = seq_len * len(datums)
     t0 = time.perf_counter()
     fb = submit_and_wait(client, "/forward_backward", {"data": datums}, FB_TIMEOUT_S)
@@ -114,6 +118,31 @@ def drive_window(client: httpx.Client, label: str, index: int, datums: list[dict
     return rec
 
 
+def run_nsys(args: list[str]) -> None:
+    command = ["nsys", *args]
+    if shutil.which("srun"):
+        result = subprocess.run(
+            ["squeue", "-h", "--name=devbox_trainer", "--states=RUNNING", "--format=%A %D"],
+            check=True,
+            capture_output=True,
+            text=True,
+        )
+        jobs = result.stdout.splitlines()
+        if len(jobs) != 1:
+            raise RuntimeError(f"expected one running devbox_trainer job, found {len(jobs)}")
+        job_id, nodes = jobs[0].split()
+        command = [
+            "srun",
+            f"--jobid={job_id}",
+            "--overlap",
+            f"--nodes={nodes}",
+            f"--ntasks={nodes}",
+            "--ntasks-per-node=1",
+            *command,
+        ]
+    subprocess.run(command, check=True)
+
+
 def main() -> None:
     total_started = time.perf_counter()
     ap = argparse.ArgumentParser()
@@ -129,8 +158,11 @@ def main() -> None:
                     help="untraced control windows; >1 for a variance estimate on the headline")
     ap.add_argument("--memory-profile", action="store_true",
                     help="capture one memory-profiled fb+optim step")
-    ap.add_argument("--runtime-profile", action="store_true",
-                    help="capture one runtime-profiled fb+optim step")
+    runtime_profiles = ap.add_mutually_exclusive_group()
+    runtime_profiles.add_argument("--kineto-runtime-profile", action="store_true",
+                                  help="capture one Kineto-profiled fb+optim step")
+    runtime_profiles.add_argument("--nsys-runtime-profile", metavar="SESSION",
+                                  help="capture one Nsight Systems-profiled fb+optim step")
     args = ap.parse_args()
 
     rng = random.Random(0xB300)
@@ -143,7 +175,8 @@ def main() -> None:
         "datums_per_window": args.datums,
         "tokens_per_step": tokens_per_step,
         "memory_profile_enabled": args.memory_profile,
-        "runtime_profile_enabled": args.runtime_profile,
+        "kineto_runtime_profile_enabled": args.kineto_runtime_profile,
+        "nsys_runtime_profile_session": args.nsys_runtime_profile,
         "started": time.strftime("%F %T"),
     }
 
@@ -184,24 +217,51 @@ def main() -> None:
                     client, "/memory_profile/stop", {}, OP_TIMEOUT_S
                 )
 
-        if args.runtime_profile:
+        if args.kineto_runtime_profile:
             print("[profile] runtime_profile/start", flush=True)
-            out["runtime_profile_start"] = submit_and_wait(
+            out["kineto_runtime_profile_start"] = submit_and_wait(
                 client, "/runtime_profile/start", {}, OP_TIMEOUT_S
             )
             try:
                 windows.append(drive_window(
                     client, args.label, 0, datums,
-                    args.seq_len, args.num_gpus, "runtime_profile",
+                    args.seq_len, args.num_gpus, "kineto_runtime_profile",
                 ))
             finally:
                 print(
                     "[profile] runtime_profile/stop (kineto flush can take minutes)",
                     flush=True,
                 )
-                out["runtime_profile_stop"] = submit_and_wait(
+                out["kineto_runtime_profile_stop"] = submit_and_wait(
                     client, "/runtime_profile/stop", {}, OP_TIMEOUT_S
                 )
+
+        if args.nsys_runtime_profile:
+            OUT_DIR.mkdir(parents=True, exist_ok=True)
+            report = OUT_DIR / f"{args.label}-%h"
+            print(f"[profile] nsys start session={args.nsys_runtime_profile}", flush=True)
+            run_nsys([
+                "start",
+                f"--session={args.nsys_runtime_profile}",
+                "--sample=process-tree",
+                "--cpuctxsw=process-tree",
+                "--backtrace=lbr",
+                "--gpu-metrics-devices=all",
+                "--gpu-metrics-frequency=10000",
+                "--gpuctxsw=true",
+                f"--output={report}",
+                "--force-overwrite=true",
+                "--stats=false",
+            ])
+            try:
+                windows.append(drive_window(
+                    client, args.label, 0, datums,
+                    args.seq_len, args.num_gpus, "nsys_runtime_profile",
+                ))
+            finally:
+                print(f"[profile] nsys stop session={args.nsys_runtime_profile}", flush=True)
+                run_nsys(["stop", f"--session={args.nsys_runtime_profile}"])
+            out["nsys_runtime_profile_output"] = f"{report}.nsys-rep"
 
         # /status can queue behind the profile flushes; be patient.
         out["final_status"] = client.get("/status", timeout=600.0).json()
@@ -240,10 +300,14 @@ def main() -> None:
         memory_profile = next(w for w in windows if w["phase"] == "memory_profile")
         aggregates["memory_profile_fb_seconds"] = memory_profile["fb_elapsed_s"]
         aggregates["memory_profile_optim_seconds"] = memory_profile["optim_elapsed_s"]
-    if args.runtime_profile:
-        runtime_profile = next(w for w in windows if w["phase"] == "runtime_profile")
-        aggregates["runtime_profile_fb_seconds"] = runtime_profile["fb_elapsed_s"]
-        aggregates["runtime_profile_optim_seconds"] = runtime_profile["optim_elapsed_s"]
+    if args.kineto_runtime_profile:
+        runtime_profile = next(w for w in windows if w["phase"] == "kineto_runtime_profile")
+        aggregates["kineto_runtime_profile_fb_seconds"] = runtime_profile["fb_elapsed_s"]
+        aggregates["kineto_runtime_profile_optim_seconds"] = runtime_profile["optim_elapsed_s"]
+    if args.nsys_runtime_profile:
+        runtime_profile = next(w for w in windows if w["phase"] == "nsys_runtime_profile")
+        aggregates["nsys_runtime_profile_fb_seconds"] = runtime_profile["fb_elapsed_s"]
+        aggregates["nsys_runtime_profile_optim_seconds"] = runtime_profile["optim_elapsed_s"]
     out["aggregates"] = aggregates
     out["total_elapsed_seconds"] = time.perf_counter() - total_started
 
@@ -264,10 +328,15 @@ def main() -> None:
             f" | memory-profile fb={agg['memory_profile_fb_seconds']:.1f}s "
             f"optim={agg['memory_profile_optim_seconds']:.1f}s"
         )
-    if args.runtime_profile:
+    if args.kineto_runtime_profile:
         summary += (
-            f" | runtime-profile fb={agg['runtime_profile_fb_seconds']:.1f}s "
-            f"optim={agg['runtime_profile_optim_seconds']:.1f}s"
+            f" | kineto-runtime-profile fb={agg['kineto_runtime_profile_fb_seconds']:.1f}s "
+            f"optim={agg['kineto_runtime_profile_optim_seconds']:.1f}s"
+        )
+    if args.nsys_runtime_profile:
+        summary += (
+            f" | nsys-runtime-profile fb={agg['nsys_runtime_profile_fb_seconds']:.1f}s "
+            f"optim={agg['nsys_runtime_profile_optim_seconds']:.1f}s"
         )
     print(summary, flush=True)
 
