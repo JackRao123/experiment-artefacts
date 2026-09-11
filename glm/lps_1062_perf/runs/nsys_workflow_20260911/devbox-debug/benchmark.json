@@ -1,0 +1,174 @@
+{
+  "case": "devbox-debug",
+  "config": {
+    "base_model": "/root/glm53-1d2m-262k-20260909/model",
+    "checkpoint_dir": "/root/glm53-fsdp-nsys-131k-20260911/devbox-debug/checkpoints",
+    "max_seq_len": 131072,
+    "tensor_parallel_size": 1,
+    "pipeline_parallel_size": 1,
+    "expert_parallel_size": 8,
+    "context_parallel_size": 8,
+    "expert_tensor_parallel_size": 1,
+    "trust_remote_code": true,
+    "attention_backend": "flash",
+    "lora_rank": 32,
+    "lora_alpha": 32,
+    "recompute": {
+      "granularity": "full",
+      "method": "uniform",
+      "num_layers": 1
+    },
+    "moe_flex_dispatcher_backend": "hybridep",
+    "expert_weight_storage": "bf16",
+    "weight_sync": {
+      "type": "disabled"
+    },
+    "nsight_profiling": {
+      "record_nvtx_ranges": true
+    }
+  },
+  "sequence_length": 131072,
+  "num_gpus": 8,
+  "physical_gpu_by_rank": {
+    "0": 0,
+    "1": 1,
+    "2": 2,
+    "3": 3,
+    "4": 4,
+    "5": 5,
+    "6": 6,
+    "7": 7
+  },
+  "tokens_per_step": 131072,
+  "step_definition": "forward_backward HTTP request; optimizer separate",
+  "input_sha256": "5668c180e9d59789e9249798edab03f59f38eb32350bcba989d260070212714c",
+  "windows": [
+    {
+      "label": "devbox-debug",
+      "window_index": 0,
+      "phase": "warmup",
+      "datums": 1,
+      "num_tokens": 131072,
+      "fb_elapsed_s": 39.31976267695427,
+      "fb_tps_per_gpu": 416.6861365519593,
+      "optim_elapsed_s": 10.25364928971976,
+      "loss": 13.553355624051086,
+      "grad_norm": 0.10458915680646896,
+      "server_step_seconds": 49.45549386739731,
+      "peak_reserved_bytes": 32128368640,
+      "peak_allocated_bytes": 29292864512,
+      "device_total_bytes": 287428771840
+    },
+    {
+      "label": "devbox-debug",
+      "window_index": 0,
+      "phase": "control",
+      "datums": 1,
+      "num_tokens": 131072,
+      "fb_elapsed_s": 2.02833865955472,
+      "fb_tps_per_gpu": 8077.5465787339335,
+      "optim_elapsed_s": 0.015252351760864258,
+      "loss": 13.553279329523694,
+      "grad_norm": 0.10510747879743576,
+      "server_step_seconds": 1.9123978978022933,
+      "peak_reserved_bytes": 33703329792,
+      "peak_allocated_bytes": 29932086272,
+      "device_total_bytes": 287428771840
+    },
+    {
+      "label": "devbox-debug",
+      "window_index": 0,
+      "phase": "timing",
+      "datums": 1,
+      "num_tokens": 131072,
+      "fb_elapsed_s": 0.6532631488516927,
+      "fb_tps_per_gpu": 25080.24527144969,
+      "optim_elapsed_s": 0.05597110651433468,
+      "loss": 13.552997039772338,
+      "grad_norm": 0.10799165070056915,
+      "server_step_seconds": 0.5493115521967411,
+      "peak_reserved_bytes": 33703329792,
+      "peak_allocated_bytes": 29932086272,
+      "device_total_bytes": 287428771840
+    },
+    {
+      "label": "devbox-debug",
+      "window_index": 0,
+      "phase": "metrics",
+      "datums": 1,
+      "num_tokens": 131072,
+      "fb_elapsed_s": 0.6644631624221802,
+      "fb_tps_per_gpu": 24657.499356736487,
+      "optim_elapsed_s": 0.09462788607925177,
+      "loss": 13.552661343851806,
+      "grad_norm": 0.12674106657505035,
+      "server_step_seconds": 0.5591850932687521,
+      "peak_reserved_bytes": 33703329792,
+      "peak_allocated_bytes": 29932086272,
+      "device_total_bytes": 287428771840
+    }
+  ],
+  "nsys_version": "NVIDIA Nsight Systems version 2025.3.1.0",
+  "source_revisions": {
+    "trainers": "13137ef1a1b6031772dc4e7a2c6efeacc15f3e3d",
+    "bridge": "60b1570fbbcf52961f64df5794c8ed1256279754",
+    "core": "cf81782b23150362b761888277866ec1e758cde3"
+  },
+  "runtime_options": {
+    "fsdp": true,
+    "prefetch": true,
+    "persistent_buffers": true,
+    "grouped_mm": true,
+    "cuda_graphs": false,
+    "lm_head_chunk": 4096,
+    "memory_efficient_lm_head": false,
+    "capture": "software CUDA/NVTX; event tracing disabled; no CPU/callstack sampling"
+  },
+  "gpu_inventory": "index, name, uuid, memory.total [MiB], driver_version\n0, NVIDIA L20D, GPU-2aea51ed-948d-31f8-09bb-16b77584a2f2, 275040 MiB, 580.105.08\n1, NVIDIA L20D, GPU-ca7cf7a5-62b7-baa9-fb96-c90450fa8f1a, 275040 MiB, 580.105.08\n2, NVIDIA L20D, GPU-7bd3e12f-6568-bb26-f1af-34d4498c3a46, 275040 MiB, 580.105.08\n3, NVIDIA L20D, GPU-891a147c-66f7-96ea-3dfe-d0bac616802d, 275040 MiB, 580.105.08\n4, NVIDIA L20D, GPU-4775cde9-e8af-3672-5ec1-947a0b61c662, 275040 MiB, 580.105.08\n5, NVIDIA L20D, GPU-d2bd3868-9450-4558-40a8-ee334b395d42, 275040 MiB, 580.105.08\n6, NVIDIA L20D, GPU-7999961e-cc00-84c9-5684-94fe86105ca8, 275040 MiB, 580.105.08\n7, NVIDIA L20D, GPU-d0528bb0-eb01-9fed-a358-9a84303b3c3a, 275040 MiB, 580.105.08\n",
+  "initial_status": {
+    "mode": "training",
+    "step": 0,
+    "model_id": "/root/glm53-1d2m-262k-20260909/model",
+    "device": "cuda:0",
+    "last_loss": null,
+    "grad_norm": null,
+    "gpu_memory": {
+      "cuda:0": 13180600320
+    },
+    "world_size": 8,
+    "tensor_parallel_size": 1,
+    "pipeline_parallel_size": 1,
+    "expert_parallel_size": 8,
+    "context_parallel_size": 8,
+    "expert_tensor_parallel_size": 1,
+    "data_parallel_size": 1,
+    "max_seq_len": 131072
+  },
+  "control": {
+    "n": 1,
+    "mean_s": 2.02833865955472,
+    "median_s": 2.02833865955472,
+    "min_s": 2.02833865955472,
+    "max_s": 2.02833865955472,
+    "tps_per_gpu": 8077.5465787339335
+  },
+  "final_status": {
+    "mode": "training",
+    "step": 4,
+    "model_id": "/root/glm53-1d2m-262k-20260909/model",
+    "device": "cuda:0",
+    "last_loss": null,
+    "grad_norm": null,
+    "gpu_memory": {
+      "cuda:0": 33703329792
+    },
+    "world_size": 8,
+    "tensor_parallel_size": 1,
+    "pipeline_parallel_size": 1,
+    "expert_parallel_size": 8,
+    "context_parallel_size": 8,
+    "expert_tensor_parallel_size": 1,
+    "data_parallel_size": 1,
+    "max_seq_len": 131072
+  }
+}

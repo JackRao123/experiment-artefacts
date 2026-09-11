@@ -1,0 +1,11 @@
+{
+  "trainers_tested": "c9a723bf431621ca05580726f4acd01ec618326a",
+  "bridge": "2076a9e81ae36e7890d017f4af8d7c707c2d633b",
+  "core": "3b893e39ead7113d897e86105505f6fd3e49a9f1",
+  "tracking_pr": "https://github.com/basetenlabs/trainers/pull/1355",
+  "sequence_length": 131072,
+  "warmup_repeats": 3,
+  "control_repeats": 5,
+  "stability_controls_per_topology": 20,
+  "environment": {"BT_FREEZE_GC_AFTER_WARMUP": "1"}
+}

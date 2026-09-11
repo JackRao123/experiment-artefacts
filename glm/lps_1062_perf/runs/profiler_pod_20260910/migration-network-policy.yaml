@@ -1,0 +1,18 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: jackrao-profiler-migration-32vj99q
+  namespace: org-99340d71961343c28c5c567d705ab0c0
+spec:
+  podSelector:
+    matchLabels:
+      app: jackrao-profiler-b300
+  policyTypes: [Ingress]
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              statefulset.kubernetes.io/pod-name: baseten-training-job-32vj99q-multinode-0
+      ports:
+        - protocol: TCP
+          port: 22

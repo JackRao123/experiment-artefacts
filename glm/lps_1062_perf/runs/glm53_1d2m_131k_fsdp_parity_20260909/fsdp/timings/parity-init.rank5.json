@@ -1,0 +1,382 @@
+[
+  {
+    "name": "module.decoder.layers.0.self_attention.linear_proj.adapter.linear_in.weight",
+    "shape": [
+      32,
+      16384
+    ],
+    "local_numel": 0,
+    "value": 0.0078125,
+    "dtype": "torch.float32"
+  },
+  {
+    "name": "module.decoder.layers.0.mlp.linear_fc2.adapter.linear_in.weight",
+    "shape": [
+      32,
+      12288
+    ],
+    "local_numel": 0,
+    "value": 0.009033203125,
+    "dtype": "torch.float32"
+  },
+  {
+    "name": "module.decoder.layers.0.self_attention.linear_q_down_proj.adapter.linear_in.weight",
+    "shape": [
+      32,
+      6144
+    ],
+    "local_numel": 0,
+    "value": 0.01275634765625,
+    "dtype": "torch.float32"
+  },
+  {
+    "name": "module.decoder.layers.0.self_attention.linear_kv_down_proj.adapter.linear_in.weight",
+    "shape": [
+      32,
+      6144
+    ],
+    "local_numel": 0,
+    "value": 0.01275634765625,
+    "dtype": "torch.float32"
+  },
+  {
+    "name": "module.decoder.layers.0.mlp.linear_fc1.adapter.linear_in.weight",
+    "shape": [
+      32,
+      6144
+    ],
+    "local_numel": 0,
+    "value": 0.01275634765625,
+    "dtype": "torch.float32"
+  },
+  {
+    "name": "module.decoder.layers.0.self_attention.linear_q_up_proj.adapter.linear_in.weight",
+    "shape": [
+      32,
+      2048
+    ],
+    "local_numel": 0,
+    "value": 0.0220947265625,
+    "dtype": "torch.float32"
+  },
+  {
+    "name": "module.decoder.layers.0.self_attention.linear_proj.adapter.linear_out.weight",
+    "shape": [
+      6144,
+      32
+    ],
+    "local_numel": 0,
+    "value": 0.0,
+    "dtype": "torch.float32"
+  },
+  {
+    "name": "module.decoder.layers.0.self_attention.linear_q_down_proj.adapter.linear_out.weight",
+    "shape": [
+      2048,
+      32
+    ],
+    "local_numel": 0,
+    "value": 0.0,
+    "dtype": "torch.float32"
+  },
+  {
+    "name": "module.decoder.layers.0.self_attention.linear_q_up_proj.adapter.linear_out.weight",
+    "shape": [
+      16384,
+      32
+    ],
+    "local_numel": 147456,
+    "value": 0.0,
+    "dtype": "torch.float32"
+  },
+  {
+    "name": "module.decoder.layers.0.self_attention.linear_kv_down_proj.adapter.linear_out.weight",
+    "shape": [
+      576,
+      32
+    ],
+    "local_numel": 0,
+    "value": 0.0,
+    "dtype": "torch.float32"
+  },
+  {
+    "name": "module.decoder.layers.0.mlp.linear_fc1.adapter.linear_out.weight",
+    "shape": [
+      24576,
+      32
+    ],
+    "local_numel": 294912,
+    "value": 0.0,
+    "dtype": "torch.float32"
+  },
+  {
+    "name": "module.decoder.layers.0.mlp.linear_fc2.adapter.linear_out.weight",
+    "shape": [
+      6144,
+      32
+    ],
+    "local_numel": 0,
+    "value": 0.0,
+    "dtype": "torch.float32"
+  },
+  {
+    "name": "module.decoder.layers.1.self_attention.linear_proj.adapter.linear_in.weight",
+    "shape": [
+      32,
+      16384
+    ],
+    "local_numel": 0,
+    "value": 0.0078125,
+    "dtype": "torch.float32"
+  },
+  {
+    "name": "module.decoder.layers.1.self_attention.linear_q_down_proj.adapter.linear_in.weight",
+    "shape": [
+      32,
+      6144
+    ],
+    "local_numel": 0,
+    "value": 0.01275634765625,
+    "dtype": "torch.float32"
+  },
+  {
+    "name": "module.decoder.layers.1.self_attention.linear_kv_down_proj.adapter.linear_in.weight",
+    "shape": [
+      32,
+      6144
+    ],
+    "local_numel": 0,
+    "value": 0.01275634765625,
+    "dtype": "torch.float32"
+  },
+  {
+    "name": "module.decoder.layers.1.mlp.shared_experts.linear_fc1.adapter.linear_in.weight",
+    "shape": [
+      32,
+      6144
+    ],
+    "local_numel": 0,
+    "value": 0.01275634765625,
+    "dtype": "torch.float32"
+  },
+  {
+    "name": "module.decoder.layers.1.self_attention.linear_q_up_proj.adapter.linear_in.weight",
+    "shape": [
+      32,
+      2048
+    ],
+    "local_numel": 0,
+    "value": 0.0220947265625,
+    "dtype": "torch.float32"
+  },
+  {
+    "name": "module.decoder.layers.1.mlp.shared_experts.linear_fc2.adapter.linear_in.weight",
+    "shape": [
+      32,
+      2048
+    ],
+    "local_numel": 0,
+    "value": 0.0220947265625,
+    "dtype": "torch.float32"
+  },
+  {
+    "name": "module.decoder.layers.1.self_attention.linear_proj.adapter.linear_out.weight",
+    "shape": [
+      6144,
+      32
+    ],
+    "local_numel": 0,
+    "value": 0.0,
+    "dtype": "torch.float32"
+  },
+  {
+    "name": "module.decoder.layers.1.self_attention.linear_q_down_proj.adapter.linear_out.weight",
+    "shape": [
+      2048,
+      32
+    ],
+    "local_numel": 0,
+    "value": 0.0,
+    "dtype": "torch.float32"
+  },
+  {
+    "name": "module.decoder.layers.1.self_attention.linear_q_up_proj.adapter.linear_out.weight",
+    "shape": [
+      16384,
+      32
+    ],
+    "local_numel": 327680,
+    "value": 0.0,
+    "dtype": "torch.float32"
+  },
+  {
+    "name": "module.decoder.layers.1.self_attention.linear_kv_down_proj.adapter.linear_out.weight",
+    "shape": [
+      576,
+      32
+    ],
+    "local_numel": 0,
+    "value": 0.0,
+    "dtype": "torch.float32"
+  },
+  {
+    "name": "module.decoder.layers.1.mlp.shared_experts.linear_fc1.adapter.linear_out.weight",
+    "shape": [
+      4096,
+      32
+    ],
+    "local_numel": 0,
+    "value": 0.0,
+    "dtype": "torch.float32"
+  },
+  {
+    "name": "module.decoder.layers.1.mlp.shared_experts.linear_fc2.adapter.linear_out.weight",
+    "shape": [
+      6144,
+      32
+    ],
+    "local_numel": 0,
+    "value": 0.0,
+    "dtype": "torch.float32"
+  },
+  {
+    "name": "module.decoder.layers.2.self_attention.linear_proj.adapter.linear_in.weight",
+    "shape": [
+      32,
+      16384
+    ],
+    "local_numel": 0,
+    "value": 0.0078125,
+    "dtype": "torch.float32"
+  },
+  {
+    "name": "module.decoder.layers.2.self_attention.linear_q_down_proj.adapter.linear_in.weight",
+    "shape": [
+      32,
+      6144
+    ],
+    "local_numel": 0,
+    "value": 0.01275634765625,
+    "dtype": "torch.float32"
+  },
+  {
+    "name": "module.decoder.layers.2.self_attention.linear_kv_down_proj.adapter.linear_in.weight",
+    "shape": [
+      32,
+      6144
+    ],
+    "local_numel": 0,
+    "value": 0.01275634765625,
+    "dtype": "torch.float32"
+  },
+  {
+    "name": "module.decoder.layers.2.mlp.shared_experts.linear_fc1.adapter.linear_in.weight",
+    "shape": [
+      32,
+      6144
+    ],
+    "local_numel": 0,
+    "value": 0.01275634765625,
+    "dtype": "torch.float32"
+  },
+  {
+    "name": "module.decoder.layers.2.self_attention.linear_q_up_proj.adapter.linear_in.weight",
+    "shape": [
+      32,
+      2048
+    ],
+    "local_numel": 0,
+    "value": 0.0220947265625,
+    "dtype": "torch.float32"
+  },
+  {
+    "name": "module.decoder.layers.2.mlp.shared_experts.linear_fc2.adapter.linear_in.weight",
+    "shape": [
+      32,
+      2048
+    ],
+    "local_numel": 0,
+    "value": 0.0220947265625,
+    "dtype": "torch.float32"
+  },
+  {
+    "name": "module.decoder.layers.2.self_attention.linear_proj.adapter.linear_out.weight",
+    "shape": [
+      6144,
+      32
+    ],
+    "local_numel": 0,
+    "value": 0.0,
+    "dtype": "torch.float32"
+  },
+  {
+    "name": "module.decoder.layers.2.self_attention.linear_q_down_proj.adapter.linear_out.weight",
+    "shape": [
+      2048,
+      32
+    ],
+    "local_numel": 0,
+    "value": 0.0,
+    "dtype": "torch.float32"
+  },
+  {
+    "name": "module.decoder.layers.2.self_attention.linear_q_up_proj.adapter.linear_out.weight",
+    "shape": [
+      16384,
+      32
+    ],
+    "local_numel": 327680,
+    "value": 0.0,
+    "dtype": "torch.float32"
+  },
+  {
+    "name": "module.decoder.layers.2.self_attention.linear_kv_down_proj.adapter.linear_out.weight",
+    "shape": [
+      576,
+      32
+    ],
+    "local_numel": 0,
+    "value": 0.0,
+    "dtype": "torch.float32"
+  },
+  {
+    "name": "module.decoder.layers.2.mlp.shared_experts.linear_fc1.adapter.linear_out.weight",
+    "shape": [
+      4096,
+      32
+    ],
+    "local_numel": 0,
+    "value": 0.0,
+    "dtype": "torch.float32"
+  },
+  {
+    "name": "module.decoder.layers.2.mlp.shared_experts.linear_fc2.adapter.linear_out.weight",
+    "shape": [
+      6144,
+      32
+    ],
+    "local_numel": 0,
+    "value": 0.0,
+    "dtype": "torch.float32"
+  },
+  {
+    "name": "module.output_layer.adapter.linear_in.weight",
+    "shape": [
+      32,
+      6144
+    ],
+    "local_numel": 0,
+    "value": 0.01275634765625,
+    "dtype": "torch.float32"
+  },
+  {
+    "name": "module.output_layer.adapter.linear_out.weight",
+    "shape": [
+      154880,
+      32
+    ],
+    "local_numel": 645120,
+    "value": 0.0,
+    "dtype": "torch.float32"
+  }
+]

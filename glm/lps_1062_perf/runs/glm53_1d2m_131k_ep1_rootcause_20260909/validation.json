@@ -1,0 +1,43 @@
+{
+  "cp8ep8": {
+    "runtime_ranks": 8,
+    "memory": [
+      {
+        "file": "memory.rank0.pickle",
+        "segments": 3,
+        "history_events": 7835
+      }
+    ],
+    "integrity": "passed",
+    "resident_bf16_weights_per_rank": 128
+  },
+  "cp8ep1": {
+    "runtime_ranks": 8,
+    "memory": [
+      {
+        "file": "memory.rank0.pickle",
+        "segments": 3,
+        "history_events": 7781
+      }
+    ],
+    "integrity": "passed",
+    "resident_bf16_weights_per_rank": 1024
+  },
+  "cp1ep1": {
+    "runtime_ranks": 1,
+    "memory": [
+      {
+        "file": "memory.rank0.pickle",
+        "segments": 3,
+        "history_events": 9127
+      }
+    ],
+    "integrity": "passed",
+    "resident_bf16_weights_per_rank": 1024,
+    "kernel_verification": {
+      "cudnn_indexer_calls": 128,
+      "old_fallback_calls": 0,
+      "nccl_calls": 0
+    }
+  }
+}

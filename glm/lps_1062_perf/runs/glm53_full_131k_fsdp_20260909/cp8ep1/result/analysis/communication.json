@@ -1,0 +1,65 @@
+{
+  "DATA_PARALLEL_GROUP_WITH_CP / reduce_scatter_tensor_coalesced": {
+    "calls": 79,
+    "input_bytes": 444432384,
+    "output_bytes": 55554048,
+    "kernel_calls": 79,
+    "kernel_ms": 986.2997449999999
+  },
+  "DATA_PARALLEL_GROUP_WITH_CP / allgather_into_tensor_coalesced": {
+    "calls": 159,
+    "input_bytes": 8939888640,
+    "output_bytes": 71519109120,
+    "kernel_calls": 159,
+    "kernel_ms": 813.2772780000001
+  },
+  "EXPERT_DATA_PARALLEL_GROUP / allgather_into_tensor_coalesced": {
+    "calls": 150,
+    "input_bytes": 362387865600,
+    "output_bytes": 2899102924800,
+    "kernel_calls": 150,
+    "kernel_ms": 7964.081621000002
+  },
+  "CONTEXT_PARALLEL_GROUP / _allgather_base": {
+    "calls": 199,
+    "input_bytes": 3120627712,
+    "output_bytes": 24965021696,
+    "kernel_calls": 199,
+    "kernel_ms": 730.8035959999996
+  },
+  "CONTEXT_PARALLEL_GROUP / _reduce_scatter_base": {
+    "calls": 78,
+    "input_bytes": 11777605632,
+    "output_bytes": 1472200704,
+    "kernel_calls": 78,
+    "kernel_ms": 2202.364279
+  },
+  "default_pg / broadcast": {
+    "calls": 6,
+    "input_bytes": 545612,
+    "output_bytes": 545612,
+    "kernel_calls": 6,
+    "kernel_ms": 0.044319000000000004
+  },
+  "CONTEXT_PARALLEL_GROUP / allreduce": {
+    "calls": 1,
+    "input_bytes": 8,
+    "output_bytes": 8,
+    "kernel_calls": 1,
+    "kernel_ms": 5401.324085
+  },
+  "INTRA_DISTRIBUTED_OPTIMIZER_INSTANCE_GROUP / allreduce": {
+    "calls": 1,
+    "input_bytes": 4,
+    "output_bytes": 4,
+    "kernel_calls": 1,
+    "kernel_ms": 1730.184951
+  },
+  "default_pg / allreduce": {
+    "calls": 1,
+    "input_bytes": 24,
+    "output_bytes": 24,
+    "kernel_calls": 1,
+    "kernel_ms": 465.21174699999995
+  }
+}

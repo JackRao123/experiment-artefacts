@@ -1,0 +1,22 @@
+{
+  "base_model": "/opt/models/glm53",
+  "checkpoint_dir": "/opt/glm53/checkpoints",
+  "max_seq_len": 262144,
+  "lora_rank": 32,
+  "lora_alpha": 32,
+  "tensor_parallel_size": 1,
+  "pipeline_parallel_size": 1,
+  "expert_parallel_size": 8,
+  "context_parallel_size": 8,
+  "expert_tensor_parallel_size": 1,
+  "attention_backend": "flash",
+  "recompute": {
+    "granularity": "full",
+    "method": "uniform",
+    "num_layers": 1
+  },
+  "moe_flex_dispatcher_backend": "hybridep",
+  "expert_weight_storage": "native_fp8",
+  "trust_remote_code": true,
+  "weight_sync": {"type": "disabled"}
+}

@@ -1,0 +1,15 @@
+{
+  "trainers_commit": "134851f877382316efac4ffb4fe8373fe9135793",
+  "bridge_commit": "60b1570fbbcf52961f64df5794c8ed1256279754",
+  "core_commit": "cf81782b23150362b761888277866ec1e758cde3",
+  "remote_checkout": "/root/glm53-pr1355-repro-20260910/trainers",
+  "source_diffs_empty": true,
+  "backend_import": "/root/glm53-pr1355-repro-20260910/trainers/server-megatron-bridge/src/trainers_server_megatron_bridge/backend.py",
+  "reader_import": "/root/glm53-pr1355-repro-20260910/trainers/server-megatron-bridge/vendor/megatron-bridge/src/megatron/bridge/models/hf_pretrained/state.py",
+  "grouped_mm_import": "/root/glm53-pr1355-repro-20260910/trainers/server-megatron-bridge/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/extensions/frozen_grouped_mm.py",
+  "sitecustomize": "/usr/lib/python3.12/sitecustomize.py",
+  "sitecustomize_contents": "Ubuntu apport exception-handler installation only; no model patches",
+  "experiment_pythonpath_entries": [],
+  "venv": "/root/.devbox-venvs/server",
+  "notes": "The checkout reuses the existing CUDA environment through a .venv symlink. Model implementations come from the fresh pinned source tree."
+}

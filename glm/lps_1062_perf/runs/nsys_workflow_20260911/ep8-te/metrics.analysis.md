@@ -11,6 +11,7 @@ Ranked observed costs below are candidates for investigation, not guaranteed spe
 - Rank coverage: {'captured': 8, 'world_size': 8}; observed CUDA graph launch calls: 0.
 - Same-run capture slowdown: 1.9323538153886544%.
 - Hardware metrics present: True; this timing report does not infer saturation.
+- Warning/error records: 116; see diagnostics below before trusting event completeness.
 - Source call stacks not captured. NVTX scope attribution is distinct from call-stack coverage.
 - Partial CUDA event dependency reconstruction; unresolved/ambiguous events are excluded, not guessed.
 
@@ -29,6 +30,33 @@ All times ms, means across captured forward/backward requests. Optimizer exclude
 | 7 | 1 | 10505.90 | 10246.66 | 259.24 | 3486.16 | 279.77 | 3294.04 | 3212.99 | 2998.55 |
 | 2 | 1 | 10507.36 | 10247.74 | 259.62 | 3456.07 | 275.66 | 3262.05 | 3181.90 | 2966.91 |
 
+### Capture diagnostics
+
+- 25× on other/helper processes: Not all NVTX events might have been collected.
+- 25× on other/helper processes: No NVTX events collected. Does the process use NVTX?
+- 8× on captured trainer ranks: Not all NVTX events might have been collected.
+- 17× on other/helper processes: Not all CUDA events might have been collected.
+- 25× on other/helper processes: No CUDA events collected. Does the process use CUDA?
+- 8× on other/helper processes: CUDA profiling might have not been started correctly.
+- 8× on captured trainer ranks: Not all CUDA events might have been collected.
+
+Capture completeness is qualified by these warnings. Complete step anchors and runtime links do not prove zero event loss.
+
+## Expert-weight prefetch arrivals
+
+Arrival relative to preceding-block compute completion; not a zero-communication speedup estimate.
+
+| Rank | Step | Attributed gathers | Ready by preceding block end | Status |
+|---|---:|---:|---|---|
+| 0 | 0 | 0 | unknown | no attributed expert-weight gathers; check group annotation coverage |
+| 1 | 0 | 0 | unknown | no attributed expert-weight gathers; check group annotation coverage |
+| 5 | 0 | 0 | unknown | no attributed expert-weight gathers; check group annotation coverage |
+| 6 | 0 | 0 | unknown | no attributed expert-weight gathers; check group annotation coverage |
+| 3 | 0 | 0 | unknown | no attributed expert-weight gathers; check group annotation coverage |
+| 4 | 0 | 0 | unknown | no attributed expert-weight gathers; check group annotation coverage |
+| 7 | 0 | 0 | unknown | no attributed expert-weight gathers; check group annotation coverage |
+| 2 | 0 | 0 | unknown | no attributed expert-weight gathers; check group annotation coverage |
+
 ## Ranked observed costs
 
 Exclusive time means no OTHER classified device category overlapped. It is not a causal gain estimate.
@@ -40,7 +68,7 @@ Runtime correlation: 100.00%.
 | Category | Exclusive ms | Union ms |
 |---|---:|---:|
 | attention | 3995.63 | 4056.53 |
-| expert_dispatch_combine | 2666.42 | 2815.95 |
+| expert_dispatch_combine | 2767.72 | 2917.25 |
 | expert_gemm_path | 1286.59 | 1286.59 |
 | other_compute | 706.48 | 719.40 |
 | other_gemm | 570.00 | 575.53 |
@@ -52,7 +80,7 @@ Runtime correlation: 100.00%.
 | Category | Exclusive ms | Union ms |
 |---|---:|---:|
 | attention | 4137.10 | 4200.23 |
-| expert_dispatch_combine | 2610.33 | 2760.87 |
+| expert_dispatch_combine | 2679.76 | 2830.30 |
 | expert_gemm_path | 1307.94 | 1307.94 |
 | other_compute | 751.45 | 760.44 |
 | other_gemm | 569.44 | 575.13 |
@@ -64,7 +92,7 @@ Runtime correlation: 100.00%.
 | Category | Exclusive ms | Union ms |
 |---|---:|---:|
 | attention | 4150.06 | 4209.98 |
-| expert_dispatch_combine | 2685.73 | 2838.75 |
+| expert_dispatch_combine | 2734.53 | 2887.54 |
 | expert_gemm_path | 1236.18 | 1236.18 |
 | other_compute | 738.47 | 749.92 |
 | other_gemm | 563.40 | 568.80 |
@@ -76,7 +104,7 @@ Runtime correlation: 100.00%.
 | Category | Exclusive ms | Union ms |
 |---|---:|---:|
 | attention | 4139.31 | 4202.35 |
-| expert_dispatch_combine | 2418.69 | 2571.27 |
+| expert_dispatch_combine | 2489.41 | 2641.99 |
 | expert_gemm_path | 1465.64 | 1465.64 |
 | other_compute | 768.10 | 780.75 |
 | other_gemm | 562.65 | 569.70 |
@@ -88,7 +116,7 @@ Runtime correlation: 100.00%.
 | Category | Exclusive ms | Union ms |
 |---|---:|---:|
 | attention | 4106.82 | 4169.65 |
-| expert_dispatch_combine | 2613.69 | 2766.22 |
+| expert_dispatch_combine | 2695.76 | 2848.29 |
 | expert_gemm_path | 1321.20 | 1321.20 |
 | other_compute | 746.71 | 759.78 |
 | other_gemm | 558.64 | 565.61 |
@@ -100,7 +128,7 @@ Runtime correlation: 100.00%.
 | Category | Exclusive ms | Union ms |
 |---|---:|---:|
 | attention | 4148.82 | 4207.05 |
-| expert_dispatch_combine | 2711.08 | 2864.01 |
+| expert_dispatch_combine | 2762.65 | 2915.57 |
 | expert_gemm_path | 1243.98 | 1243.98 |
 | other_compute | 739.85 | 752.99 |
 | other_gemm | 554.93 | 561.48 |
@@ -112,7 +140,7 @@ Runtime correlation: 100.00%.
 | Category | Exclusive ms | Union ms |
 |---|---:|---:|
 | attention | 4114.46 | 4177.83 |
-| expert_dispatch_combine | 2724.09 | 2875.68 |
+| expert_dispatch_combine | 2793.19 | 2944.79 |
 | expert_gemm_path | 1204.24 | 1204.24 |
 | other_compute | 731.66 | 744.62 |
 | other_gemm | 554.64 | 562.00 |
@@ -124,7 +152,7 @@ Runtime correlation: 100.00%.
 | Category | Exclusive ms | Union ms |
 |---|---:|---:|
 | attention | 4095.49 | 4158.90 |
-| expert_dispatch_combine | 2671.19 | 2822.91 |
+| expert_dispatch_combine | 2760.45 | 2912.17 |
 | expert_gemm_path | 1248.39 | 1248.39 |
 | other_compute | 738.51 | 751.63 |
 | other_gemm | 551.98 | 558.44 |

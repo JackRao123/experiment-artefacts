@@ -1,0 +1,32 @@
+{
+  "initialization": "38 matched adapter tensors, all FSDP shards accounted for",
+  "results": {
+    "ddp": {
+      "loss": {
+        "mean": 13.553463962279986,
+        "min": 13.553434779623258,
+        "max": 13.55348246370288
+      },
+      "grad_norm": {
+        "mean": 0.17985439896583558,
+        "min": 0.17982853949069977,
+        "max": 0.1798814982175827
+      }
+    },
+    "fsdp": {
+      "loss": {
+        "mean": 13.553450038528736,
+        "min": 13.55342047439937,
+        "max": 13.55346339007103
+      },
+      "grad_norm": {
+        "mean": 0.1799846261739731,
+        "min": 0.1799718737602234,
+        "max": 0.18000048398971558
+      }
+    }
+  },
+  "loss_absolute_error": 1.3923751250644045e-05,
+  "grad_norm_relative_error": 0.0007240701861412902,
+  "passed": true
+}

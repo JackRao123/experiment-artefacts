@@ -1,0 +1,66 @@
+         150440 function calls in 0.086 seconds
+
+   Ordered by: internal time
+   List reduced from 72 to 30 due to restriction <30>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+       20    0.050    0.002    0.050    0.002 {built-in method transformer_engine_torch.te_general_grouped_gemm}
+       20    0.005    0.000    0.009    0.000 /root/.devbox-venvs/server/lib/python3.12/site-packages/transformer_engine/pytorch/quantized_tensor.py:136(prepare_for_saving)
+       20    0.003    0.000    0.072    0.004 {built-in method apply}
+    41100    0.003    0.000    0.003    0.000 {built-in method builtins.isinstance}
+    40960    0.003    0.000    0.003    0.000 {method 'append' of 'list' objects}
+    10320    0.003    0.000    0.004    0.000 {built-in method builtins.getattr}
+       20    0.002    0.000    0.069    0.003 /root/.devbox-venvs/server/lib/python3.12/site-packages/transformer_engine/pytorch/module/grouped_linear.py:69(forward)
+    10300    0.002    0.000    0.005    0.000 /root/.devbox-venvs/server/lib/python3.12/site-packages/torch/_functorch/utils.py:34(<genexpr>)
+       20    0.002    0.000    0.002    0.000 {built-in method torch.split_with_sizes}
+    10260    0.002    0.000    0.002    0.000 {built-in method torch._C._functorch.unwrap_if_dead}
+       20    0.001    0.000    0.005    0.000 /root/.devbox-venvs/server/lib/python3.12/site-packages/transformer_engine/pytorch/module/grouped_linear.py:1293(_get_weight_tensors)
+    10240    0.001    0.000    0.002    0.000 /root/.devbox-venvs/server/lib/python3.12/site-packages/transformer_engine/pytorch/cpp_extensions/gemm.py:73(_is_nvfp4_row_scaled_tensor)
+     5160    0.001    0.000    0.001    0.000 /root/.devbox-venvs/server/lib/python3.12/site-packages/torch/nn/modules/module.py:1955(__getattr__)
+       60    0.001    0.000    0.005    0.000 {built-in method builtins.any}
+       20    0.001    0.000    0.002    0.000 /root/.devbox-venvs/server/lib/python3.12/site-packages/transformer_engine/pytorch/module/grouped_linear.py:1314(_get_bias_tensors)
+     5140    0.001    0.000    0.002    0.000 /root/.devbox-venvs/server/lib/python3.12/site-packages/transformer_engine/pytorch/cpp_extensions/gemm.py:323(<genexpr>)
+       20    0.001    0.000    0.005    0.000 /root/.devbox-venvs/server/lib/python3.12/site-packages/torch/_functorch/utils.py:32(unwrap_dead_wrappers)
+     5140    0.001    0.000    0.002    0.000 /root/.devbox-venvs/server/lib/python3.12/site-packages/transformer_engine/pytorch/cpp_extensions/gemm.py:325(<genexpr>)
+     5140    0.001    0.000    0.001    0.000 /root/.devbox-venvs/server/lib/python3.12/site-packages/transformer_engine/pytorch/module/grouped_linear.py:1303(<genexpr>)
+     5140    0.000    0.000    0.000    0.000 /root/.devbox-venvs/server/lib/python3.12/site-packages/transformer_engine/pytorch/utils.py:495(cast_if_needed)
+       20    0.000    0.000    0.086    0.004 /root/.devbox-venvs/server/lib/python3.12/site-packages/transformer_engine/pytorch/module/grouped_linear.py:1104(forward)
+       20    0.000    0.000    0.000    0.000 {built-in method torch.empty}
+       20    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+       20    0.000    0.000    0.054    0.003 /root/.devbox-venvs/server/lib/python3.12/site-packages/transformer_engine/pytorch/cpp_extensions/gemm.py:276(general_grouped_gemm)
+       20    0.000    0.000    0.000    0.000 {method 'view' of 'torch._C.TensorBase' objects}
+       20    0.000    0.000    0.086    0.004 /root/.devbox-venvs/server/lib/python3.12/site-packages/torch/_dynamo/eval_frame.py:1240(_fn)
+       20    0.000    0.000    0.000    0.000 {method 'reshape' of 'torch._C.TensorBase' objects}
+       20    0.000    0.000    0.002    0.000 /root/.devbox-venvs/server/lib/python3.12/site-packages/torch/_tensor.py:1052(split)
+       20    0.000    0.000    0.000    0.000 /root/.devbox-venvs/server/lib/python3.12/site-packages/transformer_engine/pytorch/module/base.py:1386(prepare_forward)
+       20    0.000    0.000    0.078    0.004 /root/.devbox-venvs/server/lib/python3.12/site-packages/torch/autograd/function.py:580(apply)
+
+
+         150440 function calls in 0.086 seconds
+
+   Ordered by: cumulative time
+   List reduced from 72 to 20 due to restriction <20>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+       20    0.000    0.000    0.086    0.004 /root/glm53-uneven-gemm-ncu-20260910/expert_gemm.py:45(te_forward)
+       20    0.000    0.000    0.086    0.004 /root/.devbox-venvs/server/lib/python3.12/site-packages/torch/nn/modules/module.py:1775(_wrapped_call_impl)
+       20    0.000    0.000    0.086    0.004 /root/.devbox-venvs/server/lib/python3.12/site-packages/torch/nn/modules/module.py:1783(_call_impl)
+       20    0.000    0.000    0.086    0.004 /root/.devbox-venvs/server/lib/python3.12/site-packages/transformer_engine/pytorch/jit.py:63(wrapper)
+       20    0.000    0.000    0.086    0.004 /root/.devbox-venvs/server/lib/python3.12/site-packages/torch/_dynamo/eval_frame.py:1240(_fn)
+       20    0.000    0.000    0.086    0.004 /root/.devbox-venvs/server/lib/python3.12/site-packages/transformer_engine/pytorch/module/grouped_linear.py:1104(forward)
+       20    0.000    0.000    0.078    0.004 /root/.devbox-venvs/server/lib/python3.12/site-packages/torch/autograd/function.py:580(apply)
+       20    0.003    0.000    0.072    0.004 {built-in method apply}
+       20    0.002    0.000    0.069    0.003 /root/.devbox-venvs/server/lib/python3.12/site-packages/transformer_engine/pytorch/module/grouped_linear.py:69(forward)
+       20    0.000    0.000    0.054    0.003 /root/.devbox-venvs/server/lib/python3.12/site-packages/transformer_engine/pytorch/cpp_extensions/gemm.py:276(general_grouped_gemm)
+       20    0.050    0.002    0.050    0.002 {built-in method transformer_engine_torch.te_general_grouped_gemm}
+       20    0.005    0.000    0.009    0.000 /root/.devbox-venvs/server/lib/python3.12/site-packages/transformer_engine/pytorch/quantized_tensor.py:136(prepare_for_saving)
+       20    0.001    0.000    0.005    0.000 /root/.devbox-venvs/server/lib/python3.12/site-packages/torch/_functorch/utils.py:32(unwrap_dead_wrappers)
+       60    0.001    0.000    0.005    0.000 {built-in method builtins.any}
+       20    0.001    0.000    0.005    0.000 /root/.devbox-venvs/server/lib/python3.12/site-packages/transformer_engine/pytorch/module/grouped_linear.py:1293(_get_weight_tensors)
+    10300    0.002    0.000    0.005    0.000 /root/.devbox-venvs/server/lib/python3.12/site-packages/torch/_functorch/utils.py:34(<genexpr>)
+    10320    0.003    0.000    0.004    0.000 {built-in method builtins.getattr}
+    41100    0.003    0.000    0.003    0.000 {built-in method builtins.isinstance}
+    40960    0.003    0.000    0.003    0.000 {method 'append' of 'list' objects}
+       20    0.000    0.000    0.002    0.000 /root/.devbox-venvs/server/lib/python3.12/site-packages/torch/functional.py:121(split)
+
+

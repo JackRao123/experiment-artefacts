@@ -1,0 +1,44 @@
+         440 function calls in 0.001 seconds
+
+   Ordered by: internal time
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+       20    0.000    0.000    0.000    0.000 {built-in method torch._grouped_mm}
+       20    0.000    0.000    0.001    0.000 {built-in method apply}
+       20    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+       20    0.000    0.000    0.001    0.000 /root/.devbox-venvs/server/lib/python3.12/site-packages/torch/autograd/function.py:580(apply)
+       20    0.000    0.000    0.000    0.000 {method 'transpose' of 'torch._C.TensorBase' objects}
+       20    0.000    0.000    0.000    0.000 /root/glm53-uneven-gemm-ncu-20260910/expert_gemm.py:7(forward)
+       80    0.000    0.000    0.000    0.000 /root/.devbox-venvs/server/lib/python3.12/site-packages/torch/_functorch/utils.py:34(<genexpr>)
+       20    0.000    0.000    0.000    0.000 /root/.devbox-venvs/server/lib/python3.12/site-packages/torch/_functorch/utils.py:32(unwrap_dead_wrappers)
+       60    0.000    0.000    0.000    0.000 {built-in method torch._C._functorch.unwrap_if_dead}
+       20    0.000    0.000    0.001    0.000 /root/glm53-uneven-gemm-ncu-20260910/expert_gemm.py:48(grouped_forward)
+       20    0.000    0.000    0.000    0.000 /root/.devbox-venvs/server/lib/python3.12/site-packages/torch/nn/functional.py:6698(grouped_mm)
+       20    0.000    0.000    0.000    0.000 {built-in method torch._C._are_functorch_transforms_active}
+       60    0.000    0.000    0.000    0.000 {built-in method builtins.isinstance}
+       20    0.000    0.000    0.000    0.000 /root/.devbox-venvs/server/lib/python3.12/site-packages/torch/autograd/function.py:613(_is_setup_context_defined)
+       20    0.000    0.000    0.000    0.000 /root/.devbox-venvs/server/lib/python3.12/site-packages/torch/autograd/function.py:40(save_for_backward)
+
+
+         440 function calls in 0.001 seconds
+
+   Ordered by: cumulative time
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+       20    0.000    0.000    0.001    0.000 /root/glm53-uneven-gemm-ncu-20260910/expert_gemm.py:48(grouped_forward)
+       20    0.000    0.000    0.001    0.000 /root/.devbox-venvs/server/lib/python3.12/site-packages/torch/autograd/function.py:580(apply)
+       20    0.000    0.000    0.001    0.000 {built-in method apply}
+       20    0.000    0.000    0.000    0.000 /root/glm53-uneven-gemm-ncu-20260910/expert_gemm.py:7(forward)
+       20    0.000    0.000    0.000    0.000 /root/.devbox-venvs/server/lib/python3.12/site-packages/torch/nn/functional.py:6698(grouped_mm)
+       20    0.000    0.000    0.000    0.000 {built-in method torch._grouped_mm}
+       20    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+       20    0.000    0.000    0.000    0.000 /root/.devbox-venvs/server/lib/python3.12/site-packages/torch/_functorch/utils.py:32(unwrap_dead_wrappers)
+       80    0.000    0.000    0.000    0.000 /root/.devbox-venvs/server/lib/python3.12/site-packages/torch/_functorch/utils.py:34(<genexpr>)
+       20    0.000    0.000    0.000    0.000 {method 'transpose' of 'torch._C.TensorBase' objects}
+       60    0.000    0.000    0.000    0.000 {built-in method torch._C._functorch.unwrap_if_dead}
+       20    0.000    0.000    0.000    0.000 {built-in method torch._C._are_functorch_transforms_active}
+       60    0.000    0.000    0.000    0.000 {built-in method builtins.isinstance}
+       20    0.000    0.000    0.000    0.000 /root/.devbox-venvs/server/lib/python3.12/site-packages/torch/autograd/function.py:613(_is_setup_context_defined)
+       20    0.000    0.000    0.000    0.000 /root/.devbox-venvs/server/lib/python3.12/site-packages/torch/autograd/function.py:40(save_for_backward)
+
+

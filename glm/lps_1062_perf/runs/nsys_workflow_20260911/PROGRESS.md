@@ -1,5 +1,29 @@
 # Work in progress
 
+Update~21:36 UTC: devbox-ep1-te finally became healthy without restart after
+long startup. Now running capture.py (3warmups/5controls/1timing/1metrics).
+Native debugging was inconclusive: installing gdb upgraded libc from .7 to .9
+while target was alive, initial native symbols mismatched; copied original
+mapped libc for diagnosis but do not treat bad frames as root-cause proof.
+Target eventually reached Uvicorn. No startup/debug time is in measured windows.
+Record that libc was updated during setup if interpreting tiny CPU differences.
+
+Latest (21:13 UTC): `devbox-debug` on tj-q9exk9w completed warmup/control,
+timing and metrics. The single validation control2.028s was NOT steady state;
+subsequent timing0.653s/metrics0.664s. Do not present its control as benchmark.
+Formal full `devbox-ep1-te` has been initializing since~20:49 UTC. Representative
+workerPID25892 was sampled in active HF checkpoint loading (`_load_cached_tensors`
+reader-cache eviction); no training controls yet. Use generated health waiter,
+manually reinvoked at180s checkpoints. Current waiter session4425 may have returned;
+read its state before reinvoking. Model/venv/source are correct, GPU memory~202GB.
+
+Analyzer now schema2: expert host-scope idle, allocator/VMM idle, partial event
+dependencies, guarded prefetch-readiness, warning summaries, cached results.
+`collect.py` + `workflow.py collect` added: finalized manifest, rsync, SHA checks,
+optional local analysis. capture.py now writes capture_complete/artifact hashes.
+These latest driver/collect/README changes still need committing; last artifacts
+push f2d973d (some subsequent changes uncommitted). Trainer PR1355 remains13137ef1a.
+
 ## Latest infrastructure override (2026-09-11 ~20:38 UTC)
 
 User provided `ssh tj-q9exk9w` (8 B300, SYS_ADMIN) and instructed us to use

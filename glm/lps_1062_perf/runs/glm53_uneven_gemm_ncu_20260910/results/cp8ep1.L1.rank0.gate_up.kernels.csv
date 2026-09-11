@@ -1,0 +1,84 @@
+Generating SQLite file cp8ep1.L1.rank0.gate_up.timeline.sqlite from cp8ep1.L1.rank0.gate_up.timeline.nsys-rep
+Processing [cp8ep1.L1.rank0.gate_up.timeline.sqlite] with [/opt/nvidia/nsight-systems/2025.3.2/host-linux-x64/reports/cuda_gpu_kern_sum.py]... 
+Time (%),Total Time (ns),Instances,Avg (ns),Med (ns),Min (ns),Max (ns),StdDev (ns),Name
+18.3,28487605,5,5697521.0,5575722.0,5295144,6588689,512162.1,"void cutlass::device_kernel<at::cuda::detail::enable_3x_kernel_for_sm10<cutlass::gemm::kernel::GemmUniversal<cutlass::gemm::GroupProblemShape<cute::tuple<int, int, int>>, cutlass::gemm::collective::CollectiveMma<cutlass::gemm::MainloopSm100ArrayTmaUmmaWarpSpecialized<(int)6, (int)8, (int)2, cute::tuple<cute::C<(int)2>, cute::C<(int)1>, cute::C<(int)1>>>, cute::tuple<cute::C<(int)256>, cute::C<(int)256>, cute::C<(int)64>>, cutlass::bfloat16_t, cute::tuple<long, cute::C<(int)1>, cute::C<(int)0>> *, cutlass::bfloat16_t, cute::tuple<long, cute::C<(int)1>, cute::C<(int)0>> *, cute::TiledMMA<cute::MMA_Atom<cute::SM100_MMA_F16BF16_2x1SM_SS<cutlass::bfloat16_t, cutlass::bfloat16_t, float, (int)256, (int)256, (cute::UMMA::Major)0, (cute::UMMA::Major)0, (cute::UMMA::ScaleIn)0, (cute::UMMA::ScaleIn)0>>, cute::Layout<cute::tuple<cute::C<(int)1>, cute::C<(int)1>, cute::C<(int)1>>, cute::tuple<cute::C<(int)0>, cute::C<(int)0>, cute::C<(int)0>>>, cute::tuple<cute::Underscore, cute::Underscore, cute::Underscore>>, cute::SM100_TMA_2SM_LOAD, cute::ComposedLayout<cute::Swizzle<(int)3, (int)4, (int)3>, cute::smem_ptr_flag_bits<(int)16>, cute::Layout<cute::tuple<cute::C<(int)8>, cute::C<(int)64>>, cute::tuple<cute::C<(int)64>, cute::C<(int)1>>>>, void, cute::identity, cute::SM100_TMA_2SM_LOAD, cute::ComposedLayout<cute::Swizzle<(int)3, (int)4, (int)3>, cute::smem_ptr_flag_bits<(int)16>, cute::Layout<cute::tuple<cute::C<(int)8>, cute::C<(int)64>>, cute::tuple<cute::C<(int)64>, cute::C<(int)1>>>>, void, cute::identity>, cutlass::epilogue::collective::CollectiveEpilogue<cutlass::epilogue::Sm100PtrArrayTmaWarpSpecialized<(int)4, (int)2, (int)32, (bool)0, (bool)0>, cute::tuple<cute::C<(int)128>, cute::C<(int)256>, cute::C<(int)64>>, cute::tuple<cute::Layout<cute::C<(int)128>, cute::C<(int)1>>, cute::Layout<cute::C<(int)32>, cute::C<(int)1>>>, void, cute::tuple<long, cute::C<(int)1>, cute::C<(int)0>> *, cutlass::bfloat16_t, cute::tuple<long, cute::C<(int)1>, cute::C<(int)0>> *, cutlass::epilogue::fusion::FusionCallbacks<cutlass::epilogue::Sm100PtrArrayTmaWarpSpecialized<(int)4, (int)2, (int)32, (bool)0, (bool)0>, cutlass::epilogue::fusion::LinearCombination<cutlass::bfloat16_t, float, cutlass::bfloat16_t, float, (cutlass::FloatRoundStyle)2>, cute::tuple<cute::C<(int)128>, cute::C<(int)256>, cute::C<(int)64>>, cute::tuple<cute::Layout<cute::C<(int)128>, cute::C<(int)1>>, cute::Layout<cute::C<(int)32>, cute::C<(int)1>>>, >, cute::SM100::TMEM::LOAD::SM100_TMEM_LOAD_32dp32b32x, cute::SM90_TMA_LOAD, cute::ComposedLayout<cute::Swizzle<(int)2, (int)4, (int)3>, cute::smem_ptr_flag_bits<(int)16>, cute::Layout<cute::tuple<cute::C<(int)8>, cute::C<(int)32>>, cute::tuple<cute::C<(int)32>, cute::C<(int)1>>>>, cute::AutoVectorizingCopyWithAssumedAlignment<(int)128>, cute::SM90_TMA_STORE, cute::ComposedLayout<cute::Swizzle<(int)2, (int)4, (int)3>, cute::smem_ptr_flag_bits<(int)16>, cute::Layout<cute::tuple<cute::C<(int)8>, cute::C<(int)32>>, cute::tuple<cute::C<(int)32>, cute::C<(int)1>>>>, cute::AutoVectorizingCopyWithAssumedAlignment<(int)128>, cute::AutoVectorizingCopyWithAssumedAlignment<(int)128>>, void, void>>>(T1::Params)"
+17.9,27883120,5,5576624.0,5496873.0,5150822,6555633,572500.7,"void cutlass::device_kernel<at::cuda::detail::enable_3x_kernel_for_sm10<cutlass::gemm::kernel::GemmUniversal<cutlass::gemm::GroupProblemShape<cute::tuple<int, int, int>>, cutlass::gemm::collective::CollectiveMma<cutlass::gemm::MainloopSm100ArrayTmaUmmaWarpSpecialized<(int)6, (int)8, (int)2, cute::tuple<cute::C<(int)2>, cute::C<(int)1>, cute::C<(int)1>>>, cute::tuple<cute::C<(int)256>, cute::C<(int)256>, cute::C<(int)64>>, cutlass::bfloat16_t, cute::tuple<long, cute::C<(int)1>, cute::C<(int)0>> *, cutlass::bfloat16_t, cute::tuple<cute::C<(int)1>, long, cute::C<(int)0>> *, cute::TiledMMA<cute::MMA_Atom<cute::SM100_MMA_F16BF16_2x1SM_SS<cutlass::bfloat16_t, cutlass::bfloat16_t, float, (int)256, (int)256, (cute::UMMA::Major)0, (cute::UMMA::Major)1, (cute::UMMA::ScaleIn)0, (cute::UMMA::ScaleIn)0>>, cute::Layout<cute::tuple<cute::C<(int)1>, cute::C<(int)1>, cute::C<(int)1>>, cute::tuple<cute::C<(int)0>, cute::C<(int)0>, cute::C<(int)0>>>, cute::tuple<cute::Underscore, cute::Underscore, cute::Underscore>>, cute::SM100_TMA_2SM_LOAD, cute::ComposedLayout<cute::Swizzle<(int)3, (int)4, (int)3>, cute::smem_ptr_flag_bits<(int)16>, cute::Layout<cute::tuple<cute::C<(int)8>, cute::C<(int)64>>, cute::tuple<cute::C<(int)64>, cute::C<(int)1>>>>, void, cute::identity, cute::SM100_TMA_2SM_LOAD, cute::ComposedLayout<cute::Swizzle<(int)3, (int)4, (int)3>, cute::smem_ptr_flag_bits<(int)16>, cute::Layout<cute::tuple<cute::C<(int)64>, cute::C<(int)8>>, cute::tuple<cute::C<(int)1>, cute::C<(int)64>>>>, void, cute::identity>, cutlass::epilogue::collective::CollectiveEpilogue<cutlass::epilogue::Sm100PtrArrayTmaWarpSpecialized<(int)4, (int)2, (int)32, (bool)0, (bool)0>, cute::tuple<cute::C<(int)128>, cute::C<(int)256>, cute::C<(int)64>>, cute::tuple<cute::Layout<cute::C<(int)128>, cute::C<(int)1>>, cute::Layout<cute::C<(int)32>, cute::C<(int)1>>>, void, cute::tuple<long, cute::C<(int)1>, cute::C<(int)0>> *, cutlass::bfloat16_t, cute::tuple<long, cute::C<(int)1>, cute::C<(int)0>> *, cutlass::epilogue::fusion::FusionCallbacks<cutlass::epilogue::Sm100PtrArrayTmaWarpSpecialized<(int)4, (int)2, (int)32, (bool)0, (bool)0>, cutlass::epilogue::fusion::LinearCombination<cutlass::bfloat16_t, float, cutlass::bfloat16_t, float, (cutlass::FloatRoundStyle)2>, cute::tuple<cute::C<(int)128>, cute::C<(int)256>, cute::C<(int)64>>, cute::tuple<cute::Layout<cute::C<(int)128>, cute::C<(int)1>>, cute::Layout<cute::C<(int)32>, cute::C<(int)1>>>, >, cute::SM100::TMEM::LOAD::SM100_TMEM_LOAD_32dp32b32x, cute::SM90_TMA_LOAD, cute::ComposedLayout<cute::Swizzle<(int)2, (int)4, (int)3>, cute::smem_ptr_flag_bits<(int)16>, cute::Layout<cute::tuple<cute::C<(int)8>, cute::C<(int)32>>, cute::tuple<cute::C<(int)32>, cute::C<(int)1>>>>, cute::AutoVectorizingCopyWithAssumedAlignment<(int)128>, cute::SM90_TMA_STORE, cute::ComposedLayout<cute::Swizzle<(int)2, (int)4, (int)3>, cute::smem_ptr_flag_bits<(int)16>, cute::Layout<cute::tuple<cute::C<(int)8>, cute::C<(int)32>>, cute::tuple<cute::C<(int)32>, cute::C<(int)1>>>>, cute::AutoVectorizingCopyWithAssumedAlignment<(int)128>, cute::AutoVectorizingCopyWithAssumedAlignment<(int)128>>, void, void>>>(T1::Params)"
+8.1,12579680,70,179709.7,145601.5,39488,427651,98359.1,nvjet_sm103_tst_128x256_64x6_2x1_2cta_v_bz_NNT
+5.8,9073870,395,22971.8,20288.0,13728,91585,8991.2,nvjet_sm103_tst_64x8_64x16_4x1_v_bz_splitK_TNT
+5.8,9058852,395,22933.8,21536.0,13664,73632,7412.0,nvjet_sm103_tst_64x8_64x16_4x1_v_bz_NNT
+5.7,8833728,30,294457.6,305042.0,131393,459363,93786.3,nvjet_sm103_tst_128x256_64x6_2x1_2cta_v_bz_TNT
+2.6,4060089,405,10024.9,10144.0,3552,27392,2709.7,"void cublasLt::splitKreduce_kernel<(int)32, (int)16, int, float, __nv_bfloat16, float, __nv_bfloat16, (bool)0, float, __nv_bfloat16, __nv_bfloat16, (bool)1, (bool)0, (bool)0, (bool)0>(cublasLt::cublasSplitKParams<T6>, const T4 *, const T10 *, T9 *, T5 *, const T6 *, const T6 *, const T11 *, const T4 *, T11 *, void *, long, T6 *, int *, T6 *, T6 *, const T6 *, const T6 *, const T6 *, const T6 *, const T6 *)"
+2.3,3600380,45,80008.4,73120.0,33248,160993,29810.9,nvjet_sm103_tst_128x192_64x7_2x1_2cta_v_bz_NNT
+1.9,2921620,15,194774.7,194145.0,128545,301474,48148.1,nvjet_sm103_tst_256x240_64x4_2x1_2cta_v_bz_TNT
+1.6,2536695,20,126834.8,116593.0,53057,226402,60048.7,nvjet_sm103_tst_256x128_64x5_2x1_2cta_v_bz_TNT
+1.5,2313842,75,30851.2,23904.0,12320,98304,16942.2,nvjet_sm103_tst_64x8_64x16_2x2_h_bz_TNT
+1.5,2308655,80,28858.2,23712.0,16064,70081,11880.6,nvjet_sm103_tst_64x16_64x16_2x2_2cta_h_bz_TNT
+1.5,2258062,25,90322.5,91264.0,52928,133633,24160.3,nvjet_sm103_tst_256x224_64x4_2x1_2cta_v_bz_NNT
+1.3,2057774,15,137184.9,141921.0,105920,178082,23395.8,nvjet_sm103_tst_128x256_64x6_2x2f_2cta_h_bz_TNT
+1.3,1954573,20,97728.6,90512.0,63296,196385,31791.7,nvjet_sm103_tst_128x192_64x7_2x1_2cta_v_bz_TNT
+1.2,1920270,80,24003.4,22800.5,10848,45793,6938.7,nvjet_sm103_tst_64x16_64x16_4x1_2cta_v_bz_NNT
+1.1,1725516,10,172551.6,159553.0,122113,226754,32743.5,nvjet_sm103_tst_256x240_64x4_2x2_2cta_h_bz_TNT
+1.1,1691629,15,112775.3,108865.0,77473,162497,26241.5,nvjet_sm103_tst_256x128_64x5_2x2f_2cta_h_bz_NNT
+1.0,1506186,45,33470.8,32640.0,21312,69568,10174.3,nvjet_sm103_tst_128x16_64x11_1x2_h_bz_NNT
+0.9,1460110,60,24335.2,24160.0,17025,36896,4555.0,nvjet_sm103_tst_64x32_64x16_2x2_2cta_h_bz_TNT
+0.8,1235654,15,82376.9,79104.0,47616,168065,32459.3,nvjet_sm103_tst_128x208_64x7_2x2_2cta_h_bz_TNT
+0.7,1143847,5,228769.4,232801.0,195937,281058,34825.8,nvjet_sm103_tst_256x128_64x5_2x1_2cta_v_bz_NNT
+0.7,1136073,5,227214.6,216194.0,142273,312770,62433.4,nvjet_sm103_tst_160x192_64x6_2x2f_2cta_h_bz_TNN
+0.7,1135401,5,227080.2,238914.0,184641,285570,42603.9,nvjet_sm103_tst_256x256_64x4_2x2f_2cta_h_bz_NNT
+0.7,1087688,15,72512.5,65024.0,47649,124065,24399.6,nvjet_sm103_tst_128x160_64x8_2x1_2cta_v_bz_NNT
+0.7,1060588,30,35352.9,22865.0,19680,157025,34957.3,nvjet_sm103_tst_64x24_64x16_2x2_h_bz_TNT
+0.7,1059368,45,23541.5,22944.0,17184,38881,4513.9,nvjet_sm103_tst_128x32_64x11_2x2_2cta_h_bz_NNT
+0.6,918883,15,61258.9,55584.0,33248,89664,19110.2,nvjet_sm103_tst_128x192_64x7_2x2_2cta_h_bz_TNT
+0.6,899719,5,179943.8,185058.0,59904,254722,73521.9,nvjet_sm103_tst_128x160_64x8_2x1_2cta_v_bz_TNT
+0.5,850791,5,170158.2,155201.0,102593,273506,66501.2,nvjet_sm103_tst_256x128_64x5_2x2f_2cta_h_bz_TNT
+0.5,835909,35,23883.1,21984.0,16672,42688,7054.0,nvjet_sm103_tst_64x24_64x16_4x1_v_bz_NNT
+0.5,786695,5,157339.0,165953.0,127969,190082,25160.6,nvjet_sm103_tst_256x208_64x4_2x1_2cta_v_bz_TNT
+0.5,720614,5,144122.8,150241.0,108545,188546,32040.4,nvjet_sm103_tst_256x120_64x4_1x4f_h_bz_TNT
+0.4,659875,20,32993.8,28720.0,20096,85280,14806.8,nvjet_sm103_tst_64x64_64x16_2x2_2cta_h_bz_TNT
+0.4,591363,5,118272.6,126176.0,90785,147873,23043.2,nvjet_sm103_tst_256x240_64x4_2x1_2cta_v_bz_NNT
+0.4,570242,5,114048.4,118624.0,96352,139937,18314.8,nvjet_sm103_tst_256x224_64x4_2x1_2cta_v_bz_TNT
+0.4,552514,10,55251.4,55632.0,43936,70496,9880.0,nvjet_sm103_tst_256x136_64x4_1x4_h_bz_TNT
+0.3,518821,10,51882.1,50656.0,36160,74753,11663.9,nvjet_sm103_tst_192x208_64x5_2x2_2cta_h_bz_NNT
+0.3,506434,10,50643.4,50080.0,37344,62145,6639.5,nvjet_sm103_tst_256x136_64x4_1x2_h_bz_NNT
+0.3,471264,15,31417.6,29472.0,20928,52480,8635.1,nvjet_sm103_tst_128x64_64x10_2x2_2cta_h_bz_TNT
+0.3,461668,5,92333.6,95585.0,73313,118913,18399.8,nvjet_sm103_tst_192x176_64x6_2x1_2cta_v_bz_NNT
+0.3,461286,20,23064.3,22832.5,20128,27425,1960.5,nvjet_sm103_tst_96x64_64x13_2x2_2cta_h_bz_NNN
+0.3,459938,5,91987.6,90785.0,52576,129025,29120.7,nvjet_sm103_tst_192x224_64x5_2x2_2cta_h_bz_TNT
+0.3,455842,5,91168.4,92833.0,74080,112481,16984.4,nvjet_sm103_tst_256x128_64x5_2x2_2cta_h_bz_TNT
+0.3,445666,5,89133.2,87488.0,64736,116833,22584.3,nvjet_sm103_tst_256x224_64x4_2x2_2cta_h_bz_TNT
+0.3,443651,5,88730.2,89153.0,32832,138145,38804.3,nvjet_sm103_tst_128x112_64x9_2x2_2cta_h_bz_TNT
+0.3,434659,5,86931.8,90945.0,60032,114241,20135.6,nvjet_sm103_tst_128x160_64x8_4x1f_2cta_v_bz_NNT
+0.3,418976,20,20948.8,20224.0,15648,25824,3063.8,nvjet_sm103_tst_128x24_64x11_4x2_h_bz_NNT
+0.3,397955,10,39795.5,31728.0,25312,73057,16959.3,nvjet_sm103_tst_64x72_64x12_4x1_v_bz_TNT
+0.2,353536,10,35353.6,37280.0,26336,43904,6693.3,nvjet_sm103_tst_128x72_64x8_2x1_v_bz_NNT
+0.2,352834,10,35283.4,33072.0,26016,64897,10753.7,nvjet_sm103_tst_128x128_64x8_2x1_2cta_v_bz_NNT
+0.2,334976,10,33497.6,30416.0,24288,53824,10753.1,nvjet_sm103_tst_128x64_64x10_2x1_2cta_v_bz_NNT
+0.2,329411,10,32941.1,35504.0,24416,39937,5871.3,nvjet_sm103_tst_128x48_64x11_2x1_2cta_v_bz_NNT
+0.2,319621,10,31962.1,31568.5,26528,38081,3823.0,nvjet_sm103_tst_128x96_64x9_2x2_2cta_h_bz_TNT
+0.2,306882,10,30688.2,29120.0,17504,44928,11042.3,nvjet_sm103_tst_64x64_64x16_4x1_2cta_v_bz_NNT
+0.2,292421,5,58484.2,59585.0,49921,70817,8376.6,nvjet_sm103_tst_128x160_64x8_2x2_2cta_h_bz_TNT
+0.2,273122,10,27312.2,26912.0,20577,35840,5805.2,nvjet_sm103_tst_128x24_64x11_1x2_h_bz_NNT
+0.2,259843,5,51968.6,60704.0,32096,72225,18319.9,nvjet_sm103_tst_128x96_64x9_2x1_2cta_v_bz_NNT
+0.2,249856,5,49971.2,52384.0,40256,57728,8395.1,nvjet_sm103_tst_128x144_64x8_2x1_2cta_v_bz_NNT
+0.2,248737,5,49747.4,67072.0,15136,83905,32303.9,nvjet_sm103_tst_128x104_64x7_2x1_v_bz_NNT
+0.2,246821,5,49364.2,49729.0,45953,52737,2646.5,nvjet_sm103_tst_128x208_64x7_2x1_2cta_v_bz_NNT
+0.2,241345,5,48269.0,49344.0,36608,58945,10687.8,nvjet_sm103_tst_128x240_64x6_2x2_2cta_h_bz_TNT
+0.2,237891,5,47578.2,47041.0,23232,69953,18278.2,nvjet_sm103_tst_64x96_64x15_2x2_2cta_h_bz_TNT
+0.2,237762,5,47552.4,48992.0,39904,59617,8146.4,nvjet_sm103_tst_192x160_64x6_2x2_2cta_h_bz_TNT
+0.1,228642,5,45728.4,48064.0,33184,64801,13108.0,nvjet_sm103_tst_128x256_64x6_2x2_2cta_h_bz_TNT
+0.1,225538,5,45107.6,47968.0,27520,57856,12748.4,nvjet_sm103_tst_128x104_64x7_1x4_h_bz_TNT
+0.1,224579,5,44915.8,46337.0,37505,56129,7615.8,nvjet_sm103_tst_128x200_64x5_4x1_v_bz_TNT
+0.1,216066,5,43213.2,48961.0,30720,54688,11422.4,nvjet_sm103_tst_128x176_64x7_2x1_2cta_v_bz_NNT
+0.1,215777,5,43155.4,40512.0,35744,55457,7618.6,nvjet_sm103_tst_128x136_64x6_4x1_v_bz_TNT
+0.1,209217,5,41843.4,37792.0,28352,69121,16410.5,nvjet_sm103_tst_128x48_64x11_2x2_2cta_h_bz_TNT
+0.1,169377,5,33875.4,34240.0,26432,40960,5737.1,nvjet_sm103_tst_192x112_64x6_2x2_2cta_h_bz_NNT
+0.1,162209,5,32441.8,33184.0,25793,37600,4288.1,nvjet_sm103_tst_128x72_64x8_1x4_h_bz_TNT
+0.1,122338,5,24467.6,25152.0,21761,27745,2548.4,nvjet_sm103_tst_96x128_64x9_2x2_2cta_h_bz_NNN
+0.1,116384,5,23276.8,25408.0,16896,27648,4889.0,nvjet_sm103_tst_64x56_64x14_4x1_v_bz_NNT
+0.1,107680,5,21536.0,22080.0,19104,23776,1982.3,nvjet_sm103_tst_64x48_64x16_2x1_2cta_v_bz_splitK_TNT
+0.1,107617,5,21523.4,22944.0,16896,27360,4451.1,nvjet_sm103_tst_128x80_64x10_2x2_2cta_h_bz_TNT
+0.1,104129,5,20825.8,21185.0,18432,23104,2147.8,nvjet_sm103_tst_64x16_64x16_2x1_2cta_v_bz_splitK_TNT
+0.1,92992,5,18598.4,18336.0,15552,21824,2449.3,nvjet_sm103_tst_64x48_64x16_4x1_2cta_v_bz_NNT
+0.0,14720,5,2944.0,2944.0,2336,3712,557.5,"void at::cuda::detail::prepare_grouped_gemm_data<cutlass::bfloat16_t, cutlass::bfloat16_t, cutlass::bfloat16_t, float, cute::tuple<int, int, int>, cute::tuple<long, cute::C<(int)1>, cute::C<(int)0>>, cute::tuple<long, cute::C<(int)1>, cute::C<(int)0>>, cute::tuple<long, cute::C<(int)1>, cute::C<(int)0>>>(T1 *, T2 *, T3 *, T4 *, T4 *, T1 **, T2 **, T3 **, T4 **, T4 **, T5 *, T6 *, T7 *, T8 *, const int *, int, int, int, std::array<long, (unsigned long)3>, std::array<long, (unsigned long)3>, std::array<long, (unsigned long)3>, std::array<long, (unsigned long)3>, std::array<long, (unsigned long)3>, long, long, bool, bool)"
+0.0,14368,5,2873.6,2976.0,2240,3456,511.7,"void at::cuda::detail::prepare_grouped_gemm_data<cutlass::bfloat16_t, cutlass::bfloat16_t, cutlass::bfloat16_t, float, cute::tuple<int, int, int>, cute::tuple<long, cute::C<(int)1>, cute::C<(int)0>>, cute::tuple<cute::C<(int)1>, long, cute::C<(int)0>>, cute::tuple<long, cute::C<(int)1>, cute::C<(int)0>>>(T1 *, T2 *, T3 *, T4 *, T4 *, T1 **, T2 **, T3 **, T4 **, T4 **, T5 *, T6 *, T7 *, T8 *, const int *, int, int, int, std::array<long, (unsigned long)3>, std::array<long, (unsigned long)3>, std::array<long, (unsigned long)3>, std::array<long, (unsigned long)3>, std::array<long, (unsigned long)3>, long, long, bool, bool)"
+

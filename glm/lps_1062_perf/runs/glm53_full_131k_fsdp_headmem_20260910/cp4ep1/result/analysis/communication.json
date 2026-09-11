@@ -1,0 +1,79 @@
+{
+  "DATA_PARALLEL_GROUP_WITH_CP / reduce_scatter_tensor_coalesced": {
+    "calls": 79,
+    "input_bytes": 444432384,
+    "output_bytes": 55554048,
+    "kernel_calls": 79,
+    "kernel_ms": 58.83238300000001
+  },
+  "DATA_PARALLEL_GROUP_WITH_CP / allgather_into_tensor_coalesced": {
+    "calls": 159,
+    "input_bytes": 8939888640,
+    "output_bytes": 71519109120,
+    "kernel_calls": 159,
+    "kernel_ms": 666.755062
+  },
+  "EXPERT_DATA_PARALLEL_GROUP / allgather_into_tensor_coalesced": {
+    "calls": 150,
+    "input_bytes": 362387865600,
+    "output_bytes": 2899102924800,
+    "kernel_calls": 150,
+    "kernel_ms": 4152.621883
+  },
+  "CONTEXT_PARALLEL_GROUP / _allgather_base": {
+    "calls": 199,
+    "input_bytes": 6241255424,
+    "output_bytes": 24965021696,
+    "kernel_calls": 199,
+    "kernel_ms": 86.29891500000001
+  },
+  "CONTEXT_PARALLEL_GROUP / _reduce_scatter_base": {
+    "calls": 78,
+    "input_bytes": 11777605632,
+    "output_bytes": 2944401408,
+    "kernel_calls": 78,
+    "kernel_ms": 363.765434
+  },
+  "default_pg / broadcast": {
+    "calls": 6,
+    "input_bytes": 1091066,
+    "output_bytes": 1091066,
+    "kernel_calls": 6,
+    "kernel_ms": 0.045248
+  },
+  "CONTEXT_PARALLEL_GROUP / allreduce": {
+    "calls": 1,
+    "input_bytes": 8,
+    "output_bytes": 8,
+    "kernel_calls": 1,
+    "kernel_ms": 0.008832000000000001
+  },
+  "DATA_PARALLEL_GROUP / allreduce": {
+    "calls": 1,
+    "input_bytes": 16,
+    "output_bytes": 16,
+    "kernel_calls": 1,
+    "kernel_ms": 0.007776
+  },
+  "DATA_PARALLEL_GROUP / all_gather": {
+    "calls": 2,
+    "input_bytes": 1180298,
+    "output_bytes": 2360596,
+    "kernel_calls": 2,
+    "kernel_ms": 0.026848
+  },
+  "INTRA_DISTRIBUTED_OPTIMIZER_INSTANCE_GROUP / allreduce": {
+    "calls": 1,
+    "input_bytes": 4,
+    "output_bytes": 4,
+    "kernel_calls": 1,
+    "kernel_ms": 5.38401
+  },
+  "default_pg / allreduce": {
+    "calls": 1,
+    "input_bytes": 24,
+    "output_bytes": 24,
+    "kernel_calls": 1,
+    "kernel_ms": 0.022113
+  }
+}

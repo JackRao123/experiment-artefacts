@@ -1,0 +1,24 @@
+{
+  "base_model": "/root/glm53-1d2m-262k-20260909/model",
+  "checkpoint_dir": "/root/glm53-131k-fixes-20260909/cp1ep1/checkpoints",
+  "max_seq_len": 131072,
+  "tensor_parallel_size": 1,
+  "pipeline_parallel_size": 1,
+  "expert_parallel_size": 1,
+  "context_parallel_size": 1,
+  "expert_tensor_parallel_size": 1,
+  "trust_remote_code": true,
+  "attention_backend": "flash",
+  "lora_rank": 32,
+  "lora_alpha": 32,
+  "recompute": {
+    "granularity": "full",
+    "method": "uniform",
+    "num_layers": 1
+  },
+  "moe_flex_dispatcher_backend": "hybridep",
+  "expert_weight_storage": "native_fp8",
+  "weight_sync": {
+    "type": "disabled"
+  }
+}

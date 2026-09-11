@@ -33,6 +33,7 @@ datums = [driver.make_datum(random.Random(0xB300), seq)]
 session = f"glm53-{args.case}-0911"
 windows = []
 result = {"case": args.case, "config": config, "sequence_length": seq, "num_gpus": 8,
+          "capture_complete": False, "artifacts": {},
           "physical_gpu_by_rank": {str(i): i for i in range(8)},
           "tokens_per_step": seq, "step_definition": "forward_backward HTTP request; optimizer separate",
           "input_sha256": hashlib.sha256(json.dumps(datums, sort_keys=True).encode()).hexdigest(),
@@ -44,6 +45,8 @@ result["source_revisions"] = {label: subprocess.check_output(["git", "-C", str(s
 result["runtime_options"] = json.loads((folder / "run_options.json").read_text())
 result["gpu_inventory"] = subprocess.check_output(
     ["nvidia-smi", "--query-gpu=index,name,uuid,memory.total,driver_version", "--format=csv"], text=True)
+result["resource_limits"] = {name: (Path("/sys/fs/cgroup") / name).read_text().strip()
+                             for name in ("cpu.max", "memory.max") if (Path("/sys/fs/cgroup") / name).exists()}
 
 
 def save():
@@ -51,6 +54,7 @@ def save():
     if controls:
         result["control"] = {"n": len(controls), "mean_s": statistics.mean(controls),
                              "median_s": statistics.median(controls), "min_s": min(controls), "max_s": max(controls),
+                             "sd_s": statistics.stdev(controls) if len(controls)>1 else None,
                              "tps_per_gpu": seq / 8 / statistics.mean(controls)}
     (folder / "benchmark.json").write_text(json.dumps(result, indent=2))
 
@@ -92,5 +96,11 @@ with httpx.Client(base_url=driver.BASE_URL, timeout=60) as client:
         finally:
             subprocess.run(["nsys", "stop", f"--session={session}"], check=True, timeout=900)
         subprocess.run(["nsys", "export", "--type=sqlite", f"--output={output}.sqlite", f"{output}.nsys-rep"], check=True)
+        for path in (output.with_suffix(".nsys-rep"), output.with_suffix(".sqlite")):
+            with path.open("rb") as stream:
+                digest = hashlib.file_digest(stream, "sha256").hexdigest()
+            result["artifacts"][path.name] = {"sha256": digest, "bytes": path.stat().st_size}
+        save()
     result["final_status"] = client.get("/status").json()
+    result["capture_complete"] = True
     save()

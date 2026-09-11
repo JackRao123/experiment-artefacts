@@ -1,16 +1,26 @@
 # Repeatable Nsight workflow
 
+Current machine: **`ssh tj-q9exk9w`**, using the old copied venv and its built-in
+Nsight2025.3.1 after installing the missing libdw/libelf system libraries.
+The Kubernetes profiler pod has been deleted after checksum-verified migration.
+Use `prepare_devbox.py` and `devbox-*` cases for new runs; `v2-*` is the earlier
+profiler-pod setup. See `devbox_validation/MIGRATION.md`.
+
 Single entry point, no SQL and no AI required for repeat analyses:
 
 ```bash
-python3 workflow.py analyze v2-ep1-te/timing.sqlite --benchmark v2-ep1-te/benchmark.json
-python3 workflow.py analyze v2-ep8-te/timing.sqlite --benchmark v2-ep8-te/benchmark.json
-python3 workflow.py compare v2-ep1-te/timing.analysis.json v2-ep8-te/timing.analysis.json --output comparison.md
+python3 workflow.py collect devbox-ep1-te --host tj-q9exk9w --analyze
+python3 workflow.py collect devbox-ep8-te --host tj-q9exk9w --analyze
+python3 workflow.py compare devbox-ep1-te/timing.analysis.json devbox-ep8-te/timing.analysis.json --output comparison.md
 ```
 
 `analyze` also accepts `.nsys-rep` and exports with `nsys` when SQLite is absent.
 SQLite analysis uses only Python's standard library and works on the Mac.
 Unchanged inputs/analyzer are cached. First ingestion is not instantaneous.
+`collect` checks a finalized capture manifest, resumes transfers with rsync,
+verifies SHA256 and sizes, and optionally runs the analysis. Partial failed
+captures require explicit `--allow-partial`; only finalized files are retrieved.
+For files already local: `python3 workflow.py analyze TRACE.sqlite --benchmark CASE/benchmark.json`.
 
 ## Capture contract
 
@@ -30,7 +40,7 @@ Unchanged inputs/analyzer are cached. First ingestion is not instantaneous.
 Start with each case's `launch.sh`, run its generated health waiter, then on the pod:
 
 ```bash
-python workflow.py capture v2-ep8-te --metrics
+python workflow.py capture devbox-ep8-te --metrics
 ```
 
 Before stopping, close only that case's nsys session, then use its generated stop script.

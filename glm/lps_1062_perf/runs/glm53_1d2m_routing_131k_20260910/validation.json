@@ -1,0 +1,45 @@
+{
+  "input_sha256": "be5fe8ce9a1685e361f17e9bc8299d2210554d4db8c4894addf9290014b401cd",
+  "checks": {
+    "CP8EP1": {
+      "ranks": 8,
+      "moe_layers": [
+        2,
+        3
+      ],
+      "routed_assignments_per_layer": 1048576,
+      "original_forward_only": true,
+      "dispatch_conservation": true,
+      "ignored_recompute_hooks": {
+        "0": 4,
+        "1": 4,
+        "2": 4,
+        "3": 4,
+        "4": 4,
+        "5": 4,
+        "6": 4,
+        "7": 4
+      }
+    },
+    "CP8EP8": {
+      "ranks": 8,
+      "moe_layers": [
+        2,
+        3
+      ],
+      "routed_assignments_per_layer": 1048576,
+      "original_forward_only": true,
+      "dispatch_conservation": true,
+      "ignored_recompute_hooks": {
+        "0": 4,
+        "1": 4,
+        "2": 4,
+        "3": 4,
+        "4": 4,
+        "5": 4,
+        "6": 4,
+        "7": 4
+      }
+    }
+  }
+}

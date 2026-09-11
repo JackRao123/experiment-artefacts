@@ -1,0 +1,44 @@
+{
+  "default_pg / broadcast": {
+    "calls": 6,
+    "input_bytes": 545612,
+    "output_bytes": 545612,
+    "kernel_calls": 6,
+    "kernel_ms": 0.040896
+  },
+  "CONTEXT_PARALLEL_GROUP / _allgather_base": {
+    "calls": 11,
+    "input_bytes": 130088960,
+    "output_bytes": 1040711680,
+    "kernel_calls": 11,
+    "kernel_ms": 21.634773
+  },
+  "CONTEXT_PARALLEL_GROUP / allreduce": {
+    "calls": 1,
+    "input_bytes": 8,
+    "output_bytes": 8,
+    "kernel_calls": 1,
+    "kernel_ms": 4.823215
+  },
+  "DATA_PARALLEL_GROUP_WITH_CP / allreduce_coalesced": {
+    "calls": 1,
+    "input_bytes": 26537984,
+    "output_bytes": 26537984,
+    "kernel_calls": 1,
+    "kernel_ms": 0.292451
+  },
+  "default_pg / allreduce": {
+    "calls": 1,
+    "input_bytes": 24,
+    "output_bytes": 24,
+    "kernel_calls": 1,
+    "kernel_ms": 1.7160170000000001
+  },
+  "CONTEXT_PARALLEL_GROUP / _reduce_scatter_base": {
+    "calls": 3,
+    "input_bytes": 452984832,
+    "output_bytes": 56623104,
+    "kernel_calls": 3,
+    "kernel_ms": 30.055016
+  }
+}

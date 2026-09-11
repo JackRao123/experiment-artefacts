@@ -1,0 +1,23 @@
+{
+  "model": "zai-org/GLM-5.3",
+  "sequence_length_per_datum": 131072,
+  "datums": 2,
+  "gpus": 8,
+  "context_parallel_size": 4,
+  "expert_parallel_size": 1,
+  "tensor_parallel_size": 1,
+  "expert_weight_storage": "bf16",
+  "lora_rank": 32,
+  "lora_alpha": 32,
+  "recompute": "full uniform one layer",
+  "fsdp_parameter_sharding": "optim_grads_params",
+  "persistent_max_pool_buffers": true,
+  "parameter_lookahead": false,
+  "memory_efficient_fp32_lm_head": true,
+  "lm_head_sequence_chunk": 2048,
+  "full_iteration_cuda_graphs": false,
+  "warmups": 3,
+  "unprofiled_controls": 5,
+  "memory_profiles": 1,
+  "runtime_profile_ranks": [0, 1, 2, 3, 4, 5, 6, 7]
+}

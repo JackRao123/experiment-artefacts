@@ -1,0 +1,1 @@
+SELECT category,name,COUNT(*) calls,SUM(dur)/1e6 sum_ms,MAX(dur)/1e6 max_ms FROM slice WHERE dur>0 AND (name GLOB 'python_gc/*' OR name GLOB '*cudaMalloc*' OR name GLOB '*cudaFree*' OR name GLOB '*cuMem*' OR name GLOB '*cudaEventSynchronize*' OR name GLOB '*cudaStreamSynchronize*') GROUP BY category,name ORDER BY sum_ms DESC;

@@ -21,3 +21,12 @@ glm/lps_1062_perf/*.bundle
 # Nsight Systems reports (300+ MB each) stay local; sqlite exports live on the pod.
 *.nsys-rep
 *.sqlite
+
+# Nsight Compute reports stay local, same policy as nsys-rep.
+*.ncu-rep
+
+# Result tarballs (500M+) are handoff artifacts; contents stay local/pod-side.
+*.tar.gz
+
+# Local virtualenvs inside run dirs.
+.venv/

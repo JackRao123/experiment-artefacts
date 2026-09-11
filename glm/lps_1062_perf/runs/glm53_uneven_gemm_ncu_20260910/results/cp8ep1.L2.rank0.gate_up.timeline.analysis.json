@@ -1,0 +1,611 @@
+{
+  "trace": "results/cp8ep1.L2.rank0.gate_up.timeline.sqlite",
+  "kernels": 2485,
+  "attributed_kernels": 2485,
+  "ranges": [
+    {
+      "range": "CP8EP1/L2/rank0/gate_up/te/forward",
+      "kernels": 260,
+      "streams": 4,
+      "cpu_enqueue_ms": 6.600935,
+      "gpu_envelope_ms": 5.143815,
+      "gpu_kernel_busy_ms": 5.121318,
+      "gpu_kernel_idle_ms": 0.022497,
+      "summed_kernel_ms": 10.656943,
+      "hardware": {
+        "SMs Active [Throughput %]": {
+          "mean": 91.84313725490196,
+          "samples": 51
+        },
+        "Tensor Active [Throughput %]": {
+          "mean": 64.27450980392157,
+          "samples": 51
+        }
+      },
+      "cpu_entry_to_first_kernel_ms": 2.672348,
+      "cpu_entry_to_last_kernel_ms": 7.816163,
+      "forward_entry_window_hardware": {
+        "SMs Active [Throughput %]": {
+          "mean": 60.53846153846154,
+          "samples": 78
+        },
+        "Tensor Active [Throughput %]": {
+          "mean": 42.333333333333336,
+          "samples": 78
+        }
+      }
+    },
+    {
+      "range": "CP8EP1/L2/rank0/gate_up/te/backward",
+      "kernels": 233,
+      "streams": 4,
+      "cpu_enqueue_ms": 6.339968,
+      "gpu_envelope_ms": 4.786308,
+      "gpu_kernel_busy_ms": 4.76362,
+      "gpu_kernel_idle_ms": 0.022688,
+      "summed_kernel_ms": 9.296649,
+      "hardware": {
+        "SMs Active [Throughput %]": {
+          "mean": 95.25,
+          "samples": 48
+        },
+        "Tensor Active [Throughput %]": {
+          "mean": 69.79166666666667,
+          "samples": 48
+        }
+      },
+      "cpu_entry_to_first_kernel_ms": 3.086945,
+      "cpu_entry_to_last_kernel_ms": 7.873253,
+      "forward_entry_window_hardware": {}
+    },
+    {
+      "range": "CP8EP1/L2/rank0/gate_up/grouped/forward",
+      "kernels": 2,
+      "streams": 1,
+      "cpu_enqueue_ms": 0.24659,
+      "gpu_envelope_ms": 5.288232,
+      "gpu_kernel_busy_ms": 5.236103,
+      "gpu_kernel_idle_ms": 0.052129,
+      "summed_kernel_ms": 5.236103,
+      "hardware": {
+        "SMs Active [Throughput %]": {
+          "mean": 97.69811320754717,
+          "samples": 53
+        },
+        "Tensor Active [Throughput %]": {
+          "mean": 92.24528301886792,
+          "samples": 53
+        }
+      },
+      "cpu_entry_to_first_kernel_ms": 0.118202,
+      "cpu_entry_to_last_kernel_ms": 5.406434,
+      "forward_entry_window_hardware": {
+        "SMs Active [Throughput %]": {
+          "mean": 96.05555555555556,
+          "samples": 54
+        },
+        "Tensor Active [Throughput %]": {
+          "mean": 90.61111111111111,
+          "samples": 54
+        }
+      }
+    },
+    {
+      "range": "CP8EP1/L2/rank0/gate_up/grouped/backward",
+      "kernels": 2,
+      "streams": 1,
+      "cpu_enqueue_ms": 0.190559,
+      "gpu_envelope_ms": 5.191463,
+      "gpu_kernel_busy_ms": 5.189799,
+      "gpu_kernel_idle_ms": 0.001664,
+      "summed_kernel_ms": 5.189799,
+      "hardware": {
+        "SMs Active [Throughput %]": {
+          "mean": 96.40384615384616,
+          "samples": 52
+        },
+        "Tensor Active [Throughput %]": {
+          "mean": 91.63461538461539,
+          "samples": 52
+        }
+      },
+      "cpu_entry_to_first_kernel_ms": 5.13066,
+      "cpu_entry_to_last_kernel_ms": 10.322123,
+      "forward_entry_window_hardware": {}
+    },
+    {
+      "range": "CP8EP1/L2/rank0/gate_up/grouped/forward",
+      "kernels": 2,
+      "streams": 1,
+      "cpu_enqueue_ms": 0.080812,
+      "gpu_envelope_ms": 5.266888,
+      "gpu_kernel_busy_ms": 5.249096,
+      "gpu_kernel_idle_ms": 0.017792,
+      "summed_kernel_ms": 5.249096,
+      "hardware": {
+        "SMs Active [Throughput %]": {
+          "mean": 97.60377358490567,
+          "samples": 53
+        },
+        "Tensor Active [Throughput %]": {
+          "mean": 92.0377358490566,
+          "samples": 53
+        }
+      },
+      "cpu_entry_to_first_kernel_ms": 0.049362,
+      "cpu_entry_to_last_kernel_ms": 5.31625,
+      "forward_entry_window_hardware": {
+        "SMs Active [Throughput %]": {
+          "mean": 96.5,
+          "samples": 54
+        },
+        "Tensor Active [Throughput %]": {
+          "mean": 90.92592592592592,
+          "samples": 54
+        }
+      }
+    },
+    {
+      "range": "CP8EP1/L2/rank0/gate_up/grouped/backward",
+      "kernels": 2,
+      "streams": 1,
+      "cpu_enqueue_ms": 0.098532,
+      "gpu_envelope_ms": 5.225767,
+      "gpu_kernel_busy_ms": 5.223943,
+      "gpu_kernel_idle_ms": 0.001824,
+      "summed_kernel_ms": 5.223943,
+      "hardware": {
+        "SMs Active [Throughput %]": {
+          "mean": 96.4423076923077,
+          "samples": 52
+        },
+        "Tensor Active [Throughput %]": {
+          "mean": 90.98076923076923,
+          "samples": 52
+        }
+      },
+      "cpu_entry_to_first_kernel_ms": 5.224365,
+      "cpu_entry_to_last_kernel_ms": 10.450132,
+      "forward_entry_window_hardware": {}
+    },
+    {
+      "range": "CP8EP1/L2/rank0/gate_up/te/forward",
+      "kernels": 260,
+      "streams": 4,
+      "cpu_enqueue_ms": 5.109392,
+      "gpu_envelope_ms": 5.104455,
+      "gpu_kernel_busy_ms": 5.101127,
+      "gpu_kernel_idle_ms": 0.003328,
+      "summed_kernel_ms": 10.719278,
+      "hardware": {
+        "SMs Active [Throughput %]": {
+          "mean": 91.29411764705883,
+          "samples": 51
+        },
+        "Tensor Active [Throughput %]": {
+          "mean": 64.2156862745098,
+          "samples": 51
+        }
+      },
+      "cpu_entry_to_first_kernel_ms": 1.647057,
+      "cpu_entry_to_last_kernel_ms": 6.751512,
+      "forward_entry_window_hardware": {
+        "SMs Active [Throughput %]": {
+          "mean": 69.1470588235294,
+          "samples": 68
+        },
+        "Tensor Active [Throughput %]": {
+          "mean": 48.529411764705884,
+          "samples": 68
+        }
+      }
+    },
+    {
+      "range": "CP8EP1/L2/rank0/gate_up/te/backward",
+      "kernels": 233,
+      "streams": 4,
+      "cpu_enqueue_ms": 5.009455,
+      "gpu_envelope_ms": 5.45377,
+      "gpu_kernel_busy_ms": 5.45377,
+      "gpu_kernel_idle_ms": 0.0,
+      "summed_kernel_ms": 10.603307,
+      "hardware": {
+        "SMs Active [Throughput %]": {
+          "mean": 97.03703703703704,
+          "samples": 54
+        },
+        "Tensor Active [Throughput %]": {
+          "mean": 73.72222222222223,
+          "samples": 54
+        }
+      },
+      "cpu_entry_to_first_kernel_ms": 2.063762,
+      "cpu_entry_to_last_kernel_ms": 7.517532,
+      "forward_entry_window_hardware": {}
+    },
+    {
+      "range": "CP8EP1/L2/rank0/gate_up/te/forward",
+      "kernels": 260,
+      "streams": 4,
+      "cpu_enqueue_ms": 4.910565,
+      "gpu_envelope_ms": 7.052629,
+      "gpu_kernel_busy_ms": 7.052629,
+      "gpu_kernel_idle_ms": 0.0,
+      "summed_kernel_ms": 14.715026,
+      "hardware": {
+        "SMs Active [Throughput %]": {
+          "mean": 92.43661971830986,
+          "samples": 71
+        },
+        "Tensor Active [Throughput %]": {
+          "mean": 70.95774647887323,
+          "samples": 71
+        }
+      },
+      "cpu_entry_to_first_kernel_ms": 1.482604,
+      "cpu_entry_to_last_kernel_ms": 8.535233,
+      "forward_entry_window_hardware": {
+        "SMs Active [Throughput %]": {
+          "mean": 76.81395348837209,
+          "samples": 86
+        },
+        "Tensor Active [Throughput %]": {
+          "mean": 59.01162790697674,
+          "samples": 86
+        }
+      }
+    },
+    {
+      "range": "CP8EP1/L2/rank0/gate_up/te/backward",
+      "kernels": 233,
+      "streams": 4,
+      "cpu_enqueue_ms": 4.978567,
+      "gpu_envelope_ms": 6.47336,
+      "gpu_kernel_busy_ms": 6.47336,
+      "gpu_kernel_idle_ms": 0.0,
+      "summed_kernel_ms": 12.368736,
+      "hardware": {
+        "SMs Active [Throughput %]": {
+          "mean": 97.671875,
+          "samples": 64
+        },
+        "Tensor Active [Throughput %]": {
+          "mean": 76.84375,
+          "samples": 64
+        }
+      },
+      "cpu_entry_to_first_kernel_ms": 3.586896,
+      "cpu_entry_to_last_kernel_ms": 10.060256,
+      "forward_entry_window_hardware": {}
+    },
+    {
+      "range": "CP8EP1/L2/rank0/gate_up/grouped/forward",
+      "kernels": 2,
+      "streams": 1,
+      "cpu_enqueue_ms": 0.156297,
+      "gpu_envelope_ms": 6.18411,
+      "gpu_kernel_busy_ms": 6.16283,
+      "gpu_kernel_idle_ms": 0.02128,
+      "summed_kernel_ms": 6.16283,
+      "hardware": {
+        "SMs Active [Throughput %]": {
+          "mean": 98.06451612903226,
+          "samples": 62
+        },
+        "Tensor Active [Throughput %]": {
+          "mean": 96.83870967741936,
+          "samples": 62
+        }
+      },
+      "cpu_entry_to_first_kernel_ms": 0.077773,
+      "cpu_entry_to_last_kernel_ms": 6.261883,
+      "forward_entry_window_hardware": {
+        "SMs Active [Throughput %]": {
+          "mean": 96.88888888888889,
+          "samples": 63
+        },
+        "Tensor Active [Throughput %]": {
+          "mean": 95.57142857142857,
+          "samples": 63
+        }
+      }
+    },
+    {
+      "range": "CP8EP1/L2/rank0/gate_up/grouped/backward",
+      "kernels": 2,
+      "streams": 1,
+      "cpu_enqueue_ms": 0.152148,
+      "gpu_envelope_ms": 6.229455,
+      "gpu_kernel_busy_ms": 6.227119,
+      "gpu_kernel_idle_ms": 0.002336,
+      "summed_kernel_ms": 6.227119,
+      "hardware": {
+        "SMs Active [Throughput %]": {
+          "mean": 97.24193548387096,
+          "samples": 62
+        },
+        "Tensor Active [Throughput %]": {
+          "mean": 95.90322580645162,
+          "samples": 62
+        }
+      },
+      "cpu_entry_to_first_kernel_ms": 6.087746,
+      "cpu_entry_to_last_kernel_ms": 12.317201,
+      "forward_entry_window_hardware": {}
+    },
+    {
+      "range": "CP8EP1/L2/rank0/gate_up/grouped/forward",
+      "kernels": 2,
+      "streams": 1,
+      "cpu_enqueue_ms": 0.076499,
+      "gpu_envelope_ms": 6.168815,
+      "gpu_kernel_busy_ms": 6.152527,
+      "gpu_kernel_idle_ms": 0.016288,
+      "summed_kernel_ms": 6.152527,
+      "hardware": {
+        "SMs Active [Throughput %]": {
+          "mean": 98.12903225806451,
+          "samples": 62
+        },
+        "Tensor Active [Throughput %]": {
+          "mean": 96.88709677419355,
+          "samples": 62
+        }
+      },
+      "cpu_entry_to_first_kernel_ms": 0.046192,
+      "cpu_entry_to_last_kernel_ms": 6.215007,
+      "forward_entry_window_hardware": {
+        "SMs Active [Throughput %]": {
+          "mean": 98.12903225806451,
+          "samples": 62
+        },
+        "Tensor Active [Throughput %]": {
+          "mean": 96.88709677419355,
+          "samples": 62
+        }
+      }
+    },
+    {
+      "range": "CP8EP1/L2/rank0/gate_up/grouped/backward",
+      "kernels": 2,
+      "streams": 1,
+      "cpu_enqueue_ms": 0.129774,
+      "gpu_envelope_ms": 5.968525,
+      "gpu_kernel_busy_ms": 5.966029,
+      "gpu_kernel_idle_ms": 0.002496,
+      "summed_kernel_ms": 5.966029,
+      "hardware": {
+        "SMs Active [Throughput %]": {
+          "mean": 97.11666666666666,
+          "samples": 60
+        },
+        "Tensor Active [Throughput %]": {
+          "mean": 95.15,
+          "samples": 60
+        }
+      },
+      "cpu_entry_to_first_kernel_ms": 6.129864,
+      "cpu_entry_to_last_kernel_ms": 12.098389,
+      "forward_entry_window_hardware": {}
+    },
+    {
+      "range": "CP8EP1/L2/rank0/gate_up/te/forward",
+      "kernels": 260,
+      "streams": 4,
+      "cpu_enqueue_ms": 4.733438,
+      "gpu_envelope_ms": 6.351568,
+      "gpu_kernel_busy_ms": 6.351568,
+      "gpu_kernel_idle_ms": 0.0,
+      "summed_kernel_ms": 13.297762,
+      "hardware": {
+        "SMs Active [Throughput %]": {
+          "mean": 92.47619047619048,
+          "samples": 63
+        },
+        "Tensor Active [Throughput %]": {
+          "mean": 69.73015873015873,
+          "samples": 63
+        }
+      },
+      "cpu_entry_to_first_kernel_ms": 1.459355,
+      "cpu_entry_to_last_kernel_ms": 7.810923,
+      "forward_entry_window_hardware": {
+        "SMs Active [Throughput %]": {
+          "mean": 75.35897435897436,
+          "samples": 78
+        },
+        "Tensor Active [Throughput %]": {
+          "mean": 56.794871794871796,
+          "samples": 78
+        }
+      }
+    },
+    {
+      "range": "CP8EP1/L2/rank0/gate_up/te/backward",
+      "kernels": 233,
+      "streams": 4,
+      "cpu_enqueue_ms": 5.059431,
+      "gpu_envelope_ms": 5.870092,
+      "gpu_kernel_busy_ms": 5.870092,
+      "gpu_kernel_idle_ms": 0.0,
+      "summed_kernel_ms": 11.395985,
+      "hardware": {
+        "SMs Active [Throughput %]": {
+          "mean": 97.27586206896552,
+          "samples": 58
+        },
+        "Tensor Active [Throughput %]": {
+          "mean": 75.20689655172414,
+          "samples": 58
+        }
+      },
+      "cpu_entry_to_first_kernel_ms": 3.043363,
+      "cpu_entry_to_last_kernel_ms": 8.913455,
+      "forward_entry_window_hardware": {}
+    },
+    {
+      "range": "CP8EP1/L2/rank0/gate_up/te/forward",
+      "kernels": 260,
+      "streams": 4,
+      "cpu_enqueue_ms": 4.857389,
+      "gpu_envelope_ms": 6.354544,
+      "gpu_kernel_busy_ms": 6.354544,
+      "gpu_kernel_idle_ms": 0.0,
+      "summed_kernel_ms": 13.289406,
+      "hardware": {
+        "SMs Active [Throughput %]": {
+          "mean": 92.34375,
+          "samples": 64
+        },
+        "Tensor Active [Throughput %]": {
+          "mean": 69.46875,
+          "samples": 64
+        }
+      },
+      "cpu_entry_to_first_kernel_ms": 1.618955,
+      "cpu_entry_to_last_kernel_ms": 7.973499,
+      "forward_entry_window_hardware": {
+        "SMs Active [Throughput %]": {
+          "mean": 74.1,
+          "samples": 80
+        },
+        "Tensor Active [Throughput %]": {
+          "mean": 55.7625,
+          "samples": 80
+        }
+      }
+    },
+    {
+      "range": "CP8EP1/L2/rank0/gate_up/te/backward",
+      "kernels": 233,
+      "streams": 4,
+      "cpu_enqueue_ms": 4.862567,
+      "gpu_envelope_ms": 5.832204,
+      "gpu_kernel_busy_ms": 5.832204,
+      "gpu_kernel_idle_ms": 0.0,
+      "summed_kernel_ms": 11.403672,
+      "hardware": {
+        "SMs Active [Throughput %]": {
+          "mean": 97.27586206896552,
+          "samples": 58
+        },
+        "Tensor Active [Throughput %]": {
+          "mean": 75.27586206896552,
+          "samples": 58
+        }
+      },
+      "cpu_entry_to_first_kernel_ms": 3.074196,
+      "cpu_entry_to_last_kernel_ms": 8.9064,
+      "forward_entry_window_hardware": {}
+    },
+    {
+      "range": "CP8EP1/L2/rank0/gate_up/grouped/forward",
+      "kernels": 2,
+      "streams": 1,
+      "cpu_enqueue_ms": 0.150672,
+      "gpu_envelope_ms": 5.967181,
+      "gpu_kernel_busy_ms": 5.946284,
+      "gpu_kernel_idle_ms": 0.020897,
+      "summed_kernel_ms": 5.946284,
+      "hardware": {
+        "SMs Active [Throughput %]": {
+          "mean": 98.27118644067797,
+          "samples": 59
+        },
+        "Tensor Active [Throughput %]": {
+          "mean": 96.22033898305085,
+          "samples": 59
+        }
+      },
+      "cpu_entry_to_first_kernel_ms": 0.072263,
+      "cpu_entry_to_last_kernel_ms": 6.039444,
+      "forward_entry_window_hardware": {
+        "SMs Active [Throughput %]": {
+          "mean": 97.3,
+          "samples": 60
+        },
+        "Tensor Active [Throughput %]": {
+          "mean": 95.16666666666667,
+          "samples": 60
+        }
+      }
+    },
+    {
+      "range": "CP8EP1/L2/rank0/gate_up/grouped/backward",
+      "kernels": 2,
+      "streams": 1,
+      "cpu_enqueue_ms": 0.142626,
+      "gpu_envelope_ms": 6.094798,
+      "gpu_kernel_busy_ms": 6.092686,
+      "gpu_kernel_idle_ms": 0.002112,
+      "summed_kernel_ms": 6.092686,
+      "hardware": {
+        "SMs Active [Throughput %]": {
+          "mean": 96.95081967213115,
+          "samples": 61
+        },
+        "Tensor Active [Throughput %]": {
+          "mean": 95.54098360655738,
+          "samples": 61
+        }
+      },
+      "cpu_entry_to_first_kernel_ms": 5.872025,
+      "cpu_entry_to_last_kernel_ms": 11.966823,
+      "forward_entry_window_hardware": {}
+    }
+  ],
+  "summary": {
+    "CP8EP1/L2/rank0/gate_up/te/forward": {
+      "kernels": 260,
+      "streams": 4,
+      "cpu_enqueue_ms": 5.2423437999999996,
+      "gpu_envelope_ms": 6.0014022,
+      "gpu_kernel_busy_ms": 5.9962371999999995,
+      "gpu_kernel_idle_ms": 0.0051649999999999995,
+      "summed_kernel_ms": 12.535683,
+      "cpu_entry_to_first_kernel_ms": 1.7760638,
+      "cpu_entry_to_last_kernel_ms": 7.777466,
+      "SMs Active [Throughput %]": 92.13,
+      "Tensor Active [Throughput %]": 68.1
+    },
+    "CP8EP1/L2/rank0/gate_up/te/backward": {
+      "kernels": 233,
+      "streams": 4,
+      "cpu_enqueue_ms": 5.2499976,
+      "gpu_envelope_ms": 5.683146799999999,
+      "gpu_kernel_busy_ms": 5.6786091999999995,
+      "gpu_kernel_idle_ms": 0.0045376,
+      "summed_kernel_ms": 11.0136698,
+      "cpu_entry_to_first_kernel_ms": 2.9710324,
+      "cpu_entry_to_last_kernel_ms": 8.6541792,
+      "SMs Active [Throughput %]": 96.97517730496453,
+      "Tensor Active [Throughput %]": 74.38652482269504
+    },
+    "CP8EP1/L2/rank0/gate_up/grouped/forward": {
+      "kernels": 2,
+      "streams": 1,
+      "cpu_enqueue_ms": 0.142174,
+      "gpu_envelope_ms": 5.7750452,
+      "gpu_kernel_busy_ms": 5.749368,
+      "gpu_kernel_idle_ms": 0.0256772,
+      "summed_kernel_ms": 5.749368,
+      "cpu_entry_to_first_kernel_ms": 0.0727584,
+      "cpu_entry_to_last_kernel_ms": 5.8478036,
+      "SMs Active [Throughput %]": 97.96885813148789,
+      "Tensor Active [Throughput %]": 95.0
+    },
+    "CP8EP1/L2/rank0/gate_up/grouped/backward": {
+      "kernels": 2,
+      "streams": 1,
+      "cpu_enqueue_ms": 0.14272780000000002,
+      "gpu_envelope_ms": 5.7420016,
+      "gpu_kernel_busy_ms": 5.7399151999999996,
+      "gpu_kernel_idle_ms": 0.0020864,
+      "summed_kernel_ms": 5.7399151999999996,
+      "cpu_entry_to_first_kernel_ms": 5.688932,
+      "cpu_entry_to_last_kernel_ms": 11.4309336,
+      "SMs Active [Throughput %]": 96.85714285714286,
+      "Tensor Active [Throughput %]": 94.00348432055749
+    }
+  }
+}

@@ -1,0 +1,294 @@
+{
+  "layer_0/forward/attention": {
+    "kernel_span_ms": 52.2519404296875,
+    "kernel_union_ms": 44.19315625,
+    "within_scope_kernel_gaps_ms": 8.0587841796875,
+    "groups": {
+      "other": {
+        "calls": 689,
+        "sum_ms": 11.059
+      },
+      "gemm": {
+        "calls": 12,
+        "sum_ms": 3.1659550000000003
+      },
+      "nccl": {
+        "calls": 2,
+        "sum_ms": 14.398413999999999
+      },
+      "indexer_score": {
+        "calls": 5,
+        "sum_ms": 9.808097
+      },
+      "permutation_topk": {
+        "calls": 5,
+        "sum_ms": 2.032756
+      },
+      "sparse_attention": {
+        "calls": 1,
+        "sum_ms": 3.728901
+      }
+    }
+  },
+  "layer_0/forward/mlp": {
+    "kernel_span_ms": 5.8334013671875,
+    "kernel_union_ms": 5.7279609375,
+    "within_scope_kernel_gaps_ms": 0.10544042968750045,
+    "groups": {
+      "other": {
+        "calls": 7,
+        "sum_ms": 1.7368500000000002
+      },
+      "gemm": {
+        "calls": 4,
+        "sum_ms": 3.991111
+      }
+    }
+  },
+  "layer_0/recompute/attention": {
+    "kernel_span_ms": 15.5258828125,
+    "kernel_union_ms": 13.97368359375,
+    "within_scope_kernel_gaps_ms": 1.552199218750001,
+    "groups": {
+      "other": {
+        "calls": 192,
+        "sum_ms": 6.405220000000007
+      },
+      "gemm": {
+        "calls": 12,
+        "sum_ms": 3.224285
+      },
+      "nccl": {
+        "calls": 2,
+        "sum_ms": 0.319588
+      },
+      "sparse_attention": {
+        "calls": 1,
+        "sum_ms": 4.024584
+      }
+    }
+  },
+  "layer_0/recompute/mlp": {
+    "kernel_span_ms": 5.96204296875,
+    "kernel_union_ms": 5.8532431640625,
+    "within_scope_kernel_gaps_ms": 0.10879980468750006,
+    "groups": {
+      "other": {
+        "calls": 7,
+        "sum_ms": 1.813491
+      },
+      "gemm": {
+        "calls": 4,
+        "sum_ms": 4.039752000000001
+      }
+    }
+  },
+  "layer_1/forward/attention": {
+    "kernel_span_ms": 14.959251953125,
+    "kernel_union_ms": 14.5703193359375,
+    "within_scope_kernel_gaps_ms": 0.38893261718749983,
+    "groups": {
+      "other": {
+        "calls": 103,
+        "sum_ms": 4.843213000000001
+      },
+      "gemm": {
+        "calls": 10,
+        "sum_ms": 3.0838720000000004
+      },
+      "nccl": {
+        "calls": 1,
+        "sum_ms": 2.899389
+      },
+      "sparse_attention": {
+        "calls": 1,
+        "sum_ms": 3.743845
+      }
+    }
+  },
+  "layer_1/forward/mlp": {
+    "kernel_span_ms": 22.3890537109375,
+    "kernel_union_ms": 19.629216796875,
+    "within_scope_kernel_gaps_ms": 2.7598369140625003,
+    "groups": {
+      "other": {
+        "calls": 40,
+        "sum_ms": 2.471704
+      },
+      "gemm": {
+        "calls": 60,
+        "sum_ms": 10.234086
+      },
+      "permutation_topk": {
+        "calls": 6,
+        "sum_ms": 3.506372
+      },
+      "dispatch_combine": {
+        "calls": 2,
+        "sum_ms": 3.3776979999999996
+      },
+      "weight_dequant_signature": {
+        "calls": 64,
+        "sum_ms": 0.7783099999999998
+      }
+    }
+  },
+  "layer_1/recompute/attention": {
+    "kernel_span_ms": 12.62460546875,
+    "kernel_union_ms": 10.4319814453125,
+    "within_scope_kernel_gaps_ms": 2.1926240234374994,
+    "groups": {
+      "other": {
+        "calls": 103,
+        "sum_ms": 4.849813
+      },
+      "gemm": {
+        "calls": 8,
+        "sum_ms": 1.288171
+      },
+      "nccl": {
+        "calls": 1,
+        "sum_ms": 0.548197
+      },
+      "sparse_attention": {
+        "calls": 1,
+        "sum_ms": 3.745796
+      }
+    }
+  },
+  "layer_1/recompute/mlp": {
+    "kernel_span_ms": 22.385212890625,
+    "kernel_union_ms": 19.9088681640625,
+    "within_scope_kernel_gaps_ms": 2.4763447265624983,
+    "groups": {
+      "other": {
+        "calls": 40,
+        "sum_ms": 2.495258
+      },
+      "gemm": {
+        "calls": 58,
+        "sum_ms": 10.464584999999996
+      },
+      "permutation_topk": {
+        "calls": 6,
+        "sum_ms": 3.505508
+      },
+      "dispatch_combine": {
+        "calls": 2,
+        "sum_ms": 3.3750080000000002
+      },
+      "weight_dequant_signature": {
+        "calls": 64,
+        "sum_ms": 0.780452
+      }
+    }
+  },
+  "layer_2/forward/attention": {
+    "kernel_span_ms": 32.4381767578125,
+    "kernel_union_ms": 30.4381650390625,
+    "within_scope_kernel_gaps_ms": 2.000011718749999,
+    "groups": {
+      "other": {
+        "calls": 245,
+        "sum_ms": 10.119657000000004
+      },
+      "gemm": {
+        "calls": 12,
+        "sum_ms": 3.102237
+      },
+      "nccl": {
+        "calls": 2,
+        "sum_ms": 1.5535839999999999
+      },
+      "indexer_score": {
+        "calls": 5,
+        "sum_ms": 9.809857999999998
+      },
+      "permutation_topk": {
+        "calls": 5,
+        "sum_ms": 1.952947
+      },
+      "sparse_attention": {
+        "calls": 1,
+        "sum_ms": 3.899878
+      }
+    }
+  },
+  "layer_2/forward/mlp": {
+    "kernel_span_ms": 19.3270068359375,
+    "kernel_union_ms": 16.78078125,
+    "within_scope_kernel_gaps_ms": 2.546225585937499,
+    "groups": {
+      "other": {
+        "calls": 40,
+        "sum_ms": 2.5468069999999994
+      },
+      "gemm": {
+        "calls": 69,
+        "sum_ms": 8.289719
+      },
+      "permutation_topk": {
+        "calls": 6,
+        "sum_ms": 2.808765
+      },
+      "dispatch_combine": {
+        "calls": 2,
+        "sum_ms": 3.51722
+      },
+      "weight_dequant_signature": {
+        "calls": 64,
+        "sum_ms": 0.7964549999999999
+      }
+    }
+  },
+  "layer_2/recompute/attention": {
+    "kernel_span_ms": 22.71145703125,
+    "kernel_union_ms": 21.5254345703125,
+    "within_scope_kernel_gaps_ms": 1.186022460937501,
+    "groups": {
+      "other": {
+        "calls": 192,
+        "sum_ms": 6.188451999999996
+      },
+      "gemm": {
+        "calls": 13,
+        "sum_ms": 3.3562250000000002
+      },
+      "nccl": {
+        "calls": 2,
+        "sum_ms": 8.077071
+      },
+      "sparse_attention": {
+        "calls": 1,
+        "sum_ms": 3.903686
+      }
+    }
+  },
+  "layer_2/recompute/mlp": {
+    "kernel_span_ms": 18.6940087890625,
+    "kernel_union_ms": 16.178716796875,
+    "within_scope_kernel_gaps_ms": 2.5152919921874997,
+    "groups": {
+      "other": {
+        "calls": 40,
+        "sum_ms": 2.347672
+      },
+      "gemm": {
+        "calls": 67,
+        "sum_ms": 7.838156000000002
+      },
+      "permutation_topk": {
+        "calls": 6,
+        "sum_ms": 2.853115
+      },
+      "dispatch_combine": {
+        "calls": 2,
+        "sum_ms": 3.5158430000000003
+      },
+      "weight_dequant_signature": {
+        "calls": 64,
+        "sum_ms": 0.805062
+      }
+    }
+  }
+}

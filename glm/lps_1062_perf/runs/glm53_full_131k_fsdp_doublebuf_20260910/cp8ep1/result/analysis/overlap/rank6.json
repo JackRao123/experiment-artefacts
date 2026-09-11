@@ -1,0 +1,254 @@
+{
+  "gpu_span_s": 13.204613071,
+  "gpu_work_union_s": 11.381508407,
+  "no_gpu_activity_s": 1.8231046640000006,
+  "compute_union_s": 9.041216346,
+  "gemm_union_s": 3.336886222,
+  "communication": {
+    "comm": {
+      "input_interval_count": 674,
+      "kernel_sum_s": 5.83261083,
+      "interval_union_s": 5.481261623,
+      "overlap_noncomm_kernels_s": 3.152026955,
+      "no_noncomm_kernel_s": 2.329234668,
+      "overlap_noncomm_kernels_pct": 57.50550095572404,
+      "overlap_noncomm_kernels_or_copies_s": 3.158190902,
+      "no_noncomm_kernel_or_copy_s": 2.323070721,
+      "overlap_gemm_s": 1.353241249
+    },
+    "pg: default_pg / broadcast": {
+      "input_interval_count": 6,
+      "kernel_sum_s": 0.118736616,
+      "interval_union_s": 0.118736616,
+      "overlap_noncomm_kernels_s": 0.0,
+      "no_noncomm_kernel_s": 0.118736616,
+      "overlap_noncomm_kernels_pct": 0.0,
+      "overlap_noncomm_kernels_or_copies_s": 0.0,
+      "no_noncomm_kernel_or_copy_s": 0.118736616,
+      "overlap_gemm_s": 0.0
+    },
+    "pg: DATA_PARALLEL_GROUP_WITH_CP / allgather_into_tensor_coalesced": {
+      "input_interval_count": 159,
+      "kernel_sum_s": 0.389237093,
+      "interval_union_s": 0.389237093,
+      "overlap_noncomm_kernels_s": 0.031796127,
+      "no_noncomm_kernel_s": 0.35744096599999997,
+      "overlap_noncomm_kernels_pct": 8.168832717081257,
+      "overlap_noncomm_kernels_or_copies_s": 0.031812256,
+      "no_noncomm_kernel_or_copy_s": 0.357424837,
+      "overlap_gemm_s": 0.015540318
+    },
+    "fsdp_nonexpert_weight_ag": {
+      "input_interval_count": 159,
+      "kernel_sum_s": 0.389237093,
+      "interval_union_s": 0.389237093,
+      "overlap_noncomm_kernels_s": 0.031796127,
+      "no_noncomm_kernel_s": 0.35744096599999997,
+      "overlap_noncomm_kernels_pct": 8.168832717081257,
+      "overlap_noncomm_kernels_or_copies_s": 0.031812256,
+      "no_noncomm_kernel_or_copy_s": 0.357424837,
+      "overlap_gemm_s": 0.015540318
+    },
+    "fsdp_weight_ag": {
+      "input_interval_count": 309,
+      "kernel_sum_s": 4.828715798,
+      "interval_union_s": 4.786476379,
+      "overlap_noncomm_kernels_s": 3.138895036,
+      "no_noncomm_kernel_s": 1.6475813429999997,
+      "overlap_noncomm_kernels_pct": 65.57840857152176,
+      "overlap_noncomm_kernels_or_copies_s": 3.144954821,
+      "no_noncomm_kernel_or_copy_s": 1.641521558,
+      "overlap_gemm_s": 1.351539732
+    },
+    "pg: CONTEXT_PARALLEL_GROUP / _allgather_base": {
+      "input_interval_count": 199,
+      "kernel_sum_s": 0.356104088,
+      "interval_union_s": 0.356104088,
+      "overlap_noncomm_kernels_s": 0.0,
+      "no_noncomm_kernel_s": 0.356104088,
+      "overlap_noncomm_kernels_pct": 0.0,
+      "overlap_noncomm_kernels_or_copies_s": 0.0,
+      "no_noncomm_kernel_or_copy_s": 0.356104088,
+      "overlap_gemm_s": 0.0
+    },
+    "cp": {
+      "input_interval_count": 278,
+      "kernel_sum_s": 0.814566946,
+      "interval_union_s": 0.814566946,
+      "overlap_noncomm_kernels_s": 0.0,
+      "no_noncomm_kernel_s": 0.814566946,
+      "overlap_noncomm_kernels_pct": 0.0,
+      "overlap_noncomm_kernels_or_copies_s": 0.0,
+      "no_noncomm_kernel_or_copy_s": 0.814566946,
+      "overlap_gemm_s": 0.0
+    },
+    "pg: EXPERT_DATA_PARALLEL_GROUP / allgather_into_tensor_coalesced": {
+      "input_interval_count": 150,
+      "kernel_sum_s": 4.439478705,
+      "interval_union_s": 4.439478705,
+      "overlap_noncomm_kernels_s": 3.129484549,
+      "no_noncomm_kernel_s": 1.3099941560000001,
+      "overlap_noncomm_kernels_pct": 70.49216263782033,
+      "overlap_noncomm_kernels_or_copies_s": 3.135532013,
+      "no_noncomm_kernel_or_copy_s": 1.3039466919999998,
+      "overlap_gemm_s": 1.345499534
+    },
+    "fsdp_expert_weight_ag": {
+      "input_interval_count": 150,
+      "kernel_sum_s": 4.439478705,
+      "interval_union_s": 4.439478705,
+      "overlap_noncomm_kernels_s": 3.129484549,
+      "no_noncomm_kernel_s": 1.3099941560000001,
+      "overlap_noncomm_kernels_pct": 70.49216263782033,
+      "overlap_noncomm_kernels_or_copies_s": 3.135532013,
+      "no_noncomm_kernel_or_copy_s": 1.3039466919999998,
+      "overlap_gemm_s": 1.345499534
+    },
+    "pg: CONTEXT_PARALLEL_GROUP / allreduce": {
+      "input_interval_count": 1,
+      "kernel_sum_s": 0.40809609,
+      "interval_union_s": 0.40809609,
+      "overlap_noncomm_kernels_s": 0.0,
+      "no_noncomm_kernel_s": 0.40809609,
+      "overlap_noncomm_kernels_pct": 0.0,
+      "overlap_noncomm_kernels_or_copies_s": 0.0,
+      "no_noncomm_kernel_or_copy_s": 0.40809609,
+      "overlap_gemm_s": 0.0
+    },
+    "pg: DATA_PARALLEL_GROUP_WITH_CP / reduce_scatter_tensor_coalesced": {
+      "input_interval_count": 79,
+      "kernel_sum_s": 0.015056755,
+      "interval_union_s": 0.015056755,
+      "overlap_noncomm_kernels_s": 0.013131919,
+      "no_noncomm_kernel_s": 0.0019248359999999992,
+      "overlap_noncomm_kernels_pct": 87.21612990315643,
+      "overlap_noncomm_kernels_or_copies_s": 0.013236081,
+      "no_noncomm_kernel_or_copy_s": 0.0018206739999999996,
+      "overlap_gemm_s": 0.001701517
+    },
+    "fsdp_grad_reduce": {
+      "input_interval_count": 79,
+      "kernel_sum_s": 0.015056755,
+      "interval_union_s": 0.015056755,
+      "overlap_noncomm_kernels_s": 0.013131919,
+      "no_noncomm_kernel_s": 0.0019248359999999992,
+      "overlap_noncomm_kernels_pct": 87.21612990315643,
+      "overlap_noncomm_kernels_or_copies_s": 0.013236081,
+      "no_noncomm_kernel_or_copy_s": 0.0018206739999999996,
+      "overlap_gemm_s": 0.001701517
+    },
+    "pg: CONTEXT_PARALLEL_GROUP / _reduce_scatter_base": {
+      "input_interval_count": 78,
+      "kernel_sum_s": 0.050366768,
+      "interval_union_s": 0.050366768,
+      "overlap_noncomm_kernels_s": 0.0,
+      "no_noncomm_kernel_s": 0.050366768,
+      "overlap_noncomm_kernels_pct": 0.0,
+      "overlap_noncomm_kernels_or_copies_s": 0.0,
+      "no_noncomm_kernel_or_copy_s": 0.050366768,
+      "overlap_gemm_s": 0.0
+    },
+    "pg: INTRA_DISTRIBUTED_OPTIMIZER_INSTANCE_GROUP / allreduce": {
+      "input_interval_count": 1,
+      "kernel_sum_s": 0.010219296,
+      "interval_union_s": 0.010219296,
+      "overlap_noncomm_kernels_s": 0.0,
+      "no_noncomm_kernel_s": 0.010219296,
+      "overlap_noncomm_kernels_pct": 0.0,
+      "overlap_noncomm_kernels_or_copies_s": 0.0,
+      "no_noncomm_kernel_or_copy_s": 0.010219296,
+      "overlap_gemm_s": 0.0
+    },
+    "pg: default_pg / allreduce": {
+      "input_interval_count": 1,
+      "kernel_sum_s": 0.045315419,
+      "interval_union_s": 0.045315419,
+      "overlap_noncomm_kernels_s": 0.0,
+      "no_noncomm_kernel_s": 0.045315419,
+      "overlap_noncomm_kernels_pct": 0.0,
+      "overlap_noncomm_kernels_or_copies_s": 0.0,
+      "no_noncomm_kernel_or_copy_s": 0.045315419,
+      "overlap_gemm_s": 0.0
+    }
+  },
+  "first_weight_gather": {
+    "start_ns": 6061443650042398,
+    "end_ns": 6061443690537999,
+    "metrics": {
+      "input_interval_count": 1,
+      "kernel_sum_s": 0.040495601,
+      "interval_union_s": 0.040495601,
+      "overlap_noncomm_kernels_s": 0.0,
+      "no_noncomm_kernel_s": 0.040495601,
+      "overlap_noncomm_kernels_pct": 0.0,
+      "overlap_noncomm_kernels_or_copies_s": 0.0,
+      "no_noncomm_kernel_or_copy_s": 0.040495601,
+      "overlap_gemm_s": 0.0
+    }
+  },
+  "after_first_weight_gather": {
+    "input_interval_count": 296,
+    "kernel_sum_s": 4.745980778,
+    "interval_union_s": 4.745980778,
+    "overlap_noncomm_kernels_s": 3.138895036,
+    "no_noncomm_kernel_s": 1.6070857419999998,
+    "overlap_noncomm_kernels_pct": 66.13796352800989,
+    "overlap_noncomm_kernels_or_copies_s": 3.144954821,
+    "no_noncomm_kernel_or_copy_s": 1.601025957,
+    "overlap_gemm_s": 1.351539732
+  },
+  "phase_windows": {
+    "forward": {
+      "span_s": 4.11866177,
+      "fsdp_weight_ag": {
+        "input_interval_count": 144,
+        "kernel_sum_s": 2.536238595,
+        "interval_union_s": 2.536238595,
+        "overlap_noncomm_kernels_s": 1.844959711,
+        "no_noncomm_kernel_s": 0.6912788839999999,
+        "overlap_noncomm_kernels_pct": 72.74393326547418,
+        "overlap_noncomm_kernels_or_copies_s": 1.849664053,
+        "no_noncomm_kernel_or_copy_s": 0.686574542,
+        "overlap_gemm_s": 0.36956872
+      },
+      "fsdp_expert_weight_ag": {
+        "input_interval_count": 75,
+        "kernel_sum_s": 2.287404532,
+        "interval_union_s": 2.287404532,
+        "overlap_noncomm_kernels_s": 1.839378527,
+        "no_noncomm_kernel_s": 0.448026005,
+        "overlap_noncomm_kernels_pct": 80.41334627381075,
+        "overlap_noncomm_kernels_or_copies_s": 1.844082869,
+        "no_noncomm_kernel_or_copy_s": 0.4433216630000001,
+        "overlap_gemm_s": 0.366819647
+      }
+    },
+    "backward_blocks_including_recompute": {
+      "span_s": 7.491018524,
+      "fsdp_weight_ag": {
+        "input_interval_count": 151,
+        "kernel_sum_s": 2.172453499,
+        "interval_union_s": 2.172453499,
+        "overlap_noncomm_kernels_s": 1.293819517,
+        "no_noncomm_kernel_s": 0.878633982,
+        "overlap_noncomm_kernels_pct": 59.555682899337405,
+        "overlap_noncomm_kernels_or_copies_s": 1.295171472,
+        "no_noncomm_kernel_or_copy_s": 0.8772820269999999,
+        "overlap_gemm_s": 0.981971012
+      },
+      "fsdp_expert_weight_ag": {
+        "input_interval_count": 74,
+        "kernel_sum_s": 2.119397306,
+        "interval_union_s": 2.119397306,
+        "overlap_noncomm_kernels_s": 1.290106022,
+        "no_noncomm_kernel_s": 0.8292912840000002,
+        "overlap_noncomm_kernels_pct": 60.87136273825196,
+        "overlap_noncomm_kernels_or_copies_s": 1.291449144,
+        "no_noncomm_kernel_or_copy_s": 0.8279481620000002,
+        "overlap_gemm_s": 0.978679887
+      }
+    }
+  },
+  "trace_file": "/Users/jackrao/Documents/trainers/experiment_artefacts/glm/lps_1062_perf/runs/glm53_full_131k_fsdp_doublebuf_20260910/cp8ep1/result/runtime/rank6.1789029248824756738.pt.trace.json",
+  "trace_sha256": "542527e745cd731a7c9bb82bda6f9abace9ab96ce61911a4a6c84a8ad0fba874"
+}

@@ -1,0 +1,24 @@
+{
+  "base_model": "/root/.cache/team_artifacts/huggingface/hub/models--zai-org--GLM-5.3/snapshots/187fb9fff6319062325ff825627ef6db084d9bc6",
+  "checkpoint_dir": "/root/glm53-full-131k-fsdp-noprefetch-20260910/cp4ep1/checkpoints",
+  "max_seq_len": 131072,
+  "tensor_parallel_size": 1,
+  "pipeline_parallel_size": 1,
+  "expert_parallel_size": 1,
+  "context_parallel_size": 4,
+  "expert_tensor_parallel_size": 1,
+  "trust_remote_code": true,
+  "attention_backend": "flash",
+  "lora_rank": 32,
+  "lora_alpha": 32,
+  "recompute": {
+    "granularity": "full",
+    "method": "uniform",
+    "num_layers": 1
+  },
+  "moe_flex_dispatcher_backend": "hybridep",
+  "expert_weight_storage": "bf16",
+  "weight_sync": {
+    "type": "disabled"
+  }
+}

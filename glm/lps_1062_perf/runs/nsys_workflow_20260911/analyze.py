@@ -376,7 +376,7 @@ def analyze(path, benchmark=None):
                     blocking_comm.append((split, blocked_until))
                 issued_or_unknown.append((blocked_until, y))
             alloc = [(r["start"], r["end"]) for r in runtimes
-                     if re.search(r"(Malloc|Free|MemMap|MemUnmap)", strings.get(r["nameId"], ""))]
+                     if re.search(r"(Malloc|Free|MemMap|MemUnmap|MemCreate|MemRelease|MemPoolTrimTo)", strings.get(r["nameId"], ""))]
             alloc_idle = duration(idle) - duration(subtract(idle, alloc))
             row = {"step": index, "start_ns": a, "end_ns": b, "step_ms": (b-a)/NS,
                    "device_busy_ms": duration(busy), "device_idle_ms": duration(idle),
@@ -409,7 +409,7 @@ def analyze(path, benchmark=None):
         if "GPU_METRICS" in tables and physical_device is not None:
             # NVIDIA nsys_recipe/recipes/nvlink_sum uses typeId & 0xFF for physical GPU id.
             # Require the capture's explicit CUDA-visible-to-physical mapping.
-            roi = [(a,b) for a,b,_ in steps]
+            roi = merge([(a,b) for a,b,_ in steps])
             by_category = collections.defaultdict(list)
             for o in operations:
                 by_category[o["category"]].extend(clipped(roi, o["a"], o["b"]))
@@ -417,20 +417,28 @@ def analyze(path, benchmark=None):
                 "SELECT typeId,metricId,metricName FROM TARGET_INFO_GPU_METRICS WHERE (typeId & 255)=?",
                 (physical_device,)))
             wanted = ("SMs Active", "SM Issue", "Tensor Active", "DRAM Read", "DRAM Write", "NVLink", "GPC Clock")
+            metric_rows = [r for r in metric_rows if r[2].startswith(wanted)]
+            wanted_keys = {(r[0],r[1]) for r in metric_rows}
+            samples_by_metric = collections.defaultdict(list)
+            # One scan per GPU, not a full SQLite scan per individual metric.
+            for timestamp,type_id,metric_id,value in db.execute(
+                "SELECT timestamp,typeId,metricId,value FROM GPU_METRICS WHERE (typeId & 255)=? AND timestamp>=? AND timestamp<=?",
+                (physical_device,lo,hi)):
+                if (type_id,metric_id) in wanted_keys:
+                    samples_by_metric[(type_id,metric_id)].append((timestamp,value))
+            by_category = {cat: merge(spans) for cat,spans in by_category.items()}
+            exclusive_spans = {cat: subtract(spans,[v for c,vv in by_category.items() if c!=cat for v in vv])
+                               for cat,spans in by_category.items()}
             for type_id, metric_id, name in metric_rows:
-                if not name.startswith(wanted):
-                    continue
-                samples = list(db.execute("SELECT timestamp,value FROM GPU_METRICS WHERE typeId=? AND metricId=? AND timestamp>=? AND timestamp<=? ORDER BY timestamp",
-                                          (type_id, metric_id, lo, hi)))
+                samples = sorted(samples_by_metric[(type_id,metric_id)])
                 timestamps = [s[0] for s in samples]
                 def sample_values(spans):
-                    return [samples[i][1] for x,y in merge(spans)
+                    return [samples[i][1] for x,y in spans
                             for i in range(bisect.bisect_left(timestamps,x), bisect.bisect_left(timestamps,y))]
                 per_category = {}
                 for cat, spans in by_category.items():
                     values = sample_values(spans)
-                    other = [v for c, vv in by_category.items() if c != cat for v in vv]
-                    exclusive = sample_values(subtract(spans,other))
+                    exclusive = sample_values(exclusive_spans[cat])
                     per_category[cat] = {"all_samples": stats(values), "exclusive_samples": stats(exclusive),
                                          "exclusive_fraction": len(exclusive)/len(values) if values else None}
                 hardware[name] = {"whole_step": stats(sample_values(roi)), "categories": per_category}

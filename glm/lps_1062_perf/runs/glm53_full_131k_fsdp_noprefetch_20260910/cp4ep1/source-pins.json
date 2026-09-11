@@ -1,0 +1,65 @@
+{
+  "repos": {
+    "trainers": {
+      "head": "c9a723bf431621ca05580726f4acd01ec618326a",
+      "status": "M server-megatron-bridge/src/trainers_server_megatron_bridge/backend.py\n M server-megatron-bridge/vendor/megatron-bridge\n?? server-megatron-bridge/.venv"
+    },
+    "bridge": {
+      "head": "2076a9e81ae36e7890d017f4af8d7c707c2d633b",
+      "status": "M 3rdparty/Megatron-LM"
+    },
+    "core": {
+      "head": "3b893e39ead7113d897e86105505f6fd3e49a9f1",
+      "status": "M megatron/core/distributed/fsdp/src/megatron_fsdp/megatron_fsdp.py\n M megatron/core/distributed/fsdp/src/megatron_fsdp/param_and_grad_buffer.py\n M megatron/core/transformer/moe/token_dispatcher.py\n M megatron/core/utils.py"
+    }
+  },
+  "versions": {
+    "torch": "2.11.0+cu130",
+    "transformer_engine": "2.16.0",
+    "triton": "3.6.0"
+  },
+  "files": {
+    "/root/glm53-131k-fixes-20260909/trainers/server-megatron-bridge/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/distributed/fsdp/src/megatron_fsdp/megatron_fsdp.py": {
+      "sha256": "8efc5b873b0044460afef36b030243cde14f66ba003ff4ceb8905125ab53f8bb",
+      "git_blob": "5194a2bf0483d1db2867216d2e35a1602998d45a"
+    },
+    "/root/glm53-full-131k-fsdp-noprefetch-20260910/instrumentation/load_acceleration.py": {
+      "sha256": "0e5d536acf7bfdc9734c3d21cecb6334919c1077afe0979257934db3519a060c",
+      "git_blob": "4365d477636243defa2423f5c14892907bb70daf"
+    },
+    "/root/glm53-131k-fixes-20260909/trainers/server-megatron-bridge/src/trainers_server_megatron_bridge/backend.py": {
+      "sha256": "d5e9c43e782f8b9c4c6eb9a3da80b6e7736b20365954b6a939d1cd80a2210658",
+      "git_blob": "c91411ec76b92b5404aba911cb7754b0daf84741"
+    },
+    "/root/glm53-131k-fixes-20260909/trainers/server-megatron-bridge/src/trainers_server_megatron_bridge/megatron_config.py": {
+      "sha256": "d7cd2d795342d17f6edfbf9238d60859952b3600dcc807a32bf4934c675edd44",
+      "git_blob": "fa95519b2f7099f2301de22141c94dc27bc5501f"
+    },
+    "/root/glm53-131k-fixes-20260909/trainers/server-megatron-bridge/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/utils.py": {
+      "sha256": "93c5e55b092b1cf4d91e58bddc64e8796fbbe4d380d12a3e9c688dc6ae047d64",
+      "git_blob": "82488c458f1438f4ab31cdb8f75cbe87d696ab16"
+    },
+    "/root/glm53-131k-fixes-20260909/trainers/server-megatron-bridge/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/transformer/moe/token_dispatcher.py": {
+      "sha256": "8028d1d8fbdc86ff757a8132dbe0ff21ab01d09c11e7dac571389f02fc063cb5",
+      "git_blob": "22a92e9a0d3f5e756788b200b190788eea19bfa7"
+    },
+    "/root/glm53-131k-fixes-20260909/trainers/server-megatron-bridge/vendor/megatron-bridge/3rdparty/Megatron-LM/megatron/core/distributed/fsdp/src/megatron_fsdp/param_and_grad_buffer.py": {
+      "sha256": "350ce4e01c46fef2ab6026d1c7560ef2a6d2f176f86084b91cda3ab095305206",
+      "git_blob": "00c4d68a557bce2358599b01d7eda85400686577"
+    },
+    "/root/glm53-full-131k-fsdp-noprefetch-20260910/instrumentation/fsdp_experiment.py": {
+      "sha256": "ca4b9caba53a90078d71236a696c8a1abb13413994b29780a4c0b387b5158245",
+      "git_blob": "94a8a68c58054e705bcbd654933ecb27aad56fbd"
+    },
+    "/root/glm53-full-131k-fsdp-noprefetch-20260910/instrumentation/layer_timing.py": {
+      "sha256": "e7a2f257ede7c478202f1f05078bf2f3be57d9d4638044533c1c3eee4a4ab708",
+      "git_blob": "8eba26fe1398c37685eb2cafeab7b74e96637734"
+    },
+    "/root/glm53-full-131k-fsdp-noprefetch-20260910/lifecycle/run_trainer_node.sh": {
+      "sha256": "2982d98987683edd48c2d19da1818afa183d9178c27e28fdc30172742efa1f71",
+      "git_blob": "59716c17849c84d069f2fde797d9982859ba6d33"
+    }
+  },
+  "core_equivalent_commit": "e6c86ea3b75674dfff3769c7c92141629864dc0c",
+  "kernel_mode": "standard TE; grouped-MM prototype not enabled"
+}
