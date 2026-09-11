@@ -11,6 +11,8 @@ parser.add_argument("--output", type=Path, required=True)
 parser.add_argument("--source-change-note", help="Explicit audited explanation when comparing different source revisions")
 args = parser.parse_args()
 left, right = (json.loads(p.read_text()) for p in (args.left, args.right))
+if left.get("analysis_version") != right.get("analysis_version"):
+    raise ValueError("Analyzer schemas differ; re-analyze both inputs with the current script")
 bl, br = left["benchmark"], right["benchmark"]
 if not bl or not br:
     raise ValueError("Both analyses require --benchmark metadata")
@@ -60,6 +62,16 @@ for rank in sorted(left["ranks"], key=int):
     lines.append(f"| {rank} | " + " | ".join(f"{v:.2f}" for v in values) + " |")
     rows.append({"rank": rank, "step_delta_ms": delta, "exclusive_category_deltas_ms": deltas,
                  "mixed_overlap_delta_ms": mixed, "idle_delta_ms": idle, "residual_ms": residual})
+lines += ["", "## Expert execution and attention (overlap included)", "",
+          "Do not infer equal GEMM execution time from equal exclusive time: FSDP can overlap a slower GEMM.", "",
+          "| Rank | Left expert GPU ms | Right expert GPU ms | Left attention GPU ms | Right attention GPU ms | Left idle in expert host scopes | Right idle in expert host scopes |",
+          "|---|---:|---:|---:|---:|---:|---:|"]
+for rank in sorted(left["ranks"], key=int):
+    l,r = left["ranks"][rank],right["ranks"][rank]
+    vals = [category(c,k,"union_ms") for k in ("expert_gemm_path","attention") for c in (l,r)]
+    vals += [statistics.mean(s["gpu_idle_during_expert_host_scope_ms"] for s in c["steps"])
+             if all("gpu_idle_during_expert_host_scope_ms" in s for s in c["steps"]) else None for c in (l,r)]
+    lines.append(f"| {rank} | " + " | ".join(f"{v:.2f}" if v is not None else "unknown" for v in vals) + " |")
 lines += ["", "## Interpretation limits", "",
           "- This reconciliation is an observed wall-time partition, not a causal estimate of removable time.",
           "- Expert GEMM path includes kernel-side helpers; CPU preparation is reflected in scopes and idle, not counted as GEMM GPU work.",

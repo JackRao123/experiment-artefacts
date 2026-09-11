@@ -17,7 +17,7 @@ import statistics
 import subprocess
 from pathlib import Path
 
-VERSION = 1
+VERSION = 2
 NS = 1e6
 
 
@@ -200,6 +200,47 @@ def dependencies(db, tables, pid, contexts, operations):
                       "resolved_operation_predecessors": sum(v is not None for v in resolved.values())}
 
 
+def prefetch_readiness(ops):
+    """Strict one-gather-per-MoE, full-recompute scheduling diagnostic.
+
+    This reports arrival versus preceding-block completion, NOT network cost
+    or a causal zero-communication speedup. Unsupported patterns fail closed.
+    """
+    layer_ids = sorted({int(o["layer"]) for o in ops if o["layer"] is not None
+                        and str(o["layer"]).isdigit() and o["phase"] == "forward"
+                        and o["category"] == "expert_gemm_path"})
+    gathers = sorted((o for o in ops if o["category"] == "fsdp_gather:expert"), key=lambda o:o["a"])
+    if not gathers:
+        return {"status": "no attributed expert-weight gathers; check group annotation coverage", "gathers": 0}
+    if not layer_ids or len(gathers) != 2*len(layer_ids):
+        return {"status": "unsupported/incomplete gather pattern", "gathers": len(gathers), "expert_layers": len(layer_ids)}
+    compute = collections.defaultdict(list)
+    for o in ops:
+        if o["layer"] is not None and not is_comm(o["category"]) and o["category"] != "memory_copy":
+            compute[(str(o["layer"]), o["phase"])].append((o["a"], o["b"]))
+    rows = []
+    n = len(layer_ids)
+    for i, gather in enumerate(gathers):
+        forward = i < n
+        target = layer_ids[i] if forward else list(reversed(layer_ids))[i-n]
+        phase = "forward" if forward else "recompute"
+        consumer = compute.get((str(target), phase))
+        if not consumer or gather["b"] > min(a for a,b in consumer) + 1000:
+            return {"status": "gather-to-layer order not verified; no readiness claim", "gathers": len(gathers)}
+        previous = target-1 if forward else target+1
+        predecessor = compute.get((str(previous), "forward" if forward else "backward"))
+        previous_end = max(b for a,b in predecessor) if predecessor else None
+        rows.append({"phase": "forward" if forward else "backward", "layer": target,
+                     "gather_ms": (gather["b"]-gather["a"])/NS,
+                     "lead_before_layer_gpu_start_ms": (min(a for a,b in consumer)-gather["b"])/NS,
+                     "lead_before_previous_block_end_ms": (previous_end-gather["b"])/NS if previous_end is not None else None})
+    comparable = [r for r in rows if r["lead_before_previous_block_end_ms"] is not None]
+    return {"status": "source-scoped sequential full-recompute pattern verified", "gathers": len(gathers),
+            "comparable_predecessors": len(comparable),
+            "ready_before_previous_block_ends": sum(r["lead_before_previous_block_end_ms"] >= 0 for r in comparable),
+            "rows": rows}
+
+
 def analyze(path, benchmark=None):
     db = sqlite3.connect(f"file:{path.resolve()}?mode=ro", uri=True)
     db.row_factory = sqlite3.Row
@@ -295,6 +336,8 @@ def analyze(path, benchmark=None):
                                    "stream": r["streamId"], "device": r["deviceId"], "context": r["contextId"]})
         operations.sort(key=lambda x: x["a"])
         resolved, dependency_quality = dependencies(db, tables, pid, contexts, operations)
+        expert_host_ranges = [(a,b) for tid,ranges in nvtx.items() if process_id(tid)==pid
+                              for a,b,name in ranges if name.startswith("expert_shape:") or name=="expert_gemm_backward"]
         for i,o in enumerate(operations):
             o["producer"] = resolved.get(i)
         summaries, layers = [], []
@@ -344,7 +387,11 @@ def analyze(path, benchmark=None):
                    "communication_dispatcher_exposed_upper_bound_ms": duration(subtract(comm, noncomm)),
                    "resolved_event_blocking_communication_ms": duration(blocking_comm) if "waits" in dependency_quality else None,
                    "allocation_api_coincident_idle_ms": alloc_idle, "categories": budgets}
+            # Association with a host scope is not a claim that every cycle is
+            # CPU computation; it can include blocking CUDA API calls.
+            row["gpu_idle_during_expert_host_scope_ms"] = duration(idle)-duration(subtract(idle, expert_host_ranges))
             row["mixed_category_overlap_ms"] = row["device_busy_ms"] - sum(v["exclusive_ms"] for v in budgets.values())
+            row["expert_prefetch_readiness"] = prefetch_readiness(ops)
             assert row["mixed_category_overlap_ms"] >= -1e-5
             assert abs(row["step_ms"]-row["device_busy_ms"]-row["device_idle_ms"]) < 1e-5
             assert abs(row["compute_absent_ms"]-row["next_compute_not_yet_issued_ms"]-row["issued_or_unresolved_ms"]-(row["resolved_event_blocking_communication_ms"] or 0)) < 1e-5
@@ -388,13 +435,16 @@ def analyze(path, benchmark=None):
                                          "exclusive_fraction": len(exclusive)/len(values) if values else None}
                 hardware[name] = {"whole_step": stats(sample_values(roi)), "categories": per_category}
         ranked = sorted(mean_categories.items(), key=lambda kv: kv[1]["exclusive_ms"]["mean"], reverse=True)[:5]
+        candidates = [{"category": c, "exclusive_ms": v["exclusive_ms"]["mean"], "union_ms": v["union_ms"]["mean"],
+                       "claim": "observed cost, not recoverable time or proven bottleneck"} for c,v in ranked]
+        idle_mean = statistics.mean(s["device_idle_ms"] for s in summaries)
+        candidates.append({"category": "gpu_idle", "exclusive_ms": idle_mean, "union_ms": idle_mean,
+                           "claim": "no recorded GPU activity; inspect submission/sync/allocator evidence before assigning a cause"})
         result["ranks"][str(rank)] = {"global_pid": pid, "devices": sorted({o["device"] for o in operations}),
             "graph_launch_api_calls": sum("GraphLaunch" in strings.get(r["nameId"], "") for r in runtimes),
             "kernel_count": kernel_count, "runtime_correlation_fraction": linked/kernel_count if kernel_count else None,
             "step_ms": stats([s["step_ms"] for s in summaries]), "steps": summaries, "layers": layers,
-            "categories": mean_categories, "top_five_observed_costs": [
-                {"category": c, "exclusive_ms": v["exclusive_ms"]["mean"], "union_ms": v["union_ms"]["mean"],
-                 "claim": "observed cost, not recoverable time or proven bottleneck"} for c, v in ranked],
+            "categories": mean_categories, "top_five_observed_costs": sorted(candidates, key=lambda c:c["exclusive_ms"], reverse=True)[:5],
             "hardware_metrics": hardware,
             "dependency_quality": dependency_quality,
             "expert_scope_instances": [{"name": name, "cpu_start_ns": a, "cpu_end_ns": b,
@@ -406,9 +456,14 @@ def analyze(path, benchmark=None):
             "kernel_inventory": [{"category": c, "name": n, **v} for (c, n), v in
                                  sorted(material.items(), key=lambda kv: kv[1]["summed_ms"], reverse=True)]}
     if benchmark and benchmark.get("control"):
+        result["quality"]["control_warnings"] = []
+        if benchmark["control"]["n"] < 3:
+            result["quality"]["control_warnings"].append("Fewer than three controls; steady-state variability is not established.")
         phases = [w["fb_elapsed_s"] for w in benchmark["windows"] if w["phase"] == path.stem]
         if phases:
             result["quality"]["same_run_capture_slowdown_pct"] = 100*(statistics.median(phases)/benchmark["control"]["median_s"]-1)
+            if not benchmark["control"]["min_s"] <= statistics.median(phases) <= benchmark["control"]["max_s"]:
+                result["quality"]["control_warnings"].append("Profile median is outside the observed control range: instrumentation, remaining warmup, or workload drift may affect attribution.")
     result["quality"]["rank_coverage"] = {"captured": len(result["ranks"]), "world_size": (benchmark or {}).get("num_gpus")}
     result["quality"]["graph_launch_api_calls"] = sum(r["graph_launch_api_calls"] for r in result["ranks"].values())
     db.close()
@@ -436,11 +491,22 @@ def markdown(result):
         values = [statistics.mean(s[k] for s in r["steps"]) if all(s[k] is not None for s in r["steps"]) else None for k in fields]
         lines.append(f"| {rank} | {len(r['steps'])} | " + " | ".join(f"{x:.2f}" if x is not None else "unknown" for x in values) + " |")
     lines += ["", "### Capture diagnostics", ""]
+    for warning in q.get("control_warnings", []):
+        lines.append("- " + warning)
     for d in q["diagnostic_summary"]:
         who = "captured trainer ranks" if d["on_captured_rank"] else "other/helper processes"
         lines.append(f"- {d['count']}× on {who}: {d['text']}")
     if any(d["on_captured_rank"] for d in q["diagnostic_summary"]):
         lines += ["", "Capture completeness is qualified by these warnings. Complete step anchors and runtime links do not prove zero event loss."]
+    lines += ["", "## Expert-weight prefetch arrivals", "",
+              "Arrival relative to preceding-block compute completion; not a zero-communication speedup estimate.", "",
+              "| Rank | Step | Attributed gathers | Ready by preceding block end | Status |",
+              "|---|---:|---:|---|---|"]
+    for rank, r in result["ranks"].items():
+        for step in r["steps"]:
+            p = step["expert_prefetch_readiness"]
+            ready = f"{p['ready_before_previous_block_ends']}/{p['comparable_predecessors']}" if "comparable_predecessors" in p else "unknown"
+            lines.append(f"| {rank} | {step['step']} | {p['gathers']} | {ready} | {p['status']} |")
     lines += ["", "## Ranked observed costs", "", "Exclusive time means no OTHER classified device category overlapped. It is not a causal gain estimate."]
     for rank, r in result["ranks"].items():
         lines += ["", f"### Rank {rank}", "", f"Runtime correlation: {r['runtime_correlation_fraction']:.2%}.", "",
