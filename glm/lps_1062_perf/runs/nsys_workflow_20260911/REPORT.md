@@ -50,5 +50,5 @@ No tests were added or modified. Original tools remain unchanged by this workflo
 
 The new devbox uses the old venv and built-in nsys2025.3.1. The old profiler pod
 was deleted after migration. The shared full checkpoint disappeared before EP8
-startup; its exact HF revision is being restored to node-local disk. Resume EP8,
+startup; its exact HF revision has been restored to node-local disk. Resume EP8,
 then both grouped-MM variants, before claiming a final bottleneck comparison.

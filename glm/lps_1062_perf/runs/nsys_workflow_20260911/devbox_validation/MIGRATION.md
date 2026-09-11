@@ -36,3 +36,20 @@ report over10 passes. BF16 matmul result finite.
 The temporary personal public-key authorization used for direct migration was
 disabled afterwards; normal `ssh tj-q9exk9w` certificate access remains intact.
 Old profiler pod deletion was requested only after data and profiler validation.
+
+## Later external-path breakages and repairs
+
+The shared full GLM checkpoint disappeared after EP1 completed. Restored exact
+HF snapshot187fb9fff6319062325ff825627ef6db084d9bc6 using HF/Xet to
+`/root/glm53-checkpoints-local/hub` (154 files, 755663688736 bytes). Ready manifest
+and every file size validated before starting EP8. No substitute weights.
+
+The copied venv's 98 console-script shebangs still referenced the original
+`/root/.cache/user_artifacts/devboxes/32vj99q/trainers/server-megatron-bridge/.venv`.
+Once that shared path vanished, `torchrun` could not execute. The venv itself
+and its Python interpreter were intact. `relocate_venv_launchers.py` normalizes
+only those shebangs to `/root/.devbox-venvs/server/bin/`; package versions and
+trainer implementation are unchanged. Originals are backed up under
+`devbox_validation/old-launcher-shebangs` on the devbox. `torchrun --help` passed.
+Migration validation must check console-script interpreter paths, not merely
+direct `venv/bin/python` imports.

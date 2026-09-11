@@ -1,6 +1,19 @@
 # Work in progress
 
-## Current state: checkpoint restoration (supersedes historical entries below)
+## Current state: EP8 startup (supersedes historical entries below)
+
+22:49 UTC: initial EP8 restart failed before Python because copied console
+launchers had shebangs targeting the removed old shared devbox worktree.
+`relocate_venv_launchers.py` normalized 98 shebangs to the existing node-local
+venv, with original launchers backed up. Packages and trainer source unchanged.
+`torchrun --help` passed. EP8 relaunched (pgid48006); health waiter tool session
+49780. Inspect its output and logs before manually reinvoking at its checkpoint.
+
+22:36 UTC: restoration COMPLETE, 154 files / 755663688736 bytes, exact revision
+and all manifest file sizes validated. EP8 launched with the generated lifecycle
+(pgid45833); health waiter started. Resume that waiter/check logs before capture.
+The restored snapshot is node-local. Do not restart the download or launch a
+second trainer. After EP8 is healthy, run `capture.py devbox-ep8-te --metrics`.
 
 `devbox-ep1-te` completed 3 warmups, 5 controls, timing and GPU-metrics captures.
 Mean FB 11.900133 s, SD 0.196359 s, 1376.791 TPS/GPU, peak allocated 248.10 GiB.
@@ -12,12 +25,12 @@ disappeared after EP1. No checkpoint deletion was performed by this workflow.
 The shared mount remains healthy; no alternate exact checkpoint was found.
 The user does not know where it went. Exact HF revision remains accessible:
 `187fb9fff6319062325ff825627ef6db084d9bc6`, 154 files, 755663688736 bytes.
-`restore_checkpoint.py` is restoring it with HF/Xet to **node-local**
+`restore_checkpoint.py` restored it with HF/Xet to **node-local**
 `/root/glm53-checkpoints-local/hub`, not refilling the shared cache.
 The script checks all file sizes and atomically writes `hub/glm53-ready.json`
 only after completion. Do not start a reader before that sentinel exists.
 Remote log: `devbox_validation/restore-checkpoint.log`.
-No GPU workload is currently running. EP8 and full grouped-MM variants remain pending.
+EP8 is initializing. Full grouped-MM variants remain pending.
 
 Latest files were committed by another local session in artifact commit08eb757;
 do not assume the historical uncommitted-file notes below are current.
