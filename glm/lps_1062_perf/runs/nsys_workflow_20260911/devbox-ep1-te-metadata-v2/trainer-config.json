@@ -1,0 +1,27 @@
+{
+  "base_model": "/root/glm53-checkpoints-local/hub/models--zai-org--GLM-5.3/snapshots/187fb9fff6319062325ff825627ef6db084d9bc6",
+  "checkpoint_dir": "/root/glm53-fsdp-nsys-131k-20260911/devbox-ep1-te-metadata-v2/checkpoints",
+  "max_seq_len": 131072,
+  "tensor_parallel_size": 1,
+  "pipeline_parallel_size": 1,
+  "expert_parallel_size": 1,
+  "context_parallel_size": 8,
+  "expert_tensor_parallel_size": 1,
+  "trust_remote_code": true,
+  "attention_backend": "flash",
+  "lora_rank": 32,
+  "lora_alpha": 32,
+  "recompute": {
+    "granularity": "full",
+    "method": "uniform",
+    "num_layers": 1
+  },
+  "moe_flex_dispatcher_backend": "hybridep",
+  "expert_weight_storage": "bf16",
+  "weight_sync": {
+    "type": "disabled"
+  },
+  "nsight_profiling": {
+    "record_nvtx_ranges": true
+  }
+}

@@ -30,9 +30,23 @@ scripts, profiles and findings belong in this separate artifact repository.
   Completed on source57b9a3ef4/Corefe3976282, metadata cache off:
   11.7847s mean FB, SD0.2569s,1390.28 TPS/GPU. Not a demonstrated gain.
   Both raw traces/SQLite exports are SHA256 verified on the Mac.
-- Active case: `nsys_workflow_20260911/devbox-ep1-te-metadata`, starting
+- Completed screen: `nsys_workflow_20260911/devbox-ep1-te-metadata`,
   on trainer734081da3/Bridge33ccd9cb4/Core6851f7895. GC freezing off;
-  metadata cache on. Generated health waiter running. Capture still pending.
+  metadata cache on. Mean11.3441s, SD0.2218s,1444.27 TPS/GPU (5controls).
+  Timing/metrics finalized; collecting and analyzing locally.
+- Completed continuation: `devbox-ep1-te-metadata-validation`,50 further
+  controls and one timing capture on the same loaded model. This starts at
+  optimizer step10, so do not treat it as a fresh-model matched A/B.
+  All50 finite, peak248.10GiB unchanged. Last10 validation mean10.9647s,
+  1494.25TPS/GPU; these later training-state numbers are not the initial headline.
+- V2: Core963a47acd deduplicates per-parameter waits/releases into per-bucket
+  operations under the same opt-in flag. Recorder replay preserves first-use
+  bucket transitions and FP8 processing order;768params/3buckets requires3
+  rather than768 wait/release calls. Trainer c699f8990, Bridge28622cfb7.
+- Now starting `devbox-ep8-te-metadata-v2`, then run EP1 on exactly the same
+  source. Each gets3warmups,5headline controls, timing+metrics,45additional
+  validation controls. This preserves comparable initial profiling windows and
+  completes55optimizer steps per layout. GC freezing stays off.
   Do not mutate remote HEAD while a case runs: manifests read HEAD.
 
 ## Infrastructure

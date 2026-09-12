@@ -21,6 +21,8 @@ if left.get("analysis_version") != right.get("analysis_version"):
 bl, br = left["benchmark"], right["benchmark"]
 if not bl or not br:
     raise ValueError("Both analyses require --benchmark metadata")
+if bl.get("initial_status", {}).get("step") != br.get("initial_status", {}).get("step"):
+    raise ValueError("Different starting optimizer steps; continuation validation is not a fresh-model A/B")
 for key in ("sequence_length", "num_gpus", "tokens_per_step", "input_sha256", "step_definition"):
     if bl[key] != br[key]:
         raise ValueError(f"Mismatched {key}: {bl[key]} vs {br[key]}")

@@ -1,0 +1,99 @@
+[
+  {
+    "case": "devbox-ep1-te-metadata",
+    "capture_complete": true,
+    "starting_optimizer_step": 0,
+    "ending_optimizer_step": 10,
+    "controls": {
+      "n": 5,
+      "mean_fb_s": 11.344136351905764,
+      "sd_fb_s": 0.22183441054239653,
+      "median_fb_s": 11.428999908268452,
+      "min_fb_s": 11.084853640757501,
+      "max_fb_s": 11.54823249951005,
+      "tps_per_gpu": 1444.2703694448774,
+      "mean_optimizer_s": 0.2054433895274997,
+      "tps_including_optimizer_per_gpu": 1418.5797550038649,
+      "peak_allocated_gib": 248.1028299331665,
+      "loss_first": 12.300424960517581,
+      "loss_last": 12.260808073486889,
+      "grad_norm_last": 0.4889583885669708,
+      "all_finite": true
+    },
+    "validation": null,
+    "validation_last10": null,
+    "source_revisions": {
+      "trainers": "734081da3759b7bc4ac0b9b7eb79b1d52058c587",
+      "bridge": "33ccd9cb4178a632c1e3940b6532698052e251ad",
+      "core": "6851f7895d7074327ad074054ff33d6a6421e49c"
+    },
+    "runtime_options": {
+      "fsdp": true,
+      "prefetch": true,
+      "persistent_buffers": true,
+      "grouped_mm": false,
+      "cuda_graphs": false,
+      "lm_head_chunk": 4096,
+      "memory_efficient_lm_head": false,
+      "capture": "software CUDA/NVTX; event tracing disabled; no CPU/callstack sampling",
+      "cache_parameter_metadata": true,
+      "gc_freeze_after_warmup": false
+    }
+  },
+  {
+    "case": "devbox-ep1-te-metadata-validation",
+    "capture_complete": true,
+    "starting_optimizer_step": 10,
+    "ending_optimizer_step": 61,
+    "controls": null,
+    "validation": {
+      "n": 50,
+      "mean_fb_s": 11.06017332309857,
+      "sd_fb_s": 0.17177665258282337,
+      "median_fb_s": 11.02642032271251,
+      "min_fb_s": 10.897992804646492,
+      "max_fb_s": 11.798472801223397,
+      "tps_per_gpu": 1481.3511073811933,
+      "mean_optimizer_s": 0.21871859334409238,
+      "tps_including_optimizer_per_gpu": 1452.624967184496,
+      "peak_allocated_gib": 248.1028299331665,
+      "loss_first": 12.221670888297183,
+      "loss_last": 11.9676177415294,
+      "grad_norm_last": 0.08510925620794296,
+      "all_finite": true
+    },
+    "validation_last10": {
+      "n": 10,
+      "mean_fb_s": 10.964722845051437,
+      "sd_fb_s": 0.10600849450662175,
+      "median_fb_s": 10.942233514040709,
+      "min_fb_s": 10.897992804646492,
+      "max_fb_s": 11.262091319076717,
+      "tps_per_gpu": 1494.2466153984342,
+      "mean_optimizer_s": 0.19507331475615503,
+      "tps_including_optimizer_per_gpu": 1468.1271741331232,
+      "peak_allocated_gib": 248.1028299331665,
+      "loss_first": 11.978805380290071,
+      "loss_last": 11.9676177415294,
+      "grad_norm_last": 0.08510925620794296,
+      "all_finite": true
+    },
+    "source_revisions": {
+      "trainers": "734081da3759b7bc4ac0b9b7eb79b1d52058c587",
+      "bridge": "33ccd9cb4178a632c1e3940b6532698052e251ad",
+      "core": "6851f7895d7074327ad074054ff33d6a6421e49c"
+    },
+    "runtime_options": {
+      "fsdp": true,
+      "prefetch": true,
+      "persistent_buffers": true,
+      "grouped_mm": false,
+      "cuda_graphs": false,
+      "lm_head_chunk": 4096,
+      "memory_efficient_lm_head": false,
+      "capture": "software CUDA/NVTX; event tracing disabled; no CPU/callstack sampling",
+      "cache_parameter_metadata": true,
+      "gc_freeze_after_warmup": false
+    }
+  }
+]

@@ -9,7 +9,7 @@ BOX = "/root/.cache/user_artifacts/devboxes/q9exk9w"
 SOURCE = "/root/glm53-pr1355-repro-20260910/trainers"
 base = json.loads((ROOT / "base_config.json").read_text())
 parser = argparse.ArgumentParser(description=__doc__)
-parser.add_argument("--case", action="append", choices=("devbox-debug", "devbox-ep1-te", "devbox-ep8-te", "devbox-ep1-grouped", "devbox-ep8-grouped", "devbox-ep1-te-repeat", "devbox-ep1-grouped-async", "devbox-ep8-grouped-async", "devbox-ep1-te-gcfreeze", "devbox-ep8-te-gcfreeze", "devbox-ep1-te-metadata", "devbox-ep8-te-metadata", "devbox-ep1-te-host-baseline", "devbox-ep8-te-host-baseline"))
+parser.add_argument("--case", action="append", choices=("devbox-debug", "devbox-ep1-te", "devbox-ep8-te", "devbox-ep1-grouped", "devbox-ep8-grouped", "devbox-ep1-te-repeat", "devbox-ep1-grouped-async", "devbox-ep8-grouped-async", "devbox-ep1-te-gcfreeze", "devbox-ep8-te-gcfreeze", "devbox-ep1-te-metadata", "devbox-ep8-te-metadata", "devbox-ep1-te-host-baseline", "devbox-ep8-te-host-baseline", "devbox-ep1-te-metadata-v2", "devbox-ep8-te-metadata-v2"))
 parser.add_argument("--base-model", help="Exact restored snapshot path; does not alter completed cases")
 args = parser.parse_args()
 for name, ep, grouped, debug in (
@@ -27,12 +27,14 @@ for name, ep, grouped, debug in (
     ("devbox-ep8-te-metadata", 8, False, False),
     ("devbox-ep1-te-host-baseline", 1, False, False),
     ("devbox-ep8-te-host-baseline", 8, False, False),
+    ("devbox-ep1-te-metadata-v2", 1, False, False),
+    ("devbox-ep8-te-metadata-v2", 8, False, False),
 ):
     if args.case and name not in args.case:
         continue
     case = ROOT / name
     gc_freeze = name.endswith("-gcfreeze")
-    metadata_cache = name.endswith("-metadata")
+    metadata_cache = name.endswith(("-metadata", "-metadata-v2"))
     if (case / "benchmark.json").exists():
         print(f"Preserving existing benchmark configuration: {name}")
         continue

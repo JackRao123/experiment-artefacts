@@ -21,6 +21,8 @@ parser.add_argument("--warmups", type=int, default=3)
 parser.add_argument("--controls", type=int, default=5)
 parser.add_argument("--trace-steps", type=int, default=1)
 parser.add_argument("--metrics", action="store_true")
+parser.add_argument("--continue-case", help="Validate an already-loaded completed case without reinitializing model state")
+parser.add_argument("--validation-controls", type=int, default=0, help="Additional unprofiled steps after captures; excluded from the five-control headline")
 args = parser.parse_args()
 root = Path(__file__).resolve().parent
 folder = root / args.case
@@ -30,9 +32,11 @@ driver.OUT_DIR = folder
 config = json.loads((folder / "trainer-config.json").read_text())
 seq = config["max_seq_len"]
 datums = [driver.make_datum(random.Random(0xB300), seq)]
-session = f"glm53-{args.case}-0911"
+session = f"glm53-{args.continue_case or args.case}-0911"
 windows = []
 result = {"case": args.case, "config": config, "sequence_length": seq, "num_gpus": 8,
+          "continued_from_case": args.continue_case,
+          "requested_windows": {"warmups": args.warmups, "controls": args.controls, "trace_steps": args.trace_steps, "metrics": args.metrics, "validation_controls": args.validation_controls},
           "capture_complete": False, "artifacts": {},
           "physical_gpu_by_rank": {str(i): i for i in range(8)},
           "tokens_per_step": seq, "step_definition": "forward_backward HTTP request; optimizer separate",
@@ -70,6 +74,13 @@ def nsys_command(command, label, *, timeout):
 
 with httpx.Client(base_url=driver.BASE_URL, timeout=60) as client:
     result["initial_status"] = client.get("/status").json()
+    if args.continue_case:
+        previous = json.loads((root / args.continue_case / "benchmark.json").read_text())
+        assert previous["capture_complete"], "Only continue a finalized case"
+        for key in ("config", "runtime_options", "source_revisions", "input_sha256"):
+            assert previous[key] == result[key], f"Continuation changes {key}"
+        for key in ("step", "model_id", "world_size", "expert_parallel_size", "context_parallel_size", "max_seq_len"):
+            assert previous["final_status"][key] == result["initial_status"][key], f"Running model changed: {key}"
 
     def window(phase, index):
         value = driver.drive_window(client, args.case, index, datums, seq, 8, phase)
@@ -110,6 +121,9 @@ with httpx.Client(base_url=driver.BASE_URL, timeout=60) as client:
                 digest = hashlib.file_digest(stream, "sha256").hexdigest()
             result["artifacts"][path.name] = {"sha256": digest, "bytes": path.stat().st_size}
         save()
+    # Keep robustness validation separate from the initial matched timing window.
+    for index in range(args.validation_controls):
+        window("validation", index)
     result["final_status"] = client.get("/status").json()
     result["capture_complete"] = True
     save()
