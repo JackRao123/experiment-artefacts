@@ -1,4 +1,25 @@
-# Work in progress
+# Completed experiment and handoff
+
+All seven full-model captures completed, were copied to the Mac with SHA256
+verification, and were analyzed. Final trainer stopped; no GPU processes remain.
+The supplied devbox itself is preserved. Final source is committed/pushed in
+PR1355 at57b9a3ef4, Bridge PR84 ata3438227, Core PR76 atfe3976282. No tests were
+added or modified; no experiment artifacts are tracked in trainers.
+
+Final measurements/report/workflow are committed in artifact revision
+b98f8824d8e8e4e3252387da2396560ec230c8bc. PR1355's existing description now has
+the final table and caveats APPENDED; exact full-body/prefix verification passed.
+`pr1355-results-appendix.md` and `pr1355-updated-description.md` preserve the
+published text. Final admin commit records those copies and this completion.
+
+Result: TE EP8 remains fastest at1550.1 TPS/GPU. Fresh TE EP1 is1384.1;
+fixed grouped EP1/EP8 are1379.9/1462.9. The fixed offset upload has zero of the
+original300 stream synchronizations per GPU, but no demonstrated throughput win.
+See REPORT.md for methodology, statistics, timing attribution and limitations.
+No further GPU runs are needed. Pause `continue-glm-fsdp-profiling`; do not
+restart completed cases. Everything below is historical progress, not current work.
+
+## Historical progress
 
 ## Current state: all seven GPU captures complete; final handoff pending
 
