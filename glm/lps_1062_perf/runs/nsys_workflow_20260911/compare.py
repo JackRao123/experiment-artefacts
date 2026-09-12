@@ -10,7 +10,11 @@ parser.add_argument("right", type=Path)
 parser.add_argument("--output", type=Path, required=True)
 parser.add_argument("--source-change-note", help="Explicit audited explanation when comparing different source revisions")
 parser.add_argument("--checkpoint-relocation-note", help="Audit note for the same HF snapshot restored under another cache root")
+parser.add_argument("--runtime-change", action="append", default=[], choices=("cache_parameter_metadata", "gc_freeze_after_warmup"))
+parser.add_argument("--runtime-change-note", help="Audited explanation of an explicit runtime-option ablation")
 args = parser.parse_args()
+if bool(args.runtime_change) != bool(args.runtime_change_note):
+    parser.error("--runtime-change and --runtime-change-note must be supplied together")
 left, right = (json.loads(p.read_text()) for p in (args.left, args.right))
 if left.get("analysis_version") != right.get("analysis_version"):
     raise ValueError("Analyzer schemas differ; re-analyze both inputs with the current script")
@@ -21,7 +25,10 @@ for key in ("sequence_length", "num_gpus", "tokens_per_step", "input_sha256", "s
     if bl[key] != br[key]:
         raise ValueError(f"Mismatched {key}: {bl[key]} vs {br[key]}")
 for key in bl.get("runtime_options", {}).keys() | br.get("runtime_options", {}).keys():
-    if key != "grouped_mm" and bl.get("runtime_options", {}).get(key) != br.get("runtime_options", {}).get(key):
+    # Historical cases predate these explicit fields. Both options were opt-in
+    # and unset/off, verified from their launch scripts and source defaults.
+    default = False if key in ("cache_parameter_metadata", "gc_freeze_after_warmup") else None
+    if key not in {"grouped_mm", *args.runtime_change} and bl.get("runtime_options", {}).get(key, default) != br.get("runtime_options", {}).get(key, default):
         raise ValueError(f"Mismatched runtime option {key}")
 if bl.get("source_revisions") != br.get("source_revisions") and not args.source_change_note:
     raise ValueError("Source revisions differ; establish comparability before comparing")
@@ -54,6 +61,8 @@ if args.source_change_note:
 if args.checkpoint_relocation_note:
     lines += ["", "Checkpoint relocation: " + args.checkpoint_relocation_note,
               "Both paths identify the same HF repository and exact snapshot commit; startup is excluded from controls."]
+if args.runtime_change_note:
+    lines += ["", f"Runtime ablation ({', '.join(args.runtime_change)}): {args.runtime_change_note}"]
 lines += ["", "## Per-rank reconciliation", "", "All deltas are right minus left, milliseconds per profiled FB.", "",
           "Exclusive categories + mixed-category overlap + GPU idle exactly reconcile to traced step time.", "",
           "| Rank | Step delta | Expert GEMM exclusive delta | Dispatcher exclusive delta | Other exclusive delta | Mixed overlap delta | Idle delta | Residual |",
@@ -97,5 +106,7 @@ args.output.write_text("\n".join(lines)+"\n")
 args.output.with_suffix(".json").write_text(json.dumps({"left": str(args.left), "right": str(args.right),
                                                        "source_change_note": args.source_change_note,
                                                        "checkpoint_relocation_note": args.checkpoint_relocation_note,
+                                                       "runtime_changes": args.runtime_change,
+                                                       "runtime_change_note": args.runtime_change_note,
                                                        "deltas": rows}, indent=2))
 print(args.output)

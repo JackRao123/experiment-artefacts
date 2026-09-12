@@ -1,0 +1,295 @@
+{
+  "case": "devbox-ep1-te-gcfreeze",
+  "config": {
+    "base_model": "/root/glm53-checkpoints-local/hub/models--zai-org--GLM-5.3/snapshots/187fb9fff6319062325ff825627ef6db084d9bc6",
+    "checkpoint_dir": "/root/glm53-fsdp-nsys-131k-20260911/devbox-ep1-te-gcfreeze/checkpoints",
+    "max_seq_len": 131072,
+    "tensor_parallel_size": 1,
+    "pipeline_parallel_size": 1,
+    "expert_parallel_size": 1,
+    "context_parallel_size": 8,
+    "expert_tensor_parallel_size": 1,
+    "trust_remote_code": true,
+    "attention_backend": "flash",
+    "lora_rank": 32,
+    "lora_alpha": 32,
+    "recompute": {
+      "granularity": "full",
+      "method": "uniform",
+      "num_layers": 1
+    },
+    "moe_flex_dispatcher_backend": "hybridep",
+    "expert_weight_storage": "bf16",
+    "weight_sync": {
+      "type": "disabled"
+    },
+    "nsight_profiling": {
+      "record_nvtx_ranges": true
+    }
+  },
+  "sequence_length": 131072,
+  "num_gpus": 8,
+  "capture_complete": true,
+  "artifacts": {
+    "timing.nsys-rep": {
+      "sha256": "0b9fe46e081603f2b30f7b8f5da343ff597f01536f30e69e412cec48fcb0520b",
+      "bytes": 184615372
+    },
+    "timing.sqlite": {
+      "sha256": "b1d6a8568324d6a5882b056dacfbe9fe76c8d0682aec6915a94c252ac9c3a6da",
+      "bytes": 423010304
+    },
+    "metrics.nsys-rep": {
+      "sha256": "048b41c4126807196b488cef4a63836c6393d642ade039ab27b0dee4a893b37f",
+      "bytes": 235146970
+    },
+    "metrics.sqlite": {
+      "sha256": "7d9d649e7b1cee571e17505b386373410de212a0348eca30b89d7a4ea45bdbbb",
+      "bytes": 2221101056
+    }
+  },
+  "physical_gpu_by_rank": {
+    "0": 0,
+    "1": 1,
+    "2": 2,
+    "3": 3,
+    "4": 4,
+    "5": 5,
+    "6": 6,
+    "7": 7
+  },
+  "tokens_per_step": 131072,
+  "step_definition": "forward_backward HTTP request; optimizer separate",
+  "input_sha256": "5668c180e9d59789e9249798edab03f59f38eb32350bcba989d260070212714c",
+  "windows": [
+    {
+      "label": "devbox-ep1-te-gcfreeze",
+      "window_index": 0,
+      "phase": "warmup",
+      "datums": 1,
+      "num_tokens": 131072,
+      "fb_elapsed_s": 75.42710978351533,
+      "fb_tps_per_gpu": 217.21633040194706,
+      "optim_elapsed_s": 21.736477203667164,
+      "loss": 12.30923793211313,
+      "grad_norm": 0.5592202544212341,
+      "server_step_seconds": 97.03146561793983,
+      "peak_reserved_bytes": 271230959616,
+      "peak_allocated_bytes": 266176168960,
+      "device_total_bytes": 287428771840
+    },
+    {
+      "label": "devbox-ep1-te-gcfreeze",
+      "window_index": 1,
+      "phase": "warmup",
+      "datums": 1,
+      "num_tokens": 131072,
+      "fb_elapsed_s": 12.507020311430097,
+      "fb_tps_per_gpu": 1309.9842801907623,
+      "optim_elapsed_s": 0.47875775303691626,
+      "loss": 12.307651959624936,
+      "grad_norm": 0.5637661814689636,
+      "server_step_seconds": 12.79554296284914,
+      "peak_reserved_bytes": 271308554240,
+      "peak_allocated_bytes": 266398385152,
+      "device_total_bytes": 287428771840
+    },
+    {
+      "label": "devbox-ep1-te-gcfreeze",
+      "window_index": 2,
+      "phase": "warmup",
+      "datums": 1,
+      "num_tokens": 131072,
+      "fb_elapsed_s": 11.77943366765976,
+      "fb_tps_per_gpu": 1390.8987870089206,
+      "optim_elapsed_s": 0.5396295776590705,
+      "loss": 12.306236696141786,
+      "grad_norm": 0.542012631893158,
+      "server_step_seconds": 12.072307210415602,
+      "peak_reserved_bytes": 271308554240,
+      "peak_allocated_bytes": 266398385152,
+      "device_total_bytes": 287428771840
+    },
+    {
+      "label": "devbox-ep1-te-gcfreeze",
+      "window_index": 0,
+      "phase": "control",
+      "datums": 1,
+      "num_tokens": 131072,
+      "fb_elapsed_s": 12.108814318664372,
+      "fb_tps_per_gpu": 1353.0639391130073,
+      "optim_elapsed_s": 0.43704101350158453,
+      "loss": 12.297788984596135,
+      "grad_norm": 0.5912237167358398,
+      "server_step_seconds": 12.3992023402825,
+      "peak_reserved_bytes": 271392440320,
+      "peak_allocated_bytes": 266398385152,
+      "device_total_bytes": 287428771840
+    },
+    {
+      "label": "devbox-ep1-te-gcfreeze",
+      "window_index": 1,
+      "phase": "control",
+      "datums": 1,
+      "num_tokens": 131072,
+      "fb_elapsed_s": 11.5013219229877,
+      "fb_tps_per_gpu": 1424.5319024809912,
+      "optim_elapsed_s": 0.41304193995893,
+      "loss": 12.292385424693487,
+      "grad_norm": 0.5750475525856018,
+      "server_step_seconds": 11.793280240148306,
+      "peak_reserved_bytes": 271392440320,
+      "peak_allocated_bytes": 266398385152,
+      "device_total_bytes": 287428771840
+    },
+    {
+      "label": "devbox-ep1-te-gcfreeze",
+      "window_index": 2,
+      "phase": "control",
+      "datums": 1,
+      "num_tokens": 131072,
+      "fb_elapsed_s": 11.998175325803459,
+      "fb_tps_per_gpu": 1365.5409722813702,
+      "optim_elapsed_s": 0.46407150477170944,
+      "loss": 12.282907737028022,
+      "grad_norm": 0.5779871344566345,
+      "server_step_seconds": 12.28936742991209,
+      "peak_reserved_bytes": 271425994752,
+      "peak_allocated_bytes": 266398385152,
+      "device_total_bytes": 287428771840
+    },
+    {
+      "label": "devbox-ep1-te-gcfreeze",
+      "window_index": 3,
+      "phase": "control",
+      "datums": 1,
+      "num_tokens": 131072,
+      "fb_elapsed_s": 11.637348198331892,
+      "fb_tps_per_gpu": 1407.8808780808413,
+      "optim_elapsed_s": 0.4243669779971242,
+      "loss": 12.27425784498478,
+      "grad_norm": 0.5453287363052368,
+      "server_step_seconds": 11.947853890247643,
+      "peak_reserved_bytes": 271425994752,
+      "peak_allocated_bytes": 266398385152,
+      "device_total_bytes": 287428771840
+    },
+    {
+      "label": "devbox-ep1-te-gcfreeze",
+      "window_index": 4,
+      "phase": "control",
+      "datums": 1,
+      "num_tokens": 131072,
+      "fb_elapsed_s": 11.67790105752647,
+      "fb_tps_per_gpu": 1402.9918492450684,
+      "optim_elapsed_s": 0.42642997205257416,
+      "loss": 12.261942000900275,
+      "grad_norm": 0.49812284111976624,
+      "server_step_seconds": 11.987209166400135,
+      "peak_reserved_bytes": 271425994752,
+      "peak_allocated_bytes": 266398385152,
+      "device_total_bytes": 287428771840
+    },
+    {
+      "label": "devbox-ep1-te-gcfreeze",
+      "window_index": 0,
+      "phase": "timing",
+      "datums": 1,
+      "num_tokens": 131072,
+      "fb_elapsed_s": 12.431592325679958,
+      "fb_tps_per_gpu": 1317.9325359757452,
+      "optim_elapsed_s": 0.43569147773087025,
+      "loss": 12.24973201547253,
+      "grad_norm": 0.42728352546691895,
+      "server_step_seconds": 12.751498107798398,
+      "peak_reserved_bytes": 271465840640,
+      "peak_allocated_bytes": 266398385152,
+      "device_total_bytes": 287428771840
+    },
+    {
+      "label": "devbox-ep1-te-gcfreeze",
+      "window_index": 0,
+      "phase": "metrics",
+      "datums": 1,
+      "num_tokens": 131072,
+      "fb_elapsed_s": 13.745359865948558,
+      "fb_tps_per_gpu": 1191.9658822893505,
+      "optim_elapsed_s": 0.46866336092352867,
+      "loss": 12.237557316263704,
+      "grad_norm": 0.42703694105148315,
+      "server_step_seconds": 14.005380094982684,
+      "peak_reserved_bytes": 271465840640,
+      "peak_allocated_bytes": 266398385152,
+      "device_total_bytes": 287428771840
+    }
+  ],
+  "nsys_version": "NVIDIA Nsight Systems version 2025.3.1.0",
+  "source_revisions": {
+    "trainers": "57b9a3ef48f0346cc00cd15eac1819b3e0ed47f0",
+    "bridge": "a3438227e442944503df367726e7a3892966ce89",
+    "core": "fe39762823e1bfef18f730879169d11b8c396eb0"
+  },
+  "runtime_options": {
+    "fsdp": true,
+    "prefetch": true,
+    "persistent_buffers": true,
+    "grouped_mm": false,
+    "cuda_graphs": false,
+    "lm_head_chunk": 4096,
+    "memory_efficient_lm_head": false,
+    "capture": "software CUDA/NVTX; event tracing disabled; no CPU/callstack sampling",
+    "gc_freeze_after_warmup": true
+  },
+  "gpu_inventory": "index, name, uuid, memory.total [MiB], driver_version\n0, NVIDIA L20D, GPU-2aea51ed-948d-31f8-09bb-16b77584a2f2, 275040 MiB, 580.105.08\n1, NVIDIA L20D, GPU-ca7cf7a5-62b7-baa9-fb96-c90450fa8f1a, 275040 MiB, 580.105.08\n2, NVIDIA L20D, GPU-7bd3e12f-6568-bb26-f1af-34d4498c3a46, 275040 MiB, 580.105.08\n3, NVIDIA L20D, GPU-891a147c-66f7-96ea-3dfe-d0bac616802d, 275040 MiB, 580.105.08\n4, NVIDIA L20D, GPU-4775cde9-e8af-3672-5ec1-947a0b61c662, 275040 MiB, 580.105.08\n5, NVIDIA L20D, GPU-d2bd3868-9450-4558-40a8-ee334b395d42, 275040 MiB, 580.105.08\n6, NVIDIA L20D, GPU-7999961e-cc00-84c9-5684-94fe86105ca8, 275040 MiB, 580.105.08\n7, NVIDIA L20D, GPU-d0528bb0-eb01-9fed-a358-9a84303b3c3a, 275040 MiB, 580.105.08\n",
+  "resource_limits": {
+    "cpu.max": "18280000 100000",
+    "memory.max": "2662556762112"
+  },
+  "initial_status": {
+    "mode": "training",
+    "step": 0,
+    "model_id": "/root/glm53-checkpoints-local/hub/models--zai-org--GLM-5.3/snapshots/187fb9fff6319062325ff825627ef6db084d9bc6",
+    "device": "cuda:0",
+    "last_loss": null,
+    "grad_norm": null,
+    "gpu_memory": {
+      "cuda:0": 233203302400
+    },
+    "world_size": 8,
+    "tensor_parallel_size": 1,
+    "pipeline_parallel_size": 1,
+    "expert_parallel_size": 1,
+    "context_parallel_size": 8,
+    "expert_tensor_parallel_size": 1,
+    "data_parallel_size": 1,
+    "max_seq_len": 131072
+  },
+  "control": {
+    "n": 5,
+    "mean_s": 11.784712164662778,
+    "median_s": 11.67790105752647,
+    "min_s": 11.5013219229877,
+    "max_s": 12.108814318664372,
+    "sd_s": 0.25692581986332114,
+    "tps_per_gpu": 1390.2757887569358
+  },
+  "final_status": {
+    "mode": "training",
+    "step": 10,
+    "model_id": "/root/glm53-checkpoints-local/hub/models--zai-org--GLM-5.3/snapshots/187fb9fff6319062325ff825627ef6db084d9bc6",
+    "device": "cuda:0",
+    "last_loss": null,
+    "grad_norm": null,
+    "gpu_memory": {
+      "cuda:0": 271316942848
+    },
+    "world_size": 8,
+    "tensor_parallel_size": 1,
+    "pipeline_parallel_size": 1,
+    "expert_parallel_size": 1,
+    "context_parallel_size": 8,
+    "expert_tensor_parallel_size": 1,
+    "data_parallel_size": 1,
+    "max_seq_len": 131072
+  }
+}

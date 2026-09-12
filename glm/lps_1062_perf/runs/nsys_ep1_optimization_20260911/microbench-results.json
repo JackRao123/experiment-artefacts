@@ -1,0 +1,17 @@
+{
+  "source_revision": "6851f7895d7074327ad074054ff33d6a6421e49c",
+  "hardware": "CPU on tj-q9exk9w; toy scalar/small BF16 tensors, not GPU GEMMs",
+  "parameter_swap": {
+    "parameters": 38400,
+    "uncached_raw_to_dist_median_ms": 176.51410214602947,
+    "cached_raw_to_dist_median_ms": 41.35774727910757,
+    "uncached_dist_to_raw_median_ms": 179.6737378463149,
+    "cached_dist_to_raw_median_ms": 41.522664949297905,
+    "tied_alias_identity_verified": true
+  },
+  "view_binding": {
+    "256_parameters": {"uncached_median_ms": 0.8876901119947433, "cached_median_ms": 0.04150252789258957},
+    "768_parameters": {"uncached_median_ms": 2.6959413662552834, "cached_median_ms": 0.12036599218845367},
+    "slot_reassignment_verified": true
+  }
+}

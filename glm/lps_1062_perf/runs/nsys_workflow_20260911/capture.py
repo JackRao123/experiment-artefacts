@@ -59,6 +59,15 @@ def save():
     (folder / "benchmark.json").write_text(json.dumps(result, indent=2))
 
 
+def nsys_command(command, label, *, timeout):
+    # Preserve importer diagnostics without streaming thousands of progress
+    # carriage returns into the interactive session.
+    log = folder / f"nsys-{label}.log"
+    print(f"nsys {label}; diagnostics: {log}", flush=True)
+    with log.open("w") as stream:
+        subprocess.run(command, check=True, timeout=timeout, stdout=stream, stderr=subprocess.STDOUT)
+
+
 with httpx.Client(base_url=driver.BASE_URL, timeout=60) as client:
     result["initial_status"] = client.get("/status").json()
 
@@ -81,7 +90,7 @@ with httpx.Client(base_url=driver.BASE_URL, timeout=60) as client:
                    "--backtrace=none", "--stats=false", f"--output={output}"]
         if metrics:
             command += ["--gpu-metrics-devices=all", "--gpu-metrics-frequency=10000"]
-        subprocess.run(command, check=True, timeout=180)
+        nsys_command(command, f"{label}-start", timeout=180)
         # A profiled request taking >5x the steady control is a failed capture,
         # not an observation to average into model performance.
         driver.FB_TIMEOUT_S = max(60.0, 5 * result["control"]["median_s"])
@@ -94,8 +103,8 @@ with httpx.Client(base_url=driver.BASE_URL, timeout=60) as client:
             save()
             raise
         finally:
-            subprocess.run(["nsys", "stop", f"--session={session}"], check=True, timeout=900)
-        subprocess.run(["nsys", "export", "--type=sqlite", f"--output={output}.sqlite", f"{output}.nsys-rep"], check=True)
+            nsys_command(["nsys", "stop", f"--session={session}"], f"{label}-stop", timeout=900)
+        nsys_command(["nsys", "export", "--type=sqlite", f"--output={output}.sqlite", f"{output}.nsys-rep"], f"{label}-export", timeout=900)
         for path in (output.with_suffix(".nsys-rep"), output.with_suffix(".sqlite")):
             with path.open("rb") as stream:
                 digest = hashlib.file_digest(stream, "sha256").hexdigest()
