@@ -1,6 +1,42 @@
 # Work in progress
 
-## Current state: five captures complete; async candidates next
+## Current state: six captures complete; EP8 async remains
+
+Latest final-case waiter: tool session27178 (session5013 ended at its180s
+checkpoint). EP8 async ranks alive, checkpoint import progressing, no failure
+reported. Continue that waiter; do not launch a second trainer or duplicate
+capture. All EP1 async artifacts are finalized, verified and analyzed locally.
+
+EP1 async all artifacts copied/SHA verified/analyzed. Offset-upload stream syncs
+are ZERO on all8 ranks (old grouped300/rank). TPS flat1379.9 versus1384.1 TE
+repeat and1389.8 unfixed. Less GPU idle but longer overlapping GPU/collective
+residence; no demonstrated end-to-end gain. `ep1-offset-upload-comparison.md/json`
+generated with source-change audit. EP1 async stopped; launched final
+devbox-ep8-grouped-async (pgid105385), generated waiter started. Source unchanged
+57b9a3ef4 / a3438227 / fe3976282. After last capture: collect/analyze, commit all
+task changes, append final table/caveats to latest PR1355 description, verify
+the appended text, then pause the heartbeat. Do not delete active devbox.
+
+Async EP1 capture finalized. Controls mean11.873678703 s, SD0.200223714 s,
+TPS/GPU1379.858796, peak247.977826 GiB. No measurable improvement versus TE
+repeat1384.1 or unfixed grouped1389.8. Collection/analysis started on Mac;
+lifecycle stop running. After GPU processes clear, launch already-staged
+devbox-ep8-grouped-async on current final source57b9a3ef4. Verify synchronization
+removal in EP1 trace after analysis; do not infer it from config alone.
+
+
+LATEST USER REQUIREMENT: when finished, commit all task work in its appropriate
+repository and APPEND the final numbers/caveats to PR1355's existing description
+(preserve existing text; no artifacts in trainers). Do not pause the follow-up
+until both fixed-path comparisons and that PR-description update are complete.
+
+Async EP1 generated waiter succeeded (116s on latest invocation). Started
+capture.py devbox-ep1-grouped-async --metrics; inspect its capture.log before
+any new request. Same 3 warmups/5 controls/1 timing/1 metrics protocol.
+
+00:16 UTC status check: async EP1 still loading, ranks alive, ~202617MiB/GPU.
+Reinvoked generated health waiter after checkpoint; no new error in latest log.
+Do not start controls before health success, and do not restart the live trainer.
 
 00:12 UTC: TE repeat all four artifacts copied, SHA256 verified, both analyses
 finished. Fresh comparison files generated. TE repeat allocator coincident

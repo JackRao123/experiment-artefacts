@@ -2,8 +2,14 @@
 
 **The first grouped-MM integration has a confirmed synchronous-offset-upload
 pathology.** Its measurements below remain valid for that implementation, not
-for the pending asynchronous fix. The original microbenchmark pre-created its
+for the asynchronous fix. The original microbenchmark pre-created its
 offset tensor outside the timed region and therefore did not exercise this cost.
+
+The fixed EP1 run has completed: **1379.9 TPS/GPU**, versus1384.1 TE and1389.8
+unfixed grouped-MM. The trace confirms **300→0** upload synchronizations on
+every rank, but no measurable TPS improvement. GPU idle fell while overlapping
+GPU work and collectives occupied longer intervals. Removing host API waits is
+not equivalent to removing that amount of step time. Fixed EP8 remains pending.
 
 131072 tokens, CP8, LoRA32, BF16 expert storage, full recompute. TPS/GPU below
 is measured from five unprofiled forward/backward controls, not extrapolated.
