@@ -2,6 +2,14 @@
 
 Active, requested after the prior Nsight comparison was completed.
 
+## Current user override — supersedes every longer validation plan below
+
+The user explicitly stopped the55-step validation approach. No more stability
+loops or optimizer steps. Use `single_fb.py`: one untimed FB warmup, then one
+measured FB. `--profile` captures that same measured FB, not an extra request.
+EP8 V2 had already finished before this instruction. EP1 V2 is still loading;
+its upcoming capture must use the new single-FB driver, not `capture.py`.
+
 ## Measurement contract
 
 Full GLM5.3, 131072 tokens, 8 HGX B300, CP8 with EP1 or EP8, BF16
@@ -43,10 +51,14 @@ scripts, profiles and findings belong in this separate artifact repository.
   operations under the same opt-in flag. Recorder replay preserves first-use
   bucket transitions and FP8 processing order;768params/3buckets requires3
   rather than768 wait/release calls. Trainer c699f8990, Bridge28622cfb7.
-- Now starting `devbox-ep8-te-metadata-v2`, then run EP1 on exactly the same
+- Completed `devbox-ep8-te-metadata-v2`, now switch to EP1 on exactly the same
   source. Each gets3warmups,5headline controls, timing+metrics,45additional
   validation controls. This preserves comparable initial profiling windows and
   completes55optimizer steps per layout. GC freezing stays off.
+  EP8 V2 initial controls: mean10.6553s, SD0.3703s,1537.64TPS/GPU.
+  All55optimizer steps finished; both traces are finalized. Refreshing the
+  previously partial local manifest and analysis with the completed validation.
+  The EP8 source is unchanged and its lifecycle is stopping before EP1 launches.
   Do not mutate remote HEAD while a case runs: manifests read HEAD.
 
 ## Infrastructure
@@ -60,5 +72,5 @@ No new pods or package changes. Previous follow-up automation remains paused.
 ## Validation scope
 
 No production or convergence claim. Full-model finite-loss controls and profiles
-are required before recommending the candidate. A durable winner should receive
-the repository skill's50-step validation, reporting a declared steady window.
+are useful before recommending the candidate. The user explicitly rejected the
+skill's long-run validation gate here. Focus on single-FB TPS; do not restart it.

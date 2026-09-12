@@ -10,6 +10,7 @@ import math
 import random
 import statistics
 import subprocess
+import time
 from pathlib import Path
 
 import httpx
@@ -23,7 +24,10 @@ parser.add_argument("--trace-steps", type=int, default=1)
 parser.add_argument("--metrics", action="store_true")
 parser.add_argument("--continue-case", help="Validate an already-loaded completed case without reinitializing model state")
 parser.add_argument("--validation-controls", type=int, default=0, help="Additional unprofiled steps after captures; excluded from the five-control headline")
+parser.add_argument("--fb-only", action="store_true", help="No optimizer requests; gradients accumulate across warmup and the measured FB")
 args = parser.parse_args()
+if args.fb_only and (args.warmups, args.controls, args.trace_steps, args.metrics, args.validation_controls, args.continue_case) != (1, 0, 1, False, 0, None):
+    parser.error("--fb-only requires one warmup, zero controls, one timing trace, no metrics/validation/continuation")
 root = Path(__file__).resolve().parent
 folder = root / args.case
 if (folder / "benchmark.json").exists():
@@ -35,6 +39,7 @@ datums = [driver.make_datum(random.Random(0xB300), seq)]
 session = f"glm53-{args.continue_case or args.case}-0911"
 windows = []
 result = {"case": args.case, "config": config, "sequence_length": seq, "num_gpus": 8,
+          "fb_only": args.fb_only,
           "continued_from_case": args.continue_case,
           "requested_windows": {"warmups": args.warmups, "controls": args.controls, "trace_steps": args.trace_steps, "metrics": args.metrics, "validation_controls": args.validation_controls},
           "capture_complete": False, "artifacts": {},
@@ -43,6 +48,9 @@ result = {"case": args.case, "config": config, "sequence_length": seq, "num_gpus
           "input_sha256": hashlib.sha256(json.dumps(datums, sort_keys=True).encode()).hexdigest(),
           "windows": windows, "nsys_version": subprocess.check_output(["nsys", "--version"], text=True).strip()}
 source = Path("/root/glm53-pr1355-repro-20260910/trainers")
+if args.fb_only:
+    result["step_definition"] = "single profiled forward_backward HTTP request; no optimizer; one untimed FB warmup"
+    result["optimizer_steps"] = 0
 result["source_revisions"] = {label: subprocess.check_output(["git", "-C", str(source / relative), "rev-parse", "HEAD"], text=True).strip()
                               for label, relative in (("trainers", "."), ("bridge", "server-megatron-bridge/vendor/megatron-bridge"),
                               ("core", "server-megatron-bridge/vendor/megatron-bridge/3rdparty/Megatron-LM"))}
@@ -74,6 +82,17 @@ def nsys_command(command, label, *, timeout):
 
 with httpx.Client(base_url=driver.BASE_URL, timeout=60) as client:
     result["initial_status"] = client.get("/status").json()
+    assert result["initial_status"]["mode"] == "training"
+    assert result["initial_status"]["world_size"] == result["num_gpus"]
+    for status_key, config_key in (
+        ("model_id", "base_model"), ("max_seq_len", "max_seq_len"),
+        ("tensor_parallel_size", "tensor_parallel_size"),
+        ("pipeline_parallel_size", "pipeline_parallel_size"),
+        ("expert_parallel_size", "expert_parallel_size"),
+        ("context_parallel_size", "context_parallel_size"),
+        ("expert_tensor_parallel_size", "expert_tensor_parallel_size"),
+    ):
+        assert result["initial_status"][status_key] == config[config_key], f"Wrong running trainer: {status_key}"
     if args.continue_case:
         previous = json.loads((root / args.continue_case / "benchmark.json").read_text())
         assert previous["capture_complete"], "Only continue a finalized case"
@@ -83,8 +102,19 @@ with httpx.Client(base_url=driver.BASE_URL, timeout=60) as client:
             assert previous["final_status"][key] == result["initial_status"][key], f"Running model changed: {key}"
 
     def window(phase, index):
-        value = driver.drive_window(client, args.case, index, datums, seq, 8, phase)
-        assert math.isfinite(value["loss"]) and math.isfinite(value["grad_norm"]), value
+        if args.fb_only:
+            start = time.perf_counter()
+            response = driver.submit_and_wait(client, "/forward_backward", {"data":datums}, driver.FB_TIMEOUT_S)
+            elapsed = time.perf_counter()-start
+            value = {"phase":phase, "window_index":index, "fb_elapsed_s":elapsed,
+                     "fb_tps_per_gpu":seq/8/elapsed, "loss":response["loss"]}
+            assert math.isfinite(value["loss"]), value
+            if phase != "warmup":
+                result["single_fb_measurement"] = value
+            print(f"{phase}: {elapsed:.4f}s, {seq/8/elapsed:.1f} TPS/GPU, no optimizer", flush=True)
+        else:
+            value = driver.drive_window(client, args.case, index, datums, seq, 8, phase)
+            assert math.isfinite(value["loss"]) and math.isfinite(value["grad_norm"]), value
         windows.append(value)
         save()
 
@@ -104,7 +134,7 @@ with httpx.Client(base_url=driver.BASE_URL, timeout=60) as client:
         nsys_command(command, f"{label}-start", timeout=180)
         # A profiled request taking >5x the steady control is a failed capture,
         # not an observation to average into model performance.
-        driver.FB_TIMEOUT_S = max(60.0, 5 * result["control"]["median_s"])
+        driver.FB_TIMEOUT_S = 120.0 if args.fb_only else max(60.0, 5 * result["control"]["median_s"])
         driver.OP_TIMEOUT_S = driver.FB_TIMEOUT_S
         try:
             for index in range(count):
@@ -125,5 +155,7 @@ with httpx.Client(base_url=driver.BASE_URL, timeout=60) as client:
     for index in range(args.validation_controls):
         window("validation", index)
     result["final_status"] = client.get("/status").json()
+    if args.fb_only:
+        assert result["final_status"]["step"] == result["initial_status"]["step"]
     result["capture_complete"] = True
     save()

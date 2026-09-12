@@ -21,6 +21,10 @@ if left.get("analysis_version") != right.get("analysis_version"):
 bl, br = left["benchmark"], right["benchmark"]
 if not bl or not br:
     raise ValueError("Both analyses require --benchmark metadata")
+if bl.get("fb_only") or br.get("fb_only"):
+    raise ValueError("Single-FB profiled measurements are not comparable with this unprofiled-control report; inspect single_fb_measurement separately")
+if not bl.get("capture_complete") or not br.get("capture_complete"):
+    raise ValueError("Finalize both benchmark cases before producing a matched comparison")
 if bl.get("initial_status", {}).get("step") != br.get("initial_status", {}).get("step"):
     raise ValueError("Different starting optimizer steps; continuation validation is not a fresh-model A/B")
 for key in ("sequence_length", "num_gpus", "tokens_per_step", "input_sha256", "step_definition"):

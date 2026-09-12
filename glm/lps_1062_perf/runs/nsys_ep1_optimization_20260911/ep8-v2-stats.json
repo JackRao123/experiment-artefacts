@@ -1,0 +1,73 @@
+[
+  {
+    "case": "devbox-ep8-te-metadata-v2",
+    "capture_complete": true,
+    "starting_optimizer_step": 0,
+    "ending_optimizer_step": 55,
+    "controls": {
+      "n": 5,
+      "mean_fb_s": 10.655268241651356,
+      "sd_fb_s": 0.3703175512653747,
+      "median_fb_s": 10.425484996289015,
+      "min_fb_s": 10.377985348924994,
+      "max_fb_s": 11.222209360450506,
+      "tps_per_gpu": 1537.643129053765,
+      "mean_optimizer_s": 0.11237720046192408,
+      "tps_including_optimizer_per_gpu": 1521.5954210305463,
+      "peak_allocated_gib": 213.61649703979492,
+      "loss_first": 12.29990806509449,
+      "loss_last": 12.261519519954833,
+      "grad_norm_last": 0.4972269833087921,
+      "all_finite": true
+    },
+    "validation": {
+      "n": 45,
+      "mean_fb_s": 10.689668181890415,
+      "sd_fb_s": 0.24003421447960302,
+      "median_fb_s": 10.629556694999337,
+      "min_fb_s": 10.422025001607835,
+      "max_fb_s": 11.62814699485898,
+      "tps_per_gpu": 1532.6949088800034,
+      "mean_optimizer_s": 0.11034080557939079,
+      "tps_including_optimizer_per_gpu": 1517.035774600628,
+      "peak_allocated_gib": 215.48469591140747,
+      "loss_first": 12.222648411929413,
+      "loss_last": 11.97290399859618,
+      "grad_norm_last": 0.09130928665399551,
+      "all_finite": true
+    },
+    "validation_last10": {
+      "n": 10,
+      "mean_fb_s": 10.706976146996022,
+      "sd_fb_s": 0.04335093132057737,
+      "median_fb_s": 10.689133111853153,
+      "min_fb_s": 10.68116093520075,
+      "max_fb_s": 10.825678554363549,
+      "tps_per_gpu": 1530.2172877817366,
+      "mean_optimizer_s": 0.10180178489536047,
+      "tps_including_optimizer_per_gpu": 1515.805033949202,
+      "peak_allocated_gib": 215.48469591140747,
+      "loss_first": 11.98906890158769,
+      "loss_last": 11.97290399859618,
+      "grad_norm_last": 0.09130928665399551,
+      "all_finite": true
+    },
+    "source_revisions": {
+      "trainers": "c699f899038ff036d4d9392069fa4dac39bbc297",
+      "bridge": "28622cfb75b53c1aaa3e5977efca768f550c4a5e",
+      "core": "963a47acd076ead065b241de109bcc08f589fb23"
+    },
+    "runtime_options": {
+      "fsdp": true,
+      "prefetch": true,
+      "persistent_buffers": true,
+      "grouped_mm": false,
+      "cuda_graphs": false,
+      "lm_head_chunk": 4096,
+      "memory_efficient_lm_head": false,
+      "capture": "software CUDA/NVTX; event tracing disabled; no CPU/callstack sampling",
+      "cache_parameter_metadata": true,
+      "gc_freeze_after_warmup": false
+    }
+  }
+]

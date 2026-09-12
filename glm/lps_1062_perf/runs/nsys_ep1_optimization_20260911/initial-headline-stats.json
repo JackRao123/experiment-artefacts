@@ -1,0 +1,121 @@
+[
+  {
+    "case": "devbox-ep1-te-repeat",
+    "capture_complete": true,
+    "starting_optimizer_step": 0,
+    "ending_optimizer_step": 10,
+    "controls": {
+      "n": 5,
+      "mean_fb_s": 11.837257409840822,
+      "sd_fb_s": 0.1923063509948652,
+      "median_fb_s": 11.94172443356365,
+      "min_fb_s": 11.52896351646632,
+      "max_fb_s": 11.9993777833879,
+      "tps_per_gpu": 1384.1043945178783,
+      "mean_optimizer_s": 0.5112934144213795,
+      "tps_including_optimizer_per_gpu": 1326.7953651540247,
+      "peak_allocated_gib": 248.1028299331665,
+      "loss_first": 12.299866103104424,
+      "loss_last": 12.261316385775649,
+      "grad_norm_last": 0.5039907097816467,
+      "all_finite": true
+    },
+    "validation": null,
+    "validation_last10": null,
+    "source_revisions": {
+      "trainers": "13137ef1a1b6031772dc4e7a2c6efeacc15f3e3d",
+      "bridge": "60b1570fbbcf52961f64df5794c8ed1256279754",
+      "core": "cf81782b23150362b761888277866ec1e758cde3"
+    },
+    "runtime_options": {
+      "fsdp": true,
+      "prefetch": true,
+      "persistent_buffers": true,
+      "grouped_mm": false,
+      "cuda_graphs": false,
+      "lm_head_chunk": 4096,
+      "memory_efficient_lm_head": false,
+      "capture": "software CUDA/NVTX; event tracing disabled; no CPU/callstack sampling"
+    }
+  },
+  {
+    "case": "devbox-ep8-te",
+    "capture_complete": true,
+    "starting_optimizer_step": 0,
+    "ending_optimizer_step": 10,
+    "controls": {
+      "n": 5,
+      "mean_fb_s": 10.569394288770855,
+      "sd_fb_s": 0.21878990156559444,
+      "median_fb_s": 10.482829183340073,
+      "min_fb_s": 10.434267545118928,
+      "max_fb_s": 10.95589169766754,
+      "tps_per_gpu": 1550.1361338564786,
+      "mean_optimizer_s": 0.16181816551834344,
+      "tps_including_optimizer_per_gpu": 1526.7613114351695,
+      "peak_allocated_gib": 213.61649703979492,
+      "loss_first": 12.300799757383404,
+      "loss_last": 12.260458072342471,
+      "grad_norm_last": 0.4979892671108246,
+      "all_finite": true
+    },
+    "validation": null,
+    "validation_last10": null,
+    "source_revisions": {
+      "trainers": "13137ef1a1b6031772dc4e7a2c6efeacc15f3e3d",
+      "bridge": "60b1570fbbcf52961f64df5794c8ed1256279754",
+      "core": "cf81782b23150362b761888277866ec1e758cde3"
+    },
+    "runtime_options": {
+      "fsdp": true,
+      "prefetch": true,
+      "persistent_buffers": true,
+      "grouped_mm": false,
+      "cuda_graphs": false,
+      "lm_head_chunk": 4096,
+      "memory_efficient_lm_head": false,
+      "capture": "software CUDA/NVTX; event tracing disabled; no CPU/callstack sampling"
+    }
+  },
+  {
+    "case": "devbox-ep1-te-metadata",
+    "capture_complete": true,
+    "starting_optimizer_step": 0,
+    "ending_optimizer_step": 10,
+    "controls": {
+      "n": 5,
+      "mean_fb_s": 11.344136351905764,
+      "sd_fb_s": 0.22183441054239653,
+      "median_fb_s": 11.428999908268452,
+      "min_fb_s": 11.084853640757501,
+      "max_fb_s": 11.54823249951005,
+      "tps_per_gpu": 1444.2703694448774,
+      "mean_optimizer_s": 0.2054433895274997,
+      "tps_including_optimizer_per_gpu": 1418.5797550038649,
+      "peak_allocated_gib": 248.1028299331665,
+      "loss_first": 12.300424960517581,
+      "loss_last": 12.260808073486889,
+      "grad_norm_last": 0.4889583885669708,
+      "all_finite": true
+    },
+    "validation": null,
+    "validation_last10": null,
+    "source_revisions": {
+      "trainers": "734081da3759b7bc4ac0b9b7eb79b1d52058c587",
+      "bridge": "33ccd9cb4178a632c1e3940b6532698052e251ad",
+      "core": "6851f7895d7074327ad074054ff33d6a6421e49c"
+    },
+    "runtime_options": {
+      "fsdp": true,
+      "prefetch": true,
+      "persistent_buffers": true,
+      "grouped_mm": false,
+      "cuda_graphs": false,
+      "lm_head_chunk": 4096,
+      "memory_efficient_lm_head": false,
+      "capture": "software CUDA/NVTX; event tracing disabled; no CPU/callstack sampling",
+      "cache_parameter_metadata": true,
+      "gc_freeze_after_warmup": false
+    }
+  }
+]
