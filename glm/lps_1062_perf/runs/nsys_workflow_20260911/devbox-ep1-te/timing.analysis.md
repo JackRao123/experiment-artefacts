@@ -58,6 +58,37 @@ Arrival relative to preceding-block compute completion; not a zero-communication
 | 3 | 0 | 150 | 149/149 | source-scoped sequential full-recompute pattern verified |
 | 5 | 0 | 150 | 149/149 | source-scoped sequential full-recompute pattern verified |
 
+## Forward expert-wrapper CUDA API costs
+
+Original + recomputed forwards, averaged per FB. API residence can overlap GPU work; it is not additive or automatically recoverable time.
+
+| Rank | API | Calls/FB | Host API ms/FB |
+|---|---|---:|---:|
+| 0 | cuLaunchKernelEx | 74792 | 311.52 |
+| 0 | cudaLaunchKernelExC_v11060 | 4352 | 16.15 |
+| 0 | cuKernelGetAttribute | 149584 | 10.54 |
+| 1 | cuLaunchKernelEx | 74600 | 336.10 |
+| 1 | cudaLaunchKernelExC_v11060 | 4342 | 17.76 |
+| 1 | cuKernelGetAttribute | 149200 | 10.50 |
+| 6 | cuLaunchKernelEx | 74472 | 253.89 |
+| 6 | cudaLaunchKernelExC_v11060 | 4554 | 14.20 |
+| 6 | cuKernelGetAttribute | 148944 | 10.49 |
+| 4 | cuLaunchKernelEx | 74576 | 248.41 |
+| 4 | cudaLaunchKernelExC_v11060 | 4458 | 13.64 |
+| 4 | cuKernelGetAttribute | 149152 | 10.37 |
+| 2 | cuLaunchKernelEx | 74544 | 333.05 |
+| 2 | cudaLaunchKernelExC_v11060 | 4348 | 18.16 |
+| 2 | cuKernelGetAttribute | 149088 | 10.11 |
+| 7 | cuLaunchKernelEx | 74328 | 251.76 |
+| 7 | cudaLaunchKernelExC_v11060 | 4362 | 13.38 |
+| 7 | cuKernelGetAttribute | 148656 | 10.73 |
+| 3 | cuLaunchKernelEx | 74620 | 336.37 |
+| 3 | cudaLaunchKernelExC_v11060 | 4554 | 18.61 |
+| 3 | cuKernelGetAttribute | 149240 | 10.40 |
+| 5 | cuLaunchKernelEx | 74564 | 254.74 |
+| 5 | cudaLaunchKernelExC_v11060 | 4486 | 13.91 |
+| 5 | cuKernelGetAttribute | 149128 | 10.45 |
+
 ## Ranked observed costs
 
 Exclusive time means no OTHER classified device category overlapped. It is not a causal gain estimate.

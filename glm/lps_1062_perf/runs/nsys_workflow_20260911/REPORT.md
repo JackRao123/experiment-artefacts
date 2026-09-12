@@ -53,10 +53,12 @@ Earlier profiler-pod results remain historical, not mixed into this A/B.
    preceding block's compute end on every rank. One initial backward refill
    has no comparable predecessor. These gathers still consume GPU/memory/link
    resources. EP8 has expert-DP size 1 and no expert-weight FSDP gather.
-4. **Allocator churn is not the persistent explanation.** The initial EP1
-   trace had 0.632 s of allocation-coincident GPU idle on rank 1. The repeat's
-   maximum was 0.012 s, but 1.22–1.75 s/rank of recorded GPU idle remained and
-   unprofiled TPS stayed similar.
+4. **Allocator churn explains part, not all, of the deficit.** Corrected
+   accounting includes `cuMemSetAccess`: the initial EP1 trace had a maximum
+   0.633 s of allocation-coincident GPU idle; the repeat's maximum was 0.165 s
+   (previously underreported as 0.012 s). The repeat still had 1.22–1.75 s/rank
+   of GPU idle and similar unprofiled TPS. The subsequent allocator ablation is
+   in `../nsys_ep1_optimization_20260911/REPORT.md`.
 5. **Tensor Active is not useful model throughput.** TE exclusive expert
    samples show 53.2–58.6% at EP1 versus 91.2–92.4% at EP8. Fixed grouped-MM
    raises EP1 to 77.3–83.3% without a speedup. Only 43–50% of fixed EP1 expert

@@ -6,7 +6,7 @@ Ranked observed costs below are candidates for investigation, not guaranteed spe
 
 ## Capture quality
 
-- Input: `/Users/jackrao/Documents/trainers/experiment_artefacts/glm/lps_1062_perf/runs/nsys_workflow_20260911/devbox-ep1-te-repeat/timing.sqlite`
+- Input: `devbox-ep1-te-repeat/timing.sqlite`
 - Ranks: 0, 3, 1, 4, 7, 6, 5, 2; explicit NVTX rank/forward-backward anchors.
 - Rank coverage: {'captured': 8, 'world_size': 8}; observed CUDA graph launch calls: 0.
 - Same-run capture slowdown: 3.057039277063156%.

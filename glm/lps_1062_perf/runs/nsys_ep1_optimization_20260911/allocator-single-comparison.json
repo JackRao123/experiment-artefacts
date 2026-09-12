@@ -1,0 +1,27 @@
+{
+  "same_input": true,
+  "same_source": true,
+  "same_contract": true,
+  "same_config_except_output": true,
+  "same_runtime_except_allocator": true,
+  "optimizer_steps": [
+    0,
+    0
+  ],
+  "before": {
+    "phase": "timing",
+    "window_index": 0,
+    "fb_elapsed_s": 12.46249898802489,
+    "fb_tps_per_gpu": 1314.664098728774,
+    "loss": 12.309410548481358
+  },
+  "after": {
+    "phase": "timing",
+    "window_index": 0,
+    "fb_elapsed_s": 11.527222201228142,
+    "fb_tps_per_gpu": 1421.331151077699,
+    "loss": 12.308973762312029
+  },
+  "speedup_pct": 8.113635448938439,
+  "warning": "One profiled sample per allocator; no independent unprofiled reference or variance estimate."
+}

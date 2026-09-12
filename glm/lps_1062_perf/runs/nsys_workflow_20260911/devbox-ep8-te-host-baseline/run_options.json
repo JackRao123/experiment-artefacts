@@ -1,0 +1,12 @@
+{
+  "fsdp": true,
+  "prefetch": true,
+  "persistent_buffers": true,
+  "grouped_mm": false,
+  "cuda_graphs": false,
+  "lm_head_chunk": 4096,
+  "memory_efficient_lm_head": false,
+  "capture": "software CUDA/NVTX; event tracing disabled; no CPU/callstack sampling",
+  "cache_parameter_metadata": false,
+  "gc_freeze_after_warmup": false
+}

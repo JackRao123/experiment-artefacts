@@ -1,0 +1,151 @@
+{
+  "case": "devbox-ep1-te-metadata-v2-noexpand",
+  "config": {
+    "base_model": "/root/glm53-checkpoints-local/hub/models--zai-org--GLM-5.3/snapshots/187fb9fff6319062325ff825627ef6db084d9bc6",
+    "checkpoint_dir": "/root/glm53-fsdp-nsys-131k-20260911/devbox-ep1-te-metadata-v2-noexpand/checkpoints",
+    "max_seq_len": 131072,
+    "tensor_parallel_size": 1,
+    "pipeline_parallel_size": 1,
+    "expert_parallel_size": 1,
+    "context_parallel_size": 8,
+    "expert_tensor_parallel_size": 1,
+    "trust_remote_code": true,
+    "attention_backend": "flash",
+    "lora_rank": 32,
+    "lora_alpha": 32,
+    "recompute": {
+      "granularity": "full",
+      "method": "uniform",
+      "num_layers": 1
+    },
+    "moe_flex_dispatcher_backend": "hybridep",
+    "expert_weight_storage": "bf16",
+    "weight_sync": {
+      "type": "disabled"
+    },
+    "nsight_profiling": {
+      "record_nvtx_ranges": true
+    }
+  },
+  "sequence_length": 131072,
+  "num_gpus": 8,
+  "fb_only": true,
+  "continued_from_case": null,
+  "requested_windows": {
+    "warmups": 1,
+    "controls": 0,
+    "trace_steps": 1,
+    "metrics": false,
+    "validation_controls": 0
+  },
+  "capture_complete": true,
+  "artifacts": {
+    "timing.nsys-rep": {
+      "sha256": "2b34921fa89b912436e232e3e441347ca588c22e7de9f1215f5f1d776861f9da",
+      "bytes": 185387969
+    },
+    "timing.sqlite": {
+      "sha256": "a0eca0fc907d3497567ff50abc8bef5ce811c69b23c6adf6832bf5c1e9fb48ff",
+      "bytes": 419065856
+    }
+  },
+  "physical_gpu_by_rank": {
+    "0": 0,
+    "1": 1,
+    "2": 2,
+    "3": 3,
+    "4": 4,
+    "5": 5,
+    "6": 6,
+    "7": 7
+  },
+  "tokens_per_step": 131072,
+  "step_definition": "single profiled forward_backward HTTP request; no optimizer; one untimed FB warmup",
+  "input_sha256": "5668c180e9d59789e9249798edab03f59f38eb32350bcba989d260070212714c",
+  "windows": [
+    {
+      "phase": "warmup",
+      "window_index": 0,
+      "fb_elapsed_s": 18.89852449670434,
+      "fb_tps_per_gpu": 866.9459884477839,
+      "loss": 12.311514370074235
+    },
+    {
+      "phase": "timing",
+      "window_index": 0,
+      "fb_elapsed_s": 11.527222201228142,
+      "fb_tps_per_gpu": 1421.331151077699,
+      "loss": 12.308973762312029
+    }
+  ],
+  "nsys_version": "NVIDIA Nsight Systems version 2025.3.1.0",
+  "optimizer_steps": 0,
+  "source_revisions": {
+    "trainers": "c699f899038ff036d4d9392069fa4dac39bbc297",
+    "bridge": "28622cfb75b53c1aaa3e5977efca768f550c4a5e",
+    "core": "963a47acd076ead065b241de109bcc08f589fb23"
+  },
+  "runtime_options": {
+    "fsdp": true,
+    "prefetch": true,
+    "persistent_buffers": true,
+    "grouped_mm": false,
+    "cuda_graphs": false,
+    "lm_head_chunk": 4096,
+    "memory_efficient_lm_head": false,
+    "capture": "software CUDA/NVTX; event tracing disabled; no CPU/callstack sampling",
+    "cache_parameter_metadata": true,
+    "gc_freeze_after_warmup": false,
+    "allocator_expandable_segments": false
+  },
+  "gpu_inventory": "index, name, uuid, memory.total [MiB], driver_version\n0, NVIDIA L20D, GPU-2aea51ed-948d-31f8-09bb-16b77584a2f2, 275040 MiB, 580.105.08\n1, NVIDIA L20D, GPU-ca7cf7a5-62b7-baa9-fb96-c90450fa8f1a, 275040 MiB, 580.105.08\n2, NVIDIA L20D, GPU-7bd3e12f-6568-bb26-f1af-34d4498c3a46, 275040 MiB, 580.105.08\n3, NVIDIA L20D, GPU-891a147c-66f7-96ea-3dfe-d0bac616802d, 275040 MiB, 580.105.08\n4, NVIDIA L20D, GPU-4775cde9-e8af-3672-5ec1-947a0b61c662, 275040 MiB, 580.105.08\n5, NVIDIA L20D, GPU-d2bd3868-9450-4558-40a8-ee334b395d42, 275040 MiB, 580.105.08\n6, NVIDIA L20D, GPU-7999961e-cc00-84c9-5684-94fe86105ca8, 275040 MiB, 580.105.08\n7, NVIDIA L20D, GPU-d0528bb0-eb01-9fed-a358-9a84303b3c3a, 275040 MiB, 580.105.08\n",
+  "resource_limits": {
+    "cpu.max": "18280000 100000",
+    "memory.max": "2662556762112"
+  },
+  "initial_status": {
+    "mode": "training",
+    "step": 0,
+    "model_id": "/root/glm53-checkpoints-local/hub/models--zai-org--GLM-5.3/snapshots/187fb9fff6319062325ff825627ef6db084d9bc6",
+    "device": "cuda:0",
+    "last_loss": null,
+    "grad_norm": null,
+    "gpu_memory": {
+      "cuda:0": 235281580032
+    },
+    "world_size": 8,
+    "tensor_parallel_size": 1,
+    "pipeline_parallel_size": 1,
+    "expert_parallel_size": 1,
+    "context_parallel_size": 8,
+    "expert_tensor_parallel_size": 1,
+    "data_parallel_size": 1,
+    "max_seq_len": 131072
+  },
+  "single_fb_measurement": {
+    "phase": "timing",
+    "window_index": 0,
+    "fb_elapsed_s": 11.527222201228142,
+    "fb_tps_per_gpu": 1421.331151077699,
+    "loss": 12.308973762312029
+  },
+  "final_status": {
+    "mode": "training",
+    "step": 0,
+    "model_id": "/root/glm53-checkpoints-local/hub/models--zai-org--GLM-5.3/snapshots/187fb9fff6319062325ff825627ef6db084d9bc6",
+    "device": "cuda:0",
+    "last_loss": 12.308973762312029,
+    "grad_norm": null,
+    "gpu_memory": {
+      "cuda:0": 276012466176
+    },
+    "world_size": 8,
+    "tensor_parallel_size": 1,
+    "pipeline_parallel_size": 1,
+    "expert_parallel_size": 1,
+    "context_parallel_size": 8,
+    "expert_tensor_parallel_size": 1,
+    "data_parallel_size": 1,
+    "max_seq_len": 131072
+  }
+}

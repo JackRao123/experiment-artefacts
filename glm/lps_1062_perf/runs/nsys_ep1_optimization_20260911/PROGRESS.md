@@ -2,6 +2,18 @@
 
 Active, requested after the prior Nsight comparison was completed.
 
+## Completed handoff
+
+The final allocator-only single-FB comparison completed with the same source,
+input, one warmup and zero optimizer steps:12.4625→11.5272s,1314.7→1421.3
+profiled TPS/GPU (+8.1%, n=1 each; not an unprofiled throughput claim).
+The312 VMM calls became zero; max allocation-related idle771.7→46.4ms.
+GPU0 reserved high-water rose252.27→257.06GiB. Both traces are SHA256 verified
+on the Mac. All trainer processes stopped; supplied devbox/checkpoint preserved.
+No further benchmark calls or long validation loops are queued.
+Implementation is in PR1355 at c699f8990, Bridge28622cfb7, Core963a47acd.
+Everything below this completion section is historical progress, not pending work.
+
 ## Current user override — supersedes every longer validation plan below
 
 The user explicitly stopped the55-step validation approach. No more stability
