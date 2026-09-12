@@ -9,7 +9,7 @@ BOX = "/root/.cache/user_artifacts/devboxes/q9exk9w"
 SOURCE = "/root/glm53-pr1355-repro-20260910/trainers"
 base = json.loads((ROOT / "base_config.json").read_text())
 parser = argparse.ArgumentParser(description=__doc__)
-parser.add_argument("--case", action="append", choices=("devbox-debug", "devbox-ep1-te", "devbox-ep8-te", "devbox-ep1-grouped", "devbox-ep8-grouped", "devbox-ep1-te-repeat", "devbox-ep1-grouped-async", "devbox-ep8-grouped-async", "devbox-ep1-te-gcfreeze", "devbox-ep8-te-gcfreeze", "devbox-ep1-te-metadata", "devbox-ep8-te-metadata", "devbox-ep1-te-host-baseline", "devbox-ep8-te-host-baseline", "devbox-ep1-te-metadata-v2", "devbox-ep8-te-metadata-v2"))
+parser.add_argument("--case", action="append", choices=("devbox-debug", "devbox-ep1-te", "devbox-ep8-te", "devbox-ep1-grouped", "devbox-ep8-grouped", "devbox-ep1-te-repeat", "devbox-ep1-grouped-async", "devbox-ep8-grouped-async", "devbox-ep1-te-gcfreeze", "devbox-ep8-te-gcfreeze", "devbox-ep1-te-metadata", "devbox-ep8-te-metadata", "devbox-ep1-te-host-baseline", "devbox-ep8-te-host-baseline", "devbox-ep1-te-metadata-v2", "devbox-ep8-te-metadata-v2", "devbox-ep1-te-metadata-v2-noexpand"))
 parser.add_argument("--base-model", help="Exact restored snapshot path; does not alter completed cases")
 args = parser.parse_args()
 for name, ep, grouped, debug in (
@@ -29,12 +29,14 @@ for name, ep, grouped, debug in (
     ("devbox-ep8-te-host-baseline", 8, False, False),
     ("devbox-ep1-te-metadata-v2", 1, False, False),
     ("devbox-ep8-te-metadata-v2", 8, False, False),
+    ("devbox-ep1-te-metadata-v2-noexpand", 1, False, False),
 ):
     if args.case and name not in args.case:
         continue
     case = ROOT / name
     gc_freeze = name.endswith("-gcfreeze")
-    metadata_cache = name.endswith(("-metadata", "-metadata-v2"))
+    metadata_cache = name.endswith(("-metadata", "-metadata-v2", "-metadata-v2-noexpand"))
+    expandable = not name.endswith("-noexpand")
     if (case / "benchmark.json").exists():
         print(f"Preserving existing benchmark configuration: {name}")
         continue
@@ -56,6 +58,8 @@ for name, ep, grouped, debug in (
     if metadata_cache or name.endswith("-host-baseline"):
         options["cache_parameter_metadata"] = metadata_cache
         options["gc_freeze_after_warmup"] = gc_freeze
+    if not expandable:
+        options["allocator_expandable_segments"] = False
     (case / "run_options.json").write_text(json.dumps(options, indent=2))
     for filename in ("start_trainer.sh", "wait_trainer_health.sh", "run_trainer_node.sh"):
         text = (ROOT / "lifecycle-q9exk9w" / filename).read_text().replace(BOX, f"{REMOTE}/{name}")
@@ -92,7 +96,7 @@ export BT_FREEZE_GC_AFTER_WARMUP={int(gc_freeze)}
 export BT_FSDP_CACHE_PARAMETER_METADATA={int(metadata_cache)}
 export BT_LEADER_ADDR=127.0.0.1 BT_NODE_RANK=0 BT_GROUP_SIZE=1 BT_NUM_GPUS=8
 export NUM_GPUS=8 CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7
-export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True,garbage_collection_threshold:0.95
+export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:{expandable},garbage_collection_threshold:0.95
 export BT_PROFILE_OUTPUT_DIR={REMOTE}/{name}/profiles
 unset BT_ROUTING_COUNTS_DIR
 active_gpu_pids=$(nvidia-smi --query-compute-apps=pid --format=csv,noheader)

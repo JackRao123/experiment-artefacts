@@ -10,6 +10,21 @@ measured FB. `--profile` captures that same measured FB, not an extra request.
 EP8 V2 had already finished before this instruction. EP1 V2 is still loading;
 its upcoming capture must use the new single-FB driver, not `capture.py`.
 
+Update: EP1 V2 completed that single-FB protocol, optimizer step stayed0.
+Warmup69.6007s; measured profiled FB12.4625s /1314.66TPS/GPU. Collecting and
+analyzing its one trace now. This changed warmup/optimizer-reset/profiling
+contract is NOT a directly comparable delta versus prior unprofiled controls.
+No more benchmark calls have been queued. EP1 remains loaded while inspecting.
+
+Next targeted candidate after inspecting that trace: disable expandable CUDA
+allocator segments. The single-FB trace contains449ms in cuMemSetAccess on
+rank2 and substantial cuMemCreate/cuMemMap stalls. The analyzer incorrectly
+omitted cuMemSetAccess; its taxonomy is now fixed. Stop completed EP1 V2 and
+launch `devbox-ep1-te-metadata-v2-noexpand` with the same source and
+`single_fb.py` only (one warmup + one measured/profiled FB, zero optimizer).
+This is a matched allocator ablation of the new single-FB contract, not a
+comparison against the old five-control/optimizer-reset runs.
+
 ## Measurement contract
 
 Full GLM5.3, 131072 tokens, 8 HGX B300, CP8 with EP1 or EP8, BF16

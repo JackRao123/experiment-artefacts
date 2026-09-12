@@ -381,7 +381,7 @@ def analyze(path, benchmark=None):
                     blocking_comm.append((split, blocked_until))
                 issued_or_unknown.append((blocked_until, y))
             alloc = [(r["start"], r["end"]) for r in runtimes
-                     if re.search(r"(Malloc|Free|MemMap|MemUnmap|MemCreate|MemRelease|MemPoolTrimTo)", strings.get(r["nameId"], ""))]
+                     if re.search(r"(Malloc|Free|MemMap|MemUnmap|MemCreate|MemRelease|MemSetAccess|MemAddressReserve|MemPoolTrimTo)", strings.get(r["nameId"], ""))]
             alloc_idle = duration(idle) - duration(subtract(idle, alloc))
             row = {"step": index, "start_ns": a, "end_ns": b, "step_ms": (b-a)/NS,
                    "device_busy_ms": duration(busy), "device_idle_ms": duration(idle),
