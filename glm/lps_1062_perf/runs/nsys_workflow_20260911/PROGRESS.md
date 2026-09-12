@@ -1,6 +1,30 @@
 # Work in progress
 
-## Current state: four captures complete; TE EP1 repeat next
+## Current state: five captures complete; async candidates next
+
+00:12 UTC: TE repeat all four artifacts copied, SHA256 verified, both analyses
+finished. Fresh comparison files generated. TE repeat allocator coincident
+idle max11.6ms (original0.632s pause absent), yet GPU idle1.22–1.75s/rank remains;
+timing overhead3.06%. Async EP1 still initializing normally with model memory
+allocated. Current generated waiter session70450 (manually reinvoked after
+previous180s checkpoint). Next capture.py devbox-ep1-grouped-async --metrics
+only after health waiter succeeds; then EP8 async. No other GPU workload.
+
+00:08 UTC: TE repeat stopped. Final source bundles imported with
+--no-recurse-submodules; remote repos now exactly trainers57b9a3ef4 /
+Bridgea3438227 / Corefe3976282. No tracked diff; preserved existing untracked
+venv symlink/compiled helpers. Launched devbox-ep1-grouped-async (pgid98968),
+generated waiter running. Do not reapply source updates or duplicate launch.
+TE repeat collection still running on Mac (session35120); first3 artifacts
+SHA verified, metrics SQLite transfer/analysis pending. All earlier four cases
+fully copied/analyzed. Next: capture EP1 async when healthy, then EP8 async,
+compare source-changed cases with explicit offset-upload-only audit note.
+
+00:07 UTC: TE repeat capture finalized successfully on old source. Five controls
+mean11.837257410 s, SD0.192306351 s, TPS/GPU1384.104395. Collection/analysis
+started on Mac, lifecycle stop running. After it exits and GPU inventory clears,
+update remote repos from FINAL bundles to trainers57b9a3ef4 / Bridgea3438227 /
+Corefe3976282, then launch EP1 grouped async. Preserve all existing artifacts.
 
 Final async source pins are PUSHED: trainers57b9a3ef48f0346cc00cd15eac1819b3e0ed47f0,
 Bridgea3438227e442944503df367726e7a3892966ce89,

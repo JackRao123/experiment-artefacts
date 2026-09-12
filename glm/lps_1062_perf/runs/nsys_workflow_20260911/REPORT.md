@@ -18,10 +18,15 @@ is measured from five unprofiled forward/backward controls, not extrapolated.
 EP1 with the current grouped-MM implementation: **11.7888 s, 1389.8 TPS/GPU,
 247.98 GiB**, five controls, SD0.0793s. This is only0.94% higher TPS than TE,
 within the observed variation; it does not establish a useful end-to-end gain.
-EP8 grouped-MM and a TE EP1 repeat are pending. The repeat removes the earlier
-TE profiler/allocator anomaly and mapped-libc setup difference.
+EP8 grouped-MM: **11.3280 s, 1446.3 TPS/GPU, 213.49 GiB**, SD0.2971s;
+6.70% lower TPS than TE. The fresh TE EP1 repeat is **11.8373 s,
+1384.1 TPS/GPU**, SD0.1923s, confirming the negligible grouped-MM difference.
+Its earlier0.632s allocator pause did not recur (at most0.012s), but GPU idle
+remained1.22–1.75s/rank. Allocator churn does not explain the persistent gap.
+See `refreshed-te-comparison.md` and `refreshed-ep1-grouped-comparison.md`.
+Only the asynchronous-upload candidates remain pending.
 
-The current matched pair has **12.59% higher TPS/GPU with EP8**. Same source,
+The initial devbox pair has **12.59% higher TPS/GPU with EP8**. Same source,
 venv/package versions, profiler and GPU UUIDs; exact checkpoint revision restored
 under a different cache root. The old pair independently showed a 9.46% advantage.
 Do not mix old and new rows into an A/B. See `devbox-te-comparison.md` and
