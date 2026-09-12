@@ -39,6 +39,9 @@ For files already local: `python3 workflow.py analyze TRACE.sqlite --benchmark C
 - Head chunk 4096, memory-efficient head off, CUDA graphs off.
 - Controls include optimizer calls, but TPS uses FB duration only, as historically.
 - Collection is off during controls, although the nsys launcher is present.
+- GC freezing was unset/off in this sweep; unset `BT_FREEZE_GC_AFTER_WARMUP`
+  (or set it to `0`) when reproducing these results. This differs from the
+  older GC-enabled reproduction block in PR1355.
 - Trainer implementation and annotation changes are committed in PR1355;
   no run-local source patches. Original `tools/profile_driver.py` and `mfu.py` untouched.
 

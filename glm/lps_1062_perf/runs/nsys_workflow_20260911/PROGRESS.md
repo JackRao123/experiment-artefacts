@@ -1,6 +1,29 @@
 # Work in progress
 
-## Current state: six captures complete; EP8 async remains
+## Current state: all seven GPU captures complete; final handoff pending
+
+All final EP8 files are SHA256-verified on Mac; timing/metrics analysis and
+comparisons completed. All300 forward expert wrappers/rank inspected: zero
+offset-upload stream syncs on both fixed layouts. Final trainer stopped and
+GPU process inventory empty. REPORT.md now contains final conclusions and all
+six canonical rows (plus preserved initial TE repeat). Remaining only: commit
+final report/artifacts, APPEND final results to PR1355's latest description,
+verify exact append, commit PR-description snapshot/progress, pause heartbeat.
+
+Final EP8 async capture finalized successfully. Five controls mean11.199988902s,
+SD0.181855897s, TPS/GPU1462.858592, peak213.491493GiB. Collection/verification/
+analysis running on Mac; final trainer lifecycle stop running. No more GPU runs
+planned. Remaining: verify EP8 sync removal in analyzed trace, final comparisons,
+replace draft REPORT with concise conclusions, commit/push task artifacts,
+APPEND final numbers/caveats to existing PR1355 description and verify, then
+pause automation continue-glm-fsdp-profiling. Preserve active devbox itself.
+
+
+Final EP8 async waiter succeeded; capture.py devbox-ep8-grouped-async --metrics
+started. No duplicate requests. This is the final planned GPU run. After it
+finalizes, collect/verify/analyze, stop trainer, generate final comparisons and
+report, commit everything appropriate, APPEND final numbers to PR1355 description
+without replacing its existing content, verify update, and pause heartbeat.
 
 Latest final-case waiter: tool session27178 (session5013 ended at its180s
 checkpoint). EP8 async ranks alive, checkpoint import progressing, no failure

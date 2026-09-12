@@ -1,0 +1,184 @@
+{
+  "left": "devbox-ep8-grouped/timing.analysis.json",
+  "right": "devbox-ep8-grouped-async/timing.analysis.json",
+  "source_change_note": "Only frozen expert offset upload changed: pinned CPU staging and nonblocking H2D, same GPU cumsum/GEMM/routing. Parent pins updated; NVTX implementation unchanged.",
+  "checkpoint_relocation_note": null,
+  "deltas": [
+    {
+      "rank": "0",
+      "step_delta_ms": -73.4206009999998,
+      "exclusive_category_deltas_ms": {
+        "expert_gemm_path": 3.32526699999994,
+        "cp_communication": -21.38170200000002,
+        "memory_copy": -0.12688699999999997,
+        "lm_head": 0.047879999999999256,
+        "other_compute": 3.9771509999999353,
+        "mlp_other": 0.015566000000006852,
+        "attention": -0.9693010000000868,
+        "fsdp_gather:nonexpert": -0.7972359999999981,
+        "expert_other": 0.13649300000000153,
+        "expert_dispatch_combine": -22.404711000000134,
+        "fsdp_gradient:nonexpert": -1.8305760000000006,
+        "expert_routing": -0.11570900000000961,
+        "other_gemm": -0.6475390000000516
+      },
+      "mixed_overlap_delta_ms": -3.4721800000006624,
+      "idle_delta_ms": -29.17711700000001,
+      "residual_ms": 1.2789769243681803e-12
+    },
+    {
+      "rank": "1",
+      "step_delta_ms": -81.10439799999949,
+      "exclusive_category_deltas_ms": {
+        "expert_gemm_path": -0.8900790000000143,
+        "cp_communication": -6.684585000000027,
+        "memory_copy": -0.06835500000000039,
+        "lm_head": 1.3091399999999993,
+        "other_compute": -4.547425999999973,
+        "mlp_other": 0.3144510000000196,
+        "attention": -3.866473000000042,
+        "fsdp_gather:nonexpert": -1.357253,
+        "expert_other": -0.021565999999999974,
+        "expert_dispatch_combine": -25.313344000000143,
+        "fsdp_gradient:nonexpert": -0.7979519999999987,
+        "expert_routing": 0.5367360000000048,
+        "other_gemm": -0.09171900000001187
+      },
+      "mixed_overlap_delta_ms": 1.6351460000005318,
+      "idle_delta_ms": -41.26111899999998,
+      "residual_ms": 1.4210854715202004e-13
+    },
+    {
+      "rank": "2",
+      "step_delta_ms": -79.22079200000007,
+      "exclusive_category_deltas_ms": {
+        "expert_gemm_path": 0.6831149999998161,
+        "cp_communication": -11.633872999999994,
+        "memory_copy": -0.07100600000000057,
+        "lm_head": -0.014291999999997529,
+        "other_compute": -0.7095489999999245,
+        "mlp_other": -0.08196100000000683,
+        "attention": -2.279782999999952,
+        "fsdp_gather:nonexpert": 5.191406999999998,
+        "expert_other": 0.14797299999999325,
+        "expert_dispatch_combine": -24.255604000000403,
+        "fsdp_gradient:nonexpert": -1.534428000000002,
+        "expert_routing": 0.060068999999998596,
+        "other_gemm": 1.4499549999999317
+      },
+      "mixed_overlap_delta_ms": 0.04759299999932409,
+      "idle_delta_ms": -46.22040799999999,
+      "residual_ms": 1.1368683772161603e-12
+    },
+    {
+      "rank": "3",
+      "step_delta_ms": -77.14842500000123,
+      "exclusive_category_deltas_ms": {
+        "expert_gemm_path": 1.5619070000000193,
+        "cp_communication": -17.78423700000002,
+        "memory_copy": 0.38965099999999886,
+        "lm_head": -0.04719199999999546,
+        "other_compute": -0.20309399999996458,
+        "mlp_other": -0.21629900000002067,
+        "attention": -0.7790329999997994,
+        "fsdp_gather:nonexpert": 3.224983999999999,
+        "expert_other": -0.11832599999999616,
+        "expert_dispatch_combine": -18.081627000000026,
+        "fsdp_gradient:nonexpert": -0.5722930000000019,
+        "expert_routing": -0.41323400000000277,
+        "other_gemm": -0.06650999999999385
+      },
+      "mixed_overlap_delta_ms": -0.13108900000042922,
+      "idle_delta_ms": -43.91203300000001,
+      "residual_ms": -9.876544027065393e-13
+    },
+    {
+      "rank": "4",
+      "step_delta_ms": -85.83952200000022,
+      "exclusive_category_deltas_ms": {
+        "expert_gemm_path": 5.8783240000000205,
+        "cp_communication": -8.326674000000025,
+        "memory_copy": -0.16178599999999932,
+        "lm_head": 0.07153399999999976,
+        "other_compute": -2.3771130000000085,
+        "mlp_other": -0.1677609999999845,
+        "attention": -11.671646999999211,
+        "fsdp_gather:nonexpert": 7.9425740000000005,
+        "expert_other": -0.021954999999991287,
+        "expert_dispatch_combine": -11.966161000000284,
+        "fsdp_gradient:nonexpert": -2.057706999999997,
+        "expert_routing": -0.14548899999999776,
+        "other_gemm": -1.8621329999999716
+      },
+      "mixed_overlap_delta_ms": -2.3977760000016133,
+      "idle_delta_ms": -58.575751999999994,
+      "residual_ms": 8.384404281969182e-13
+    },
+    {
+      "rank": "5",
+      "step_delta_ms": -82.06260999999904,
+      "exclusive_category_deltas_ms": {
+        "expert_gemm_path": 2.888341999999966,
+        "cp_communication": -31.203869999999995,
+        "memory_copy": -0.07030699999999968,
+        "lm_head": 0.332101999999999,
+        "other_compute": 5.321994000000018,
+        "mlp_other": 0.15864500000000703,
+        "attention": 22.037825999999768,
+        "fsdp_gather:nonexpert": 7.833342000000002,
+        "expert_other": 0.2819470000000024,
+        "expert_dispatch_combine": -24.54517199999964,
+        "fsdp_gradient:nonexpert": -3.4167769999999997,
+        "expert_routing": 0.3072639999999893,
+        "other_gemm": 1.0496540000000323
+      },
+      "mixed_overlap_delta_ms": -3.6714219999994384,
+      "idle_delta_ms": -59.36617799999999,
+      "residual_ms": 2.4158453015843406e-13
+    },
+    {
+      "rank": "6",
+      "step_delta_ms": -82.65468799999871,
+      "exclusive_category_deltas_ms": {
+        "expert_gemm_path": -0.4643140000000585,
+        "cp_communication": -16.396359000000018,
+        "memory_copy": -0.1547780000000003,
+        "lm_head": 1.0125579999999985,
+        "other_compute": -3.071360000000027,
+        "mlp_other": -0.04980599999998958,
+        "attention": 4.791205999999875,
+        "fsdp_gather:nonexpert": 3.109167000000001,
+        "expert_other": -0.09274899999999775,
+        "expert_dispatch_combine": -11.670648000000256,
+        "fsdp_gradient:nonexpert": -2.177454000000001,
+        "expert_routing": 0.23526700000000744,
+        "other_gemm": 0.6949909999999591
+      },
+      "mixed_overlap_delta_ms": -1.2242089999999735,
+      "idle_delta_ms": -57.196200000000005,
+      "residual_ms": 1.7692514120426495e-12
+    },
+    {
+      "rank": "7",
+      "step_delta_ms": -82.92072600000029,
+      "exclusive_category_deltas_ms": {
+        "expert_gemm_path": 1.6828060000000278,
+        "cp_communication": -12.706515999999965,
+        "memory_copy": 0.3459690000000002,
+        "lm_head": -0.018356999999994628,
+        "other_compute": 0.8711600000000317,
+        "mlp_other": 0.04784100000000535,
+        "attention": 7.89654100000007,
+        "fsdp_gather:nonexpert": -2.895473000000001,
+        "expert_other": 0.33893299999999726,
+        "expert_dispatch_combine": -29.17105300000003,
+        "fsdp_gradient:nonexpert": -1.3601740000000007,
+        "expert_routing": 0.052082999999996105,
+        "other_gemm": -0.3676269999999704
+      },
+      "mixed_overlap_delta_ms": -6.400829000000158,
+      "idle_delta_ms": -41.23602999999997,
+      "residual_ms": -3.268496584496461e-13
+    }
+  ]
+}
