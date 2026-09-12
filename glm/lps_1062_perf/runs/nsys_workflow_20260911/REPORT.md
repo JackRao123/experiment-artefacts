@@ -1,5 +1,10 @@
 # Full GLM5.3 FSDP comparison — final ablation pending
 
+**The first grouped-MM integration has a confirmed synchronous-offset-upload
+pathology.** Its measurements below remain valid for that implementation, not
+for the pending asynchronous fix. The original microbenchmark pre-created its
+offset tensor outside the timed region and therefore did not exercise this cost.
+
 131072 tokens, CP8, LoRA32, BF16 expert storage, full recompute. TPS/GPU below
 is measured from five unprofiled forward/backward controls, not extrapolated.
 
@@ -27,6 +32,15 @@ difference, not an established cause of the performance gap.
 
 ## What the traces establish
 
+- In the unfixed EP8 grouped path, every rank executes **300
+  cudaStreamSynchronize calls per FB** while constructing expert offsets:
+  **1.095–1.247s of host API residence**, versus none in the corresponding TE
+  forward scopes. The CPU-list-to-CUDA tensor constructor synchronizes after
+  H2D; the fix stages in pinned CPU memory and copies nonblocking. This removes
+  an enqueue-ahead barrier, not necessarily that entire duration from wall time.
+  The reusable analyzer now reports these per-scope API costs automatically.
+  Manual GPU checks confirmed exact offset equality including zero/uneven
+  expert counts. Full-model fixed-path captures are still pending.
 - **Grouped-MM is active, but its EP1 GPU kernels are not faster in situ.**
   Rank0 forward+recompute expert GPU union: TE1.294s, grouped1.278s; real
   input-gradient backward: TE0.878s, grouped1.018s. Total2.173→2.296s.
@@ -83,8 +97,9 @@ event loss. Communication residence/exposure is not recoverable wall time.
 comparison. No manual SQL is needed for reruns. First ingestion takes tens of
 seconds; unchanged cached analysis is immediate. `README.md` documents usage.
 
-Trainer implementations and annotations: [PR1355](https://github.com/basetenlabs/trainers/pull/1355),
-commit13137ef1a. Analysis/run files belong only to this separate artifact repo.
+Trainer implementations and annotations: [PR1355](https://github.com/basetenlabs/trainers/pull/1355).
+Baseline captures use13137ef1a; async-offset fix is committed in57b9a3ef4,
+pinning Bridgea3438227 and Corefe3976282. Analysis/run files belong only to this separate artifact repo.
 No tests were added or modified. Original tools remain unchanged by this workflow.
 
 The new devbox uses the old venv and built-in nsys2025.3.1. The old profiler pod

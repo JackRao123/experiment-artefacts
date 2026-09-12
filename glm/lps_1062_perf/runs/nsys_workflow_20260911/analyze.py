@@ -285,6 +285,7 @@ def analyze(path, benchmark=None):
         # scopes, not whichever CPU range happens to overlap GPU execution.
         contexts, scope_keys, cursors, active = {}, {}, collections.defaultdict(int), collections.defaultdict(list)
         scope_runtime = collections.defaultdict(list)
+        scope_api = collections.defaultdict(lambda: collections.defaultdict(list))
         for r in runtimes:
             tid, t = r["globalTid"], r["start"]
             ranges = nvtx[tid]
@@ -303,6 +304,7 @@ def analyze(path, benchmark=None):
             scope_keys[key] = [(tid, *x) for x in queue if x[2].startswith(("expert_gemm_", "expert_shape:", "fsdp_gather:"))]
             for scope in scope_keys[key]:
                 scope_runtime[scope].append((r["start"], r["end"]))
+                scope_api[scope][strings.get(r["nameId"], "unknown")].append((r["start"], r["end"]))
         operations = []
         kernels = db.execute("SELECT start,end,correlationId,streamId,demangledName,deviceId,contextId FROM CUPTI_ACTIVITY_KIND_KERNEL "
                              "WHERE globalPid=? AND end>=? AND start<=? ORDER BY start", (pid, lo, hi))
@@ -465,9 +467,12 @@ def analyze(path, benchmark=None):
             "hardware_metrics": hardware,
             "dependency_quality": dependency_quality,
             "expert_scope_instances": [{"name": name, "cpu_start_ns": a, "cpu_end_ns": b,
+                "cpu_thread_global_id": tid,
                 "cpu_duration_ms": (b-a)/NS, "gpu_start_ns": min(x for x,y in spans), "gpu_end_ns": max(y for x,y in spans),
                 "host_before_first_cuda_api_ms": (min(x for x,y in scope_runtime[(tid,a,b,name)])-a)/NS,
                 "host_outside_cuda_api_ms": (b-a)/NS-duration(scope_runtime[(tid,a,b,name)]),
+                "cuda_apis": {api: {"calls": len(times), "union_ms": duration(times)}
+                              for api,times in scope_api[(tid,a,b,name)].items()},
                 "gpu_union_ms": duration(spans), "gpu_span_ms": (max(y for x,y in spans)-min(x for x,y in spans))/NS,
                 "cpu_entry_to_first_kernel_ms": (min(x for x,y in spans)-a)/NS,
                 "warning": "GPU entry delay may include earlier GPU work. Host outside recorded CUDA APIs includes scheduling/GIL/library work, not exclusively Python computation."}
@@ -526,6 +531,19 @@ def markdown(result):
             p = step["expert_prefetch_readiness"]
             ready = f"{p['ready_before_previous_block_ends']}/{p['comparable_predecessors']}" if "comparable_predecessors" in p else "unknown"
             lines.append(f"| {rank} | {step['step']} | {p['gathers']} | {ready} | {p['status']} |")
+    lines += ["", "## Forward expert-wrapper CUDA API costs", "",
+              "Original + recomputed forwards, averaged per FB. API residence can overlap GPU work; it is not additive or automatically recoverable time.", "",
+              "| Rank | API | Calls/FB | Host API ms/FB |", "|---|---|---:|---:|"]
+    for rank, r in result["ranks"].items():
+        elapsed, counts = collections.Counter(), collections.Counter()
+        for scope in r["expert_scope_instances"]:
+            if scope["name"].startswith("expert_shape:"):
+                for api, cost in scope.get("cuda_apis", {}).items():
+                    elapsed[api] += cost["union_ms"]
+                    counts[api] += cost["calls"]
+        n = len(r["steps"])
+        for api, ms in elapsed.most_common(3):
+            lines.append(f"| {rank} | {api} | {counts[api]/n:g} | {ms/n:.2f} |")
     lines += ["", "## Ranked observed costs", "", "Exclusive time means no OTHER classified device category overlapped. It is not a causal gain estimate."]
     for rank, r in result["ranks"].items():
         lines += ["", f"### Rank {rank}", "", f"Runtime correlation: {r['runtime_correlation_fraction']:.2%}.", "",

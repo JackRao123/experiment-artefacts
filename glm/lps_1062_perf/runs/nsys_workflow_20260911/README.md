@@ -96,6 +96,10 @@ Implausible exported GPC-clock units are flagged, not silently presented as MHz.
 JSON expert-scope records include host time before the first recorded CUDA API
 and time outside those APIs. These include scheduling/GIL/library work and must
 not be added to GPU durations or called exclusively Python overhead.
+The Markdown report also ranks CUDA API residence inside forward expert wrappers;
+this exposed the original grouped path's300 synchronous offset uploads per GPU/FB.
+`devbox-*-grouped-async` evaluates the committed pinned/nonblocking upload fix.
+Use an explicit `--source-change-note` when comparing these with pre-fix runs.
 
 The comparison validates workload/config/input/source compatibility and reports
 same-run capture slowdown. An EP1-vs-EP8 comparison alone cannot establish the

@@ -1,0 +1,11 @@
+# Check-only counterparts of Bridge's Ruff hooks: never auto-edit tests or source.
+repos:
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.9.9
+    hooks:
+      - id: ruff
+        args: [--no-fix]
+      - id: ruff
+        args: [check, --select, I, --no-fix]
+      - id: ruff-format
+        args: [--check]

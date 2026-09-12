@@ -1,6 +1,54 @@
 # Work in progress
 
-## Current state: three captures complete; EP8 grouped-MM starting
+## Current state: four captures complete; TE EP1 repeat next
+
+Final async source pins are PUSHED: trainers57b9a3ef48f0346cc00cd15eac1819b3e0ed47f0,
+Bridgea3438227e442944503df367726e7a3892966ce89,
+Corefe39762823e1bfef18f730879169d11b8c396eb0. Root make check passed, no tests
+changed. Three incremental *-source-async.bundle files regenerated with these
+heads and staged under remote run root. AFTER TE repeat finalizes/stops, fetch
+each bundle HEAD in its respective repo and checkout those exact SHAs. Verify
+clean trees and all three HEADs before launching devbox-ep1-grouped-async then
+devbox-ep8-grouped-async. Configs/lifecycle already staged; same old venv.
+Current remote source STILL13137ef1a while TE repeat capture runs (session79076).
+New analyzer expert CUDA API breakdown found300 stream synchronizations per
+GPU/FB in unfixed EP8 grouped, 1.095–1.247s host API residence across ranks.
+
+00:00 UTC Sep12: TE repeat healthy and capture.py devbox-ep1-te-repeat --metrics
+running on OLD remote source13137ef1a (tool session79076). Do not update remote
+source before that capture finishes. First async fix propagated to PR1355
+5a53a08c021cd3f7e28b506d6d30b1a097990a4f / Bridge8643fe08 / Corecd5dbc9ae;
+root make check passed, worktree clean. Core follow-up makes pinned staging
+explicitly device=cpu: fe39762823e1bfef18f730879169d11b8c396eb0, pushed PR76.
+Need propagate that final Core pin through Bridge PR84 and trainers PR1355,
+then REGENERATE/RESTAGE the three *-source-async.bundle files (currently first
+fix only). Async case configs/lifecycle already staged. Bridge all-file
+read-only lint reports pre-existing errors in unrelated model/test files; no
+source/test auto-fixes were made. Core changed-file checks + numerical offset
+probe passed. Only a gitlink changes in Bridge/trainers.
+
+23:55 UTC: concrete grouped-MM wiring issue found: rank0 EP8 grouped has300
+cudaStreamSynchronize calls totaling1094.694ms in expert_shape forward scopes;
+TE has none there. CPU-list-to-CUDA offsets in frozen_grouped_mm.py force a
+synchronous H2D transfer before every original/recompute projection. This is
+not all recoverable wall time, but prevents enqueue-ahead. Core fix uses pinned
+CPU staging plus nonblocking H2D, preserving GPU cumsum and routing semantics.
+Committed/signed/pushed to Core PR76: cd5dbc9ae8162b55cda278d4b274b6719743cec6.
+Manual GPU offset equality passed four zero/nonuniform/EP1/EP8 shapes; no tests
+added/modified. Core Black/isort/Ruff/syntax checks passed. New Bridge worktree
+`/Users/jackrao/Documents/mbridge-wt-fsdp-offset-upload` stages new Core gitlink;
+read-only pre-commit checks running before Bridge PR84 + trainers PR1355 pins.
+DO NOT update remote trainer/source until old-revision TE repeat completes.
+Current TE repeat initializing, latest generated waiter session78855.
+After repeat: validate and run EP1/EP8 grouped async-offset candidates on new
+committed source, same5-control protocol, confirm300 synchronizations disappear.
+
+23:46 UTC: EP8 grouped capture completed successfully. Five controls:
+mean11.328007527 s, SD0.297089942 s, TPS/GPU1446.326723,
+peak allocated213.491493 GiB. ~6.7% TPS regression versus EP8 TE1550.1.
+Collect/analyze started on Mac; lifecycle stop running. Next launch prepared
+devbox-ep1-te-repeat only after GPU processes clear, then use generated waiter.
+Do not re-run or overwrite the four finalized captures.
 
 23:40 UTC: generated waiter confirms EP8 grouped healthy; capture.py
 devbox-ep8-grouped --metrics started. No duplicate requests. After finalization,

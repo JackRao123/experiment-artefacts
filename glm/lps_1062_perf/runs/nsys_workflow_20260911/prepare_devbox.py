@@ -9,7 +9,7 @@ BOX = "/root/.cache/user_artifacts/devboxes/q9exk9w"
 SOURCE = "/root/glm53-pr1355-repro-20260910/trainers"
 base = json.loads((ROOT / "base_config.json").read_text())
 parser = argparse.ArgumentParser(description=__doc__)
-parser.add_argument("--case", action="append", choices=("devbox-debug", "devbox-ep1-te", "devbox-ep8-te", "devbox-ep1-grouped", "devbox-ep8-grouped", "devbox-ep1-te-repeat"))
+parser.add_argument("--case", action="append", choices=("devbox-debug", "devbox-ep1-te", "devbox-ep8-te", "devbox-ep1-grouped", "devbox-ep8-grouped", "devbox-ep1-te-repeat", "devbox-ep1-grouped-async", "devbox-ep8-grouped-async"))
 parser.add_argument("--base-model", help="Exact restored snapshot path; does not alter completed cases")
 args = parser.parse_args()
 for name, ep, grouped, debug in (
@@ -19,6 +19,8 @@ for name, ep, grouped, debug in (
     ("devbox-ep1-grouped", 1, True, False),
     ("devbox-ep8-grouped", 8, True, False),
     ("devbox-ep1-te-repeat", 1, False, False),
+    ("devbox-ep1-grouped-async", 1, True, False),
+    ("devbox-ep8-grouped-async", 8, True, False),
 ):
     if args.case and name not in args.case:
         continue
