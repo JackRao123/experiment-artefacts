@@ -1,6 +1,6 @@
 # GLM-5.3-Flash Welsh 50-step baseline
 
-- [W&B run](https://wandb.ai/baseten-training/reproduce-nvfp4-vs-tinker-loops-baselines/runs/5no9qmjv): `GLM-5.3-Flash-welsh-validation50-baseline-baseten`, verified `finished` with 50 metric records (last W&B history step 49 is zero-indexed).
+- [W&B run](https://wandb.ai/baseten-training/lora-target-baselines/runs/5no9qmjv): `GLM-5.3-Flash-welsh-validation50-baseline-baseten`, verified `finished` with 50 metric records (last W&B history step 49 is zero-indexed).
 - Model: `zai-org/GLM-5.3-Flash`, cached Hugging Face snapshot
   `eb9eb208eb0d988989d07a6a12d0fdeb5f52574a` (`glm5_next`). Baseten
   trainer on `tj-wgpn4vw`, 8 B300 GPUs, TP1/PP1/EP8/CP4/ETP1,

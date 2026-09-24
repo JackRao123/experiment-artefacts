@@ -56,7 +56,7 @@ Inspected the actual exported safetensors:
 
 ## Welsh SFT: 50-step W&B run
 
-Completed: https://wandb.ai/baseten-training/reproduce-nvfp4-vs-tinker-loops-baselines/runs/n2p3guk6
+Completed: https://wandb.ai/baseten-training/lora-target-baselines/runs/n2p3guk6
 
 - Name: `GLM-5.3-welsh-validation50-sharedouter-canonicalgu-baseten`.
 - W&B state verified as `finished`, step 50; client exit code 0.

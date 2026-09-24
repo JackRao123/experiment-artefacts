@@ -1,6 +1,6 @@
 # GLM-5.3 Welsh 50-step shared-outer + no-qbproj + nonorm
 
-- [W&B run](https://wandb.ai/baseten-training/reproduce-nvfp4-vs-tinker-loops-baselines/runs/pyiq93in): `GLM-5.3-welsh-validation50-sharedouter-noqbproj-nonorm-baseten`, finished 50/50 steps (history step 49 is zero-indexed).
+- [W&B run](https://wandb.ai/baseten-training/lora-target-baselines/runs/pyiq93in): `GLM-5.3-welsh-validation50-sharedouter-noqbproj-nonorm-baseten`, finished 50/50 steps (history step 49 is zero-indexed).
 - Fresh trainer on `tj-wgpn4vw`, base GLM-5.3 snapshot
   `aca966e4e02791568aa6a4ced368624b3d897f42`; LoRA rank/alpha 32,
   `moe_lora_config=shared_outer`, `no_qbproj=true`, `canonical_gu=false`.

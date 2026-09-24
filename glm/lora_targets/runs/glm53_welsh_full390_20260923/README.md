@@ -5,8 +5,8 @@ LoRA rank 32, and the original 390-step learning-rate schedule.
 
 | Arm | W&B | Gradient normalization |
 | --- | --- | --- |
-| Tinker | [4519kmn7](https://wandb.ai/baseten-training/reproduce-nvfp4-vs-tinker-loops-baselines/runs/4519kmn7) | Default Tinker behavior |
-| Baseten shared-outer | [4833opuq](https://wandb.ai/baseten-training/reproduce-nvfp4-vs-tinker-loops-baselines/runs/4833opuq) | Skipped (`skip_token_normalization: true`) |
+| Tinker | [4519kmn7](https://wandb.ai/baseten-training/lora-target-baselines/runs/4519kmn7) | Default Tinker behavior |
+| Baseten shared-outer | [4833opuq](https://wandb.ai/baseten-training/lora-target-baselines/runs/4833opuq) | Skipped (`skip_token_normalization: true`) |
 
 `tinker/` contains the final sampler-weights checkpoint archive plus the
 checkpoint manifest, metrics, and config. The Tinker training-state checkpoint
