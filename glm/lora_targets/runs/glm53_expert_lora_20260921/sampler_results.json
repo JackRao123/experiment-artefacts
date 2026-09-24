@@ -1,0 +1,21 @@
+{
+  "model": "zai-org/GLM-5.3",
+  "revision": "aca966e4e02791568aa6a4ced368624b3d897f42",
+  "hardware": "8xB300",
+  "vllm": "0.29.0",
+  "tensor_parallel_size": 8,
+  "batch_size": 16,
+  "output_tokens_per_prompt": 64,
+  "warmup_requests": 2,
+  "control_requests": 5,
+  "prefix_caching": false,
+  "enforce_eager": true,
+  "mtp_speculative_tokens": 5,
+  "output_tps_per_gpu": {
+    "shared_adapter_engine_base": 13.485967952382783,
+    "shared_adapter": 11.30742337531742,
+    "shared_outer_engine_base": 14.961661021691018,
+    "shared_outer": 11.775795574229415
+  },
+  "validation": "Load and generation passed for both layouts. Numerical parity remains unverified; fixed-token scoring showed repeated-request variability even without adapters."
+}

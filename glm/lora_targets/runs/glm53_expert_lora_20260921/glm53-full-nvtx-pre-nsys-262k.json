@@ -1,0 +1,94 @@
+{
+  "label": "glm53-full-nvtx-pre-nsys-262k",
+  "seq_len": 262144,
+  "num_gpus": 8,
+  "datums_per_window": 1,
+  "tokens_per_step": 262144,
+  "memory_profile_enabled": false,
+  "runtime_profile_enabled": false,
+  "started": "2026-09-03 04:49:24",
+  "initial_status": {
+    "mode": "training",
+    "step": 0,
+    "model_id": "/root/.cache/team_artifacts/huggingface/hub/models--zai-org--GLM-5.3/snapshots/187fb9fff6319062325ff825627ef6db084d9bc6",
+    "device": "cuda:0",
+    "last_loss": null,
+    "grad_norm": null,
+    "gpu_memory": {
+      "cuda:0": 134402277376
+    },
+    "world_size": 8,
+    "tensor_parallel_size": 1,
+    "pipeline_parallel_size": 1,
+    "expert_parallel_size": 8,
+    "context_parallel_size": 8,
+    "expert_tensor_parallel_size": 1,
+    "data_parallel_size": 1,
+    "max_seq_len": 262144
+  },
+  "final_status": {
+    "mode": "training",
+    "step": 2,
+    "model_id": "/root/.cache/team_artifacts/huggingface/hub/models--zai-org--GLM-5.3/snapshots/187fb9fff6319062325ff825627ef6db084d9bc6",
+    "device": "cuda:0",
+    "last_loss": null,
+    "grad_norm": null,
+    "gpu_memory": {
+      "cuda:0": 207867609088
+    },
+    "world_size": 8,
+    "tensor_parallel_size": 1,
+    "pipeline_parallel_size": 1,
+    "expert_parallel_size": 8,
+    "context_parallel_size": 8,
+    "expert_tensor_parallel_size": 1,
+    "data_parallel_size": 1,
+    "max_seq_len": 262144
+  },
+  "windows": [
+    {
+      "label": "glm53-full-nvtx-pre-nsys-262k",
+      "window_index": 0,
+      "phase": "warmup",
+      "datums": 1,
+      "num_tokens": 262144,
+      "fb_elapsed_s": 73.13124239305034,
+      "fb_tps_per_gpu": 448.0711516411205,
+      "optim_elapsed_s": 2.8292825599201024,
+      "loss": 12.331103634275948,
+      "grad_norm": 0.5745345950126648,
+      "server_step_seconds": 75.72608608193696,
+      "peak_reserved_bytes": 218967834624,
+      "peak_allocated_bytes": 211275703808,
+      "device_total_bytes": 287428771840
+    },
+    {
+      "label": "glm53-full-nvtx-pre-nsys-262k",
+      "window_index": 0,
+      "phase": "control",
+      "datums": 1,
+      "num_tokens": 262144,
+      "fb_elapsed_s": 26.66352580813691,
+      "fb_tps_per_gpu": 1228.9447478097659,
+      "optim_elapsed_s": 0.058536527678370476,
+      "loss": 12.322204865283453,
+      "grad_norm": 0.461931437253952,
+      "server_step_seconds": 26.485561842564493,
+      "peak_reserved_bytes": 219171258368,
+      "peak_allocated_bytes": 212231697408,
+      "device_total_bytes": 287428771840
+    }
+  ],
+  "aggregates": {
+    "tokens_per_step": 262144,
+    "control_fb_seconds_mean": 26.66352580813691,
+    "control_optim_seconds_mean": 0.058536527678370476,
+    "control_tps_per_gpu": 1228.9447478097659,
+    "mfu3x": 0.12850097291425974,
+    "hfu": 0.18454095559966613,
+    "peak_reserved_bytes": 219171258368,
+    "peak_allocated_bytes": 212231697408,
+    "device_total_bytes": 287428771840
+  },
+  "total_elapsed_seconds": 102.87204223033041
+}

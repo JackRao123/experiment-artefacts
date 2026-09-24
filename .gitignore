@@ -30,3 +30,12 @@ glm/lps_1062_perf/*.bundle
 
 # Local virtualenvs inside run dirs.
 .venv/
+
+# GLM run adapters and training weights stay on the local machine; Git holds
+# their manifests, metrics, configurations and analysis.
+glm/lora_targets/runs/**/adapter_model.safetensors
+glm/lora_targets/runs/**/final_sampler_weights.tar
+glm/lora_targets/runs/**/weights/
+glm/lora_targets/runs/**/*.log
+glm/lora_targets/runs/**/*.log.gz
+glm/lora_targets/runs/**/*-code.diff

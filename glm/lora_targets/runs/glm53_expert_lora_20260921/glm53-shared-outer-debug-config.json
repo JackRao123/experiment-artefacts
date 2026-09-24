@@ -1,0 +1,21 @@
+{
+  "base_model": "/root/.cache/user_artifacts/devboxes/wgpn4vw/glm53-1d1m-v2",
+  "checkpoint_dir": "/root/.cache/user_artifacts/devboxes/wgpn4vw/checkpoints/glm53-shared-outer-debug",
+  "max_seq_len": 131072,
+  "tensor_parallel_size": 1,
+  "pipeline_parallel_size": 1,
+  "expert_parallel_size": 8,
+  "context_parallel_size": 8,
+  "expert_tensor_parallel_size": 1,
+  "trust_remote_code": true,
+  "attention_backend": "flash",
+  "lora_rank": 32,
+  "lora_alpha": 32,
+  "moe_lora_config": "shared_outer",
+  "moe_flex_dispatcher_backend": "hybridep",
+  "expert_weight_storage": "native_fp8",
+  "weight_sync": {
+    "type": "local",
+    "path": "/root/.cache/user_artifacts/devboxes/wgpn4vw/exports"
+  }
+}

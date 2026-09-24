@@ -1,0 +1,132 @@
+{
+  "label": "glm53-full-sharedouter-noqbproj-nonorm-131k",
+  "seq_len": 131072,
+  "num_gpus": 8,
+  "datums_per_window": 1,
+  "tokens_per_step": 131072,
+  "memory_profile_enabled": false,
+  "kineto_runtime_profile_enabled": false,
+  "nsys_runtime_profile_session": null,
+  "started": "2026-09-23 22:59:39",
+  "initial_status": {
+    "mode": "training",
+    "step": 0,
+    "model_id": "/root/.cache/team_artifacts/huggingface/hub/models--zai-org--GLM-5.3/snapshots/aca966e4e02791568aa6a4ced368624b3d897f42",
+    "device": "cuda:0",
+    "last_loss": null,
+    "grad_norm": null,
+    "gpu_memory": {
+      "cuda:0": 136522498048
+    },
+    "world_size": 8,
+    "tensor_parallel_size": 1,
+    "pipeline_parallel_size": 1,
+    "expert_parallel_size": 8,
+    "context_parallel_size": 8,
+    "expert_tensor_parallel_size": 1,
+    "data_parallel_size": 1,
+    "max_seq_len": 131072
+  },
+  "final_status": {
+    "mode": "training",
+    "step": 4,
+    "model_id": "/root/.cache/team_artifacts/huggingface/hub/models--zai-org--GLM-5.3/snapshots/aca966e4e02791568aa6a4ced368624b3d897f42",
+    "device": "cuda:0",
+    "last_loss": null,
+    "grad_norm": null,
+    "gpu_memory": {
+      "cuda:0": 182347366400
+    },
+    "world_size": 8,
+    "tensor_parallel_size": 1,
+    "pipeline_parallel_size": 1,
+    "expert_parallel_size": 8,
+    "context_parallel_size": 8,
+    "expert_tensor_parallel_size": 1,
+    "data_parallel_size": 1,
+    "max_seq_len": 131072
+  },
+  "windows": [
+    {
+      "label": "glm53-full-sharedouter-noqbproj-nonorm-131k",
+      "window_index": 0,
+      "phase": "warmup",
+      "datums": 1,
+      "num_tokens": 131072,
+      "fb_elapsed_s": 62.51776269264519,
+      "fb_tps_per_gpu": 262.06951903490733,
+      "optim_elapsed_s": 17.563814720138907,
+      "loss": 12.304384646489307,
+      "grad_norm": 94548.68832511638,
+      "server_step_seconds": 78.67377342749387,
+      "peak_reserved_bytes": 182372532224,
+      "peak_allocated_bytes": 179641600000,
+      "device_total_bytes": 287428771840
+    },
+    {
+      "label": "glm53-full-sharedouter-noqbproj-nonorm-131k",
+      "window_index": 0,
+      "phase": "control",
+      "datums": 1,
+      "num_tokens": 131072,
+      "fb_elapsed_s": 26.124950367957354,
+      "fb_tps_per_gpu": 627.1399474157556,
+      "optim_elapsed_s": 0.1627393113449216,
+      "loss": 12.308658093704938,
+      "grad_norm": 102579.88699545345,
+      "server_step_seconds": 26.040667676366866,
+      "peak_reserved_bytes": 188617850880,
+      "peak_allocated_bytes": 187085611520,
+      "device_total_bytes": 287428771840
+    },
+    {
+      "label": "glm53-full-sharedouter-noqbproj-nonorm-131k",
+      "window_index": 1,
+      "phase": "control",
+      "datums": 1,
+      "num_tokens": 131072,
+      "fb_elapsed_s": 16.598124424926937,
+      "fb_tps_per_gpu": 987.0994806735292,
+      "optim_elapsed_s": 0.08177224826067686,
+      "loss": 12.304721296091431,
+      "grad_norm": 110596.6850859464,
+      "server_step_seconds": 16.53034814912826,
+      "peak_reserved_bytes": 188848537600,
+      "peak_allocated_bytes": 187085611520,
+      "device_total_bytes": 287428771840
+    },
+    {
+      "label": "glm53-full-sharedouter-noqbproj-nonorm-131k",
+      "window_index": 2,
+      "phase": "control",
+      "datums": 1,
+      "num_tokens": 131072,
+      "fb_elapsed_s": 15.249391832388937,
+      "fb_tps_per_gpu": 1074.4035027810887,
+      "optim_elapsed_s": 0.15307484660297632,
+      "loss": 12.296114319719846,
+      "grad_norm": 121485.90858202444,
+      "server_step_seconds": 15.181751637719572,
+      "peak_reserved_bytes": 188932423680,
+      "peak_allocated_bytes": 187085611520,
+      "device_total_bytes": 287428771840
+    }
+  ],
+  "aggregates": {
+    "tokens_per_step": 131072,
+    "control_fb_seconds_mean": 19.324155541757744,
+    "control_optim_seconds_mean": 0.13252880206952491,
+    "control_tps_per_gpu": 847.85076194381,
+    "mfu3x": 0.08575812200161335,
+    "hfu": 0.12446756576078219,
+    "peak_reserved_bytes": 188932423680,
+    "peak_allocated_bytes": 187085611520,
+    "device_total_bytes": 287428771840
+  },
+  "total_elapsed_seconds": 138.556724996306,
+  "experiment_flags": {
+    "shared_outer": true,
+    "no_qbproj": true,
+    "skip_token_normalization": true
+  }
+}
